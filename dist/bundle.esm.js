@@ -1,0 +1,2 @@
+import o,{useCallback as r,useState as n}from"react";import m from"react-dom";var d=p=>{let[e,s]=n(0),c=r(()=>{s(t=>t+1)},[e]);return o.createElement(o.Fragment,null,o.createElement("p",null,"Yo"),o.createElement("video",{controls:!0,width:"900"},o.createElement("source",{src:"http://docs.evostream.com/sample_content/assets/bun33s.mp4",type:"video/mp4"}),"Sorry, your browser doesn't support embedded videos."))};m.render(o.createElement(d,{message:"Yo asdfhhh"}),document.getElementById("root"));
+//# sourceMappingURL=bundle.esm.js.map
