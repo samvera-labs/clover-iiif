@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../src/index.tsx"],
-  "sourcesContent": ["import React, { useCallback, useState } from \"react\";\nimport ReactDOM from \"react-dom\";\n\nconst App = (props: { message: string }) => {\n  const [count, setCount] = useState(0);\n  const increment = useCallback(() => {\n    setCount((count) => count + 1);\n  }, [count]);\n\n  return (\n    <>\n      <p>Yo</p>\n      <video controls width=\"900\">\n        <source\n          src=\"http://docs.evostream.com/sample_content/assets/bun33s.mp4\"\n          type=\"video/mp4\"\n        />\n        Sorry, your browser doesn't support embedded videos.\n      </video>\n    </>\n  );\n};\n\nReactDOM.render(<App message=\"Yo asdfhhh\" />, document.getElementById(\"root\"));\n"],
-  "mappings": "AAAA,qDACA,yBAEA,GAAM,GAAM,AAAC,GAA+B,CAC1C,GAAM,CAAC,EAAO,GAAY,EAAS,GAC7B,EAAY,EAAY,IAAM,CAClC,EAAS,AAAC,GAAU,EAAQ,IAC3B,CAAC,IAEJ,MACE,iCACE,gBAAC,IAAD,KAAG,MACH,gBAAC,QAAD,CAAO,SAAQ,GAAC,MAAM,OACpB,gBAAC,SAAD,CACE,IAAI,6DACJ,KAAK,cACL,0DAOV,EAAS,OAAO,gBAAC,EAAD,CAAK,QAAQ,eAAiB,SAAS,eAAe",
-  "names": []
-}
