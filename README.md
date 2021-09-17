@@ -5,5 +5,17 @@ A React component which renders a YouTube style player and thumbnails UI. We're 
 - Switching between video or audio files
 - Using native HTML `<video />` element
 - Rendering navigable sections based (initially) on `WebVTT` structure
+- Driven by IIIF structure
 
-...more docs coming soon.
+## Development
+
+```
+npm install
+npm run dev
+```
+
+## Build
+
+```
+npm run build
+```
