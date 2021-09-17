@@ -9,9 +9,9 @@ require("esbuild")
       servedir: "www",
     },
     {
+      bundle: true,
       entryPoints: ["src/index.tsx"],
       outdir: "www/js",
-      bundle: true,
       sourcemap: true,
     }
   )

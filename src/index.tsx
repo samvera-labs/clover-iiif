@@ -1,24 +1,14 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
+import Player from "./components/Player";
 
-const App = (props: { message: string }) => {
-  const [count, setCount] = useState(0);
-  const increment = useCallback(() => {
-    setCount((count) => count + 1);
-  }, [count]);
+const App = () => {
+  const streamingUrl: string =
+    "https://meadow-streaming.rdc-staging.library.northwestern.edu/85/bd/1f/cd/-5/ff/6-/45/fb/-a/c5/1-/e4/56/44/6d/cb/00/6298d09f04833eb737504941812b0442e6253a4e286e79db3b11e16f9b39c604-1080.m3u8";
+  const publicUrl: string =
+    "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8";
 
-  return (
-    <>
-      <p>Yo</p>
-      <video controls width="900">
-        <source
-          src="http://docs.evostream.com/sample_content/assets/bun33s.mp4"
-          type="video/mp4"
-        />
-        Sorry, your browser doesn't support embedded videos.
-      </video>
-    </>
-  );
+  return <Player streamingUrl={publicUrl} />;
 };
 
-ReactDOM.render(<App message="Yo asdfhhh" />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
