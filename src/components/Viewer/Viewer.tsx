@@ -11,20 +11,20 @@ interface Props {
 
 export const Viewer: React.FC<Props> = ({ manifest }) => {
   return (
-    <Wrapper>
+    <ViewerWrapper>
       <Header>
         <span>{label({ en: ["manifest.label"] }, "en")}</span>
       </Header>
       <Main>
         <Video source="uri" poster="uri" tracks={{}} />
-        <Navigator currentTime={0} tracks={{}} />
         <Media items={{}} activeItem={0} />
+        <Navigator currentTime={100} tracks={{}} />
       </Main>
-    </Wrapper>
+    </ViewerWrapper>
   );
 };
 
-const Wrapper = styled("div", {
+const ViewerWrapper = styled("div", {
   display: "flex",
   flexDirection: "column",
 });

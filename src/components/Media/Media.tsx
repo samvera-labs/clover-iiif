@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { styled } from "@stitches/react";
 
 interface Props {
   items: object;
@@ -6,5 +7,11 @@ interface Props {
 }
 
 export const Media: React.FC<Props> = ({ items, activeItem }) => {
-  return <>{activeItem}</>;
+  return <MediaWrapper>{activeItem}</MediaWrapper>;
 };
+
+const MediaWrapper = styled("div", {
+  width: "61.8%",
+  order: "2",
+  backgroundColor: "lightPink",
+});
