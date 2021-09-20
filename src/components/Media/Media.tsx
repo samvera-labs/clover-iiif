@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 interface Props {
-  source: string;
   poster: string;
+  source: string;
   tracks: object;
 }
 
