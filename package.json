@@ -19,6 +19,7 @@
     "ts-jest": "^27.0.5"
   },
   "dependencies": {
+    "@stitches/react": "^1.2.0",
     "@types/react": "^17.0.21",
     "@types/react-dom": "^17.0.9",
     "react": "^17.0.2",

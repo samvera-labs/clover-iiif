@@ -7,5 +7,5 @@ interface Props {
 }
 
 export const Video: React.FC<Props> = ({ source }) => {
-  return <>{source}</>;
+  return <video src={source}></video>;
 };
