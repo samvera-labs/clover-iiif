@@ -1,24 +1,28 @@
 import React, { useCallback, useState } from "react";
 import ReactDOM from "react-dom";
+import { Viewer } from "./components/Viewer/Viewer";
 
-const App = (props: { message: string }) => {
-  const [count, setCount] = useState(0);
-  const increment = useCallback(() => {
-    setCount((count) => count + 1);
-  }, [count]);
+// todo: fetch manifest by manfistId
 
+interface Props {
+  manifestId: string;
+}
+
+const App: React.FC<Props> = ({ manifestId }) => {
   return (
     <>
-      <p>Yo</p>
-      <video controls width="900">
-        <source
-          src="http://docs.evostream.com/sample_content/assets/bun33s.mp4"
-          type="video/mp4"
-        />
-        Sorry, your browser doesn't support embedded videos.
-      </video>
+      <Viewer
+        manifest={{
+          label: {
+            en: ["manifest.label"],
+          },
+        }}
+      />
     </>
   );
 };
 
-ReactDOM.render(<App message="Yo asdfhhh" />, document.getElementById("root"));
+ReactDOM.render(
+  <App manifestId="https://uri.for/manifest.json" />,
+  document.getElementById("root")
+);
