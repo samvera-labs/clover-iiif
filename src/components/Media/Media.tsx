@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 
 interface Props {
-  poster: string;
-  source: string;
-  tracks: object;
+  items: object;
+  activeItem: number;
 }
 
-export const Media: React.FC<Props> = ({ source }) => {
-  return <>{source}</>;
+export const Media: React.FC<Props> = ({ items, activeItem }) => {
+  return <>{activeItem}</>;
 };
