@@ -16,29 +16,37 @@ const Viewer: React.FC<Props> = ({ manifest }) => {
     "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8";
 
   return (
-    <ViewerWrapper>
+    <>
       <Header>
         <span>{label({ en: ["manifest.label"] }, "en")}</span>
       </Header>
-      <Main>
-        <Player streamingUrl={publicUrl} />
-        <Media items={{}} activeItem={0} />
-        <Navigator currentTime={100} tracks={{}} />
-      </Main>
-    </ViewerWrapper>
+      <ViewerWrapper>
+        <Main>
+          <Player streamingUrl={publicUrl} />
+          <Media items={{}} activeItem={0} />
+        </Main>
+        <Aside>
+          <Navigator currentTime={100} tracks={{}} />
+        </Aside>
+      </ViewerWrapper>
+    </>
   );
 };
 
 const ViewerWrapper = styled("div", {
   display: "flex",
-  flexDirection: "column",
-  height: "400px",
+  flexDirection: "row",
 });
 
 const Main = styled("div", {
   display: "flex",
   flexDirection: "column",
-  flexWrap: "wrap",
+  width: "61.8%",
+});
+
+const Aside = styled("aside", {
+  display: "flex",
+  width: "38.2%",
 });
 
 const Header = styled("header", {
