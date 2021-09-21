@@ -11,7 +11,7 @@ export const Navigator: React.FC<Props> = ({ currentTime }) => {
 };
 
 const NavigatorWrapper = styled("div", {
-  width: "38.2%",
+  width: "100%",
   height: "100%",
   flexGrow: "1",
   flexShrink: "0",
