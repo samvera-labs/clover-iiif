@@ -1,5 +1,7 @@
+# dev
 dist
 node_modules
+public/script.js
 
 # OS
 .DS_Store
