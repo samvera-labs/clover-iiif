@@ -15,5 +15,7 @@ const NavigatorWrapper = styled("div", {
   height: "100%",
   flexGrow: "1",
   flexShrink: "0",
-  backgroundColor: "LightBlue",
+  position: "relative",
+  zIndex: "1",
+  boxShadow: "-5px 0 5px #00000011",
 });

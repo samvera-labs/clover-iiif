@@ -29,7 +29,7 @@ const MediaWrapper = styled("div", {
   flexGrow: "1",
   padding: "1.618rem",
   overflowX: "scroll",
-  backgroundColor: "lightPink",
+  backgroundColor: "white",
 });
 
 export default Media;

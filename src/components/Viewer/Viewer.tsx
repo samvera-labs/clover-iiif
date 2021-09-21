@@ -42,6 +42,8 @@ const ViewerWrapper = styled("div", {
 const ViewerInner = styled("div", {
   display: "flex",
   flexDirection: "row",
+  overflow: "hidden",
+  boxShadow: "0 0 5px #00000011",
 });
 
 const Main = styled("div", {
