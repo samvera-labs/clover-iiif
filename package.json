@@ -5,20 +5,24 @@
   "main": "index.js",
   "scripts": {
     "build": "node build.js",
-    "serve": "node serve.js"
+    "dev": "node serve.js"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "chokidar": "^3.5.2",
     "esbuild": "^0.12.28",
+    "esbuild-css-modules-plugin": "^2.0.9",
+    "hls.js": "^1.0.10",
+    "live-server": "^1.2.1",
     "npm-dts": "^1.3.10"
   },
   "dependencies": {
     "@types/react": "^17.0.21",
     "@types/react-dom": "^17.0.9",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
     "typescript": "^4.4.3"
   },
   "peerDependencies": {
