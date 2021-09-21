@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
-import { Media } from "../Media/Media";
+import Media from "../Media/Media";
 import { Navigator } from "../Navigator/Navigator";
-import { label } from "../../services/IIIF/presentation";
 import Player from "components/Player/Player";
+import { label } from "../../services/IIIF/presentation";
 
 interface Props {
   manifest: object;

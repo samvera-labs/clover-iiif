@@ -9,15 +9,13 @@ interface Props {
 
 const App: React.FC<Props> = ({ manifestId }) => {
   return (
-    <>
-      <Viewer
-        manifest={{
-          label: {
-            en: ["manifest.label"],
-          },
-        }}
-      />
-    </>
+    <Viewer
+      manifest={{
+        label: {
+          en: ["manifest.label"],
+        },
+      }}
+    />
   );
 };
 
