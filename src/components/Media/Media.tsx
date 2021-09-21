@@ -27,7 +27,7 @@ const MediaWrapper = styled("div", {
   display: "flex",
   flexDirection: "row",
   flexGrow: "1",
-  padding: "1rem",
+  padding: "1.618rem",
   overflowX: "scroll",
   backgroundColor: "lightPink",
 });

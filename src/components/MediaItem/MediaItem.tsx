@@ -11,12 +11,18 @@ const handleUpdate = (): any => {
   return;
 };
 
+const sample: object = {
+  label: "Croquet Scene - Winslow Homer (1866)",
+  thumbnailId:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Winslow_Homer_-_Croquet_Scene_-_Google_Art_Project.jpg/640px-Winslow_Homer_-_Croquet_Scene_-_Google_Art_Project.jpg",
+};
+
 const MediaItem: React.FC<Props> = ({ index, label, thumbnailId }) => {
   return (
     <MediaItemWrapper onClick={handleUpdate()}>
       <figure>
-        <img src={thumbnailId} />
-        <figcaption>{label}</figcaption>
+        <img src={sample.thumbnailId} />
+        <figcaption>{sample.label}</figcaption>
       </figure>
     </MediaItemWrapper>
   );
@@ -25,14 +31,22 @@ const MediaItem: React.FC<Props> = ({ index, label, thumbnailId }) => {
 const MediaItemWrapper = styled("a", {
   display: "flex",
   flexShrink: "0",
-  width: "123px",
-  height: "76px",
-  margin: "0 1em 0 0",
-  backgroundColor: "white",
+  margin: "0 1rem 0 0",
   cursor: "pointer",
 
   "&:last-child": {
     margin: "0",
+  },
+
+  figure: {
+    margin: "0",
+    width: "199px",
+
+    img: {
+      width: "199px",
+      height: "123px",
+      objectFit: "cover",
+    },
   },
 });
 
