@@ -12,6 +12,7 @@ export const Media: React.FC<Props> = ({ items, activeItem }) => {
 
 const MediaWrapper = styled("div", {
   width: "61.8%",
-  order: "2",
+  flexGrow: "0",
+  flexShrink: "0",
   backgroundColor: "lightPink",
 });

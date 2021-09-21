@@ -33,19 +33,22 @@ const Player: React.FC<PlayerProps> = ({ streamingUrl = "" }) => {
   }, [streamingUrl]);
 
   return (
-    <VideoWrapper>
+    <PlayerWrapper>
       <video ref={playerRef} controls width="900" height="500">
         <source src={streamingUrl} type="video/mp4" />
         Sorry, your browser doesn't support embedded videos.
       </video>
-    </VideoWrapper>
+    </PlayerWrapper>
   );
 };
 
-const VideoWrapper = styled("div", {
+const PlayerWrapper = styled("div", {
   width: "61.8%",
+  flexGrow: "0",
+  flexShrink: "0",
 
   video: {
+    display: "flex",
     width: "100%",
     backgroundColor: "#e0e0e0",
   },

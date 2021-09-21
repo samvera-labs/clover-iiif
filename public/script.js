@@ -41055,7 +41055,8 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
   };
   var MediaWrapper = ee("div", {
     width: "61.8%",
-    order: "2",
+    flexGrow: "0",
+    flexShrink: "0",
     backgroundColor: "lightPink"
   });
 
@@ -41066,7 +41067,9 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
   };
   var NavigatorWrapper = ee("div", {
     width: "38.2%",
-    order: "2",
+    height: "100%",
+    flexGrow: "1",
+    flexShrink: "0",
     backgroundColor: "LightBlue"
   });
 
@@ -41092,7 +41095,7 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
         console.error(`data`, data);
       });
     }, [streamingUrl]);
-    return /* @__PURE__ */ import_react6.default.createElement(VideoWrapper, null, /* @__PURE__ */ import_react6.default.createElement("video", {
+    return /* @__PURE__ */ import_react6.default.createElement(PlayerWrapper, null, /* @__PURE__ */ import_react6.default.createElement("video", {
       ref: playerRef,
       controls: true,
       width: "900",
@@ -41102,9 +41105,12 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
       type: "video/mp4"
     }), "Sorry, your browser doesn't support embedded videos."));
   };
-  var VideoWrapper = ee("div", {
+  var PlayerWrapper = ee("div", {
     width: "61.8%",
+    flexGrow: "0",
+    flexShrink: "0",
     video: {
+      display: "flex",
       width: "100%",
       backgroundColor: "#e0e0e0"
     }
@@ -41127,11 +41133,13 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
   };
   var ViewerWrapper = ee("div", {
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
+    height: "400px"
   });
   var Main = ee("div", {
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "column",
+    flexWrap: "wrap"
   });
   var Header = ee("header", {
     display: "flex",

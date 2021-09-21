@@ -32,11 +32,13 @@ const Viewer: React.FC<Props> = ({ manifest }) => {
 const ViewerWrapper = styled("div", {
   display: "flex",
   flexDirection: "column",
+  height: "400px",
 });
 
 const Main = styled("div", {
   display: "flex",
-  flexDirection: "row",
+  flexDirection: "column",
+  flexWrap: "wrap",
 });
 
 const Header = styled("header", {
