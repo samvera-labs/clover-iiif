@@ -10,15 +10,15 @@ interface Props {
 const Media: React.FC<Props> = ({ items, activeItem }) => {
   return (
     <MediaWrapper>
-      <MediaItem index={0} label="" thumbnailId="" />
-      <MediaItem index={1} label="" thumbnailId="" />
-      <MediaItem index={2} label="" thumbnailId="" />
-      <MediaItem index={3} label="" thumbnailId="" />
-      <MediaItem index={4} label="" thumbnailId="" />
-      <MediaItem index={5} label="" thumbnailId="" />
-      <MediaItem index={6} label="" thumbnailId="" />
-      <MediaItem index={7} label="" thumbnailId="" />
-      <MediaItem index={8} label="" thumbnailId="" />
+      <MediaItem index={0} label="" thumbnailId="" active={false} />
+      <MediaItem index={1} label="" thumbnailId="" active={true} />
+      <MediaItem index={2} label="" thumbnailId="" active={false} />
+      <MediaItem index={3} label="" thumbnailId="" active={false} />
+      <MediaItem index={4} label="" thumbnailId="" active={false} />
+      <MediaItem index={5} label="" thumbnailId="" active={false} />
+      <MediaItem index={6} label="" thumbnailId="" active={false} />
+      <MediaItem index={7} label="" thumbnailId="" active={false} />
+      <MediaItem index={8} label="" thumbnailId="" active={false} />
     </MediaWrapper>
   );
 };

@@ -5,6 +5,7 @@ interface Props {
   index: number;
   label: string;
   thumbnailId: string;
+  active: boolean;
 }
 
 const handleUpdate = (): any => {
@@ -36,6 +37,10 @@ const MediaItemWrapper = styled("a", {
 
   "&:last-child": {
     margin: "0",
+  },
+
+  "&.active": {
+    backgroundColor: "black",
   },
 
   figure: {
