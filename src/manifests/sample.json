@@ -1,0 +1,45 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://gist.github.com/mathewjordan/2c722f351cff049999e55a29f4746a47/raw/a47448bb016774563f630a76676110049ec9eeb6/new_airliner.json",
+  "type": "Manifest",
+  "label": {
+    "en": ["New Airliner, 1946/02/21"]
+  },
+  "items": [
+    {
+      "id": "https://gist.github.com/mathewjordan/2c722f351cff049999e55a29f4746a47/raw/a47448bb016774563f630a76676110049ec9eeb6/new_airliner/canvas/1",
+      "type": "Canvas",
+      "width": 400,
+      "height": 300,
+      "duration": 102,
+      "items": [
+        {
+          "id": "https://gist.github.com/mathewjordan/2c722f351cff049999e55a29f4746a47/raw/a47448bb016774563f630a76676110049ec9eeb6/new_airliner/canvas/1/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://gist.github.com/mathewjordan/2c722f351cff049999e55a29f4746a47/raw/a47448bb016774563f630a76676110049ec9eeb6/new_airliner/canvas/1/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://gist.github.com/mathewjordan/2c722f351cff049999e55a29f4746a47/raw/a47448bb016774563f630a76676110049ec9eeb6/new_airliner/canvas/1",
+              "body": {
+                "id": "https://upload.wikimedia.org/wikipedia/commons/6/6b/1946-02-21_New_Airliner.ogv",
+                "type": "Video",
+                "format": "video/ogg",
+                "height": 400,
+                "width": 300,
+                "duration": 102
+              }
+            }
+          ],
+          "thumbnail": [
+            {
+              "id": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/1946-02-21_New_Airliner.ogv/120px--1946-02-21_New_Airliner.ogv.jpg",
+              "type": "Image"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
