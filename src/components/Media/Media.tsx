@@ -23,7 +23,7 @@ const Media: React.FC<Props> = ({ items, activeItem }) => {
   );
 };
 
-const MediaWrapper = styled("div", {
+const MediaWrapper = styled("nav", {
   display: "flex",
   flexDirection: "row",
   flexGrow: "1",

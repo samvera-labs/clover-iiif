@@ -10,19 +10,13 @@ interface Props {
 const NavigatorItem: React.FC<Props> = ({ label, startTime, t }) => {
   return (
     <NavigatorItemWrapper>
-      <Cue>
-        cue.label
-        <strong>cue.startTime</strong>
-      </Cue>
+      cue.label
+      <strong>cue.startTime</strong>
     </NavigatorItemWrapper>
   );
 };
 
-const NavigatorItemWrapper = styled("div", {
-  display: "flex",
-});
-
-const Cue = styled("a", {
+const NavigatorItemWrapper = styled("a", {
   display: "flex",
   flexGrow: "1",
   justifyContent: "space-between",
