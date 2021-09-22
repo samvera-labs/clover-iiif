@@ -80,7 +80,7 @@ const NavigatorWrapper = styled("div", {
 const NavigatorHeader = styled("header", {
   display: "flex",
   flexGrow: "0",
-  padding: "0 1rem 1rem",
+  padding: "0 1.618rem 1rem",
 });
 
 const NavigatorBody = styled("div", {
@@ -105,6 +105,7 @@ const NavigatorTabWrapper = styled("button", {
   border: "none",
   fontFamily: "inherit",
   fontSize: "1rem",
+  fontWeight: "700",
   marginRight: "1rem",
 });
 

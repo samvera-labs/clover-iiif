@@ -20,8 +20,12 @@ const NavigatorItemWrapper = styled("a", {
   display: "flex",
   flexGrow: "1",
   justifyContent: "space-between",
-  padding: "0.5rem 1rem ",
+  padding: "0.5rem  1.618rem ",
   cursor: "pointer",
+
+  strong: {
+    fontSize: "0.8333rem",
+  },
 });
 
 export default NavigatorItem;
