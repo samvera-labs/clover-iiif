@@ -13,7 +13,7 @@ const handleUpdate = (): any => {
 };
 
 const sample: object = {
-  label: "canvas.label",
+  label: "Croquet Scene by Winslow Homer",
   thumbnailId:
     "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Winslow_Homer_-_Croquet_Scene_-_Google_Art_Project.jpg/640px-Winslow_Homer_-_Croquet_Scene_-_Google_Art_Project.jpg",
 };
@@ -32,7 +32,7 @@ const MediaItem: React.FC<Props> = ({ index, label, thumbnailId }) => {
 const MediaItemWrapper = styled("a", {
   display: "flex",
   flexShrink: "0",
-  margin: "0 1rem 0 0",
+  margin: "0 1.618rem 0 0",
   cursor: "pointer",
 
   "&.active": {
@@ -50,7 +50,8 @@ const MediaItemWrapper = styled("a", {
     },
 
     figcaption: {
-      fontWeight: "700",
+      marginTop: "0.382rem",
+      fontWeight: "400",
     },
   },
 });

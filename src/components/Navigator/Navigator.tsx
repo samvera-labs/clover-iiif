@@ -80,7 +80,7 @@ const NavigatorWrapper = styled("div", {
 const NavigatorHeader = styled("header", {
   display: "flex",
   flexGrow: "0",
-  padding: "0 1.618rem 1rem",
+  padding: "0 1.618rem 1.618rem",
 });
 
 const NavigatorBody = styled("div", {
@@ -99,14 +99,16 @@ const NavigatorBodyInner = styled("nav", {
 
 const NavigatorTabWrapper = styled("button", {
   display: "flex",
-  padding: "1rem",
+  padding: ".8em 1em .7em",
   background: "none",
-  backgroundColor: "lightGray",
+  backgroundColor: "#4e2a84",
+  color: "#fff",
   border: "none",
   fontFamily: "inherit",
   fontSize: "1rem",
-  fontWeight: "700",
+  textTransform: "uppercase",
   marginRight: "1rem",
+  whiteSpace: "nowrap",
 });
 
 export default Navigator;

@@ -18,7 +18,12 @@ const Viewer: React.FC<Props> = ({ manifest }) => {
   return (
     <ViewerWrapper>
       <Header>
-        <span>{label({ en: ["manifest.label"] }, "en")}</span>
+        <span>
+          {label(
+            { en: ["Aliquam eu metus at arcu c.1967 sagittis mollis ut ac"] },
+            "en"
+          )}
+        </span>
       </Header>
       <ViewerInner>
         <Main>
