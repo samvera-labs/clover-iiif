@@ -49,11 +49,15 @@ const ViewerInner = styled("div", {
 const Main = styled("div", {
   display: "flex",
   flexDirection: "column",
+  flexGrow: "0",
+  flexShrink: "1",
   width: "61.8%",
 });
 
 const Aside = styled("aside", {
   display: "flex",
+  flexGrow: "1",
+  flexShrink: "0",
   width: "38.2%",
 });
 
