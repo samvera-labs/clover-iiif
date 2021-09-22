@@ -12,7 +12,7 @@ interface PlayerProps {
 }
 
 const Player: React.FC<PlayerProps> = ({ streamingUrl = "" }) => {
-  const playerRef = React.useRef();
+  const playerRef = React.useRef<HTMLVideoElement>(null);
   /**
    * HLS.js binding for .m3u8 files
    * STAGING and PRODUCTION environments only
