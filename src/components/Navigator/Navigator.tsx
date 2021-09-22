@@ -80,6 +80,7 @@ const NavigatorWrapper = styled("div", {
 const NavigatorHeader = styled("header", {
   display: "flex",
   flexGrow: "0",
+  padding: "0 1rem 1rem",
 });
 
 const NavigatorBody = styled("div", {
@@ -99,10 +100,12 @@ const NavigatorBodyInner = styled("nav", {
 const NavigatorTabWrapper = styled("button", {
   display: "flex",
   padding: "1rem",
-  backgroundColor: "transparent",
+  background: "none",
+  backgroundColor: "lightGray",
   border: "none",
   fontFamily: "inherit",
   fontSize: "1rem",
+  marginRight: "1rem",
 });
 
 export default Navigator;
