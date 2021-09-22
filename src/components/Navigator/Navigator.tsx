@@ -88,6 +88,16 @@ const NavigatorBody = styled("div", {
   flexGrow: "1",
   flexShrink: "0",
   position: "relative",
+
+  "&::after": {
+    content: "",
+    marginLeft: "-5px",
+    width: "calc(100% + 5px)",
+    height: "1.618rem",
+    backgroundImage: `linear-gradient(0deg, #FFFFFF 0%, #FFFFFF00 100%)`,
+    position: "absolute",
+    bottom: "0",
+  },
 });
 
 const NavigatorBodyInner = styled("nav", {
