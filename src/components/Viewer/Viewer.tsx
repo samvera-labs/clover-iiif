@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
 import Media from "../Media/Media";
-import { Navigator } from "../Navigator/Navigator";
+import Navigator from "../Navigator/Navigator";
 import Player from "components/Player/Player";
 import { label } from "../../services/IIIF/presentation";
 
@@ -33,7 +33,7 @@ const Viewer: React.FC<Props> = ({ manifest }) => {
   );
 };
 
-const ViewerWrapper = styled("div", {
+const ViewerWrapper = styled("section", {
   display: "flex",
   flexDirection: "column",
   padding: "1.618rem",
