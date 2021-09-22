@@ -14,47 +14,49 @@ interface NavigatorTabProps {
 export const Navigator: React.FC<NavigatorProps> = ({ currentTime }) => {
   return (
     <NavigatorWrapper>
-      <header>
+      <NavigatorHeader>
         <NavigatorTab label="Camptium" active={true} />
         <NavigatorTab label="Mauris varius" active={false} />
         <NavigatorTab label="Tristique" active={false} />
-      </header>
-      <nav>
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-        <NavigatorItem label="" time="" t={0} />
-      </nav>
+      </NavigatorHeader>
+      <NavigatorBody>
+        <NavigatorBodyInner>
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+          <NavigatorItem label="" time="" t={0} />
+        </NavigatorBodyInner>
+      </NavigatorBody>
     </NavigatorWrapper>
   );
 };
@@ -64,6 +66,8 @@ const NavigatorTab: React.FC<NavigatorTabProps> = ({ label }) => {
 };
 
 const NavigatorWrapper = styled("div", {
+  display: "flex",
+  flexDirection: "column",
   width: "100%",
   height: "100%",
   flexGrow: "1",
@@ -73,8 +77,32 @@ const NavigatorWrapper = styled("div", {
   boxShadow: "-5px 0 5px #00000011",
 });
 
+const NavigatorHeader = styled("header", {
+  display: "flex",
+  flexGrow: "0",
+});
+
+const NavigatorBody = styled("div", {
+  display: "flex",
+  flexGrow: "1",
+  flexShrink: "0",
+  position: "relative",
+});
+
+const NavigatorBodyInner = styled("nav", {
+  position: "absolute",
+  overflowY: "scroll",
+  height: "100%",
+  width: "100%",
+});
+
 const NavigatorTabWrapper = styled("button", {
-  padding: "0.618rem",
+  display: "flex",
+  padding: "1rem",
+  backgroundColor: "transparent",
+  border: "none",
+  fontFamily: "inherit",
+  fontSize: "1rem",
 });
 
 export default Navigator;
