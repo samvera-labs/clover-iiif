@@ -36,6 +36,7 @@ const Viewer: React.FC<Props> = ({ manifest }) => {
 const ViewerWrapper = styled("div", {
   display: "flex",
   flexDirection: "column",
+  padding: "1.618rem",
   fontFamily: "inherit",
 });
 
@@ -43,7 +44,6 @@ const ViewerInner = styled("div", {
   display: "flex",
   flexDirection: "row",
   overflow: "hidden",
-  boxShadow: "0 0 5px #00000011",
 });
 
 const Main = styled("div", {
@@ -62,7 +62,8 @@ const Header = styled("header", {
 
   span: {
     fontSize: "1.25rem",
-    padding: "1rem",
+    fontWeight: "700",
+    padding: "1rem 0",
   },
 });
 

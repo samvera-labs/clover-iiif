@@ -13,7 +13,7 @@ const handleUpdate = (): any => {
 };
 
 const sample: object = {
-  label: "Croquet Scene - Winslow Homer (1866)",
+  label: "canvas.label",
   thumbnailId:
     "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Winslow_Homer_-_Croquet_Scene_-_Google_Art_Project.jpg/640px-Winslow_Homer_-_Croquet_Scene_-_Google_Art_Project.jpg",
 };
@@ -35,10 +35,6 @@ const MediaItemWrapper = styled("a", {
   margin: "0 1rem 0 0",
   cursor: "pointer",
 
-  "&:last-child": {
-    margin: "0",
-  },
-
   "&.active": {
     backgroundColor: "black",
   },
@@ -51,6 +47,10 @@ const MediaItemWrapper = styled("a", {
       width: "199px",
       height: "123px",
       objectFit: "cover",
+    },
+
+    figcaption: {
+      fontWeight: "700",
     },
   },
 });
