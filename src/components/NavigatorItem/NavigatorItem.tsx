@@ -23,6 +23,10 @@ const NavigatorItemWrapper = styled("a", {
   padding: "0.5rem  1.618rem ",
   cursor: "pointer",
 
+  "&:last-child": {
+    margin: "0 0 1.618rem",
+  },
+
   strong: {
     fontSize: "0.8333rem",
   },

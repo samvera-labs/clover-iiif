@@ -109,7 +109,7 @@ const NavigatorBodyInner = styled("nav", {
 
 const NavigatorTabWrapper = styled("button", {
   display: "flex",
-  padding: ".8em 1em .7em",
+  padding: "0.618rem 1rem",
   background: "none",
   backgroundColor: "#4e2a84",
   color: "#fff",
