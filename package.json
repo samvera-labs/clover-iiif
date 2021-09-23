@@ -8,7 +8,7 @@
   "scripts": {
     "build": "rm -rf dist && node build.js",
     "dev": "node serve.js",
-    "test": "jest",
+    "test": "jest --watch",
     "dts": "./node_modules/.bin/npm-dts generate -L debug -f",
     "clean": "rimraf dist"
   },
@@ -16,7 +16,9 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@testing-library/react": "^12.1.0",
     "@types/jest": "^27.0.2",
+    "@types/testing-library__react": "^10.2.0",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "chokidar": "^3.5.2",
@@ -32,10 +34,12 @@
     "npm-dts": "^1.3.10",
     "prettier": "^2.4.1",
     "rimraf": "^3.0.2",
-    "ts-jest": "^27.0.5"
+    "ts-jest": "^27.0.5",
+    "ts-node": "^10.2.1"
   },
   "dependencies": {
     "@stitches/react": "^1.2.0",
+    "@types/jest": "^27.0.2",
     "@types/react": "^17.0.21",
     "@types/react-dom": "^17.0.9",
     "react": "^17.0.0",
