@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
 import NavigatorItem from "components/NavigatorItem/NavigatorItem";
+import sampleParsedVtt from "../../manifests/sampleParsedVtt";
 
 interface NavigatorProps {
   currentTime: number;
@@ -10,52 +11,26 @@ interface NavigatorTabProps {
   label: string;
   active: boolean;
 }
+interface NavigatorBodyInnerProps {
+  currentTime: number;
+  items: Array<object>;
+}
 
 export const Navigator: React.FC<NavigatorProps> = ({ currentTime }) => {
   return (
     <NavigatorWrapper>
       <NavigatorHeader>
         <NavigatorTab label="Camptium" active={true} />
-        <NavigatorTab label="Mauris varius" active={false} />
+        <NavigatorTab label="Mauris" active={false} />
         <NavigatorTab label="Tristique" active={false} />
       </NavigatorHeader>
       <NavigatorBody>
-        <NavigatorBodyInner>
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-          <NavigatorItem label="" time="" t={0} />
-        </NavigatorBodyInner>
+        <NavigatorOutput>
+          <NavigatorBodyInner
+            items={sampleParsedVtt.output}
+            currentTime={currentTime}
+          />
+        </NavigatorOutput>
       </NavigatorBody>
     </NavigatorWrapper>
   );
@@ -63,6 +38,22 @@ export const Navigator: React.FC<NavigatorProps> = ({ currentTime }) => {
 
 const NavigatorTab: React.FC<NavigatorTabProps> = ({ label }) => {
   return <NavigatorTabWrapper>{label}</NavigatorTabWrapper>;
+};
+
+const NavigatorBodyInner: React.FC<NavigatorBodyInnerProps> = ({
+  items,
+  currentTime,
+}) => {
+  return items.map((cue) => {
+    return (
+      <NavigatorItem
+        text={cue.text}
+        startTime={cue.startTime}
+        t={currentTime}
+        key={cue.id}
+      />
+    );
+  });
 };
 
 const NavigatorWrapper = styled("div", {
@@ -98,9 +89,16 @@ const NavigatorBody = styled("div", {
     position: "absolute",
     bottom: "0",
   },
+
+  [`& ${NavigatorBodyInner}`]: {
+    position: "absolute",
+    overflowY: "scroll",
+    height: "100%",
+    width: "100%",
+  },
 });
 
-const NavigatorBodyInner = styled("nav", {
+const NavigatorOutput = styled("div", {
   position: "absolute",
   overflowY: "scroll",
   height: "100%",

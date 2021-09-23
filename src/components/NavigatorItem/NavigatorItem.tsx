@@ -7,11 +7,11 @@ interface Props {
   t: number;
 }
 
-const NavigatorItem: React.FC<Props> = ({ label, startTime, t }) => {
+const NavigatorItem: React.FC<Props> = ({ text, startTime, t }) => {
   return (
     <NavigatorItemWrapper>
-      cue.label
-      <strong>cue.startTime</strong>
+      {text}
+      <strong>{startTime}</strong>
     </NavigatorItemWrapper>
   );
 };
@@ -23,12 +23,12 @@ const NavigatorItemWrapper = styled("a", {
   padding: "0.5rem  1.618rem ",
   cursor: "pointer",
 
-  "&:last-child": {
-    margin: "0 0 1.618rem",
+  "&:hover": {
+    backgroundColor: "#D8D6D6",
   },
 
-  strong: {
-    fontSize: "0.8333rem",
+  "&:last-child": {
+    margin: "0 0 1.618rem",
   },
 });
 
