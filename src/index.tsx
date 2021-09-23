@@ -9,6 +9,11 @@ interface Props {
   id: string;
 }
 
+const validManifest: string = "";
+
+const invalidManifest: string =
+  "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/new_airliner.json";
+
 const App: React.FC<Props> = ({ id }) => {
   const [manifest, setManifest] = useState<ManifestNormalized | undefined>(
     undefined
@@ -40,9 +45,6 @@ const App: React.FC<Props> = ({ id }) => {
   return "A future user friendly loading component";
 };
 
-ReactDOM.render(
-  <App id="https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/new_airliner.json" />,
-  document.getElementById("root")
-);
+ReactDOM.render(<App id={invalidManifest} />, document.getElementById("root"));
 
 export default App;
