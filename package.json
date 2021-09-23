@@ -28,6 +28,9 @@
     "ts-jest": "^27.0.5"
   },
   "dependencies": {
+    "@hyperion-framework/parser": "^1.0.0",
+    "@hyperion-framework/validator": "^1.0.0",
+    "@hyperion-framework/vault": "^1.0.2",
     "@stitches/react": "^1.2.0",
     "@types/react": "^17.0.21",
     "@types/react-dom": "^17.0.9",
