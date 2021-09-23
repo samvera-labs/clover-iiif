@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
-import { Media } from "../Media/Media";
-import { Navigator } from "../Navigator/Navigator";
-import { label } from "../../services/IIIF/presentation";
+import Media from "../Media/Media";
+import Navigator from "../Navigator/Navigator";
 import Player from "components/Player/Player";
+import { label } from "../../services/iiif";
 
 interface Props {
   manifest: object;
@@ -18,27 +18,52 @@ const Viewer: React.FC<Props> = ({ manifest }) => {
   return (
     <ViewerWrapper>
       <Header>
-        <span>{label({ en: ["manifest.label"] }, "en")}</span>
+        <span>
+          {label(
+            { en: ["Aliquam eu metus at arcu c.1967 sagittis mollis ut ac"] },
+            "en"
+          )}
+        </span>
       </Header>
-      <Main>
-        <Player streamingUrl={publicUrl} />
-        <Media items={{}} activeItem={0} />
-        <Navigator currentTime={100} tracks={{}} />
-      </Main>
+      <ViewerInner>
+        <Main>
+          <Player streamingUrl={publicUrl} />
+          <Media items={{}} activeItem={0} />
+        </Main>
+        <Aside>
+          <Navigator currentTime={100} tracks={{}} />
+        </Aside>
+      </ViewerInner>
     </ViewerWrapper>
   );
 };
 
-const ViewerWrapper = styled("div", {
+const ViewerWrapper = styled("section", {
   display: "flex",
   flexDirection: "column",
-  height: "400px",
+  padding: "1.618rem",
+  fontFamily: "inherit",
+});
+
+const ViewerInner = styled("div", {
+  display: "flex",
+  flexDirection: "row",
+  overflow: "hidden",
 });
 
 const Main = styled("div", {
   display: "flex",
   flexDirection: "column",
-  flexWrap: "wrap",
+  flexGrow: "0",
+  flexShrink: "1",
+  width: "61.8%",
+});
+
+const Aside = styled("aside", {
+  display: "flex",
+  flexGrow: "1",
+  flexShrink: "0",
+  width: "38.2%",
 });
 
 const Header = styled("header", {
@@ -46,7 +71,8 @@ const Header = styled("header", {
 
   span: {
     fontSize: "1.25rem",
-    padding: "1rem",
+    fontWeight: "700",
+    padding: "1rem 0",
   },
 });
 
