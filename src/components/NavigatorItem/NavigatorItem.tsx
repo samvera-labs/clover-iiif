@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
+import { cleanTime } from "../../services/utils";
 
 interface Props {
   label: string;
@@ -11,7 +12,7 @@ const NavigatorItem: React.FC<Props> = ({ text, startTime, t }) => {
   return (
     <NavigatorItemWrapper>
       {text}
-      <strong>{startTime}</strong>
+      <strong>{cleanTime(startTime)}</strong>
     </NavigatorItemWrapper>
   );
 };

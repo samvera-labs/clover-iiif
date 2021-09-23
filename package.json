@@ -12,6 +12,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/jest": "^27.0.2",
     "chokidar": "^3.5.2",
     "esbuild": "^0.12.28",
     "esbuild-css-modules-plugin": "^2.0.9",
