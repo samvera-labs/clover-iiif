@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { styled } from "@stitches/react";
-import { cleanTime } from "../../services/utils";
+import React from 'react';
+import { styled } from '@stitches/react';
+import { cleanTime } from 'services/utils';
 
 interface Props {
   label: string;
@@ -8,28 +8,28 @@ interface Props {
   t: number;
 }
 
-const NavigatorItem: React.FC<Props> = ({ text, startTime, t }) => {
+const NavigatorItem: React.FC<Props> = ({ label, startTime }) => {
   return (
     <NavigatorItemWrapper>
-      {text}
+      {label}
       <strong>{cleanTime(startTime)}</strong>
     </NavigatorItemWrapper>
   );
 };
 
-const NavigatorItemWrapper = styled("a", {
-  display: "flex",
-  flexGrow: "1",
-  justifyContent: "space-between",
-  padding: "0.5rem  1.618rem ",
-  cursor: "pointer",
+const NavigatorItemWrapper = styled('a', {
+  display: 'flex',
+  flexGrow: '1',
+  justifyContent: 'space-between',
+  padding: '0.5rem  1.618rem ',
+  cursor: 'pointer',
 
-  "&:hover": {
-    backgroundColor: "#D8D6D6",
+  '&:hover': {
+    backgroundColor: '#D8D6D6',
   },
 
-  "&:last-child": {
-    margin: "0 0 1.618rem",
+  '&:last-child': {
+    margin: '0 0 1.618rem',
   },
 });
 
