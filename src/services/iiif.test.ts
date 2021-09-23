@@ -3,6 +3,8 @@ import { label } from './iiif';
 test('Test output of IIIF presentation label by internationalized language code.', () => {
   const englishLabel = label({ en: ['Sample label'] }, 'en');
   expect(englishLabel).toBe('Sample label');
+  const assumeEnglishLabel = label({ en: ['Sample label'] });
+  expect(assumeEnglishLabel).toBe('Sample label');
   const noLangLabel = label({ none: ['!*(@#'] }, 'none');
   expect(noLangLabel).toBe('!*(@#');
   const nonMatchingLabel = label({ es: ['Etiqueta de muestra'] }, 'en');
