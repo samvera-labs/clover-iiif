@@ -1,28 +1,43 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Vault } from "@hyperion-framework/vault";
+import { Validator } from "@hyperion-framework/validator";
+import { ManifestNormalized } from "@hyperion-framework/types";
 import Viewer from "./components/Viewer/Viewer";
-import { getManifest } from "services/iiif";
 
 interface Props {
   id: string;
 }
 
 const App: React.FC<Props> = ({ id }) => {
-  const [manifest, setManifest] = useState(null);
+  const [manifest, setManifest] = useState<ManifestNormalized | undefined>(
+    undefined
+  );
+  const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     const vault = new Vault();
     vault
       .loadManifest(id)
-      .then(async (data) => {
+      .then((data) => {
+        const validator = new Validator();
+        if (!validator.validateManifest(data)) {
+          console.log(
+            `Manifest is not valid according IIIF Presentation API 3.0 specification.`
+          );
+        }
         setManifest(data);
+        setLoaded(true);
       })
       .catch((error) => {
         console.log(`Manifest failed to load: ${error}`);
       });
-  });
+  }, [loaded]);
 
-  return <Viewer manifest={manifest} />;
+  if (typeof manifest !== "undefined") {
+    return <Viewer manifest={manifest} />;
+  }
+
+  return "A future user friendly loading component";
 };
 
 ReactDOM.render(

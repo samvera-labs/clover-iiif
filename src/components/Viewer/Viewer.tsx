@@ -34,9 +34,7 @@ const Viewer: React.FC<Props> = ({ manifest }) => {
       </ViewerWrapper>
     );
   } else {
-    return (
-      <ViewerWrapper>A future user friendly loading component</ViewerWrapper>
-    );
+    return null;
   }
 };
 
