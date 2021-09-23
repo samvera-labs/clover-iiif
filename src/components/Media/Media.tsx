@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { styled } from "@stitches/react";
-import MediaItem from "components/MediaItem/MediaItem";
+import { styled } from "@stitches/react"
+import MediaItem from "components/MediaItem/MediaItem"
 
 interface Props {
   items: object;

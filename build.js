@@ -9,22 +9,22 @@ const shared = {
   bundle: true,
   entryPoints: [entryFile],
   external: Object.keys(peerDependencies),
+  logLevel: "info",
   minify: true,
   sourcemap: true,
 };
 
 build({
   ...shared,
-  outfile: "dist/bundle.js",
-});
-
-build({
-  ...shared,
-  outfile: "dist/bundle.esm.js",
   format: "esm",
+  external: ["react", "react-dom"],
+  outfile: "dist/bundle.js",
+  target: ["esnext", "node12.22.0"],
 });
 
 new Generator({
   entry: entryFile,
+  force: true,
+  logLevel: "debug",
   output: "dist/index.d.ts",
 }).generate();
