@@ -3,7 +3,7 @@ import { styled } from "@stitches/react";
 import Media from "../Media/Media";
 import Navigator from "../Navigator/Navigator";
 import Player from "components/Player/Player";
-import { label } from "../../services/IIIF/presentation";
+import { label } from "../../services/iiif";
 
 interface Props {
   manifest: object;
