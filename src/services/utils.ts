@@ -13,5 +13,5 @@ export const cleanTime = (standardNotation: String) => {
   return time;
 };
 
-const zeroPad = (num: string, places: number) =>
+const zeroPad = (num: number, places: number) =>
   String(num).padStart(places, "0");
