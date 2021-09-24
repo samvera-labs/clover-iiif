@@ -22,7 +22,7 @@ const App: React.FC<Props> = ({ id }) => {
         setLoaded(true);
       })
       .catch((error) => {
-        console.log(`Manifest failed to load: ${error}`);
+        console.error(`Manifest failed to load: ${error}`);
       });
   }, [loaded]);
 
