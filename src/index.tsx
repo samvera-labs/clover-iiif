@@ -30,7 +30,7 @@ const App: React.FC<Props> = ({ id }) => {
     return <Viewer manifest={manifest as unknown as Manifest} />;
   }
 
-  return 'A future user friendly loading component';
+  return <>'A future user friendly loading component'</>;
 };
 
 ReactDOM.render(<App id={sampleManifest} />, document.getElementById('root'));
