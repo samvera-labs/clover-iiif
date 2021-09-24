@@ -19,9 +19,8 @@ const Viewer: React.FC<Props> = ({ manifest }) => {
   if (manifest) {
     return (
       <ViewerWrapper>
-        {}
         <Header>
-          <span>{getLabel(manifest, 'en')}</span>
+          <span>{getLabel(manifest.label, 'en')}</span>
         </Header>
         <ViewerInner>
           <Main>

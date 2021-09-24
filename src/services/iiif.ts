@@ -1,11 +1,9 @@
-// Get string from a IIIF pres 3 label by language code
-type Language = string;
+import { InternationalString } from '@hyperion-framework/types';
 
-export const label = (label: Record<Language, Array<string>>, language: Language = 'en') => {
+// Get string from a IIIF pres 3 label by language code
+export const getLabel = (label: InternationalString, language: string) => {
   if (label[language]) {
-    if (label[language].length !== 0) {
-      return label[language][0];
-    }
+    return label[language][0];
   }
   return;
 };
