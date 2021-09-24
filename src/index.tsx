@@ -11,7 +11,7 @@ const sampleManifest: string =
   'https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/new_airliner_invalid.json';
 
 const App: React.FC<Props> = ({ id }) => {
-  const [manifest, setManifest] = useState<ManifestNormalized | undefined>(undefined);
+  const [manifest, setManifest] = useState<ManifestNormalized | undefined>();
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     const vault = new Vault();
