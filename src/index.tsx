@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Vault } from '@hyperion-framework/vault';
-import { ManifestNormalized } from '@hyperion-framework/types';
+import { Manifest, ManifestNormalized } from '@hyperion-framework/types';
 import Viewer from './components/Viewer/Viewer';
 
 interface Props {
@@ -27,7 +27,7 @@ const App: React.FC<Props> = ({ id }) => {
   }, [loaded]);
 
   if (typeof manifest !== 'undefined') {
-    return <Viewer manifest={manifest} />;
+    return <Viewer manifest={manifest as unknown as Manifest} />;
   }
 
   return 'A future user friendly loading component';
