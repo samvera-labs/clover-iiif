@@ -1,6 +1,12 @@
-import { label } from "./presentation";
+import { getLabel } from './iiif';
 
-test("Test output of IIIF presentation label by internationalized language code.", () => {
-  const string = label({ en: ["Sample label"] }, "en");
-  expect(string).toBe("Sample label");
+test('Test output of IIIF presentation label by internationalized language code.', () => {
+  const englishLabel = getLabel({ en: ['Sample label'] }, 'en');
+  expect(englishLabel).toStrictEqual(['Sample label']);
+  const assumeEnglishLabel = getLabel({ en: ['Sample label'] });
+  expect(assumeEnglishLabel).toStrictEqual(['Sample label']);
+  const noLangLabel = getLabel({ none: ['!*(@#'] }, 'none');
+  expect(noLangLabel).toStrictEqual(['!*(@#']);
+  const nonMatchingLabel = getLabel({ es: ['Etiqueta de muestra'] }, 'en');
+  expect(nonMatchingLabel).toStrictEqual(undefined);
 });
