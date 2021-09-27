@@ -39,7 +39,6 @@
   },
   "dependencies": {
     "@hyperion-framework/parser": "^1.0.0",
-    "@hyperion-framework/react-vault": "^1.0.2",
     "@hyperion-framework/types": "^1.0.0",
     "@hyperion-framework/validator": "^1.0.0",
     "@hyperion-framework/vault": "^1.0.2",
