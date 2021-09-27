@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
-import { Manifest } from "@hyperion-framework/types";
+import { ManifestNormalized } from "@hyperion-framework/types";
 import Media from "../Media/Media";
 import Navigator from "../Navigator/Navigator";
 import Player from "components/Player/Player";
@@ -15,7 +15,7 @@ const Viewer: React.FC = () => {
 
   const state = useVaultState();
   const { manifestUri, vault } = state;
-  const manifest = vault.fromRef({
+  const manifest: ManifestNormalized = vault.fromRef({
     id: manifestUri,
     type: "Manifest",
   });

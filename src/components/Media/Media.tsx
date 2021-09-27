@@ -1,23 +1,26 @@
 import React from "react";
 import { styled } from "@stitches/react";
-import MediaItem from "components/MediaItem/MediaItem";
+import MediaItem from "components/Media/MediaItem";
 import { useVaultState } from "context/vault-context";
+import { CanvasNormalized } from "@hyperion-framework/types";
 
-const sampleManifest: string =
-  "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/new_airliner_invalid.json";
+interface MediaProps {
+  items: object[];
+  activeItem: number;
+}
 
-const Media: React.FC = () => {
+const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
+  const state = useVaultState();
+  const { vault } = state;
+
   return (
     <MediaWrapper>
-      <MediaItem index={0} label="" thumbnailId="" active={false} />
-      <MediaItem index={1} label="" thumbnailId="" active={true} />
-      <MediaItem index={2} label="" thumbnailId="" active={false} />
-      <MediaItem index={3} label="" thumbnailId="" active={false} />
-      <MediaItem index={4} label="" thumbnailId="" active={false} />
-      <MediaItem index={5} label="" thumbnailId="" active={false} />
-      <MediaItem index={6} label="" thumbnailId="" active={false} />
-      <MediaItem index={7} label="" thumbnailId="" active={false} />
-      <MediaItem index={8} label="" thumbnailId="" active={false} />
+      <>
+        {items.map((item: object, key: number) => {
+          const canvas: CanvasNormalized = vault.fromRef(item);
+          return <MediaItem index={key} canvas={canvas} active={true} />;
+        })}
+      </>
     </MediaWrapper>
   );
 };
