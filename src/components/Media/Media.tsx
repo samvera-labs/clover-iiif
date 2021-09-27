@@ -15,12 +15,10 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
 
   return (
     <MediaWrapper>
-      <>
-        {items.map((item: object, key: number) => {
-          const canvas: CanvasNormalized = vault.fromRef(item);
-          return <MediaItem index={key} canvas={canvas} active={true} />;
-        })}
-      </>
+      {items.map((item: object, key: number) => {
+        const canvas: CanvasNormalized = vault.fromRef(item);
+        return <MediaItem key={key} canvas={canvas} active={true} />;
+      })}
     </MediaWrapper>
   );
 };

@@ -4,7 +4,6 @@ import { getLabel } from "../../services/iiif";
 import { CanvasNormalized } from "@hyperion-framework/types";
 
 interface Props {
-  index: number;
   canvas: CanvasNormalized;
   active: boolean;
 }
