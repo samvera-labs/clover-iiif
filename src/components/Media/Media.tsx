@@ -7,20 +7,6 @@ const sampleManifest: string =
   "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/new_airliner_invalid.json";
 
 const Media: React.FC = () => {
-  const [items, setItems] = React.useState([]);
-  const state = useVaultState();
-  console.log(`state`, state);
-
-  state.vault
-    .loadManifest(state.manifestUri)
-    .then((data) => {
-      console.log(`data`, data);
-      // Grab the items from manifest and set them here?
-    })
-    .catch((error) => {
-      console.error(`Manifest failed to load: ${error}`);
-    });
-
   return (
     <MediaWrapper>
       <MediaItem index={0} label="" thumbnailId="" active={false} />

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Vault } from "@hyperion-framework/vault";
+import { Manifest, ManifestNormalized } from "@hyperion-framework/types";
 
 const VaultStateContext = React.createContext();
 const VaultDispatchContext = React.createContext();
@@ -28,6 +29,8 @@ interface VaultProviderProps {
   manifestUri: string;
 }
 
+const vault = new Vault();
+
 function VaultProvider<VaultProviderProps>({
   initialState = defaultState,
   manifestUri,
@@ -35,15 +38,30 @@ function VaultProvider<VaultProviderProps>({
 }) {
   const [state, dispatch] = React.useReducer(vaultReducer, initialState);
 
-  React.useEffect(() => {}, []);
+  const [manifest, setManifest] = useState<ManifestNormalized | undefined>();
+  const [loaded, setLoaded] = useState(false);
 
-  return (
-    <VaultStateContext.Provider value={{ manifestUri, vault: new Vault() }}>
-      <VaultDispatchContext.Provider value={dispatch}>
-        {children}
-      </VaultDispatchContext.Provider>
-    </VaultStateContext.Provider>
-  );
+  vault
+    .loadManifest(manifestUri)
+    .then((data) => {
+      setManifest(data);
+      setLoaded(true);
+    })
+    .catch((error) => {
+      console.error(`Manifest failed to load: ${error}`);
+    });
+
+  if (typeof manifest !== "undefined") {
+    return (
+      <VaultStateContext.Provider value={{ manifestUri, vault }}>
+        <VaultDispatchContext.Provider value={dispatch}>
+          {children}
+        </VaultDispatchContext.Provider>
+      </VaultStateContext.Provider>
+    );
+  }
+
+  return null;
 }
 
 function useVaultState() {

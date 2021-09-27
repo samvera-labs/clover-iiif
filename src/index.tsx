@@ -9,12 +9,9 @@ interface Props {
   manifestUri: string;
 }
 const sampleManifest: string =
-  "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/new_airliner_invalid.json";
+  "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/new_airliner.json";
 
 const App: React.FC<Props> = ({ manifestUri }) => {
-  const [manifest, setManifest] = useState<ManifestNormalized | undefined>();
-  const [loaded, setLoaded] = useState(false);
-
   return (
     <VaultProvider manifestUri={manifestUri}>
       <Viewer />

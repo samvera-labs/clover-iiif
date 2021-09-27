@@ -5,6 +5,7 @@ import Media from "../Media/Media";
 import Navigator from "../Navigator/Navigator";
 import Player from "components/Player/Player";
 import { getLabel } from "../../services/iiif";
+import { useVaultState } from "context/vault-context";
 
 const Viewer: React.FC = () => {
   const streamingUrl: string =
@@ -12,17 +13,25 @@ const Viewer: React.FC = () => {
   const publicUrl: string =
     "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8";
 
-  //if (!manifest) return null;
+  const state = useVaultState();
+  const { manifestUri, vault } = state;
+
+  const manifest = vault.fromRef({
+    id: manifestUri,
+    type: "Manifest",
+  });
+
+  console.log(manifest);
 
   return (
     <ViewerWrapper>
       <Header>
-        <span>Label goes here</span>
+        <span>{getLabel(manifest.label, "en")}</span>
       </Header>
       <ViewerInner>
         <Main>
           <Player streamingUrl={publicUrl} />
-          <Media items={{}} activeItem={0} />
+          <Media items={manifest.items} activeItem={0} />
         </Main>
         <Aside>
           <Navigator currentTime={100} tracks={{}} />
