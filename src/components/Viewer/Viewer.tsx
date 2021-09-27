@@ -15,13 +15,10 @@ const Viewer: React.FC = () => {
 
   const state = useVaultState();
   const { manifestUri, vault } = state;
-
   const manifest = vault.fromRef({
     id: manifestUri,
     type: "Manifest",
   });
-
-  console.log(manifest);
 
   return (
     <ViewerWrapper>
