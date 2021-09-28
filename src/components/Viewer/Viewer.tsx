@@ -5,7 +5,6 @@ import Media from "../Media/Media";
 import Navigator from "../Navigator/Navigator";
 import Player from "components/Player/Player";
 import { getLabel } from "../../services/iiif";
-import { useVaultDispatch } from "context/vault-context";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
