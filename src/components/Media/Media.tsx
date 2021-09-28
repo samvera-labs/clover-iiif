@@ -39,11 +39,16 @@ const Media: React.FC<MediaProps> = ({ items, manifest, activeItem }) => {
         // 4.determine if W3C annotation is motivation painting
         for (const annotation of annotations) {
           if (annotation.motivation[0] === "painting") {
-            // 5.determine if Video or Sound
+            // 5.get contentResource (the annotation body)
             const contentResource: ContentResource = vault.fromRef(
               annotation.body[0],
             );
-            if (contentResourceType.includes(contentResource.type))
+            // 6. render media item if annotation target matches original
+            //    canvas ID and contentResource type is Sound or Video
+            if (
+              annotation.target === item.id &&
+              contentResourceType.includes(contentResource.type)
+            )
               return <MediaItem key={key} canvas={canvas} active={true} />;
           }
         }
