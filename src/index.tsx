@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { Vault } from "@hyperion-framework/vault";
 import { Manifest, ManifestNormalized } from "@hyperion-framework/types";
 import Viewer from "./components/Viewer/Viewer";
-import { VaultProvider } from "context/vault-context";
+import { VaultProvider, useVaultState } from "context/vault-context";
 
 interface Props {
   manifestUri: string;
@@ -14,9 +14,25 @@ const sampleManifest: string =
 const App: React.FC<Props> = ({ manifestUri }) => {
   return (
     <VaultProvider manifestUri={manifestUri}>
-      <Viewer />
+      <TheViewer />
     </VaultProvider>
   );
+};
+
+const TheViewer: React.FC<Props> = () => {
+  const state = useVaultState();
+  const { manifestUri, vault, isLoaded } = state;
+  const manifest: ManifestNormalized = vault.fromRef({
+    id: manifestUri,
+    type: "Manifest",
+  });
+
+  if (!isLoaded) return <>Loading...</>;
+
+  if (manifest["@context"] === undefined)
+    return <>The IIIF manifest {manifestUri} failed to load.</>;
+
+  return <Viewer manifest={manifest} />;
 };
 
 ReactDOM.render(

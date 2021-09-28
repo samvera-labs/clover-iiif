@@ -8,6 +8,7 @@ const VaultDispatchContext = React.createContext();
 const defaultState = {
   activeMedia: null,
   vault: undefined,
+  isLoaded: false,
 };
 
 function vaultReducer(state, action) {
@@ -45,23 +46,23 @@ function VaultProvider<VaultProviderProps>({
     .loadManifest(manifestUri)
     .then((data) => {
       setManifest(data);
-      setLoaded(true);
     })
     .catch((error) => {
       console.error(`Manifest failed to load: ${error}`);
+    })
+    .finally(() => {
+      setLoaded(true);
     });
 
-  if (typeof manifest !== "undefined") {
-    return (
-      <VaultStateContext.Provider value={{ manifestUri, vault }}>
-        <VaultDispatchContext.Provider value={dispatch}>
-          {children}
-        </VaultDispatchContext.Provider>
-      </VaultStateContext.Provider>
-    );
-  }
-
-  return null;
+  return (
+    <VaultStateContext.Provider
+      value={{ manifestUri, vault, isLoaded: loaded }}
+    >
+      <VaultDispatchContext.Provider value={dispatch}>
+        {children}
+      </VaultDispatchContext.Provider>
+    </VaultStateContext.Provider>
+  );
 }
 
 function useVaultState() {
