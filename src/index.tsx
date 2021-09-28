@@ -25,6 +25,7 @@ const App: React.FC<Props> = ({ manifestId }) => {
 };
 
 const RenderViewer: React.FC = () => {
+  const dispatch: any = useVaultDispatch();
   /**
    * Retrieve state set by the wrapping <VaultProvider/> and make
    * the normalized manifest available from @hyperion-framework/vault.
@@ -46,7 +47,7 @@ const RenderViewer: React.FC = () => {
   /**
    * If an error occurs during manifest fetch process used by
    * @hyperion-framework/vault, vault will not return a manifest
-   * that is fully normalized, an be missing the @context property.
+   * that is fully normalized, and be missing the @context property.
    * This being undefined signals that something went wrong and we
    * will render a user-friendly error as a functional component.
    */
@@ -56,8 +57,15 @@ const RenderViewer: React.FC = () => {
   /**
    * If manifest is normalized by @hyperion-framework/vault, we know
    * that the manifest data is retrievable via vault.fromRef() and we
-   * will render the <Viewer/> component.
+   * will will set the activeCanvas to the first index and render the
+   * <Viewer/> component.
    */
+  if (!activeCanvas)
+    dispatch({
+      type: "updateActiveCanvas",
+      canvasId: manifest.items[0].id,
+    });
+
   return <Viewer manifest={manifest} activeCanvas={activeCanvas} />;
 };
 

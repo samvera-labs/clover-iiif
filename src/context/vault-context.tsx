@@ -49,7 +49,7 @@ function VaultProvider<VaultProviderProps>({
   vault
     .loadManifest(manifestId)
     .then((data) => {
-      console.log(`data`, data);
+      // console.log(`data`, data);
     })
     .catch((error) => {
       console.error(`Manifest failed to load: ${error}`);
@@ -60,7 +60,12 @@ function VaultProvider<VaultProviderProps>({
 
   return (
     <VaultStateContext.Provider
-      value={{ manifestId, activeCanvas: null, vault, isLoaded: loaded }}
+      value={{
+        manifestId,
+        activeCanvas: state.activeCanvas,
+        vault,
+        isLoaded: loaded,
+      }}
     >
       <VaultDispatchContext.Provider value={dispatch}>
         {children}
