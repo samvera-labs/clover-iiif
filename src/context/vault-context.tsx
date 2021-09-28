@@ -27,7 +27,7 @@ function vaultReducer(state, action) {
 
 interface VaultProviderProps {
   initialState: object;
-  manifestUri: string;
+  manifestId: string;
 }
 
 const vault = new Vault();
