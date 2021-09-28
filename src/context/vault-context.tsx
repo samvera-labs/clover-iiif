@@ -34,14 +34,14 @@ const vault = new Vault();
 
 function VaultProvider<VaultProviderProps>({
   initialState = defaultState,
-  manifestUri,
+  manifestId,
   children,
 }) {
   const [state, dispatch] = React.useReducer(vaultReducer, initialState);
   const [loaded, setLoaded] = useState(false);
 
   vault
-    .loadManifest(manifestUri)
+    .loadManifest(manifestId)
     .then((data) => {
       console.log(`data`, data);
     })
@@ -53,9 +53,7 @@ function VaultProvider<VaultProviderProps>({
     });
 
   return (
-    <VaultStateContext.Provider
-      value={{ manifestUri, vault, isLoaded: loaded }}
-    >
+    <VaultStateContext.Provider value={{ manifestId, vault, isLoaded: loaded }}>
       <VaultDispatchContext.Provider value={dispatch}>
         {children}
       </VaultDispatchContext.Provider>

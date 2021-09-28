@@ -11,9 +11,9 @@ interface Props {
 const sampleManifest: string =
   "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/new_airliner.json";
 
-const App: React.FC<Props> = ({ manifestUri }) => {
+const App: React.FC<Props> = ({ manifestId }) => {
   return (
-    <VaultProvider manifestUri={manifestUri}>
+    <VaultProvider manifestId={manifestId}>
       <TheViewer />
     </VaultProvider>
   );
@@ -21,9 +21,9 @@ const App: React.FC<Props> = ({ manifestUri }) => {
 
 const TheViewer: React.FC<Props> = () => {
   const state = useVaultState();
-  const { manifestUri, vault, isLoaded } = state;
+  const { manifestId, vault, isLoaded } = state;
   const manifest: ManifestNormalized = vault.fromRef({
-    id: manifestUri,
+    id: manifestId,
     type: "Manifest",
   });
 
@@ -36,7 +36,7 @@ const TheViewer: React.FC<Props> = () => {
 };
 
 ReactDOM.render(
-  <App manifestUri={sampleManifest} />,
+  <App manifestId={sampleManifest} />,
   document.getElementById("root"),
 );
 
