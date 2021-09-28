@@ -4,8 +4,6 @@ import MediaItem from "components/Media/MediaItem";
 import { useVaultState } from "context/vault-context";
 import {
   CanvasNormalized,
-  ManifestNormalized,
-  Annotation,
   AnnotationPageNormalized,
   AnnotationNormalized,
   ContentResource,
@@ -19,6 +17,8 @@ interface MediaProps {
 const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
   const state: any = useVaultState();
   const { vault } = state;
+
+  const annotationMotivation = "painting";
   const contentResourceType = ["Sound", "Video"];
 
   return (
@@ -37,7 +37,7 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
 
         // 4.determine if W3C annotation is motivation painting
         for (const annotation of annotations) {
-          if (annotation.motivation[0] === "painting") {
+          if (annotation.motivation.includes(annotationMotivation)) {
             // 5.get contentResource (the annotation body)
             const contentResource: ContentResource = vault.fromRef(
               annotation.body[0],
