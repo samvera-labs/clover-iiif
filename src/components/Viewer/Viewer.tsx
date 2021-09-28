@@ -1,10 +1,10 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import { ManifestNormalized } from "@hyperion-framework/types";
-import Media from "../Media/Media";
-import Navigator from "../Navigator/Navigator";
+import { getLabel } from "services/iiif";
+import Media from "components/Media/Media";
+import Navigator from "components/Navigator/Navigator";
 import Player from "components/Player/Player";
-import { getLabel } from "../../services/iiif";
 
 interface ViewerProps {
   manifest: ManifestNormalized;

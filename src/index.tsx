@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-import { Vault } from "@hyperion-framework/vault";
-import { Manifest, ManifestNormalized } from "@hyperion-framework/types";
-import Viewer from "./components/Viewer/Viewer";
+import { ManifestNormalized } from "@hyperion-framework/types";
 import {
   VaultProvider,
   useVaultState,
   useVaultDispatch,
 } from "context/vault-context";
+import Viewer from "./components/Viewer/Viewer";
 
 interface Props {
   manifestId: string;
