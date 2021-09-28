@@ -1,9 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ReactDOM from "react-dom";
 import { Vault } from "@hyperion-framework/vault";
 import { Manifest, ManifestNormalized } from "@hyperion-framework/types";
 import Viewer from "./components/Viewer/Viewer";
-import { VaultProvider, useVaultState } from "context/vault-context";
+import {
+  VaultProvider,
+  useVaultState,
+  useVaultDispatch,
+} from "context/vault-context";
 
 interface Props {
   manifestId: string;
@@ -26,7 +30,7 @@ const RenderViewer: React.FC = () => {
    * the normalized manifest available from @hyperion-framework/vault.
    */
   const state = useVaultState();
-  const { manifestId, vault, isLoaded } = state;
+  const { manifestId, activeCanvas, vault, isLoaded } = state;
   const manifest: ManifestNormalized = vault.fromRef({
     id: manifestId,
     type: "Manifest",
@@ -54,7 +58,7 @@ const RenderViewer: React.FC = () => {
    * that the manifest data is retrievable via vault.fromRef() and we
    * will render the <Viewer/> component.
    */
-  return <Viewer manifest={manifest} />;
+  return <Viewer manifest={manifest} activeCanvas={activeCanvas} />;
 };
 
 ReactDOM.render(

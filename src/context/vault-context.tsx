@@ -1,18 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Vault } from "@hyperion-framework/vault";
-import { Manifest, ManifestNormalized } from "@hyperion-framework/types";
+import { ManifestNormalized } from "@hyperion-framework/types";
 
 const VaultStateContext = React.createContext();
 const VaultDispatchContext = React.createContext();
 
 const defaultState = {
-  activeMedia: null,
+  activeCanvas: null,
   vault: undefined,
   isLoaded: false,
 };
 
 function vaultReducer(state, action) {
   switch (action.type) {
+    case "updateActiveCanvas": {
+      return {
+        ...state,
+        activeCanvas: action.canvasId,
+      };
+    }
     case "updateVault": {
       return {
         ...state,
@@ -53,7 +59,9 @@ function VaultProvider<VaultProviderProps>({
     });
 
   return (
-    <VaultStateContext.Provider value={{ manifestId, vault, isLoaded: loaded }}>
+    <VaultStateContext.Provider
+      value={{ manifestId, activeCanvas: null, vault, isLoaded: loaded }}
+    >
       <VaultDispatchContext.Provider value={dispatch}>
         {children}
       </VaultDispatchContext.Provider>
