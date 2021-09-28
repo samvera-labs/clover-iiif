@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { styled } from "@stitches/react";
 import { ManifestNormalized } from "@hyperion-framework/types";
 import Media from "../Media/Media";
 import Navigator from "../Navigator/Navigator";
 import Player from "components/Player/Player";
 import { getLabel } from "../../services/iiif";
-import { useVaultState } from "context/vault-context";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
