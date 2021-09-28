@@ -38,14 +38,12 @@ function VaultProvider<VaultProviderProps>({
   children,
 }) {
   const [state, dispatch] = React.useReducer(vaultReducer, initialState);
-
-  const [manifest, setManifest] = useState<ManifestNormalized | undefined>();
   const [loaded, setLoaded] = useState(false);
 
   vault
     .loadManifest(manifestUri)
     .then((data) => {
-      setManifest(data);
+      console.log(`data`, data);
     })
     .catch((error) => {
       console.error(`Manifest failed to load: ${error}`);
