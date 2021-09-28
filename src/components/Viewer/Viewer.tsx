@@ -28,7 +28,7 @@ const Viewer: React.FC = () => {
       <ViewerInner>
         <Main>
           <Player streamingUrl={publicUrl} />
-          <Media items={manifest.items} manifest={manifest} activeItem={0} />
+          <Media items={manifest.items} activeItem={0} />
         </Main>
         <Aside>
           <Navigator currentTime={100} tracks={{}} />

@@ -13,11 +13,10 @@ import {
 
 interface MediaProps {
   items: object[];
-  manifest: ManifestNormalized;
   activeItem: number;
 }
 
-const Media: React.FC<MediaProps> = ({ items, manifest, activeItem }) => {
+const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
   const state: any = useVaultState();
   const { vault } = state;
   const contentResourceType = ["Sound", "Video"];
