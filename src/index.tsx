@@ -54,7 +54,7 @@ const RenderViewer: React.FC = () => {
       .catch((error) => {
         console.error(`Manifest failed to load: ${error}`);
       })
-      .finally((data) => {
+      .finally(() => {
         dispatch({
           type: "updateIsLoaded",
           isLoaded: true,
