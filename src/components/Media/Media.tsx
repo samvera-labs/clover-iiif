@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
-import { useViewerState } from "context/viewer-context";
+import { useViewerState, useViewerDispatch } from "context/viewer-context";
 import {
   CanvasNormalized,
   AnnotationPageNormalized,
@@ -15,6 +15,7 @@ interface MediaProps {
 }
 
 const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
+  const dispatch: any = useViewerDispatch();
   const state: any = useViewerState();
   const { activeCanvas, vault } = state;
 
@@ -23,8 +24,12 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
 
   console.log(activeCanvas);
 
-  const handleClick = () => {
-    // Dispatch new active Canvas
+  const onChange = (canvasId: string) => {
+    if (activeCanvas !== canvasId)
+      dispatch({
+        type: "updateActiveCanvas",
+        canvasId: canvasId,
+      });
   };
 
   return (
@@ -59,7 +64,9 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
                   key={key}
                   canvas={canvas}
                   active={true}
-                  handleClick={handleClick}
+                  onChange={(canvasId) => {
+                    onChange(canvasId);
+                  }}
                 />
               );
           }
