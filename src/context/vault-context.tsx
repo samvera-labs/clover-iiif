@@ -1,8 +1,8 @@
 import React from "react";
 import { Vault } from "@hyperion-framework/vault";
 
-const VaultStateContext = React.createContext();
-const VaultDispatchContext = React.createContext();
+const ViewerStateContext = React.createContext();
+const ViewerDispatchContext = React.createContext();
 
 const defaultState = {
   activeCanvas: null,
@@ -10,7 +10,7 @@ const defaultState = {
   isLoaded: false,
 };
 
-function vaultReducer(state, action) {
+function viewerReducer(state, action) {
   switch (action.type) {
     case "updateActiveCanvas": {
       return {
@@ -30,20 +30,20 @@ function vaultReducer(state, action) {
   }
 }
 
-interface VaultProviderProps {
+interface ViewerProviderProps {
   initialState: object;
   manifestId: string;
 }
 
-function VaultProvider<VaultProviderProps>({
+function ViewerProvider<ViewerProviderProps>({
   initialState = defaultState,
   manifestId,
   children,
 }) {
-  const [state, dispatch] = React.useReducer(vaultReducer, initialState);
+  const [state, dispatch] = React.useReducer(viewerReducer, initialState);
 
   return (
-    <VaultStateContext.Provider
+    <ViewerStateContext.Provider
       value={{
         manifestId,
         activeCanvas: state.activeCanvas,
@@ -51,27 +51,27 @@ function VaultProvider<VaultProviderProps>({
         isLoaded: state.isLoaded,
       }}
     >
-      <VaultDispatchContext.Provider value={dispatch}>
+      <ViewerDispatchContext.Provider value={dispatch}>
         {children}
-      </VaultDispatchContext.Provider>
-    </VaultStateContext.Provider>
+      </ViewerDispatchContext.Provider>
+    </ViewerStateContext.Provider>
   );
 }
 
-function useVaultState() {
-  const context = React.useContext(VaultStateContext);
+function useViewerState() {
+  const context = React.useContext(ViewerStateContext);
   if (context === undefined) {
-    throw new Error("useVaultState must be used within a VaultProvider");
+    throw new Error("useViewerState must be used within a ViewerProvider");
   }
   return context;
 }
 
-function useVaultDispatch() {
-  const context = React.useContext(VaultDispatchContext);
+function useViewerDispatch() {
+  const context = React.useContext(ViewerDispatchContext);
   if (context === undefined) {
-    throw new Error("useVaultDispatch must be used within a VaultProvider");
+    throw new Error("useViewerDispatch must be used within a ViewerProvider");
   }
   return context;
 }
 
-export { VaultProvider, useVaultState, useVaultDispatch };
+export { ViewerProvider, useViewerState, useViewerDispatch };

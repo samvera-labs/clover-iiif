@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
-import { useVaultState } from "context/vault-context";
+import { useViewerState } from "context/vault-context";
 import {
   CanvasNormalized,
   AnnotationPageNormalized,
@@ -15,7 +15,7 @@ interface MediaProps {
 }
 
 const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
-  const state: any = useVaultState();
+  const state: any = useViewerState();
   const { activeCanvas, vault } = state;
 
   const annotationMotivation = "painting";
