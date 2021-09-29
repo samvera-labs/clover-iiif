@@ -24,7 +24,7 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
 
   console.log(activeCanvas);
 
-  const onChange = (canvasId: string) => {
+  const handleChange = (canvasId: string) => {
     if (activeCanvas !== canvasId)
       dispatch({
         type: "updateActiveCanvas",
@@ -64,9 +64,7 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
                   key={key}
                   canvas={canvas}
                   active={true}
-                  onChange={(canvasId) => {
-                    onChange(canvasId);
-                  }}
+                  handleChange={handleChange}
                 />
               );
           }

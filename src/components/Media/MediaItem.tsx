@@ -6,16 +6,15 @@ import { CanvasNormalized } from "@hyperion-framework/types";
 interface Props {
   canvas: CanvasNormalized;
   active: boolean;
-  onChange: (arg0: string) => void;
+  handleChange: (arg0: string) => void;
 }
 
-const MediaItem: React.FC<Props> = ({ canvas, onChange }) => {
-  const handleChange = () => {
-    onChange(canvas.id);
-  };
-
+const MediaItem: React.FC<Props> = ({ canvas, handleChange }) => {
   return (
-    <MediaItemWrapper onClick={handleChange} data-testid="media-item-wrapper">
+    <MediaItemWrapper
+      onClick={() => handleChange(canvas.id)}
+      data-testid="media-item-wrapper"
+    >
       <figure>
         <img src={canvas.thumbnail[0].id} />
         <figcaption>{getLabel(canvas.label, "en")}</figcaption>
