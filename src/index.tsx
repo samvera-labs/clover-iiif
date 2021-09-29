@@ -45,10 +45,16 @@ const RenderViewer: React.FC = () => {
   useEffect(() => {
     vault
       .loadManifest(manifestId)
+      .then((data) => {
+        dispatch({
+          type: "updateActiveCanvas",
+          canvasId: data.items[0].id,
+        });
+      })
       .catch((error) => {
         console.error(`Manifest failed to load: ${error}`);
       })
-      .finally(() => {
+      .finally((data) => {
         dispatch({
           type: "updateIsLoaded",
           isLoaded: true,
@@ -79,13 +85,8 @@ const RenderViewer: React.FC = () => {
    * will will set the activeCanvas to the first index and render the
    * <Viewer/> component.
    */
-  if (!activeCanvas)
-    dispatch({
-      type: "updateActiveCanvas",
-      canvasId: manifest.items[0].id,
-    });
 
-  return <Viewer manifest={manifest} activeCanvas={activeCanvas} />;
+  return <Viewer manifest={manifest} />;
 };
 
 ReactDOM.render(

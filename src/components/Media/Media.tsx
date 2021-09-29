@@ -16,10 +16,12 @@ interface MediaProps {
 
 const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
   const state: any = useVaultState();
-  const { vault } = state;
+  const { activeCanvas, vault } = state;
 
   const annotationMotivation = "painting";
   const contentResourceType = ["Sound", "Video"];
+
+  console.log(activeCanvas);
 
   return (
     <MediaWrapper>
