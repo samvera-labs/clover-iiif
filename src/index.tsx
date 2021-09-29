@@ -17,22 +17,20 @@ const sampleManifest: string =
 
 const App: React.FC<Props> = ({ manifestId }) => {
   return (
-    <ViewerProvider manifestId={manifestId}>
-      <RenderViewer />
+    <ViewerProvider>
+      <RenderViewer manifestId={manifestId} />
     </ViewerProvider>
   );
 };
 
-const RenderViewer: React.FC = () => {
+const RenderViewer: React.FC<Props> = ({ manifestId }) => {
   const dispatch: any = useViewerDispatch();
 
   /**
    * Retrieve state set by the wrapping <ViewerProvider/> and make
    * the normalized manifest available from @hyperion-framework/vault.
    */
-  const state = useViewerState();
-  const { manifestId, vault, isLoaded } = state;
-  const [loaded] = useState(false);
+  const { isLoaded, vault } = useViewerState();
   const manifest: ManifestNormalized = vault.fromRef({
     id: manifestId,
     type: "Manifest",
@@ -59,7 +57,7 @@ const RenderViewer: React.FC = () => {
           isLoaded: true,
         });
       });
-  }, [loaded]);
+  }, []);
 
   /**
    * Render loading component while manifest is fetched and

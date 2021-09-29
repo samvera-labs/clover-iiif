@@ -23,6 +23,10 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
 
   console.log(activeCanvas);
 
+  const handleClick = () => {
+    // Dispatch new active Canvas
+  };
+
   return (
     <MediaWrapper>
       {items.map((item: object, key: number) => {
@@ -50,7 +54,14 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
               annotation.target === item.id &&
               contentResourceType.includes(contentResource.type)
             )
-              return <MediaItem key={key} canvas={canvas} active={true} />;
+              return (
+                <MediaItem
+                  key={key}
+                  canvas={canvas}
+                  active={true}
+                  handleClick={handleClick}
+                />
+              );
           }
         }
       })}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@stitches/react";
 import { getLabel } from "../../services/iiif";
-import { useVaultState } from "context/vault-context";
+import { useViewerState } from "context/viewer-context";
 import { CanvasNormalized } from "@hyperion-framework/types";
 
 interface Props {
@@ -15,7 +15,7 @@ const handleUpdate = (): any => {
 
 const MediaItem: React.FC<Props> = ({ canvas }) => {
   return (
-    <MediaItemWrapper onClick={handleUpdate()}>
+    <MediaItemWrapper onClick={handleUpdate()} data-testid="media-item-wrapper">
       <figure>
         <img src={canvas.thumbnail[0].id} />
         <figcaption>{getLabel(canvas.label, "en")}</figcaption>

@@ -4,10 +4,16 @@ import { Vault } from "@hyperion-framework/vault";
 const ViewerStateContext = React.createContext();
 const ViewerDispatchContext = React.createContext();
 
-const defaultState = {
-  activeCanvas: null,
-  vault: new Vault(),
+interface ViewerContextStore {
+  activeCanvas: string;
+  isLoaded: boolean;
+  vault: object;
+}
+
+const defaultState: ViewerContextStore = {
+  activeCanvas: "",
   isLoaded: false,
+  vault: new Vault(),
 };
 
 function viewerReducer(state, action) {
@@ -21,7 +27,7 @@ function viewerReducer(state, action) {
     case "updateIsLoaded": {
       return {
         ...state,
-        isLoaded: { ...action.isLoaded },
+        isLoaded: action.isLoaded,
       };
     }
     default: {
@@ -31,32 +37,24 @@ function viewerReducer(state, action) {
 }
 
 interface ViewerProviderProps {
-  initialState: object;
-  manifestId: string;
+  initialState?: object;
+  children: React.ReactChildren;
 }
 
-function ViewerProvider<ViewerProviderProps>({
+const ViewerProvider: React.FC<ViewerProviderProps> = ({
   initialState = defaultState,
-  manifestId,
   children,
-}) {
+}) => {
   const [state, dispatch] = React.useReducer(viewerReducer, initialState);
 
   return (
-    <ViewerStateContext.Provider
-      value={{
-        manifestId,
-        activeCanvas: state.activeCanvas,
-        vault: state.vault,
-        isLoaded: state.isLoaded,
-      }}
-    >
+    <ViewerStateContext.Provider value={state}>
       <ViewerDispatchContext.Provider value={dispatch}>
         {children}
       </ViewerDispatchContext.Provider>
     </ViewerStateContext.Provider>
   );
-}
+};
 
 function useViewerState() {
   const context = React.useContext(ViewerStateContext);
