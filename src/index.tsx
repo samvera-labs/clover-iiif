@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import { Vault } from "@hyperion-framework/vault";
 import { ManifestNormalized } from "@hyperion-framework/types";
 import {
   VaultProvider,
@@ -25,16 +26,35 @@ const App: React.FC<Props> = ({ manifestId }) => {
 
 const RenderViewer: React.FC = () => {
   const dispatch: any = useVaultDispatch();
+
   /**
    * Retrieve state set by the wrapping <VaultProvider/> and make
    * the normalized manifest available from @hyperion-framework/vault.
    */
   const state = useVaultState();
   const { manifestId, activeCanvas, vault, isLoaded } = state;
+  const [loaded, setLoaded] = useState(false);
   const manifest: ManifestNormalized = vault.fromRef({
     id: manifestId,
     type: "Manifest",
   });
+
+  /**
+   * Loaded manifest and site using @hyperion-framework/vault.
+   */
+  useEffect(() => {
+    vault
+      .loadManifest(manifestId)
+      .catch((error) => {
+        console.error(`Manifest failed to load: ${error}`);
+      })
+      .finally(() => {
+        dispatch({
+          type: "updateIsLoaded",
+          isLoaded: true,
+        });
+      });
+  }, [loaded]);
 
   /**
    * Render loading component while manifest is fetched and

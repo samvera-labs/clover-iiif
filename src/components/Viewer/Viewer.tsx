@@ -8,7 +8,6 @@ import Player from "components/Player/Player";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
-  activeCanvas: any;
 }
 
 const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
