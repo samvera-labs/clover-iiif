@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { styled } from "@stitches/react";
 import { getLabel } from "../../services/iiif";
-import { useViewerState, useViewerDispatch } from "context/viewer-context";
 import { CanvasNormalized } from "@hyperion-framework/types";
 
 interface Props {
