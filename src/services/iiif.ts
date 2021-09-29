@@ -1,5 +1,5 @@
 import {
-  AnnotationNormalized,
+  Annotation,
   AnnotationPageNormalized,
   CanvasNormalized,
   ContentResource,
@@ -14,37 +14,43 @@ export const getLabel = (
   return label[language];
 };
 
-export const getCanvasByAnnotation = (
+interface NormalizedByCriteria {
+  canvas: CanvasNormalized | undefined;
+  annotationPage: AnnotationPageNormalized | undefined;
+  annotations: Array<Annotation> | undefined;
+  contentResources: Array<ContentResource> | undefined;
+}
+
+export const getNormalizedByCritera = (
   vault: object,
   item: object,
   annotationMotivation: string,
   contentResourceType: Array<string>,
 ) => {
-  const canvas: CanvasNormalized = vault.fromRef(item);
+  const normalized: NormalizedByCriteria = {
+    canvas: undefined,
+    annotationPage: undefined,
+    annotations: undefined,
+    contentResources: undefined,
+  };
 
-  const annotationPage: AnnotationPageNormalized = vault.fromRef(
-    canvas.items[0],
-  );
-
-  const annotations: Array<AnnotationNormalized> = vault.allFromRef(
-    annotationPage.items,
-  );
-
-  for (const annotation of annotations) {
+  const filterAnnotations = (annotation, index) => {
     if (annotation.motivation.includes(annotationMotivation)) {
-      const contentResource: ContentResource = vault.fromRef(
-        annotation.body[0],
-      );
-
-      if (
-        annotation.target === item.id &&
-        contentResourceType.includes(contentResource.type)
-      )
-        return {
-          canvas: canvas,
-          annotations: [annotation],
-          contentResource: contentResource,
-        };
+      annotation.body = vault.allFromRef(annotation.body);
+      console.log(annotation.body[0].type);
+      if (contentResourceType.includes(annotation.body[0].type))
+        return annotation;
     }
-  }
+  };
+
+  normalized.canvas = vault.fromRef(item);
+  normalized.annotationPage = vault.fromRef(normalized.canvas.items[0]);
+
+  normalized.annotations = vault
+    .allFromRef(normalized.annotationPage.items)
+    .filter(filterAnnotations);
+
+  console.log(normalized);
+
+  return normalized;
 };

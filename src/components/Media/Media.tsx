@@ -2,7 +2,7 @@ import React from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
-import { getCanvasByAnnotation } from "services/iiif";
+import { getNormalizedByCritera } from "services/iiif";
 
 interface MediaProps {
   items: object[];
@@ -14,7 +14,7 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
   const state: any = useViewerState();
   const { activeCanvas, vault } = state;
 
-  const annotationMotivation = "painting";
+  const annotationMotivation = "supplementing";
   const contentResourceType = ["Sound", "Video"];
 
   const handleChange = (canvasId: string) => {
@@ -28,20 +28,21 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
   return (
     <MediaWrapper>
       {items.map((item: object, key: number) => {
-        const canvas: object = getCanvasByAnnotation(
+        const normalized: object = getNormalizedByCritera(
           vault,
           item,
           annotationMotivation,
           contentResourceType,
         );
-        return (
-          <MediaItem
-            key={key}
-            canvas={canvas}
-            active={true}
-            handleChange={handleChange}
-          />
-        );
+
+        // return (
+        //   <MediaItem
+        //     key={key}
+        //     normalized={normalized}
+        //     active={true}
+        //     handleChange={handleChange}
+        //   />
+        // );
       })}
     </MediaWrapper>
   );

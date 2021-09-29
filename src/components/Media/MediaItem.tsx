@@ -4,20 +4,20 @@ import { getLabel } from "services/iiif";
 import { CanvasNormalized } from "@hyperion-framework/types";
 
 interface Props {
-  canvas: object;
+  normalized: object;
   active: boolean;
   handleChange: (arg0: string) => void;
 }
 
-const MediaItem: React.FC<Props> = ({ canvas, handleChange }) => {
+const MediaItem: React.FC<Props> = ({ normalized, handleChange }) => {
   return (
     <MediaItemWrapper
-      onClick={() => handleChange(canvas.canvas.id)}
+      onClick={() => handleChange(normalized.canvas.id)}
       data-testid="media-item-wrapper"
     >
       <figure>
-        <img src={canvas.canvas.thumbnail[0].id} />
-        <figcaption>{getLabel(canvas.canvas.label, "en")}</figcaption>
+        <img src={normalized.canvas.thumbnail[0].id} />
+        <figcaption>{getLabel(normalized.canvas.label, "en")}</figcaption>
       </figure>
     </MediaItemWrapper>
   );
