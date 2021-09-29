@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
-import { useViewerState } from "context/vault-context";
+import { useViewerState } from "context/viewer-context";
 import {
   CanvasNormalized,
   AnnotationPageNormalized,

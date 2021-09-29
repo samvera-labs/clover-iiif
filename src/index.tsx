@@ -6,7 +6,7 @@ import {
   ViewerProvider,
   useViewerState,
   useViewerDispatch,
-} from "context/vault-context";
+} from "context/viewer-context";
 import Viewer from "./components/Viewer/Viewer";
 
 interface Props {
