@@ -2,12 +2,7 @@ import React from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
-import {
-  CanvasNormalized,
-  AnnotationPageNormalized,
-  AnnotationNormalized,
-  ContentResource,
-} from "@hyperion-framework/types";
+import { getCanvasByAnnotation } from "services/iiif";
 
 interface MediaProps {
   items: object[];
@@ -22,8 +17,6 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
   const annotationMotivation = "painting";
   const contentResourceType = ["Sound", "Video"];
 
-  console.log(activeCanvas);
-
   const handleChange = (canvasId: string) => {
     if (activeCanvas !== canvasId)
       dispatch({
@@ -35,40 +28,20 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
   return (
     <MediaWrapper>
       {items.map((item: object, key: number) => {
-        // 1. get canvas
-        const canvas: CanvasNormalized = vault.fromRef(item);
-        // 2. get annotationPage
-        const annotationPage: AnnotationPageNormalized = vault.fromRef(
-          canvas.items[0],
+        const canvas: object = getCanvasByAnnotation(
+          vault,
+          item,
+          annotationMotivation,
+          contentResourceType,
         );
-        // 3.get annotations
-        const annotations: Array<AnnotationNormalized> = vault.allFromRef(
-          annotationPage.items,
+        return (
+          <MediaItem
+            key={key}
+            canvas={canvas}
+            active={true}
+            handleChange={handleChange}
+          />
         );
-
-        // 4.determine if W3C annotation is motivation painting
-        for (const annotation of annotations) {
-          if (annotation.motivation.includes(annotationMotivation)) {
-            // 5.get contentResource (the annotation body)
-            const contentResource: ContentResource = vault.fromRef(
-              annotation.body[0],
-            );
-            // 6. render media item if annotation target matches original
-            //    canvas ID and contentResource type is Sound or Video
-            if (
-              annotation.target === item.id &&
-              contentResourceType.includes(contentResource.type)
-            )
-              return (
-                <MediaItem
-                  key={key}
-                  canvas={canvas}
-                  active={true}
-                  handleChange={handleChange}
-                />
-              );
-          }
-        }
       })}
     </MediaWrapper>
   );

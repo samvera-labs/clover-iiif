@@ -1,10 +1,10 @@
 import React from "react";
 import { styled } from "@stitches/react";
-import { getLabel } from "../../services/iiif";
+import { getLabel } from "services/iiif";
 import { CanvasNormalized } from "@hyperion-framework/types";
 
 interface Props {
-  canvas: CanvasNormalized;
+  canvas: object;
   active: boolean;
   handleChange: (arg0: string) => void;
 }
@@ -12,12 +12,12 @@ interface Props {
 const MediaItem: React.FC<Props> = ({ canvas, handleChange }) => {
   return (
     <MediaItemWrapper
-      onClick={() => handleChange(canvas.id)}
+      onClick={() => handleChange(canvas.canvas.id)}
       data-testid="media-item-wrapper"
     >
       <figure>
-        <img src={canvas.thumbnail[0].id} />
-        <figcaption>{getLabel(canvas.label, "en")}</figcaption>
+        <img src={canvas.canvas.thumbnail[0].id} />
+        <figcaption>{getLabel(canvas.canvas.label, "en")}</figcaption>
       </figure>
     </MediaItemWrapper>
   );
