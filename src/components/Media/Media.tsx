@@ -26,32 +26,30 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
       });
   };
 
-  return (
-    <MediaWrapper>
-      {items.map((item: object, key: number) => {
-        // this probably needs to be written in a .filter()
-        const canvasEntity: object = getCanvasByCriteria(
-          vault,
-          item,
-          motivation,
-          paintingType,
-        );
+  const displayItems = items.map((item: object, key: number) => {
+    // this probably needs to be written in a .filter()
+    const canvasEntity: object = getCanvasByCriteria(
+      vault,
+      item,
+      motivation,
+      paintingType,
+    );
 
-        let isActive = activeCanvas === item.id ? true : false;
+    const isActive = activeCanvas === item.id ? true : false;
 
-        if (canvasEntity !== undefined)
-          return (
-            <MediaItem
-              active={isActive}
-              canvasEntity={canvasEntity}
-              thumbnail={getThumbnail(vault, canvasEntity, 200, null)}
-              key={key}
-              handleChange={handleChange}
-            />
-          );
-      })}
-    </MediaWrapper>
-  );
+    if (canvasEntity !== undefined)
+      return (
+        <MediaItem
+          active={isActive}
+          canvasEntity={canvasEntity}
+          thumbnail={getThumbnail(vault, canvasEntity, 200, null)}
+          key={key}
+          handleChange={handleChange}
+        />
+      );
+  });
+
+  return <MediaWrapper>{displayItems}</MediaWrapper>;
 };
 
 const MediaWrapper = styled("nav", {
