@@ -28,7 +28,7 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
 
   const displayItems = items.map((item: object, key: number) => {
     // this probably needs to be written in a .filter()
-    const canvasEntity: object = getCanvasByCriteria(
+    const canvasEntity = getCanvasByCriteria(
       vault,
       item,
       motivation,
