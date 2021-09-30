@@ -41,9 +41,9 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
         if (canvasEntity !== undefined)
           return (
             <MediaItem
-              key={key}
-              canvasEntity={canvasEntity}
               active={true}
+              canvasEntity={canvasEntity}
+              key={key}
               handleChange={handleChange}
             />
           );
