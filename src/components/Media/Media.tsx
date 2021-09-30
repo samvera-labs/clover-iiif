@@ -13,6 +13,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
   const dispatch: any = useViewerDispatch();
   const state: any = useViewerState();
   const { activeCanvas, vault } = state;
+  const [mediaItems, setMediaItems] = useState([]);
 
   const motivation = "painting";
   const paintingType = ["Image", "Sound", "Video"];
@@ -25,33 +26,49 @@ const Media: React.FC<MediaProps> = ({ items }) => {
       });
   };
 
-  const mediaItems: Array<any> = [];
-
-  for (const item of items) {
-    const canvasEntity = getCanvasByCriteria(
-      vault,
-      item,
-      motivation,
-      paintingType,
+  const Media: React.FC<MediaProps> = ({ items }) => {
+    const dispatch: any = useViewerDispatch();
+    const state: any = useViewerState();
+    const { activeCanvas, vault } = state;
+  
+    const motivation = "painting";
+    const paintingType = ["Image", "Sound", "Video"];
+  
+    const handleChange = (canvasId: string) => {
+      if (activeCanvas !== canvasId)
+        dispatch({
+          type: "updateActiveCanvas",
+          canvasId: canvasId,
+        });
+    };
+  
+    const mediaItems: Array<any> = [];
+  
+    for (const item of items) {
+      const canvasEntity = getCanvasByCriteria(
+        vault,
+        item,
+        motivation,
+        paintingType,
+      );
+  
+      if (canvasEntity.annotations.length > 0) mediaItems.push(canvasEntity);
+    }
+  
+    return (
+      <MediaWrapper>
+        {mediaItems.map((item: object) => (
+          <MediaItem
+            active={activeCanvas === item.canvas.id ? true : false}
+            canvasEntity={item}
+            thumbnail={getThumbnail(vault, item, 200, null)}
+            key={item.canvas.id}
+            handleChange={handleChange}
+          />
+        ))}
+      </MediaWrapper>
     );
-
-    if (canvasEntity.annotations.length > 0) mediaItems.push(canvasEntity);
-  }
-
-  return (
-    <MediaWrapper>
-      {mediaItems.map((item: object) => (
-        <MediaItem
-          active={activeCanvas === item.canvas.id ? true : false}
-          canvasEntity={item}
-          thumbnail={getThumbnail(vault, item, 200, null)}
-          key={item.canvas.id}
-          handleChange={handleChange}
-        />
-      ))}
-    </MediaWrapper>
-  );
-};
+  };
 
 const MediaWrapper = styled("nav", {
   display: "flex",
