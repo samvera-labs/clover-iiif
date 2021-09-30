@@ -13,7 +13,7 @@ interface Props {
 }
 
 const sampleManifest: string =
-  "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/new_airliner.json";
+  "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases.json";
 
 const App: React.FC<Props> = ({ manifestId }) => {
   return (

@@ -1,6 +1,7 @@
 import {
   Annotation,
   AnnotationPageNormalized,
+  Canvas,
   CanvasNormalized,
   ContentResource,
   InternationalString,
@@ -14,32 +15,38 @@ export const getLabel = (
   return label[language];
 };
 
-interface NormalizedByCriteria {
+interface NormalizedData {
   canvas: CanvasNormalized | undefined;
   annotationPage: AnnotationPageNormalized | undefined;
   annotations: Array<Annotation> | undefined;
-  contentResources: Array<ContentResource> | undefined;
 }
 
 export const getNormalizedByCritera = (
   vault: object,
-  item: object,
-  annotationMotivation: string,
-  contentResourceType: Array<string>,
+  item: Canvas,
+  motivation: string,
+  paintingType: Array<string>,
 ) => {
-  const normalized: NormalizedByCriteria = {
+  const normalized: NormalizedData = {
     canvas: undefined,
     annotationPage: undefined,
     annotations: undefined,
-    contentResources: undefined,
   };
 
-  const filterAnnotations = (annotation, index) => {
-    if (annotation.motivation.includes(annotationMotivation)) {
-      annotation.body = vault.allFromRef(annotation.body);
-      console.log(annotation.body[0].type);
-      if (contentResourceType.includes(annotation.body[0].type))
-        return annotation;
+  const filterAnnotations = (annotation: Annotation) => {
+    annotation.body = vault.allFromRef(annotation.body);
+    switch (motivation) {
+      case "painting":
+        if (
+          annotation.target === item.id &&
+          annotation.motivation[0] === "painting" &&
+          paintingType.includes(annotation.body[0].type)
+        )
+          return annotation;
+        break;
+      default: {
+        throw new Error(`Invalid annotation motivation.`);
+      }
     }
   };
 
@@ -50,7 +57,9 @@ export const getNormalizedByCritera = (
     .allFromRef(normalized.annotationPage.items)
     .filter(filterAnnotations);
 
-  console.log(normalized);
+  return reconstructedCanvas(normalized);
+};
 
-  return normalized;
+export const reconstructedCanvas = (normalizedData: NormalizedData) => {
+  if (normalizedData.annotations.length > 0) return normalizedData;
 };

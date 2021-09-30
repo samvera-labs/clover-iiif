@@ -16,7 +16,7 @@ const MediaItem: React.FC<Props> = ({ normalized, handleChange }) => {
       data-testid="media-item-wrapper"
     >
       <figure>
-        <img src={normalized.canvas.thumbnail[0].id} />
+        {/* <img src={normalized.canvas.thumbnail[0].id} /> */}
         <figcaption>{getLabel(normalized.canvas.label, "en")}</figcaption>
       </figure>
     </MediaItemWrapper>

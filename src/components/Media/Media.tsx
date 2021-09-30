@@ -14,8 +14,8 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
   const state: any = useViewerState();
   const { activeCanvas, vault } = state;
 
-  const annotationMotivation = "supplementing";
-  const contentResourceType = ["Sound", "Video"];
+  const motivation = "painting";
+  const paintingType = ["Image", "Video"];
 
   const handleChange = (canvasId: string) => {
     if (activeCanvas !== canvasId)
@@ -31,18 +31,19 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
         const normalized: object = getNormalizedByCritera(
           vault,
           item,
-          annotationMotivation,
-          contentResourceType,
+          motivation,
+          paintingType,
         );
 
-        // return (
-        //   <MediaItem
-        //     key={key}
-        //     normalized={normalized}
-        //     active={true}
-        //     handleChange={handleChange}
-        //   />
-        // );
+        if (normalized !== undefined)
+          return (
+            <MediaItem
+              key={key}
+              normalized={normalized}
+              active={true}
+              handleChange={handleChange}
+            />
+          );
       })}
     </MediaWrapper>
   );
