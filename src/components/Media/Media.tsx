@@ -1,28 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
-import {
-  CanvasNormalized,
-  AnnotationPageNormalized,
-  AnnotationNormalized,
-  ContentResource,
-} from "@hyperion-framework/types";
+import { getCanvasByCriteria, getThumbnail } from "services/iiif";
 
 interface MediaProps {
   items: object[];
   activeItem: number;
 }
 
-const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
+const Media: React.FC<MediaProps> = ({ items }) => {
   const dispatch: any = useViewerDispatch();
   const state: any = useViewerState();
   const { activeCanvas, vault } = state;
+  const [mediaItems, setMediaItems] = useState([]);
 
-  const annotationMotivation = "painting";
-  const contentResourceType = ["Sound", "Video"];
-
-  console.log(activeCanvas);
+  const motivation = "painting";
+  const paintingType = ["Image", "Sound", "Video"];
 
   const handleChange = (canvasId: string) => {
     if (activeCanvas !== canvasId)
@@ -32,43 +26,33 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
       });
   };
 
+  for (const item of items) {
+    const canvasEntity = getCanvasByCriteria(
+      vault,
+      item,
+      motivation,
+      paintingType,
+    );
+
+    if (canvasEntity.annotations.length > 0) {
+      useEffect(() => {
+        setMediaItems((mediaItems) => [...mediaItems, canvasEntity]);
+      }, []);
+    }
+  }
+
   return (
     <MediaWrapper>
-      {items.map((item: object, key: number) => {
-        // 1. get canvas
-        const canvas: CanvasNormalized = vault.fromRef(item);
-        // 2. get annotationPage
-        const annotationPage: AnnotationPageNormalized = vault.fromRef(
-          canvas.items[0],
+      {mediaItems.map((item: object) => {
+        return (
+          <MediaItem
+            active={activeCanvas === item.canvas.id ? true : false}
+            canvasEntity={item}
+            thumbnail={getThumbnail(vault, item, 200, null)}
+            key={item.canvas.id}
+            handleChange={handleChange}
+          />
         );
-        // 3.get annotations
-        const annotations: Array<AnnotationNormalized> = vault.allFromRef(
-          annotationPage.items,
-        );
-
-        // 4.determine if W3C annotation is motivation painting
-        for (const annotation of annotations) {
-          if (annotation.motivation.includes(annotationMotivation)) {
-            // 5.get contentResource (the annotation body)
-            const contentResource: ContentResource = vault.fromRef(
-              annotation.body[0],
-            );
-            // 6. render media item if annotation target matches original
-            //    canvas ID and contentResource type is Sound or Video
-            if (
-              annotation.target === item.id &&
-              contentResourceType.includes(contentResource.type)
-            )
-              return (
-                <MediaItem
-                  key={key}
-                  canvas={canvas}
-                  active={true}
-                  handleChange={handleChange}
-                />
-              );
-          }
-        }
       })}
     </MediaWrapper>
   );

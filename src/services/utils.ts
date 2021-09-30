@@ -13,5 +13,12 @@ export const cleanTime = (standardNotation: String) => {
   return time;
 };
 
+export const convertTime = (duration: number) => {
+  const standardNotation: string = new Date(duration * 1000)
+    .toISOString()
+    .substr(11, 8);
+  return cleanTime(standardNotation);
+};
+
 const zeroPad = (num: number, places: number) =>
   String(num).padStart(places, "0");
