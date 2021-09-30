@@ -43,7 +43,7 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
           active={isActive}
           canvasEntity={canvasEntity}
           thumbnail={getThumbnail(vault, canvasEntity, 200, null)}
-          key={key}
+          key={item.id}
           handleChange={handleChange}
         />
       );
