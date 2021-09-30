@@ -23,13 +23,19 @@ const MediaItem: React.FC<Props> = ({
       <figure>
         <div>
           <img src={thumbnail.src} />
-          <span>{convertTime(canvasEntity.canvas.duration)}</span>
+          <MediaItemDuration>
+            {convertTime(canvasEntity.canvas.duration)}
+          </MediaItemDuration>
         </div>
         <figcaption>{getLabel(canvasEntity.canvas.label, "en")}</figcaption>
       </figure>
     </MediaItemWrapper>
   );
 };
+
+const MediaItemDuration = styled("span", {
+  display: "flex",
+});
 
 const MediaItemWrapper = styled("a", {
   display: "flex",
@@ -44,6 +50,25 @@ const MediaItemWrapper = styled("a", {
   figure: {
     margin: "0",
     width: "199px",
+
+    "> div": {
+      position: "relative",
+      display: "flex",
+      boxShadow: "2px 2px 5px #00000011",
+      backgroundColor: "#f1f1f1",
+
+      [`& ${MediaItemDuration}`]: {
+        position: "absolute",
+        right: "0.25rem",
+        bottom: "0.25rem",
+        padding: "0.125rem 0.25rem",
+        backgroundColor: "black",
+        color: "white",
+        fontWeight: "700",
+        fontSize: "0.722rem",
+        borderRadius: "1px",
+      },
+    },
 
     img: {
       width: "199px",

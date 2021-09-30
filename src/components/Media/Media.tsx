@@ -15,6 +15,8 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
   const state: any = useViewerState();
   const { activeCanvas, vault } = state;
 
+  console.log(activeCanvas);
+
   const motivation = "painting";
   const paintingType = ["Image", "Sound", "Video"];
 
