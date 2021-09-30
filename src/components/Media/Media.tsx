@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
 
 import { getCanvasByCriteria, getThumbnail } from "services/iiif";
+import {
+  Annotation,
+  AnnotationPageNormalized,
+  CanvasNormalized,
+} from "@hyperion-framework/types";
 
 interface MediaProps {
   items: object[];
@@ -14,6 +19,7 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
   const dispatch: any = useViewerDispatch();
   const state: any = useViewerState();
   const { activeCanvas, vault } = state;
+  const [mediaItems, setMediaItems] = useState([]);
 
   const motivation = "painting";
   const paintingType = ["Image", "Sound", "Video"];
@@ -26,8 +32,7 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
       });
   };
 
-  const displayItems = items.map((item: object, key: number) => {
-    // this probably needs to be written in a .filter()
+  for (const item of items) {
     const canvasEntity = getCanvasByCriteria(
       vault,
       item,
@@ -35,21 +40,28 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
       paintingType,
     );
 
-    const isActive = activeCanvas === item.id ? true : false;
+    if (canvasEntity.annotations.length > 0) {
+      useEffect(() => {
+        setMediaItems((mediaItems) => [...mediaItems, canvasEntity]);
+      }, []);
+    }
+  }
 
-    if (canvasEntity !== undefined)
-      return (
-        <MediaItem
-          active={isActive}
-          canvasEntity={canvasEntity}
-          thumbnail={getThumbnail(vault, canvasEntity, 200, null)}
-          key={item.id}
-          handleChange={handleChange}
-        />
-      );
-  });
-
-  return <MediaWrapper>{displayItems}</MediaWrapper>;
+  return (
+    <MediaWrapper>
+      {mediaItems.map((item: object) => {
+        return (
+          <MediaItem
+            active={activeCanvas === item.canvas.id ? true : false}
+            canvasEntity={item}
+            thumbnail={getThumbnail(vault, item, 200, null)}
+            key={item.canvas.id}
+            handleChange={handleChange}
+          />
+        );
+      })}
+    </MediaWrapper>
+  );
 };
 
 const MediaWrapper = styled("nav", {

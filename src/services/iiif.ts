@@ -59,7 +59,7 @@ export const getCanvasByCriteria = (
     .allFromRef(entity.annotationPage.items)
     .filter(filterAnnotations);
 
-  if (entity.annotations.length > 0) return entity;
+  return entity;
 };
 
 export const getThumbnail = (vault, entity, width, height) => {
