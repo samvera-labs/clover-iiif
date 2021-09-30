@@ -43,6 +43,8 @@ export const getCanvasByCriteria = (
         )
           return annotation;
         break;
+      case "supplementing":
+        return;
       default: {
         throw new Error(`Invalid annotation motivation.`);
       }
