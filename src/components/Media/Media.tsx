@@ -2,9 +2,8 @@ import React from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
-import { Canvas } from "@hyperion-framework/types";
 
-import { getCanvasByCriteria } from "services/iiif";
+import { getCanvasByCriteria, getThumbnail } from "services/iiif";
 
 interface MediaProps {
   items: object[];
@@ -43,6 +42,7 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
             <MediaItem
               active={true}
               canvasEntity={canvasEntity}
+              thumbnail={getThumbnail(vault, canvasEntity, 200, null)}
               key={key}
               handleChange={handleChange}
             />

@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { styled } from "@stitches/react";
 import { getLabel } from "services/iiif";
 
 interface Props {
   canvasEntity: object;
   active: boolean;
+  thumbnail: object;
   handleChange: (arg0: string) => void;
 }
 
-const MediaItem: React.FC<Props> = ({ canvasEntity, handleChange }) => {
+const MediaItem: React.FC<Props> = ({
+  canvasEntity,
+  thumbnail,
+  handleChange,
+}) => {
   return (
     <MediaItemWrapper
       onClick={() => handleChange(canvasEntity.canvas.id)}
       data-testid="media-item-wrapper"
     >
       <figure>
-        <img src="" />
+        <img src={thumbnail.src} />
         <figcaption>{getLabel(canvasEntity.canvas.label, "en")}</figcaption>
       </figure>
     </MediaItemWrapper>
