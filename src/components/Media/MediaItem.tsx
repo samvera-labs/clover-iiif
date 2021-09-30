@@ -47,10 +47,6 @@ const MediaItemWrapper = styled("a", {
   margin: "0 1.618rem 0 0",
   cursor: "pointer",
 
-  "&[data-active='true']": {
-    opacity: "0.5",
-  },
-
   figure: {
     margin: "0",
     width: "199px",
@@ -58,8 +54,18 @@ const MediaItemWrapper = styled("a", {
     "> div": {
       position: "relative",
       display: "flex",
-      boxShadow: "2px 2px 5px #00000011",
       backgroundColor: "#f1f1f1",
+      overflow: "hidden",
+      transition: "all 200ms ease-in-out",
+
+      img: {
+        width: "199px",
+        height: "123px",
+        objectFit: "cover",
+        filter: "blur(0)",
+        transform: "scale3d(1, 1, 1)",
+        transition: "all 200ms ease-in-out",
+      },
 
       [`& ${MediaItemDuration}`]: {
         position: "absolute",
@@ -69,20 +75,54 @@ const MediaItemWrapper = styled("a", {
         backgroundColor: "black",
         color: "white",
         fontWeight: "700",
-        fontSize: "0.722rem",
+        fontSize: "0.7272rem",
         borderRadius: "1px",
+        transition: "all 200ms ease-in-out",
+        opacity: "1",
       },
-    },
-
-    img: {
-      width: "199px",
-      height: "123px",
-      objectFit: "cover",
     },
 
     figcaption: {
       marginTop: "0.382rem",
       fontWeight: "400",
+    },
+  },
+
+  "&[data-active='true']": {
+    figure: {
+      "> div": {
+        backgroundColor: "black",
+
+        "&::before": {
+          position: "absolute",
+          zIndex: "1",
+          color: "white",
+          textTransform: "uppercase",
+          fontSize: "0.8333rem",
+          fontWeight: "700",
+          content: "Now Playing",
+          display: "flex",
+          width: "100%",
+          height: "100%",
+          flexDirection: "column",
+          justifyContent: "center",
+          textAlign: "center",
+        },
+
+        img: {
+          opacity: "0.382",
+          filter: "blur(2px)",
+          transform: "scale3d(1.1, 1.1, 1.1)",
+        },
+
+        [`& ${MediaItemDuration}`]: {
+          opacity: "0",
+        },
+      },
+    },
+
+    figcaption: {
+      fontWeight: "700",
     },
   },
 });
