@@ -2,7 +2,7 @@ import React from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
-import { getNormalizedByCritera } from "services/iiif";
+import { getCanvasEntities } from "services/iiif";
 
 interface MediaProps {
   items: object[];
@@ -28,14 +28,15 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
   return (
     <MediaWrapper>
       {items.map((item: object, key: number) => {
-        const normalized: object = getNormalizedByCritera(
+        // this probably needs to be written in a .filter()
+        const canvases: object = getCanvasEntities(
           vault,
           item,
           motivation,
           paintingType,
         );
 
-        if (normalized !== undefined)
+        if (canvases !== undefined)
           return (
             <MediaItem
               key={key}

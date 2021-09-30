@@ -15,19 +15,19 @@ export const getLabel = (
   return label[language];
 };
 
-interface NormalizedData {
+interface CanvasEntities {
   canvas: CanvasNormalized | undefined;
   annotationPage: AnnotationPageNormalized | undefined;
   annotations: Array<Annotation> | undefined;
 }
 
-export const getNormalizedByCritera = (
+export const getCanvasEntities = (
   vault: object,
   item: Canvas,
   motivation: string,
   paintingType: Array<string>,
 ) => {
-  const normalized: NormalizedData = {
+  const normalized: CanvasEntities = {
     canvas: undefined,
     annotationPage: undefined,
     annotations: undefined,
@@ -57,9 +57,5 @@ export const getNormalizedByCritera = (
     .allFromRef(normalized.annotationPage.items)
     .filter(filterAnnotations);
 
-  return reconstructedCanvas(normalized);
-};
-
-export const reconstructedCanvas = (normalizedData: NormalizedData) => {
-  if (normalizedData.annotations.length > 0) return normalizedData;
+  if (normalized.annotations.length > 0) return normalized;
 };
