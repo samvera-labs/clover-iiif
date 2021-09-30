@@ -13,7 +13,6 @@ const Media: React.FC<MediaProps> = ({ items }) => {
   const dispatch: any = useViewerDispatch();
   const state: any = useViewerState();
   const { activeCanvas, vault } = state;
-  const [mediaItems, setMediaItems] = useState([]);
 
   const motivation = "painting";
   const paintingType = ["Image", "Sound", "Video"];
@@ -26,6 +25,8 @@ const Media: React.FC<MediaProps> = ({ items }) => {
       });
   };
 
+  const mediaItems: Array<any> = [];
+
   for (const item of items) {
     const canvasEntity = getCanvasByCriteria(
       vault,
@@ -34,26 +35,20 @@ const Media: React.FC<MediaProps> = ({ items }) => {
       paintingType,
     );
 
-    if (canvasEntity.annotations.length > 0) {
-      useEffect(() => {
-        setMediaItems((mediaItems) => [...mediaItems, canvasEntity]);
-      }, []);
-    }
+    if (canvasEntity.annotations.length > 0) mediaItems.push(canvasEntity);
   }
 
   return (
     <MediaWrapper>
-      {mediaItems.map((item: object) => {
-        return (
-          <MediaItem
-            active={activeCanvas === item.canvas.id ? true : false}
-            canvasEntity={item}
-            thumbnail={getThumbnail(vault, item, 200, null)}
-            key={item.canvas.id}
-            handleChange={handleChange}
-          />
-        );
-      })}
+      {mediaItems.map((item: object) => (
+        <MediaItem
+          active={activeCanvas === item.canvas.id ? true : false}
+          canvasEntity={item}
+          thumbnail={getThumbnail(vault, item, 200, null)}
+          key={item.canvas.id}
+          handleChange={handleChange}
+        />
+      ))}
     </MediaWrapper>
   );
 };
