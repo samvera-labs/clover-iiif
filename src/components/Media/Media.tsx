@@ -2,20 +2,14 @@ import React, { useState, useEffect } from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
-
 import { getCanvasByCriteria, getThumbnail } from "services/iiif";
-import {
-  Annotation,
-  AnnotationPageNormalized,
-  CanvasNormalized,
-} from "@hyperion-framework/types";
 
 interface MediaProps {
   items: object[];
   activeItem: number;
 }
 
-const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
+const Media: React.FC<MediaProps> = ({ items }) => {
   const dispatch: any = useViewerDispatch();
   const state: any = useViewerState();
   const { activeCanvas, vault } = state;
