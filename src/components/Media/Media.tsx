@@ -15,8 +15,6 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
   const state: any = useViewerState();
   const { activeCanvas, vault } = state;
 
-  console.log(activeCanvas);
-
   const motivation = "painting";
   const paintingType = ["Image", "Sound", "Video"];
 
@@ -39,10 +37,13 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
           paintingType,
         );
 
+        let isActive = false;
+        if (activeCanvas === item.id) isActive = true;
+
         if (canvasEntity !== undefined)
           return (
             <MediaItem
-              active={true}
+              active={isActive}
               canvasEntity={canvasEntity}
               thumbnail={getThumbnail(vault, canvasEntity, 200, null)}
               key={key}

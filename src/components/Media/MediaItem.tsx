@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { createRef, useEffect } from "react";
 import { styled } from "@stitches/react";
 import { getLabel } from "services/iiif";
 import { convertTime } from "services/utils";
@@ -12,13 +12,17 @@ interface Props {
 
 const MediaItem: React.FC<Props> = ({
   canvasEntity,
+  active,
   thumbnail,
   handleChange,
 }) => {
+  const refAnchor = createRef<HTMLAnchorElement>();
   return (
     <MediaItemWrapper
       onClick={() => handleChange(canvasEntity.canvas.id)}
       data-testid="media-item-wrapper"
+      data-active={active}
+      ref={refAnchor}
     >
       <figure>
         <div>
@@ -43,8 +47,8 @@ const MediaItemWrapper = styled("a", {
   margin: "0 1.618rem 0 0",
   cursor: "pointer",
 
-  "&.active": {
-    backgroundColor: "black",
+  "&[data-active='true']": {
+    opacity: "0.5",
   },
 
   figure: {
