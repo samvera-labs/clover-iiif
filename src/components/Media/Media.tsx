@@ -37,8 +37,7 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
           paintingType,
         );
 
-        let isActive = false;
-        if (activeCanvas === item.id) isActive = true;
+        let isActive = activeCanvas === item.id ? true : false;
 
         if (canvasEntity !== undefined)
           return (
