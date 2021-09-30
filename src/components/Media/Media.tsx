@@ -2,7 +2,9 @@ import React from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
-import { getCanvasEntities } from "services/iiif";
+import { Canvas } from "@hyperion-framework/types";
+
+import { getCanvasByCriteria } from "services/iiif";
 
 interface MediaProps {
   items: object[];
@@ -15,7 +17,7 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
   const { activeCanvas, vault } = state;
 
   const motivation = "painting";
-  const paintingType = ["Image", "Video"];
+  const paintingType = ["Image", "Sound", "Video"];
 
   const handleChange = (canvasId: string) => {
     if (activeCanvas !== canvasId)
@@ -29,18 +31,18 @@ const Media: React.FC<MediaProps> = ({ items, activeItem }) => {
     <MediaWrapper>
       {items.map((item: object, key: number) => {
         // this probably needs to be written in a .filter()
-        const canvases: object = getCanvasEntities(
+        const canvasEntity: object = getCanvasByCriteria(
           vault,
           item,
           motivation,
           paintingType,
         );
 
-        if (canvases !== undefined)
+        if (canvasEntity !== undefined)
           return (
             <MediaItem
               key={key}
-              normalized={normalized}
+              canvasEntity={canvasEntity}
               active={true}
               handleChange={handleChange}
             />

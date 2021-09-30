@@ -3,7 +3,6 @@ import {
   AnnotationPageNormalized,
   Canvas,
   CanvasNormalized,
-  ContentResource,
   InternationalString,
 } from "@hyperion-framework/types";
 
@@ -15,19 +14,19 @@ export const getLabel = (
   return label[language];
 };
 
-interface CanvasEntities {
+interface CanvasEntity {
   canvas: CanvasNormalized | undefined;
   annotationPage: AnnotationPageNormalized | undefined;
   annotations: Array<Annotation> | undefined;
 }
 
-export const getCanvasEntities = (
+export const getCanvasByCriteria = (
   vault: object,
   item: Canvas,
   motivation: string,
   paintingType: Array<string>,
 ) => {
-  const normalized: CanvasEntities = {
+  const entity: CanvasEntity = {
     canvas: undefined,
     annotationPage: undefined,
     annotations: undefined,
@@ -50,12 +49,12 @@ export const getCanvasEntities = (
     }
   };
 
-  normalized.canvas = vault.fromRef(item);
-  normalized.annotationPage = vault.fromRef(normalized.canvas.items[0]);
+  entity.canvas = vault.fromRef(item);
+  entity.annotationPage = vault.fromRef(entity.canvas.items[0]);
 
-  normalized.annotations = vault
-    .allFromRef(normalized.annotationPage.items)
+  entity.annotations = vault
+    .allFromRef(entity.annotationPage.items)
     .filter(filterAnnotations);
 
-  if (normalized.annotations.length > 0) return normalized;
+  if (entity.annotations.length > 0) return entity;
 };

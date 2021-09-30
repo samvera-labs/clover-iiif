@@ -1,23 +1,22 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import { getLabel } from "services/iiif";
-import { CanvasNormalized } from "@hyperion-framework/types";
 
 interface Props {
-  normalized: object;
+  canvasEntity: object;
   active: boolean;
   handleChange: (arg0: string) => void;
 }
 
-const MediaItem: React.FC<Props> = ({ normalized, handleChange }) => {
+const MediaItem: React.FC<Props> = ({ canvasEntity, handleChange }) => {
   return (
     <MediaItemWrapper
-      onClick={() => handleChange(normalized.canvas.id)}
+      onClick={() => handleChange(canvasEntity.canvas.id)}
       data-testid="media-item-wrapper"
     >
       <figure>
-        {/* <img src={normalized.canvas.thumbnail[0].id} /> */}
-        <figcaption>{getLabel(normalized.canvas.label, "en")}</figcaption>
+        <img src="" />
+        <figcaption>{getLabel(canvasEntity.canvas.label, "en")}</figcaption>
       </figure>
     </MediaItemWrapper>
   );
