@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { styled } from "@stitches/react";
 import { getLabel } from "services/iiif";
+import { convertTime } from "services/utils";
 
 interface Props {
   canvasEntity: object;
@@ -20,7 +21,10 @@ const MediaItem: React.FC<Props> = ({
       data-testid="media-item-wrapper"
     >
       <figure>
-        <img src={thumbnail.src} />
+        <div>
+          <img src={thumbnail.src} />
+          <span>{convertTime(canvasEntity.canvas.duration)}</span>
+        </div>
         <figcaption>{getLabel(canvasEntity.canvas.label, "en")}</figcaption>
       </figure>
     </MediaItemWrapper>
