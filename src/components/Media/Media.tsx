@@ -16,6 +16,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
   const { activeCanvas, vault } = state;
 
   const motivation = "painting";
+  // TODO: Type this as an enum
   const paintingType = ["Image", "Sound", "Video"];
 
   const handleChange = (canvasId: string) => {
@@ -26,7 +27,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
       });
   };
 
-  const mediaItems: Array<any> = [];
+  const mediaItems: Array<CanvasEntity> = [];
 
   for (const item of items) {
     const canvasEntity: CanvasEntity = getCanvasByCriteria(
@@ -36,12 +37,12 @@ const Media: React.FC<MediaProps> = ({ items }) => {
       paintingType,
     );
 
-    if (canvasEntity.annotations?.length > 0) mediaItems.push(canvasEntity);
+    if (canvasEntity.annotations.length > 0) mediaItems.push(canvasEntity);
   }
 
   return (
     <MediaWrapper>
-      {mediaItems.map((item: object) => (
+      {mediaItems.map((item) => (
         <MediaItem
           active={activeCanvas === item.canvas.id ? true : false}
           canvasEntity={item}

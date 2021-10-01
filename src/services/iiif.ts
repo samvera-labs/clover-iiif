@@ -18,7 +18,7 @@ export const getLabel = (
 export interface CanvasEntity {
   canvas: CanvasNormalized | undefined;
   annotationPage: AnnotationPageNormalized | undefined;
-  annotations: Array<Annotation> | undefined;
+  annotations: Array<Annotation | undefined>;
 }
 
 export const getCanvasByCriteria = (
@@ -30,7 +30,7 @@ export const getCanvasByCriteria = (
   const entity: CanvasEntity = {
     canvas: undefined,
     annotationPage: undefined,
-    annotations: undefined,
+    annotations: [],
   };
 
   const filterAnnotations = (annotation: Annotation) => {
