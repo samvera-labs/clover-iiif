@@ -7,7 +7,7 @@ const ViewerDispatchContext = React.createContext();
 interface ViewerContextStore {
   activeCanvas: string;
   isLoaded: boolean;
-  vault: object;
+  vault: Vault;
 }
 
 const defaultState: ViewerContextStore = {
@@ -38,7 +38,7 @@ function viewerReducer(state, action) {
 
 interface ViewerProviderProps {
   initialState?: object;
-  children: React.ReactChildren;
+  children: React.ReactNode;
 }
 
 const ViewerProvider: React.FC<ViewerProviderProps> = ({

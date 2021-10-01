@@ -15,7 +15,7 @@ export const getLabel = (
   return label[language];
 };
 
-interface CanvasEntity {
+export interface CanvasEntity {
   canvas: CanvasNormalized | undefined;
   annotationPage: AnnotationPageNormalized | undefined;
   annotations: Array<Annotation> | undefined;
@@ -26,7 +26,7 @@ export const getCanvasByCriteria = (
   item: Canvas,
   motivation: string,
   paintingType: Array<string>,
-) => {
+): CanvasEntity => {
   const entity: CanvasEntity = {
     canvas: undefined,
     annotationPage: undefined,

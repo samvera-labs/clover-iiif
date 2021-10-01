@@ -2,10 +2,11 @@ import React from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
-import { getCanvasByCriteria, getThumbnail } from "services/iiif";
+import { getCanvasByCriteria, CanvasEntity, getThumbnail } from "services/iiif";
+import { Canvas } from "@hyperion-framework/types";
 
 interface MediaProps {
-  items: object[];
+  items: Canvas[];
   activeItem: number;
 }
 
@@ -28,14 +29,14 @@ const Media: React.FC<MediaProps> = ({ items }) => {
   const mediaItems: Array<any> = [];
 
   for (const item of items) {
-    const canvasEntity = getCanvasByCriteria(
+    const canvasEntity: CanvasEntity = getCanvasByCriteria(
       vault,
       item,
       motivation,
       paintingType,
     );
 
-    if (canvasEntity.annotations.length > 0) mediaItems.push(canvasEntity);
+    if (canvasEntity.annotations?.length > 0) mediaItems.push(canvasEntity);
   }
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import { ManifestNormalized } from "@hyperion-framework/types";
 import {
@@ -42,13 +42,13 @@ const RenderViewer: React.FC<Props> = ({ manifestId }) => {
   useEffect(() => {
     vault
       .loadManifest(manifestId)
-      .then((data) => {
+      .then((data: ManifestNormalized) => {
         dispatch({
           type: "updateActiveCanvas",
           canvasId: data.items[0].id,
         });
       })
-      .catch((error) => {
+      .catch((error: any) => {
         console.error(`Manifest failed to load: ${error}`);
       })
       .finally(() => {

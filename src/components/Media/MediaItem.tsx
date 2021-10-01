@@ -1,4 +1,4 @@
-import React, { createRef, useEffect } from "react";
+import React, { createRef } from "react";
 import { styled } from "@stitches/react";
 import { getLabel } from "services/iiif";
 import { convertTime } from "services/utils";
