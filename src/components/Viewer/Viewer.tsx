@@ -8,6 +8,7 @@ import Player from "components/Player/Player";
 import { useViewerState } from "context/viewer-context";
 import useVaultHelpers from "hooks/use-vault-helpers";
 import { IIIFExternalWebResource } from "@hyperion-framework/types";
+import ImageViewer from "components/ImageViewer/ImageViewer";
 
 // Test urls
 const streamingUrl: string =
@@ -53,7 +54,9 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
           {isMedia ? (
             <Player {...painting} />
           ) : (
-            <ImagePlaceholder>Ima placeholder for the image</ImagePlaceholder>
+            <ImageViewer {...painting}>
+              Ima placeholder for the image
+            </ImageViewer>
           )}
           <Media items={manifest.items} activeItem={0} />
         </Main>
@@ -101,13 +104,6 @@ const Header = styled("header", {
     fontWeight: "700",
     padding: "1rem 0",
   },
-});
-
-const ImagePlaceholder = styled("div", {
-  width: "100%",
-  height: "300px",
-  background: "black",
-  color: "white",
 });
 
 export default Viewer;
