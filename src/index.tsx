@@ -7,6 +7,7 @@ import {
   useViewerDispatch,
 } from "context/viewer-context";
 import Viewer from "./components/Viewer/Viewer";
+import { ViewerContextStore } from "context/viewer-context";
 
 interface Props {
   manifestId: string;
@@ -30,7 +31,8 @@ const RenderViewer: React.FC<Props> = ({ manifestId }) => {
    * Retrieve state set by the wrapping <ViewerProvider/> and make
    * the normalized manifest available from @hyperion-framework/vault.
    */
-  const { isLoaded, vault } = useViewerState();
+  const store: ViewerContextStore = useViewerState();
+  const { isLoaded, vault } = store;
   const manifest: ManifestNormalized = vault.fromRef({
     id: manifestId,
     type: "Manifest",
@@ -42,10 +44,10 @@ const RenderViewer: React.FC<Props> = ({ manifestId }) => {
   useEffect(() => {
     vault
       .loadManifest(manifestId)
-      .then((data: ManifestNormalized) => {
+      .then((data) => {
         dispatch({
           type: "updateActiveCanvas",
-          canvasId: data.items[0].id,
+          canvasId: data && data.items[0].id,
         });
       })
       .catch((error: any) => {

@@ -39,6 +39,7 @@ export const getCanvasByCriteria = (
       case "painting":
         if (
           annotation.target === item.id &&
+          annotation.motivation &&
           annotation.motivation[0] === "painting" &&
           paintingType.includes(annotation.body[0].type)
         )

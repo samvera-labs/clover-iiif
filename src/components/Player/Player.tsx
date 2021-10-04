@@ -13,30 +13,55 @@ const Player: React.FC<IIIFExternalWebResource> = ({
   type,
   width,
 }) => {
-  const playerRef = React.useRef();
+  const playerRef = React.useRef(null);
 
   /**
    * HLS.js binding for .m3u8 files
    * STAGING and PRODUCTION environments only
    */
   React.useEffect(() => {
-    if (!id) return;
+    if (!id || !playerRef.current) return;
 
-    // Bind hls.js package to our <video /> element
-    // and then load the media source
+    // Bind hls.js package to our <video /> element and then load the media source
     const hls = new Hls();
     hls.attachMedia(playerRef.current);
     hls.on(Hls.Events.MEDIA_ATTACHED, function () {
       hls.loadSource(id);
     });
+
+    // Handle errors
     hls.on(Hls.Events.ERROR, function (event, data) {
       console.error(`data`, data);
+      if (data.fatal) {
+        switch (data.type) {
+          case Hls.ErrorTypes.NETWORK_ERROR:
+            // try to recover network error
+            console.error("fatal network error encountered, try to recover");
+            hls.startLoad();
+            break;
+          case Hls.ErrorTypes.MEDIA_ERROR:
+            console.error("fatal media error encountered, try to recover");
+            hls.recoverMediaError();
+            break;
+          default:
+            // cannot recover
+            hls.destroy();
+            break;
+        }
+      }
     });
+
+    return () => {
+      if (hls) {
+        hls.detachMedia();
+        hls.destroy();
+      }
+    };
   }, [id]);
 
   return (
     <PlayerWrapper>
-      <video ref={playerRef} controls>
+      <video ref={playerRef} controls height={height} width={width}>
         <source src={id} type={type} />
         Sorry, your browser doesn't support embedded videos.
       </video>

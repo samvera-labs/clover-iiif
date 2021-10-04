@@ -35,8 +35,12 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
   // Runs every time a new viewer item is clicked
   React.useEffect(() => {
     const painting = getCanvasPainting(activeCanvas);
-    setIsMedia(["Audio", "Video"].indexOf(painting.type) > -1 ? true : false);
-    setPainting({ ...painting });
+    console.log(`painting`, painting);
+
+    if (painting) {
+      setIsMedia(["Audio", "Video"].indexOf(painting.type) > -1 ? true : false);
+      setPainting({ ...painting });
+    }
   }, [activeCanvas]);
 
   return (

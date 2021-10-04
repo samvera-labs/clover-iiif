@@ -44,10 +44,10 @@ const Media: React.FC<MediaProps> = ({ items }) => {
     <MediaWrapper>
       {mediaItems.map((item) => (
         <MediaItem
-          active={activeCanvas === item.canvas.id ? true : false}
+          active={activeCanvas === item?.canvas?.id ? true : false}
           canvasEntity={item}
           thumbnail={getThumbnail(vault, item, 200, null)}
-          key={item.canvas.id}
+          key={item?.canvas?.id}
           handleChange={handleChange}
         />
       ))}

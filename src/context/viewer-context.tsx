@@ -4,7 +4,7 @@ import { Vault } from "@hyperion-framework/vault";
 const ViewerStateContext = React.createContext();
 const ViewerDispatchContext = React.createContext();
 
-interface ViewerContextStore {
+export interface ViewerContextStore {
   activeCanvas: string;
   isLoaded: boolean;
   vault: Vault;
