@@ -17,7 +17,7 @@ const liveServer = require("live-server");
         process.env.NODE_ENV || "development",
       ),
     },
-    entryPoints: ["src/index.tsx"],
+    entryPoints: ["src/dev.tsx"],
     // Uses incremental compilation (see `chokidar.on`).
     incremental: true,
     // Removes whitespace, etc. depending on `NODE_ENV=...`.
