@@ -1,13 +1,16 @@
 import React from "react";
 import { Vault } from "@hyperion-framework/vault";
 
-const ViewerStateContext = React.createContext();
-const ViewerDispatchContext = React.createContext();
-
-export interface ViewerContextStore {
+interface ViewerContextStore {
   activeCanvas: string;
   isLoaded: boolean;
   vault: Vault;
+}
+
+interface ViewerAction {
+  type: string;
+  canvasId: string;
+  isLoaded: boolean;
 }
 
 const defaultState: ViewerContextStore = {
@@ -16,7 +19,12 @@ const defaultState: ViewerContextStore = {
   vault: new Vault(),
 };
 
-function viewerReducer(state, action) {
+const ViewerStateContext =
+  React.createContext<ViewerContextStore>(defaultState);
+const ViewerDispatchContext =
+  React.createContext<ViewerContextStore>(defaultState);
+
+function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
   switch (action.type) {
     case "updateActiveCanvas": {
       return {
@@ -37,7 +45,7 @@ function viewerReducer(state, action) {
 }
 
 interface ViewerProviderProps {
-  initialState?: object;
+  initialState?: ViewerContextStore;
   children: React.ReactNode;
 }
 
@@ -45,11 +53,15 @@ const ViewerProvider: React.FC<ViewerProviderProps> = ({
   initialState = defaultState,
   children,
 }) => {
-  const [state, dispatch] = React.useReducer(viewerReducer, initialState);
+  const [state, dispatch] = React.useReducer<
+    React.Reducer<ViewerContextStore, ViewerAction>
+  >(viewerReducer, initialState);
 
   return (
     <ViewerStateContext.Provider value={state}>
-      <ViewerDispatchContext.Provider value={dispatch}>
+      <ViewerDispatchContext.Provider
+        value={dispatch as unknown as ViewerContextStore}
+      >
         {children}
       </ViewerDispatchContext.Provider>
     </ViewerStateContext.Provider>

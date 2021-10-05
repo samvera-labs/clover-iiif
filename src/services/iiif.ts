@@ -3,7 +3,8 @@ import {
   AnnotationPageNormalized,
   Canvas,
   CanvasNormalized,
-  ContentResource,
+  ExternalResourceTypes,
+  IIIFExternalWebResource,
   InternationalString,
 } from "@hyperion-framework/types";
 
@@ -22,10 +23,10 @@ export interface CanvasEntity {
 }
 
 export const getCanvasByCriteria = (
-  vault: object,
+  vault: any,
   item: Canvas,
   motivation: string,
-  paintingType: Array<string>,
+  paintingType: Array<ExternalResourceTypes>,
 ): CanvasEntity => {
   const entity: CanvasEntity = {
     canvas: undefined,
@@ -34,68 +35,83 @@ export const getCanvasByCriteria = (
   };
 
   const filterAnnotations = (annotation: Annotation) => {
-    annotation.body = vault.allFromRef(annotation.body);
-    switch (motivation) {
-      case "painting":
-        if (
-          annotation.target === item.id &&
-          annotation.motivation &&
-          annotation.motivation[0] === "painting" &&
-          paintingType.includes(annotation.body[0].type)
-        )
+    if (annotation) {
+      const resources: IIIFExternalWebResource[] = vault.allFromRef(
+        annotation.body,
+      );
+      switch (motivation) {
+        case "painting":
+          if (
+            annotation.target === item.id &&
+            annotation.motivation &&
+            annotation.motivation[0] === "painting" &&
+            paintingType.includes(resources[0].type)
+          )
+            annotation.body = resources;
           return annotation;
-        break;
-      case "supplementing":
-        return;
-      default: {
-        throw new Error(`Invalid annotation motivation.`);
+        case "supplementing":
+          return;
+        default: {
+          throw new Error(`Invalid annotation motivation.`);
+        }
       }
     }
   };
 
   entity.canvas = vault.fromRef(item);
-  entity.annotationPage = vault.fromRef(entity.canvas.items[0]);
 
-  entity.annotations = vault
-    .allFromRef(entity.annotationPage.items)
-    .filter(filterAnnotations);
+  if (entity.canvas)
+    entity.annotationPage = vault.fromRef(entity.canvas.items[0]);
+
+  if (entity.annotationPage)
+    entity.annotations = vault
+      .allFromRef(entity.annotationPage.items)
+      .filter(filterAnnotations);
 
   return entity;
 };
 
-export const getThumbnail = (vault, entity, width, height) => {
+export const getThumbnail = (
+  vault: any,
+  entity: CanvasEntity,
+  width: number,
+  height: number,
+) => {
   /*
    * 1. Initiate empty candidates array.
    */
-  let candidates: Array<object> | null = [];
+  let candidates: Array<IIIFExternalWebResource> = [];
 
   /*
    * 2. Check if canvas has an explicitly assigned IIIF thumbnail.
    */
-  if (entity.canvas.thumbnail.length > 0) {
-    const canvasThumbnail: ContentResource = vault.fromRef(
-      entity.canvas.thumbnail[0],
-    );
-    candidates.push(canvasThumbnail);
-  }
-
-  /*
-   * 2. Check if painting annotation has an explicitly assigned IIIF thumbnail.
-   */
-  if (entity.annotations[0].thumbnail) {
-    if (entity.annotations[0].thumbnail.length > 0) {
-      const annotationThumbnail: ContentResource = vault.fromRef(
-        entity.annotations[0].thumbnail[0],
+  if (entity.canvas)
+    if (entity.canvas.thumbnail.length > 0) {
+      const canvasThumbnail: IIIFExternalWebResource = vault.fromRef(
+        entity.canvas.thumbnail[0],
       );
-      candidates.push(annotationThumbnail);
+      candidates.push(canvasThumbnail);
     }
-  }
 
-  /*
-   * 3. Check if painting annotation is of type Image.
-   */
-  if (entity.annotations[0].body[0].type === "Image") {
-    candidates.push(entity.annotations[0].body[0]);
+  if (entity.annotations[0]) {
+    /*
+     * 2. Check if painting annotation has an explicitly assigned IIIF thumbnail.
+     */
+    if (entity.annotations[0].thumbnail)
+      if (entity.annotations[0].thumbnail.length > 0) {
+        const annotationThumbnail: IIIFExternalWebResource = vault.fromRef(
+          entity.annotations[0].thumbnail[0],
+        );
+        candidates.push(annotationThumbnail);
+      }
+
+    /*
+     * 3. Check if painting annotation is of type Image.
+     */
+    const resources: IIIFExternalWebResource[] = vault.allFromRef(
+      entity.annotations[0].body,
+    );
+    if (resources[0].type === "Image") candidates.push(resources[0]);
   }
 
   /*
@@ -105,20 +121,18 @@ export const getThumbnail = (vault, entity, width, height) => {
    *
    */
 
-  const selectedCandidate: object = {
-    src: candidates[0].id,
+  const selectedCandidate: IIIFExternalWebResource = {
+    id: candidates[0].id,
     format: candidates[0].format,
+    type: candidates[0].type,
+    width: width,
+    height: height,
   };
 
   /*
    * 5. Return (for time being crudely) constructed image object.
    */
-  const thumbnailContent: object = {
-    src: selectedCandidate.src,
-    width: width,
-    height: height,
-    format: selectedCandidate.format,
-  };
+  const thumbnailContent = selectedCandidate;
 
   return thumbnailContent;
 };

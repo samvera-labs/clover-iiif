@@ -3,7 +3,11 @@ import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
 import { getCanvasByCriteria, CanvasEntity, getThumbnail } from "services/iiif";
-import { Canvas } from "@hyperion-framework/types";
+import {
+  Canvas,
+  CanvasNormalized,
+  ExternalResourceTypes,
+} from "@hyperion-framework/types";
 
 interface MediaProps {
   items: Canvas[];
@@ -17,7 +21,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
 
   const motivation = "painting";
   // TODO: Type this as an enum
-  const paintingType = ["Image", "Sound", "Video"];
+  const paintingType: ExternalResourceTypes[] = ["Image", "Sound", "Video"];
 
   const handleChange = (canvasId: string) => {
     if (activeCanvas !== canvasId)
@@ -45,8 +49,8 @@ const Media: React.FC<MediaProps> = ({ items }) => {
       {mediaItems.map((item) => (
         <MediaItem
           active={activeCanvas === item?.canvas?.id ? true : false}
-          canvasEntity={item}
-          thumbnail={getThumbnail(vault, item, 200, null)}
+          canvas={item.canvas as CanvasNormalized}
+          thumbnail={getThumbnail(vault, item, 200, 200)}
           key={item?.canvas?.id}
           handleChange={handleChange}
         />

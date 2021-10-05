@@ -6,7 +6,6 @@ import {
   useViewerDispatch,
 } from "context/viewer-context";
 import Viewer from "components/Viewer/Viewer";
-import { ViewerContextStore } from "context/viewer-context";
 
 interface Props {
   manifestId: string;
@@ -27,7 +26,7 @@ const RenderViewer: React.FC<Props> = ({ manifestId }) => {
    * Retrieve state set by the wrapping <ViewerProvider/> and make
    * the normalized manifest available from @hyperion-framework/vault.
    */
-  const store: ViewerContextStore = useViewerState();
+  const store = useViewerState();
   const { isLoaded, vault } = store;
   const manifest: ManifestNormalized = vault.fromRef({
     id: manifestId,
@@ -67,11 +66,11 @@ const RenderViewer: React.FC<Props> = ({ manifestId }) => {
   /**
    * If an error occurs during manifest fetch process used by
    * @hyperion-framework/vault, vault will not return a manifest
-   * that is fully normalized, and be missing the @context property.
+   * that is fully normalized, and be missing the label property.
    * This being undefined signals that something went wrong and we
    * will render a user-friendly error as a functional component.
    */
-  if (manifest["@context"] === undefined)
+  if (manifest["label"] === undefined)
     return <>The IIIF manifest {manifestId} failed to load.</>;
 
   /**

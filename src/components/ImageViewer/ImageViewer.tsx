@@ -2,13 +2,7 @@ import React from "react";
 import { IIIFExternalWebResource } from "@hyperion-framework/types";
 import { styled } from "@stitches/react";
 
-const ImageViewer: React.FC<IIIFExternalWebResource> = ({
-  id,
-  format,
-  height,
-  type,
-  width,
-}) => {
+const ImageViewer: React.FC<IIIFExternalWebResource> = ({ id }) => {
   return (
     <ImageContainer data-testid="image-container">
       <Image
