@@ -15,10 +15,10 @@ export const getLabel = (
   return label[language];
 };
 
-interface CanvasEntity {
+export interface CanvasEntity {
   canvas: CanvasNormalized | undefined;
   annotationPage: AnnotationPageNormalized | undefined;
-  annotations: Array<Annotation> | undefined;
+  annotations: Array<Annotation | undefined>;
 }
 
 export const getCanvasByCriteria = (
@@ -26,11 +26,11 @@ export const getCanvasByCriteria = (
   item: Canvas,
   motivation: string,
   paintingType: Array<string>,
-) => {
+): CanvasEntity => {
   const entity: CanvasEntity = {
     canvas: undefined,
     annotationPage: undefined,
-    annotations: undefined,
+    annotations: [],
   };
 
   const filterAnnotations = (annotation: Annotation) => {
@@ -39,6 +39,7 @@ export const getCanvasByCriteria = (
       case "painting":
         if (
           annotation.target === item.id &&
+          annotation.motivation &&
           annotation.motivation[0] === "painting" &&
           paintingType.includes(annotation.body[0].type)
         )

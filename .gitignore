@@ -2,6 +2,7 @@
 dist
 node_modules
 public/script.js
+public/script.js.map
 
 # OS
 .DS_Store

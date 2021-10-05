@@ -14,7 +14,7 @@ const liveServer = require("live-server");
     // is propagated with a fallback.
     define: {
       "process.env.NODE_ENV": JSON.stringify(
-        process.env.NODE_ENV || "development"
+        process.env.NODE_ENV || "development",
       ),
     },
     entryPoints: ["src/index.tsx"],
@@ -23,6 +23,7 @@ const liveServer = require("live-server");
     // Removes whitespace, etc. depending on `NODE_ENV=...`.
     minify: process.env.NODE_ENV === "production",
     outfile: "public/script.js",
+    sourcemap: true,
   });
   // `chokidar` watcher source changes.
   chokidar

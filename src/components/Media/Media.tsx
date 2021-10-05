@@ -2,10 +2,11 @@ import React from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
-import { getCanvasByCriteria, getThumbnail } from "services/iiif";
+import { getCanvasByCriteria, CanvasEntity, getThumbnail } from "services/iiif";
+import { Canvas } from "@hyperion-framework/types";
 
 interface MediaProps {
-  items: object[];
+  items: Canvas[];
   activeItem: number;
 }
 
@@ -15,6 +16,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
   const { activeCanvas, vault } = state;
 
   const motivation = "painting";
+  // TODO: Type this as an enum
   const paintingType = ["Image", "Sound", "Video"];
 
   const handleChange = (canvasId: string) => {
@@ -25,10 +27,10 @@ const Media: React.FC<MediaProps> = ({ items }) => {
       });
   };
 
-  const mediaItems: Array<any> = [];
+  const mediaItems: Array<CanvasEntity> = [];
 
   for (const item of items) {
-    const canvasEntity = getCanvasByCriteria(
+    const canvasEntity: CanvasEntity = getCanvasByCriteria(
       vault,
       item,
       motivation,
@@ -40,12 +42,12 @@ const Media: React.FC<MediaProps> = ({ items }) => {
 
   return (
     <MediaWrapper>
-      {mediaItems.map((item: object) => (
+      {mediaItems.map((item) => (
         <MediaItem
-          active={activeCanvas === item.canvas.id ? true : false}
+          active={activeCanvas === item?.canvas?.id ? true : false}
           canvasEntity={item}
           thumbnail={getThumbnail(vault, item, 200, null)}
-          key={item.canvas.id}
+          key={item?.canvas?.id}
           handleChange={handleChange}
         />
       ))}
