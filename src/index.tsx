@@ -1,20 +1,16 @@
 import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
 import { ManifestNormalized } from "@hyperion-framework/types";
 import {
   ViewerProvider,
   useViewerState,
   useViewerDispatch,
 } from "context/viewer-context";
-import Viewer from "./components/Viewer/Viewer";
+import Viewer from "components/Viewer/Viewer";
 import { ViewerContextStore } from "context/viewer-context";
 
 interface Props {
   manifestId: string;
 }
-
-const sampleManifest: string =
-  "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases.json";
 
 const App: React.FC<Props> = ({ manifestId }) => {
   return (
@@ -87,10 +83,5 @@ const RenderViewer: React.FC<Props> = ({ manifestId }) => {
 
   return <Viewer manifest={manifest} />;
 };
-
-ReactDOM.render(
-  <App manifestId={sampleManifest} />,
-  document.getElementById("root"),
-);
 
 export default App;

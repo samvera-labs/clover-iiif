@@ -31,7 +31,6 @@ const Player: React.FC<IIIFExternalWebResource> = ({
 
     // Handle errors
     hls.on(Hls.Events.ERROR, function (event, data) {
-      console.error(`data`, data);
       if (data.fatal) {
         switch (data.type) {
           case Hls.ErrorTypes.NETWORK_ERROR:
