@@ -7,8 +7,6 @@ import { IIIFExternalWebResource } from "@hyperion-framework/types";
 
 const Player: React.FC<IIIFExternalWebResource> = ({
   id,
-  duration,
-  format,
   height,
   type,
   width,

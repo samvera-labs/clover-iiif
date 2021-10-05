@@ -2,16 +2,21 @@ import React, { createRef } from "react";
 import { styled } from "@stitches/react";
 import { getLabel } from "services/iiif";
 import { convertTime } from "services/utils";
+import {
+  CanvasNormalized,
+  IIIFExternalWebResource,
+  InternationalString,
+} from "@hyperion-framework/types";
 
 interface Props {
-  canvasEntity: object;
+  canvas: CanvasNormalized;
   active: boolean;
-  thumbnail: object;
+  thumbnail: IIIFExternalWebResource;
   handleChange: (arg0: string) => void;
 }
 
 const MediaItem: React.FC<Props> = ({
-  canvasEntity,
+  canvas,
   active,
   thumbnail,
   handleChange,
@@ -19,19 +24,21 @@ const MediaItem: React.FC<Props> = ({
   const refAnchor = createRef<HTMLAnchorElement>();
   return (
     <MediaItemWrapper
-      onClick={() => handleChange(canvasEntity.canvas.id)}
+      onClick={() => handleChange(canvas.id)}
       data-testid="media-item-wrapper"
       data-active={active}
       ref={refAnchor}
     >
       <figure>
         <div>
-          <img src={thumbnail.src} />
+          <img src={thumbnail.id} />
           <MediaItemDuration>
-            {convertTime(canvasEntity.canvas.duration)}
+            {convertTime(canvas.duration as number)}
           </MediaItemDuration>
         </div>
-        <figcaption>{getLabel(canvasEntity.canvas.label, "en")}</figcaption>
+        <figcaption>
+          {getLabel(canvas.label as InternationalString, "en")}
+        </figcaption>
       </figure>
     </MediaItemWrapper>
   );

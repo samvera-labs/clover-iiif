@@ -14,7 +14,15 @@ export default function useVaultHelpers(vault: any) {
 
     if (canvasEntity.annotations.length === 0) return;
 
-    return canvasEntity.annotations[0].body[0];
+    if (canvasEntity.annotations[0]) {
+      const resources: IIIFExternalWebResource[] = vault.allFromRef(
+        canvasEntity.annotations[0].body,
+      );
+
+      return resources[0];
+    }
+
+    return;
   };
 
   return {
