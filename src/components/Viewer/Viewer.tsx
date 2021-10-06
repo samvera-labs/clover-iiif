@@ -6,12 +6,11 @@ import {
   InternationalString,
   ManifestNormalized,
 } from "@hyperion-framework/types";
-import { getLabel } from "services/iiif";
+import { getCanvasPainting, getLabel } from "hooks/use-hyperion-framework";
 import Media from "components/Media/Media";
 import Navigator from "components/Navigator/Navigator";
 import Player from "components/Player/Player";
 import { useViewerState } from "context/viewer-context";
-import useVaultHelpers from "hooks/use-vault-helpers";
 import ImageViewer from "components/ImageViewer/ImageViewer";
 
 interface ViewerProps {
@@ -29,11 +28,9 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
   >(undefined);
   const [isMedia, setIsMedia] = React.useState(false);
 
-  const { getCanvasPainting } = useVaultHelpers(vault);
-
   // Runs every time a new viewer item is clicked
   React.useEffect(() => {
-    const painting = getCanvasPainting(activeCanvas);
+    const painting = getCanvasPainting(vault, activeCanvas);
     if (painting) {
       setIsMedia(
         ["Audio", "Video"].indexOf(painting.type as ExternalResourceTypes) > -1

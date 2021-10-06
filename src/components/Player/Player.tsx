@@ -33,11 +33,15 @@ const Player: React.FC<IIIFExternalWebResource> = ({
         switch (data.type) {
           case Hls.ErrorTypes.NETWORK_ERROR:
             // try to recover network error
-            console.error("fatal network error encountered, try to recover");
+            console.error(
+              `fatal ${event} network error encountered, try to recover`,
+            );
             hls.startLoad();
             break;
           case Hls.ErrorTypes.MEDIA_ERROR:
-            console.error("fatal media error encountered, try to recover");
+            console.error(
+              `fatal ${event} media error encountered, try to recover`,
+            );
             hls.recoverMediaError();
             break;
           default:

@@ -1,6 +1,6 @@
 import React, { createRef } from "react";
 import { styled } from "@stitches/react";
-import { getLabel } from "services/iiif";
+import { getLabel } from "hooks/use-hyperion-framework";
 import { convertTime } from "services/utils";
 import {
   CanvasNormalized,
