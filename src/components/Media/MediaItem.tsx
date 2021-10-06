@@ -8,14 +8,14 @@ import {
   InternationalString,
 } from "@hyperion-framework/types";
 
-interface Props {
+export interface MediaItemProps {
   canvas: CanvasNormalized;
   active: boolean;
-  thumbnail: IIIFExternalWebResource;
+  thumbnail?: IIIFExternalWebResource;
   handleChange: (arg0: string) => void;
 }
 
-const MediaItem: React.FC<Props> = ({
+const MediaItem: React.FC<MediaItemProps> = ({
   canvas,
   active,
   thumbnail,
@@ -31,7 +31,7 @@ const MediaItem: React.FC<Props> = ({
     >
       <figure>
         <div>
-          <img src={thumbnail.id} />
+          {thumbnail?.id && <img src={thumbnail.id} />}
           <MediaItemDuration>
             {convertTime(canvas.duration as number)}
           </MediaItemDuration>

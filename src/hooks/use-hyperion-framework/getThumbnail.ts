@@ -50,6 +50,7 @@ export const getThumbnail = (
    *    (WIP)
    *
    */
+  if (candidates.length === 0) return;
 
   const selectedCandidate: IIIFExternalWebResource = {
     id: candidates[0].id,
