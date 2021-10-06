@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import NavigatorItem from "components/Navigator/NavigatorItem";
-import sampleParsedVtt from "manifests/sampleParsedVtt.json";
+import sampleParsedVtt from "samples/sampleParsedVtt.json";
 
 interface NavigatorProps {
   currentTime: number;

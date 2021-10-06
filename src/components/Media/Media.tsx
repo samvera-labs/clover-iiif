@@ -2,7 +2,11 @@ import React from "react";
 import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
-import { getCanvasByCriteria, CanvasEntity, getThumbnail } from "services/iiif";
+import {
+  getCanvasByCriteria,
+  getThumbnail,
+} from "hooks/use-hyperion-framework";
+import { CanvasEntity } from "hooks/use-hyperion-framework/getCanvasByCriteria";
 import {
   Canvas,
   CanvasNormalized,
