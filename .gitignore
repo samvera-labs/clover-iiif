@@ -1,5 +1,5 @@
 # dev
-dist
+# dist // while developing we'll commit this so we can import from Github
 node_modules
 public/script.js
 public/script.js.map
