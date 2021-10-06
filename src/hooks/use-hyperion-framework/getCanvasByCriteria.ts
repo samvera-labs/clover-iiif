@@ -27,6 +27,16 @@ export const getCanvasByCriteria = (
 
   const filterAnnotations = (annotation: Annotation) => {
     if (annotation) {
+      // Handle invalid annotations
+      if (!annotation.body || !annotation.motivation) {
+        console.error(
+          `Invalid annotation after Hyperion parsing: missing either 'body' or 'motivation'`,
+          annotation,
+        );
+        return;
+      }
+
+      // TODO: Upstream bug fix: Return some type of value here, even undefined?
       const resources: IIIFExternalWebResource[] = vault.allFromRef(
         annotation.body,
       );

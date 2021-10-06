@@ -1,0 +1,112 @@
+{
+  "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/bc/70/b8/02/-e/0c/7-/46/96/-a/bb/4-/41/c9/7e/48/cf/26-manifest.json",
+  "items": [
+    {
+      "height": 480,
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/bc/70/b8/02/-e/0c/7-/46/96/-a/bb/4-/41/c9/7e/48/cf/26-manifest.json/canvas/1fed5b99-02b5-4c5d-a45e-043f3a18c42f",
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/bc/70/b8/02/-e/0c/7-/46/96/-a/bb/4-/41/c9/7e/48/cf/26-manifest.json/canvas/1fed5b99-02b5-4c5d-a45e-043f3a18c42f/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "duration": 343.902,
+                "format": "audio/mpeg",
+                "id": "https://meadow-streaming.rdc-staging.library.northwestern.edu/1f/ed/5b/99/-0/2b/5-/4c/5d/-a/45/e-/04/3f/3a/18/c4/2f/1713a368ccbfcf898cf80c77ae60d3c6f11583a69b764f9549e3bb3c660589a1.m3u8",
+                "type": "Video"
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/bc/70/b8/02/-e/0c/7-/46/96/-a/bb/4-/41/c9/7e/48/cf/26-manifest.json/canvas/1fed5b99-02b5-4c5d-a45e-043f3a18c42f/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "type": "Annotation"
+            },
+            {}
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Waves blues"]
+      },
+      "type": "Canvas",
+      "width": 640
+    },
+    {
+      "height": 480,
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/bc/70/b8/02/-e/0c/7-/46/96/-a/bb/4-/41/c9/7e/48/cf/26-manifest.json/canvas/20ed0982-2535-4dd9-8481-44ebeee5a161",
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/bc/70/b8/02/-e/0c/7-/46/96/-a/bb/4-/41/c9/7e/48/cf/26-manifest.json/canvas/20ed0982-2535-4dd9-8481-44ebeee5a161/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "duration": 10.0,
+                "format": "video/mp4",
+                "height": 720,
+                "id": "https://meadow-streaming.rdc-staging.library.northwestern.edu/20/ed/09/82/-2/53/5-/4d/d9/-8/48/1-/44/eb/ee/e5/a1/61/18b99ec25f32f6bd2223aa54e4b5632533328bf5cc81c283eba7604c42649f75.m3u8",
+                "type": "Video",
+                "width": 1280
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/bc/70/b8/02/-e/0c/7-/46/96/-a/bb/4-/41/c9/7e/48/cf/26-manifest.json/canvas/20ed0982-2535-4dd9-8481-44ebeee5a161/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "type": "Annotation"
+            },
+            {
+              "body": {
+                "format": "text/vtt",
+                "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/vtt/20/ed/09/82/-2/53/5-/4d/d9/-8/48/1-/44/eb/ee/e5/a1/61/20ed0982-2535-4dd9-8481-44ebeee5a161.vtt",
+                "label": {
+                  "en": ["Transcript"]
+                },
+                "language": "en",
+                "type": "Text"
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/bc/70/b8/02/-e/0c/7-/46/96/-a/bb/4-/41/c9/7e/48/cf/26-manifest.json/canvas/20ed0982-2535-4dd9-8481-44ebeee5a161/annotation_page/1/annotation/2",
+              "motivation": "supplementing",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/bc/70/b8/02/-e/0c/7-/46/96/-a/bb/4-/41/c9/7e/48/cf/26-manifest.json/canvas/20ed0982-2535-4dd9-8481-44ebeee5a161",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Big Buck Bunny"]
+      },
+      "thumbnail": [
+        {
+          "format": "image/jpeg",
+          "height": 300,
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/20ed0982-2535-4dd9-8481-44ebeee5a161/full/!300,300/0/default.jpg",
+          "service": [
+            {
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/20ed0982-2535-4dd9-8481-44ebeee5a161",
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "type": "ImageService2"
+            }
+          ],
+          "type": "Image",
+          "width": 300
+        }
+      ],
+      "type": "Canvas",
+      "width": 640
+    }
+  ],
+  "label": {
+    "en": ["Adam Video"]
+  },
+  "requiredStatement": {
+    "label": {
+      "en": ["Attribution"]
+    },
+    "value": {
+      "en": ["Courtesy of Northwestern University Libraries"]
+    }
+  },
+  "rights": "http://rightsstatements.org/vocab/InC-EDU/1.0/",
+  "summary": {
+    "en": ["description goes here"]
+  },
+  "type": "Manifest",
+  "@context": "http://iiif.io/api/presentation/3/context.json"
+}
