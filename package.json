@@ -1,10 +1,14 @@
 {
   "name": "@nulib/react-media-player",
-  "version": "1.0.0-alpha3",
+  "version": "1.0.0-alpha4",
   "description": "YouTube style media player for audio and video files driven by a IIIF manifest",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nulib/react-media-player.git"
+  },
   "scripts": {
     "build": "rm -rf dist && node build.js && tsc --emitDeclarationOnly --outDir dist",
     "dev": "node serve.js",
