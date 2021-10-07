@@ -1,6 +1,6 @@
 {
   "name": "@nulib/react-media-player",
-  "version": "1.2.0",
+  "version": "1.0.0-alpha1",
   "description": "YouTube style media player for audio and video files driven by a IIIF manifest",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -11,7 +11,10 @@
     "test": "jest --watch",
     "clean": "rimraf dist"
   },
-  "keywords": [],
+  "keywords": [
+    "IIIF",
+    "media player"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
