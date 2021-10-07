@@ -32,8 +32,10 @@ export const Navigator: React.FC<NavigatorProps> = ({ currentTime }) => {
   );
 };
 
-const NavigatorTab: React.FC<NavigatorTabProps> = ({ label }) => {
-  return <NavigatorTabWrapper>{label}</NavigatorTabWrapper>;
+const NavigatorTab: React.FC<NavigatorTabProps> = ({ label, active }) => {
+  return (
+    <NavigatorTabWrapper data-active={active}>{label}</NavigatorTabWrapper>
+  );
 };
 
 interface Cue {
@@ -82,6 +84,7 @@ const NavigatorHeader = styled("header", {
   display: "flex",
   flexGrow: "0",
   padding: "0 1.618rem 1.618rem",
+  backgroundColor: "transparent !important",
 });
 
 const NavigatorBody = styled("div", {
@@ -117,16 +120,20 @@ const NavigatorOutput = styled("div", {
 
 const NavigatorTabWrapper = styled("button", {
   display: "flex",
-  padding: "0.618rem 1rem",
+  padding: "calc(0.618rem - 2px) calc(1rem - 2px)",
   background: "none",
-  backgroundColor: "#4e2a84",
-  color: "#fff",
-  border: "none",
+  backgroundColor: "transparent",
+  border: "1px solid #d8d8d8",
   fontFamily: "inherit",
   fontSize: "1rem",
-  textTransform: "uppercase",
   marginRight: "1rem",
   whiteSpace: "nowrap",
+  color: "rgb(52, 47, 46)",
+
+  "&[data-active=true]": {
+    backgroundColor: "#d8d8d8",
+    fontWeight: 700,
+  },
 });
 
 export default Navigator;

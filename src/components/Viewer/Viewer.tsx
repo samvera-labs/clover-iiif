@@ -70,6 +70,7 @@ const ViewerWrapper = styled("section", {
   flexDirection: "column",
   padding: "1.618rem",
   fontFamily: "inherit",
+  backgroundColor: "white",
 });
 
 const ViewerInner = styled("div", {
@@ -95,6 +96,7 @@ const Aside = styled("aside", {
 
 const Header = styled("header", {
   display: "flex",
+  backgroundColor: "transparent !important",
 
   span: {
     fontSize: "1.25rem",
