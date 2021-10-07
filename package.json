@@ -1,6 +1,6 @@
 {
   "name": "@nulib/react-media-player",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha2",
   "description": "YouTube style media player for audio and video files driven by a IIIF manifest",
   "main": "dist/index.js",
   "module": "dist/index.js",
