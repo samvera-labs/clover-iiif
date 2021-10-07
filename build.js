@@ -10,13 +10,21 @@ const shared = {
   external: Object.keys(peerDependencies),
   logLevel: "info",
   minify: true,
-  outfile: "./dist/index.js",
   sourcemap: true,
 };
 
 build({
   ...shared,
-  format: "esm",
   external: ["react", "react-dom"],
+  format: "esm",
+  outfile: "./dist/index.esm.js",
+  target: ["esnext", "node12.22.0"],
+});
+
+build({
+  ...shared,
+  external: ["react", "react-dom"],
+  format: "cjs",
+  outfile: "./dist/index.cjs.js",
   target: ["esnext", "node12.22.0"],
 });
