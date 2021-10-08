@@ -1,70 +1,51 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { styled } from "@stitches/react";
-import NavigatorItem from "components/Navigator/NavigatorItem";
-import sampleParsedVtt from "samples/sampleParsedVtt.json";
+import { LabeledResource } from "hooks/use-hyperion-framework/getContentResourcesByCriteria";
+import NavigatorResource from "./NavigatorResource";
+import NavigatorTab from "./NavigatorTab";
 
 interface NavigatorProps {
+  activeCanvas: string;
   currentTime: number;
-  tracks?: {};
-}
-interface NavigatorTabProps {
-  label: string;
-  active: boolean;
+  defaultResource: string;
+  resources?: Array<LabeledResource>;
 }
 
-export const Navigator: React.FC<NavigatorProps> = ({ currentTime }) => {
+export const Navigator: React.FC<NavigatorProps> = ({
+  activeCanvas,
+  currentTime,
+  defaultResource,
+  resources,
+}) => {
+  const [activeResource, setActiveResource] =
+    React.useState<string>(defaultResource);
+
+  useEffect(() => {
+    setActiveResource(defaultResource);
+  }, [activeCanvas]);
+
+  const handleChange = (id: string) => setActiveResource(id);
+
   return (
     <NavigatorWrapper data-testid="navigator-wrapper">
       <NavigatorHeader>
-        <NavigatorTab label="Camptium" active={true} />
-        <NavigatorTab label="Mauris" active={false} />
-        <NavigatorTab label="Tristique" active={false} />
+        {resources &&
+          resources.map((resource) => (
+            <NavigatorTab
+              resource={resource}
+              active={activeResource === resource.id ? true : false}
+              handleChange={handleChange}
+            />
+          ))}
       </NavigatorHeader>
       <NavigatorBody>
-        <NavigatorOutput>
-          <NavigatorBodyInner
-            items={sampleParsedVtt.output}
-            currentTime={currentTime}
-          />
-        </NavigatorOutput>
+        <NavigatorScroll>
+          {resources && (
+            <NavigatorResource currentTime={currentTime} id={activeResource} />
+          )}
+        </NavigatorScroll>
       </NavigatorBody>
     </NavigatorWrapper>
-  );
-};
-
-const NavigatorTab: React.FC<NavigatorTabProps> = ({ label, active }) => {
-  return (
-    <NavigatorTabWrapper data-active={active}>{label}</NavigatorTabWrapper>
-  );
-};
-
-interface Cue {
-  id: number;
-  startTime: string;
-  endTime: string;
-  text: string;
-}
-
-interface NavigatorBodyInnerProps {
-  currentTime: number;
-  items: Cue[];
-}
-
-const NavigatorBodyInner: React.FC<NavigatorBodyInnerProps> = ({
-  items,
-  currentTime,
-}) => {
-  return (
-    <>
-      {items.map(({ id, text, startTime }) => (
-        <NavigatorItem
-          label={text}
-          startTime={startTime}
-          t={currentTime}
-          key={id}
-        />
-      ))}
-    </>
   );
 };
 
@@ -77,7 +58,6 @@ const NavigatorWrapper = styled("div", {
   flexShrink: "0",
   position: "relative",
   zIndex: "1",
-  boxShadow: "-5px 0 5px #00000011",
 });
 
 const NavigatorHeader = styled("header", {
@@ -92,48 +72,13 @@ const NavigatorBody = styled("div", {
   flexGrow: "1",
   flexShrink: "0",
   position: "relative",
-
-  "&::after": {
-    content: "",
-    marginLeft: "-5px",
-    width: "calc(100% + 5px)",
-    height: "1.618rem",
-    backgroundImage: `linear-gradient(0deg, #FFFFFF 0%, #FFFFFF00 100%)`,
-    position: "absolute",
-    bottom: "0",
-  },
-
-  [`& ${NavigatorBodyInner}`]: {
-    position: "absolute",
-    overflowY: "scroll",
-    height: "100%",
-    width: "100%",
-  },
 });
 
-const NavigatorOutput = styled("div", {
+const NavigatorScroll = styled("div", {
   position: "absolute",
   overflowY: "scroll",
   height: "100%",
   width: "100%",
-});
-
-const NavigatorTabWrapper = styled("button", {
-  display: "flex",
-  padding: "calc(0.618rem - 2px) calc(1rem - 2px)",
-  background: "none",
-  backgroundColor: "transparent",
-  border: "1px solid #d8d8d8",
-  fontFamily: "inherit",
-  fontSize: "1rem",
-  marginRight: "1rem",
-  whiteSpace: "nowrap",
-  color: "rgb(52, 47, 46)",
-
-  "&[data-active=true]": {
-    backgroundColor: "#d8d8d8",
-    fontWeight: 700,
-  },
 });
 
 export default Navigator;
