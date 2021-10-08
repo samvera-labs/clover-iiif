@@ -6,7 +6,11 @@ import {
   InternationalString,
   ManifestNormalized,
 } from "@hyperion-framework/types";
-import { getCanvasPainting, getLabel } from "hooks/use-hyperion-framework";
+import {
+  getCanvasPainting,
+  getLabel,
+  getContentResourcesByCriteria,
+} from "hooks/use-hyperion-framework";
 import Media from "components/Media/Media";
 import Navigator from "components/Navigator/Navigator";
 import Player from "components/Player/Player";
@@ -41,6 +45,13 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
     }
   }, [activeCanvas]);
 
+  const resources = getContentResourcesByCriteria(
+    vault,
+    activeCanvas,
+    "supplementing",
+    "text/vtt",
+  );
+
   return (
     <ViewerWrapper>
       <Header>
@@ -57,9 +68,16 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
           )}
           <Media items={manifest.items} activeItem={0} />
         </Main>
-        <Aside>
-          <Navigator currentTime={100} tracks={{}} />
-        </Aside>
+        {resources.length > 0 && (
+          <Aside>
+            <Navigator
+              activeCanvas={activeCanvas}
+              currentTime={100}
+              defaultResource={resources[0].id as string}
+              resources={resources}
+            />
+          </Aside>
+        )}
       </ViewerInner>
     </ViewerWrapper>
   );
@@ -82,7 +100,7 @@ const ViewerInner = styled("div", {
 const Main = styled("div", {
   display: "flex",
   flexDirection: "column",
-  flexGrow: "0",
+  flexGrow: "1",
   flexShrink: "1",
   width: "61.8%",
 });

@@ -70,6 +70,8 @@ const MediaWrapper = styled("nav", {
   padding: "1.618rem 0.618rem 1.618rem 0 ",
   overflowX: "scroll",
   backgroundColor: "white",
+  borderRight: "2px solid #D8D8D8",
+  borderImage: "linear-gradient(to bottom, #D8D8D8, #FFFFFF00) 0 100%",
 });
 
 export default Media;

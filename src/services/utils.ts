@@ -1,5 +1,5 @@
-export const cleanTime = (standardNotation: String) => {
-  var array = standardNotation.split(":");
+export const cleanTime = (standardNotation: string) => {
+  var array = standardNotation.toString().split(":");
   var hours: number = Math.ceil(parseInt(array[0]));
   var minutes: number = Math.ceil(parseInt(array[1]));
   var seconds: string = zeroPad(Math.ceil(parseInt(array[2])), 2);
