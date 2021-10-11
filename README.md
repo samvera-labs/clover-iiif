@@ -19,7 +19,7 @@ We're using
 - TypeScript
 - [Hyperion Framework](https://hyperion.stephen.wf/the-vault/vault-api/)
 - [ESBuild](https://esbuild.github.io/)
-- [Stiches](https://stitches.dev/)
+- [Stitches](https://stitches.dev/)
 
 ## Development environment
 
