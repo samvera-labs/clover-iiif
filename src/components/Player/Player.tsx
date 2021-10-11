@@ -2,6 +2,7 @@ import React from "react";
 import Hls from "hls.js";
 import { styled } from "@stitches/react";
 import { IIIFExternalWebResource } from "@hyperion-framework/types";
+import { theme } from "theme";
 
 // Set referrer header as a NU domain: ie. meadow.rdc-staging.library.northwestern.edu
 
@@ -80,7 +81,7 @@ const PlayerWrapper = styled("div", {
     objectFit: "cover",
     width: "100%",
     height: "100%",
-    backgroundColor: "#e0e0e0",
+    backgroundColor: theme.color.secondaryMuted,
   },
 });
 

@@ -16,6 +16,7 @@ import Navigator from "components/Navigator/Navigator";
 import Player from "components/Player/Player";
 import { useViewerState } from "context/viewer-context";
 import ImageViewer from "components/ImageViewer/ImageViewer";
+import { theme } from "theme";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
@@ -53,7 +54,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
   );
 
   return (
-    <ViewerWrapper>
+    <ViewerWrapper className={theme}>
       <Header>
         <span>{getLabel(manifest.label as InternationalString, "en")}</span>
       </Header>
@@ -87,8 +88,10 @@ const ViewerWrapper = styled("section", {
   display: "flex",
   flexDirection: "column",
   padding: "1.618rem",
-  fontFamily: "inherit",
-  backgroundColor: "white",
+  fontFamily: theme.font.sans,
+  backgroundColor: theme.color.secondary,
+  fontSmooth: "auto",
+  webkitFontSmoothing: "antialiased",
 });
 
 const ViewerInner = styled("div", {
@@ -119,7 +122,8 @@ const Header = styled("header", {
   span: {
     fontSize: "1.25rem",
     fontWeight: "700",
-    padding: "1rem 0",
+    padding: "1rem 0 1.25rem",
+    fontFamily: theme.font.display,
   },
 });
 

@@ -3,6 +3,7 @@ import { styled } from "@stitches/react";
 import { InternationalString } from "@hyperion-framework/types";
 import { LabeledResource } from "hooks/use-hyperion-framework/getContentResourcesByCriteria";
 import { getLabel } from "hooks/use-hyperion-framework";
+import { theme } from "theme";
 
 interface NavigatorTabProps {
   active: boolean;
@@ -34,21 +35,43 @@ const NavigatorTab: React.FC<NavigatorTabProps> = ({
 
 const NavigatorTabButton = styled("button", {
   display: "flex",
-  padding: "calc(0.618rem - 2px) calc(1rem - 2px)",
+  position: "relative",
+  padding: "0.6rem 1rem 0.5rem",
   background: "none",
   backgroundColor: "transparent",
-  border: "1px solid #d8d8d8",
-  color: "rgb(52, 47, 46)",
+  color: theme.color.primaryMuted,
+  border: "none",
   fontFamily: "inherit",
   fontSize: "1rem",
-  textTransform: "uppercase",
   marginRight: "1rem",
+  lineHeight: "1rem",
   whiteSpace: "nowrap",
   cursor: "pointer",
+  fontWeight: 700,
+  transition: theme.transition.all,
+
+  "&::after": {
+    width: "0",
+    height: "4px",
+    content: "",
+    backgroundColor: theme.color.primaryMuted,
+    position: "absolute",
+    bottom: "-4px",
+    left: "0",
+    transition: theme.transition.all,
+  },
+
+  "&:hover": {
+    color: theme.color.primary,
+  },
 
   "&[data-active=true]": {
-    backgroundColor: "#d8d8d8",
-    fontWeight: 700,
+    color: theme.color.accent,
+
+    "&::after": {
+      width: "100%",
+      backgroundColor: theme.color.accent,
+    },
   },
 });
 
