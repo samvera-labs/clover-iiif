@@ -67,6 +67,7 @@ const NavigatorHeader = styled("header", {
   flexGrow: "0",
   margin: "0 1.618rem 0",
   borderBottom: `4px solid ${theme.color.secondaryAlt}`,
+  backgroundColor: theme.color.secondary,
 });
 
 const NavigatorBody = styled("div", {
