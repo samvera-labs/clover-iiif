@@ -1,6 +1,6 @@
 # React Media Player
 
-_Note: This is an alpha release in current development_
+_Note: This is in current development_
 
 A React component media player which:
 
