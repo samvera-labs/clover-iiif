@@ -38,7 +38,7 @@ const MediaItem: React.FC<MediaItemProps> = ({
           </MediaItemDuration>
         </div>
         <figcaption>
-          {getLabel(canvas.label as InternationalString, "en")}
+          {canvas.label && getLabel(canvas.label as InternationalString, "en")}
         </figcaption>
       </figure>
     </MediaItemWrapper>
