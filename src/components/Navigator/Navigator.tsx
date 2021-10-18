@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { styled } from "@stitches/react";
-import { LabeledResource } from "hooks/use-hyperion-framework/getContentResourcesByCriteria";
+import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
 import NavigatorResource from "./NavigatorResource";
 import NavigatorTab from "./NavigatorTab";
 import { theme } from "theme";
@@ -33,6 +33,7 @@ export const Navigator: React.FC<NavigatorProps> = ({
         {resources &&
           resources.map((resource) => (
             <NavigatorTab
+              key={resource.id}
               resource={resource}
               active={activeResource === resource.id ? true : false}
               handleChange={handleChange}

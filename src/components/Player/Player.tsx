@@ -1,17 +1,22 @@
 import React from "react";
 import Hls from "hls.js";
 import { styled } from "@stitches/react";
-import { IIIFExternalWebResource } from "@hyperion-framework/types";
+import {
+  IIIFExternalWebResource,
+  InternationalString,
+} from "@hyperion-framework/types";
+import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
 import { theme } from "theme";
+import { getLabel } from "hooks/use-hyperion-framework";
 
 // Set referrer header as a NU domain: ie. meadow.rdc-staging.library.northwestern.edu
 
-const Player: React.FC<IIIFExternalWebResource> = ({
-  id,
-  height,
-  type,
-  width,
-}) => {
+interface PlayerProps {
+  painting: IIIFExternalWebResource;
+  resources: LabeledResource[];
+}
+
+const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
   const playerRef = React.useRef(null);
 
   /**
@@ -19,13 +24,13 @@ const Player: React.FC<IIIFExternalWebResource> = ({
    * STAGING and PRODUCTION environments only
    */
   React.useEffect(() => {
-    if (!id || !playerRef.current) return;
+    if (!painting.id || !playerRef.current) return;
 
     // Bind hls.js package to our <video /> element and then load the media source
     const hls = new Hls();
     hls.attachMedia(playerRef.current);
     hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-      hls.loadSource(id);
+      hls.loadSource(painting.id as string);
     });
 
     // Handle errors
@@ -59,12 +64,33 @@ const Player: React.FC<IIIFExternalWebResource> = ({
         hls.destroy();
       }
     };
-  }, [id]);
+  }, [painting.id]);
 
   return (
     <PlayerWrapper>
-      <video ref={playerRef} controls height={height} width={width}>
-        <source src={id} type={type} />
+      <video
+        ref={playerRef}
+        controls
+        height={painting.height}
+        width={painting.width}
+      >
+        <source src={painting.id} type={painting.type} />
+        {resources.length > 0 &&
+          resources.map((resource) => {
+            return (
+              <track
+                key={resource.id}
+                src={resource.id as string}
+                label={
+                  getLabel(
+                    resource.label as InternationalString,
+                    "en",
+                  ) as any as string
+                }
+                srcLang="en"
+              ></track>
+            );
+          })}
         Sorry, your browser doesn't support embedded videos.
       </video>
     </PlayerWrapper>

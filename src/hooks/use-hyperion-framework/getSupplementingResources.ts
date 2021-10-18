@@ -1,4 +1,5 @@
 import {
+  Annotation,
   AnnotationPage,
   CanvasNormalized,
   InternationalString,
@@ -15,10 +16,9 @@ export interface LabeledResource {
 }
 
 // Get webVtt annotations from activeCanvas
-export const getContentResourcesByCriteria = (
+export const getSupplementingResources = (
   vault: any,
   activeCanvas: string,
-  motivation: string,
   format: string,
 ): Array<LabeledResource> => {
   const canvas: CanvasNormalized = vault.fromRef({
@@ -26,19 +26,23 @@ export const getContentResourcesByCriteria = (
     type: "Canvas",
   });
 
-  const annotationPage: AnnotationPage = vault.fromRef(canvas.items[0]);
-  const annotations: AnnotationPage = vault.allFromRef(annotationPage.items);
+  const annotationPage: AnnotationPage = vault.fromRef(canvas.annotations[0]);
+
+  const annotations: Annotation[] = vault.allFromRef(annotationPage.items);
 
   if (!Array.isArray(annotations)) return [];
 
   return annotations
     .filter((annotation) => {
-      if (annotation.motivation[0] === motivation) {
-        annotation.body[0] = vault.fromRef(annotation.body[0]);
-        if (annotation.body[0].format === format) return annotation;
+      if (annotation.motivation === "supplementing") {
+        const resource: LabeledResource = vault.fromRef(annotation.body);
+        if (resource.format === format) {
+          annotation.body = resource;
+          return annotation;
+        }
       }
     })
-    .map((filtered) => {
-      return filtered.body[0];
+    .map((filtered: Annotation) => {
+      return filtered.body as LabeledResource;
     });
 };
