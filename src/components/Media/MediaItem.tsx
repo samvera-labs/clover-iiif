@@ -87,13 +87,6 @@ const MediaItemWrapper = styled("a", {
         fontSize: "0.8333rem",
         borderRadius: "1px",
         opacity: "1",
-
-        "&::after": {
-          color: "white",
-          width: "0",
-          content: "Active Item",
-          fontSize: "0",
-        },
       },
     },
 
@@ -108,15 +101,17 @@ const MediaItemWrapper = styled("a", {
   "&[data-active='true']": {
     figure: {
       "> div": {
-        backgroundColor: theme.color.primary,
+        backgroundColor: theme.color.primaryAlt,
 
         "&::before": {
           position: "absolute",
           zIndex: "1",
           color: theme.color.secondary,
-          textTransform: "uppercase",
+          content: "Active Item",
           fontWeight: "700",
-          content: "",
+          textTransform: "uppercase",
+          fontSize: "0.7222rem",
+          letterSpacing: "0.03rem",
           display: "flex",
           width: "100%",
           height: "100%",
@@ -132,16 +127,7 @@ const MediaItemWrapper = styled("a", {
         },
 
         [`& ${MediaItemDuration}`]: {
-          color: "transparent",
-          fontSize: "0",
           backgroundColor: theme.color.accent,
-
-          "&::after": {
-            color: "white",
-            width: "auto",
-            content: "Active Item",
-            fontSize: "0.8333rem",
-          },
         },
       },
     },

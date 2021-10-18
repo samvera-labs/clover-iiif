@@ -1,7 +1,7 @@
 import { IIIFExternalWebResource } from "@hyperion-framework/types";
 import { getCanvasByCriteria } from "./index";
 
-export const getCanvasPainting = (
+export const getPaintingResource = (
   vault: any,
   id: string,
 ): IIIFExternalWebResource | undefined => {

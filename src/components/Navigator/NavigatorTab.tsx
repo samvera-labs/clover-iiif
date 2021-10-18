@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "@stitches/react";
 import { InternationalString } from "@hyperion-framework/types";
-import { LabeledResource } from "hooks/use-hyperion-framework/getContentResourcesByCriteria";
+import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
 import { getLabel } from "hooks/use-hyperion-framework";
 import { theme } from "theme";
 

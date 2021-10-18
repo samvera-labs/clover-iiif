@@ -29,6 +29,7 @@ const NavigatorCueAnchor = styled("a", {
   justifyContent: "space-between",
   margin: "0",
   padding: "0.55rem 1.618rem 0.45rem",
+  lineHeight: "1.45em",
   fontSize: "1rem",
   cursor: "pointer",
   color: theme.color.primaryMuted,
@@ -43,7 +44,7 @@ const NavigatorCueAnchor = styled("a", {
     backgroundColor: theme.color.primaryMuted,
     opacity: "0",
     left: "8px",
-    marginTop: "2px",
+    marginTop: "5px",
   },
 
   "&::after": {
@@ -55,7 +56,7 @@ const NavigatorCueAnchor = styled("a", {
     opacity: "0",
     clipPath: "polygon(100% 50%, 0 100%, 0 0)",
     left: "13px",
-    marginTop: "5px",
+    marginTop: "8px",
   },
 
   strong: {
@@ -77,8 +78,6 @@ const NavigatorCueAnchor = styled("a", {
       position: "absolute",
       backgroundColor: theme.color.secondary,
       clipPath: "polygon(100% 50%, 0 100%, 0 0)",
-      left: "13px",
-      marginTop: "5px",
       opacity: "1",
     },
   },
@@ -96,7 +95,7 @@ const NavigatorCueAnchor = styled("a", {
       border: `3px solid ${theme.color.accentMuted}`,
       borderRadius: "12px",
       left: "8px",
-      marginTop: "2px",
+      marginTop: "4px",
       opacity: "1",
       animation: "1s linear infinite",
       animationName: spin,
@@ -112,7 +111,7 @@ const NavigatorCueAnchor = styled("a", {
       clipPath: "polygon(100% 0, 100% 100%, 0 0)",
       borderRadius: "12px",
       left: "8px",
-      marginTop: "2px",
+      marginTop: "4px",
       opacity: "1",
       animation: "1.5s linear infinite",
       animationName: spin,

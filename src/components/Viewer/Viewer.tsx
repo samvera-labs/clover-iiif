@@ -7,9 +7,9 @@ import {
   ManifestNormalized,
 } from "@hyperion-framework/types";
 import {
-  getCanvasPainting,
   getLabel,
-  getContentResourcesByCriteria,
+  getPaintingResource,
+  getSupplementingResources,
 } from "hooks/use-hyperion-framework";
 import Media from "components/Media/Media";
 import Navigator from "components/Navigator/Navigator";
@@ -35,7 +35,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
 
   // Runs every time a new viewer item is clicked
   React.useEffect(() => {
-    const painting = getCanvasPainting(vault, activeCanvas);
+    const painting = getPaintingResource(vault, activeCanvas);
     if (painting) {
       setIsMedia(
         ["Audio", "Video"].indexOf(painting.type as ExternalResourceTypes) > -1
@@ -46,12 +46,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
     }
   }, [activeCanvas]);
 
-  const resources = getContentResourcesByCriteria(
-    vault,
-    activeCanvas,
-    "supplementing",
-    "text/vtt",
-  );
+  const resources = getSupplementingResources(vault, activeCanvas, "text/vtt");
 
   return (
     <ViewerWrapper className={theme}>
@@ -61,7 +56,10 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
       <ViewerInner>
         <Main>
           {isMedia ? (
-            <Player {...(painting as IIIFExternalWebResource)} />
+            <Player
+              painting={painting as IIIFExternalWebResource}
+              resources={resources}
+            />
           ) : (
             <ImageViewer {...(painting as IIIFExternalWebResource)}>
               Ima placeholder for the image
