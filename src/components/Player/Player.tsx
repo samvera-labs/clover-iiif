@@ -1,12 +1,12 @@
 import React from "react";
 import Hls from "hls.js";
-import { styled } from "@stitches/react";
+import { useViewerState } from "context/viewer-context";
+import { PlayerWrapper } from "./Player.styled";
 import {
   IIIFExternalWebResource,
   InternationalString,
 } from "@hyperion-framework/types";
 import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
-import { theme } from "theme";
 import { getLabel } from "hooks/use-hyperion-framework";
 
 // Set referrer header as a NU domain: ie. meadow.rdc-staging.library.northwestern.edu
@@ -14,10 +14,17 @@ import { getLabel } from "hooks/use-hyperion-framework";
 interface PlayerProps {
   painting: IIIFExternalWebResource;
   resources: LabeledResource[];
+  currentTime: (arg0: number) => void;
 }
 
-const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
+const Player: React.FC<PlayerProps> = ({
+  painting,
+  resources,
+  currentTime,
+}) => {
   const playerRef = React.useRef(null);
+  const viewerState: any = useViewerState();
+  const { time } = viewerState;
 
   /**
    * HLS.js binding for .m3u8 files
@@ -62,9 +69,24 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
       if (hls) {
         hls.detachMedia();
         hls.destroy();
+        currentTime(0);
       }
     };
   }, [painting.id]);
+
+  React.useEffect(() => {
+    let video: any = playerRef.current;
+    if (video) video.currentTime = time;
+    video.play();
+  }, [time]);
+
+  const handlePlay = () => {
+    let video: any = playerRef.current;
+    if (video)
+      video.ontimeupdate = (event: any) => {
+        currentTime(event.target.currentTime);
+      };
+  };
 
   return (
     <PlayerWrapper>
@@ -73,6 +95,7 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
         controls
         height={painting.height}
         width={painting.width}
+        onPlay={handlePlay}
       >
         <source src={painting.id} type={painting.type} />
         {resources.length > 0 &&
@@ -96,19 +119,5 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
     </PlayerWrapper>
   );
 };
-
-const PlayerWrapper = styled("div", {
-  flexGrow: "0",
-  flexShrink: "0",
-  maxHeight: "61.8vh",
-
-  video: {
-    display: "flex",
-    objectFit: "cover",
-    width: "100%",
-    height: "100%",
-    backgroundColor: theme.color.secondaryMuted,
-  },
-});
 
 export default Player;

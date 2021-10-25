@@ -20,5 +20,11 @@ export const convertTime = (duration: number) => {
   return cleanTime(standardNotation);
 };
 
+export const convertTimeToSeconds = (standardNotation: string) => {
+  var hms: Array<string> = standardNotation.split(":");
+  var seconds: number = +hms[0] * 60 * 60 + +hms[1] * 60 + +hms[2];
+  return seconds;
+};
+
 const zeroPad = (num: number, places: number) =>
   String(num).padStart(places, "0");

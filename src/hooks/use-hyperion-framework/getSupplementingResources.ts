@@ -26,6 +26,8 @@ export const getSupplementingResources = (
     type: "Canvas",
   });
 
+  if (!canvas.annotations[0]) return [];
+
   const annotationPage: AnnotationPage = vault.fromRef(canvas.annotations[0]);
 
   const annotations: Annotation[] = vault.allFromRef(annotationPage.items);
