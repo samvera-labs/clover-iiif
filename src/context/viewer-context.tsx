@@ -4,6 +4,7 @@ import { Vault } from "@hyperion-framework/vault";
 interface ViewerContextStore {
   activeCanvas: string;
   isLoaded: boolean;
+  time: number;
   vault: Vault;
 }
 
@@ -11,11 +12,13 @@ interface ViewerAction {
   type: string;
   canvasId: string;
   isLoaded: boolean;
+  time: number;
 }
 
 const defaultState: ViewerContextStore = {
   activeCanvas: "",
   isLoaded: false,
+  time: 0,
   vault: new Vault(),
 };
 
@@ -25,6 +28,7 @@ const ViewerDispatchContext =
   React.createContext<ViewerContextStore>(defaultState);
 
 function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
+  console.log(action);
   switch (action.type) {
     case "updateActiveCanvas": {
       return {
@@ -36,6 +40,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         isLoaded: action.isLoaded,
+      };
+    }
+    case "updateTime": {
+      return {
+        ...state,
+        time: action.time,
       };
     }
     default: {

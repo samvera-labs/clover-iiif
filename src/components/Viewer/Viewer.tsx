@@ -32,6 +32,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
     IIIFExternalWebResource | undefined
   >(undefined);
   const [isMedia, setIsMedia] = React.useState(false);
+  const [currentTime, setCurrentTime] = React.useState<number>(0);
 
   // Runs every time a new viewer item is clicked
   React.useEffect(() => {
@@ -48,6 +49,10 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
 
   const resources = getSupplementingResources(vault, activeCanvas, "text/vtt");
 
+  const handleCurrentTime = (t: number) => {
+    setCurrentTime(t);
+  };
+
   return (
     <ViewerWrapper className={theme}>
       <Header>
@@ -59,6 +64,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
             <Player
               painting={painting as IIIFExternalWebResource}
               resources={resources}
+              currentTime={handleCurrentTime}
             />
           ) : (
             <ImageViewer {...(painting as IIIFExternalWebResource)}>
@@ -71,7 +77,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
           <Aside>
             <Navigator
               activeCanvas={activeCanvas}
-              currentTime={100}
+              currentTime={currentTime}
               defaultResource={resources[0].id as string}
               resources={resources}
             />

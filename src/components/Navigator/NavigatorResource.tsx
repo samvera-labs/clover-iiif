@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { fromVtt } from "subtitles-parser-vtt";
 import NavigatorCue from "components/Navigator/NavigatorCue";
+import { convertTimeToSeconds } from "services/utils";
 
 interface NavigatorResource {
   currentTime: number;
@@ -35,14 +36,21 @@ const NavigatorResource: React.FC<NavigatorResource> = ({
 
   return (
     <>
-      {cues.map(({ id, text, startTime }) => (
-        <NavigatorCue
-          label={text}
-          startTime={startTime}
-          t={currentTime}
-          key={id}
-        />
-      ))}
+      {cues.map(({ id, text, startTime, endTime }) => {
+        const time = convertTimeToSeconds(startTime);
+        let active =
+          time <= currentTime && currentTime < convertTimeToSeconds(endTime);
+
+        return (
+          <NavigatorCue
+            label={text}
+            startTime={startTime}
+            active={active}
+            time={time}
+            key={id}
+          />
+        );
+      })}
     </>
   );
 };
