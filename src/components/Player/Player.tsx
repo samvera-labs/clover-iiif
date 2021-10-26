@@ -31,7 +31,17 @@ const Player: React.FC<PlayerProps> = ({
    * STAGING and PRODUCTION environments only
    */
   React.useEffect(() => {
+    /**
+     * Check that IIIF content resource ID exists and
+     * we have a reffed <video> for attaching HLS
+     */
     if (!painting.id || !playerRef.current) return;
+
+    /**
+     * Eject HLS attachment if file extension from
+     * the IIIF content resource ID is not .m3u8
+     */
+    if (painting.id.split(".").pop() !== "m3u8") return;
 
     // Bind hls.js package to our <video /> element and then load the media source
     const hls = new Hls();
@@ -91,13 +101,14 @@ const Player: React.FC<PlayerProps> = ({
   return (
     <PlayerWrapper>
       <video
+        id="react-media-player"
         ref={playerRef}
         controls
         height={painting.height}
         width={painting.width}
         onPlay={handlePlay}
       >
-        <source src={painting.id} type={painting.type} />
+        <source src={painting.id} type={painting.format} />
         {resources.length > 0 &&
           resources.map((resource) => {
             return (

@@ -189,6 +189,92 @@
           ]
         }
       ]
+    },
+    {
+      "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "duration": 277,
+      "label": {
+        "en": ["Video canvas (.mp4), with supplementing webVTT"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/3774f727-6090-444e-8f4e-16d1c0154955/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "service": [
+            {
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "@id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae"
+            }
+          ],
+          "width": 8540,
+          "height": 8714
+        }
+      ],
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2",
+              "body": {
+                "id": "http://techslides.com/demos/sample-videos/small.mp4",
+                "type": "Video",
+                "format": "video/mp4",
+                "height": 720,
+                "width": 480,
+                "duration": 277
+              }
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2/page/annotation_page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["en"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2"
+            },
+            {
+              "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2/page/annotation_page/1/annotation/3",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_es.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "es": ["es"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
