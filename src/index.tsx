@@ -76,12 +76,15 @@ const RenderViewer: React.FC<Props> = ({ manifestId, canvasIdCallback }) => {
   /**
    * If an error occurs during manifest fetch process used by
    * @hyperion-framework/vault, vault will not return a manifest
-   * that is fully normalized, and be missing the label property.
+   * that is fully normalized, and be missing the items property.
    * This being undefined signals that something went wrong and we
    * will render a user-friendly error as a functional component.
    */
-  if (!manifest || !manifest["label"])
-    return <>The IIIF manifest {manifestId} failed to load.</>;
+
+  if (!manifest || !manifest["items"]) {
+    console.log(`The IIIF manifest ${manifestId} failed to load.`);
+    return <></>;
+  }
 
   /**
    * If the manifest returned by @hyperion-framework/vault does not
@@ -89,8 +92,10 @@ const RenderViewer: React.FC<Props> = ({ manifestId, canvasIdCallback }) => {
    * may be required if the viewer is rendered to preview manifests in
    * repository administration views.
    */
-  if (manifest["items"].length === 0)
-    return <>The IIIF manifest {manifestId} does not contain any canvases.</>;
+  if (manifest["items"].length === 0) {
+    console.log(`The IIIF manifest ${manifestId} does not contain canvases.`);
+    return <></>;
+  }
 
   /**
    * If manifest is normalized by @hyperion-framework/vault, we know
