@@ -1,0 +1,13 @@
+{
+  "id": "https://devbox.library.northwestern.edu:9001/dev-pyramids/public/iiif3/6b/25/d6/c8/-0/80/2-/41/a9/-8/83/c-/58/9a/44/55/17/46-manifest.json",
+  "requiredStatement": {
+    "label": {
+      "en": ["Attribution"]
+    },
+    "value": {
+      "en": ["Courtesy of Northwestern University Libraries"]
+    }
+  },
+  "type": "Manifest",
+  "@context": "http://iiif.io/api/presentation/3/context.json"
+}
