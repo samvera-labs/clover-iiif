@@ -102,6 +102,7 @@ const Player: React.FC<PlayerProps> = ({
     <PlayerWrapper>
       <video
         id="react-media-player"
+        key={painting.id}
         ref={playerRef}
         controls
         height={painting.height}
