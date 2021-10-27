@@ -28,9 +28,12 @@ const ViewerDispatchContext =
   React.createContext<ViewerContextStore>(defaultState);
 
 function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
-  console.log(action);
   switch (action.type) {
     case "updateActiveCanvas": {
+      /**
+       * Set canvasId to empty string if it comes back undefined.
+       */
+      if (!action.canvasId) action.canvasId = "";
       return {
         ...state,
         activeCanvas: action.canvasId,

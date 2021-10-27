@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ManifestNormalized } from "@hyperion-framework/types";
 import {
   ViewerProvider,
@@ -9,17 +9,21 @@ import Viewer from "components/Viewer/Viewer";
 
 interface Props {
   manifestId: string;
+  canvasIdCallback: (arg0: string) => void;
 }
 
-const App: React.FC<Props> = ({ manifestId }) => {
+const App: React.FC<Props> = ({ manifestId, canvasIdCallback = () => {} }) => {
   return (
     <ViewerProvider>
-      <RenderViewer manifestId={manifestId} />
+      <RenderViewer
+        manifestId={manifestId}
+        canvasIdCallback={canvasIdCallback}
+      />
     </ViewerProvider>
   );
 };
 
-const RenderViewer: React.FC<Props> = ({ manifestId }) => {
+const RenderViewer: React.FC<Props> = ({ manifestId, canvasIdCallback }) => {
   const dispatch: any = useViewerDispatch();
 
   /**
@@ -27,11 +31,16 @@ const RenderViewer: React.FC<Props> = ({ manifestId }) => {
    * the normalized manifest available from @hyperion-framework/vault.
    */
   const store = useViewerState();
-  const { isLoaded, vault } = store;
-  const manifest: ManifestNormalized = vault.fromRef({
-    id: manifestId,
-    type: "Manifest",
-  });
+  const { activeCanvas, isLoaded, vault } = store;
+  const [manifest, setManifest] = useState<ManifestNormalized>();
+
+  /**
+   * On change, pass the activeCanvas up to the wrapping `<App/>`
+   * component to be handed off to a consuming application.
+   */
+  useEffect(() => {
+    canvasIdCallback(activeCanvas);
+  }, [activeCanvas]);
 
   /**
    * Loaded manifest and site using @hyperion-framework/vault.
@@ -39,10 +48,11 @@ const RenderViewer: React.FC<Props> = ({ manifestId }) => {
   useEffect(() => {
     vault
       .loadManifest(manifestId)
-      .then((data) => {
+      .then((data: any) => {
+        setManifest(data);
         dispatch({
           type: "updateActiveCanvas",
-          canvasId: data && data.items[0].id,
+          canvasId: data.items[0] && data.items[0].id,
         });
       })
       .catch((error: any) => {
@@ -70,8 +80,17 @@ const RenderViewer: React.FC<Props> = ({ manifestId }) => {
    * This being undefined signals that something went wrong and we
    * will render a user-friendly error as a functional component.
    */
-  if (manifest["label"] === undefined)
+  if (!manifest || !manifest["label"])
     return <>The IIIF manifest {manifestId} failed to load.</>;
+
+  /**
+   * If the manifest returned by @hyperion-framework/vault does not
+   * contain any canvases, then we'll show an error to the screen. This
+   * may be required if the viewer is rendered to preview manifests in
+   * repository administration views.
+   */
+  if (manifest["items"].length === 0)
+    return <>The IIIF manifest {manifestId} does not contain any canvases.</>;
 
   /**
    * If manifest is normalized by @hyperion-framework/vault, we know
@@ -79,7 +98,6 @@ const RenderViewer: React.FC<Props> = ({ manifestId }) => {
    * will will set the activeCanvas to the first index and render the
    * <Viewer/> component.
    */
-
   return <Viewer manifest={manifest} />;
 };
 
