@@ -37,16 +37,18 @@ const NavigatorResource: React.FC<NavigatorResource> = ({
   return (
     <>
       {cues.map(({ id, text, startTime, endTime }) => {
-        const time = convertTimeToSeconds(startTime);
+        const startTimeSeconds = convertTimeToSeconds(startTime);
+        const endTimeSeconds = convertTimeToSeconds(endTime);
+
         let active =
-          time <= currentTime && currentTime < convertTimeToSeconds(endTime);
+          startTimeSeconds <= currentTime && currentTime < endTimeSeconds;
 
         return (
           <NavigatorCue
             label={text}
             startTime={startTime}
             active={active}
-            time={time}
+            time={startTimeSeconds}
             key={id}
           />
         );
