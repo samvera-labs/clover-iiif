@@ -39,7 +39,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
     const painting = getPaintingResource(vault, activeCanvas);
     if (painting) {
       setIsMedia(
-        ["Audio", "Video"].indexOf(painting.type as ExternalResourceTypes) > -1
+        ["Sound", "Video"].indexOf(painting.type as ExternalResourceTypes) > -1
           ? true
           : false,
       );
