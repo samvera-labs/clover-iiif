@@ -126,7 +126,7 @@ const Header = styled("header", {
   span: {
     fontSize: "1.25rem",
     fontWeight: "700",
-    padding: "1rem 0 1.25rem",
+    padding: "0 0 1rem",
     fontFamily: theme.font.display,
   },
 });

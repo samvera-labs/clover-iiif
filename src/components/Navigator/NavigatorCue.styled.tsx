@@ -28,6 +28,7 @@ export const NavigatorCueAnchor = styled("a", {
     opacity: "0",
     left: "8px",
     marginTop: "5px",
+    boxSizing: "content-box",
   },
 
   "&::after": {
@@ -40,6 +41,7 @@ export const NavigatorCueAnchor = styled("a", {
     clipPath: "polygon(100% 50%, 0 100%, 0 0)",
     left: "13px",
     marginTop: "8px",
+    boxSizing: "content-box",
   },
 
   strong: {
@@ -82,6 +84,7 @@ export const NavigatorCueAnchor = styled("a", {
       opacity: "1",
       animation: "1s linear infinite",
       animationName: spin,
+      boxSizing: "content-box",
     },
 
     "&::after": {
@@ -98,6 +101,7 @@ export const NavigatorCueAnchor = styled("a", {
       opacity: "1",
       animation: "1.5s linear infinite",
       animationName: spin,
+      boxSizing: "content-box",
     },
   },
 
