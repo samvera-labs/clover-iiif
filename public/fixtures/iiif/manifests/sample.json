@@ -1,6 +1,6 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
-  "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample.json",
+  "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample.json",
   "type": "Manifest",
   "label": {
     "en": ["Assorted canvases for testing nulib/react-media-player"]
@@ -19,7 +19,7 @@
   },
   "items": [
     {
-      "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0",
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0",
       "type": "Canvas",
       "width": 720,
       "height": 480,
@@ -45,14 +45,14 @@
       ],
       "items": [
         {
-          "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/1",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/1",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/1/annotation/1",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/1/annotation/1",
               "type": "Annotation",
               "motivation": "painting",
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0",
               "body": {
                 "id": "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
                 "type": "Video",
@@ -67,11 +67,11 @@
       ],
       "annotations": [
         {
-          "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/2",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/2",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0/page/annotation_page/1/annotation/2",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0/page/annotation_page/1/annotation/2",
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
@@ -83,10 +83,10 @@
                 },
                 "language": "en"
               },
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0"
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0"
             },
             {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0/page/annotation_page/1/annotation/3",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0/page/annotation_page/1/annotation/3",
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
@@ -98,14 +98,14 @@
                 },
                 "language": "en"
               },
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0"
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0"
             }
           ]
         }
       ]
     },
     {
-      "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1",
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/1",
       "type": "Canvas",
       "width": 720,
       "height": 480,
@@ -131,14 +131,14 @@
       ],
       "items": [
         {
-          "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1/annotation_page/1",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/1/annotation_page/1",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1/annotation_page/1/annotation/1",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/1/annotation_page/1/annotation/1",
               "type": "Annotation",
               "motivation": "painting",
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/1",
               "body": {
                 "id": "https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8",
                 "type": "Video",
@@ -153,11 +153,11 @@
       ],
       "annotations": [
         {
-          "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1/annotation_page/2",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/1/annotation_page/2",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1/page/annotation_page/1/annotation/2",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/1/page/annotation_page/1/annotation/2",
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
@@ -169,10 +169,10 @@
                 },
                 "language": "en"
               },
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1"
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/1"
             },
             {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1/page/annotation_page/1/annotation/3",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/1/page/annotation_page/1/annotation/3",
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
@@ -184,14 +184,14 @@
                 },
                 "language": "en"
               },
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1"
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/1"
             }
           ]
         }
       ]
     },
     {
-      "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2",
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/2",
       "type": "Canvas",
       "width": 720,
       "height": 480,
@@ -217,14 +217,14 @@
       ],
       "items": [
         {
-          "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2/annotation_page/1",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/2/annotation_page/1",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2/annotation_page/1/annotation/1",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/2/annotation_page/1/annotation/1",
               "type": "Annotation",
               "motivation": "painting",
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/2",
               "body": {
                 "id": "http://techslides.com/demos/sample-videos/small.mp4",
                 "type": "Video",
@@ -239,11 +239,11 @@
       ],
       "annotations": [
         {
-          "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2/annotation_page/2",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/2/annotation_page/2",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2/page/annotation_page/1/annotation/2",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/2/page/annotation_page/1/annotation/2",
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
@@ -255,10 +255,10 @@
                 },
                 "language": "en"
               },
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2"
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/2"
             },
             {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2/page/annotation_page/1/annotation/3",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/2/page/annotation_page/1/annotation/3",
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
@@ -270,7 +270,7 @@
                 },
                 "language": "en"
               },
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2"
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/2"
             }
           ]
         }

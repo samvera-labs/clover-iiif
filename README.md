@@ -54,7 +54,7 @@ Mnimal usage providing the `<ReactMediaPlayer/>` component with an external mani
 
 ```jsx
 const manifestId =
-  "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample.json";
+  "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample.json";
 
 return <ReactMediaPlayer manifestId={manifestId} />;
 ```
@@ -69,7 +69,7 @@ Example on using `canvasIdCallback` to return to your consuming application the 
 
 ```jsx
 const manifestId =
-  "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample.json";
+  "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample.json";
 
 const handlCanvasIdCallback = (activeCanvasId) => {
   if (activeCanvasId) console.log(activeCanvasId);
