@@ -1,0 +1,280 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample.json",
+  "type": "Manifest",
+  "label": {
+    "en": ["Assorted canvases for testing nulib/react-media-player"]
+  },
+  "summary": {
+    "en": [
+      "Integer non fringilla massa, ac tristique ipsum. Quisque imperdiet malesuada magna, id congue augue semper vitae. Etiam nec eleifend elit, vel pharetra velit. Donec facilisis augue eget nisi convallis, vel fermentum dolor tincidunt. "
+    ]
+  },
+  "rights": "http://rightsstatements.org/vocab/NoC-NC/1.0/",
+  "requiredStatement": {
+    "label": { "en": ["Attribution"] },
+    "value": {
+      "en": ["Who knows?"]
+    }
+  },
+  "items": [
+    {
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "duration": 500,
+      "label": {
+        "en": ["Video canvas, streaming (.m3u8), with supplementing webVTT"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "service": [
+            {
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "@id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae"
+            }
+          ],
+          "width": 8540,
+          "height": 8714
+        }
+      ],
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0",
+              "body": {
+                "id": "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+                "type": "Video",
+                "format": "video/mp4",
+                "height": 720,
+                "width": 480,
+                "duration": 500
+              }
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0/page/annotation_page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["en"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0"
+            },
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0/page/annotation_page/1/annotation/3",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_es.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "es": ["es"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "duration": 277,
+      "label": {
+        "en": ["Video canvas, streaming (.m3u8), with supplementing webVTT"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/3774f727-6090-444e-8f4e-16d1c0154955/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "service": [
+            {
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "@id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae"
+            }
+          ],
+          "width": 8540,
+          "height": 8714
+        }
+      ],
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1",
+              "body": {
+                "id": "https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8",
+                "type": "Video",
+                "format": "video/mp4",
+                "height": 720,
+                "width": 480,
+                "duration": 277
+              }
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1/page/annotation_page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["en"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1"
+            },
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1/page/annotation_page/1/annotation/3",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_es.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "es": ["es"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "duration": 277,
+      "label": {
+        "en": ["Video canvas (.mp4), with supplementing webVTT"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/3774f727-6090-444e-8f4e-16d1c0154955/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "service": [
+            {
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "@id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae"
+            }
+          ],
+          "width": 8540,
+          "height": 8714
+        }
+      ],
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2",
+              "body": {
+                "id": "http://techslides.com/demos/sample-videos/small.mp4",
+                "type": "Video",
+                "format": "video/mp4",
+                "height": 720,
+                "width": 480,
+                "duration": 277
+              }
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2/page/annotation_page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["en"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2"
+            },
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2/page/annotation_page/1/annotation/3",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_es.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "es": ["es"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/2376-docs/public/fixtures/iiif/manifests/sample/canvas/2"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
