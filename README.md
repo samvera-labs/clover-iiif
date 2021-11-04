@@ -20,6 +20,7 @@ React Media Player is a UI component that renders a multicanvas IIIF viewer inte
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
 - [Active Canvas](#active-canvas)
+- [Custom Theme](#custom-theme)
 - [Reference](#reference)
 - [Manifest Requirements](#manifest-requirements)
 - [Development](#development)
@@ -87,12 +88,66 @@ return (
 
 ---
 
+## Custom Theme
+
+You may choose to override the base theme by setting optional colors and fonts. Naming conventions for colors are limited to those shown in the config example below.
+
+
+```jsx
+const manifestId =
+  "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample.json";
+
+const customTheme = {
+  colors: {
+    /**
+     * Black and dark grays in a light theme.
+     * All must contrast to 4.5 or greater with `secondary`.
+     */
+    primary: "#37474F",
+    primaryMuted: "#546E7A",
+    primaryAlt: "#263238",
+
+    /**
+     * Key brand color(s).
+     * `accent` must contrast to 4.5 or greater with `secondary`.
+     */
+    accent: "#C62828",
+    accentMuted: "#E57373",
+    accentAlt: "#B71C1C",
+
+    /**
+     * White and light grays in a light theme.
+     * All must must contrast to 4.5 or greater with `primary` and  `accent`.
+     */
+    secondary: "#FFFFFF",
+    secondaryMuted: "#ECEFF1",
+    secondaryAlt: "#CFD8DC",
+  },
+  fonts: {
+    sans: "'Avenir', 'Helvetica Neue', sans-serif",
+    display: "Optima, Georgia, Arial, sans-serif",
+  },
+};
+
+return (
+  <ReactMediaPlayer
+    manifestId={manifestId}
+    customTheme={customTheme}
+  />
+);
+```
+
+[See Example](https://codesandbox.io/s/nulib-react-media-player-sample-i0huq?file=/src/App.tsx)
+
+---
+
 ## Reference
 
 | Prop               | Type     | Required |
 | ------------------ | -------- | -------- |
 | `manifestId`       | String   | Yes      |
 | `canvasIdCallback` | Function | No       |
+| `customTheme`      | Object   | No       |
 
 ---
 
