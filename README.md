@@ -137,7 +137,7 @@ return (
 );
 ```
 
-[See Example](https://codesandbox.io/s/nulib-react-media-player-sample-i0huq?file=/src/App.tsx)
+[See Example](https://codesandbox.io/s/nulib-react-media-player-custom-theme-g6m5v)
 
 ---
 
