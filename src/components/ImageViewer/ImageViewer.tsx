@@ -1,6 +1,6 @@
 import React from "react";
 import { IIIFExternalWebResource } from "@hyperion-framework/types";
-import { styled } from "@stitches/react";
+import { ImageContainer, Image } from "./ImageViewer.styled";
 
 const ImageViewer: React.FC<IIIFExternalWebResource> = ({ id }) => {
   return (
@@ -13,17 +13,5 @@ const ImageViewer: React.FC<IIIFExternalWebResource> = ({ id }) => {
     </ImageContainer>
   );
 };
-
-const ImageContainer = styled("div", {
-  width: "100%",
-  height: "300px",
-  background: "black",
-  backgroundSize: "contain",
-  color: "white",
-});
-
-const Image = styled("img", {
-  maxHeight: "100%",
-});
 
 export default ImageViewer;

@@ -1,5 +1,4 @@
-import { styled, keyframes } from "@stitches/react";
-import { theme } from "theme";
+import { styled, keyframes } from "stitches";
 
 const spin = keyframes({
   from: { transform: "rotate(360deg)" },
@@ -15,7 +14,7 @@ export const NavigatorCueAnchor = styled("a", {
   lineHeight: "1.45em",
   fontSize: "1rem",
   cursor: "pointer",
-  color: theme.color.primaryMuted,
+  color: "$primaryMuted",
   position: "relative",
 
   "&::before": {
@@ -24,7 +23,7 @@ export const NavigatorCueAnchor = styled("a", {
     height: "12px",
     borderRadius: "12px",
     position: "absolute",
-    backgroundColor: theme.color.primaryMuted,
+    backgroundColor: "$primaryMuted",
     opacity: "0",
     left: "8px",
     marginTop: "5px",
@@ -36,7 +35,7 @@ export const NavigatorCueAnchor = styled("a", {
     width: "4px",
     height: "6px",
     position: "absolute",
-    backgroundColor: theme.color.secondary,
+    backgroundColor: "$secondary",
     opacity: "0",
     clipPath: "polygon(100% 50%, 0 100%, 0 0)",
     left: "13px",
@@ -49,10 +48,10 @@ export const NavigatorCueAnchor = styled("a", {
   },
 
   "&:hover": {
-    color: theme.color.accent,
+    color: "$accent",
 
     "&::before": {
-      backgroundColor: theme.color.accent,
+      backgroundColor: "$accent",
       opacity: "1",
     },
 
@@ -61,15 +60,15 @@ export const NavigatorCueAnchor = styled("a", {
       width: "4px",
       height: "6px",
       position: "absolute",
-      backgroundColor: theme.color.secondary,
+      backgroundColor: "$secondary",
       clipPath: "polygon(100% 50%, 0 100%, 0 0)",
       opacity: "1",
     },
   },
 
   "&[aria-selected='true']": {
-    color: theme.color.primary,
-    backgroundColor: theme.color.secondaryMuted,
+    color: "$primary",
+    backgroundColor: "$secondaryMuted",
 
     "&::before": {
       content: "",
@@ -77,7 +76,7 @@ export const NavigatorCueAnchor = styled("a", {
       height: "6px",
       position: "absolute",
       backgroundColor: "transparent",
-      border: `3px solid ${theme.color.accentMuted}`,
+      border: "3px solid $accentMuted",
       borderRadius: "12px",
       left: "8px",
       marginTop: "4px",
@@ -93,7 +92,7 @@ export const NavigatorCueAnchor = styled("a", {
       height: "6px",
       position: "absolute",
       backgroundColor: "transparent",
-      border: `3px solid ${theme.color.accent}`,
+      border: "3px solid $accent",
       clipPath: "polygon(100% 0, 100% 100%, 0 0)",
       borderRadius: "12px",
       left: "8px",
