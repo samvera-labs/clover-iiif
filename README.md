@@ -44,7 +44,7 @@ yarn add @nulib/react-media-player
 
 ## Basic Usage
 
-Add the ReactMediaPlayer component to you your `jsx` or `tsx` code.
+Add the ReactMediaPlayer component to your `jsx` or `tsx` code.
 
 ```jsx
 import ReactMediaPlayer from "@nulib/react-media-player";
