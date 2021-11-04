@@ -1,5 +1,4 @@
 import React from "react";
-import { styled } from "@stitches/react";
 import MediaItem from "components/Media/MediaItem";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
 import {
@@ -12,6 +11,7 @@ import {
   CanvasNormalized,
   ExternalResourceTypes,
 } from "@hyperion-framework/types";
+import { MediaWrapper } from "./Media.styled";
 
 interface MediaProps {
   items: Canvas[];
@@ -62,13 +62,5 @@ const Media: React.FC<MediaProps> = ({ items }) => {
     </MediaWrapper>
   );
 };
-
-const MediaWrapper = styled("nav", {
-  display: "flex",
-  flexDirection: "row",
-  flexGrow: "1",
-  padding: "1.618rem 0.618rem 1.618rem 0 ",
-  overflowX: "scroll",
-});
 
 export default Media;

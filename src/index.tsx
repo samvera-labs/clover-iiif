@@ -6,24 +6,35 @@ import {
   useViewerDispatch,
 } from "context/viewer-context";
 import Viewer from "components/Viewer/Viewer";
+import { createTheme } from "@stitches/react";
 
 interface Props {
   manifestId: string;
   canvasIdCallback: (arg0: string) => void;
+  customTheme?: any;
 }
 
-const App: React.FC<Props> = ({ manifestId, canvasIdCallback = () => {} }) => {
+const App: React.FC<Props> = ({
+  manifestId,
+  canvasIdCallback = () => {},
+  customTheme,
+}) => {
   return (
     <ViewerProvider>
       <RenderViewer
         manifestId={manifestId}
         canvasIdCallback={canvasIdCallback}
+        customTheme={customTheme}
       />
     </ViewerProvider>
   );
 };
 
-const RenderViewer: React.FC<Props> = ({ manifestId, canvasIdCallback }) => {
+const RenderViewer: React.FC<Props> = ({
+  manifestId,
+  canvasIdCallback,
+  customTheme,
+}) => {
   const dispatch: any = useViewerDispatch();
 
   /**
@@ -33,6 +44,12 @@ const RenderViewer: React.FC<Props> = ({ manifestId, canvasIdCallback }) => {
   const store = useViewerState();
   const { activeCanvas, isLoaded, vault } = store;
   const [manifest, setManifest] = useState<ManifestNormalized>();
+
+  /**
+   * Overrides the baseline stiches theme when set.
+   */
+  let theme = {};
+  if (customTheme) theme = createTheme("custom", customTheme);
 
   /**
    * On change, pass the activeCanvas up to the wrapping `<App/>`
@@ -103,7 +120,7 @@ const RenderViewer: React.FC<Props> = ({ manifestId, canvasIdCallback }) => {
    * will will set the activeCanvas to the first index and render the
    * <Viewer/> component.
    */
-  return <Viewer manifest={manifest} />;
+  return <Viewer manifest={manifest} theme={theme} />;
 };
 
 export default App;

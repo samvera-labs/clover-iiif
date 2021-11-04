@@ -1,5 +1,4 @@
 import React from "react";
-import { styled } from "@stitches/react";
 import {
   ExternalResourceTypes,
   IIIFExternalWebResource,
@@ -16,13 +15,20 @@ import Navigator from "components/Navigator/Navigator";
 import Player from "components/Player/Player";
 import { useViewerState } from "context/viewer-context";
 import ImageViewer from "components/ImageViewer/ImageViewer";
-import { theme } from "theme";
+import {
+  ViewerWrapper,
+  ViewerInner,
+  Main,
+  Header,
+  Aside,
+} from "./Viewer.styled";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
+  theme: any;
 }
 
-const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
+const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   // Get Context state
   const viewerState: any = useViewerState();
   const { activeCanvas, vault } = viewerState;
@@ -87,48 +93,5 @@ const Viewer: React.FC<ViewerProps> = ({ manifest }) => {
     </ViewerWrapper>
   );
 };
-
-const ViewerWrapper = styled("section", {
-  display: "flex",
-  flexDirection: "column",
-  padding: "1.618rem",
-  fontFamily: theme.font.sans,
-  backgroundColor: theme.color.secondary,
-  fontSmooth: "auto",
-  webkitFontSmoothing: "antialiased",
-});
-
-const ViewerInner = styled("div", {
-  display: "flex",
-  flexDirection: "row",
-  overflow: "hidden",
-});
-
-const Main = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  flexGrow: "1",
-  flexShrink: "1",
-  width: "61.8%",
-});
-
-const Aside = styled("aside", {
-  display: "flex",
-  flexGrow: "1",
-  flexShrink: "0",
-  width: "38.2%",
-});
-
-const Header = styled("header", {
-  display: "flex",
-  backgroundColor: "transparent !important",
-
-  span: {
-    fontSize: "1.25rem",
-    fontWeight: "700",
-    padding: "0 0 1rem",
-    fontFamily: theme.font.display,
-  },
-});
 
 export default Viewer;

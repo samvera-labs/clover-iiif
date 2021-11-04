@@ -1,5 +1,4 @@
-import { styled } from "@stitches/react";
-import { theme } from "theme";
+import { styled } from "stitches";
 
 export const PlayerWrapper = styled("div", {
   flexGrow: "0",
@@ -11,6 +10,6 @@ export const PlayerWrapper = styled("div", {
     objectFit: "cover",
     width: "100%",
     height: "100%",
-    backgroundColor: theme.color.secondaryMuted,
+    backgroundColor: "$secondaryMuted",
   },
 });
