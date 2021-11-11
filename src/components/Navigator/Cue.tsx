@@ -1,16 +1,17 @@
-import { useViewerDispatch } from "context/viewer-context";
 import React from "react";
+import { useViewerDispatch } from "context/viewer-context";
+import { Item } from "./Cue.styled";
+
 import { cleanTime } from "services/utils";
-import { NavigatorCueAnchor } from "./NavigatorCue.styled";
 
 interface Props {
   label: string;
   startTime: string;
-  active: boolean;
+  isActive: boolean;
   time: number;
 }
 
-const NavigatorCue: React.FC<Props> = ({ label, startTime, active, time }) => {
+const Cue: React.FC<Props> = ({ label, startTime, isActive, time }) => {
   const dispatch: any = useViewerDispatch();
 
   const handleClick = () => {
@@ -21,15 +22,16 @@ const NavigatorCue: React.FC<Props> = ({ label, startTime, active, time }) => {
   };
 
   return (
-    <NavigatorCueAnchor
-      onClick={handleClick}
-      aria-selected={active}
+    <Item
+      aria-checked={isActive}
       data-testid="navigator-cue"
+      onClick={handleClick}
+      value={label}
     >
       {label}
       <strong>{cleanTime(startTime)}</strong>
-    </NavigatorCueAnchor>
+    </Item>
   );
 };
 
-export default NavigatorCue;
+export default Cue;

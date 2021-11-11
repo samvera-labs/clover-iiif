@@ -1,17 +1,17 @@
 import React from "react";
-import MediaItem from "components/Media/MediaItem";
-import { useViewerState, useViewerDispatch } from "context/viewer-context";
+import { Group } from "./Media.styled";
+import { CanvasEntity } from "hooks/use-hyperion-framework/getCanvasByCriteria";
 import {
   getCanvasByCriteria,
   getThumbnail,
 } from "hooks/use-hyperion-framework";
-import { CanvasEntity } from "hooks/use-hyperion-framework/getCanvasByCriteria";
 import {
   Canvas,
   CanvasNormalized,
   ExternalResourceTypes,
 } from "@hyperion-framework/types";
-import { MediaWrapper } from "./Media.styled";
+import { useViewerState, useViewerDispatch } from "context/viewer-context";
+import Thumbnail from "./Thumbnail";
 
 interface MediaProps {
   items: Canvas[];
@@ -49,17 +49,17 @@ const Media: React.FC<MediaProps> = ({ items }) => {
   }
 
   return (
-    <MediaWrapper>
+    <Group aria-label="select item" data-testid="media">
       {mediaItems.map((item) => (
-        <MediaItem
-          active={activeCanvas === item?.canvas?.id ? true : false}
+        <Thumbnail
           canvas={item.canvas as CanvasNormalized}
-          thumbnail={getThumbnail(vault, item, 200, 200)}
-          key={item?.canvas?.id}
           handleChange={handleChange}
+          isActive={activeCanvas === item?.canvas?.id ? true : false}
+          key={item?.canvas?.id}
+          thumbnail={getThumbnail(vault, item, 200, 200)}
         />
       ))}
-    </MediaWrapper>
+    </Group>
   );
 };
 

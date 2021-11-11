@@ -1,6 +1,7 @@
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import { styled } from "@stitches/react";
 
-const MediaWrapper = styled("nav", {
+const Group = styled(RadioGroup.Root, {
   display: "flex",
   flexDirection: "row",
   flexGrow: "1",
@@ -8,4 +9,4 @@ const MediaWrapper = styled("nav", {
   overflowX: "scroll",
 });
 
-export { MediaWrapper };
+export { Group };

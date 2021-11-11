@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
 import { fromVtt } from "subtitles-parser-vtt";
-import NavigatorCue from "components/Navigator/NavigatorCue";
+import Cue from "components/Navigator/Cue";
 import { convertTimeToSeconds } from "services/utils";
+import { getLabel } from "hooks/use-hyperion-framework";
+import { InternationalString } from "@hyperion-framework/types";
+import { Group } from "./Cue.styled";
 
-interface NavigatorResource {
+interface Resource {
   currentTime: number;
-  id: string;
+  resource: any;
 }
 
 interface Cue {
@@ -15,11 +18,10 @@ interface Cue {
   text: string;
 }
 
-const NavigatorResource: React.FC<NavigatorResource> = ({
-  currentTime,
-  id,
-}) => {
+const Resource: React.FC<Resource> = ({ currentTime, resource }) => {
   const [cues, setCues] = React.useState<Array<Cue>>([]);
+  const { id, label } = resource;
+
   useEffect(() => {
     fetch(id, {
       headers: {
@@ -35,7 +37,9 @@ const NavigatorResource: React.FC<NavigatorResource> = ({
   }, [id]);
 
   return (
-    <>
+    <Group
+      aria-label={`navigate ${getLabel(label as InternationalString, "en")}`}
+    >
       {cues.map(({ id, text, startTime, endTime }) => {
         const startTimeSeconds = convertTimeToSeconds(startTime);
         const endTimeSeconds = convertTimeToSeconds(endTime);
@@ -44,17 +48,17 @@ const NavigatorResource: React.FC<NavigatorResource> = ({
           startTimeSeconds <= currentTime && currentTime < endTimeSeconds;
 
         return (
-          <NavigatorCue
+          <Cue
+            isActive={active}
             label={text}
             startTime={startTime}
-            active={active}
             time={startTimeSeconds}
             key={id}
           />
         );
       })}
-    </>
+    </Group>
   );
 };
 
-export default NavigatorResource;
+export default Resource;

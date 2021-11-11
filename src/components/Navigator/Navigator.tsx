@@ -1,13 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { InternationalString } from "@hyperion-framework/types";
+import { Content, List, Scroll, Trigger, Wrapper } from "./Navigator.styled";
 import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
-import NavigatorResource from "./NavigatorResource";
-import NavigatorTab from "./NavigatorTab";
-import {
-  NavigatorBody,
-  NavigatorHeader,
-  NavigatorScroll,
-  NavigatorWrapper,
-} from "./Navigator.styled";
+import { getLabel } from "hooks/use-hyperion-framework";
+import Resource from "./Resource";
 
 interface NavigatorProps {
   activeCanvas: string;
@@ -22,36 +18,41 @@ export const Navigator: React.FC<NavigatorProps> = ({
   defaultResource,
   resources,
 }) => {
-  const [activeResource, setActiveResource] =
-    React.useState<string>(defaultResource);
+  const [activeResource, setActiveResource] = useState<string>(defaultResource);
 
   useEffect(() => {
     setActiveResource(defaultResource);
   }, [activeCanvas]);
 
-  const handleChange = (id: string) => setActiveResource(id);
+  const handleValueChange = (value: string) => {
+    setActiveResource(value);
+  };
+
+  if (!resources) return <></>;
 
   return (
-    <NavigatorWrapper data-testid="navigator-wrapper">
-      <NavigatorHeader>
-        {resources &&
-          resources.map((resource) => (
-            <NavigatorTab
-              key={resource.id}
-              resource={resource}
-              active={activeResource === resource.id ? true : false}
-              handleChange={handleChange}
-            />
-          ))}
-      </NavigatorHeader>
-      <NavigatorBody>
-        <NavigatorScroll>
-          {resources && (
-            <NavigatorResource currentTime={currentTime} id={activeResource} />
-          )}
-        </NavigatorScroll>
-      </NavigatorBody>
-    </NavigatorWrapper>
+    <Wrapper
+      data-testid="navigator"
+      defaultValue={defaultResource}
+      onValueChange={handleValueChange}
+      orientation="horizontal"
+      value={activeResource}
+    >
+      <List aria-label="select chapter" data-testid="navigator-list">
+        {resources.map((resource) => (
+          <Trigger value={resource.id as string}>
+            {getLabel(resource.label as InternationalString, "en")}
+          </Trigger>
+        ))}
+      </List>
+      <Scroll>
+        {resources.map((resource) => (
+          <Content key={resource.id} value={resource.id as string}>
+            <Resource currentTime={currentTime} resource={resource} />
+          </Content>
+        ))}
+      </Scroll>
+    </Wrapper>
   );
 };
 
