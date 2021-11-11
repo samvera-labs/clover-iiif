@@ -1,14 +1,22 @@
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import { styled } from "stitches";
 
-const MediaItemDuration = styled("span", {
+const Duration = styled("span", {
   display: "flex",
 });
 
-const MediaItemWrapper = styled("a", {
+const Item = styled(RadioGroup.Item, {
   display: "flex",
   flexShrink: "0",
   margin: "0 1.618rem 0 0",
+  padding: "0",
   cursor: "pointer",
+  background: "none",
+  border: "none",
+  fontFamily: "inherit",
+  lineHeight: "1.25em",
+  fontSize: "1rem",
+  textAlign: "left",
 
   figure: {
     margin: "0",
@@ -30,9 +38,10 @@ const MediaItemWrapper = styled("a", {
         filter: "blur(0)",
         transform: "scale3d(1, 1, 1)",
         transition: "$all",
+        color: "transparent",
       },
 
-      [`& ${MediaItemDuration}`]: {
+      [`& ${Duration}`]: {
         position: "absolute",
         right: "0",
         bottom: "0",
@@ -53,7 +62,7 @@ const MediaItemWrapper = styled("a", {
     },
   },
 
-  "&[data-active='true']": {
+  "&[aria-checked='true']": {
     figure: {
       "> div": {
         backgroundColor: "$primaryAlt",
@@ -81,7 +90,7 @@ const MediaItemWrapper = styled("a", {
           filter: "blur(1px)",
         },
 
-        [`& ${MediaItemDuration}`]: {
+        [`& ${Duration}`]: {
           backgroundColor: "$accent",
         },
       },
@@ -94,4 +103,4 @@ const MediaItemWrapper = styled("a", {
   },
 });
 
-export { MediaItemDuration, MediaItemWrapper };
+export { Duration, Item };

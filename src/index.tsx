@@ -10,7 +10,7 @@ import { createTheme } from "@stitches/react";
 
 interface Props {
   manifestId: string;
-  canvasIdCallback: (arg0: string) => void;
+  canvasIdCallback?: (arg0: string) => void;
   customTheme?: any;
 }
 
@@ -56,7 +56,7 @@ const RenderViewer: React.FC<Props> = ({
    * component to be handed off to a consuming application.
    */
   useEffect(() => {
-    canvasIdCallback(activeCanvas);
+    if (canvasIdCallback) canvasIdCallback(activeCanvas);
   }, [activeCanvas]);
 
   /**

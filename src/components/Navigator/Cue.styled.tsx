@@ -1,3 +1,4 @@
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import { styled, keyframes } from "stitches";
 
 const spin = keyframes({
@@ -5,17 +6,24 @@ const spin = keyframes({
   to: { transform: "rotate(0deg)" },
 });
 
-export const NavigatorCueAnchor = styled("a", {
+export const Group = styled(RadioGroup.Root, {});
+
+export const Item = styled(RadioGroup.Item, {
+  position: "relative",
+  cursor: "pointer",
   display: "flex",
+  width: "100%",
   flexGrow: "1",
   justifyContent: "space-between",
+  textAlign: "left",
   margin: "0",
   padding: "0.55rem 1.618rem 0.45rem",
-  lineHeight: "1.45em",
+  fontFamily: "inherit",
+  lineHeight: "1.25em",
   fontSize: "1rem",
-  cursor: "pointer",
   color: "$primaryMuted",
-  position: "relative",
+  border: "none",
+  background: "none",
 
   "&::before": {
     content: "",
@@ -66,7 +74,7 @@ export const NavigatorCueAnchor = styled("a", {
     },
   },
 
-  "&[aria-selected='true']": {
+  "&[aria-checked='true']": {
     color: "$primary",
     backgroundColor: "$secondaryMuted",
 

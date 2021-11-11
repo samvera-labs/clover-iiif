@@ -1,9 +1,10 @@
 import React from "react";
-import MediaItem from "./MediaItem";
+import Thumbnail from "./Thumbnail";
 import { screen, render } from "@testing-library/react";
-import { MediaItemProps } from "./MediaItem";
+import { ThumbnailProps } from "./Thumbnail";
+import { Group } from "./Media.styled";
 
-const props: MediaItemProps = {
+const props: ThumbnailProps = {
   canvas: {
     id: "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/bc/70/b8/02/-e/0c/7-/46/96/-a/bb/4-/41/c9/7e/48/cf/26-manifest.json/canvas/20ed0982-2535-4dd9-8481-44ebeee5a161",
     type: "Canvas",
@@ -44,7 +45,7 @@ const props: MediaItemProps = {
     height: 480,
     width: 640,
   },
-  active: false,
+  isActive: true,
   thumbnail: {
     id: "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/20ed0982-2535-4dd9-8481-44ebeee5a161/full/!300,300/0/default.jpg",
     format: "image/jpeg",
@@ -57,7 +58,13 @@ const props: MediaItemProps = {
 
 describe("MediaItem component", () => {
   it("renders", () => {
-    render(<MediaItem {...props} />);
-    expect(screen.getByTestId("media-item-wrapper"));
+    render(
+      <Group>
+        <Thumbnail {...props} />
+      </Group>,
+    );
+    const thumbnail = screen.getByTestId("media-thumbnail");
+    expect(thumbnail);
+    expect(thumbnail.hasAttribute("aria-checked")).toBe(true);
   });
 });

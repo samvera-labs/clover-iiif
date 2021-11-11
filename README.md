@@ -92,7 +92,6 @@ return (
 
 You may choose to override the base theme by setting optional colors and fonts. Naming conventions for colors are limited to those shown in the config example below.
 
-
 ```jsx
 const manifestId =
   "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample.json";
@@ -129,12 +128,7 @@ const customTheme = {
   },
 };
 
-return (
-  <ReactMediaPlayer
-    manifestId={manifestId}
-    customTheme={customTheme}
-  />
-);
+return <ReactMediaPlayer manifestId={manifestId} customTheme={customTheme} />;
 ```
 
 [See Example](https://codesandbox.io/s/nulib-react-media-player-custom-theme-g6m5v)
@@ -167,8 +161,9 @@ The manifest provided to `manifestId`:
 React Media Player is built with:
 
 - TypeScript
-- [Hyperion Framework](https://hyperion.stephen.wf/the-vault/vault-api/)
 - [ESBuild](https://esbuild.github.io/)
+- [Hyperion Framework](https://hyperion.stephen.wf/the-vault/vault-api/)
+- [Radix UI](https://www.radix-ui.com/)
 - [Stitches](https://stitches.dev/)
 
 ### Environment
