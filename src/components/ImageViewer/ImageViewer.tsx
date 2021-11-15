@@ -1,16 +1,86 @@
-import React from "react";
-import { IIIFExternalWebResource } from "@hyperion-framework/types";
-import { ImageContainer, Image } from "./ImageViewer.styled";
+import React, { useEffect, useState } from "react";
+import OpenSeadragon, { Viewer } from "openseadragon";
+import {
+  IIIFExternalWebResource,
+  ImageService,
+} from "@hyperion-framework/types";
+import { Navigator, Viewport, Wrapper } from "./ImageViewer.styled";
+import Controls from "./Controls";
 
-const ImageViewer: React.FC<IIIFExternalWebResource> = ({ id }) => {
+const ImageViewer: React.FC<IIIFExternalWebResource> = ({
+  height,
+  service,
+  width,
+}) => {
+  const [openSeadragonInstance, setOpenSeadragonInstance] = useState<Viewer>();
+  const [imageService, setImageService] = useState<ImageService>();
+
+  let navigatorWidth = 100;
+
+  if (width && height)
+    navigatorWidth = ((width as number) / (height as number)) * 100;
+
+  /**
+   * Initiate OpenSeadragon
+   */
+  useEffect(() => {
+    initOpenSeadragon();
+    return () => {
+      openSeadragonInstance?.destroy();
+    };
+  }, []);
+
+  /**
+   * Set IIIF image service from given content resource
+   */
+  useEffect(() => {
+    if (Array.isArray(service))
+      setImageService(service[0] as any as ImageService);
+  }, [service]);
+
+  /**
+   * Loads tileSource of current canvas from IIIF image service
+   */
+  useEffect(() => {
+    if (imageService) openSeadragonInstance?.open(imageService.id);
+  }, [openSeadragonInstance, imageService]);
+
+  /**
+   * Set OpenSeadragon instance
+   */
+  function initOpenSeadragon() {
+    const controls: object = {
+      homeButton: "zoomReset",
+      showFullPageControl: false,
+      zoomInButton: "zoomIn",
+      zoomOutButton: "zoomOut",
+    };
+
+    const navigator: object = {
+      showNavigator: true,
+      navigatorBorderColor: "transparent",
+      navigatorId: "openseadragon-navigator",
+    };
+
+    setOpenSeadragonInstance(
+      OpenSeadragon({
+        id: "openseadragon-viewport",
+        loadTilesWithAjax: true,
+        ...controls,
+        ...navigator,
+      }),
+    );
+  }
+
   return (
-    <ImageContainer data-testid="image-container">
-      <Image
-        src={id}
-        alt="Yo gimme something to describe"
-        style={{ maxHeight: "100%" }}
+    <Wrapper data-testid="image-viewer">
+      <Controls />
+      <Navigator
+        id="openseadragon-navigator"
+        style={{ width: navigatorWidth }}
       />
-    </ImageContainer>
+      <Viewport id="openseadragon-viewport" />
+    </Wrapper>
   );
 };
 

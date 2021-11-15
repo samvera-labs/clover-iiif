@@ -73,9 +73,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
               currentTime={handleCurrentTime}
             />
           ) : (
-            <ImageViewer {...(painting as IIIFExternalWebResource)}>
-              Ima placeholder for the image
-            </ImageViewer>
+            <ImageViewer {...(painting as IIIFExternalWebResource)} />
           )}
           <Media items={manifest.items} activeItem={0} />
         </Main>

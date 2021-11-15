@@ -245,6 +245,117 @@
           ]
         }
       ]
+    },
+    {
+      "height": 480,
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/6ce3a851-4e9e-43e5-a142-20ffc6a01e56",
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/6ce3a851-4e9e-43e5-a142-20ffc6a01e56/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "format": "image/tiff",
+                "height": 6101,
+                "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/6ce3a851-4e9e-43e5-a142-20ffc6a01e56/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/6ce3a851-4e9e-43e5-a142-20ffc6a01e56",
+                    "profile": "http://iiif.io/api/image/2/level2.json",
+                    "type": "ImageService2"
+                  }
+                ],
+                "type": "Image",
+                "width": 4007
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/6ce3a851-4e9e-43e5-a142-20ffc6a01e56/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/6ce3a851-4e9e-43e5-a142-20ffc6a01e56",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Praesent finibus lacus"]
+      },
+      "type": "Canvas",
+      "width": 640
+    },
+    {
+      "height": 480,
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390",
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "format": "image/tiff",
+                "height": 3239,
+                "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390",
+                    "profile": "http://iiif.io/api/image/2/level2.json",
+                    "type": "ImageService2"
+                  }
+                ],
+                "type": "Image",
+                "width": 1530
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Rellus fermentum (arcu)"]
+      },
+      "type": "Canvas",
+      "width": 640
+    },
+    {
+      "height": 480,
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/9e34a6f2-b828-4220-a7e2-3006f40911e7",
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/9e34a6f2-b828-4220-a7e2-3006f40911e7/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "format": "image/tiff",
+                "height": 3239,
+                "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/9e34a6f2-b828-4220-a7e2-3006f40911e7/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/9e34a6f2-b828-4220-a7e2-3006f40911e7",
+                    "profile": "http://iiif.io/api/image/2/level2.json",
+                    "type": "ImageService2"
+                  }
+                ],
+                "type": "Image",
+                "width": 1530
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/9e34a6f2-b828-4220-a7e2-3006f40911e7/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/9e34a6f2-b828-4220-a7e2-3006f40911e7",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Rellus fermentum (varius)"]
+      },
+      "type": "Canvas",
+      "width": 640
     }
   ]
 }

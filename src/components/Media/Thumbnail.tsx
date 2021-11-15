@@ -12,6 +12,7 @@ export interface ThumbnailProps {
   canvas: CanvasNormalized;
   isActive: boolean;
   thumbnail?: IIIFExternalWebResource;
+  type: string;
   handleChange: (arg0: string) => void;
 }
 
@@ -19,6 +20,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   canvas,
   isActive,
   thumbnail,
+  type,
   handleChange,
 }) => {
   const label = getLabel(canvas.label as InternationalString, "en") as string;
@@ -33,7 +35,9 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
       <figure>
         <div>
           {thumbnail?.id && <img src={thumbnail.id} alt={label} />}
-          <Duration>{convertTime(canvas.duration as number)}</Duration>
+          {["Video", "Sound"].includes(type) && (
+            <Duration>{convertTime(canvas.duration as number)}</Duration>
+          )}
         </div>
         <figcaption>{label}</figcaption>
       </figure>
