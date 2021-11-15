@@ -39,9 +39,9 @@ export const Navigator: React.FC<NavigatorProps> = ({
       value={activeResource}
     >
       <List aria-label="select chapter" data-testid="navigator-list">
-        {resources.map((resource) => (
-          <Trigger key={resource.id} value={resource.id as string}>
-            {getLabel(resource.label as InternationalString, "en")}
+        {resources.map(({ id, label }) => (
+          <Trigger key={id} value={id as string}>
+            {getLabel(label as InternationalString, "en")}
           </Trigger>
         ))}
       </List>

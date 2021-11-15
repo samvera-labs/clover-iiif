@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ManifestNormalized } from "@hyperion-framework/types";
 import {
+  ConfigOptions,
   ViewerProvider,
   useViewerState,
   useViewerDispatch,
@@ -12,12 +13,14 @@ interface Props {
   manifestId: string;
   canvasIdCallback?: (arg0: string) => void;
   customTheme?: any;
+  options?: ConfigOptions;
 }
 
 const App: React.FC<Props> = ({
   manifestId,
   canvasIdCallback = () => {},
   customTheme,
+  options,
 }) => {
   return (
     <ViewerProvider>
@@ -25,6 +28,7 @@ const App: React.FC<Props> = ({
         manifestId={manifestId}
         canvasIdCallback={canvasIdCallback}
         customTheme={customTheme}
+        options={options}
       />
     </ViewerProvider>
   );
@@ -34,6 +38,7 @@ const RenderViewer: React.FC<Props> = ({
   manifestId,
   canvasIdCallback,
   customTheme,
+  options,
 }) => {
   const dispatch: any = useViewerDispatch();
 
@@ -59,10 +64,16 @@ const RenderViewer: React.FC<Props> = ({
     if (canvasIdCallback) canvasIdCallback(activeCanvas);
   }, [activeCanvas]);
 
-  /**
-   * Loaded manifest and site using @hyperion-framework/vault.
-   */
   useEffect(() => {
+    // Update with user config options
+    dispatch({
+      type: "updateConfigOptions",
+      configOptions: options,
+    });
+
+    /**
+     * Loaded manifest and site using @hyperion-framework/vault.
+     */
     vault
       .loadManifest(manifestId)
       .then((data: any) => {
