@@ -25,13 +25,13 @@ import {
 
 interface ViewerProps {
   manifest: ManifestNormalized;
-  theme: any;
+  theme?: any;
 }
 
 const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   // Get Context state
   const viewerState: any = useViewerState();
-  const { activeCanvas, vault } = viewerState;
+  const { activeCanvas, configOptions, vault } = viewerState;
 
   // Track some local state
   const [painting, setPainting] = React.useState<
@@ -61,9 +61,11 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
 
   return (
     <ViewerWrapper className={theme}>
-      <Header>
-        <span>{getLabel(manifest.label as InternationalString, "en")}</span>
-      </Header>
+      {configOptions.showTitle && (
+        <Header>
+          <span>{getLabel(manifest.label as InternationalString, "en")}</span>
+        </Header>
+      )}
       <ViewerInner>
         <Main>
           {isMedia ? (

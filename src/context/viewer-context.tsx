@@ -1,8 +1,17 @@
 import React from "react";
 import { Vault } from "@hyperion-framework/vault";
 
+export type ConfigOptions = {
+  showTitle: boolean;
+};
+
+const defaultConfigOptions = {
+  showTitle: true,
+};
+
 interface ViewerContextStore {
   activeCanvas: string;
+  configOptions: ConfigOptions;
   isLoaded: boolean;
   time: number;
   vault: Vault;
@@ -11,12 +20,14 @@ interface ViewerContextStore {
 interface ViewerAction {
   type: string;
   canvasId: string;
+  configOptions: ConfigOptions;
   isLoaded: boolean;
   time: number;
 }
 
 const defaultState: ViewerContextStore = {
   activeCanvas: "",
+  configOptions: defaultConfigOptions,
   isLoaded: false,
   time: 0,
   vault: new Vault(),
@@ -37,6 +48,15 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         activeCanvas: action.canvasId,
+      };
+    }
+    case "updateConfigOptions": {
+      return {
+        ...state,
+        configOptions: {
+          ...defaultConfigOptions,
+          ...action.configOptions,
+        },
       };
     }
     case "updateIsLoaded": {
