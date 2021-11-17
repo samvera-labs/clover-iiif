@@ -1,4 +1,4 @@
-<img width="1086" alt="image" src="https://user-images.githubusercontent.com/7376450/139940344-53bfdc9d-fe2a-48c8-8377-8bf806ce3e7b.png">
+![image](https://user-images.githubusercontent.com/7376450/142292714-27616e2d-e7cf-42f7-9297-17853a948ca2.png)
 
 # React Media Player
 
@@ -6,7 +6,7 @@
 
 [**View Demo**](https://codesandbox.io/s/nulib-react-media-player-sample-i0huq)
 
-React Media Player is a UI component that renders a multicanvas IIIF viewer intended for `Video` and `Sound` content resources with minimal support for `Image`. Provide a [IIIF Presentation 3.0](https://iiif.io/api/presentation/3.0/) manifest and the component:
+React Media Player is a UI component that renders a multicanvas IIIF viewer intended for `Video` and `Sound` content resources with basic pan-zoom support for `Image` via OpenSeadragon. Provide a [IIIF Presentation 3.0](https://iiif.io/api/presentation/3.0/) manifest and the component:
 
 - Renders a multi-canvas _Video_, _Sound_, and _Image_ viewer
 - Renders thumbnails as navigation between canvases
