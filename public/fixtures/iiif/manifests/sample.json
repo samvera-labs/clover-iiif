@@ -1,128 +1,42 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
-  "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample.json",
+  "id": "https://raw.githubusercontent.com/nulib/react-media-player/2412-video-object-fit/public/fixtures/iiif/manifests/sample.json",
   "type": "Manifest",
   "label": {
     "en": ["Assorted canvases for testing nulib/react-media-player"]
   },
   "summary": {
-    "en": [
-      "Integer non fringilla massa, ac tristique ipsum. Quisque imperdiet malesuada magna, id congue augue semper vitae. Etiam nec eleifend elit, vel pharetra velit. Donec facilisis augue eget nisi convallis, vel fermentum dolor tincidunt. "
-    ]
+    "none": ["Integer non fringilla massa, ac tristique ipsum. "]
   },
   "rights": "http://rightsstatements.org/vocab/NoC-NC/1.0/",
   "requiredStatement": {
     "label": { "en": ["Attribution"] },
     "value": {
-      "en": ["Who knows?"]
+      "en": ["Various"]
     }
   },
   "items": [
-    {
-      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0",
-      "type": "Canvas",
-      "width": 720,
-      "height": 480,
-      "duration": 500,
-      "label": {
-        "en": ["Video canvas, streaming (.m3u8), with supplementing webVTT"]
-      },
-      "thumbnail": [
-        {
-          "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae/full/!300,300/0/default.jpg",
-          "type": "Image",
-          "format": "image/jpeg",
-          "service": [
-            {
-              "profile": "http://iiif.io/api/image/2/level2.json",
-              "@type": "http://iiif.io/api/image/2/context.json",
-              "@id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae"
-            }
-          ],
-          "width": 8540,
-          "height": 8714
-        }
-      ],
-      "items": [
-        {
-          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/1",
-          "type": "AnnotationPage",
-          "items": [
-            {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/1/annotation/1",
-              "type": "Annotation",
-              "motivation": "painting",
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0",
-              "body": {
-                "id": "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
-                "type": "Video",
-                "format": "video/mp4",
-                "height": 720,
-                "width": 480,
-                "duration": 500
-              }
-            }
-          ]
-        }
-      ],
-      "annotations": [
-        {
-          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/2",
-          "type": "AnnotationPage",
-          "items": [
-            {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0/page/annotation_page/1/annotation/2",
-              "type": "Annotation",
-              "motivation": "supplementing",
-              "body": {
-                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
-                "type": "Text",
-                "format": "text/vtt",
-                "label": {
-                  "en": ["en"]
-                },
-                "language": "en"
-              },
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0"
-            },
-            {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0/page/annotation_page/1/annotation/3",
-              "type": "Annotation",
-              "motivation": "supplementing",
-              "body": {
-                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_es.vtt",
-                "type": "Text",
-                "format": "text/vtt",
-                "label": {
-                  "es": ["es"]
-                },
-                "language": "en"
-              },
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0"
-            }
-          ]
-        }
-      ]
-    },
     {
       "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/1",
       "type": "Canvas",
       "width": 720,
       "height": 480,
-      "duration": 277,
+      "duration": 597,
       "label": {
-        "en": ["Video canvas, streaming (.m3u8), with supplementing webVTT"]
+        "en": [
+          "Video canvas, streaming (.m3u8), with supplementing annotations as WebVTT"
+        ]
       },
       "thumbnail": [
         {
-          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/3774f727-6090-444e-8f4e-16d1c0154955/full/!300,300/0/default.jpg",
+          "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/ead5e80f-1fcf-481e-907a-93cf3f0e7d45/full/!300,300/0/default.jpg",
           "type": "Image",
           "format": "image/jpeg",
           "service": [
             {
               "profile": "http://iiif.io/api/image/2/level2.json",
-              "@type": "http://iiif.io/api/image/2/context.json",
-              "@id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae"
+              "type": "http://iiif.io/api/image/2/context.json",
+              "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/ead5e80f-1fcf-481e-907a-93cf3f0e7d45"
             }
           ],
           "width": 8540,
@@ -145,7 +59,7 @@
                 "format": "video/mp4",
                 "height": 720,
                 "width": 480,
-                "duration": 277
+                "duration": 597
               }
             }
           ]
@@ -191,24 +105,129 @@
       ]
     },
     {
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/5",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "duration": 866,
+      "label": {
+        "en": [
+          "Sound canvas, non-streaming (.mp3), no supplementing annotations"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/7c6db552-3789-4e70-b7f4-48f0086bc36e/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "service": [
+            {
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "type": "http://iiif.io/api/image/2/context.json",
+              "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/7c6db552-3789-4e70-b7f4-48f0086bc36e"
+            }
+          ],
+          "width": 8540,
+          "height": 871
+        }
+      ],
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/5/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/5/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/5",
+              "body": {
+                "id": "http://www.hochmuth.com/mp3/Haydn_Cello_Concerto_D-1.mp3",
+                "type": "Sound",
+                "format": "audio/mpeg",
+                "height": 720,
+                "width": 480,
+                "duration": 866
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/4",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "label": {
+        "en": ["Image canvas"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/567d7b42-53e0-4128-ba16-26e6d00d1b43/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "service": [
+            {
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "type": "http://iiif.io/api/image/2/context.json",
+              "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/567d7b42-53e0-4128-ba16-26e6d00d1b43"
+            }
+          ],
+          "width": 8540,
+          "height": 8714
+        }
+      ],
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/4/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/4/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/4",
+              "body": {
+                "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/567d7b42-53e0-4128-ba16-26e6d00d1b43full/600,/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/567d7b42-53e0-4128-ba16-26e6d00d1b43",
+                    "profile": "http://iiif.io/api/image/2/level2.json",
+                    "type": "ImageService2"
+                  }
+                ],
+                "height": 2197,
+                "width": 4155
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/2",
       "type": "Canvas",
       "width": 720,
       "height": 480,
-      "duration": 277,
+      "duration": 6,
       "label": {
-        "en": ["Video canvas (.mp4), with supplementing webVTT"]
+        "en": [
+          "Video canvas, non-streaming (.mp4), with supplementing annotations as WebVTT"
+        ]
       },
       "thumbnail": [
         {
-          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/3774f727-6090-444e-8f4e-16d1c0154955/full/!300,300/0/default.jpg",
+          "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/36a5abd8-9892-4f84-8436-0a60e872aad1/full/!300,300/0/default.jpg",
           "type": "Image",
           "format": "image/jpeg",
           "service": [
             {
               "profile": "http://iiif.io/api/image/2/level2.json",
               "@type": "http://iiif.io/api/image/2/context.json",
-              "@id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae"
+              "@id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/36a5abd8-9892-4f84-8436-0a60e872aad1"
             }
           ],
           "width": 8540,
@@ -231,7 +250,7 @@
                 "format": "video/mp4",
                 "height": 720,
                 "width": 480,
-                "duration": 277
+                "duration": 6
               }
             }
           ]
@@ -271,6 +290,141 @@
                 "language": "en"
               },
               "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "duration": 210,
+      "label": {
+        "en": ["Video canvas, streaming (.m3u8), no supplementing annotations"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/0d1194e6-90ba-436b-be51-5c607de2edc9/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "service": [
+            {
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "type": "http://iiif.io/api/image/2/context.json",
+              "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/0d1194e6-90ba-436b-be51-5c607de2edc9"
+            }
+          ],
+          "width": 8540,
+          "height": 8714
+        }
+      ],
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/0",
+              "body": {
+                "id": "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+                "type": "Video",
+                "format": "video/mp4",
+                "height": 720,
+                "width": 480,
+                "duration": 210
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/6",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "duration": 515,
+      "label": {
+        "en": [
+          "Sound canvas, streaming (.m3u8), no supplementing annotations, no thumbnail"
+        ]
+      },
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/6/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/6/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/6",
+              "body": {
+                "id": "https://pl.streamingvideoprovider.com/mp3-playlist/playlist.m3u8",
+                "type": "Sound",
+                "format": "audio/mpeg",
+                "height": 720,
+                "width": 480,
+                "duration": 515
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/3",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "label": {
+        "en": ["Image canvas #2"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/a555b137-2a90-4b51-90c8-cc9aa61ed2d6/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "service": [
+            {
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "type": "http://iiif.io/api/image/2/context.json",
+              "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/a555b137-2a90-4b51-90c8-cc9aa61ed2d6"
+            }
+          ],
+          "width": 8540,
+          "height": 8714
+        }
+      ],
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/3/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/3/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/3",
+              "body": {
+                "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/a555b137-2a90-4b51-90c8-cc9aa61ed2d6/full/600,/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "service": [
+                  {
+                    "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/a555b137-2a90-4b51-90c8-cc9aa61ed2d6",
+                    "profile": "http://iiif.io/api/image/2/level2.json",
+                    "type": "ImageService2"
+                  }
+                ],
+                "height": 2197,
+                "width": 4155
+              }
             }
           ]
         }
