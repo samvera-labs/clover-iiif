@@ -8,6 +8,7 @@ import {
 } from "@hyperion-framework/types";
 import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
 import { getLabel } from "hooks/use-hyperion-framework";
+import AudioVisualizer from "./AudioVisualizer";
 
 // Set referrer header as a NU domain: ie. meadow.rdc-staging.library.northwestern.edu
 
@@ -75,6 +76,8 @@ const Player: React.FC<PlayerProps> = ({
       }
     });
 
+    console.log(`playerRef`, playerRef);
+
     return () => {
       if (hls) {
         hls.detachMedia();
@@ -92,10 +95,11 @@ const Player: React.FC<PlayerProps> = ({
 
   const handlePlay = () => {
     let video: any = playerRef.current;
-    if (video)
+    if (video) {
       video.ontimeupdate = (event: any) => {
         currentTime(event.target.currentTime);
       };
+    }
   };
 
   return (
@@ -128,6 +132,10 @@ const Player: React.FC<PlayerProps> = ({
           })}
         Sorry, your browser doesn't support embedded videos.
       </video>
+
+      {painting?.format?.includes("audio/") && (
+        <AudioVisualizer ref={playerRef} />
+      )}
     </PlayerWrapper>
   );
 };
