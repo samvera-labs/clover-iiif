@@ -27,14 +27,12 @@ const Player: React.FC<PlayerProps> = ({
   const viewerState: any = useViewerState();
   const { time } = viewerState;
   const isAudio = painting?.format?.includes("audio/");
-  const [isAudioPlaying, setIsAudioPlaying] = React.useState(false);
 
   /**
    * HLS.js binding for .m3u8 files
    * STAGING and PRODUCTION environments only
    */
   React.useEffect(() => {
-    setIsAudioPlaying(false);
     /**
      * Check that IIIF content resource ID exists and
      * we have a reffed <video> for attaching HLS
@@ -101,11 +99,10 @@ const Player: React.FC<PlayerProps> = ({
         currentTime(event.target.currentTime);
       };
     }
-    setIsAudioPlaying(true);
   };
 
   return (
-    <PlayerWrapper transparent={isAudioPlaying}>
+    <PlayerWrapper>
       <video
         id="react-media-player"
         key={painting.id}
