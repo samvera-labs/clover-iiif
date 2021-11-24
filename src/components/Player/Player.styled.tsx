@@ -13,5 +13,16 @@ export const PlayerWrapper = styled("div", {
     width: "100%",
     height: "100%",
     backgroundColor: "$primaryAlt",
+    zIndex: "1",
+  },
+
+  variants: {
+    transparent: {
+      true: {
+        video: {
+          background: "transparent",
+        },
+      },
+    },
   },
 });

@@ -1,4 +1,5 @@
 import React from "react";
+import { AudioVisualizerWrapper } from "./AudioVisualizer.styled";
 
 const AudioVisualizer = React.forwardRef((props, ref: any) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -6,12 +7,11 @@ const AudioVisualizer = React.forwardRef((props, ref: any) => {
 
   React.useEffect(() => {
     if (!ref) return;
-    console.log(`ref`, ref);
+    // Add a callback fn to the `<video>` onplay event
     ref.current.onplay = audioVisualizer;
   }, [ref]);
 
   function audioVisualizer() {
-    console.log(`audioVisualizer loads`);
     const video = ref.current;
     const context = new AudioContext();
     const src = context.createMediaElementSource(video);
@@ -19,8 +19,8 @@ const AudioVisualizer = React.forwardRef((props, ref: any) => {
 
     const canvas = canvasRef.current;
     if (!canvas) return;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = video.offsetWidth;
+    canvas.height = video.offsetHeight;
     const ctx = canvas.getContext("2d");
 
     src.connect(analyser);
@@ -29,9 +29,7 @@ const AudioVisualizer = React.forwardRef((props, ref: any) => {
     analyser.fftSize = 256;
 
     const bufferLength = analyser.frequencyBinCount;
-    console.log(`bufferLength`, bufferLength);
     const dataArray = new Uint8Array(bufferLength);
-    console.log(`dataArray`, dataArray);
 
     setInterval(function () {
       renderFrame(
@@ -63,26 +61,15 @@ const AudioVisualizer = React.forwardRef((props, ref: any) => {
     ctx.fillRect(0, 0, width, height);
 
     for (let i = 0; i < bufferLength; i++) {
-      barHeight = dataArray[i] * 4;
-      //console.log(`barHeight`, barHeight);
-
-      const r = 26 + i * 4;
-      const g = 114;
-      const b = 197;
-      const alpha = 1;
-
-      ctx.fillStyle = "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
+      barHeight = dataArray[i] * 2;
+      ctx.fillStyle = `rgba(${78}, 42, 132, 1)`;
       ctx.fillRect(x, height - barHeight, barWidth, barHeight);
 
       x += barWidth + 6;
     }
   }
 
-  return (
-    <div className="canopy-video-background">
-      <canvas id="canopy-audio-visualizer" ref={canvasRef}></canvas>
-    </div>
-  );
+  return <AudioVisualizerWrapper ref={canvasRef} />;
 });
 
 export default AudioVisualizer;

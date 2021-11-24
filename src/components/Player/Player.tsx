@@ -26,12 +26,15 @@ const Player: React.FC<PlayerProps> = ({
   const playerRef = React.useRef(null);
   const viewerState: any = useViewerState();
   const { time } = viewerState;
+  const isAudio = painting?.format?.includes("audio/");
+  const [isAudioPlaying, setIsAudioPlaying] = React.useState(false);
 
   /**
    * HLS.js binding for .m3u8 files
    * STAGING and PRODUCTION environments only
    */
   React.useEffect(() => {
+    setIsAudioPlaying(false);
     /**
      * Check that IIIF content resource ID exists and
      * we have a reffed <video> for attaching HLS
@@ -76,8 +79,6 @@ const Player: React.FC<PlayerProps> = ({
       }
     });
 
-    console.log(`playerRef`, playerRef);
-
     return () => {
       if (hls) {
         hls.detachMedia();
@@ -100,10 +101,11 @@ const Player: React.FC<PlayerProps> = ({
         currentTime(event.target.currentTime);
       };
     }
+    setIsAudioPlaying(true);
   };
 
   return (
-    <PlayerWrapper>
+    <PlayerWrapper transparent={isAudioPlaying}>
       <video
         id="react-media-player"
         key={painting.id}
@@ -133,9 +135,7 @@ const Player: React.FC<PlayerProps> = ({
         Sorry, your browser doesn't support embedded videos.
       </video>
 
-      {painting?.format?.includes("audio/") && (
-        <AudioVisualizer ref={playerRef} />
-      )}
+      {isAudio && <AudioVisualizer ref={playerRef} />}
     </PlayerWrapper>
   );
 };
