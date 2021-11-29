@@ -1,9 +1,8 @@
 import React from "react";
 import { AudioVisualizerWrapper } from "./AudioVisualizer.styled";
 
-const AudioVisualizer = React.forwardRef((props, ref: any) => {
+const AudioVisualizer = React.forwardRef((_props, ref: any) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
-  const isSafari = false;
 
   React.useEffect(() => {
     if (!ref) return;
