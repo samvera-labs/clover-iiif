@@ -11,6 +11,8 @@ React Media Player is a UI component that renders a multicanvas IIIF viewer inte
 - Renders a multi-canvas _Video_, _Sound_, and _Image_ viewer
 - Renders thumbnails as navigation between canvases
 - Renders annotations with the [motivation](https://iiif.io/api/presentation/3.0/#values-for-motivation) of `supplementing` with a content resource having the format of `text/vtt` for _Video_ and _Sound_
+- _Video_ and _Sound_ are rendered within a HTML5 `<video>` element
+- _Image_ canvases are renderered with [OpenSeadragon](https://openseadragon.github.io/)
 - Supports HLS streaming for **.m3u8** extentions
 
 ---
@@ -182,6 +184,7 @@ React Media Player is built with:
 - TypeScript
 - [ESBuild](https://esbuild.github.io/)
 - [Hyperion Framework](https://hyperion.stephen.wf/the-vault/vault-api/)
+- [OpenSeadragon](https://openseadragon.github.io/)
 - [Radix UI](https://www.radix-ui.com/)
 - [Stitches](https://stitches.dev/)
 

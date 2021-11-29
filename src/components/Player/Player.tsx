@@ -8,6 +8,7 @@ import {
 } from "@hyperion-framework/types";
 import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
 import { getLabel } from "hooks/use-hyperion-framework";
+import AudioVisualizer from "./AudioVisualizer";
 
 // Set referrer header as a NU domain: ie. meadow.rdc-staging.library.northwestern.edu
 
@@ -25,6 +26,7 @@ const Player: React.FC<PlayerProps> = ({
   const playerRef = React.useRef(null);
   const viewerState: any = useViewerState();
   const { time } = viewerState;
+  const isAudio = painting?.format?.includes("audio/");
 
   /**
    * HLS.js binding for .m3u8 files
@@ -92,10 +94,11 @@ const Player: React.FC<PlayerProps> = ({
 
   const handlePlay = () => {
     let video: any = playerRef.current;
-    if (video)
+    if (video) {
       video.ontimeupdate = (event: any) => {
         currentTime(event.target.currentTime);
       };
+    }
   };
 
   return (
@@ -128,6 +131,8 @@ const Player: React.FC<PlayerProps> = ({
           })}
         Sorry, your browser doesn't support embedded videos.
       </video>
+
+      {isAudio && <AudioVisualizer ref={playerRef} />}
     </PlayerWrapper>
   );
 };

@@ -1,15 +1,20 @@
 import { styled } from "stitches";
 
 export const PlayerWrapper = styled("div", {
+  position: "relative",
+  backgroundColor: "$primaryAlt",
+  display: "flex",
   flexGrow: "0",
-  flexShrink: "0",
-  maxHeight: "61.8vh",
+  flexShrink: "1",
+  maxHeight: "450px",
 
   video: {
+    backgroundColor: "transparent",
     display: "flex",
-    objectFit: "cover",
+    position: "relative",
+    objectFit: "contain",
     width: "100%",
     height: "100%",
-    backgroundColor: "$secondaryMuted",
+    zIndex: "1",
   },
 });
