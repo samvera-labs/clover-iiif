@@ -1,6 +1,7 @@
 import { styled } from "stitches";
 
 export const PlayerWrapper = styled("div", {
+  position: "relative",
   backgroundColor: "$primaryAlt",
   display: "flex",
   flexGrow: "0",
