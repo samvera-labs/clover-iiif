@@ -16,6 +16,7 @@ const Item = styled("button", {
   backgroundColor: "#000D",
   filter: "drop-shadow(5px 5px 5px #0006)",
   transition: "$all",
+  boxSizing: "content-box",
 
   svg: {
     height: "70%",
@@ -25,6 +26,7 @@ const Item = styled("button", {
     stroke: "$secondary",
     filter: "drop-shadow(5px 5px 5px #000D)",
     transition: "$all",
+    boxSizing: "inherit",
   },
 
   "&:hover, &:focus": {
