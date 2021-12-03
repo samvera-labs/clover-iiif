@@ -1,8 +1,21 @@
 import * as RadioGroup from "@radix-ui/react-radio-group";
 import { styled } from "stitches";
+import { Tag } from "@nulib/design-system";
+
+const Type = styled("span", {
+  display: "flex",
+});
+
+const Spacer = styled("span", {
+  display: "flex",
+  width: "1.2111rem",
+  height: "0.7222rem",
+});
 
 const Duration = styled("span", {
-  display: "flex",
+  display: "inline-flex",
+  marginLeft: "5px",
+  marginBottom: "-1px",
 });
 
 const Item = styled(RadioGroup.Item, {
@@ -29,6 +42,7 @@ const Item = styled(RadioGroup.Item, {
       width: "199px",
       height: "123px",
       overflow: "hidden",
+      borderRadius: "3px",
       transition: "$all",
 
       img: {
@@ -41,16 +55,19 @@ const Item = styled(RadioGroup.Item, {
         color: "transparent",
       },
 
-      [`& ${Duration}`]: {
+      [`& ${Type}`]: {
         position: "absolute",
-        right: "0",
-        bottom: "0",
-        padding: "0.25rem 0.5rem 0.2rem",
-        backgroundColor: "$primaryAlt",
-        color: "$secondary",
-        fontSize: "0.8333rem",
-        borderRadius: "1px",
-        opacity: "1",
+        right: "0.5rem",
+        bottom: "0.5rem",
+
+        [`& ${Tag}`]: {
+          margin: "0",
+          paddingLeft: "0",
+          fontSize: "0.7222rem",
+          backgroundColor: "#000d",
+          color: "$secondary",
+          fill: "$secondary",
+        },
       },
     },
 
@@ -90,8 +107,10 @@ const Item = styled(RadioGroup.Item, {
           filter: "blur(1px)",
         },
 
-        [`& ${Duration}`]: {
-          backgroundColor: "$accent",
+        [`& ${Type}`]: {
+          [`& ${Tag}`]: {
+            backgroundColor: "$accent",
+          },
         },
       },
     },
@@ -103,4 +122,4 @@ const Item = styled(RadioGroup.Item, {
   },
 });
 
-export { Duration, Item };
+export { Duration, Item, Spacer, Type };

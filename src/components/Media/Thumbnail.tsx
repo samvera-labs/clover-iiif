@@ -6,8 +6,32 @@ import {
   IIIFExternalWebResource,
   InternationalString,
 } from "@hyperion-framework/types";
-import { Duration, Item } from "./Thumbnail.styled";
+import { Icon, Tag } from "@nulib/design-system";
+import { Duration, Item, Spacer, Type } from "./Thumbnail.styled";
 
+/**
+ * Determine appropriate icon by resource type
+ */
+interface IconPathProps {
+  type: string;
+}
+
+const IconPath: React.FC<IconPathProps> = ({ type }) => {
+  switch (type) {
+    case "Sound":
+      return <Icon.Audio />;
+    case "Image":
+      return <Icon.Image />;
+    case "Video":
+      return <Icon.Video />;
+    default:
+      return <Icon.Image />;
+  }
+};
+
+/**
+ * Render thumbnail for IIIF canvas item
+ */
 export interface ThumbnailProps {
   canvas: CanvasNormalized;
   isActive: boolean;
@@ -35,9 +59,18 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
       <figure>
         <div>
           {thumbnail?.id && <img src={thumbnail.id} alt={label} />}
-          {["Video", "Sound"].includes(type) && (
-            <Duration>{convertTime(canvas.duration as number)}</Duration>
-          )}
+
+          <Type>
+            <Tag isIcon>
+              <Spacer />
+              <Icon aria-label={type}>
+                <IconPath type={type} />
+              </Icon>
+              {["Video", "Sound"].includes(type) && (
+                <Duration>{convertTime(canvas.duration as number)}</Duration>
+              )}
+            </Tag>
+          </Type>
         </div>
         <figcaption>{label}</figcaption>
       </figure>
