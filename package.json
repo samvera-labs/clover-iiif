@@ -1,6 +1,6 @@
 {
   "name": "@nulib/react-media-player",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Viewer for audio, video and image file types driven by a IIIF manifest",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
