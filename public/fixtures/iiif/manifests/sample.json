@@ -1,6 +1,6 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
-  "id": "https://raw.githubusercontent.com/nulib/react-media-player/2412-video-object-fit/public/fixtures/iiif/manifests/sample.json",
+  "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample.json",
   "type": "Manifest",
   "label": {
     "en": ["Assorted canvases for testing nulib/react-media-player"]
