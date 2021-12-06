@@ -16,7 +16,7 @@ const Item = styled("button", {
   backgroundColor: "#000D",
   filter: "drop-shadow(5px 5px 5px #0006)",
   transition: "$all",
-  boxSizing: "content-box",
+  boxSizing: "content-box !important",
 
   svg: {
     height: "70%",
