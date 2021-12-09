@@ -1,4 +1,4 @@
-import { styled } from "@stitches/react";
+import { styled } from "stitches";
 
 const Navigator = styled("div", {
   position: "absolute !important",
@@ -9,10 +9,16 @@ const Navigator = styled("div", {
   height: "100px",
   backgroundColor: "#000D",
   boxShadow: "5px 5px 5px #0002",
+  borderRadius: "3px",
 
   "#openseadragon-navigator-displayregion": {
     border: " 3px solid $accent !important",
     boxShadow: "0 0 3px #0006",
+  },
+
+  "@sm": {
+    width: "123px",
+    height: "76px",
   },
 });
 
@@ -30,6 +36,8 @@ const Wrapper = styled("div", {
   backgroundSize: "contain",
   color: "white",
   position: "relative",
+  zIndex: "1",
+  overflow: "hidden",
 });
 
 export { Navigator, Viewport, Wrapper };

@@ -7,6 +7,7 @@ export const PlayerWrapper = styled("div", {
   flexGrow: "0",
   flexShrink: "1",
   maxHeight: "450px",
+  zIndex: "1",
 
   video: {
     backgroundColor: "transparent",

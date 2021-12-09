@@ -31,19 +31,35 @@ const Item = styled(RadioGroup.Item, {
   fontSize: "1rem",
   textAlign: "left",
 
+  "@sm": {
+    margin: "0 1rem 0 0",
+
+    "&:last-child": {
+      marginRight: "0",
+    },
+  },
+
   figure: {
     margin: "0",
-    width: "199px",
+    width: "161.8px",
+
+    "@sm": {
+      width: "123px",
+    },
 
     "> div": {
       position: "relative",
       display: "flex",
       backgroundColor: "$secondaryAlt",
-      width: "199px",
-      height: "123px",
+      width: "inherit",
+      height: "100px",
       overflow: "hidden",
       borderRadius: "3px",
       transition: "$all",
+
+      "@sm": {
+        height: "76px",
+      },
 
       img: {
         width: "100%",
@@ -60,6 +76,11 @@ const Item = styled(RadioGroup.Item, {
         right: "0.5rem",
         bottom: "0.5rem",
 
+        "@sm": {
+          right: "0",
+          bottom: "0",
+        },
+
         [`& ${Tag}`]: {
           margin: "0",
           paddingLeft: "0",
@@ -67,6 +88,11 @@ const Item = styled(RadioGroup.Item, {
           backgroundColor: "#000d",
           color: "$secondary",
           fill: "$secondary",
+
+          "@sm": {
+            borderBottomLeftRadius: "0",
+            borderTopRightRadius: "0",
+          },
         },
       },
     },
@@ -76,6 +102,10 @@ const Item = styled(RadioGroup.Item, {
       color: "$primaryMuted",
       fontSize: "1rem",
       fontWeight: "400",
+
+      "@sm": {
+        fontSize: "0.8333rem",
+      },
     },
   },
 
@@ -99,6 +129,10 @@ const Item = styled(RadioGroup.Item, {
           flexDirection: "column",
           justifyContent: "center",
           textAlign: "center",
+
+          "@sm": {
+            fontSize: "0.6111rem",
+          },
         },
 
         img: {

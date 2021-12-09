@@ -31,10 +31,20 @@ export const theme = {
     display: "Campton, 'Akkurat Pro Regular', Arial, sans-serif",
   },
   transitions: {
-    all: "all 200ms ease-in-out",
+    all: "all 500ms cubic-bezier(0.16, 1, 0.3, 1)",
   },
+};
+
+export const media = {
+  xxs: "(max-width: 349px)",
+  xs: "(max-width: 575px)",
+  sm: "(max-width: 767px)",
+  md: "(max-width: 991px)",
+  xl: "(max-width: 1199px)",
+  lg: "(min-width: 1200px)",
 };
 
 export const { styled, css, keyframes, createTheme } = createStitches({
   theme,
+  media,
 });

@@ -7,18 +7,9 @@ import {
 import { Navigator, Viewport, Wrapper } from "./ImageViewer.styled";
 import Controls from "./Controls";
 
-const ImageViewer: React.FC<IIIFExternalWebResource> = ({
-  height,
-  service,
-  width,
-}) => {
+const ImageViewer: React.FC<IIIFExternalWebResource> = ({ service }) => {
   const [openSeadragonInstance, setOpenSeadragonInstance] = useState<Viewer>();
   const [imageService, setImageService] = useState<ImageService>();
-
-  let navigatorWidth = 100;
-
-  if (width && height)
-    navigatorWidth = ((width as number) / (height as number)) * 100;
 
   /**
    * Initiate OpenSeadragon
@@ -75,10 +66,7 @@ const ImageViewer: React.FC<IIIFExternalWebResource> = ({
   return (
     <Wrapper data-testid="image-viewer">
       <Controls />
-      <Navigator
-        id="openseadragon-navigator"
-        style={{ width: navigatorWidth }}
-      />
+      <Navigator id="openseadragon-navigator" />
       <Viewport id="openseadragon-viewport" />
     </Wrapper>
   );
