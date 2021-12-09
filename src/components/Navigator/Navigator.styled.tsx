@@ -12,6 +12,11 @@ const Wrapper = styled(Tabs.Root, {
   zIndex: "1",
   boxShadow: "-5px -5px 5px #00000011",
 
+  "@sm": {
+    marginTop: "0.5rem",
+    boxShadow: "none",
+  },
+
   "&:after": {
     position: "absolute",
     bottom: 0,
@@ -20,21 +25,29 @@ const Wrapper = styled(Tabs.Root, {
     height: "1rem",
     backgroundImage: `linear-gradient(0deg, #FFFFFF 0%, #FFFFFF00 100%)`,
     zIndex: 1,
+
+    "@sm": {
+      backgroundImage: "none",
+    },
   },
 });
 
 const List = styled(Tabs.List, {
   display: "flex",
   flexGrow: "0",
-  margin: "0 1.618rem 0",
+  margin: "0 1.618rem",
   borderBottom: "4px solid $secondaryAlt",
   backgroundColor: "$secondary",
+
+  "@sm": {
+    margin: "0 1rem",
+  },
 });
 
 const Trigger = styled(Tabs.Trigger, {
   display: "flex",
   position: "relative",
-  padding: "0.6rem 1rem 0.5rem",
+  padding: "0.5rem 1rem",
   background: "none",
   backgroundColor: "transparent",
   color: "$primaryMuted",

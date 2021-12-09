@@ -6,7 +6,11 @@ const spin = keyframes({
   to: { transform: "rotate(0deg)" },
 });
 
-export const Group = styled(RadioGroup.Root, {});
+export const Group = styled(RadioGroup.Root, {
+  display: "flex",
+  flexDirection: "column",
+  width: "100%",
+});
 
 export const Item = styled(RadioGroup.Item, {
   position: "relative",
@@ -17,13 +21,18 @@ export const Item = styled(RadioGroup.Item, {
   justifyContent: "space-between",
   textAlign: "left",
   margin: "0",
-  padding: "0.55rem 1.618rem 0.45rem",
+  padding: "0.5rem 1.618rem",
   fontFamily: "inherit",
   lineHeight: "1.25em",
   fontSize: "1rem",
   color: "$primaryMuted",
   border: "none",
   background: "none",
+
+  "@sm": {
+    padding: "0.5rem 1rem",
+    fontSize: "0.8333rem",
+  },
 
   "&::before": {
     content: "",
@@ -34,8 +43,12 @@ export const Item = styled(RadioGroup.Item, {
     backgroundColor: "$primaryMuted",
     opacity: "0",
     left: "8px",
-    marginTop: "5px",
+    marginTop: "3px",
     boxSizing: "content-box",
+
+    "@sm": {
+      content: "unset",
+    },
   },
 
   "&::after": {
@@ -47,8 +60,12 @@ export const Item = styled(RadioGroup.Item, {
     opacity: "0",
     clipPath: "polygon(100% 50%, 0 100%, 0 0)",
     left: "13px",
-    marginTop: "8px",
+    marginTop: "6px",
     boxSizing: "content-box",
+
+    "@sm": {
+      content: "unset",
+    },
   },
 
   strong: {
@@ -92,6 +109,10 @@ export const Item = styled(RadioGroup.Item, {
       animation: "1s linear infinite",
       animationName: spin,
       boxSizing: "content-box",
+
+      "@sm": {
+        content: "unset",
+      },
     },
 
     "&::after": {
@@ -109,6 +130,10 @@ export const Item = styled(RadioGroup.Item, {
       animation: "1.5s linear infinite",
       animationName: spin,
       boxSizing: "content-box",
+
+      "@sm": {
+        content: "unset",
+      },
     },
   },
 
