@@ -105,49 +105,33 @@
       ]
     },
     {
-      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/5",
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/6",
       "type": "Canvas",
       "width": 720,
       "height": 480,
-      "duration": 866,
+      "duration": 515,
       "label": {
         "en": [
-          "Sound canvas, non-streaming (.mp3), no supplementing annotations"
+          "Sound canvas, streaming (.m3u8), no supplementing annotations, no thumbnail"
         ]
       },
-      "thumbnail": [
-        {
-          "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/7c6db552-3789-4e70-b7f4-48f0086bc36e/full/!300,300/0/default.jpg",
-          "type": "Image",
-          "format": "image/jpeg",
-          "service": [
-            {
-              "profile": "http://iiif.io/api/image/2/level2.json",
-              "type": "http://iiif.io/api/image/2/context.json",
-              "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/7c6db552-3789-4e70-b7f4-48f0086bc36e"
-            }
-          ],
-          "width": 8540,
-          "height": 871
-        }
-      ],
       "items": [
         {
-          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/5/annotation_page/1",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/6/annotation_page/1",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/5/annotation_page/1/annotation/1",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/6/annotation_page/1/annotation/1",
               "type": "Annotation",
               "motivation": "painting",
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/5",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/6",
               "body": {
-                "id": "http://www.hochmuth.com/mp3/Haydn_Cello_Concerto_D-1.mp3",
+                "id": "https://pl.streamingvideoprovider.com/mp3-playlist/playlist.m3u8",
                 "type": "Sound",
                 "format": "audio/mpeg",
                 "height": 720,
                 "width": 480,
-                "duration": 866
+                "duration": 515
               }
             }
           ]
@@ -337,40 +321,6 @@
                 "height": 720,
                 "width": 480,
                 "duration": 210
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/6",
-      "type": "Canvas",
-      "width": 720,
-      "height": 480,
-      "duration": 515,
-      "label": {
-        "en": [
-          "Sound canvas, streaming (.m3u8), no supplementing annotations, no thumbnail"
-        ]
-      },
-      "items": [
-        {
-          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/6/annotation_page/1",
-          "type": "AnnotationPage",
-          "items": [
-            {
-              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/6/annotation_page/1/annotation/1",
-              "type": "Annotation",
-              "motivation": "painting",
-              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample/canvas/6",
-              "body": {
-                "id": "https://pl.streamingvideoprovider.com/mp3-playlist/playlist.m3u8",
-                "type": "Sound",
-                "format": "audio/mpeg",
-                "height": 720,
-                "width": 480,
-                "duration": 515
               }
             }
           ]
