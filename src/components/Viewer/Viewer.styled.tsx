@@ -46,7 +46,7 @@ const CollapsibleTrigger = styled(Collapsible.Trigger, {
   "@sm": {
     display: "flex",
 
-    "> *": {
+    "> span": {
       display: "flex",
       flexGrow: "1",
       margin: "1rem 1rem 0",
@@ -124,6 +124,7 @@ const ViewerWrapper = styled("section", {
       width: "100%",
       top: "0",
       left: "0",
+      zIndex: "2500000000",
 
       [`& ${MediaWrapper}`]: {
         display: "none",
