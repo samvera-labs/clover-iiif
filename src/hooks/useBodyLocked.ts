@@ -10,12 +10,12 @@ export const useBodyLocked = (initialLocked = false): ReturnType => {
       return;
     }
 
-    const originalOverflow = document.body.style.overflow;
+    const originalOverflow = document.documentElement.style.overflow;
 
-    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
 
     return () => {
-      document.body.style.overflow = originalOverflow;
+      document.documentElement.style.overflow = originalOverflow;
     };
   }, [locked]);
 

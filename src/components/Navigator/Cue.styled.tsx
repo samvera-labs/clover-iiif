@@ -17,7 +17,6 @@ export const Item = styled(RadioGroup.Item, {
   cursor: "pointer",
   display: "flex",
   width: "100%",
-  flexGrow: "1",
   justifyContent: "space-between",
   textAlign: "left",
   margin: "0",
