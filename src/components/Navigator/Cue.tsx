@@ -1,17 +1,15 @@
 import React from "react";
 import { useViewerDispatch } from "context/viewer-context";
 import { Item } from "./Cue.styled";
-
-import { cleanTime } from "services/utils";
+import { convertTime } from "services/utils";
 
 interface Props {
   label: string;
-  startTime: string;
   isActive: boolean;
   time: number;
 }
 
-const Cue: React.FC<Props> = ({ label, startTime, isActive, time }) => {
+const Cue: React.FC<Props> = ({ label, isActive, time }) => {
   const dispatch: any = useViewerDispatch();
 
   const handleClick = () => {
@@ -29,7 +27,7 @@ const Cue: React.FC<Props> = ({ label, startTime, isActive, time }) => {
       value={label}
     >
       {label}
-      <strong>{cleanTime(startTime)}</strong>
+      <strong>{convertTime(time)}</strong>
     </Item>
   );
 };

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import { fromVtt } from "subtitles-parser-vtt";
 import Cue from "components/Navigator/Cue";
-import { convertTimeToSeconds } from "services/utils";
 import { getLabel } from "hooks/use-hyperion-framework";
 import { InternationalString } from "@hyperion-framework/types";
 import { Group } from "./Cue.styled";
+
+const webvtt = require("node-webvtt");
 
 interface Resource {
   currentTime: number;
@@ -13,8 +13,8 @@ interface Resource {
 
 interface Cue {
   id: number;
-  startTime: string;
-  endTime: string;
+  start: number;
+  end: number;
   text: string;
 }
 
@@ -31,7 +31,7 @@ const Resource: React.FC<Resource> = ({ currentTime, resource }) => {
     })
       .then((response) => response.text())
       .then((data) => {
-        setCues(fromVtt(data) as unknown as Array<Cue>);
+        setCues(webvtt.parse(data).cues as unknown as Array<Cue>);
       })
       .catch((error) => console.error(id, error.toString()));
   }, [id]);
@@ -40,20 +40,15 @@ const Resource: React.FC<Resource> = ({ currentTime, resource }) => {
     <Group
       aria-label={`navigate ${getLabel(label as InternationalString, "en")}`}
     >
-      {cues.map(({ id, text, startTime, endTime }) => {
-        const startTimeSeconds = convertTimeToSeconds(startTime);
-        const endTimeSeconds = convertTimeToSeconds(endTime);
-
-        let active =
-          startTimeSeconds <= currentTime && currentTime < endTimeSeconds;
+      {cues.map(({ text, start, end }) => {
+        let active = start <= currentTime && currentTime < end;
 
         return (
           <Cue
             isActive={active}
             label={text}
-            startTime={startTime}
-            time={startTimeSeconds}
-            key={id}
+            time={start}
+            key={`${start}:${end}`}
           />
         );
       })}
