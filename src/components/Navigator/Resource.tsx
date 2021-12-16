@@ -4,7 +4,8 @@ import { getLabel } from "hooks/use-hyperion-framework";
 import { InternationalString } from "@hyperion-framework/types";
 import { Group } from "./Cue.styled";
 
-const webvtt = require("node-webvtt");
+// @ts-ignore
+import { parse } from "node-webvtt";
 
 interface Resource {
   currentTime: number;
@@ -31,7 +32,7 @@ const Resource: React.FC<Resource> = ({ currentTime, resource }) => {
     })
       .then((response) => response.text())
       .then((data) => {
-        setCues(webvtt.parse(data).cues as unknown as Array<Cue>);
+        setCues(parse(data).cues as unknown as Array<Cue>);
       })
       .catch((error) => console.error(id, error.toString()));
   }, [id]);
