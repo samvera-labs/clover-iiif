@@ -3,6 +3,7 @@ import Cue from "components/Navigator/Cue";
 import { getLabel } from "hooks/use-hyperion-framework";
 import { InternationalString } from "@hyperion-framework/types";
 import { Group } from "./Cue.styled";
+import useWebVtt, { NodeWebVttCue } from "hooks/use-webvtt";
 
 // @ts-ignore
 import { parse } from "node-webvtt";
@@ -12,16 +13,10 @@ interface Resource {
   resource: any;
 }
 
-interface Cue {
-  id: number;
-  start: number;
-  end: number;
-  text: string;
-}
-
 const Resource: React.FC<Resource> = ({ currentTime, resource }) => {
-  const [cues, setCues] = React.useState<Array<Cue>>([]);
+  const [cues, setCues] = React.useState<Array<NodeWebVttCue>>([]);
   const { id, label } = resource;
+  const { createNestedCues, isChild, orderCuesByTime } = useWebVtt();
 
   useEffect(() => {
     fetch(id, {
@@ -32,7 +27,11 @@ const Resource: React.FC<Resource> = ({ currentTime, resource }) => {
     })
       .then((response) => response.text())
       .then((data) => {
-        setCues(parse(data).cues as unknown as Array<Cue>);
+        const flatCues = parse(data).cues as unknown as Array<NodeWebVttCue>;
+        const orderedCues = orderCuesByTime(flatCues);
+        const nestedCues = createNestedCues(orderedCues);
+        console.log(`nestedCues`, nestedCues);
+        setCues(orderedCues);
       })
       .catch((error) => console.error(id, error.toString()));
   }, [id]);
@@ -47,6 +46,7 @@ const Resource: React.FC<Resource> = ({ currentTime, resource }) => {
         return (
           <Cue
             isActive={active}
+            isChild={isChild({ start, end, text }, cues)}
             label={text}
             time={start}
             key={`${start}:${end}`}
