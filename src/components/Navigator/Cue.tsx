@@ -6,7 +6,7 @@ import { convertTime } from "services/utils";
 interface Props {
   label: string;
   isActive: boolean;
-  isChild: boolean;
+  isChild?: boolean;
   time: number;
 }
 
@@ -24,9 +24,9 @@ const Cue: React.FC<Props> = ({ label, isActive, isChild, time }) => {
     <Item
       aria-checked={isActive}
       data-testid="navigator-cue"
-      isChild={isChild}
       onClick={handleClick}
       value={label}
+      isChild={isChild}
     >
       {label}
       <strong>{convertTime(time)}</strong>

@@ -3,7 +3,10 @@ import Cue from "components/Navigator/Cue";
 import { getLabel } from "hooks/use-hyperion-framework";
 import { InternationalString } from "@hyperion-framework/types";
 import { Group } from "./Cue.styled";
-import useWebVtt, { NodeWebVttCue } from "hooks/use-webvtt";
+import useWebVtt, {
+  NodeWebVttCue,
+  NodeWebVttCueNested,
+} from "hooks/use-webvtt";
 
 // @ts-ignore
 import { parse } from "node-webvtt";
@@ -14,9 +17,9 @@ interface Resource {
 }
 
 const Resource: React.FC<Resource> = ({ currentTime, resource }) => {
-  const [cues, setCues] = React.useState<Array<NodeWebVttCue>>([]);
+  const [cues, setCues] = React.useState<Array<NodeWebVttCueNested>>([]);
   const { id, label } = resource;
-  const { createNestedCues, isChild, orderCuesByTime } = useWebVtt();
+  const { createNestedCues, orderCuesByTime } = useWebVtt();
 
   useEffect(() => {
     fetch(id, {
@@ -31,7 +34,7 @@ const Resource: React.FC<Resource> = ({ currentTime, resource }) => {
         const orderedCues = orderCuesByTime(flatCues);
         const nestedCues = createNestedCues(orderedCues);
         console.log(`nestedCues`, nestedCues);
-        setCues(orderedCues);
+        setCues(nestedCues);
       })
       .catch((error) => console.error(id, error.toString()));
   }, [id]);
@@ -40,17 +43,34 @@ const Resource: React.FC<Resource> = ({ currentTime, resource }) => {
     <Group
       aria-label={`navigate ${getLabel(label as InternationalString, "en")}`}
     >
-      {cues.map(({ text, start, end }) => {
-        let active = start <= currentTime && currentTime < end;
+      {cues.map(({ text, start, end, children: cueChildren, identifier }) => {
+        const isActive = (start: number, end: number): boolean =>
+          start <= currentTime && currentTime < end;
 
         return (
-          <Cue
-            isActive={active}
-            isChild={isChild({ start, end, text }, cues)}
-            label={text}
-            time={start}
-            key={`${start}:${end}`}
-          />
+          <React.Fragment key={identifier}>
+            <Cue isActive={isActive(start, end)} label={text} time={start} />
+            {cueChildren &&
+              cueChildren.length > 0 &&
+              cueChildren.map(
+                ({
+                  start: childStart,
+                  end: childEnd,
+                  text: childText,
+                  identifier: childIdentifier,
+                }) => {
+                  return (
+                    <Cue
+                      isActive={isActive(childStart, childEnd)}
+                      isChild
+                      label={childText}
+                      time={childStart}
+                      key={childIdentifier}
+                    />
+                  );
+                },
+              )}
+          </React.Fragment>
         );
       })}
     </Group>
