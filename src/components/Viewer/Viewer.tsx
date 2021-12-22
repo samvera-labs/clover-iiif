@@ -1,36 +1,23 @@
 import React, { useEffect, useState } from "react";
 import {
   ExternalResourceTypes,
-  IIIFExternalWebResource,
   InternationalString,
   ManifestNormalized,
 } from "@hyperion-framework/types";
 import {
-  getLabel,
   getPaintingResource,
   getSupplementingResources,
 } from "hooks/use-hyperion-framework";
-import Media from "components/Media/Media";
-import Navigator from "components/Navigator/Navigator";
-import Player from "components/Player/Player";
 import { useViewerState } from "context/viewer-context";
-import ImageViewer from "components/ImageViewer/ImageViewer";
-import {
-  ViewerWrapper,
-  ViewerInner,
-  Main,
-  CollapsibleTrigger,
-  CollapsibleContent,
-  MediaWrapper,
-  Header,
-  Aside,
-} from "./Viewer.styled";
-import { Button } from "@nulib/design-system";
+import { Wrapper } from "./Viewer.styled";
 import { useMediaQuery } from "hooks/useMediaQuery";
 import { useBodyLocked } from "hooks/useBodyLocked";
 import { media } from "stitches";
-import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
 import * as Collapsible from "@radix-ui/react-collapsible";
+import ViewerHeader from "./Header";
+import ViewerContent from "./Content";
+import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
+import { IIIFExternalWebResource } from "@hyperion-framework/types";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
@@ -38,19 +25,26 @@ interface ViewerProps {
 }
 
 const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
-  // context state
+  /**
+   * Viewer State
+   */
   const viewerState: any = useViewerState();
   const { activeCanvas, configOptions, vault } = viewerState;
 
-  // local state
+  /**
+   * Local state
+   */
+  const [isMedia, setIsMedia] = useState(false);
+  const [isNavigator, setIsNavigator] = useState<boolean>(false);
+  const [isNavigatorOpen, setIsNavigatorOpen] = useState<boolean>(true);
   const [painting, setPainting] = useState<IIIFExternalWebResource | undefined>(
     undefined,
   );
   const [resources, setResources] = useState<LabeledResource[]>([]);
-  const [isMedia, setIsMedia] = useState(false);
-  const [currentTime, setCurrentTime] = useState<number>(0);
-  const [isNavigator, setIsNavigator] = useState<boolean>(false);
-  const [isNavigatorOpen, setIsNavigatorOpen] = useState<boolean>(true);
+
+  /**
+   * Hooks
+   */
   const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
   const isSmallViewport = useMediaQuery(media.sm);
 
@@ -89,10 +83,8 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
     setIsNavigator(resources.length !== 0);
   }, [activeCanvas]);
 
-  const handleCurrentTime = (t: number) => setCurrentTime(t);
-
   return (
-    <ViewerWrapper
+    <Wrapper
       className={theme}
       data-body-locked={isBodyLocked}
       data-navigator={isNavigator}
@@ -102,46 +94,22 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
         open={isNavigatorOpen}
         onOpenChange={setIsNavigatorOpen}
       >
-        {configOptions.showTitle && (
-          <Header>
-            <span>{getLabel(manifest.label as InternationalString, "en")}</span>
-          </Header>
-        )}
-        <ViewerInner>
-          <Main>
-            {isMedia ? (
-              <Player
-                painting={painting as IIIFExternalWebResource}
-                resources={resources}
-                currentTime={handleCurrentTime}
-              />
-            ) : (
-              <ImageViewer {...(painting as IIIFExternalWebResource)} />
-            )}
-            <CollapsibleTrigger data-navigator={isNavigator}>
-              <Button as="span">
-                {isNavigatorOpen ? "View Media Items" : "View Navigator"}
-              </Button>
-            </CollapsibleTrigger>
-            <MediaWrapper>
-              <Media items={manifest.items} activeItem={0} />
-            </MediaWrapper>
-          </Main>
-          {isNavigator && (
-            <Aside>
-              <CollapsibleContent>
-                <Navigator
-                  activeCanvas={activeCanvas}
-                  currentTime={currentTime}
-                  defaultResource={resources[0].id as string}
-                  resources={resources}
-                />
-              </CollapsibleContent>
-            </Aside>
-          )}
-        </ViewerInner>
+        <ViewerHeader
+          manifestLabel={manifest.label as InternationalString}
+          manifestId={manifest.id}
+          options={configOptions}
+        />
+        <ViewerContent
+          activeCanvas={activeCanvas}
+          painting={painting as IIIFExternalWebResource}
+          resources={resources}
+          items={manifest.items}
+          isMedia={isMedia}
+          isNavigator={isNavigator}
+          isNavigatorOpen={isNavigatorOpen}
+        />
       </Collapsible.Root>
-    </ViewerWrapper>
+    </Wrapper>
   );
 };
 

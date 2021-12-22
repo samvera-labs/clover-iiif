@@ -6,7 +6,7 @@ const MediaWrapper = styled("div", {
   zIndex: "0",
 });
 
-const ViewerInner = styled("div", {
+const Content = styled("div", {
   display: "flex",
   flexDirection: "row",
   overflow: "hidden",
@@ -70,24 +70,7 @@ const Aside = styled("aside", {
   },
 });
 
-const Header = styled("header", {
-  display: "flex",
-  backgroundColor: "transparent !important",
-
-  span: {
-    fontSize: "1.25rem",
-    fontWeight: "700",
-    padding: "0 0 1rem",
-    fontFamily: "$display",
-
-    "@sm": {
-      padding: "1rem",
-      fontSize: "1rem",
-    },
-  },
-});
-
-const ViewerWrapper = styled("section", {
+const Wrapper = styled("section", {
   display: "flex",
   flexDirection: "column",
   padding: "1.618rem",
@@ -103,7 +86,7 @@ const ViewerWrapper = styled("section", {
     justifyContent: "flex-start",
 
     "@sm": {
-      [`& ${ViewerInner}`]: {
+      [`& ${Content}`]: {
         flexGrow: "1",
       },
 
@@ -138,12 +121,11 @@ const ViewerWrapper = styled("section", {
 });
 
 export {
-  ViewerWrapper,
-  ViewerInner,
+  Wrapper,
+  Content,
   Main,
   MediaWrapper,
   CollapsibleContent,
   CollapsibleTrigger,
   Aside,
-  Header,
 };

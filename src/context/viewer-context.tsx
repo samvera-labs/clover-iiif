@@ -7,6 +7,7 @@ export type ConfigOptions = {
 
 const defaultConfigOptions = {
   showTitle: true,
+  showIIIFBadge: true,
 };
 
 interface ViewerContextStore {
