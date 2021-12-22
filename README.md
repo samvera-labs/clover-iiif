@@ -139,13 +139,14 @@ return <ReactMediaPlayer manifestId={manifestId} customTheme={customTheme} />;
 
 ## Reference
 
-| Prop                | Type     | Required | Default |
-| ------------------- | -------- | -------- | ------- |
-| `manifestId`        | String   | Yes      |         |
-| `canvasIdCallback`  | Function | No       |         |
-| `customTheme`       | Object   | No       |         |
-| `options`           | Object   | No       |         |
-| `options.showTitle` | Boolean  | No       | true    |
+| Prop                    | Type     | Required | Default |
+| ----------------------- | -------- | -------- | ------- |
+| `manifestId`            | String   | Yes      |         |
+| `canvasIdCallback`      | Function | No       |         |
+| `customTheme`           | Object   | No       |         |
+| `options`               | Object   | No       |         |
+| `options.showTitle`     | Boolean  | No       | true    |
+| `options.showIIIFBadge` | Boolean  | No       | true    |
 
 RMP version 1.4.0, introduces an `options` prop, which will serve as a configuration object for common configuration options.
 
@@ -156,8 +157,10 @@ import ReactMediaPlayer from "@nulib/react-media-player";
 
 // Supported options
 const options = {
-  // Primary title (IIIF label) for top level canvas.  Defaults to true
-  showTitle: false
+  // Primary title (Manifest label) for top level canvas.  Defaults to true
+  showTitle: false,
+  // IIIF Badge and popover containing options.  Defaults to true
+  showIIIFBadge: false
 }
 ...
 
