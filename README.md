@@ -2,11 +2,11 @@
 
 # React Media Player
 
-**An A/V media viewer driven by IIIF Presentation 3.0 API built with React.js**
+**An A/V media viewer driven by IIIF Presentation API built with React.js**
 
 [**View Demo**](https://codesandbox.io/s/nulib-react-media-player-sample-i0huq)
 
-React Media Player is a UI component that renders a multicanvas IIIF viewer intended for `Video` and `Sound` content resources with basic pan-zoom support for `Image` via OpenSeadragon. Provide a [IIIF Presentation 3.0](https://iiif.io/api/presentation/3.0/) manifest and the component:
+React Media Player is a UI component that renders a multicanvas IIIF viewer intended for `Video` and `Sound` content resources with basic pan-zoom support for `Image` via OpenSeadragon. Provide a [IIIF Presentation](https://iiif.io/api/presentation/3.0/) manifest and the component:
 
 - Renders a multi-canvas _Video_, _Sound_, and _Image_ viewer
 - Renders thumbnails as navigation between canvases
@@ -173,7 +173,7 @@ const options = {
 
 The manifest provided to `manifestId`:
 
-- MUST be a [IIIF Presentation 3.0 API](https://iiif.io/api/presentation/3.0/) valid manifest,
+- MUST be a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) valid manifest,
 - MUST have at least one canvas with an annotation of the **motivation** of `painting` and content resource with the **type** of `Video`, `Sound`, or `Image`
 - SHOULD have canvases with annotations of the **motivation** of `supplementing` and content resource with the **format** of `text/vtt`
 - MAY have HLS streaming media, however, the file extension MUST be `.m3u8` for `Sound` and `Video`
