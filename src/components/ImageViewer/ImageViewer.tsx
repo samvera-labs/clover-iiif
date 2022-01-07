@@ -6,6 +6,7 @@ import {
 } from "@hyperion-framework/types";
 import { Navigator, Viewport, Wrapper } from "./ImageViewer.styled";
 import Controls from "./Controls";
+import { getInfoResponse } from "services/iiif";
 
 const ImageViewer: React.FC<IIIFExternalWebResource> = ({ service }) => {
   const [openSeadragonInstance, setOpenSeadragonInstance] = useState<Viewer>();
@@ -33,7 +34,11 @@ const ImageViewer: React.FC<IIIFExternalWebResource> = ({ service }) => {
    * Loads tileSource of current canvas from IIIF image service
    */
   useEffect(() => {
-    if (imageService) openSeadragonInstance?.open(imageService.id);
+    if (imageService) {
+      getInfoResponse(imageService.id).then((tileSource) =>
+        openSeadragonInstance?.open(tileSource),
+      );
+    }
   }, [openSeadragonInstance, imageService]);
 
   /**
