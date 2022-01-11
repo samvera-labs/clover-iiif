@@ -218,4 +218,4 @@ tsc
 
 ## License
 
-This project is available under the MIT License.
+This project is available under the [MIT License](https://github.com/nulib/react-media-player/blob/main/LICENSE).
