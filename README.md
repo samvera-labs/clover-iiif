@@ -215,3 +215,7 @@ npm run build
 ```
 tsc
 ```
+
+## License
+
+This project is available under the MIT License.
