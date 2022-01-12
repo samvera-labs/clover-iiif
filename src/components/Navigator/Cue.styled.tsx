@@ -140,9 +140,9 @@ export const Item = styled(RadioGroup.Item, {
     margin: "0 0 1.618rem",
   },
 
-  variants: {
-    isChild: {
-      true: { paddingLeft: "1rem" },
-    },
-  },
+  // variants: {
+  //   isChild: {
+  //     true: { paddingLeft: "1rem" },
+  //   },
+  // },
 });

@@ -4,19 +4,19 @@ WEBVTT
 Introduction
 
 00:00.000 --> 00:44.000
-Topics
+Topics (child)
+
+00:10.000 --> 00:20.000
+More Topics (grandchild)
 
 00:44.000 --> 01:19.000
-Presenters
+Presenters (child)
 
 01:24.000 --> 05:00.000
 Scrolling Effects
 
 01:35.000 --> 03:00.000
 Achim's Demo
-
-00:10.000 --> 00:20.000
-Grandchild
 
 03:00.000 --> 05:00.000
 Timeline Panel

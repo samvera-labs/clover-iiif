@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Cue from "components/Navigator/Cue";
 import { getLabel } from "hooks/use-hyperion-framework";
 import { InternationalString } from "@hyperion-framework/types";
 import { Group } from "./Cue.styled";
@@ -7,6 +6,7 @@ import useWebVtt, {
   NodeWebVttCue,
   NodeWebVttCueNested,
 } from "hooks/use-webvtt";
+import Menu from "components/Navigator/Menu";
 
 // @ts-ignore
 import { parse } from "node-webvtt";
@@ -43,36 +43,7 @@ const Resource: React.FC<Resource> = ({ currentTime, resource }) => {
     <Group
       aria-label={`navigate ${getLabel(label as InternationalString, "en")}`}
     >
-      {cues.map(({ text, start, end, children: cueChildren, identifier }) => {
-        const isActive = (start: number, end: number): boolean =>
-          start <= currentTime && currentTime < end;
-
-        return (
-          <React.Fragment key={identifier}>
-            <Cue isActive={isActive(start, end)} label={text} time={start} />
-            {cueChildren &&
-              cueChildren.length > 0 &&
-              cueChildren.map(
-                ({
-                  start: childStart,
-                  end: childEnd,
-                  text: childText,
-                  identifier: childIdentifier,
-                }) => {
-                  return (
-                    <Cue
-                      isActive={isActive(childStart, childEnd)}
-                      isChild
-                      label={childText}
-                      time={childStart}
-                      key={childIdentifier}
-                    />
-                  );
-                },
-              )}
-          </React.Fragment>
-        );
-      })}
+      <Menu items={cues} currentTime={currentTime} />
     </Group>
   );
 };

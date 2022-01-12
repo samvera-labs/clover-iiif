@@ -22,11 +22,11 @@ const Cue: React.FC<Props> = ({ label, isActive, isChild, time }) => {
 
   return (
     <Item
-      aria-checked={isActive}
+      //aria-checked={isActive}
       data-testid="navigator-cue"
       onClick={handleClick}
       value={label}
-      isChild={isChild}
+      //isChild={isChild}
     >
       {label}
       <strong>{convertTime(time)}</strong>
