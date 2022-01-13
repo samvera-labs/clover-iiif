@@ -38,6 +38,8 @@ const ViewerContent: React.FC<Props> = ({
 
   const handleCurrentTime = (t: number) => setCurrentTime(t);
 
+  console.log(`resources`, resources);
+
   return (
     <Content>
       <Main>

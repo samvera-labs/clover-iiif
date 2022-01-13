@@ -250,7 +250,7 @@
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
-                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
+                "id": "http://127.0.0.1:8080/fixtures/vtt/nested_chapters.vtt",
                 "type": "Text",
                 "format": "text/vtt",
                 "label": {

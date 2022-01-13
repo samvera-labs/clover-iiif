@@ -19,12 +19,14 @@ export const Navigator: React.FC<NavigatorProps> = ({
   resources,
 }) => {
   const [activeResource, setActiveResource] = useState<string>(defaultResource);
+  console.log(`resources`, resources);
 
   useEffect(() => {
     setActiveResource(defaultResource);
   }, [activeCanvas]);
 
   const handleValueChange = (value: string) => {
+    console.log(`handleValueChange`, value);
     setActiveResource(value);
   };
 
@@ -46,11 +48,14 @@ export const Navigator: React.FC<NavigatorProps> = ({
         ))}
       </List>
       <Scroll>
-        {resources.map((resource) => (
-          <Content key={resource.id} value={resource.id as string}>
-            <Resource currentTime={currentTime} resource={resource} />
-          </Content>
-        ))}
+        {resources.map((resource) => {
+          console.log(`resource`, resource);
+          return (
+            <Content key={resource.id} value={resource.id as string}>
+              <Resource currentTime={currentTime} resource={resource} />
+            </Content>
+          );
+        })}
       </Scroll>
     </Wrapper>
   );

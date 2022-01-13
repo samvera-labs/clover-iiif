@@ -93,7 +93,6 @@ const Content = styled(Tabs.Content, {
   position: "absolute",
   top: "0",
   left: "0",
-
   "&[data-state='active']": {
     width: "100%",
     height: "calc(100% - 2rem)",
