@@ -17,7 +17,6 @@ interface Resource {
 }
 
 const Resource: React.FC<Resource> = ({ currentTime, resource }) => {
-  console.log(`resource`, resource);
   const [cues, setCues] = React.useState<Array<NodeWebVttCueNested>>([]);
   const { id, label } = resource;
   const { createNestedCues, orderCuesByTime } = useWebVtt();
@@ -34,7 +33,6 @@ const Resource: React.FC<Resource> = ({ currentTime, resource }) => {
         const flatCues = parse(data).cues as unknown as Array<NodeWebVttCue>;
         const orderedCues = orderCuesByTime(flatCues);
         const nestedCues = createNestedCues(orderedCues);
-        console.log(`nestedCues`, nestedCues);
         setCues(nestedCues);
       })
       .catch((error) => console.error(id, error.toString()));

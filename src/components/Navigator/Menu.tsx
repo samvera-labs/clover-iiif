@@ -9,7 +9,6 @@ interface MenuProps {
 }
 
 const Menu: React.FC<MenuProps> = ({ currentTime, items }) => {
-  console.log(`renders`);
   return (
     <MenuStyled>
       {items.map(({ text, start, end, children: cueChildren, identifier }) => {

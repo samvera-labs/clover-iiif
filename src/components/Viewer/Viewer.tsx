@@ -65,7 +65,6 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   }, [isNavigatorOpen]);
 
   useEffect(() => {
-    console.log(`activeCanvas change`, activeCanvas);
     const painting = getPaintingResource(vault, activeCanvas);
     const resources = getSupplementingResources(
       vault,
