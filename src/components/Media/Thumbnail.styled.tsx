@@ -31,6 +31,10 @@ const Item = styled(RadioGroup.Item, {
   fontSize: "1rem",
   textAlign: "left",
 
+  "&:last-child": {
+    marginRight: "1rem",
+  },
+
   "@sm": {
     margin: "0 1rem 0 0",
 
