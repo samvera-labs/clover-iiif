@@ -60,7 +60,8 @@
     "node-webvtt": "^1.9.3",
     "openseadragon": "^2.4.2",
     "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react-dom": "^17.0.0",
+    "react-error-boundary": "^3.1.4"
   },
   "files": [
     "dist"
