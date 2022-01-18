@@ -25,7 +25,6 @@ const useWebVtt = () => {
   function createNestedCues(flat: Array<NodeWebVttCue>): Array<NodeWebVttCue> {
     // Add identifier values to any cues which don't have them
     const idCues = addIdentifiersToParsedCues(flat);
-    console.log(`idCues`, idCues);
 
     function getNestedChildren(
       arr: Array<NodeWebVttCueNested>,
@@ -38,7 +37,7 @@ const useWebVtt = () => {
         const currentItemParents = arr.filter((arrItem) => {
           return (
             item.start >= arrItem.start &&
-            item.end < arrItem.end &&
+            item.end <= arrItem.end &&
             item.identifier !== arrItem.identifier
           );
         });
