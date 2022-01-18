@@ -1,10 +1,41 @@
 import React, { useState } from "react";
-import { Form, Input, Toggle, Wrapper } from "./Filter.styled";
+import { Button, Controls, Form, Input, Wrapper } from "./Filter.styled";
 import useKeyPress from "hooks/useKeyPress";
 
 interface Props {
   handleFilter: (arg0: String) => void;
 }
+const PreviousIcon: React.FC = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+      <title>Arrow Back</title>
+      <path
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="48"
+        d="M244 400L100 256l144-144M120 256h292"
+      />
+    </svg>
+  );
+};
+
+const NextIcon: React.FC = () => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+      <title>Arrow Forward</title>
+      <path
+        fill="none"
+        stroke="currentColor"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="48"
+        d="M268 112l144 144-144 144M392 256H100"
+      />
+    </svg>
+  );
+};
 
 const CloseIcon: React.FC = () => {
   return (
@@ -55,9 +86,17 @@ const Filter: React.FC<Props> = ({ handleFilter }) => {
         {toggleFilter && (
           <Input autoFocus onChange={handleChange} placeholder="Search" />
         )}
-        <Toggle onClick={handleToggle} type="button">
-          {toggleFilter ? <CloseIcon /> : <SearchIcon />}
-        </Toggle>
+        <Controls>
+          <Button type="button">
+            <PreviousIcon />
+          </Button>
+          <Button type="button">
+            <NextIcon />
+          </Button>
+          <Button onClick={handleToggle} type="button">
+            {toggleFilter ? <CloseIcon /> : <SearchIcon />}
+          </Button>
+        </Controls>
       </Form>
     </Wrapper>
   );

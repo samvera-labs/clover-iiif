@@ -28,7 +28,7 @@ const Input = styled("input", {
   },
 });
 
-const Toggle = styled("button", {
+const Button = styled("button", {
   display: "flex",
   background: "none",
   border: "none",
@@ -55,6 +55,14 @@ const Toggle = styled("button", {
   },
 });
 
+const Controls = styled("div", {
+  display: "flex",
+
+  [`& ${Button}`]: {
+    marginLeft: "0.618rem",
+  },
+});
+
 const Wrapper = styled("div", {
   display: "flex",
   position: "relative",
@@ -76,7 +84,7 @@ const Wrapper = styled("div", {
           },
         },
 
-        [`& ${Toggle}`]: {
+        [`& ${Button}`]: {
           backgroundColor: "$primaryMuted",
         },
       },
@@ -84,4 +92,4 @@ const Wrapper = styled("div", {
   },
 });
 
-export { Form, Input, Toggle, Wrapper };
+export { Button, Controls, Form, Input, Wrapper };

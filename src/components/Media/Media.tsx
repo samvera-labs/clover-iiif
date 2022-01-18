@@ -15,6 +15,7 @@ import { useViewerState, useViewerDispatch } from "context/viewer-context";
 import Thumbnail from "./Thumbnail";
 import { getResourceType } from "hooks/use-hyperion-framework/getResourceType";
 import Filter from "./Filter";
+import Controls from "components/ImageViewer/Controls";
 
 interface MediaProps {
   items: Canvas[];
