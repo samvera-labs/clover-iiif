@@ -12,6 +12,8 @@ export const MenuStyled = styled("ul", {
 
   "& li ul": {
     [`& ${Item}`]: {
+      backgroundColor: "unset",
+
       "&::before": {
         content: "none",
       },
