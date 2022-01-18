@@ -6,9 +6,9 @@ export const getLabel = (
   language: string = "en",
 ) => {
   /*
-   * If no label exists, return a hardcoded string.
+   * If no label exists, return an empty string.
    */
-  if (!label) return "Untitled";
+  if (!label) return "";
 
   /*
    * If InternationalString code does not exist on label, then

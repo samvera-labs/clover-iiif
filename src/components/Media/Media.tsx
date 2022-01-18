@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Group } from "./Media.styled";
 import { CanvasEntity } from "hooks/use-hyperion-framework/getCanvasByCriteria";
 import {
   getCanvasByCriteria,
+  getLabel,
   getThumbnail,
 } from "hooks/use-hyperion-framework";
 import {
@@ -13,6 +14,7 @@ import {
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
 import Thumbnail from "./Thumbnail";
 import { getResourceType } from "hooks/use-hyperion-framework/getResourceType";
+import Filter from "./Filter";
 
 interface MediaProps {
   items: Canvas[];
@@ -23,6 +25,9 @@ const Media: React.FC<MediaProps> = ({ items }) => {
   const dispatch: any = useViewerDispatch();
   const state: any = useViewerState();
   const { activeCanvas, vault } = state;
+
+  const [filter, setFilter] = useState<String>("");
+  const [mediaItems, setMediaItems] = useState<Array<CanvasEntity>>([]);
 
   const motivation = "painting";
   // TODO: Type this as an enum
@@ -36,32 +41,46 @@ const Media: React.FC<MediaProps> = ({ items }) => {
       });
   };
 
-  const mediaItems: Array<CanvasEntity> = [];
+  useEffect(() => {
+    for (const item of items) {
+      const canvasEntity: CanvasEntity = getCanvasByCriteria(
+        vault,
+        item,
+        motivation,
+        paintingType,
+      );
 
-  for (const item of items) {
-    const canvasEntity: CanvasEntity = getCanvasByCriteria(
-      vault,
-      item,
-      motivation,
-      paintingType,
-    );
+      if (canvasEntity.annotations.length > 0)
+        setMediaItems((mediaItems) => [...mediaItems, canvasEntity]);
+    }
+  }, []);
 
-    if (canvasEntity.annotations.length > 0) mediaItems.push(canvasEntity);
-  }
+  const handleFilter = (value: String) => setFilter(value);
 
   return (
-    <Group aria-label="select item" data-testid="media">
-      {mediaItems.map((item) => (
-        <Thumbnail
-          canvas={item.canvas as CanvasNormalized}
-          handleChange={handleChange}
-          isActive={activeCanvas === item?.canvas?.id ? true : false}
-          key={item?.canvas?.id}
-          thumbnail={getThumbnail(vault, item, 200, 200)}
-          type={getResourceType(item.annotations[0])}
-        />
-      ))}
-    </Group>
+    <>
+      <Filter handleFilter={handleFilter} />
+      <Group aria-label="select item" data-testid="media">
+        {mediaItems
+          .filter((item) => {
+            if (item.canvas?.label) {
+              const label = getLabel(item.canvas.label);
+              if (Array.isArray(label))
+                return label[0].toLowerCase().includes(filter.toLowerCase());
+            }
+          })
+          .map((item) => (
+            <Thumbnail
+              canvas={item.canvas as CanvasNormalized}
+              handleChange={handleChange}
+              isActive={activeCanvas === item?.canvas?.id ? true : false}
+              key={item?.canvas?.id}
+              thumbnail={getThumbnail(vault, item, 200, 200)}
+              type={getResourceType(item.annotations[0])}
+            />
+          ))}
+      </Group>
+    </>
   );
 };
 

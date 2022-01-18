@@ -19,9 +19,9 @@ const Item = styled("button", {
   boxSizing: "content-box !important",
 
   svg: {
-    height: "70%",
-    width: "70%",
-    padding: "15%",
+    height: "60%",
+    width: "60%",
+    padding: "20%",
     fill: "$secondary",
     stroke: "$secondary",
     filter: "drop-shadow(5px 5px 5px #000D)",
