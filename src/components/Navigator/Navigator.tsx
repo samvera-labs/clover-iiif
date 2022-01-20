@@ -7,14 +7,12 @@ import Resource from "./Resource";
 
 interface NavigatorProps {
   activeCanvas: string;
-  currentTime: number;
   defaultResource: string;
   resources?: Array<LabeledResource>;
 }
 
 export const Navigator: React.FC<NavigatorProps> = ({
   activeCanvas,
-  currentTime,
   defaultResource,
   resources,
 }) => {
@@ -22,7 +20,7 @@ export const Navigator: React.FC<NavigatorProps> = ({
 
   useEffect(() => {
     setActiveResource(defaultResource);
-  }, [activeCanvas]);
+  }, [activeCanvas, resources]);
 
   const handleValueChange = (value: string) => {
     setActiveResource(value);
@@ -46,11 +44,13 @@ export const Navigator: React.FC<NavigatorProps> = ({
         ))}
       </List>
       <Scroll>
-        {resources.map((resource) => (
-          <Content key={resource.id} value={resource.id as string}>
-            <Resource currentTime={currentTime} resource={resource} />
-          </Content>
-        ))}
+        {resources.map((resource) => {
+          return (
+            <Content key={resource.id} value={resource.id as string}>
+              <Resource resource={resource} />
+            </Content>
+          );
+        })}
       </Scroll>
     </Wrapper>
   );

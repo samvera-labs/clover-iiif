@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Media from "components/Media/Media";
 import Navigator from "components/Navigator/Navigator";
 import Player from "components/Player/Player";
@@ -14,6 +14,7 @@ import {
   Aside,
 } from "./Viewer.styled";
 import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
+import { CurrentTimeProvider } from "context/current-time-context";
 
 interface Props {
   activeCanvas: string;
@@ -34,43 +35,39 @@ const ViewerContent: React.FC<Props> = ({
   isNavigator,
   isNavigatorOpen,
 }) => {
-  const [currentTime, setCurrentTime] = useState<number>(0);
-
-  const handleCurrentTime = (t: number) => setCurrentTime(t);
-
   return (
     <Content>
-      <Main>
-        {isMedia ? (
-          <Player
-            painting={painting as IIIFExternalWebResource}
-            resources={resources}
-            currentTime={handleCurrentTime}
-          />
-        ) : (
-          <ImageViewer {...(painting as IIIFExternalWebResource)} />
-        )}
-        <CollapsibleTrigger data-navigator={isNavigator}>
-          <Button as="span">
-            {isNavigatorOpen ? "View Media Items" : "View Navigator"}
-          </Button>
-        </CollapsibleTrigger>
-        <MediaWrapper>
-          <Media items={items} activeItem={0} />
-        </MediaWrapper>
-      </Main>
-      {isNavigator && (
-        <Aside>
-          <CollapsibleContent>
-            <Navigator
-              activeCanvas={activeCanvas}
-              currentTime={currentTime}
-              defaultResource={resources[0].id as string}
+      <CurrentTimeProvider>
+        <Main>
+          {isMedia ? (
+            <Player
+              painting={painting as IIIFExternalWebResource}
               resources={resources}
             />
-          </CollapsibleContent>
-        </Aside>
-      )}
+          ) : (
+            <ImageViewer {...(painting as IIIFExternalWebResource)} />
+          )}
+          <CollapsibleTrigger data-navigator={isNavigator}>
+            <Button as="span">
+              {isNavigatorOpen ? "View Media Items" : "View Navigator"}
+            </Button>
+          </CollapsibleTrigger>
+          <MediaWrapper>
+            <Media items={items} activeItem={0} />
+          </MediaWrapper>
+        </Main>
+        {isNavigator && (
+          <Aside>
+            <CollapsibleContent>
+              <Navigator
+                activeCanvas={activeCanvas}
+                defaultResource={resources[0].id as string}
+                resources={resources}
+              />
+            </CollapsibleContent>
+          </Aside>
+        )}
+      </CurrentTimeProvider>
     </Content>
   );
 };

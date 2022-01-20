@@ -14,7 +14,6 @@ interface ViewerContextStore {
   activeCanvas: string;
   configOptions: ConfigOptions;
   isLoaded: boolean;
-  time: number;
   vault: Vault;
 }
 
@@ -23,14 +22,12 @@ interface ViewerAction {
   canvasId: string;
   configOptions: ConfigOptions;
   isLoaded: boolean;
-  time: number;
 }
 
 const defaultState: ViewerContextStore = {
   activeCanvas: "",
   configOptions: defaultConfigOptions,
   isLoaded: false,
-  time: 0,
   vault: new Vault(),
 };
 
@@ -64,12 +61,6 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         isLoaded: action.isLoaded,
-      };
-    }
-    case "updateTime": {
-      return {
-        ...state,
-        time: action.time,
       };
     }
     default: {

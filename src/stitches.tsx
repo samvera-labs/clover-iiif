@@ -28,6 +28,7 @@ export const theme = {
   },
   fonts: {
     sans: "'Akkurat Pro Regular', Arial, sans-serif",
+    sansBold: "Akkurat Pro Bold, Arial, sans-serif",
     display: "Campton, 'Akkurat Pro Regular', Arial, sans-serif",
   },
   transitions: {
