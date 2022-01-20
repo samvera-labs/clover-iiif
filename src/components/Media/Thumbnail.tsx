@@ -34,6 +34,7 @@ const IconPath: React.FC<IconPathProps> = ({ type }) => {
  */
 export interface ThumbnailProps {
   canvas: CanvasNormalized;
+  canvasIndex: number;
   isActive: boolean;
   thumbnail?: IIIFExternalWebResource;
   type: string;
@@ -42,6 +43,7 @@ export interface ThumbnailProps {
 
 const Thumbnail: React.FC<ThumbnailProps> = ({
   canvas,
+  canvasIndex,
   isActive,
   thumbnail,
   type,
@@ -53,6 +55,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
     <Item
       aria-checked={isActive}
       data-testid="media-thumbnail"
+      data-canvas={canvasIndex}
       onClick={() => handleChange(canvas.id)}
       value={canvas.id}
     >

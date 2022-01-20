@@ -52,9 +52,11 @@ const ViewerContent: React.FC<Props> = ({
               {isNavigatorOpen ? "View Media Items" : "View Navigator"}
             </Button>
           </CollapsibleTrigger>
-          <MediaWrapper>
-            <Media items={items} activeItem={0} />
-          </MediaWrapper>
+          {items.length > 1 && (
+            <MediaWrapper>
+              <Media items={items} activeItem={0} />
+            </MediaWrapper>
+          )}
         </Main>
         {isNavigator && (
           <Aside>

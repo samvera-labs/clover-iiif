@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { DOMElement, useEffect, useState } from "react";
 import { Group } from "./Media.styled";
 import { CanvasEntity } from "hooks/use-hyperion-framework/getCanvasByCriteria";
 import {
@@ -14,8 +14,7 @@ import {
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
 import Thumbnail from "./Thumbnail";
 import { getResourceType } from "hooks/use-hyperion-framework/getResourceType";
-import Filter from "./Filter";
-import Controls from "components/ImageViewer/Controls";
+import Controls from "./Controls";
 
 interface MediaProps {
   items: Canvas[];
@@ -29,6 +28,9 @@ const Media: React.FC<MediaProps> = ({ items }) => {
 
   const [filter, setFilter] = useState<String>("");
   const [mediaItems, setMediaItems] = useState<Array<CanvasEntity>>([]);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+
+  const scrollRef = React.useRef<HTMLElement>();
 
   const motivation = "painting";
   // TODO: Type this as an enum
@@ -56,12 +58,43 @@ const Media: React.FC<MediaProps> = ({ items }) => {
     }
   }, []);
 
+  useEffect(() => {
+    mediaItems.forEach((item, index) => {
+      if (item?.canvas)
+        if (item.canvas.id === activeCanvas) setActiveIndex(index);
+    });
+  }, [activeCanvas]);
+
+  useEffect(() => {
+    const element = document.querySelector<HTMLElement>(
+      `[data-canvas="${activeIndex}"]`,
+    ) as Element;
+
+    if (element instanceof HTMLElement && scrollRef.current) {
+      const leftPos =
+        element.offsetLeft -
+        scrollRef.current.offsetWidth / 2 +
+        element.offsetWidth / 2;
+      scrollRef.current.scrollTo({ left: leftPos, behavior: "smooth" });
+    }
+  }, [activeIndex]);
+
   const handleFilter = (value: String) => setFilter(value);
+
+  const handleCanvasToggle = (step: -1 | 1) => {
+    const canvasEntity = mediaItems[activeIndex + step];
+    if (canvasEntity?.canvas) handleChange(canvasEntity.canvas.id);
+  };
 
   return (
     <>
-      <Filter handleFilter={handleFilter} />
-      <Group aria-label="select item" data-testid="media">
+      <Controls
+        handleFilter={handleFilter}
+        handleCanvasToggle={handleCanvasToggle}
+        activeIndex={activeIndex}
+        canvasLength={mediaItems.length}
+      />
+      <Group aria-label="select item" data-testid="media" ref={scrollRef}>
         {mediaItems
           .filter((item) => {
             if (item.canvas?.label) {
@@ -70,9 +103,10 @@ const Media: React.FC<MediaProps> = ({ items }) => {
                 return label[0].toLowerCase().includes(filter.toLowerCase());
             }
           })
-          .map((item) => (
+          .map((item, index) => (
             <Thumbnail
               canvas={item.canvas as CanvasNormalized}
+              canvasIndex={index}
               handleChange={handleChange}
               isActive={activeCanvas === item?.canvas?.id ? true : false}
               key={item?.canvas?.id}
