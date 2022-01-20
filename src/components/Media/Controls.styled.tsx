@@ -83,22 +83,6 @@ const Direction = styled("div", {
   },
 });
 
-const Controls = styled("div", {
-  display: "flex",
-
-  [`& ${Button}`]: {
-    marginLeft: "0.618rem",
-  },
-});
-
-const Controls = styled("div", {
-  display: "flex",
-
-  [`& ${Button}`]: {
-    marginLeft: "0.618rem",
-  },
-});
-
 const Wrapper = styled("div", {
   display: "flex",
   position: "relative",
