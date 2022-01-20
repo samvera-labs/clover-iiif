@@ -1,4 +1,4 @@
-import React, { DOMElement, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Group } from "./Media.styled";
 import { CanvasEntity } from "hooks/use-hyperion-framework/getCanvasByCriteria";
 import {
@@ -30,7 +30,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
   const [mediaItems, setMediaItems] = useState<Array<CanvasEntity>>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
-  const scrollRef = React.useRef<HTMLElement>();
+  const scrollRef = React.useRef<HTMLDivElement>(null);
 
   const motivation = "painting";
   // TODO: Type this as an enum
