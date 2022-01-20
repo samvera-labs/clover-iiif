@@ -104,8 +104,12 @@ const Item = styled(RadioGroup.Item, {
     figcaption: {
       marginTop: "0.5rem",
       color: "$primaryMuted",
-      fontSize: "1rem",
       fontWeight: "400",
+      fontSize: "0.8333rem",
+      display: "-webkit-box",
+      overflow: "hidden",
+      MozBoxOrient: "vertical",
+      WebkitLineClamp: "5",
 
       "@sm": {
         fontSize: "0.8333rem",
@@ -121,11 +125,11 @@ const Item = styled(RadioGroup.Item, {
         "&::before": {
           position: "absolute",
           zIndex: "1",
-          color: "$secondary",
+          color: "$secondaryMuted",
           content: "Active Item",
-          fontWeight: "700",
           textTransform: "uppercase",
-          fontSize: "0.7222rem",
+          fontWeight: "700",
+          fontSize: "0.6111rem",
           letterSpacing: "0.03rem",
           display: "flex",
           width: "100%",
@@ -133,16 +137,13 @@ const Item = styled(RadioGroup.Item, {
           flexDirection: "column",
           justifyContent: "center",
           textAlign: "center",
-
-          "@sm": {
-            fontSize: "0.6111rem",
-          },
+          textShadow: "5px 5px 5px #0003",
         },
 
         img: {
-          opacity: "0.5",
+          opacity: "0.3",
           transform: "scale3d(1.1, 1.1, 1.1)",
-          filter: "blur(1px)",
+          filter: "blur(2px)",
         },
 
         [`& ${Type}`]: {

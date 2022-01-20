@@ -6,12 +6,12 @@ const Form = styled("div", {
   top: "1rem",
   display: "flex",
   justifyContent: "flex-end",
+  zIndex: "1",
 });
 
 const Input = styled("input", {
   flexGrow: "1",
   border: "none",
-  outline: "none",
   backgroundColor: "$secondaryMuted",
   color: "$primary",
   marginRight: "1rem",
@@ -28,7 +28,7 @@ const Input = styled("input", {
   },
 });
 
-const Toggle = styled("button", {
+const Button = styled("button", {
   display: "flex",
   background: "none",
   border: "none",
@@ -37,12 +37,12 @@ const Toggle = styled("button", {
   padding: "0",
   margin: "0",
   fontWeight: "700",
-  borderRadius: "50%",
+  borderRadius: "2rem",
   backgroundColor: "$accent",
   color: "$secondary",
-  boxShadow: "5px 5px 5px #0003",
   cursor: "pointer",
   boxSizing: "content-box !important",
+  transition: "$all",
 
   svg: {
     height: "60%",
@@ -50,8 +50,36 @@ const Toggle = styled("button", {
     padding: "20%",
     fill: "$secondary",
     stroke: "$secondary",
+    opacity: "1",
     filter: "drop-shadow(5px 5px 5px #000D)",
     boxSizing: "inherit",
+    transition: "$all",
+  },
+
+  "&:disabled": {
+    backgroundColor: "transparent",
+    boxShadow: "none",
+    svg: { opacity: "0.25" },
+  },
+});
+
+const Direction = styled("div", {
+  display: "flex",
+  marginRight: "0.618rem",
+  backgroundColor: "$accentAlt",
+  borderRadius: "2rem",
+  boxShadow: "5px 5px 5px #0003",
+  color: "$secondary",
+  alignItems: "center",
+
+  "> span": {
+    display: "flex",
+    margin: "0 0.5rem",
+    fontSize: "0.7222rem",
+  },
+
+  [`& ${Button}`]: {
+    // boxShadow: "none",
   },
 });
 
@@ -69,19 +97,15 @@ const Wrapper = styled("div", {
         paddingTop: "2.618rem",
 
         [`& ${Form}`]: {
-          width: "calc(100% - 1rem)",
+          width: "calc(100% - 2rem)",
 
           "@sm": {
             width: "calc(100% - 2rem)",
           },
-        },
-
-        [`& ${Toggle}`]: {
-          backgroundColor: "$primaryMuted",
         },
       },
     },
   },
 });
 
-export { Form, Input, Toggle, Wrapper };
+export { Button, Direction, Form, Input, Wrapper };
