@@ -93,6 +93,7 @@ export const Item = styled(RadioGroup.Item, {
   "&[aria-checked='true']": {
     color: "$primary",
     backgroundColor: "$secondaryMuted",
+    fontFamily: "$sansBold",
 
     "&::before": {
       content: "",
@@ -134,9 +135,5 @@ export const Item = styled(RadioGroup.Item, {
         content: "unset",
       },
     },
-  },
-
-  "&:last-child": {
-    margin: "0 0 1.618rem",
   },
 });

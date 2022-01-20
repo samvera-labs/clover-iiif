@@ -1,6 +1,5 @@
 import React from "react";
 import Hls from "hls.js";
-import { useViewerState } from "context/viewer-context";
 import { PlayerWrapper } from "./Player.styled";
 import {
   IIIFExternalWebResource,
@@ -9,24 +8,20 @@ import {
 import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
 import { getLabel } from "hooks/use-hyperion-framework";
 import AudioVisualizer from "./AudioVisualizer";
+import { CurrentTimeContext } from "context/current-time-context";
 
 // Set referrer header as a NU domain: ie. meadow.rdc-staging.library.northwestern.edu
 
 interface PlayerProps {
   painting: IIIFExternalWebResource;
   resources: LabeledResource[];
-  currentTime: (arg0: number) => void;
 }
 
-const Player: React.FC<PlayerProps> = ({
-  painting,
-  resources,
-  currentTime,
-}) => {
+const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
   const playerRef = React.useRef(null);
-  const viewerState: any = useViewerState();
-  const { time } = viewerState;
   const isAudio = painting?.format?.includes("audio/");
+
+  const { startTime, updateCurrentTime } = React.useContext(CurrentTimeContext);
 
   /**
    * HLS.js binding for .m3u8 files
@@ -81,22 +76,22 @@ const Player: React.FC<PlayerProps> = ({
       if (hls) {
         hls.detachMedia();
         hls.destroy();
-        currentTime(0);
+        updateCurrentTime(0);
       }
     };
   }, [painting.id]);
 
   React.useEffect(() => {
     let video: any = playerRef.current;
-    if (video) video.currentTime = time;
+    if (video) video.currentTime = startTime;
     video.play();
-  }, [time]);
+  }, [startTime]);
 
   const handlePlay = () => {
     let video: any = playerRef.current;
     if (video) {
       video.ontimeupdate = (event: any) => {
-        currentTime(event.target.currentTime);
+        updateCurrentTime(event.target.currentTime);
       };
     }
   };
