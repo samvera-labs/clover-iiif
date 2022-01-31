@@ -75,7 +75,7 @@
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
-                "id": "http://127.0.0.1:8080/fixtures/vtt/nested_chapters.vtt",
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
                 "type": "Text",
                 "format": "text/vtt",
                 "label": {
@@ -90,7 +90,7 @@
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
-                "id": "http://127.0.0.1:8080/fixtures/vtt/nested_chapters.vtt?garb=true",
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_es.vtt",
                 "type": "Text",
                 "format": "text/vtt",
                 "label": {
@@ -250,7 +250,7 @@
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
-                "id": "http://127.0.0.1:8080/fixtures/vtt/nested_chapters.vtt",
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
                 "type": "Text",
                 "format": "text/vtt",
                 "label": {
