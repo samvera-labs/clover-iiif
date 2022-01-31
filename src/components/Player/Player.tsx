@@ -84,7 +84,8 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
   React.useEffect(() => {
     let video: any = playerRef.current;
     if (video) video.currentTime = startTime;
-    video.play();
+
+    if (startTime !== 0) video.play();
   }, [startTime]);
 
   const handlePlay = () => {
