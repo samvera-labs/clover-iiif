@@ -1,14 +1,12 @@
 import React from "react";
 import Hls from "hls.js";
 import { PlayerWrapper } from "./Player.styled";
-import {
-  IIIFExternalWebResource,
-  InternationalString,
-} from "@hyperion-framework/types";
+import { IIIFExternalWebResource } from "@hyperion-framework/types";
 import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
-import { getLabel } from "hooks/use-hyperion-framework";
 import AudioVisualizer from "./AudioVisualizer";
 import { CurrentTimeContext } from "context/current-time-context";
+import { useViewerState } from "context/viewer-context";
+import Track from "./Track";
 
 // Set referrer header as a NU domain: ie. meadow.rdc-staging.library.northwestern.edu
 
@@ -18,6 +16,9 @@ interface PlayerProps {
 }
 
 const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
+  const viewerState: any = useViewerState();
+  const { configOptions } = viewerState;
+
   const playerRef = React.useRef(null);
   const isAudio = painting?.format?.includes("audio/");
 
@@ -107,24 +108,17 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
         height={painting.height}
         width={painting.width}
         onPlay={handlePlay}
+        crossOrigin="anonymous"
       >
         <source src={painting.id} type={painting.format} />
         {resources.length > 0 &&
-          resources.map((resource) => {
-            return (
-              <track
-                key={resource.id}
-                src={resource.id as string}
-                label={
-                  getLabel(
-                    resource.label as InternationalString,
-                    "en",
-                  ) as any as string
-                }
-                srcLang="en"
-              ></track>
-            );
-          })}
+          resources.map((resource) => (
+            <Track
+              resource={resource}
+              ignoreCaptionLabels={configOptions.ignoreCaptionLabels}
+              key={resource.id}
+            />
+          ))}
         Sorry, your browser doesn't support embedded videos.
       </video>
 

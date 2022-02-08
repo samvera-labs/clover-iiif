@@ -5,24 +5,23 @@ import { getLabel } from "hooks/use-hyperion-framework";
 import { Popover } from "@nulib/design-system";
 import IIIFBadge from "./IIIFBadge";
 import CopyText from "components/CopyText";
+import { useViewerState } from "context/viewer-context";
 
 interface Props {
   manifestId: string;
   manifestLabel: InternationalString;
-  options: any;
 }
 
-const ViewerHeader: React.FC<Props> = ({
-  manifestId,
-  manifestLabel,
-  options,
-}) => {
+const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
+  const viewerState: any = useViewerState();
+  const { configOptions } = viewerState;
+
   return (
     <Header>
-      {options.showTitle && (
+      {configOptions.showTitle && (
         <span>{getLabel(manifestLabel as InternationalString, "en")}</span>
       )}
-      {options.showIIIFBadge && (
+      {configOptions.showIIIFBadge && (
         <Popover>
           <IIIFBadgeButton>
             <IIIFBadge />

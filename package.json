@@ -23,6 +23,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.0",
     "@types/jest": "^27.0.2",
     "@types/testing-library__react": "^10.2.0",

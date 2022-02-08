@@ -3,9 +3,13 @@ import ReactDOM from "react-dom";
 import App from "./index";
 
 let sampleManifest: string =
-  "http://127.0.0.1:8080/fixtures/iiif/manifests/sample.json";
+  "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json";
+
+const options: any = {
+  ignoreCaptionLabels: ["Chapters"],
+};
 
 ReactDOM.render(
-  <App manifestId={sampleManifest} />,
+  <App manifestId={sampleManifest} options={options} />,
   document.getElementById("root"),
 );

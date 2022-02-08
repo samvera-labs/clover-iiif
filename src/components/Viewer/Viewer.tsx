@@ -31,7 +31,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
    * Viewer State
    */
   const viewerState: any = useViewerState();
-  const { activeCanvas, configOptions, vault } = viewerState;
+  const { activeCanvas, vault } = viewerState;
 
   /**
    * Local state
@@ -100,7 +100,6 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
           <ViewerHeader
             manifestLabel={manifest.label as InternationalString}
             manifestId={manifest.id}
-            options={configOptions}
           />
           <ViewerContent
             activeCanvas={activeCanvas}

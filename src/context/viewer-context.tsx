@@ -3,11 +3,14 @@ import { Vault } from "@hyperion-framework/vault";
 
 export type ConfigOptions = {
   showTitle: boolean;
+  showIIIFBadge: boolean;
+  ignoreCaptionLabels: string[];
 };
 
 const defaultConfigOptions = {
   showTitle: true,
   showIIIFBadge: true,
+  ignoreCaptionLabels: [],
 };
 
 interface ViewerContextStore {

@@ -139,14 +139,15 @@ return <ReactMediaPlayer manifestId={manifestId} customTheme={customTheme} />;
 
 ## Reference
 
-| Prop                    | Type     | Required | Default |
-| ----------------------- | -------- | -------- | ------- |
-| `manifestId`            | String   | Yes      |         |
-| `canvasIdCallback`      | Function | No       |         |
-| `customTheme`           | Object   | No       |         |
-| `options`               | Object   | No       |         |
-| `options.showTitle`     | Boolean  | No       | true    |
-| `options.showIIIFBadge` | Boolean  | No       | true    |
+| Prop                          | Type       | Required | Default |
+| ----------------------------- | ---------- | -------- | ------- |
+| `manifestId`                  | `string`   | Yes      |         |
+| `canvasIdCallback`            | `function` | No       |         |
+| `customTheme`                 | `object`   | No       |         |
+| `options`                     | `object`   | No       |         |
+| `options.showTitle`           | `boolean`  | No       | true    |
+| `options.showIIIFBadge`       | `boolean`  | No       | true    |
+| `options.ignoreCaptionLabels` | `string[]` | No       | []      |
 
 RMP version 1.4.0, introduces an `options` prop, which will serve as a configuration object for common configuration options.
 
@@ -159,8 +160,12 @@ import ReactMediaPlayer from "@nulib/react-media-player";
 const options = {
   // Primary title (Manifest label) for top level canvas.  Defaults to true
   showTitle: false,
+
   // IIIF Badge and popover containing options.  Defaults to true
-  showIIIFBadge: false
+  showIIIFBadge: false,
+
+  // Ignore supplementing canvases by label value that are not for captioning
+  ignoreCaptionLabels: ['Chapters']
 }
 ...
 
