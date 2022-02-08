@@ -1,22 +1,20 @@
 import React from "react";
-import { useViewerDispatch } from "context/viewer-context";
 import { Item } from "./Cue.styled";
 import { convertTime } from "services/utils";
+import { CurrentTimeContext } from "context/current-time-context";
 
 interface Props {
   label: string;
-  isActive: boolean;
-  time: number;
+  start: number;
+  end: number;
 }
 
-const Cue: React.FC<Props> = ({ label, isActive, time }) => {
-  const dispatch: any = useViewerDispatch();
+const Cue: React.FC<Props> = ({ label, start, end }) => {
+  const { currentTime, updateStartTime } = React.useContext(CurrentTimeContext);
+  const isActive: boolean = start <= currentTime && currentTime < end;
 
   const handleClick = () => {
-    dispatch({
-      type: "updateTime",
-      time: time,
-    });
+    updateStartTime(start);
   };
 
   return (
@@ -27,7 +25,7 @@ const Cue: React.FC<Props> = ({ label, isActive, time }) => {
       value={label}
     >
       {label}
-      <strong>{convertTime(time)}</strong>
+      <strong>{convertTime(start)}</strong>
     </Item>
   );
 };

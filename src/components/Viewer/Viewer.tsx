@@ -18,6 +18,8 @@ import ViewerHeader from "./Header";
 import ViewerContent from "./Content";
 import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
 import { IIIFExternalWebResource } from "@hyperion-framework/types";
+import ErrorFallback from "components/Viewer/ErrorFallback";
+import { ErrorBoundary } from "react-error-boundary";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
@@ -29,7 +31,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
    * Viewer State
    */
   const viewerState: any = useViewerState();
-  const { activeCanvas, configOptions, vault } = viewerState;
+  const { activeCanvas, vault } = viewerState;
 
   /**
    * Local state
@@ -84,32 +86,33 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   }, [activeCanvas]);
 
   return (
-    <Wrapper
-      className={theme}
-      data-body-locked={isBodyLocked}
-      data-navigator={isNavigator}
-      data-navigator-open={isNavigatorOpen}
-    >
-      <Collapsible.Root
-        open={isNavigatorOpen}
-        onOpenChange={setIsNavigatorOpen}
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <Wrapper
+        className={theme}
+        data-body-locked={isBodyLocked}
+        data-navigator={isNavigator}
+        data-navigator-open={isNavigatorOpen}
       >
-        <ViewerHeader
-          manifestLabel={manifest.label as InternationalString}
-          manifestId={manifest.id}
-          options={configOptions}
-        />
-        <ViewerContent
-          activeCanvas={activeCanvas}
-          painting={painting as IIIFExternalWebResource}
-          resources={resources}
-          items={manifest.items}
-          isMedia={isMedia}
-          isNavigator={isNavigator}
-          isNavigatorOpen={isNavigatorOpen}
-        />
-      </Collapsible.Root>
-    </Wrapper>
+        <Collapsible.Root
+          open={isNavigatorOpen}
+          onOpenChange={setIsNavigatorOpen}
+        >
+          <ViewerHeader
+            manifestLabel={manifest.label as InternationalString}
+            manifestId={manifest.id}
+          />
+          <ViewerContent
+            activeCanvas={activeCanvas}
+            painting={painting as IIIFExternalWebResource}
+            resources={resources}
+            items={manifest.items}
+            isMedia={isMedia}
+            isNavigator={isNavigator}
+            isNavigatorOpen={isNavigatorOpen}
+          />
+        </Collapsible.Root>
+      </Wrapper>
+    </ErrorBoundary>
   );
 };
 

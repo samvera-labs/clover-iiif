@@ -1,0 +1,47 @@
+import React from "react";
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom/extend-expect";
+import { LabeledResource } from "../../hooks/use-hyperion-framework/getSupplementingResources";
+import Track from "./Track";
+
+const mockResourceCaptions: LabeledResource = {
+  id: "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
+  type: "Text",
+  format: "text/vtt",
+  label: { en: ["Captions"] },
+  language: "en",
+};
+
+const mockResourceChapters: LabeledResource = {
+  id: "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
+  type: "Text",
+  format: "text/vtt",
+  label: { en: ["Chapters"] },
+  language: "en",
+};
+
+describe("Player component", () => {
+  it("Renders Video <track> for caption resourc", async () => {
+    render(<Track resource={mockResourceCaptions} ignoreCaptionLabels={[]} />);
+    const el = await screen.findByTestId("player-track");
+    expect(el);
+  });
+
+  it("Renders Video <track> for chapters resource", async () => {
+    render(<Track resource={mockResourceChapters} ignoreCaptionLabels={[]} />);
+    const el = await screen.findByTestId("player-track");
+    expect(el);
+  });
+
+  it("Ignores rendering Video <track> for configured resource values.", async () => {
+    render(
+      <Track
+        resource={mockResourceChapters}
+        ignoreCaptionLabels={["Chapters"]}
+      />,
+    );
+
+    const el = await screen.queryByTestId("player-track");
+    expect(el).not.toBeInTheDocument();
+  });
+});

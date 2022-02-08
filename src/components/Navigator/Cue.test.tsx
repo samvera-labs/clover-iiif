@@ -7,7 +7,7 @@ describe("Navigator component", () => {
   it("renders", () => {
     render(
       <Group>
-        <Cue label="Text" startTime="1:47" time={107} isActive={true} />
+        <Cue label="Text" start={107} end={150} />
       </Group>,
     );
     const cue = screen.getByTestId("navigator-cue");
