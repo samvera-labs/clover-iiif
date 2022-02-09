@@ -51,7 +51,7 @@ const RenderViewer: React.FC<Props> = ({
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
   /**
-   * Overrides the baseline stiches theme when set.
+   * Overrides the baseline stitches theme when set.
    */
   let theme = {};
   if (customTheme) theme = createTheme("custom", customTheme);
