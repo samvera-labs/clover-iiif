@@ -1,13 +1,13 @@
 {
-  "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json",
+  "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json",
   "items": [
     {
       "duration": 461,
       "height": 480,
-      "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/1",
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/1",
       "items": [
         {
-          "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/1/annotation_page/1",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/1/annotation_page/1",
           "items": [
             {
               "body": {
@@ -18,9 +18,9 @@
                 "type": "Video",
                 "width": 1280
               },
-              "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/1/annotation_page/1/annotation/1",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/1/annotation_page/1/annotation/1",
               "motivation": "painting",
-              "target": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/1",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/1",
               "type": "Annotation"
             }
           ],
@@ -43,15 +43,15 @@
       "width": 640,
       "annotations": [
         {
-          "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/1/annotation_page/2",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/1/annotation_page/2",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/1/page/annotation_page/1/annotation/2",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/1/page/annotation_page/1/annotation/2",
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
-                "id": "http://127.0.0.1:8080/fixtures/vtt/around_the_corner_captions.vtt",
+                "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/vtt/around_the_corner_captions.vtt",
                 "type": "Text",
                 "format": "text/vtt",
                 "label": {
@@ -59,14 +59,14 @@
                 },
                 "language": "en"
               },
-              "target": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/1"
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/1"
             },
             {
-              "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/1/page/annotation_page/1/annotation/2",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/1/page/annotation_page/1/annotation/2",
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
-                "id": "http://127.0.0.1:8080/fixtures/vtt/around_the_corner_chapters.vtt",
+                "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/vtt/around_the_corner_chapters.vtt",
                 "type": "Text",
                 "format": "text/vtt",
                 "label": {
@@ -74,7 +74,7 @@
                 },
                 "language": "en"
               },
-              "target": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/1"
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/1"
             }
           ]
         }
@@ -83,10 +83,10 @@
     {
       "duration": 553,
       "height": 480,
-      "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/2",
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/2",
       "items": [
         {
-          "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/2/annotation_page/1",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/2/annotation_page/1",
           "items": [
             {
               "body": {
@@ -97,9 +97,9 @@
                 "type": "Video",
                 "width": 1280
               },
-              "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/2/annotation_page/1/annotation/1",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/2/annotation_page/1/annotation/1",
               "motivation": "painting",
-              "target": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/2",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/2",
               "type": "Annotation"
             }
           ],
@@ -122,15 +122,15 @@
       "width": 640,
       "annotations": [
         {
-          "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/2/annotation_page/2",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/2/annotation_page/2",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/2/page/annotation_page/1/annotation/2",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/2/page/annotation_page/1/annotation/2",
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
-                "id": "http://127.0.0.1:8080/fixtures/vtt/duck_and_cover_captions.vtt",
+                "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/vtt/duck_and_cover_captions.vtt",
                 "type": "Text",
                 "format": "text/vtt",
                 "label": {
@@ -138,14 +138,14 @@
                 },
                 "language": "en"
               },
-              "target": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/2"
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/2"
             },
             {
-              "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/2/page/annotation_page/1/annotation/2",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/2/page/annotation_page/1/annotation/2",
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
-                "id": "http://127.0.0.1:8080/fixtures/vtt/around_the_corner_chapters.vtt",
+                "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/vtt/around_the_corner_chapters.vtt",
                 "type": "Text",
                 "format": "text/vtt",
                 "label": {
@@ -153,7 +153,7 @@
                 },
                 "language": "en"
               },
-              "target": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/2"
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/2"
             }
           ]
         }
@@ -162,10 +162,10 @@
     {
       "duration": 68,
       "height": 480,
-      "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/3",
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/3",
       "items": [
         {
-          "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/3/annotation_page/1",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/3/annotation_page/1",
           "items": [
             {
               "body": {
@@ -176,9 +176,9 @@
                 "type": "Video",
                 "width": 1280
               },
-              "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/3/annotation_page/1/annotation/1",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/3/annotation_page/1/annotation/1",
               "motivation": "painting",
-              "target": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/3",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/3",
               "type": "Annotation"
             }
           ],
@@ -201,15 +201,15 @@
       "width": 640,
       "annotations": [
         {
-          "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/3/annotation_page/2",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/3/annotation_page/2",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/3/page/annotation_page/1/annotation/2",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/3/page/annotation_page/1/annotation/2",
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
-                "id": "http://127.0.0.1:8080/fixtures/vtt/around_the_corner_chapters.vtt",
+                "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/vtt/around_the_corner_chapters.vtt",
                 "type": "Text",
                 "format": "text/vtt",
                 "label": {
@@ -217,7 +217,7 @@
                 },
                 "language": "en"
               },
-              "target": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/3"
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/3"
             }
           ]
         }
@@ -226,10 +226,10 @@
     {
       "duration": 427,
       "height": 480,
-      "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/4",
+      "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/4",
       "items": [
         {
-          "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/4/annotation_page/1",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/4/annotation_page/1",
           "items": [
             {
               "body": {
@@ -240,9 +240,9 @@
                 "type": "Video",
                 "width": 1280
               },
-              "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/4/annotation_page/1/annotation/1",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/4/annotation_page/1/annotation/1",
               "motivation": "painting",
-              "target": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/4",
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/4",
               "type": "Annotation"
             }
           ],
@@ -265,15 +265,15 @@
       "width": 640,
       "annotations": [
         {
-          "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/4/annotation_page/2",
+          "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/4/annotation_page/2",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/4/page/annotation_page/1/annotation/2",
+              "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/4/page/annotation_page/1/annotation/2",
               "type": "Annotation",
               "motivation": "supplementing",
               "body": {
-                "id": "http://127.0.0.1:8080/fixtures/vtt/around_the_corner_chapters.vtt",
+                "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/vtt/around_the_corner_chapters.vtt",
                 "type": "Text",
                 "format": "text/vtt",
                 "label": {
@@ -281,7 +281,7 @@
                 },
                 "language": "en"
               },
-              "target": "http://127.0.0.1:8080/fixtures/iiif/manifests/captions.json/canvas/4"
+              "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/4"
             }
           ]
         }

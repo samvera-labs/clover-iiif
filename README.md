@@ -22,6 +22,7 @@ React Media Player is a UI component that renders a multicanvas IIIF viewer inte
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
 - [Active Canvas](#active-canvas)
+- [Configuring Captions](#configuring-captions)
 - [Custom Theme](#custom-theme)
 - [Reference](#reference)
 - [Manifest Requirements](#manifest-requirements)
@@ -87,6 +88,50 @@ return (
 ```
 
 [See Example](https://codesandbox.io/s/nulib-react-media-player-sample-i0huq?file=/src/App.tsx)
+
+
+---
+
+## Configuring Captions
+
+WebVTT content resources are the source for both content mapped closed captioning `<track/>` elements in the HTML 5 video player and to the navigator panel adjacent to it. You may ignore these resources as tracks if they are not intended for closed captioning or subtitling by string values matching the label of the content resource. This is a manual option within the viewer as there is no defined way for a manifest to prescribe motivation for these resources beyond `supplementing`.
+
+#### Supplementing Annotation to Ignore
+
+```json
+{
+  "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/1/page/annotation_page/1/annotation/2",
+  "type": "Annotation",
+  "motivation": "supplementing",
+  "body": {
+    "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/vtt/around_the_corner_chapters.vtt",
+    "type": "Text",
+    "format": "text/vtt",
+    "label": {
+      "en": ["Chapters"]
+    },
+    "language": "en"
+  },
+  "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/1"
+}
+```
+
+#### Configuration Option Implementation
+
+```jsx
+export default function App() {
+  const manifestId =
+    "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json";
+
+  const options = {
+    ignoreCaptionLabels: ["Chapters"]
+  };
+
+  return <ReactMediaPlayer manifestId={manifestId} options={options} />;
+}
+```
+
+[See Example](https://codesandbox.io/s/closed-captioning-configuration-hunhf?file=/src/App.tsx)
 
 ---
 
