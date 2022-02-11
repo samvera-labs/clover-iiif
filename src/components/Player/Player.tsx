@@ -38,9 +38,9 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
     ["Image"],
   );
 
-  const accompanyingItems: Array<any> =
-    activeCanvasObject.accompanyingCanvas?.items || [];
-  const posterImage = getAccompanyingCanvasImage(accompanyingItems);
+  const posterImage = getAccompanyingCanvasImage(
+    activeCanvasObject.accompanyingCanvas,
+  );
 
   /**
    * HLS.js binding for .m3u8 files
