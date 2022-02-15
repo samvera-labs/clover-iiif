@@ -35,13 +35,13 @@ Clover IIIF is a UI component that renders a multicanvas IIIF viewer intended fo
 Install the component from your command line using `npm install`,
 
 ```shell
-npm install @samvera-labs/clover-iiif
+npm install @samvera/clover-iiif
 ```
 
 **OR** if you prefer Yarn, use `yarn add`.
 
 ```shell
-yarn add @samvera-labs/clover-iiif
+yarn add @samvera/clover-iiif
 ```
 
 ---
@@ -51,7 +51,7 @@ yarn add @samvera-labs/clover-iiif
 Add the CloverIIIF component to your `jsx` or `tsx` code.
 
 ```jsx
-import CloverIIIF from "@samvera-labs/clover-iiif";
+import CloverIIIF from "@samvera/clover-iiif";
 ```
 
 Mnimal usage providing the `<CloverIIIF/>` component with an external manifest.
@@ -196,7 +196,7 @@ return <CloverIIIF manifestId={manifestId} customTheme={customTheme} />;
 Clover IIIF version 1.4.0, introduces an `options` prop, which will serve as a configuration object for common configuration options.
 
 ```jsx
-import CloverIIIF from "@samvera-labs/clover-iiif";
+import CloverIIIF from "@samvera/clover-iiif";
 
 ...
 
