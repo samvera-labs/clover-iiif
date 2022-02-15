@@ -3,7 +3,7 @@
   "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/assortedCanvases.json",
   "type": "Manifest",
   "label": {
-    "en": ["Assorted canvases for testing nulib/react-media-player"]
+    "en": ["Assorted canvases for testing samvera-labs/clover-iiif"]
   },
   "summary": {
     "en": [
