@@ -3,7 +3,7 @@
   "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases.json",
   "type": "Manifest",
   "label": {
-    "en": ["Assorted canvases for testing nulib/react-media-player"]
+    "en": ["Assorted canvases for testing samvera-labs/clover-iiif"]
   },
   "summary": {
     "en": [

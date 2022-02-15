@@ -1,5 +1,5 @@
 {
-  "name": "@nulib/react-media-player",
+  "name": "@samvera-labs/clover-iiif",
   "version": "1.6.10",
   "description": "Viewer for audio, video and image file types driven by a IIIF manifest",
   "main": "dist/index.cjs.js",
@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nulib/react-media-player.git"
+    "url": "https://github.com/samvera-labs/clover-iiif.git"
   },
   "scripts": {
     "build": "npm run clean && node build.js && tsc --emitDeclarationOnly --outDir dist",

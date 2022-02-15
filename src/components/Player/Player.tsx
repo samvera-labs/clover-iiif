@@ -101,7 +101,7 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
   return (
     <PlayerWrapper>
       <video
-        id="react-media-player"
+        id="clover-iiif-video"
         key={painting.id}
         ref={playerRef}
         controls

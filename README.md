@@ -1,12 +1,12 @@
 ![image](https://user-images.githubusercontent.com/7376450/142292714-27616e2d-e7cf-42f7-9297-17853a948ca2.png)
 
-# React Media Player
+# Clover IIIF
 
 **An A/V media viewer driven by IIIF Presentation API built with React.js**
 
 [**View Demo**](https://codesandbox.io/s/nulib-react-media-player-sample-i0huq)
 
-React Media Player is a UI component that renders a multicanvas IIIF viewer intended for `Video` and `Sound` content resources with basic pan-zoom support for `Image` via OpenSeadragon. Provide a [IIIF Presentation](https://iiif.io/api/presentation/3.0/) manifest and the component:
+Clover IIIF is a UI component that renders a multicanvas IIIF viewer intended for `Video` and `Sound` content resources with basic pan-zoom support for `Image` via OpenSeadragon. Provide a [IIIF Presentation](https://iiif.io/api/presentation/3.0/) manifest and the component:
 
 - Renders a multi-canvas _Video_, _Sound_, and _Image_ viewer
 - Renders thumbnails as navigation between canvases
@@ -35,32 +35,32 @@ React Media Player is a UI component that renders a multicanvas IIIF viewer inte
 Install the component from your command line using `npm install`,
 
 ```shell
-npm install @nulib/react-media-player
+npm install @samvera-labs/clover-iiif
 ```
 
 **OR** if you prefer Yarn, use `yarn add`.
 
 ```shell
-yarn add @nulib/react-media-player
+yarn add @samvera-labs/clover-iiif
 ```
 
 ---
 
 ## Basic Usage
 
-Add the ReactMediaPlayer component to your `jsx` or `tsx` code.
+Add the CloverIIIF component to your `jsx` or `tsx` code.
 
 ```jsx
-import ReactMediaPlayer from "@nulib/react-media-player";
+import CloverIIIF from "@samvera-labs/clover-iiif";
 ```
 
-Mnimal usage providing the `<ReactMediaPlayer/>` component with an external manifest.
+Mnimal usage providing the `<CloverIIIF/>` component with an external manifest.
 
 ```jsx
 const manifestId =
-  "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample.json";
+  "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json";
 
-return <ReactMediaPlayer manifestId={manifestId} />;
+return <CloverIIIF manifestId={manifestId} />;
 ```
 
 [See Example](https://codesandbox.io/s/nulib-react-media-player-sample-i0huq?file=/src/App.tsx)
@@ -73,14 +73,14 @@ Example on using `canvasIdCallback` to return to your consuming application the 
 
 ```jsx
 const manifestId =
-  "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample.json";
+  "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json";
 
 const handlCanvasIdCallback = (activeCanvasId) => {
   if (activeCanvasId) console.log(activeCanvasId);
 };
 
 return (
-  <ReactMediaPlayer
+  <CloverIIIF
     manifestId={manifestId}
     canvasIdCallback={handlCanvasIdCallback}
   />
@@ -88,7 +88,6 @@ return (
 ```
 
 [See Example](https://codesandbox.io/s/nulib-react-media-player-sample-i0huq?file=/src/App.tsx)
-
 
 ---
 
@@ -100,11 +99,11 @@ WebVTT content resources are the source for both content mapped closed captionin
 
 ```json
 {
-  "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/1/page/annotation_page/1/annotation/2",
+  "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1/page/annotation_page/1/annotation/2",
   "type": "Annotation",
   "motivation": "supplementing",
   "body": {
-    "id": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/vtt/around_the_corner_chapters.vtt",
+    "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/vtt/around_the_corner_chapters.vtt",
     "type": "Text",
     "format": "text/vtt",
     "label": {
@@ -112,7 +111,7 @@ WebVTT content resources are the source for both content mapped closed captionin
     },
     "language": "en"
   },
-  "target": "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json/canvas/1"
+  "target": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1"
 }
 ```
 
@@ -121,13 +120,13 @@ WebVTT content resources are the source for both content mapped closed captionin
 ```jsx
 export default function App() {
   const manifestId =
-    "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/captions.json";
+    "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json";
 
   const options = {
-    ignoreCaptionLabels: ["Chapters"]
+    ignoreCaptionLabels: ["Chapters"],
   };
 
-  return <ReactMediaPlayer manifestId={manifestId} options={options} />;
+  return <CloverIIIF manifestId={manifestId} options={options} />;
 }
 ```
 
@@ -141,7 +140,7 @@ You may choose to override the base theme by setting optional colors and fonts. 
 
 ```jsx
 const manifestId =
-  "https://raw.githubusercontent.com/nulib/react-media-player/main/public/fixtures/iiif/manifests/sample.json";
+  "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json";
 
 const customTheme = {
   colors: {
@@ -175,7 +174,7 @@ const customTheme = {
   },
 };
 
-return <ReactMediaPlayer manifestId={manifestId} customTheme={customTheme} />;
+return <CloverIIIF manifestId={manifestId} customTheme={customTheme} />;
 ```
 
 [See Example](https://codesandbox.io/s/nulib-react-media-player-custom-theme-g6m5v)
@@ -194,10 +193,10 @@ return <ReactMediaPlayer manifestId={manifestId} customTheme={customTheme} />;
 | `options.showIIIFBadge`       | `boolean`  | No       | true    |
 | `options.ignoreCaptionLabels` | `string[]` | No       | []      |
 
-RMP version 1.4.0, introduces an `options` prop, which will serve as a configuration object for common configuration options.
+Clover IIIF version 1.4.0, introduces an `options` prop, which will serve as a configuration object for common configuration options.
 
 ```jsx
-import ReactMediaPlayer from "@nulib/react-media-player";
+import CloverIIIF from "@samvera-labs/clover-iiif";
 
 ...
 
@@ -214,7 +213,7 @@ const options = {
 }
 ...
 
-<ReactMediaPlayer manifestId={...} options={options} />
+<CloverIIIF manifestId={...} options={options} />
 ```
 
 ---
@@ -232,7 +231,7 @@ The manifest provided to `manifestId`:
 
 ## Development
 
-React Media Player is built with:
+Clover IIIF is built with:
 
 - TypeScript
 - [ESBuild](https://esbuild.github.io/)
@@ -268,4 +267,4 @@ tsc
 
 ## License
 
-This project is available under the [MIT License](https://github.com/nulib/react-media-player/blob/main/LICENSE).
+This project is available under the [MIT License](https://github.com/samvera-labs/clover-iiif/blob/main/LICENSE).
