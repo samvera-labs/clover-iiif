@@ -1,4 +1,4 @@
-![image](https://user-images.githubusercontent.com/7376450/142292714-27616e2d-e7cf-42f7-9297-17853a948ca2.png)
+![image](https://user-images.githubusercontent.com/7376450/154114970-a68a6b14-91b8-48ea-a76a-5d2cd2f342c7.png)
 
 # Clover IIIF
 
@@ -63,7 +63,7 @@ const manifestId =
 return <CloverIIIF manifestId={manifestId} />;
 ```
 
-[See Example](https://codesandbox.io/s/nulib-react-media-player-sample-i0huq?file=/src/App.tsx)
+[See Example](https://codesandbox.io/s/samvera-clover-iiif-i0huq)
 
 ---
 
@@ -87,7 +87,7 @@ return (
 );
 ```
 
-[See Example](https://codesandbox.io/s/nulib-react-media-player-sample-i0huq?file=/src/App.tsx)
+[See Example](https://codesandbox.io/s/samvera-clover-iiif-i0huq)
 
 ---
 
@@ -130,7 +130,7 @@ export default function App() {
 }
 ```
 
-[See Example](https://codesandbox.io/s/closed-captioning-configuration-hunhf?file=/src/App.tsx)
+[See Example](https://codesandbox.io/s/hunhf)
 
 ---
 
@@ -177,7 +177,7 @@ const customTheme = {
 return <CloverIIIF manifestId={manifestId} customTheme={customTheme} />;
 ```
 
-[See Example](https://codesandbox.io/s/nulib-react-media-player-custom-theme-g6m5v)
+[See Example](https://codesandbox.io/s/custom-theme-g6m5v)
 
 ---
 
