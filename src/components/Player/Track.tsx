@@ -21,9 +21,7 @@ const Track: React.FC<TrackProps> = ({ resource, ignoreCaptionLabels }) => {
     <track
       key={resource.id}
       src={resource.id as string}
-      label={
-        getLabel(resource.label as InternationalString, "en") as any as string
-      }
+      label={label}
       srcLang="en"
       data-testid="player-track"
     />
