@@ -4,7 +4,11 @@ export const cleanTime = (standardNotation: string) => {
   var minutes: number = Math.ceil(parseInt(array[1]));
   var seconds: string = zeroPad(Math.ceil(parseInt(array[2])), 2);
 
-  let time: string = `${minutes}:${seconds}`;
+  // Insure time with Hours is formatted as "HH:MM:SS"
+  let formattedMinutes =
+    hours !== 0 && minutes < 10 ? (minutes + "").padStart(2, "0") : minutes;
+
+  let time: string = `${formattedMinutes}:${seconds}`;
 
   if (hours !== 0) {
     time = `${hours}:${time}`;

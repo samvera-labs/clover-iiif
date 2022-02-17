@@ -20,6 +20,8 @@ test("Test output a 'converted time' when given seconds as integer.", () => {
   expect(hours1).toBe("11:15:55");
   const hours2 = convertTime(4555);
   expect(hours2).toBe("1:15:55");
+  const hours3 = convertTime(40100);
+  expect(hours3).toBe("11:08:20");
   const minutes1 = convertTime(955);
   expect(minutes1).toBe("15:55");
   const minutes2 = convertTime(355);
