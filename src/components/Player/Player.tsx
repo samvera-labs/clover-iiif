@@ -7,6 +7,10 @@ import AudioVisualizer from "./AudioVisualizer";
 import { CurrentTimeContext } from "context/current-time-context";
 import { useViewerState } from "context/viewer-context";
 import Track from "./Track";
+import {
+  getAccompanyingCanvasImage,
+  getCanvasByCriteria,
+} from "hooks/use-hyperion-framework";
 
 // Set referrer header as a NU domain: ie. meadow.rdc-staging.library.northwestern.edu
 
@@ -16,13 +20,27 @@ interface PlayerProps {
 }
 
 const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
-  const viewerState: any = useViewerState();
-  const { configOptions } = viewerState;
-
   const playerRef = React.useRef(null);
   const isAudio = painting?.format?.includes("audio/");
 
   const { startTime, updateCurrentTime } = React.useContext(CurrentTimeContext);
+
+  const viewerState: any = useViewerState();
+  const { activeCanvas, configOptions, vault } = viewerState;
+
+  /**
+   * Get active canvas full object
+   */
+  const activeCanvasObject = getCanvasByCriteria(
+    vault,
+    { id: activeCanvas, type: "Canvas" },
+    "painting",
+    ["Image"],
+  );
+
+  const posterImage = getAccompanyingCanvasImage(
+    activeCanvasObject.accompanyingCanvas,
+  );
 
   /**
    * HLS.js binding for .m3u8 files
@@ -109,6 +127,7 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
         width={painting.width}
         onPlay={handlePlay}
         crossOrigin="anonymous"
+        poster={posterImage}
       >
         <source src={painting.id} type={painting.format} />
         {resources.length > 0 &&

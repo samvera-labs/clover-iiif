@@ -9,6 +9,7 @@ import {
 
 export interface CanvasEntity {
   canvas: CanvasNormalized | undefined;
+  accompanyingCanvas: Canvas | undefined;
   annotationPage: AnnotationPageNormalized | undefined;
   annotations: Array<Annotation | undefined>;
 }
@@ -21,6 +22,7 @@ export const getCanvasByCriteria = (
 ): CanvasEntity => {
   const entity: CanvasEntity = {
     canvas: undefined,
+    accompanyingCanvas: undefined,
     annotationPage: undefined,
     annotations: [],
   };
@@ -61,8 +63,12 @@ export const getCanvasByCriteria = (
 
   entity.canvas = vault.fromRef(item);
 
-  if (entity.canvas)
+  if (entity.canvas) {
     entity.annotationPage = vault.fromRef(entity.canvas.items[0]);
+    entity.accompanyingCanvas = entity.canvas?.accompanyingCanvas
+      ? vault.fromRef(entity.canvas?.accompanyingCanvas)
+      : undefined;
+  }
 
   if (entity.annotationPage)
     entity.annotations = vault
