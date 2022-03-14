@@ -1,0 +1,361 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/assortedCanvases.json",
+  "type": "Manifest",
+  "label": {
+    "en": ["Assorted canvases for testing samvera-labs/clover-iiif"]
+  },
+  "summary": {
+    "en": [
+      "Integer non fringilla massa, ac tristique ipsum. Quisque imperdiet malesuada magna, id congue augue semper vitae. Etiam nec eleifend elit, vel pharetra velit. Donec facilisis augue eget nisi convallis, vel fermentum dolor tincidunt. "
+    ]
+  },
+  "rights": "http://rightsstatements.org/vocab/NoC-NC/1.0/",
+  "requiredStatement": {
+    "label": { "en": ["Attribution"] },
+    "value": {
+      "en": ["Who knows?"]
+    }
+  },
+  "items": [
+    {
+      "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "duration": 500,
+      "label": {
+        "en": ["Video canvas, streaming (.m3u8), with supplementing webVTT"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "service": [
+            {
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "@id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae"
+            }
+          ],
+          "width": 8540,
+          "height": 8714
+        }
+      ],
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0",
+              "body": {
+                "id": "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8",
+                "type": "Video",
+                "format": "video/mp4",
+                "height": 720,
+                "width": 480,
+                "duration": 500
+              }
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0/page/annotation_page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["en"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0"
+            },
+            {
+              "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0/page/annotation_page/1/annotation/3",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_es.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "es": ["es"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/1",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "duration": 277,
+      "label": {
+        "en": ["Video canvas, streaming (.m3u8), with supplementing webVTT"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/3774f727-6090-444e-8f4e-16d1c0154955/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "service": [
+            {
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "@id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae"
+            }
+          ],
+          "width": 8540,
+          "height": 8714
+        }
+      ],
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/1/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/1/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/1",
+              "body": {
+                "id": "https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8",
+                "type": "Video",
+                "format": "video/mp4",
+                "height": 720,
+                "width": 480,
+                "duration": 277
+              }
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/1/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/1/page/annotation_page/1/annotation/3",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_es.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "es": ["es"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "duration": 277,
+      "label": {
+        "en": ["Video canvas (.mp4), with supplementing webVTT"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/3774f727-6090-444e-8f4e-16d1c0154955/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "service": [
+            {
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "@type": "http://iiif.io/api/image/2/context.json",
+              "@id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae"
+            }
+          ],
+          "width": 8540,
+          "height": 8714
+        }
+      ],
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2",
+              "body": {
+                "id": "http://techslides.com/demos/sample-videos/small.mp4",
+                "type": "Video",
+                "format": "video/mp4",
+                "height": 720,
+                "width": 480,
+                "duration": 277
+              }
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2/page/annotation_page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["en"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "height": 480,
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/6ce3a851-4e9e-43e5-a142-20ffc6a01e56",
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/6ce3a851-4e9e-43e5-a142-20ffc6a01e56/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "format": "image/tiff",
+                "height": 6101,
+                "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/6ce3a851-4e9e-43e5-a142-20ffc6a01e56/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/6ce3a851-4e9e-43e5-a142-20ffc6a01e56",
+                    "profile": "http://iiif.io/api/image/2/level2.json",
+                    "type": "ImageService2"
+                  }
+                ],
+                "type": "Image",
+                "width": 4007
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/6ce3a851-4e9e-43e5-a142-20ffc6a01e56/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/6ce3a851-4e9e-43e5-a142-20ffc6a01e56",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Praesent finibus lacus"]
+      },
+      "type": "Canvas",
+      "width": 640
+    },
+    {
+      "height": 480,
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390",
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "format": "image/tiff",
+                "height": 3239,
+                "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390",
+                    "profile": "http://iiif.io/api/image/2/level2.json",
+                    "type": "ImageService2"
+                  }
+                ],
+                "type": "Image",
+                "width": 1530
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Rellus fermentum (arcu)"]
+      },
+      "type": "Canvas",
+      "width": 640
+    },
+    {
+      "height": 480,
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/9e34a6f2-b828-4220-a7e2-3006f40911e7",
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/9e34a6f2-b828-4220-a7e2-3006f40911e7/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "format": "image/tiff",
+                "height": 3239,
+                "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/9e34a6f2-b828-4220-a7e2-3006f40911e7/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/9e34a6f2-b828-4220-a7e2-3006f40911e7",
+                    "profile": "http://iiif.io/api/image/2/level2.json",
+                    "type": "ImageService2"
+                  }
+                ],
+                "type": "Image",
+                "width": 1530
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/9e34a6f2-b828-4220-a7e2-3006f40911e7/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/9e34a6f2-b828-4220-a7e2-3006f40911e7",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Rellus fermentum (varius)"]
+      },
+      "type": "Canvas",
+      "width": 640
+    }
+  ]
+}

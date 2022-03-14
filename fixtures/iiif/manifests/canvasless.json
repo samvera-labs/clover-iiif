@@ -1,0 +1,16 @@
+{
+  "id": "http://127.0.0.1:8080/fixtures/manifest/canvasless.json",
+  "label": {
+    "en": ["424233"]
+  },
+  "requiredStatement": {
+    "label": {
+      "en": ["Attribution"]
+    },
+    "value": {
+      "en": ["Courtesy of Northwestern University Libraries"]
+    }
+  },
+  "type": "Manifest",
+  "@context": "http://iiif.io/api/presentation/3/context.json"
+}

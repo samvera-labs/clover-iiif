@@ -1,0 +1,93 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json",
+  "type": "Manifest",
+  "label": {
+    "en": ["Assorted canvases for testing samvera-labs/clover-iiif"]
+  },
+  "summary": {
+    "none": ["Integer non fringilla massa, ac tristique ipsum. "]
+  },
+  "rights": "http://rightsstatements.org/vocab/NoC-NC/1.0/",
+  "requiredStatement": {
+    "label": { "en": ["Attribution"] },
+    "value": {
+      "en": ["Various"]
+    }
+  },
+  "items": [
+    {
+      "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample/canvas/1",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "duration": 597,
+      "label": {
+        "en": [
+          "Video canvas, streaming (.m3u8), with supplementing annotations as WebVTT"
+        ]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/ead5e80f-1fcf-481e-907a-93cf3f0e7d45/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "service": [
+            {
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "type": "http://iiif.io/api/image/2/context.json",
+              "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/ead5e80f-1fcf-481e-907a-93cf3f0e7d45"
+            }
+          ],
+          "width": 8540,
+          "height": 8714
+        }
+      ],
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample/canvas/1/annotation_page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample/canvas/1/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample/canvas/1",
+              "body": {
+                "id": "https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8",
+                "type": "Video",
+                "format": "video/mp4",
+                "height": 720,
+                "width": 480,
+                "duration": 597
+              }
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample/canvas/1/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample/canvas/1/page/annotation_page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "http://127.0.0.1:8080/fixtures/vtt/nested_chapters.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["Nested Chapters"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample/canvas/1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

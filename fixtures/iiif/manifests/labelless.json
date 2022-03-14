@@ -1,0 +1,47 @@
+{
+  "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/labelless.json",
+  "requiredStatement": {
+    "label": {
+      "en": ["Attribution"]
+    },
+    "value": {
+      "en": ["Courtesy of Northwestern University Libraries"]
+    }
+  },
+  "items": [
+    {
+      "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0",
+      "type": "Canvas",
+      "width": 720,
+      "height": 480,
+      "duration": 500,
+      "label": {
+        "en": ["Video canvas, streaming (.m3u8), with supplementing webVTT"]
+      },
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0/annotation_page/4",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0/annotation_page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0",
+              "body": {
+                "id": "http://techslides.com/demos/sample-videos/small.mp4",
+                "type": "Video",
+                "format": "video/mp4",
+                "height": 720,
+                "width": 480,
+                "duration": 500
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "type": "Manifest",
+  "@context": "http://iiif.io/api/presentation/3/context.json"
+}

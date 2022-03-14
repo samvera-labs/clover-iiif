@@ -1,0 +1,307 @@
+{
+  "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json",
+  "items": [
+    {
+      "duration": 461,
+      "height": 480,
+      "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1",
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "duration": 461,
+                "format": "video/webm",
+                "height": 720,
+                "id": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Around_the_Corner_%281937%29_24fps_selection.webm",
+                "type": "Video",
+                "width": 1280
+              },
+              "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Around the Corner (1937)"]
+      },
+      "thumbnail": [
+        {
+          "format": "image/jpeg",
+          "height": 150,
+          "id": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Around_the_Corner_%281937%29_24fps_selection.webm/200px--Around_the_Corner_%281937%29_24fps_selection.webm.jpg",
+          "type": "Image",
+          "width": 200
+        }
+      ],
+      "type": "Canvas",
+      "width": 640,
+      "annotations": [
+        {
+          "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1/page/annotation_page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/vtt/around_the_corner_captions.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["English"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1"
+            },
+            {
+              "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1/page/annotation_page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/vtt/around_the_corner_chapters.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["Chapters"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "duration": 553,
+      "height": 480,
+      "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/2",
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/2/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "duration": 553,
+                "format": "video/webm",
+                "height": 720,
+                "id": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Duck_And_Cover_%281951%29_Bert_The_Turtle.webm",
+                "type": "Video",
+                "width": 1280
+              },
+              "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/2/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/2",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Duck And Cover (1951)"]
+      },
+      "thumbnail": [
+        {
+          "format": "image/jpeg",
+          "height": 150,
+          "id": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Duck_And_Cover_%281951%29_Bert_The_Turtle.webm/600px--Duck_And_Cover_%281951%29_Bert_The_Turtle.webm.jpg",
+          "type": "Image",
+          "width": 200
+        }
+      ],
+      "type": "Canvas",
+      "width": 640,
+      "annotations": [
+        {
+          "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/2/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/2/page/annotation_page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/vtt/duck_and_cover_captions.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["English"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/2"
+            },
+            {
+              "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/2/page/annotation_page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/vtt/around_the_corner_chapters.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["Chapters"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "duration": 68,
+      "height": 480,
+      "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/3",
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/3/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "duration": 68,
+                "format": "video/webm",
+                "height": 720,
+                "id": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Cicada_Final_Molt_and_Darkening_timelapse_14_2021-05-27.webm",
+                "type": "Video",
+                "width": 1280
+              },
+              "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/3/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/3",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Cicada Final Molt and Darkening timelapse 14"]
+      },
+      "thumbnail": [
+        {
+          "format": "image/jpeg",
+          "height": 150,
+          "id": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Cicada_Final_Molt_and_Darkening_timelapse_14_2021-05-27.webm/800px--Cicada_Final_Molt_and_Darkening_timelapse_14_2021-05-27.webm.jpg",
+          "type": "Image",
+          "width": 200
+        }
+      ],
+      "type": "Canvas",
+      "width": 640,
+      "annotations": [
+        {
+          "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/3/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/3/page/annotation_page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/vtt/around_the_corner_chapters.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["Chapters"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "duration": 427,
+      "height": 480,
+      "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/4",
+      "items": [
+        {
+          "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/4/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "duration": 427,
+                "format": "video/ogg",
+                "height": 720,
+                "id": "https://upload.wikimedia.org/wikipedia/commons/6/62/Cheetahs_on_the_Edge_%28Director%27s_Cut%29.ogv",
+                "type": "Video",
+                "width": 1280
+              },
+              "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/4/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/4",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Cheetahs on the Edge"]
+      },
+      "thumbnail": [
+        {
+          "format": "image/jpeg",
+          "height": 150,
+          "id": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Cheetahs_on_the_Edge_%28Director%27s_Cut%29.ogv/800px--Cheetahs_on_the_Edge_%28Director%27s_Cut%29.ogv.jpg",
+          "type": "Image",
+          "width": 200
+        }
+      ],
+      "type": "Canvas",
+      "width": 640,
+      "annotations": [
+        {
+          "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/4/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/4/page/annotation_page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/vtt/around_the_corner_chapters.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["Chapters"]
+                },
+                "language": "en"
+              },
+              "target": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/4"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "label": {
+    "en": ["Captions"]
+  },
+  "requiredStatement": {
+    "label": {
+      "en": ["Attribution"]
+    },
+    "value": {
+      "en": ["Courtesy of Northwestern University Libraries"]
+    }
+  },
+  "summary": {
+    "en": ["Practice. Coach: Alex Agase."]
+  },
+  "type": "Manifest",
+  "@context": "http://iiif.io/api/presentation/3/context.json"
+}

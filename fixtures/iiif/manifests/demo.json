@@ -1,0 +1,324 @@
+{
+  "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/demo.json",
+
+  "items": [
+    {
+      "type": "Canvas",
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/af19d06c-3ad3-4669-8da3-e037a3e51a96",
+      "width": 640,
+      "height": 480,
+      "duration": 375.813,
+      "label": {
+        "en": ["Quisque eleifend elit"]
+      },
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/af19d06c-3ad3-4669-8da3-e037a3e51a96/annotation_page/1",
+          "items": [
+            {
+              "type": "Annotation",
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/af19d06c-3ad3-4669-8da3-e037a3e51a96/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "body": {
+                "duration": 375.813,
+                "format": "video/mp4",
+                "height": 1080,
+                "id": "https://meadow-streaming.rdc-staging.library.northwestern.edu/af/19/d0/6c/-3/ad/3-/46/69/-8/da/3-/e0/37/a3/e5/1a/96/8595ad057bcbc55c9cdc1848aed7a698bb4741c31aaf433d4096326dca45d9e6.m3u8",
+                "type": "Video",
+                "width": 1440
+              },
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/af19d06c-3ad3-4669-8da3-e037a3e51a96"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+
+      "annotations": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/af19d06c-3ad3-4669-8da3-e037a3e51a96/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "type": "Annotation",
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/af19d06c-3ad3-4669-8da3-e037a3e51a96/annotation_page/2/annotation/1",
+              "motivation": "supplementing",
+              "body": {
+                "format": "text/vtt",
+                "id": "http://127.0.0.1:8080/fixtures/vtt/transcript_sample.vtt",
+                "label": {
+                  "en": ["Transcript"]
+                },
+                "language": "en",
+                "type": "Text"
+              },
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/af19d06c-3ad3-4669-8da3-e037a3e51a96"
+            },
+            {
+              "body": {
+                "format": "text/vtt",
+                "id": "http://127.0.0.1:8080/fixtures/vtt/chapter_sample.vtt",
+                "label": {
+                  "en": ["Chapters"]
+                },
+                "language": "en",
+                "type": "Text"
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/af19d06c-3ad3-4669-8da3-e037a3e51a96/annotation_page/2/annotation/2",
+              "motivation": "supplementing",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/af19d06c-3ad3-4669-8da3-e037a3e51a96",
+              "type": "Annotation"
+            }
+          ]
+        }
+      ],
+
+      "thumbnail": [
+        {
+          "format": "image/jpeg",
+          "height": 300,
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/af19d06c-3ad3-4669-8da3-e037a3e51a96/full/!300,300/0/default.jpg",
+          "service": [
+            {
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/af19d06c-3ad3-4669-8da3-e037a3e51a96",
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "type": "ImageService2"
+            }
+          ],
+          "type": "Image",
+          "width": 300
+        }
+      ]
+    },
+    {
+      "duration": 31.813,
+      "height": 480,
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/22367476-08dc-4f6d-bfa6-b2047685f224",
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/22367476-08dc-4f6d-bfa6-b2047685f224/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "duration": 31.813,
+                "format": "video/mp4",
+                "height": 1080,
+                "id": "https://meadow-streaming.rdc-staging.library.northwestern.edu/af/19/d0/6c/-3/ad/3-/46/69/-8/da/3-/e0/37/a3/e5/1a/96/8595ad057bcbc55c9cdc1848aed7a698bb4741c31aaf433d4096326dca45d9e6.m3u8",
+                "type": "Video",
+                "width": 1440
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/22367476-08dc-4f6d-bfa6-b2047685f224/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/22367476-08dc-4f6d-bfa6-b2047685f224",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/22367476-08dc-4f6d-bfa6-b2047685f224/annotation_page/2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "body": {
+                "format": "text/vtt",
+                "id": "http://127.0.0.1:8080/fixtures/vtt/captions_sample_short.vtt",
+                "label": {
+                  "en": ["Captions"]
+                },
+                "language": "en",
+                "type": "Text"
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/22367476-08dc-4f6d-bfa6-b2047685f224/annotation_page/2/annotation/1",
+              "motivation": "supplementing",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/22367476-08dc-4f6d-bfa6-b2047685f224",
+              "type": "Annotation"
+            }
+          ]
+        }
+      ],
+      "label": {
+        "en": ["In tristique, odio \"at tristique mollis\""]
+      },
+      "thumbnail": [
+        {
+          "format": "image/jpeg",
+          "height": 300,
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/22367476-08dc-4f6d-bfa6-b2047685f224/full/!300,300/0/default.jpg",
+          "service": [
+            {
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/22367476-08dc-4f6d-bfa6-b2047685f224",
+              "profile": "http://iiif.io/api/image/2/level2.json",
+              "type": "ImageService2"
+            }
+          ],
+          "type": "Image",
+          "width": 300
+        }
+      ],
+      "type": "Canvas",
+      "width": 640
+    },
+    {
+      "height": 480,
+      "duration": 60.0,
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/e6879945-dcc9-4e8a-bfca-9efaa0db7b48",
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/e6879945-dcc9-4e8a-bfca-9efaa0db7b48/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "duration": 60.0,
+                "format": "audio/vnd.wave",
+                "id": "https://meadow-streaming.rdc-staging.library.northwestern.edu/e6/87/99/45/-d/cc/9-/4e/8a/-b/fc/a-/9e/fa/a0/db/7b/48/35d1cd2ee768d06676f4e0d5410f786ac94bc76c1c1e3e6b0b96a5736b2c1181.m3u8",
+                "type": "Video"
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/e6879945-dcc9-4e8a-bfca-9efaa0db7b48/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/e6879945-dcc9-4e8a-bfca-9efaa0db7b48",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Mauris dictum id risus "]
+      },
+      "type": "Canvas",
+      "width": 640
+    },
+    {
+      "height": 480,
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390",
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "format": "image/tiff",
+                "height": 3239,
+                "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390",
+                    "profile": "http://iiif.io/api/image/2/level2.json",
+                    "type": "ImageService2"
+                  }
+                ],
+                "type": "Image",
+                "width": 1530
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/cd929d1e-fd6f-4127-9f5c-b5c5c14cb390",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Rellus fermentum (arcu)"]
+      },
+      "type": "Canvas",
+      "width": 640
+    },
+    {
+      "height": 480,
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/9e34a6f2-b828-4220-a7e2-3006f40911e7",
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/9e34a6f2-b828-4220-a7e2-3006f40911e7/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "format": "image/tiff",
+                "height": 3239,
+                "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/9e34a6f2-b828-4220-a7e2-3006f40911e7/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/9e34a6f2-b828-4220-a7e2-3006f40911e7",
+                    "profile": "http://iiif.io/api/image/2/level2.json",
+                    "type": "ImageService2"
+                  }
+                ],
+                "type": "Image",
+                "width": 1530
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/9e34a6f2-b828-4220-a7e2-3006f40911e7/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/9e34a6f2-b828-4220-a7e2-3006f40911e7",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Rellus fermentum (varius)"]
+      },
+      "type": "Canvas",
+      "width": 640
+    },
+    {
+      "height": 480,
+      "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/6ce3a851-4e9e-43e5-a142-20ffc6a01e56",
+      "items": [
+        {
+          "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/6ce3a851-4e9e-43e5-a142-20ffc6a01e56/annotation_page/1",
+          "items": [
+            {
+              "body": {
+                "format": "image/tiff",
+                "height": 6101,
+                "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/6ce3a851-4e9e-43e5-a142-20ffc6a01e56/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/6ce3a851-4e9e-43e5-a142-20ffc6a01e56",
+                    "profile": "http://iiif.io/api/image/2/level2.json",
+                    "type": "ImageService2"
+                  }
+                ],
+                "type": "Image",
+                "width": 4007
+              },
+              "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/6ce3a851-4e9e-43e5-a142-20ffc6a01e56/annotation_page/1/annotation/1",
+              "motivation": "painting",
+              "target": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/06/98/6f/c9/-0/42/8-/4b/d9/-a/fd/2-/7f/46/39/be/72/98-manifest.json/canvas/6ce3a851-4e9e-43e5-a142-20ffc6a01e56",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": ["Praesent finibus lacus"]
+      },
+      "type": "Canvas",
+      "width": 640
+    }
+  ],
+
+  "label": {
+    "en": ["Mauris in metus at nulla tristique"]
+  },
+
+  "requiredStatement": {
+    "label": {
+      "en": ["Attribution"]
+    },
+    "value": {
+      "en": ["Courtesy of Northwestern University Libraries"]
+    }
+  },
+  "summary": {
+    "en": ["Mauris in metus at nulla tristique"]
+  },
+  "type": "Manifest",
+  "@context": "http://iiif.io/api/presentation/3/context.json"
+}
