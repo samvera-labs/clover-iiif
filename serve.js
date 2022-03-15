@@ -6,6 +6,7 @@
 const { build } = require("esbuild");
 const chokidar = require("chokidar");
 const liveServer = require("live-server");
+const envFilePlugin = require("esbuild-envfile-plugin");
 
 (async () => {
   const builder = await build({
@@ -20,12 +21,11 @@ const liveServer = require("live-server");
     entryPoints: ["src/dev.tsx"],
     // Uses incremental compilation (see `chokidar.on`).
     incremental: true,
-    // Removes whitespace, etc. depending on `NODE_ENV=...`.
-    minify: process.env.NODE_ENV === "production",
     outfile: "public/script.js",
     sourcemap: true,
+    plugins: [envFilePlugin],
   });
-  // `chokidar` watcher source changes.
+
   chokidar
     // Watches TypeScript and React TypeScript.
     .watch("src/**/*.{ts,tsx}", {
@@ -35,7 +35,7 @@ const liveServer = require("live-server");
     .on("all", () => {
       builder.rebuild();
     });
-  // `liveServer` local server for hot reload.
+
   liveServer.start({
     // Opens the local server on start.
     open: true,

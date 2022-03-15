@@ -257,6 +257,12 @@ This will build and package the component
 npm run build
 ```
 
+This will create a static version of the site to the `/static` directory
+
+```
+npm run build:static
+```
+
 #### Notes
 
 - ESBuild compiles TypeScript to JavaScript, but does not do type checking. To view type checking errors (in addtion to what your IDE will be complaining about), run:

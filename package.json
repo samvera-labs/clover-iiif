@@ -11,10 +11,12 @@
   },
   "scripts": {
     "build": "npm run clean && node build.js && tsc --emitDeclarationOnly --outDir dist",
+    "build:static": "NODE_ENV=static OUT_DIR=static node build-static.js",
     "clean": "rimraf dist",
-    "dev": "node serve.js",
+    "dev": "NODE_ENV=development node serve.js",
     "test": "jest --watch",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "ts-lint": "tsc --noEmit --incremental --watch"
   },
   "keywords": [
     "IIIF",
@@ -31,12 +33,15 @@
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "chokidar": "^3.5.2",
+    "dotenv": "^16.0.0",
     "esbuild": "^0.12.28",
     "esbuild-css-modules-plugin": "^2.0.9",
+    "esbuild-envfile-plugin": "^1.0.2",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.26.0",
+    "fs-extra": "^10.0.1",
     "jest": "^27.2.1",
     "live-server": "^1.2.1",
     "prettier": "^2.4.1",
