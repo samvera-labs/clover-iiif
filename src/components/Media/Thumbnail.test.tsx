@@ -1,6 +1,6 @@
 import React from "react";
 import Thumbnail from "./Thumbnail";
-import { screen, render } from "@testing-library/react";
+import { screen, render, within } from "@testing-library/react";
 import { ThumbnailProps } from "./Thumbnail";
 import { Group } from "./Media.styled";
 
@@ -45,6 +45,7 @@ const props: ThumbnailProps = {
     height: 480,
     width: 640,
   },
+  canvasIndex: 1,
   isActive: true,
   thumbnail: {
     id: "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/20ed0982-2535-4dd9-8481-44ebeee5a161/full/!300,300/0/default.jpg",
@@ -53,18 +54,63 @@ const props: ThumbnailProps = {
     width: 200,
     height: 200,
   },
+  type: "Image",
   handleChange: jest.fn(),
 };
 
-describe("MediaItem component", () => {
-  it("renders", () => {
-    render(
-      <Group>
-        <Thumbnail {...props} />
-      </Group>,
-    );
-    const thumbnail = screen.getByTestId("media-thumbnail");
-    expect(thumbnail);
-    expect(thumbnail.hasAttribute("aria-checked")).toBe(true);
+describe("Thumbnail component", () => {
+  describe("image type", () => {
+    beforeEach(() => {
+      render(
+        <Group>
+          <Thumbnail {...props} />
+        </Group>,
+      );
+    });
+
+    it("renders", () => {
+      const thumbnail = screen.getByTestId("media-thumbnail");
+      expect(thumbnail);
+      expect(thumbnail.hasAttribute("aria-checked")).toBe(true);
+    });
+
+    it("renders the proper label", () => {
+      expect(screen.getByTestId("fig-caption")).toHaveTextContent(
+        "Big Buck Bunny",
+      );
+    });
+
+    it("displays a thumbnail image element as expected", () => {
+      const img = screen.getByAltText("Big Buck Bunny");
+      expect(img.tagName).toEqual("IMG");
+    });
+
+    it("renders a tag on the thumbnail", () => {
+      expect(screen.getByTestId("thumbnail-tag"));
+    });
+  });
+
+  describe("audio and video thumbnail types", () => {
+    it("renders a duration value in the tag for audio type", () => {
+      const newProps = { ...props, type: "Sound" };
+      render(
+        <Group>
+          <Thumbnail {...newProps} />
+        </Group>,
+      );
+      const tag = screen.getByTestId("thumbnail-tag");
+      expect(within(tag).getByText("0:00"));
+    });
+
+    it("renders a duration value in the tag for video type", () => {
+      const newProps = { ...props, type: "Video" };
+      render(
+        <Group>
+          <Thumbnail {...newProps} />
+        </Group>,
+      );
+      const tag = screen.getByTestId("thumbnail-tag");
+      expect(within(tag).getByText("0:00"));
+    });
   });
 });
