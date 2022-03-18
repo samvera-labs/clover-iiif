@@ -59989,12 +59989,15 @@ ${generateSegmentFilename(i7)}`);
       src: thumbnail.id,
       alt: label
     }), /* @__PURE__ */ import_react14.default.createElement(Type, null, /* @__PURE__ */ import_react14.default.createElement(Tag, {
-      isIcon: true
+      isIcon: true,
+      "data-testid": "thumbnail-tag"
     }, /* @__PURE__ */ import_react14.default.createElement(Spacer, null), /* @__PURE__ */ import_react14.default.createElement(Icon, {
       "aria-label": type
     }, /* @__PURE__ */ import_react14.default.createElement(IconPath, {
       type
-    })), ["Video", "Sound"].includes(type) && /* @__PURE__ */ import_react14.default.createElement(Duration, null, convertTime(canvas.duration))))), /* @__PURE__ */ import_react14.default.createElement("figcaption", null, label)));
+    })), ["Video", "Sound"].includes(type) && /* @__PURE__ */ import_react14.default.createElement(Duration, null, convertTime(canvas.duration))))), /* @__PURE__ */ import_react14.default.createElement("figcaption", {
+      "data-testid": "fig-caption"
+    }, label)));
   };
   var Thumbnail_default = Thumbnail;
 
