@@ -8,5 +8,5 @@ test("Test output of IIIF presentation label by internationalized language code.
   const noLangLabel = getLabel({ none: ["!*(@#"] }, "none");
   expect(noLangLabel).toStrictEqual(["!*(@#"]);
   const nonMatchingLabel = getLabel({ es: ["Etiqueta de muestra"] }, "en");
-  expect(nonMatchingLabel).toStrictEqual(undefined);
+  expect(nonMatchingLabel).toStrictEqual(["Etiqueta de muestra"]);
 });

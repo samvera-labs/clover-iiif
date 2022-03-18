@@ -64,7 +64,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
           {thumbnail?.id && <img src={thumbnail.id} alt={label} />}
 
           <Type>
-            <Tag isIcon>
+            <Tag isIcon data-testid="thumbnail-tag">
               <Spacer />
               <Icon aria-label={type}>
                 <IconPath type={type} />
@@ -75,7 +75,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
             </Tag>
           </Type>
         </div>
-        <figcaption>{label}</figcaption>
+        <figcaption data-testid="fig-caption">{label}</figcaption>
       </figure>
     </Item>
   );

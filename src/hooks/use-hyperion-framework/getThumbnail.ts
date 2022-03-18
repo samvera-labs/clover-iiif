@@ -64,6 +64,7 @@ export const getThumbnail = (
    * 5. Return (for time being crudely) constructed image object.
    */
   const thumbnailContent = selectedCandidate;
+  //console.log("thumbnailContent", thumbnailContent);
 
   return thumbnailContent;
 };

@@ -7,7 +7,6 @@ describe("Navigator component", () => {
     render(
       <Navigator
         activeCanvas="https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/manifest/assortedCanvases/canvas/0"
-        currentTime={1000}
         defaultResource="https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt"
         resources={[]}
       />,
