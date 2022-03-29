@@ -1,4 +1,5 @@
-![image](https://user-images.githubusercontent.com/7376450/154114970-a68a6b14-91b8-48ea-a76a-5d2cd2f342c7.png)
+<!-- ![image](https://user-images.githubusercontent.com/7376450/154114970-a68a6b14-91b8-48ea-a76a-5d2cd2f342c7.png) -->
+<img src="https://user-images.githubusercontent.com/7376450/154114970-a68a6b14-91b8-48ea-a76a-5d2cd2f342c7.png" class="clover-screenshot" alt="Clover screenshot" />
 
 # Clover IIIF
 
@@ -30,7 +31,7 @@ Clover IIIF is a UI component that renders a multicanvas IIIF viewer intended fo
 
 ---
 
-## Installation
+<h2 id="installation">Installation</h2>
 
 Install the component from your command line using `npm install`,
 
@@ -46,7 +47,7 @@ yarn add @samvera/clover-iiif
 
 ---
 
-## Basic Usage
+<h2 id="basic-usage">Basic Usage</h2>
 
 Add the CloverIIIF component to your `jsx` or `tsx` code.
 
@@ -67,7 +68,7 @@ return <CloverIIIF manifestId={manifestId} />;
 
 ---
 
-## Active Canvas
+<h2 id="active-canvas">Active Canvas</h2>
 
 Example on using `canvasIdCallback` to return to your consuming application the active canvas ID. This will return as a string.
 
@@ -91,7 +92,7 @@ return (
 
 ---
 
-## Configuring Captions
+<h2 id="configuring-captions">Configuring Captions</h2>
 
 WebVTT content resources are the source for both content mapped closed captioning `<track/>` elements in the HTML 5 video player and to the navigator panel adjacent to it. You may ignore these resources as tracks if they are not intended for closed captioning or subtitling by string values matching the label of the content resource. This is a manual option within the viewer as there is no defined way for a manifest to prescribe motivation for these resources beyond `supplementing`.
 
@@ -134,7 +135,7 @@ export default function App() {
 
 ---
 
-## Custom Theme
+<h2 id="custom-theme">Custom Theme</h2>
 
 You may choose to override the base theme by setting optional colors and fonts. Naming conventions for colors are limited to those shown in the config example below.
 
@@ -181,7 +182,7 @@ return <CloverIIIF manifestId={manifestId} customTheme={customTheme} />;
 
 ---
 
-## Reference
+<h2 id="reference">Reference</h2>
 
 | Prop                          | Type       | Required | Default |
 | ----------------------------- | ---------- | -------- | ------- |
@@ -218,7 +219,7 @@ const options = {
 
 ---
 
-## Manifest Requirements
+<h2 id="manifest-requirements">Manifest Requirements</h2>
 
 The manifest provided to `manifestId`:
 
@@ -229,7 +230,7 @@ The manifest provided to `manifestId`:
 
 ---
 
-## Development
+<h2 id="development">Development</h2>
 
 Clover IIIF is built with:
 
@@ -271,6 +272,6 @@ npm run build:static
 tsc
 ```
 
-## License
+<h2 id="license">License</h2>
 
 This project is available under the [MIT License](https://github.com/samvera-labs/clover-iiif/blob/main/LICENSE).

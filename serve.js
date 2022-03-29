@@ -7,8 +7,19 @@ const { build } = require("esbuild");
 const chokidar = require("chokidar");
 const liveServer = require("live-server");
 const envFilePlugin = require("esbuild-envfile-plugin");
+const fs = require("fs-extra");
+const { buildHTML } = require("./utils/html.js");
 
 (async () => {
+  /**
+   * Build the /public HTML file
+   */
+  fs.writeFile("./public/index.html", await buildHTML(), (error) => {
+    if (error) {
+      console.error("Error writing index.html file: ", error);
+    }
+  });
+
   const builder = await build({
     bundle: true,
     // Defines env variables for bundled JavaScript; here `process.env.NODE_ENV`

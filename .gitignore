@@ -3,6 +3,7 @@ dist
 node_modules
 public/script.js
 public/script.js.map
+public/index.html
 static
 
 # OS

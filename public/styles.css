@@ -1,0 +1,84 @@
+html {
+  font-size: 62.5%/1.7em;
+}
+
+body {
+  margin: 0;
+  font: 1rem "Akkurat Pro Regular", Arial, sans-serif;
+  color: #342f2e;
+  background: #fff;
+}
+
+button * {
+  box-sizing: border-box;
+}
+
+header {
+  background-color: #4e2a84;
+}
+
+p {
+  padding: 1rem;
+  font-size: 1rem;
+  line-height: 1.55em;
+}
+
+td,
+th {
+  padding: 0.25rem 1.25rem;
+  text-align: left;
+}
+
+.documentation-wrapper {
+  margin-top: 5rem;
+  padding: 1.618rem;
+  background: #342f2e;
+  color: white;
+}
+.documentation-wrapper a,
+.documentation-wrapper a:visited {
+  color: #d8d6d6;
+}
+.documentation-wrapper .clover-screenshot {
+  display: none;
+}
+
+@font-face {
+  font-family: "Akkurat Pro Regular";
+  src: url("https://common.northwestern.edu/v8/css/fonts/AkkuratProRegular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Akkurat Pro Italic";
+  src: url("https://common.northwestern.edu/v8/css/fonts/AkkuratProItalic.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Akkurat Pro Bold";
+  src: url("https://common.northwestern.edu/v8/css/fonts/AkkuratProBold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Akkurat Pro Bold Italic";
+  src: url("https://common.northwestern.edu/v8/css/fonts/AkkuratProBoldItalic.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Campton Bold";
+  src: url("https://common.northwestern.edu/v8/css/fonts/CamptonBold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
