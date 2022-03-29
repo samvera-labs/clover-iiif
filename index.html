@@ -1,78 +1,269 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Demo</title>
-    <style>
-      html {
-        font-size: 62.5%/1.7em;
-      }
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Demo</title>
+       <link rel="stylesheet" href="./default.css" />
+      <link rel="stylesheet" href="./styles.css" />
+    </head>
+    <body>
+      <div id="root"></div>
+      <div class="documentation-wrapper"><!-- ![image](https://user-images.githubusercontent.com/7376450/154114970-a68a6b14-91b8-48ea-a76a-5d2cd2f342c7.png) -->
+<img src="https://user-images.githubusercontent.com/7376450/154114970-a68a6b14-91b8-48ea-a76a-5d2cd2f342c7.png" class="clover-screenshot" alt="Clover screenshot" />
+<h1>Clover IIIF</h1>
+<p><strong>An A/V media viewer driven by IIIF Presentation API built with React.js</strong></p>
+<p><a href="https://codesandbox.io/s/samvera-clover-iiif-i0huq"><strong>View Demo</strong></a></p>
+<p>Clover IIIF is a UI component that renders a multicanvas IIIF viewer intended for <code>Video</code> and <code>Sound</code> content resources with basic pan-zoom support for <code>Image</code> via OpenSeadragon. Provide a <a href="https://iiif.io/api/presentation/3.0/">IIIF Presentation</a> manifest and the component:</p>
+<ul>
+<li>Renders a multi-canvas <em>Video</em>, <em>Sound</em>, and <em>Image</em> viewer</li>
+<li>Renders thumbnails as navigation between canvases</li>
+<li>Renders annotations with the <a href="https://iiif.io/api/presentation/3.0/#values-for-motivation">motivation</a> of <code>supplementing</code> with a content resource having the format of <code>text/vtt</code> for <em>Video</em> and <em>Sound</em></li>
+<li><em>Video</em> and <em>Sound</em> are rendered within a HTML5 <code>&lt;video&gt;</code> element</li>
+<li><em>Image</em> canvases are renderered with <a href="https://openseadragon.github.io/">OpenSeadragon</a></li>
+<li>Supports HLS streaming for <strong>.m3u8</strong> extentions</li>
+</ul>
+<hr>
+<h2>Documentation</h2>
+<ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#basic-usage">Basic Usage</a></li>
+<li><a href="#active-canvas">Active Canvas</a></li>
+<li><a href="#configuring-captions">Configuring Captions</a></li>
+<li><a href="#custom-theme">Custom Theme</a></li>
+<li><a href="#reference">Reference</a></li>
+<li><a href="#manifest-requirements">Manifest Requirements</a></li>
+<li><a href="#development">Development</a></li>
+</ul>
+<hr>
+<h2 id="installation">Installation</h2>
+<p>Install the component from your command line using <code>npm install</code>,</p>
+<pre><code class="hljs">npm install @samvera/clover-iiif
+</code></pre>
+<p><strong>OR</strong> if you prefer Yarn, use <code>yarn add</code>.</p>
+<pre><code class="hljs">yarn add @samvera/clover-iiif
+</code></pre>
+<hr>
+<h2 id="basic-usage">Basic Usage</h2>
+<p>Add the CloverIIIF component to your <code>jsx</code> or <code>tsx</code> code.</p>
+<pre><code class="hljs"><span class="hljs-keyword">import</span> <span class="hljs-title class_">CloverIIIF</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@samvera/clover-iiif&quot;</span>;
+</code></pre>
+<p>Mnimal usage providing the <code>&lt;CloverIIIF/&gt;</code> component with an external manifest.</p>
+<pre><code class="hljs"><span class="hljs-keyword">const</span> manifestId =
+  <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json&quot;</span>;
 
-      body {
-        margin: 0;
-        font: 62.5%/1.7em "Akkurat Pro Regular", Arial, sans-serif;
-        color: #342f2e;
-        background: #fff;
-      }
+<span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CloverIIIF</span> <span class="hljs-attr">manifestId</span>=<span class="hljs-string">{manifestId}</span> /&gt;</span></span>;
+</code></pre>
+<p><a href="https://codesandbox.io/s/samvera-clover-iiif-i0huq">See Example</a></p>
+<hr>
+<h2 id="active-canvas">Active Canvas</h2>
+<p>Example on using <code>canvasIdCallback</code> to return to your consuming application the active canvas ID. This will return as a string.</p>
+<pre><code class="hljs"><span class="hljs-keyword">const</span> manifestId =
+  <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json&quot;</span>;
 
-      button * {
-        box-sizing: border-box;
-      }
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">handlCanvasIdCallback</span> = (<span class="hljs-params">activeCanvasId</span>) =&gt; {
+  <span class="hljs-keyword">if</span> (activeCanvasId) <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(activeCanvasId);
+};
 
-      header {
-        background-color: #4e2a84;
-      }
+<span class="hljs-keyword">return</span> (
+  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CloverIIIF</span>
+    <span class="hljs-attr">manifestId</span>=<span class="hljs-string">{manifestId}</span>
+    <span class="hljs-attr">canvasIdCallback</span>=<span class="hljs-string">{handlCanvasIdCallback}</span>
+  /&gt;</span></span>
+);
+</code></pre>
+<p><a href="https://codesandbox.io/s/samvera-clover-iiif-i0huq">See Example</a></p>
+<hr>
+<h2 id="configuring-captions">Configuring Captions</h2>
+<p>WebVTT content resources are the source for both content mapped closed captioning <code>&lt;track/&gt;</code> elements in the HTML 5 video player and to the navigator panel adjacent to it. You may ignore these resources as tracks if they are not intended for closed captioning or subtitling by string values matching the label of the content resource. This is a manual option within the viewer as there is no defined way for a manifest to prescribe motivation for these resources beyond <code>supplementing</code>.</p>
+<h4>Supplementing Annotation to Ignore</h4>
+<pre><code class="hljs"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1/page/annotation_page/1/annotation/2&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Annotation&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;motivation&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;supplementing&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;body&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/vtt/around_the_corner_chapters.vtt&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Text&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;format&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;text/vtt&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;en&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;Chapters&quot;</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;language&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;en&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;target&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4>Configuration Option Implementation</h4>
+<pre><code class="hljs"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
+  <span class="hljs-keyword">const</span> manifestId =
+    <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json&quot;</span>;
 
-      p {
-        padding: 1rem;
-        font-size: 1rem;
-        line-height: 1.55em;
-      }
+  <span class="hljs-keyword">const</span> options = {
+    <span class="hljs-attr">ignoreCaptionLabels</span>: [<span class="hljs-string">&quot;Chapters&quot;</span>],
+  };
 
-      @font-face {
-        font-family: "Akkurat Pro Regular";
-        src: url("https://common.northwestern.edu/v8/css/fonts/AkkuratProRegular.woff")
-          format("woff");
-        font-weight: normal;
-        font-style: normal;
-      }
+  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CloverIIIF</span> <span class="hljs-attr">manifestId</span>=<span class="hljs-string">{manifestId}</span> <span class="hljs-attr">options</span>=<span class="hljs-string">{options}</span> /&gt;</span></span>;
+}
+</code></pre>
+<p><a href="https://codesandbox.io/s/hunhf">See Example</a></p>
+<hr>
+<h2 id="custom-theme">Custom Theme</h2>
+<p>You may choose to override the base theme by setting optional colors and fonts. Naming conventions for colors are limited to those shown in the config example below.</p>
+<pre><code class="hljs"><span class="hljs-keyword">const</span> manifestId =
+  <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json&quot;</span>;
 
-      @font-face {
-        font-family: "Akkurat Pro Italic";
-        src: url("https://common.northwestern.edu/v8/css/fonts/AkkuratProItalic.woff")
-          format("woff");
-        font-weight: normal;
-        font-style: normal;
-      }
+<span class="hljs-keyword">const</span> customTheme = {
+  <span class="hljs-attr">colors</span>: {
+    <span class="hljs-comment">/**
+     * Black and dark grays in a light theme.
+     * All must contrast to 4.5 or greater with `secondary`.
+     */</span>
+    <span class="hljs-attr">primary</span>: <span class="hljs-string">&quot;#37474F&quot;</span>,
+    <span class="hljs-attr">primaryMuted</span>: <span class="hljs-string">&quot;#546E7A&quot;</span>,
+    <span class="hljs-attr">primaryAlt</span>: <span class="hljs-string">&quot;#263238&quot;</span>,
 
-      @font-face {
-        font-family: "Akkurat Pro Bold";
-        src: url("https://common.northwestern.edu/v8/css/fonts/AkkuratProBold.woff")
-          format("woff");
-        font-weight: normal;
-        font-style: normal;
-      }
+    <span class="hljs-comment">/**
+     * Key brand color(s).
+     * `accent` must contrast to 4.5 or greater with `secondary`.
+     */</span>
+    <span class="hljs-attr">accent</span>: <span class="hljs-string">&quot;#C62828&quot;</span>,
+    <span class="hljs-attr">accentMuted</span>: <span class="hljs-string">&quot;#E57373&quot;</span>,
+    <span class="hljs-attr">accentAlt</span>: <span class="hljs-string">&quot;#B71C1C&quot;</span>,
 
-      @font-face {
-        font-family: "Akkurat Pro Bold Italic";
-        src: url("https://common.northwestern.edu/v8/css/fonts/AkkuratProBoldItalic.woff")
-          format("woff");
-        font-weight: normal;
-        font-style: normal;
-      }
+    <span class="hljs-comment">/**
+     * White and light grays in a light theme.
+     * All must must contrast to 4.5 or greater with `primary` and  `accent`.
+     */</span>
+    <span class="hljs-attr">secondary</span>: <span class="hljs-string">&quot;#FFFFFF&quot;</span>,
+    <span class="hljs-attr">secondaryMuted</span>: <span class="hljs-string">&quot;#ECEFF1&quot;</span>,
+    <span class="hljs-attr">secondaryAlt</span>: <span class="hljs-string">&quot;#CFD8DC&quot;</span>,
+  },
+  <span class="hljs-attr">fonts</span>: {
+    <span class="hljs-attr">sans</span>: <span class="hljs-string">&quot;&#x27;Avenir&#x27;, &#x27;Helvetica Neue&#x27;, sans-serif&quot;</span>,
+    <span class="hljs-attr">display</span>: <span class="hljs-string">&quot;Optima, Georgia, Arial, sans-serif&quot;</span>,
+  },
+};
 
-      @font-face {
-        font-family: "Campton Bold";
-        src: url("https://common.northwestern.edu/v8/css/fonts/CamptonBold.woff")
-          format("woff");
-        font-weight: normal;
-        font-style: normal;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script src="./script.js"></script>
-  </body>
-</html>
+<span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CloverIIIF</span> <span class="hljs-attr">manifestId</span>=<span class="hljs-string">{manifestId}</span> <span class="hljs-attr">customTheme</span>=<span class="hljs-string">{customTheme}</span> /&gt;</span></span>;
+</code></pre>
+<p><a href="https://codesandbox.io/s/custom-theme-g6m5v">See Example</a></p>
+<hr>
+<h2 id="reference">Reference</h2>
+<table>
+<thead>
+<tr>
+<th>Prop</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>manifestId</code></td>
+<td><code>string</code></td>
+<td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>canvasIdCallback</code></td>
+<td><code>function</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>customTheme</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>object</code></td>
+<td>No</td>
+<td></td>
+</tr>
+<tr>
+<td><code>options.showTitle</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>options.showIIIFBadge</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>options.ignoreCaptionLabels</code></td>
+<td><code>string[]</code></td>
+<td>No</td>
+<td>[]</td>
+</tr>
+</tbody>
+</table>
+<p>Clover IIIF version 1.4.0, introduces an <code>options</code> prop, which will serve as a configuration object for common configuration options.</p>
+<pre><code class="hljs"><span class="hljs-keyword">import</span> <span class="hljs-title class_">CloverIIIF</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@samvera/clover-iiif&quot;</span>;
+
+...
+
+<span class="hljs-comment">// Supported options</span>
+<span class="hljs-keyword">const</span> options = {
+  <span class="hljs-comment">// Primary title (Manifest label) for top level canvas.  Defaults to true</span>
+  <span class="hljs-attr">showTitle</span>: <span class="hljs-literal">false</span>,
+
+  <span class="hljs-comment">// IIIF Badge and popover containing options.  Defaults to true</span>
+  <span class="hljs-attr">showIIIFBadge</span>: <span class="hljs-literal">false</span>,
+
+  <span class="hljs-comment">// Ignore supplementing canvases by label value that are not for captioning</span>
+  <span class="hljs-attr">ignoreCaptionLabels</span>: [<span class="hljs-string">&#x27;Chapters&#x27;</span>]
+}
+...
+
+&lt;<span class="hljs-title class_">CloverIIIF</span> manifestId={...} options={options} /&gt;
+</code></pre>
+<hr>
+<h2 id="manifest-requirements">Manifest Requirements</h2>
+<p>The manifest provided to <code>manifestId</code>:</p>
+<ul>
+<li>MUST be a <a href="https://iiif.io/api/presentation/3.0/">IIIF Presentation API</a> valid manifest,</li>
+<li>MUST have at least one canvas with an annotation of the <strong>motivation</strong> of <code>painting</code> and content resource with the <strong>type</strong> of <code>Video</code>, <code>Sound</code>, or <code>Image</code></li>
+<li>SHOULD have canvases with annotations of the <strong>motivation</strong> of <code>supplementing</code> and content resource with the <strong>format</strong> of <code>text/vtt</code></li>
+<li>MAY have HLS streaming media, however, the file extension MUST be <code>.m3u8</code> for <code>Sound</code> and <code>Video</code></li>
+</ul>
+<hr>
+<h2 id="development">Development</h2>
+<p>Clover IIIF is built with:</p>
+<ul>
+<li>TypeScript</li>
+<li><a href="https://esbuild.github.io/">ESBuild</a></li>
+<li><a href="https://hyperion.stephen.wf/the-vault/vault-api/">Hyperion Framework</a></li>
+<li><a href="https://openseadragon.github.io/">OpenSeadragon</a></li>
+<li><a href="https://www.radix-ui.com/">Radix UI</a></li>
+<li><a href="https://stitches.dev/">Stitches</a></li>
+</ul>
+<h3>Environment</h3>
+<p>This will open up a local dev server with live reloading.</p>
+<pre><code class="hljs">npm install
+npm run dev
+</code></pre>
+<h3>Build</h3>
+<p>This will build and package the component</p>
+<pre><code class="hljs">npm run build
+</code></pre>
+<p>This will create a static version of the site to the <code>/static</code> directory</p>
+<pre><code class="hljs">npm run build:static
+</code></pre>
+<h4>Notes</h4>
+<ul>
+<li>ESBuild compiles TypeScript to JavaScript, but does not do type checking. To view type checking errors (in addtion to what your IDE will be complaining about), run:</li>
+</ul>
+<pre><code class="hljs">tsc
+</code></pre>
+<h2 id="license">License</h2>
+<p>This project is available under the <a href="https://github.com/samvera-labs/clover-iiif/blob/main/LICENSE">MIT License</a>.</p>
+</div>
+      <script src="./script.js"></script>
+    </body>
+  </html>
