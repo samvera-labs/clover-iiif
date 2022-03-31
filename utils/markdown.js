@@ -1,24 +1,24 @@
-const hljs = require("highlight.js");
-const MarkdownIt = require("markdown-it");
+const fs = require("fs");
+const markdown = require("markdown-it");
+const shiki = require("shiki");
 
-const markdown = new MarkdownIt({
-  html: true,
-  highlight: function (str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return (
-          '<pre><code class="hljs">' +
-          hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
-          "</code></pre>"
-        );
-      } catch (__) {}
-    }
-    return (
-      '<pre><code class="hljs">' +
-      markdown.utils.escapeHtml(str) +
-      "</code></pre>"
-    );
-  },
-});
+async function buildMarkdown() {
+  const markdownHTML = await shiki
+    .getHighlighter({
+      theme: "material-darker",
+    })
+    .then((highlighter) => {
+      const md = markdown({
+        html: true,
+        highlight: (code, lang) => {
+          return highlighter.codeToHtml(code, { lang });
+        },
+      });
 
-exports.markdown = markdown;
+      return md.render(fs.readFileSync("./README.md", "utf-8"));
+    });
+
+  return `<div class="documentation-wrapper">${markdownHTML}</div>`;
+}
+
+exports.buildMarkdown = buildMarkdown;

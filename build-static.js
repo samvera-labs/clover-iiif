@@ -28,13 +28,6 @@ async function emptyDir() {
 async function copyFiles() {
   try {
     await fs.copy("public", OUT_DIR, { filter: filterFunc });
-
-    // Copy highlight.js package styles for markdown code highlighting
-    await fs.copy(
-      "./node_modules/highlight.js/styles/default.css",
-      `./${OUT_DIR}/default.css`,
-      { overwrite: true },
-    );
     console.log("\nSuccess copying files");
   } catch (err) {
     console.error("\nError copying files: ", err);
