@@ -3,7 +3,7 @@
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Demo</title>
+      <title>Clover IIIF</title>
        <link rel="stylesheet" href="./default.css" />
       <link rel="stylesheet" href="./styles.css" />
     </head>
@@ -38,114 +38,114 @@
 <hr>
 <h2 id="installation">Installation</h2>
 <p>Install the component from your command line using <code>npm install</code>,</p>
-<pre><code class="hljs">npm install @samvera/clover-iiif
-</code></pre>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #EEFFFF">npm install @samvera/clover-iiif</span></span>
+<span class="line"></span></code></pre>
 <p><strong>OR</strong> if you prefer Yarn, use <code>yarn add</code>.</p>
-<pre><code class="hljs">yarn add @samvera/clover-iiif
-</code></pre>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #EEFFFF">yarn add @samvera/clover-iiif</span></span>
+<span class="line"></span></code></pre>
 <hr>
 <h2 id="basic-usage">Basic Usage</h2>
 <p>Add the CloverIIIF component to your <code>jsx</code> or <code>tsx</code> code.</p>
-<pre><code class="hljs"><span class="hljs-keyword">import</span> <span class="hljs-title class_">CloverIIIF</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@samvera/clover-iiif&quot;</span>;
-</code></pre>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF; font-style: italic">import</span><span style="color: #EEFFFF"> CloverIIIF </span><span style="color: #89DDFF; font-style: italic">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">@samvera/clover-iiif</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
+<span class="line"></span></code></pre>
 <p>Mnimal usage providing the <code>&lt;CloverIIIF/&gt;</code> component with an external manifest.</p>
-<pre><code class="hljs"><span class="hljs-keyword">const</span> manifestId =
-  <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json&quot;</span>;
-
-<span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CloverIIIF</span> <span class="hljs-attr">manifestId</span>=<span class="hljs-string">{manifestId}</span> /&gt;</span></span>;
-</code></pre>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> manifestId </span><span style="color: #89DDFF">=</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">manifestId</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">manifestId</span><span style="color: #89DDFF">} /&gt;;</span></span>
+<span class="line"></span></code></pre>
 <p><a href="https://codesandbox.io/s/samvera-clover-iiif-i0huq">See Example</a></p>
 <hr>
 <h2 id="active-canvas">Active Canvas</h2>
 <p>Example on using <code>canvasIdCallback</code> to return to your consuming application the active canvas ID. This will return as a string.</p>
-<pre><code class="hljs"><span class="hljs-keyword">const</span> manifestId =
-  <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json&quot;</span>;
-
-<span class="hljs-keyword">const</span> <span class="hljs-title function_">handlCanvasIdCallback</span> = (<span class="hljs-params">activeCanvasId</span>) =&gt; {
-  <span class="hljs-keyword">if</span> (activeCanvasId) <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(activeCanvasId);
-};
-
-<span class="hljs-keyword">return</span> (
-  <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CloverIIIF</span>
-    <span class="hljs-attr">manifestId</span>=<span class="hljs-string">{manifestId}</span>
-    <span class="hljs-attr">canvasIdCallback</span>=<span class="hljs-string">{handlCanvasIdCallback}</span>
-  /&gt;</span></span>
-);
-</code></pre>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> manifestId </span><span style="color: #89DDFF">=</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> handlCanvasIdCallback </span><span style="color: #89DDFF">=</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">(</span><span style="color: #EEFFFF">activeCanvasId</span><span style="color: #89DDFF">)</span><span style="color: #EEFFFF"> </span><span style="color: #C792EA">=&gt;</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
+<span class="line"><span style="color: #F07178">  </span><span style="color: #89DDFF; font-style: italic">if</span><span style="color: #F07178"> (</span><span style="color: #EEFFFF">activeCanvasId</span><span style="color: #F07178">) </span><span style="color: #EEFFFF">console</span><span style="color: #89DDFF">.</span><span style="color: #82AAFF">log</span><span style="color: #F07178">(</span><span style="color: #EEFFFF">activeCanvasId</span><span style="color: #F07178">)</span><span style="color: #89DDFF">;</span></span>
+<span class="line"><span style="color: #89DDFF">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> (</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span></span>
+<span class="line"><span style="color: #89DDFF">    </span><span style="color: #C792EA">manifestId</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">manifestId</span><span style="color: #89DDFF">}</span></span>
+<span class="line"><span style="color: #89DDFF">    </span><span style="color: #C792EA">canvasIdCallback</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">handlCanvasIdCallback</span><span style="color: #89DDFF">}</span></span>
+<span class="line"><span style="color: #89DDFF">  /&gt;</span></span>
+<span class="line"><span style="color: #EEFFFF">)</span><span style="color: #89DDFF">;</span></span>
+<span class="line"></span></code></pre>
 <p><a href="https://codesandbox.io/s/samvera-clover-iiif-i0huq">See Example</a></p>
 <hr>
 <h2 id="configuring-captions">Configuring Captions</h2>
 <p>WebVTT content resources are the source for both content mapped closed captioning <code>&lt;track/&gt;</code> elements in the HTML 5 video player and to the navigator panel adjacent to it. You may ignore these resources as tracks if they are not intended for closed captioning or subtitling by string values matching the label of the content resource. This is a manual option within the viewer as there is no defined way for a manifest to prescribe motivation for these resources beyond <code>supplementing</code>.</p>
 <h4>Supplementing Annotation to Ignore</h4>
-<pre><code class="hljs"><span class="hljs-punctuation">{</span>
-  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1/page/annotation_page/1/annotation/2&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Annotation&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;motivation&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;supplementing&quot;</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;body&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/vtt/around_the_corner_chapters.vtt&quot;</span><span class="hljs-punctuation">,</span>
-    <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Text&quot;</span><span class="hljs-punctuation">,</span>
-    <span class="hljs-attr">&quot;format&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;text/vtt&quot;</span><span class="hljs-punctuation">,</span>
-    <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
-      <span class="hljs-attr">&quot;en&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;Chapters&quot;</span><span class="hljs-punctuation">]</span>
-    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-    <span class="hljs-attr">&quot;language&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;en&quot;</span>
-  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
-  <span class="hljs-attr">&quot;target&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1&quot;</span>
-<span class="hljs-punctuation">}</span>
-</code></pre>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF">{</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C792EA">id</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1/page/annotation_page/1/annotation/2</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C792EA">type</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">Annotation</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C792EA">motivation</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">supplementing</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C792EA">body</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #89DDFF">&quot;</span><span style="color: #FFCB6B">id</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/vtt/around_the_corner_chapters.vtt</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #89DDFF">&quot;</span><span style="color: #FFCB6B">type</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">Text</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #89DDFF">&quot;</span><span style="color: #FFCB6B">format</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">text/vtt</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #89DDFF">&quot;</span><span style="color: #FFCB6B">label</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
+<span class="line"><span style="color: #EEFFFF">      </span><span style="color: #89DDFF">&quot;</span><span style="color: #F78C6C">en</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">[</span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">Chapters</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">]</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #89DDFF">},</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #89DDFF">&quot;</span><span style="color: #FFCB6B">language</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">en</span><span style="color: #89DDFF">&quot;</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">},</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C792EA">target</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json/canvas/1</span><span style="color: #89DDFF">&quot;</span></span>
+<span class="line"><span style="color: #89DDFF">}</span></span>
+<span class="line"></span></code></pre>
 <h4>Configuration Option Implementation</h4>
-<pre><code class="hljs"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">App</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-keyword">const</span> manifestId =
-    <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json&quot;</span>;
-
-  <span class="hljs-keyword">const</span> options = {
-    <span class="hljs-attr">ignoreCaptionLabels</span>: [<span class="hljs-string">&quot;Chapters&quot;</span>],
-  };
-
-  <span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CloverIIIF</span> <span class="hljs-attr">manifestId</span>=<span class="hljs-string">{manifestId}</span> <span class="hljs-attr">options</span>=<span class="hljs-string">{options}</span> /&gt;</span></span>;
-}
-</code></pre>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF; font-style: italic">export</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF; font-style: italic">default</span><span style="color: #EEFFFF"> </span><span style="color: #C792EA">function</span><span style="color: #EEFFFF"> </span><span style="color: #82AAFF">App</span><span style="color: #89DDFF">()</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
+<span class="line"><span style="color: #F07178">  </span><span style="color: #C792EA">const</span><span style="color: #F07178"> </span><span style="color: #EEFFFF">manifestId</span><span style="color: #F07178"> </span><span style="color: #89DDFF">=</span></span>
+<span class="line"><span style="color: #F07178">    </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #F07178">  </span><span style="color: #C792EA">const</span><span style="color: #F07178"> </span><span style="color: #EEFFFF">options</span><span style="color: #F07178"> </span><span style="color: #89DDFF">=</span><span style="color: #F07178"> </span><span style="color: #89DDFF">{</span></span>
+<span class="line"><span style="color: #F07178">    ignoreCaptionLabels</span><span style="color: #89DDFF">:</span><span style="color: #F07178"> [</span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">Chapters</span><span style="color: #89DDFF">&quot;</span><span style="color: #F07178">]</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #F07178">  </span><span style="color: #89DDFF">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #F07178">  </span><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #F07178"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">manifestId</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">manifestId</span><span style="color: #89DDFF">} </span><span style="color: #C792EA">options</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">options</span><span style="color: #89DDFF">} /&gt;;</span></span>
+<span class="line"><span style="color: #89DDFF">}</span></span>
+<span class="line"></span></code></pre>
 <p><a href="https://codesandbox.io/s/hunhf">See Example</a></p>
 <hr>
 <h2 id="custom-theme">Custom Theme</h2>
 <p>You may choose to override the base theme by setting optional colors and fonts. Naming conventions for colors are limited to those shown in the config example below.</p>
-<pre><code class="hljs"><span class="hljs-keyword">const</span> manifestId =
-  <span class="hljs-string">&quot;https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json&quot;</span>;
-
-<span class="hljs-keyword">const</span> customTheme = {
-  <span class="hljs-attr">colors</span>: {
-    <span class="hljs-comment">/**
-     * Black and dark grays in a light theme.
-     * All must contrast to 4.5 or greater with `secondary`.
-     */</span>
-    <span class="hljs-attr">primary</span>: <span class="hljs-string">&quot;#37474F&quot;</span>,
-    <span class="hljs-attr">primaryMuted</span>: <span class="hljs-string">&quot;#546E7A&quot;</span>,
-    <span class="hljs-attr">primaryAlt</span>: <span class="hljs-string">&quot;#263238&quot;</span>,
-
-    <span class="hljs-comment">/**
-     * Key brand color(s).
-     * `accent` must contrast to 4.5 or greater with `secondary`.
-     */</span>
-    <span class="hljs-attr">accent</span>: <span class="hljs-string">&quot;#C62828&quot;</span>,
-    <span class="hljs-attr">accentMuted</span>: <span class="hljs-string">&quot;#E57373&quot;</span>,
-    <span class="hljs-attr">accentAlt</span>: <span class="hljs-string">&quot;#B71C1C&quot;</span>,
-
-    <span class="hljs-comment">/**
-     * White and light grays in a light theme.
-     * All must must contrast to 4.5 or greater with `primary` and  `accent`.
-     */</span>
-    <span class="hljs-attr">secondary</span>: <span class="hljs-string">&quot;#FFFFFF&quot;</span>,
-    <span class="hljs-attr">secondaryMuted</span>: <span class="hljs-string">&quot;#ECEFF1&quot;</span>,
-    <span class="hljs-attr">secondaryAlt</span>: <span class="hljs-string">&quot;#CFD8DC&quot;</span>,
-  },
-  <span class="hljs-attr">fonts</span>: {
-    <span class="hljs-attr">sans</span>: <span class="hljs-string">&quot;&#x27;Avenir&#x27;, &#x27;Helvetica Neue&#x27;, sans-serif&quot;</span>,
-    <span class="hljs-attr">display</span>: <span class="hljs-string">&quot;Optima, Georgia, Arial, sans-serif&quot;</span>,
-  },
-};
-
-<span class="hljs-keyword">return</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">CloverIIIF</span> <span class="hljs-attr">manifestId</span>=<span class="hljs-string">{manifestId}</span> <span class="hljs-attr">customTheme</span>=<span class="hljs-string">{customTheme}</span> /&gt;</span></span>;
-</code></pre>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> manifestId </span><span style="color: #89DDFF">=</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> customTheme </span><span style="color: #89DDFF">=</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">colors</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #545454; font-style: italic">/**</span></span>
+<span class="line"><span style="color: #545454; font-style: italic">     * Black and dark grays in a light theme.</span></span>
+<span class="line"><span style="color: #545454; font-style: italic">     * All must contrast to 4.5 or greater with `secondary`.</span></span>
+<span class="line"><span style="color: #545454; font-style: italic">     */</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">primary</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#37474F</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">primaryMuted</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#546E7A</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">primaryAlt</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#263238</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #545454; font-style: italic">/**</span></span>
+<span class="line"><span style="color: #545454; font-style: italic">     * Key brand color(s).</span></span>
+<span class="line"><span style="color: #545454; font-style: italic">     * `accent` must contrast to 4.5 or greater with `secondary`.</span></span>
+<span class="line"><span style="color: #545454; font-style: italic">     */</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">accent</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#C62828</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">accentMuted</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#E57373</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">accentAlt</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#B71C1C</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #545454; font-style: italic">/**</span></span>
+<span class="line"><span style="color: #545454; font-style: italic">     * White and light grays in a light theme.</span></span>
+<span class="line"><span style="color: #545454; font-style: italic">     * All must must contrast to 4.5 or greater with `primary` and  `accent`.</span></span>
+<span class="line"><span style="color: #545454; font-style: italic">     */</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">secondary</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#FFFFFF</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">secondaryMuted</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#ECEFF1</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">secondaryAlt</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#CFD8DC</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">},</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">fonts</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">sans</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">&#39;Avenir&#39;, &#39;Helvetica Neue&#39;, sans-serif</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">display</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">Optima, Georgia, Arial, sans-serif</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">},</span></span>
+<span class="line"><span style="color: #89DDFF">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">manifestId</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">manifestId</span><span style="color: #89DDFF">} </span><span style="color: #C792EA">customTheme</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">customTheme</span><span style="color: #89DDFF">} /&gt;;</span></span>
+<span class="line"></span></code></pre>
 <p><a href="https://codesandbox.io/s/custom-theme-g6m5v">See Example</a></p>
 <hr>
 <h2 id="reference">Reference</h2>
@@ -204,25 +204,25 @@
 </tbody>
 </table>
 <p>Clover IIIF version 1.4.0, introduces an <code>options</code> prop, which will serve as a configuration object for common configuration options.</p>
-<pre><code class="hljs"><span class="hljs-keyword">import</span> <span class="hljs-title class_">CloverIIIF</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@samvera/clover-iiif&quot;</span>;
-
-...
-
-<span class="hljs-comment">// Supported options</span>
-<span class="hljs-keyword">const</span> options = {
-  <span class="hljs-comment">// Primary title (Manifest label) for top level canvas.  Defaults to true</span>
-  <span class="hljs-attr">showTitle</span>: <span class="hljs-literal">false</span>,
-
-  <span class="hljs-comment">// IIIF Badge and popover containing options.  Defaults to true</span>
-  <span class="hljs-attr">showIIIFBadge</span>: <span class="hljs-literal">false</span>,
-
-  <span class="hljs-comment">// Ignore supplementing canvases by label value that are not for captioning</span>
-  <span class="hljs-attr">ignoreCaptionLabels</span>: [<span class="hljs-string">&#x27;Chapters&#x27;</span>]
-}
-...
-
-&lt;<span class="hljs-title class_">CloverIIIF</span> manifestId={...} options={options} /&gt;
-</code></pre>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF; font-style: italic">import</span><span style="color: #EEFFFF"> CloverIIIF </span><span style="color: #89DDFF; font-style: italic">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">@samvera/clover-iiif</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #89DDFF">...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #545454; font-style: italic">// Supported options</span></span>
+<span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> options </span><span style="color: #89DDFF">=</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
+<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454; font-style: italic">// Primary title (Manifest label) for top level canvas.  Defaults to true</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">showTitle</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #FF9CAC">false</span><span style="color: #89DDFF">,</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454; font-style: italic">// IIIF Badge and popover containing options.  Defaults to true</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">showIIIFBadge</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #FF9CAC">false</span><span style="color: #89DDFF">,</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454; font-style: italic">// Ignore supplementing canvases by label value that are not for captioning</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">ignoreCaptionLabels</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> [</span><span style="color: #89DDFF">&#39;</span><span style="color: #C3E88D">Chapters</span><span style="color: #89DDFF">&#39;</span><span style="color: #EEFFFF">]</span></span>
+<span class="line"><span style="color: #89DDFF">}</span></span>
+<span class="line"><span style="color: #89DDFF">...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">manifestId</span><span style="color: #89DDFF">={...} </span><span style="color: #C792EA">options</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">options</span><span style="color: #89DDFF">} /&gt;</span></span>
+<span class="line"></span></code></pre>
 <hr>
 <h2 id="manifest-requirements">Manifest Requirements</h2>
 <p>The manifest provided to <code>manifestId</code>:</p>
@@ -245,22 +245,22 @@
 </ul>
 <h3>Environment</h3>
 <p>This will open up a local dev server with live reloading.</p>
-<pre><code class="hljs">npm install
-npm run dev
-</code></pre>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #EEFFFF">npm install</span></span>
+<span class="line"><span style="color: #EEFFFF">npm run dev</span></span>
+<span class="line"></span></code></pre>
 <h3>Build</h3>
 <p>This will build and package the component</p>
-<pre><code class="hljs">npm run build
-</code></pre>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #EEFFFF">npm run build</span></span>
+<span class="line"></span></code></pre>
 <p>This will create a static version of the site to the <code>/static</code> directory</p>
-<pre><code class="hljs">npm run build:static
-</code></pre>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #EEFFFF">npm run build:static</span></span>
+<span class="line"></span></code></pre>
 <h4>Notes</h4>
 <ul>
 <li>ESBuild compiles TypeScript to JavaScript, but does not do type checking. To view type checking errors (in addtion to what your IDE will be complaining about), run:</li>
 </ul>
-<pre><code class="hljs">tsc
-</code></pre>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #EEFFFF">tsc</span></span>
+<span class="line"></span></code></pre>
 <h2 id="license">License</h2>
 <p>This project is available under the <a href="https://github.com/samvera-labs/clover-iiif/blob/main/LICENSE">MIT License</a>.</p>
 </div>
