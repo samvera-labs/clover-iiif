@@ -245,7 +245,7 @@ Clover IIIF is built with:
 
 This will open up a local dev server with live reloading.
 
-```
+```shell
 npm install
 npm run dev
 ```
@@ -254,13 +254,13 @@ npm run dev
 
 This will build and package the component
 
-```
+```shell
 npm run build
 ```
 
 This will create a static version of the site to the `/static` directory
 
-```
+```shell
 npm run build:static
 ```
 
@@ -268,7 +268,7 @@ npm run build:static
 
 - ESBuild compiles TypeScript to JavaScript, but does not do type checking. To view type checking errors (in addtion to what your IDE will be complaining about), run:
 
-```
+```shell
 tsc
 ```
 

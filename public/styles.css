@@ -1,84 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Calistoga&family=IBM+Plex+Mono&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 html {
   font-size: 62.5%/1.7em;
 }
 
 body {
   margin: 0;
-  font: 1rem "Akkurat Pro Regular", Arial, sans-serif;
-  color: #342f2e;
+  font: 1rem "Inter", Arial, sans-serif;
+  color: #1a1d1e;
   background: #fff;
+}
+
+#root {
+  padding: 0 1rem;
+}
+
+#root header > span {
+  font-weight: 400;
 }
 
 button * {
   box-sizing: border-box;
 }
 
-header {
-  background-color: #4e2a84;
+h1 {
+  font-weight: 400;
+  font-family: "Calistoga", "Inter", Arial, sans-serif;
 }
 
-p {
+h2 {
+  margin: 2.618rem 0 1rem;
+  font-weight: 400;
+  font-family: "Calistoga", "Inter", Arial, sans-serif;
+}
+
+code {
+  background-color: #151718 !important;
+  padding: 0.25rem 0.618rem;
+  font-family: "IBM Plex Mono", monospace;
+  border-radius: 3px;
+}
+
+pre {
   padding: 1rem;
+  background-color: #151718 !important;
+  border-radius: 3px;
+  overflow-x: scroll;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+pre > code {
+  padding: 0;
+}
+
+hr {
+  margin: 2.618rem 0 1rem;
+  color: #26292b;
+}
+
+p,
+li {
   font-size: 1rem;
   line-height: 1.55em;
+  font-weight: 300;
+}
+
+table {
+  background-color: transparent;
+  padding: 1rem 0;
 }
 
 td,
 th {
-  padding: 0.25rem 1.25rem;
+  padding: 0.618rem;
   text-align: left;
 }
 
+th {
+  font-weight: 300;
+  color: #c1c8cd;
+}
+
+td {
+  border-top: 1px solid #26292b;
+}
+
+td:first-child,
+th:first-child {
+  padding-left: 0;
+}
+
 .documentation-wrapper {
-  margin-top: 5rem;
-  padding: 1.618rem;
-  background: #342f2e;
-  color: white;
+  padding: 2.618rem;
+  background: #1a1d1e;
+  color: #fff;
 }
 .documentation-wrapper a,
 .documentation-wrapper a:visited {
-  color: #d8d6d6;
+  color: #c3e88d;
 }
 .documentation-wrapper .clover-screenshot {
   display: none;
-}
-
-@font-face {
-  font-family: "Akkurat Pro Regular";
-  src: url("https://common.northwestern.edu/v8/css/fonts/AkkuratProRegular.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Akkurat Pro Italic";
-  src: url("https://common.northwestern.edu/v8/css/fonts/AkkuratProItalic.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Akkurat Pro Bold";
-  src: url("https://common.northwestern.edu/v8/css/fonts/AkkuratProBold.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Akkurat Pro Bold Italic";
-  src: url("https://common.northwestern.edu/v8/css/fonts/AkkuratProBoldItalic.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Campton Bold";
-  src: url("https://common.northwestern.edu/v8/css/fonts/CamptonBold.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
 }
