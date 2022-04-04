@@ -1,9 +1,19 @@
+import { enableFetchMocks } from "jest-fetch-mock";
 import React from "react";
 import { render } from "@testing-library/react";
 import ImageViewer from "./ImageViewer";
+import { tileSourceResponse } from "../../services/iiif-test-fixtures";
+
+enableFetchMocks();
 
 describe("ImageViewer component", () => {
+  beforeEach(() => {
+    fetchMock.resetMocks();
+  });
+
   it("renders", () => {
+    fetchMock.mockResponseOnce(JSON.stringify(tileSourceResponse));
+
     render(
       <ImageViewer
         id="https://iiif.stack.rdc-staging.library.northwestern.edu/iiif…/6ce3a851-4e9e-43e5-a142-20ffc6a01e56/full/max/0/default.jpg"
