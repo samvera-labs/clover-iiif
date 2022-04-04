@@ -29,7 +29,7 @@ const mockResources: Array<LabeledResource> = [
   },
 ];
 
-describe("Player component", () => {
+xdescribe("Player component", () => {
   it("renders", () => {
     render(<Player painting={mockPainting} resources={mockResources} />);
   });
