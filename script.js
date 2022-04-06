@@ -61514,8 +61514,8 @@ ${generateSegmentFilename(i7)}`);
       label: "Basin"
     },
     {
-      url: "https://curio.lib.utexas.edu/assets/DAMS/utblac/utblac_bd7d20a3-2069-46df-9882-752e17df9f0a/manifests/3/utblac_bd7d20a3-2069-46df-9882-752e17df9f0a.json",
-      label: "Odom Family Oral History"
+      url: "https://digital.lib.utk.edu/assemble/manifest/rfta/8",
+      label: "Rising from the Ashes"
     },
     {
       url: "https://figgy.princeton.edu/concern/scanned_resources/ace2909a-8966-43f9-b547-084aeaaea13d/manifest",
