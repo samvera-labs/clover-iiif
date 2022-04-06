@@ -1069,11 +1069,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef16(initialValue) {
+          function useRef17(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect33(create, deps) {
+          function useEffect34(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1643,12 +1643,12 @@
           exports2.useCallback = useCallback11;
           exports2.useContext = useContext2;
           exports2.useDebugValue = useDebugValue;
-          exports2.useEffect = useEffect33;
+          exports2.useEffect = useEffect34;
           exports2.useImperativeHandle = useImperativeHandle;
           exports2.useLayoutEffect = useLayoutEffect5;
           exports2.useMemo = useMemo3;
           exports2.useReducer = useReducer2;
-          exports2.useRef = useRef16;
+          exports2.useRef = useRef17;
           exports2.useState = useState26;
           exports2.version = ReactVersion;
         })();
@@ -2042,11 +2042,11 @@
               }
             };
           }
-          function unstable_scheduleCallback(priorityLevel, callback, options2) {
+          function unstable_scheduleCallback(priorityLevel, callback, options) {
             var currentTime = exports2.unstable_now();
             var startTime;
-            if (typeof options2 === "object" && options2 !== null) {
-              var delay = options2.delay;
+            if (typeof options === "object" && options !== null) {
+              var delay = options.delay;
               if (typeof delay === "number" && delay > 0) {
                 startTime = currentTime + delay;
               } else {
@@ -2457,11 +2457,11 @@
       if (true) {
         (function() {
           "use strict";
-          var React31 = require_react();
+          var React32 = require_react();
           var _assign = require_object_assign();
           var Scheduler = require_scheduler();
           var tracing = require_tracing();
-          var ReactSharedInternals = React31.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React32.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function warn(format) {
             {
               for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -2493,7 +2493,7 @@
               Function.prototype.apply.call(console[level], console, argsWithFormat);
             }
           }
-          if (!React31) {
+          if (!React32) {
             {
               throw Error("ReactDOM was loaded before React. Make sure you load the React package before loading ReactDOM.");
             }
@@ -3709,7 +3709,7 @@
           var didWarnInvalidChild = false;
           function flattenChildren(children) {
             var content = "";
-            React31.Children.forEach(children, function(child) {
+            React32.Children.forEach(children, function(child) {
               if (child == null) {
                 return;
               }
@@ -3720,7 +3720,7 @@
           function validateProps(element, props) {
             {
               if (typeof props.children === "object" && props.children !== null) {
-                React31.Children.forEach(props.children, function(child) {
+                React32.Children.forEach(props.children, function(child) {
                   if (child == null) {
                     return;
                   }
@@ -3787,35 +3787,35 @@
             }
           }
           function updateOptions(node, multiple, propValue, setDefaultSelected) {
-            var options3 = node.options;
+            var options2 = node.options;
             if (multiple) {
               var selectedValues = propValue;
               var selectedValue = {};
               for (var i7 = 0; i7 < selectedValues.length; i7++) {
                 selectedValue["$" + selectedValues[i7]] = true;
               }
-              for (var _i = 0; _i < options3.length; _i++) {
-                var selected = selectedValue.hasOwnProperty("$" + options3[_i].value);
-                if (options3[_i].selected !== selected) {
-                  options3[_i].selected = selected;
+              for (var _i = 0; _i < options2.length; _i++) {
+                var selected = selectedValue.hasOwnProperty("$" + options2[_i].value);
+                if (options2[_i].selected !== selected) {
+                  options2[_i].selected = selected;
                 }
                 if (selected && setDefaultSelected) {
-                  options3[_i].defaultSelected = true;
+                  options2[_i].defaultSelected = true;
                 }
               }
             } else {
               var _selectedValue = toString(getToStringValue(propValue));
               var defaultSelected = null;
-              for (var _i2 = 0; _i2 < options3.length; _i2++) {
-                if (options3[_i2].value === _selectedValue) {
-                  options3[_i2].selected = true;
+              for (var _i2 = 0; _i2 < options2.length; _i2++) {
+                if (options2[_i2].value === _selectedValue) {
+                  options2[_i2].selected = true;
                   if (setDefaultSelected) {
-                    options3[_i2].defaultSelected = true;
+                    options2[_i2].defaultSelected = true;
                   }
                   return;
                 }
-                if (defaultSelected === null && !options3[_i2].disabled) {
-                  defaultSelected = options3[_i2];
+                if (defaultSelected === null && !options2[_i2].disabled) {
+                  defaultSelected = options2[_i2];
                 }
               }
               if (defaultSelected !== null) {
@@ -5285,14 +5285,14 @@
           var passiveBrowserEventsSupported = false;
           if (canUseDOM) {
             try {
-              var options2 = {};
-              Object.defineProperty(options2, "passive", {
+              var options = {};
+              Object.defineProperty(options, "passive", {
                 get: function() {
                   passiveBrowserEventsSupported = true;
                 }
               });
-              window.addEventListener("test", options2, options2);
-              window.removeEventListener("test", options2, options2);
+              window.addEventListener("test", options, options);
+              window.removeEventListener("test", options, options);
             } catch (e11) {
               passiveBrowserEventsSupported = false;
             }
@@ -10129,9 +10129,9 @@
             var priorityLevel = reactPriorityToSchedulerPriority(reactPriorityLevel);
             return Scheduler_runWithPriority(priorityLevel, fn);
           }
-          function scheduleCallback(reactPriorityLevel, callback, options3) {
+          function scheduleCallback(reactPriorityLevel, callback, options2) {
             var priorityLevel = reactPriorityToSchedulerPriority(reactPriorityLevel);
-            return Scheduler_scheduleCallback(priorityLevel, callback, options3);
+            return Scheduler_scheduleCallback(priorityLevel, callback, options2);
           }
           function scheduleSyncCallback(callback) {
             if (syncQueue === null) {
@@ -10913,7 +10913,7 @@
           }
           var fakeInternalInstance = {};
           var isArray = Array.isArray;
-          var emptyRefsObject = new React31.Component().refs;
+          var emptyRefsObject = new React32.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -20081,11 +20081,11 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
               getCurrentFiber: getCurrentFiberForDevTools
             });
           }
-          function ReactDOMRoot(container, options3) {
-            this._internalRoot = createRootImpl(container, ConcurrentRoot, options3);
+          function ReactDOMRoot(container, options2) {
+            this._internalRoot = createRootImpl(container, ConcurrentRoot, options2);
           }
-          function ReactDOMBlockingRoot(container, tag, options3) {
-            this._internalRoot = createRootImpl(container, tag, options3);
+          function ReactDOMBlockingRoot(container, tag, options2) {
+            this._internalRoot = createRootImpl(container, tag, options2);
           }
           ReactDOMRoot.prototype.render = ReactDOMBlockingRoot.prototype.render = function(children) {
             var root2 = this._internalRoot;
@@ -20117,10 +20117,10 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
               unmarkContainerAsRoot(container);
             });
           };
-          function createRootImpl(container, tag, options3) {
-            var hydrate2 = options3 != null && options3.hydrate === true;
-            var hydrationCallbacks = options3 != null && options3.hydrationOptions || null;
-            var mutableSources = options3 != null && options3.hydrationOptions != null && options3.hydrationOptions.mutableSources || null;
+          function createRootImpl(container, tag, options2) {
+            var hydrate2 = options2 != null && options2.hydrate === true;
+            var hydrationCallbacks = options2 != null && options2.hydrationOptions || null;
+            var mutableSources = options2 != null && options2.hydrationOptions != null && options2.hydrationOptions.mutableSources || null;
             var root2 = createContainer(container, tag, hydrate2);
             markContainerAsRoot(root2.current, container);
             var containerNodeType = container.nodeType;
@@ -20136,8 +20136,8 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
             }
             return root2;
           }
-          function createLegacyRoot(container, options3) {
-            return new ReactDOMBlockingRoot(container, LegacyRoot, options3);
+          function createLegacyRoot(container, options2) {
+            return new ReactDOMBlockingRoot(container, LegacyRoot, options2);
           }
           function isValidContainer(node) {
             return !!(node && (node.nodeType === ELEMENT_NODE || node.nodeType === DOCUMENT_NODE || node.nodeType === DOCUMENT_FRAGMENT_NODE || node.nodeType === COMMENT_NODE && node.nodeValue === " react-mount-point-unstable "));
@@ -20999,11 +20999,11 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
       }
       ParserError.prototype = Object.create(Error.prototype);
       var TIMESTAMP_REGEXP = /([0-9]{1,2})?:?([0-9]{2}):([0-9]{2}\.[0-9]{2,3})/;
-      function parse3(input, options2) {
-        if (!options2) {
-          options2 = {};
+      function parse3(input, options) {
+        if (!options) {
+          options = {};
         }
-        const { meta = false, strict = true } = options2;
+        const { meta = false, strict = true } = options;
         if (typeof input !== "string") {
           throw new ParserError("Input must be a string");
         }
@@ -21914,12 +21914,12 @@ ${generateSegmentFilename(i7)}`);
               }
               return requiredModules;
             }
-            module3.exports = function(moduleId, options2) {
-              options2 = options2 || {};
+            module3.exports = function(moduleId, options) {
+              options = options || {};
               var sources = {
                 main: __webpack_require__.m
               };
-              var requiredModules = options2.all ? { main: Object.keys(sources.main) } : getRequiredModules(sources, moduleId);
+              var requiredModules = options.all ? { main: Object.keys(sources.main) } : getRequiredModules(sources, moduleId);
               var src = "";
               Object.keys(requiredModules).filter(function(m8) {
                 return m8 !== "main";
@@ -21938,7 +21938,7 @@ ${generateSegmentFilename(i7)}`);
                 return "" + JSON.stringify(id) + ": " + sources.main[id].toString();
               }).join(",") + "}))(self);";
               var blob = new window.Blob([src], { type: "text/javascript" });
-              if (options2.bare) {
+              if (options.bare) {
                 return blob;
               }
               var URL2 = window.URL || window.webkitURL || window.mozURL || window.msURL;
@@ -34334,13 +34334,13 @@ ${generateSegmentFilename(i7)}`);
                 if (typeof _cache !== "undefined") {
                   if (_cache.has(Class2))
                     return _cache.get(Class2);
-                  _cache.set(Class2, Wrapper6);
+                  _cache.set(Class2, Wrapper7);
                 }
-                function Wrapper6() {
+                function Wrapper7() {
                   return _construct(Class2, arguments, _getPrototypeOf(this).constructor);
                 }
-                Wrapper6.prototype = Object.create(Class2.prototype, { constructor: { value: Wrapper6, enumerable: false, writable: true, configurable: true } });
-                return _setPrototypeOf(Wrapper6, Class2);
+                Wrapper7.prototype = Object.create(Class2.prototype, { constructor: { value: Wrapper7, enumerable: false, writable: true, configurable: true } });
+                return _setPrototypeOf(Wrapper7, Class2);
               };
               return _wrapNativeSuper(Class);
             }
@@ -40110,13 +40110,13 @@ ${generateSegmentFilename(i7)}`);
                 if (typeof _cache !== "undefined") {
                   if (_cache.has(Class2))
                     return _cache.get(Class2);
-                  _cache.set(Class2, Wrapper6);
+                  _cache.set(Class2, Wrapper7);
                 }
-                function Wrapper6() {
+                function Wrapper7() {
                   return _construct(Class2, arguments, _getPrototypeOf(this).constructor);
                 }
-                Wrapper6.prototype = Object.create(Class2.prototype, { constructor: { value: Wrapper6, enumerable: false, writable: true, configurable: true } });
-                return _setPrototypeOf(Wrapper6, Class2);
+                Wrapper7.prototype = Object.create(Class2.prototype, { constructor: { value: Wrapper7, enumerable: false, writable: true, configurable: true } });
+                return _setPrototypeOf(Wrapper7, Class2);
               };
               return _wrapNativeSuper(Class);
             }
@@ -41510,7 +41510,7 @@ ${generateSegmentFilename(i7)}`);
               function StringDecoder2() {
               }
               var _proto = StringDecoder2.prototype;
-              _proto.decode = function decode(data, options2) {
+              _proto.decode = function decode(data, options) {
                 if (!data) {
                   return "";
                 }
@@ -42192,8 +42192,8 @@ ${generateSegmentFilename(i7)}`);
   // node_modules/openseadragon/build/openseadragon/openseadragon.js
   var require_openseadragon = __commonJS({
     "node_modules/openseadragon/build/openseadragon/openseadragon.js"(exports, module) {
-      function OpenSeadragon(options2) {
-        return new OpenSeadragon.Viewer(options2);
+      function OpenSeadragon(options) {
+        return new OpenSeadragon.Viewer(options);
       }
       (function($3) {
         $3.version = {
@@ -42279,7 +42279,7 @@ ${generateSegmentFilename(i7)}`);
       })(OpenSeadragon);
       (function($) {
         $.extend = function() {
-          var options2, name, src, copy, copyIsArray, clone, target = arguments[0] || {}, length = arguments.length, deep = false, i7 = 1;
+          var options, name, src, copy, copyIsArray, clone, target = arguments[0] || {}, length = arguments.length, deep = false, i7 = 1;
           if (typeof target === "boolean") {
             deep = target;
             target = arguments[1] || {};
@@ -42293,11 +42293,11 @@ ${generateSegmentFilename(i7)}`);
             --i7;
           }
           for (; i7 < length; i7++) {
-            options2 = arguments[i7];
-            if (options2 !== null || options2 !== void 0) {
-              for (name in options2) {
+            options = arguments[i7];
+            if (options !== null || options !== void 0) {
+              for (name in options) {
                 src = target[name];
-                copy = options2[name];
+                copy = options[name];
                 if (target === copy) {
                   continue;
                 }
@@ -43099,8 +43099,8 @@ ${generateSegmentFilename(i7)}`);
             }
             return request;
           },
-          jsonp: function(options2) {
-            var script, url = options2.url, head = document.head || document.getElementsByTagName("head")[0] || document.documentElement, jsonpCallback = options2.callbackName || "openseadragon" + $.now(), previous = window[jsonpCallback], replace = "$1" + jsonpCallback + "$2", callbackParam = options2.param || "callback", callback = options2.callback;
+          jsonp: function(options) {
+            var script, url = options.url, head = document.head || document.getElementsByTagName("head")[0] || document.documentElement, jsonpCallback = options.callbackName || "openseadragon" + $.now(), previous = window[jsonpCallback], replace = "$1" + jsonpCallback + "$2", callbackParam = options.param || "callback", callback = options.callback;
             url = url.replace(/(\=)\?(&|$)|\?\?/i, replace);
             url += (/\?/.test(url) ? "&" : "?") + callbackParam + "=" + jsonpCallback;
             window[jsonpCallback] = function(response) {
@@ -43117,11 +43117,11 @@ ${generateSegmentFilename(i7)}`);
               }
             };
             script = document.createElement("script");
-            if (options2.async !== void 0 || options2.async !== false) {
+            if (options.async !== void 0 || options.async !== false) {
               script.async = "async";
             }
-            if (options2.scriptCharset) {
-              script.charset = options2.scriptCharset;
+            if (options.scriptCharset) {
+              script.charset = options.scriptCharset;
             }
             script.src = url;
             script.onload = script.onreadystatechange = function(_, isAbort) {
@@ -43486,43 +43486,43 @@ ${generateSegmentFilename(i7)}`);
       (function($3) {
         var MOUSETRACKERS = [];
         var THIS = {};
-        $3.MouseTracker = function(options2) {
+        $3.MouseTracker = function(options) {
           MOUSETRACKERS.push(this);
           var args = arguments;
-          if (!$3.isPlainObject(options2)) {
-            options2 = {
+          if (!$3.isPlainObject(options)) {
+            options = {
               element: args[0],
               clickTimeThreshold: args[1],
               clickDistThreshold: args[2]
             };
           }
           this.hash = Math.random();
-          this.element = $3.getElement(options2.element);
-          this.clickTimeThreshold = options2.clickTimeThreshold || $3.DEFAULT_SETTINGS.clickTimeThreshold;
-          this.clickDistThreshold = options2.clickDistThreshold || $3.DEFAULT_SETTINGS.clickDistThreshold;
-          this.dblClickTimeThreshold = options2.dblClickTimeThreshold || $3.DEFAULT_SETTINGS.dblClickTimeThreshold;
-          this.dblClickDistThreshold = options2.dblClickDistThreshold || $3.DEFAULT_SETTINGS.dblClickDistThreshold;
-          this.userData = options2.userData || null;
-          this.stopDelay = options2.stopDelay || 50;
-          this.enterHandler = options2.enterHandler || null;
-          this.exitHandler = options2.exitHandler || null;
-          this.pressHandler = options2.pressHandler || null;
-          this.nonPrimaryPressHandler = options2.nonPrimaryPressHandler || null;
-          this.releaseHandler = options2.releaseHandler || null;
-          this.nonPrimaryReleaseHandler = options2.nonPrimaryReleaseHandler || null;
-          this.moveHandler = options2.moveHandler || null;
-          this.scrollHandler = options2.scrollHandler || null;
-          this.clickHandler = options2.clickHandler || null;
-          this.dblClickHandler = options2.dblClickHandler || null;
-          this.dragHandler = options2.dragHandler || null;
-          this.dragEndHandler = options2.dragEndHandler || null;
-          this.pinchHandler = options2.pinchHandler || null;
-          this.stopHandler = options2.stopHandler || null;
-          this.keyDownHandler = options2.keyDownHandler || null;
-          this.keyUpHandler = options2.keyUpHandler || null;
-          this.keyHandler = options2.keyHandler || null;
-          this.focusHandler = options2.focusHandler || null;
-          this.blurHandler = options2.blurHandler || null;
+          this.element = $3.getElement(options.element);
+          this.clickTimeThreshold = options.clickTimeThreshold || $3.DEFAULT_SETTINGS.clickTimeThreshold;
+          this.clickDistThreshold = options.clickDistThreshold || $3.DEFAULT_SETTINGS.clickDistThreshold;
+          this.dblClickTimeThreshold = options.dblClickTimeThreshold || $3.DEFAULT_SETTINGS.dblClickTimeThreshold;
+          this.dblClickDistThreshold = options.dblClickDistThreshold || $3.DEFAULT_SETTINGS.dblClickDistThreshold;
+          this.userData = options.userData || null;
+          this.stopDelay = options.stopDelay || 50;
+          this.enterHandler = options.enterHandler || null;
+          this.exitHandler = options.exitHandler || null;
+          this.pressHandler = options.pressHandler || null;
+          this.nonPrimaryPressHandler = options.nonPrimaryPressHandler || null;
+          this.releaseHandler = options.releaseHandler || null;
+          this.nonPrimaryReleaseHandler = options.nonPrimaryReleaseHandler || null;
+          this.moveHandler = options.moveHandler || null;
+          this.scrollHandler = options.scrollHandler || null;
+          this.clickHandler = options.clickHandler || null;
+          this.dblClickHandler = options.dblClickHandler || null;
+          this.dragHandler = options.dragHandler || null;
+          this.dragEndHandler = options.dragEndHandler || null;
+          this.pinchHandler = options.pinchHandler || null;
+          this.stopHandler = options.stopHandler || null;
+          this.keyDownHandler = options.keyDownHandler || null;
+          this.keyUpHandler = options.keyUpHandler || null;
+          this.keyHandler = options.keyHandler || null;
+          this.focusHandler = options.focusHandler || null;
+          this.blurHandler = options.blurHandler || null;
           var _this = this;
           THIS[this.hash] = {
             click: function(event) {
@@ -43661,7 +43661,7 @@ ${generateSegmentFilename(i7)}`);
             lastPinchCenter: null,
             currentPinchCenter: null
           };
-          if (!options2.startDisabled) {
+          if (!options.startDisabled) {
             this.setTracking(true);
           }
         };
@@ -45128,24 +45128,24 @@ ${generateSegmentFilename(i7)}`);
           BOTTOM_LEFT: 4,
           ABSOLUTE: 5
         };
-        $3.Control = function(element, options2, container) {
+        $3.Control = function(element, options, container) {
           var parent = element.parentNode;
-          if (typeof options2 === "number") {
+          if (typeof options === "number") {
             $3.console.error("Passing an anchor directly into the OpenSeadragon.Control constructor is deprecated; please use an options object instead.  Support for this deprecated variant is scheduled for removal in December 2013");
-            options2 = { anchor: options2 };
+            options = { anchor: options };
           }
-          options2.attachToViewer = typeof options2.attachToViewer === "undefined" ? true : options2.attachToViewer;
-          this.autoFade = typeof options2.autoFade === "undefined" ? true : options2.autoFade;
+          options.attachToViewer = typeof options.attachToViewer === "undefined" ? true : options.attachToViewer;
+          this.autoFade = typeof options.autoFade === "undefined" ? true : options.autoFade;
           this.element = element;
-          this.anchor = options2.anchor;
+          this.anchor = options.anchor;
           this.container = container;
           if (this.anchor == $3.ControlAnchor.ABSOLUTE) {
             this.wrapper = $3.makeNeutralElement("div");
             this.wrapper.style.position = "absolute";
-            this.wrapper.style.top = typeof options2.top == "number" ? options2.top + "px" : options2.top;
-            this.wrapper.style.left = typeof options2.left == "number" ? options2.left + "px" : options2.left;
-            this.wrapper.style.height = typeof options2.height == "number" ? options2.height + "px" : options2.height;
-            this.wrapper.style.width = typeof options2.width == "number" ? options2.width + "px" : options2.width;
+            this.wrapper.style.top = typeof options.top == "number" ? options.top + "px" : options.top;
+            this.wrapper.style.left = typeof options.left == "number" ? options.left + "px" : options.left;
+            this.wrapper.style.height = typeof options.height == "number" ? options.height + "px" : options.height;
+            this.wrapper.style.width = typeof options.width == "number" ? options.width + "px" : options.width;
             this.wrapper.style.margin = "0px";
             this.wrapper.style.padding = "0px";
             this.element.style.position = "relative";
@@ -45161,7 +45161,7 @@ ${generateSegmentFilename(i7)}`);
             }
           }
           this.wrapper.appendChild(this.element);
-          if (options2.attachToViewer) {
+          if (options.attachToViewer) {
             if (this.anchor == $3.ControlAnchor.TOP_RIGHT || this.anchor == $3.ControlAnchor.BOTTOM_RIGHT) {
               this.container.insertBefore(this.wrapper, this.container.firstChild);
             } else {
@@ -45192,13 +45192,13 @@ ${generateSegmentFilename(i7)}`);
         };
       })(OpenSeadragon);
       (function($3) {
-        $3.ControlDock = function(options2) {
+        $3.ControlDock = function(options) {
           var layouts = ["topleft", "topright", "bottomright", "bottomleft"], layout, i7;
           $3.extend(true, this, {
             id: "controldock-" + $3.now() + "-" + Math.floor(Math.random() * 1e6),
             container: $3.makeNeutralElement("div"),
             controls: []
-          }, options2);
+          }, options);
           this.container.onsubmit = function() {
             return false;
           };
@@ -45410,10 +45410,10 @@ ${generateSegmentFilename(i7)}`);
       (function($3) {
         var THIS = {};
         var nextHash = 1;
-        $3.Viewer = function(options2) {
+        $3.Viewer = function(options) {
           var args = arguments, _this = this, i7;
-          if (!$3.isPlainObject(options2)) {
-            options2 = {
+          if (!$3.isPlainObject(options)) {
+            options = {
               id: args[0],
               xmlPath: args.length > 1 ? args[1] : void 0,
               prefixUrl: args.length > 2 ? args[2] : void 0,
@@ -45421,13 +45421,13 @@ ${generateSegmentFilename(i7)}`);
               overlays: args.length > 4 ? args[4] : void 0
             };
           }
-          if (options2.config) {
-            $3.extend(true, options2, options2.config);
-            delete options2.config;
+          if (options.config) {
+            $3.extend(true, options, options.config);
+            delete options.config;
           }
           $3.extend(true, this, {
-            id: options2.id,
-            hash: options2.hash || nextHash++,
+            id: options.id,
+            hash: options.hash || nextHash++,
             initialPage: 0,
             element: null,
             container: null,
@@ -45446,7 +45446,7 @@ ${generateSegmentFilename(i7)}`);
             navImages: null,
             buttons: null,
             profiler: null
-          }, $3.DEFAULT_SETTINGS, options2);
+          }, $3.DEFAULT_SETTINGS, options);
           if (typeof this.hash === "undefined") {
             throw new Error("A hash must be defined, either by specifying options.id or options.hash.");
           }
@@ -45477,7 +45477,7 @@ ${generateSegmentFilename(i7)}`);
             var msg = $3.getString("Errors.OpenFailed", event.eventSource, event.message);
             _this._showMessage(msg);
           });
-          $3.ControlDock.call(this, options2);
+          $3.ControlDock.call(this, options);
           if (this.xmlPath) {
             this.tileSources = [this.xmlPath];
           }
@@ -45493,8 +45493,8 @@ ${generateSegmentFilename(i7)}`);
             style.left = "0px";
           })(this.canvas.style);
           $3.setElementTouchActionNone(this.canvas);
-          if (options2.tabIndex !== "") {
-            this.canvas.tabIndex = options2.tabIndex === void 0 ? 0 : options2.tabIndex;
+          if (options.tabIndex !== "") {
+            this.canvas.tabIndex = options.tabIndex === void 0 ? 0 : options.tabIndex;
           }
           this.container.className = "openseadragon-container";
           (function(style) {
@@ -45597,7 +45597,7 @@ ${generateSegmentFilename(i7)}`);
           this.viewport._setContentBounds(this.world.getHomeBounds(), this.world.getContentFactor());
           this.imageLoader = new $3.ImageLoader({
             jobLimit: this.imageLoaderLimit,
-            timeout: options2.timeout
+            timeout: options.timeout
           });
           this.tileCache = new $3.TileCache({
             maxImageCacheCount: this.maxImageCacheCount
@@ -45734,25 +45734,25 @@ ${generateSegmentFilename(i7)}`);
                 }
               }
             };
-            var doOne = function(options2) {
-              if (!$3.isPlainObject(options2) || !options2.tileSource) {
-                options2 = {
-                  tileSource: options2
+            var doOne = function(options) {
+              if (!$3.isPlainObject(options) || !options.tileSource) {
+                options = {
+                  tileSource: options
                 };
               }
-              if (options2.index !== void 0) {
+              if (options.index !== void 0) {
                 $3.console.error("[Viewer.open] setting indexes here is not supported; use addTiledImage instead");
-                delete options2.index;
+                delete options.index;
               }
-              if (options2.collectionImmediately === void 0) {
-                options2.collectionImmediately = true;
+              if (options.collectionImmediately === void 0) {
+                options.collectionImmediately = true;
               }
-              var originalSuccess = options2.success;
-              options2.success = function(event) {
+              var originalSuccess = options.success;
+              options.success = function(event) {
                 successes++;
-                if (options2.tileSource.overlays) {
-                  for (var i8 = 0; i8 < options2.tileSource.overlays.length; i8++) {
-                    _this.addOverlay(options2.tileSource.overlays[i8]);
+                if (options.tileSource.overlays) {
+                  for (var i8 = 0; i8 < options.tileSource.overlays.length; i8++) {
+                    _this.addOverlay(options.tileSource.overlays[i8]);
                   }
                 }
                 if (originalSuccess) {
@@ -45760,8 +45760,8 @@ ${generateSegmentFilename(i7)}`);
                 }
                 checkCompletion();
               };
-              var originalError = options2.error;
-              options2.error = function(event) {
+              var originalError = options.error;
+              options.error = function(event) {
                 failures++;
                 if (!failEvent) {
                   failEvent = event;
@@ -45771,7 +45771,7 @@ ${generateSegmentFilename(i7)}`);
                 }
                 checkCompletion();
               };
-              _this.addTiledImage(options2);
+              _this.addTiledImage(options);
             };
             for (var i7 = 0; i7 < tileSources.length; i7++) {
               doOne(tileSources[i7]);
@@ -46033,43 +46033,43 @@ ${generateSegmentFilename(i7)}`);
             this.raiseEvent("visible", { visible });
             return this;
           },
-          addTiledImage: function(options2) {
-            $3.console.assert(options2, "[Viewer.addTiledImage] options is required");
-            $3.console.assert(options2.tileSource, "[Viewer.addTiledImage] options.tileSource is required");
-            $3.console.assert(!options2.replace || options2.index > -1 && options2.index < this.world.getItemCount(), "[Viewer.addTiledImage] if options.replace is used, options.index must be a valid index in Viewer.world");
+          addTiledImage: function(options) {
+            $3.console.assert(options, "[Viewer.addTiledImage] options is required");
+            $3.console.assert(options.tileSource, "[Viewer.addTiledImage] options.tileSource is required");
+            $3.console.assert(!options.replace || options.index > -1 && options.index < this.world.getItemCount(), "[Viewer.addTiledImage] if options.replace is used, options.index must be a valid index in Viewer.world");
             var _this = this;
-            if (options2.replace) {
-              options2.replaceItem = _this.world.getItemAt(options2.index);
+            if (options.replace) {
+              options.replaceItem = _this.world.getItemAt(options.index);
             }
             this._hideMessage();
-            if (options2.placeholderFillStyle === void 0) {
-              options2.placeholderFillStyle = this.placeholderFillStyle;
+            if (options.placeholderFillStyle === void 0) {
+              options.placeholderFillStyle = this.placeholderFillStyle;
             }
-            if (options2.opacity === void 0) {
-              options2.opacity = this.opacity;
+            if (options.opacity === void 0) {
+              options.opacity = this.opacity;
             }
-            if (options2.preload === void 0) {
-              options2.preload = this.preload;
+            if (options.preload === void 0) {
+              options.preload = this.preload;
             }
-            if (options2.compositeOperation === void 0) {
-              options2.compositeOperation = this.compositeOperation;
+            if (options.compositeOperation === void 0) {
+              options.compositeOperation = this.compositeOperation;
             }
-            if (options2.crossOriginPolicy === void 0) {
-              options2.crossOriginPolicy = options2.tileSource.crossOriginPolicy !== void 0 ? options2.tileSource.crossOriginPolicy : this.crossOriginPolicy;
+            if (options.crossOriginPolicy === void 0) {
+              options.crossOriginPolicy = options.tileSource.crossOriginPolicy !== void 0 ? options.tileSource.crossOriginPolicy : this.crossOriginPolicy;
             }
-            if (options2.ajaxWithCredentials === void 0) {
-              options2.ajaxWithCredentials = this.ajaxWithCredentials;
+            if (options.ajaxWithCredentials === void 0) {
+              options.ajaxWithCredentials = this.ajaxWithCredentials;
             }
-            if (options2.loadTilesWithAjax === void 0) {
-              options2.loadTilesWithAjax = this.loadTilesWithAjax;
+            if (options.loadTilesWithAjax === void 0) {
+              options.loadTilesWithAjax = this.loadTilesWithAjax;
             }
-            if (options2.ajaxHeaders === void 0 || options2.ajaxHeaders === null) {
-              options2.ajaxHeaders = this.ajaxHeaders;
-            } else if ($3.isPlainObject(options2.ajaxHeaders) && $3.isPlainObject(this.ajaxHeaders)) {
-              options2.ajaxHeaders = $3.extend({}, this.ajaxHeaders, options2.ajaxHeaders);
+            if (options.ajaxHeaders === void 0 || options.ajaxHeaders === null) {
+              options.ajaxHeaders = this.ajaxHeaders;
+            } else if ($3.isPlainObject(options.ajaxHeaders) && $3.isPlainObject(this.ajaxHeaders)) {
+              options.ajaxHeaders = $3.extend({}, this.ajaxHeaders, options.ajaxHeaders);
             }
             var myQueueItem = {
-              options: options2
+              options
             };
             function raiseAddItemFailed(event) {
               for (var i7 = 0; i7 < _this._loadQueue.length; i7++) {
@@ -46082,8 +46082,8 @@ ${generateSegmentFilename(i7)}`);
                 refreshWorld(myQueueItem);
               }
               _this.raiseEvent("add-item-failed", event);
-              if (options2.error) {
-                options2.error(event);
+              if (options.error) {
+                options.error(event);
               }
             }
             function refreshWorld(theItem) {
@@ -46099,12 +46099,12 @@ ${generateSegmentFilename(i7)}`);
                 _this.world.setAutoRefigureSizes(true);
               }
             }
-            if ($3.isArray(options2.tileSource)) {
+            if ($3.isArray(options.tileSource)) {
               setTimeout(function() {
                 raiseAddItemFailed({
                   message: "[Viewer.addTiledImage] Sequences can not be added; add them one at a time instead.",
-                  source: options2.tileSource,
-                  options: options2
+                  source: options.tileSource,
+                  options
                 });
               });
               return;
@@ -46188,34 +46188,34 @@ ${generateSegmentFilename(i7)}`);
                 }
               }
             }
-            getTileSourceImplementation(this, options2.tileSource, options2, function(tileSource) {
+            getTileSourceImplementation(this, options.tileSource, options, function(tileSource) {
               myQueueItem.tileSource = tileSource;
               processReadyItems();
             }, function(event) {
-              event.options = options2;
+              event.options = options;
               raiseAddItemFailed(event);
               processReadyItems();
             });
           },
-          addSimpleImage: function(options2) {
-            $3.console.assert(options2, "[Viewer.addSimpleImage] options is required");
-            $3.console.assert(options2.url, "[Viewer.addSimpleImage] options.url is required");
-            var opts = $3.extend({}, options2, {
+          addSimpleImage: function(options) {
+            $3.console.assert(options, "[Viewer.addSimpleImage] options is required");
+            $3.console.assert(options.url, "[Viewer.addSimpleImage] options.url is required");
+            var opts = $3.extend({}, options, {
               tileSource: {
                 type: "image",
-                url: options2.url
+                url: options.url
               }
             });
             delete opts.url;
             this.addTiledImage(opts);
           },
-          addLayer: function(options2) {
+          addLayer: function(options) {
             var _this = this;
             $3.console.error("[Viewer.addLayer] this function is deprecated; use Viewer.addTiledImage() instead.");
-            var optionsClone = $3.extend({}, options2, {
+            var optionsClone = $3.extend({}, options, {
               success: function(event) {
                 _this.raiseEvent("add-layer", {
-                  options: options2,
+                  options,
                   drawer: event.item
                 });
               },
@@ -46455,28 +46455,28 @@ ${generateSegmentFilename(i7)}`);
             return this;
           },
           addOverlay: function(element, location2, placement, onDraw) {
-            var options2;
+            var options;
             if ($3.isPlainObject(element)) {
-              options2 = element;
+              options = element;
             } else {
-              options2 = {
+              options = {
                 element,
                 location: location2,
                 placement,
                 onDraw
               };
             }
-            element = $3.getElement(options2.element);
+            element = $3.getElement(options.element);
             if (getOverlayIndex(this.currentOverlays, element) >= 0) {
               return this;
             }
-            var overlay = getOverlayObject(this, options2);
+            var overlay = getOverlayObject(this, options);
             this.currentOverlays.push(overlay);
             overlay.drawHTML(this.overlaysContainer, this.viewport);
             this.raiseEvent("add-overlay", {
               element,
-              location: options2.location,
-              placement: options2.placement
+              location: options.location,
+              placement: options.placement
             });
             return this;
           },
@@ -46686,8 +46686,8 @@ ${generateSegmentFilename(i7)}`);
                   });
                   return;
                 }
-                var options2 = $TileSource.prototype.configure.apply(_this, [tileSource]);
-                waitUntilReady(new $TileSource(options2), tileSource);
+                var options = $TileSource.prototype.configure.apply(_this, [tileSource]);
+                waitUntilReady(new $TileSource(options), tileSource);
               }
             } else {
               waitUntilReady(tileSource, tileSource);
@@ -47396,46 +47396,46 @@ ${generateSegmentFilename(i7)}`);
         }
       })(OpenSeadragon);
       (function($3) {
-        $3.Navigator = function(options2) {
-          var viewer = options2.viewer, _this = this, viewerSize, navigatorSize;
-          if (!options2.id) {
-            options2.id = "navigator-" + $3.now();
+        $3.Navigator = function(options) {
+          var viewer = options.viewer, _this = this, viewerSize, navigatorSize;
+          if (!options.id) {
+            options.id = "navigator-" + $3.now();
             this.element = $3.makeNeutralElement("div");
-            options2.controlOptions = {
+            options.controlOptions = {
               anchor: $3.ControlAnchor.TOP_RIGHT,
               attachToViewer: true,
-              autoFade: options2.autoFade
+              autoFade: options.autoFade
             };
-            if (options2.position) {
-              if (options2.position == "BOTTOM_RIGHT") {
-                options2.controlOptions.anchor = $3.ControlAnchor.BOTTOM_RIGHT;
-              } else if (options2.position == "BOTTOM_LEFT") {
-                options2.controlOptions.anchor = $3.ControlAnchor.BOTTOM_LEFT;
-              } else if (options2.position == "TOP_RIGHT") {
-                options2.controlOptions.anchor = $3.ControlAnchor.TOP_RIGHT;
-              } else if (options2.position == "TOP_LEFT") {
-                options2.controlOptions.anchor = $3.ControlAnchor.TOP_LEFT;
-              } else if (options2.position == "ABSOLUTE") {
-                options2.controlOptions.anchor = $3.ControlAnchor.ABSOLUTE;
-                options2.controlOptions.top = options2.top;
-                options2.controlOptions.left = options2.left;
-                options2.controlOptions.height = options2.height;
-                options2.controlOptions.width = options2.width;
+            if (options.position) {
+              if (options.position == "BOTTOM_RIGHT") {
+                options.controlOptions.anchor = $3.ControlAnchor.BOTTOM_RIGHT;
+              } else if (options.position == "BOTTOM_LEFT") {
+                options.controlOptions.anchor = $3.ControlAnchor.BOTTOM_LEFT;
+              } else if (options.position == "TOP_RIGHT") {
+                options.controlOptions.anchor = $3.ControlAnchor.TOP_RIGHT;
+              } else if (options.position == "TOP_LEFT") {
+                options.controlOptions.anchor = $3.ControlAnchor.TOP_LEFT;
+              } else if (options.position == "ABSOLUTE") {
+                options.controlOptions.anchor = $3.ControlAnchor.ABSOLUTE;
+                options.controlOptions.top = options.top;
+                options.controlOptions.left = options.left;
+                options.controlOptions.height = options.height;
+                options.controlOptions.width = options.width;
               }
             }
           } else {
-            this.element = document.getElementById(options2.id);
-            options2.controlOptions = {
+            this.element = document.getElementById(options.id);
+            options.controlOptions = {
               anchor: $3.ControlAnchor.NONE,
               attachToViewer: false,
               autoFade: false
             };
           }
-          this.element.id = options2.id;
+          this.element.id = options.id;
           this.element.className += " navigator";
-          options2 = $3.extend(true, {
+          options = $3.extend(true, {
             sizeRatio: $3.DEFAULT_SETTINGS.navigatorSizeRatio
-          }, options2, {
+          }, options, {
             element: this.element,
             tabIndex: -1,
             showNavigator: false,
@@ -47445,25 +47445,25 @@ ${generateSegmentFilename(i7)}`);
             immediateRender: true,
             blendTime: 0,
             animationTime: 0,
-            autoResize: options2.autoResize,
+            autoResize: options.autoResize,
             minZoomImageRatio: 1,
-            background: options2.background,
-            opacity: options2.opacity,
-            borderColor: options2.borderColor,
-            displayRegionColor: options2.displayRegionColor
+            background: options.background,
+            opacity: options.opacity,
+            borderColor: options.borderColor,
+            displayRegionColor: options.displayRegionColor
           });
-          options2.minPixelRatio = this.minPixelRatio = viewer.minPixelRatio;
+          options.minPixelRatio = this.minPixelRatio = viewer.minPixelRatio;
           $3.setElementTouchActionNone(this.element);
           this.borderWidth = 2;
           this.fudge = new $3.Point(1, 1);
           this.totalBorderWidths = new $3.Point(this.borderWidth * 2, this.borderWidth * 2).minus(this.fudge);
-          if (options2.controlOptions.anchor != $3.ControlAnchor.NONE) {
+          if (options.controlOptions.anchor != $3.ControlAnchor.NONE) {
             (function(style, borderWidth) {
               style.margin = "0px";
-              style.border = borderWidth + "px solid " + options2.borderColor;
+              style.border = borderWidth + "px solid " + options.borderColor;
               style.padding = "0px";
-              style.background = options2.background;
-              style.opacity = options2.opacity;
+              style.background = options.background;
+              style.opacity = options.opacity;
               style.overflow = "hidden";
             })(this.element.style, this.borderWidth);
           }
@@ -47476,7 +47476,7 @@ ${generateSegmentFilename(i7)}`);
             style.left = "0px";
             style.fontSize = "0px";
             style.overflow = "hidden";
-            style.border = borderWidth + "px solid " + options2.displayRegionColor;
+            style.border = borderWidth + "px solid " + options.displayRegionColor;
             style.margin = "0px";
             style.padding = "0px";
             style.background = "transparent";
@@ -47491,21 +47491,21 @@ ${generateSegmentFilename(i7)}`);
           this.displayRegionContainer.className = "displayregioncontainer";
           this.displayRegionContainer.style.width = "100%";
           this.displayRegionContainer.style.height = "100%";
-          viewer.addControl(this.element, options2.controlOptions);
-          this._resizeWithViewer = options2.controlOptions.anchor != $3.ControlAnchor.ABSOLUTE && options2.controlOptions.anchor != $3.ControlAnchor.NONE;
-          if (options2.width && options2.height) {
-            this.setWidth(options2.width);
-            this.setHeight(options2.height);
+          viewer.addControl(this.element, options.controlOptions);
+          this._resizeWithViewer = options.controlOptions.anchor != $3.ControlAnchor.ABSOLUTE && options.controlOptions.anchor != $3.ControlAnchor.NONE;
+          if (options.width && options.height) {
+            this.setWidth(options.width);
+            this.setHeight(options.height);
           } else if (this._resizeWithViewer) {
             viewerSize = $3.getElementSize(viewer.element);
-            this.element.style.height = Math.round(viewerSize.y * options2.sizeRatio) + "px";
-            this.element.style.width = Math.round(viewerSize.x * options2.sizeRatio) + "px";
+            this.element.style.height = Math.round(viewerSize.y * options.sizeRatio) + "px";
+            this.element.style.width = Math.round(viewerSize.x * options.sizeRatio) + "px";
             this.oldViewerSize = viewerSize;
             navigatorSize = $3.getElementSize(this.element);
             this.elementArea = navigatorSize.x * navigatorSize.y;
           }
           this.oldContainerSize = new $3.Point(0, 0);
-          $3.Viewer.apply(this, [options2]);
+          $3.Viewer.apply(this, [options]);
           this.displayRegionContainer.appendChild(this.displayRegion);
           this.element.getElementsByTagName("div")[0].appendChild(this.displayRegionContainer);
           function rotate(degrees2) {
@@ -47513,10 +47513,10 @@ ${generateSegmentFilename(i7)}`);
             _setTransformRotate(_this.displayRegion, -degrees2);
             _this.viewport.setRotation(degrees2);
           }
-          if (options2.navigatorRotate) {
-            var degrees = options2.viewer.viewport ? options2.viewer.viewport.getRotation() : options2.viewer.degrees || 0;
+          if (options.navigatorRotate) {
+            var degrees = options.viewer.viewport ? options.viewer.viewport.getRotation() : options.viewer.degrees || 0;
             rotate(degrees);
-            options2.viewer.addHandler("rotate", function(args) {
+            options.viewer.addHandler("rotate", function(args) {
               rotate(args.degrees);
             });
           }
@@ -47614,11 +47614,11 @@ ${generateSegmentFilename(i7)}`);
               style.height = Math.round(Math.max(height, 0)) + "px";
             }
           },
-          addTiledImage: function(options2) {
+          addTiledImage: function(options) {
             var _this = this;
-            var original = options2.originalTiledImage;
-            delete options2.original;
-            var optionsClone = $3.extend({}, options2, {
+            var original = options.originalTiledImage;
+            delete options.original;
+            var optionsClone = $3.extend({}, options, {
               success: function(event) {
                 var myItem = event.item;
                 myItem._originalForNavigator = original;
@@ -47871,11 +47871,11 @@ ${generateSegmentFilename(i7)}`);
       (function($3) {
         $3.TileSource = function(width, height, tileSize, tileOverlap, minLevel, maxLevel) {
           var _this = this;
-          var args = arguments, options2, i7;
+          var args = arguments, options, i7;
           if ($3.isPlainObject(width)) {
-            options2 = width;
+            options = width;
           } else {
-            options2 = {
+            options = {
               width: args[0],
               height: args[1],
               tileSize: args[2],
@@ -47885,7 +47885,7 @@ ${generateSegmentFilename(i7)}`);
             };
           }
           $3.EventSource.call(this);
-          $3.extend(true, this, options2);
+          $3.extend(true, this, options);
           if (!this.success) {
             for (i7 = 0; i7 < arguments.length; i7++) {
               if ($3.isFunction(arguments[i7])) {
@@ -47914,8 +47914,8 @@ ${generateSegmentFilename(i7)}`);
             this.getImageInfo(this.url);
           } else {
             this.ready = true;
-            this.aspectRatio = options2.width && options2.height ? options2.width / options2.height : 1;
-            this.dimensions = new $3.Point(options2.width, options2.height);
+            this.aspectRatio = options.width && options.height ? options.width / options.height : 1;
+            this.dimensions = new $3.Point(options.width, options.height);
             if (this.tileSize) {
               this._tileWidth = this._tileHeight = this.tileSize;
               delete this.tileSize;
@@ -47933,9 +47933,9 @@ ${generateSegmentFilename(i7)}`);
                 this._tileHeight = 0;
               }
             }
-            this.tileOverlap = options2.tileOverlap ? options2.tileOverlap : 0;
-            this.minLevel = options2.minLevel ? options2.minLevel : 0;
-            this.maxLevel = options2.maxLevel !== void 0 && options2.maxLevel !== null ? options2.maxLevel : options2.width && options2.height ? Math.ceil(Math.log(Math.max(options2.width, options2.height)) / Math.log(2)) : 0;
+            this.tileOverlap = options.tileOverlap ? options.tileOverlap : 0;
+            this.minLevel = options.minLevel ? options.minLevel : 0;
+            this.maxLevel = options.maxLevel !== void 0 && options.maxLevel !== null ? options.maxLevel : options.width && options.height ? Math.ceil(Math.log(Math.max(options.width, options.height)) / Math.log(2)) : 0;
             if (this.success && $3.isFunction(this.success)) {
               this.success(this);
             }
@@ -48013,7 +48013,7 @@ ${generateSegmentFilename(i7)}`);
             return new $3.Rect(px * scale, py * scale, sx * scale, sy * scale);
           },
           getImageInfo: function(url) {
-            var _this = this, callbackName, callback, readySource, options2, urlParts, filename, lastDot;
+            var _this = this, callbackName, callback, readySource, options, urlParts, filename, lastDot;
             if (url) {
               urlParts = url.split("/");
               filename = urlParts[urlParts.length - 1];
@@ -48031,11 +48031,11 @@ ${generateSegmentFilename(i7)}`);
                 _this.raiseEvent("open-failed", { message: "Unable to load TileSource", source: url });
                 return;
               }
-              options2 = $TileSource.prototype.configure.apply(_this, [data, url]);
-              if (options2.ajaxWithCredentials === void 0) {
-                options2.ajaxWithCredentials = _this.ajaxWithCredentials;
+              options = $TileSource.prototype.configure.apply(_this, [data, url]);
+              if (options.ajaxWithCredentials === void 0) {
+                options.ajaxWithCredentials = _this.ajaxWithCredentials;
               }
-              readySource = new $TileSource(options2);
+              readySource = new $TileSource(options);
               _this.ready = true;
               _this.raiseEvent("ready", { tileSource: readySource });
             };
@@ -48133,11 +48133,11 @@ ${generateSegmentFilename(i7)}`);
       })(OpenSeadragon);
       (function($3) {
         $3.DziTileSource = function(width, height, tileSize, tileOverlap, tilesUrl, fileFormat, displayRects, minLevel, maxLevel) {
-          var i7, rect, level, options2;
+          var i7, rect, level, options;
           if ($3.isPlainObject(width)) {
-            options2 = width;
+            options = width;
           } else {
-            options2 = {
+            options = {
               width: arguments[0],
               height: arguments[1],
               tileSize: arguments[2],
@@ -48150,9 +48150,9 @@ ${generateSegmentFilename(i7)}`);
             };
           }
           this._levelRects = {};
-          this.tilesUrl = options2.tilesUrl;
-          this.fileFormat = options2.fileFormat;
-          this.displayRects = options2.displayRects;
+          this.tilesUrl = options.tilesUrl;
+          this.fileFormat = options.fileFormat;
+          this.displayRects = options.displayRects;
           if (this.displayRects) {
             for (i7 = this.displayRects.length - 1; i7 >= 0; i7--) {
               rect = this.displayRects[i7];
@@ -48164,7 +48164,7 @@ ${generateSegmentFilename(i7)}`);
               }
             }
           }
-          $3.TileSource.apply(this, [options2]);
+          $3.TileSource.apply(this, [options]);
         };
         $3.extend($3.DziTileSource.prototype, $3.TileSource.prototype, {
           supports: function(data, url) {
@@ -48180,21 +48180,21 @@ ${generateSegmentFilename(i7)}`);
             return ns.indexOf("schemas.microsoft.com/deepzoom/2008") !== -1 || ns.indexOf("schemas.microsoft.com/deepzoom/2009") !== -1;
           },
           configure: function(data, url) {
-            var options2;
+            var options;
             if (!$3.isPlainObject(data)) {
-              options2 = configureFromXML(this, data);
+              options = configureFromXML(this, data);
             } else {
-              options2 = configureFromObject(this, data);
+              options = configureFromObject(this, data);
             }
-            if (url && !options2.tilesUrl) {
-              options2.tilesUrl = url.replace(/([^\/]+?)(\.(dzi|xml|js)?(\?[^\/]*)?)?\/?$/, "$1_files/");
+            if (url && !options.tilesUrl) {
+              options.tilesUrl = url.replace(/([^\/]+?)(\.(dzi|xml|js)?(\?[^\/]*)?)?\/?$/, "$1_files/");
               if (url.search(/\.(dzi|xml|js)\?/) != -1) {
-                options2.queryParams = url.match(/\?.*/);
+                options.queryParams = url.match(/\?.*/);
               } else {
-                options2.queryParams = "";
+                options.queryParams = "";
               }
             }
-            return options2;
+            return options;
           },
           getTileUrl: function(level, x4, y3) {
             return [this.tilesUrl, level, "/", x4, "_", y3, ".", this.fileFormat, this.queryParams].join("");
@@ -48313,25 +48313,25 @@ ${generateSegmentFilename(i7)}`);
         }
       })(OpenSeadragon);
       (function($3) {
-        $3.IIIFTileSource = function(options2) {
-          $3.extend(true, this, options2);
+        $3.IIIFTileSource = function(options) {
+          $3.extend(true, this, options);
           if (!(this.height && this.width && this["@id"])) {
             throw new Error("IIIF required parameters not provided.");
           }
-          options2.tileSizePerScaleFactor = {};
+          options.tileSizePerScaleFactor = {};
           this.tileFormat = this.tileFormat || "jpg";
-          this.version = options2.version;
+          this.version = options.version;
           if (this.tile_width && this.tile_height) {
-            options2.tileWidth = this.tile_width;
-            options2.tileHeight = this.tile_height;
+            options.tileWidth = this.tile_width;
+            options.tileHeight = this.tile_height;
           } else if (this.tile_width) {
-            options2.tileSize = this.tile_width;
+            options.tileSize = this.tile_width;
           } else if (this.tile_height) {
-            options2.tileSize = this.tile_height;
+            options.tileSize = this.tile_height;
           } else if (this.tiles) {
             if (this.tiles.length == 1) {
-              options2.tileWidth = this.tiles[0].width;
-              options2.tileHeight = this.tiles[0].height || this.tiles[0].width;
+              options.tileWidth = this.tiles[0].width;
+              options.tileHeight = this.tiles[0].height || this.tiles[0].width;
               this.scale_factors = this.tiles[0].scaleFactors;
             } else {
               this.scale_factors = [];
@@ -48339,14 +48339,14 @@ ${generateSegmentFilename(i7)}`);
                 for (var sf = 0; sf < this.tiles[t13].scaleFactors.length; sf++) {
                   var scaleFactor = this.tiles[t13].scaleFactors[sf];
                   this.scale_factors.push(scaleFactor);
-                  options2.tileSizePerScaleFactor[scaleFactor] = {
+                  options.tileSizePerScaleFactor[scaleFactor] = {
                     width: this.tiles[t13].width,
                     height: this.tiles[t13].height || this.tiles[t13].width
                   };
                 }
               }
             }
-          } else if (canBeTiled(options2)) {
+          } else if (canBeTiled(options)) {
             var shortDim = Math.min(this.height, this.width), tileOptions = [256, 512, 1024], smallerTiles = [];
             for (var c7 = 0; c7 < tileOptions.length; c7++) {
               if (tileOptions[c7] <= shortDim) {
@@ -48354,34 +48354,34 @@ ${generateSegmentFilename(i7)}`);
               }
             }
             if (smallerTiles.length > 0) {
-              options2.tileSize = Math.max.apply(null, smallerTiles);
+              options.tileSize = Math.max.apply(null, smallerTiles);
             } else {
-              options2.tileSize = shortDim;
+              options.tileSize = shortDim;
             }
           } else if (this.sizes && this.sizes.length > 0) {
             this.emulateLegacyImagePyramid = true;
-            options2.levels = constructLevels(this);
-            $3.extend(true, options2, {
-              width: options2.levels[options2.levels.length - 1].width,
-              height: options2.levels[options2.levels.length - 1].height,
-              tileSize: Math.max(options2.height, options2.width),
+            options.levels = constructLevels(this);
+            $3.extend(true, options, {
+              width: options.levels[options.levels.length - 1].width,
+              height: options.levels[options.levels.length - 1].height,
+              tileSize: Math.max(options.height, options.width),
               tileOverlap: 0,
               minLevel: 0,
-              maxLevel: options2.levels.length - 1
+              maxLevel: options.levels.length - 1
             });
-            this.levels = options2.levels;
+            this.levels = options.levels;
           } else {
             $3.console.error("Nothing in the info.json to construct image pyramids from");
           }
-          if (!options2.maxLevel && !this.emulateLegacyImagePyramid) {
+          if (!options.maxLevel && !this.emulateLegacyImagePyramid) {
             if (!this.scale_factors) {
-              options2.maxLevel = Number(Math.ceil(Math.log(Math.max(this.width, this.height), 2)));
+              options.maxLevel = Number(Math.ceil(Math.log(Math.max(this.width, this.height), 2)));
             } else {
               var maxScaleFactor = Math.max.apply(null, this.scale_factors);
-              options2.maxLevel = Math.round(Math.log(maxScaleFactor) * Math.LOG2E);
+              options.maxLevel = Math.round(Math.log(maxScaleFactor) * Math.LOG2E);
             }
           }
-          $3.TileSource.apply(this, [options2]);
+          $3.TileSource.apply(this, [options]);
         };
         $3.extend($3.IIIFTileSource.prototype, $3.TileSource.prototype, {
           supports: function(data, url) {
@@ -48401,11 +48401,11 @@ ${generateSegmentFilename(i7)}`);
           },
           configure: function(data, url) {
             if (!$3.isPlainObject(data)) {
-              var options2 = configureFromXml10(data);
-              options2["@context"] = "http://iiif.io/api/image/1.0/context.json";
-              options2["@id"] = url.replace("/info.xml", "");
-              options2.version = 1;
-              return options2;
+              var options = configureFromXml10(data);
+              options["@context"] = "http://iiif.io/api/image/1.0/context.json";
+              options["@id"] = url.replace("/info.xml", "");
+              options.version = 1;
+              return options;
             } else {
               if (!data["@context"]) {
                 data["@context"] = "http://iiif.io/api/image/1.0/context.json";
@@ -48556,7 +48556,7 @@ ${generateSegmentFilename(i7)}`);
             constructLevels
           }
         });
-        function canBeTiled(options2) {
+        function canBeTiled(options) {
           var level0Profiles = [
             "http://library.stanford.edu/iiif/image-api/compliance.html#level0",
             "http://library.stanford.edu/iiif/image-api/1.1/compliance.html#level0",
@@ -48564,24 +48564,24 @@ ${generateSegmentFilename(i7)}`);
             "level0",
             "https://iiif.io/api/image/3/level0.json"
           ];
-          var profileLevel = Array.isArray(options2.profile) ? options2.profile[0] : options2.profile;
+          var profileLevel = Array.isArray(options.profile) ? options.profile[0] : options.profile;
           var isLevel0 = level0Profiles.indexOf(profileLevel) !== -1;
           var hasCanoncicalSizeFeature = false;
-          if (options2.version === 2 && options2.profile.length > 1 && options2.profile[1].supports) {
-            hasCanoncicalSizeFeature = options2.profile[1].supports.indexOf("sizeByW") !== -1;
+          if (options.version === 2 && options.profile.length > 1 && options.profile[1].supports) {
+            hasCanoncicalSizeFeature = options.profile[1].supports.indexOf("sizeByW") !== -1;
           }
-          if (options2.version === 3 && options2.extraFeatures) {
-            hasCanoncicalSizeFeature = options2.extraFeatures.indexOf("sizeByWh") !== -1;
+          if (options.version === 3 && options.extraFeatures) {
+            hasCanoncicalSizeFeature = options.extraFeatures.indexOf("sizeByWh") !== -1;
           }
           return !isLevel0 || hasCanoncicalSizeFeature;
         }
-        function constructLevels(options2) {
+        function constructLevels(options) {
           var levels = [];
-          for (var i7 = 0; i7 < options2.sizes.length; i7++) {
+          for (var i7 = 0; i7 < options.sizes.length; i7++) {
             levels.push({
-              url: options2["@id"] + "/full/" + options2.sizes[i7].width + "," + (options2.version === 3 ? options2.sizes[i7].height : "") + "/0/default." + options2.tileFormat,
-              width: options2.sizes[i7].width,
-              height: options2.sizes[i7].height
+              url: options["@id"] + "/full/" + options.sizes[i7].width + "," + (options.version === 3 ? options.sizes[i7].height : "") + "/0/default." + options.tileFormat,
+              width: options.sizes[i7].width,
+              height: options.sizes[i7].height
             });
           }
           return levels.sort(function(a7, b7) {
@@ -48628,11 +48628,11 @@ ${generateSegmentFilename(i7)}`);
       })(OpenSeadragon);
       (function($3) {
         $3.OsmTileSource = function(width, height, tileSize, tileOverlap, tilesUrl) {
-          var options2;
+          var options;
           if ($3.isPlainObject(width)) {
-            options2 = width;
+            options = width;
           } else {
-            options2 = {
+            options = {
               width: arguments[0],
               height: arguments[1],
               tileSize: arguments[2],
@@ -48640,19 +48640,19 @@ ${generateSegmentFilename(i7)}`);
               tilesUrl: arguments[4]
             };
           }
-          if (!options2.width || !options2.height) {
-            options2.width = 65572864;
-            options2.height = 65572864;
+          if (!options.width || !options.height) {
+            options.width = 65572864;
+            options.height = 65572864;
           }
-          if (!options2.tileSize) {
-            options2.tileSize = 256;
-            options2.tileOverlap = 0;
+          if (!options.tileSize) {
+            options.tileSize = 256;
+            options.tileOverlap = 0;
           }
-          if (!options2.tilesUrl) {
-            options2.tilesUrl = "http://tile.openstreetmap.org/";
+          if (!options.tilesUrl) {
+            options.tilesUrl = "http://tile.openstreetmap.org/";
           }
-          options2.minLevel = 8;
-          $3.TileSource.apply(this, [options2]);
+          options.minLevel = 8;
+          $3.TileSource.apply(this, [options]);
         };
         $3.extend($3.OsmTileSource.prototype, $3.TileSource.prototype, {
           supports: function(data, url) {
@@ -48668,11 +48668,11 @@ ${generateSegmentFilename(i7)}`);
       })(OpenSeadragon);
       (function($3) {
         $3.TmsTileSource = function(width, height, tileSize, tileOverlap, tilesUrl) {
-          var options2;
+          var options;
           if ($3.isPlainObject(width)) {
-            options2 = width;
+            options = width;
           } else {
-            options2 = {
+            options = {
               width: arguments[0],
               height: arguments[1],
               tileSize: arguments[2],
@@ -48680,17 +48680,17 @@ ${generateSegmentFilename(i7)}`);
               tilesUrl: arguments[4]
             };
           }
-          var bufferedWidth = Math.ceil(options2.width / 256) * 256, bufferedHeight = Math.ceil(options2.height / 256) * 256, max;
+          var bufferedWidth = Math.ceil(options.width / 256) * 256, bufferedHeight = Math.ceil(options.height / 256) * 256, max;
           if (bufferedWidth > bufferedHeight) {
             max = bufferedWidth / 256;
           } else {
             max = bufferedHeight / 256;
           }
-          options2.maxLevel = Math.ceil(Math.log(max) / Math.log(2)) - 1;
-          options2.tileSize = 256;
-          options2.width = bufferedWidth;
-          options2.height = bufferedHeight;
-          $3.TileSource.apply(this, [options2]);
+          options.maxLevel = Math.ceil(Math.log(max) / Math.log(2)) - 1;
+          options.tileSize = 256;
+          options.width = bufferedWidth;
+          options.height = bufferedHeight;
+          $3.TileSource.apply(this, [options]);
         };
         $3.extend($3.TmsTileSource.prototype, $3.TileSource.prototype, {
           supports: function(data, url) {
@@ -48706,31 +48706,31 @@ ${generateSegmentFilename(i7)}`);
         });
       })(OpenSeadragon);
       (function($3) {
-        $3.ZoomifyTileSource = function(options2) {
-          options2.tileSize = 256;
+        $3.ZoomifyTileSource = function(options) {
+          options.tileSize = 256;
           var currentImageSize = {
-            x: options2.width,
-            y: options2.height
+            x: options.width,
+            y: options.height
           };
-          options2.imageSizes = [{
-            x: options2.width,
-            y: options2.height
+          options.imageSizes = [{
+            x: options.width,
+            y: options.height
           }];
-          options2.gridSize = [this._getGridSize(options2.width, options2.height, options2.tileSize)];
-          while (parseInt(currentImageSize.x, 10) > options2.tileSize || parseInt(currentImageSize.y, 10) > options2.tileSize) {
+          options.gridSize = [this._getGridSize(options.width, options.height, options.tileSize)];
+          while (parseInt(currentImageSize.x, 10) > options.tileSize || parseInt(currentImageSize.y, 10) > options.tileSize) {
             currentImageSize.x = Math.floor(currentImageSize.x / 2);
             currentImageSize.y = Math.floor(currentImageSize.y / 2);
-            options2.imageSizes.push({
+            options.imageSizes.push({
               x: currentImageSize.x,
               y: currentImageSize.y
             });
-            options2.gridSize.push(this._getGridSize(currentImageSize.x, currentImageSize.y, options2.tileSize));
+            options.gridSize.push(this._getGridSize(currentImageSize.x, currentImageSize.y, options.tileSize));
           }
-          options2.imageSizes.reverse();
-          options2.gridSize.reverse();
-          options2.minLevel = 0;
-          options2.maxLevel = options2.gridSize.length - 1;
-          OpenSeadragon.TileSource.apply(this, [options2]);
+          options.imageSizes.reverse();
+          options.gridSize.reverse();
+          options.minLevel = 0;
+          options.maxLevel = options.gridSize.length - 1;
+          OpenSeadragon.TileSource.apply(this, [options]);
         };
         $3.extend($3.ZoomifyTileSource.prototype, $3.TileSource.prototype, {
           _getGridSize: function(width, height, tileSize) {
@@ -48766,45 +48766,45 @@ ${generateSegmentFilename(i7)}`);
       })(OpenSeadragon);
       (function($3) {
         $3.LegacyTileSource = function(levels) {
-          var options2, width, height;
+          var options, width, height;
           if ($3.isArray(levels)) {
-            options2 = {
+            options = {
               type: "legacy-image-pyramid",
               levels
             };
           }
-          options2.levels = filterFiles(options2.levels);
-          if (options2.levels.length > 0) {
-            width = options2.levels[options2.levels.length - 1].width;
-            height = options2.levels[options2.levels.length - 1].height;
+          options.levels = filterFiles(options.levels);
+          if (options.levels.length > 0) {
+            width = options.levels[options.levels.length - 1].width;
+            height = options.levels[options.levels.length - 1].height;
           } else {
             width = 0;
             height = 0;
             $3.console.error("No supported image formats found");
           }
-          $3.extend(true, options2, {
+          $3.extend(true, options, {
             width,
             height,
             tileSize: Math.max(height, width),
             tileOverlap: 0,
             minLevel: 0,
-            maxLevel: options2.levels.length > 0 ? options2.levels.length - 1 : 0
+            maxLevel: options.levels.length > 0 ? options.levels.length - 1 : 0
           });
-          $3.TileSource.apply(this, [options2]);
-          this.levels = options2.levels;
+          $3.TileSource.apply(this, [options]);
+          this.levels = options.levels;
         };
         $3.extend($3.LegacyTileSource.prototype, $3.TileSource.prototype, {
           supports: function(data, url) {
             return data.type && data.type == "legacy-image-pyramid" || data.documentElement && data.documentElement.getAttribute("type") == "legacy-image-pyramid";
           },
           configure: function(configuration2, dataUrl) {
-            var options2;
+            var options;
             if (!$3.isPlainObject(configuration2)) {
-              options2 = configureFromXML(this, configuration2);
+              options = configureFromXML(this, configuration2);
             } else {
-              options2 = configureFromObject(this, configuration2);
+              options = configureFromObject(this, configuration2);
             }
-            return options2;
+            return options;
           },
           getLevelScale: function(level) {
             var levelScale = NaN;
@@ -48883,21 +48883,21 @@ ${generateSegmentFilename(i7)}`);
         }
       })(OpenSeadragon);
       (function($3) {
-        $3.ImageTileSource = function(options2) {
-          options2 = $3.extend({
+        $3.ImageTileSource = function(options) {
+          options = $3.extend({
             buildPyramid: true,
             crossOriginPolicy: false,
             ajaxWithCredentials: false,
             useCanvas: true
-          }, options2);
-          $3.TileSource.apply(this, [options2]);
+          }, options);
+          $3.TileSource.apply(this, [options]);
         };
         $3.extend($3.ImageTileSource.prototype, $3.TileSource.prototype, {
           supports: function(data, url) {
             return data.type && data.type === "image";
           },
-          configure: function(options2, dataUrl) {
-            return options2;
+          configure: function(options, dataUrl) {
+            return options;
           },
           getImageInfo: function(url) {
             var image = this._image = new Image();
@@ -49013,7 +49013,7 @@ ${generateSegmentFilename(i7)}`);
           HOVER: 2,
           DOWN: 3
         };
-        $3.Button = function(options2) {
+        $3.Button = function(options) {
           var _this = this;
           $3.EventSource.call(this);
           $3.extend(true, this, {
@@ -49033,9 +49033,9 @@ ${generateSegmentFilename(i7)}`);
             onExit: null,
             onFocus: null,
             onBlur: null
-          }, options2);
-          this.element = options2.element || $3.makeNeutralElement("div");
-          if (!options2.element) {
+          }, options);
+          this.element = options.element || $3.makeNeutralElement("div");
+          if (!options.element) {
             this.imgRest = $3.makeTransparentImage(this.srcRest);
             this.imgGroup = $3.makeTransparentImage(this.srcGroup);
             this.imgHover = $3.makeTransparentImage(this.srcHover);
@@ -49220,16 +49220,16 @@ ${generateSegmentFilename(i7)}`);
         }
       })(OpenSeadragon);
       (function($3) {
-        $3.ButtonGroup = function(options2) {
+        $3.ButtonGroup = function(options) {
           $3.extend(true, this, {
             buttons: [],
             clickTimeThreshold: $3.DEFAULT_SETTINGS.clickTimeThreshold,
             clickDistThreshold: $3.DEFAULT_SETTINGS.clickDistThreshold,
             labelText: ""
-          }, options2);
+          }, options);
           var buttons = this.buttons.concat([]), _this = this, i7;
-          this.element = options2.element || $3.makeNeutralElement("div");
-          if (!options2.group) {
+          this.element = options.element || $3.makeNeutralElement("div");
+          if (!options.group) {
             this.element.style.display = "inline-block";
             for (i7 = 0; i7 < buttons.length; i7++) {
               this.element.appendChild(buttons[i7].element);
@@ -49508,27 +49508,27 @@ ${generateSegmentFilename(i7)}`);
       })(OpenSeadragon);
       (function($3) {
         var THIS = {};
-        $3.ReferenceStrip = function(options2) {
-          var _this = this, viewer = options2.viewer, viewerSize = $3.getElementSize(viewer.element), element, style, i7;
-          if (!options2.id) {
-            options2.id = "referencestrip-" + $3.now();
+        $3.ReferenceStrip = function(options) {
+          var _this = this, viewer = options.viewer, viewerSize = $3.getElementSize(viewer.element), element, style, i7;
+          if (!options.id) {
+            options.id = "referencestrip-" + $3.now();
             this.element = $3.makeNeutralElement("div");
-            this.element.id = options2.id;
+            this.element.id = options.id;
             this.element.className = "referencestrip";
           }
-          options2 = $3.extend(true, {
+          options = $3.extend(true, {
             sizeRatio: $3.DEFAULT_SETTINGS.referenceStripSizeRatio,
             position: $3.DEFAULT_SETTINGS.referenceStripPosition,
             scroll: $3.DEFAULT_SETTINGS.referenceStripScroll,
             clickTimeThreshold: $3.DEFAULT_SETTINGS.clickTimeThreshold
-          }, options2, {
+          }, options, {
             element: this.element,
             showNavigator: false,
             mouseNavEnabled: false,
             showNavigationControl: false,
             showSequenceControl: false
           });
-          $3.extend(this, options2);
+          $3.extend(this, options);
           THIS[this.id] = {
             "animating": false
           };
@@ -49555,18 +49555,18 @@ ${generateSegmentFilename(i7)}`);
             keyDownHandler: $3.delegate(this, onKeyDown),
             keyHandler: $3.delegate(this, onKeyPress)
           });
-          if (options2.width && options2.height) {
-            this.element.style.width = options2.width + "px";
-            this.element.style.height = options2.height + "px";
+          if (options.width && options.height) {
+            this.element.style.width = options.width + "px";
+            this.element.style.height = options.height + "px";
             viewer.addControl(this.element, { anchor: $3.ControlAnchor.BOTTOM_LEFT });
           } else {
-            if (options2.scroll == "horizontal") {
-              this.element.style.width = viewerSize.x * options2.sizeRatio * viewer.tileSources.length + 12 * viewer.tileSources.length + "px";
-              this.element.style.height = viewerSize.y * options2.sizeRatio + "px";
+            if (options.scroll == "horizontal") {
+              this.element.style.width = viewerSize.x * options.sizeRatio * viewer.tileSources.length + 12 * viewer.tileSources.length + "px";
+              this.element.style.height = viewerSize.y * options.sizeRatio + "px";
               viewer.addControl(this.element, { anchor: $3.ControlAnchor.BOTTOM_LEFT });
             } else {
-              this.element.style.height = viewerSize.y * options2.sizeRatio * viewer.tileSources.length + 12 * viewer.tileSources.length + "px";
-              this.element.style.width = viewerSize.x * options2.sizeRatio + "px";
+              this.element.style.height = viewerSize.y * options.sizeRatio * viewer.tileSources.length + 12 * viewer.tileSources.length + "px";
+              this.element.style.width = viewerSize.x * options.sizeRatio + "px";
               viewer.addControl(this.element, { anchor: $3.ControlAnchor.TOP_LEFT });
             }
           }
@@ -49871,22 +49871,22 @@ ${generateSegmentFilename(i7)}`);
         $3.extend($3.DisplayRect.prototype, $3.Rect.prototype);
       })(OpenSeadragon);
       (function($3) {
-        $3.Spring = function(options2) {
+        $3.Spring = function(options) {
           var args = arguments;
-          if (typeof options2 != "object") {
-            options2 = {
+          if (typeof options != "object") {
+            options = {
               initial: args.length && typeof args[0] == "number" ? args[0] : void 0,
               springStiffness: args.length > 1 ? args[1].springStiffness : 5,
               animationTime: args.length > 1 ? args[1].animationTime : 1.5
             };
           }
-          $3.console.assert(typeof options2.springStiffness === "number" && options2.springStiffness !== 0, "[OpenSeadragon.Spring] options.springStiffness must be a non-zero number");
-          $3.console.assert(typeof options2.animationTime === "number" && options2.animationTime >= 0, "[OpenSeadragon.Spring] options.animationTime must be a number greater than or equal to 0");
-          if (options2.exponential) {
+          $3.console.assert(typeof options.springStiffness === "number" && options.springStiffness !== 0, "[OpenSeadragon.Spring] options.springStiffness must be a non-zero number");
+          $3.console.assert(typeof options.animationTime === "number" && options.animationTime >= 0, "[OpenSeadragon.Spring] options.animationTime must be a number greater than or equal to 0");
+          if (options.exponential) {
             this._exponential = true;
-            delete options2.exponential;
+            delete options.exponential;
           }
-          $3.extend(true, this, options2);
+          $3.extend(true, this, options);
           this.current = {
             value: typeof this.initial == "number" ? this.initial : this._exponential ? 0 : 1,
             time: $3.now()
@@ -49974,11 +49974,11 @@ ${generateSegmentFilename(i7)}`);
         }
       })(OpenSeadragon);
       (function($3) {
-        function ImageJob(options2) {
+        function ImageJob(options) {
           $3.extend(true, this, {
             timeout: $3.DEFAULT_SETTINGS.timeout,
             jobId: null
-          }, options2);
+          }, options);
           this.image = null;
         }
         ImageJob.prototype = {
@@ -50052,26 +50052,26 @@ ${generateSegmentFilename(i7)}`);
             this.callback(this);
           }
         };
-        $3.ImageLoader = function(options2) {
+        $3.ImageLoader = function(options) {
           $3.extend(true, this, {
             jobLimit: $3.DEFAULT_SETTINGS.imageLoaderLimit,
             timeout: $3.DEFAULT_SETTINGS.timeout,
             jobQueue: [],
             jobsInProgress: 0
-          }, options2);
+          }, options);
         };
         $3.ImageLoader.prototype = {
-          addJob: function(options2) {
+          addJob: function(options) {
             var _this = this, complete = function(job) {
-              completeJob(_this, job, options2.callback);
+              completeJob(_this, job, options.callback);
             }, jobOptions = {
-              src: options2.src,
-              loadWithAjax: options2.loadWithAjax,
-              ajaxHeaders: options2.loadWithAjax ? options2.ajaxHeaders : null,
-              crossOriginPolicy: options2.crossOriginPolicy,
-              ajaxWithCredentials: options2.ajaxWithCredentials,
+              src: options.src,
+              loadWithAjax: options.loadWithAjax,
+              ajaxHeaders: options.loadWithAjax ? options.ajaxHeaders : null,
+              crossOriginPolicy: options.crossOriginPolicy,
+              ajaxWithCredentials: options.ajaxWithCredentials,
               callback: complete,
-              abort: options2.abort,
+              abort: options.abort,
               timeout: this.timeout
             }, newJob = new ImageJob(jobOptions);
             if (!this.jobLimit || this.jobsInProgress < this.jobLimit) {
@@ -50249,29 +50249,29 @@ ${generateSegmentFilename(i7)}`);
           BOUNDING_BOX: 3
         });
         $3.Overlay = function(element, location2, placement) {
-          var options2;
+          var options;
           if ($3.isPlainObject(element)) {
-            options2 = element;
+            options = element;
           } else {
-            options2 = {
+            options = {
               element,
               location: location2,
               placement
             };
           }
-          this.element = options2.element;
-          this.style = options2.element.style;
-          this._init(options2);
+          this.element = options.element;
+          this.style = options.element.style;
+          this._init(options);
         };
         $3.Overlay.prototype = {
-          _init: function(options2) {
-            this.location = options2.location;
-            this.placement = options2.placement === void 0 ? $3.Placement.TOP_LEFT : options2.placement;
-            this.onDraw = options2.onDraw;
-            this.checkResize = options2.checkResize === void 0 ? true : options2.checkResize;
-            this.width = options2.width === void 0 ? null : options2.width;
-            this.height = options2.height === void 0 ? null : options2.height;
-            this.rotationMode = options2.rotationMode || $3.OverlayRotationMode.EXACT;
+          _init: function(options) {
+            this.location = options.location;
+            this.placement = options.placement === void 0 ? $3.Placement.TOP_LEFT : options.placement;
+            this.onDraw = options.onDraw;
+            this.checkResize = options.checkResize === void 0 ? true : options.checkResize;
+            this.width = options.width === void 0 ? null : options.width;
+            this.height = options.height === void 0 ? null : options.height;
+            this.rotationMode = options.rotationMode || $3.OverlayRotationMode.EXACT;
             if (this.location instanceof $3.Rect) {
               this.width = this.location.width;
               this.height = this.location.height;
@@ -50450,18 +50450,18 @@ ${generateSegmentFilename(i7)}`);
             return result;
           },
           update: function(location2, placement) {
-            var options2 = $3.isPlainObject(location2) ? location2 : {
+            var options = $3.isPlainObject(location2) ? location2 : {
               location: location2,
               placement
             };
             this._init({
-              location: options2.location || this.location,
-              placement: options2.placement !== void 0 ? options2.placement : this.placement,
-              onDraw: options2.onDraw || this.onDraw,
-              checkResize: options2.checkResize || this.checkResize,
-              width: options2.width !== void 0 ? options2.width : this.width,
-              height: options2.height !== void 0 ? options2.height : this.height,
-              rotationMode: options2.rotationMode || this.rotationMode
+              location: options.location || this.location,
+              placement: options.placement !== void 0 ? options.placement : this.placement,
+              onDraw: options.onDraw || this.onDraw,
+              checkResize: options.checkResize || this.checkResize,
+              width: options.width !== void 0 ? options.width : this.width,
+              height: options.height !== void 0 ? options.height : this.height,
+              rotationMode: options.rotationMode || this.rotationMode
             });
           },
           getBounds: function(viewport) {
@@ -50497,29 +50497,29 @@ ${generateSegmentFilename(i7)}`);
         };
       })(OpenSeadragon);
       (function($3) {
-        $3.Drawer = function(options2) {
-          $3.console.assert(options2.viewer, "[Drawer] options.viewer is required");
+        $3.Drawer = function(options) {
+          $3.console.assert(options.viewer, "[Drawer] options.viewer is required");
           var args = arguments;
-          if (!$3.isPlainObject(options2)) {
-            options2 = {
+          if (!$3.isPlainObject(options)) {
+            options = {
               source: args[0],
               viewport: args[1],
               element: args[2]
             };
           }
-          $3.console.assert(options2.viewport, "[Drawer] options.viewport is required");
-          $3.console.assert(options2.element, "[Drawer] options.element is required");
-          if (options2.source) {
+          $3.console.assert(options.viewport, "[Drawer] options.viewport is required");
+          $3.console.assert(options.element, "[Drawer] options.element is required");
+          if (options.source) {
             $3.console.error("[Drawer] options.source is no longer accepted; use TiledImage instead");
           }
-          this.viewer = options2.viewer;
-          this.viewport = options2.viewport;
-          this.debugGridColor = typeof options2.debugGridColor === "string" ? [options2.debugGridColor] : options2.debugGridColor || $3.DEFAULT_SETTINGS.debugGridColor;
-          if (options2.opacity) {
+          this.viewer = options.viewer;
+          this.viewport = options.viewport;
+          this.debugGridColor = typeof options.debugGridColor === "string" ? [options.debugGridColor] : options.debugGridColor || $3.DEFAULT_SETTINGS.debugGridColor;
+          if (options.opacity) {
             $3.console.error("[Drawer] options.opacity is no longer accepted; set the opacity on the TiledImage instead");
           }
           this.useCanvas = $3.supportsCanvas && (this.viewer ? this.viewer.useCanvas : true);
-          this.container = $3.getElement(options2.element);
+          this.container = $3.getElement(options.element);
           this.canvas = $3.makeNeutralElement(this.useCanvas ? "canvas" : "div");
           this.context = this.useCanvas ? this.canvas.getContext("2d") : null;
           this.sketchCanvas = null;
@@ -50730,9 +50730,9 @@ ${generateSegmentFilename(i7)}`);
             context.restore();
           },
           blendSketch: function(opacity, scale, translate, compositeOperation) {
-            var options2 = opacity;
-            if (!$3.isPlainObject(options2)) {
-              options2 = {
+            var options = opacity;
+            if (!$3.isPlainObject(options)) {
+              options = {
                 opacity,
                 scale,
                 translate,
@@ -50742,9 +50742,9 @@ ${generateSegmentFilename(i7)}`);
             if (!this.useCanvas || !this.sketchCanvas) {
               return;
             }
-            opacity = options2.opacity;
-            compositeOperation = options2.compositeOperation;
-            var bounds = options2.bounds;
+            opacity = options.opacity;
+            compositeOperation = options.compositeOperation;
+            var bounds = options.bounds;
             this.context.save();
             this.context.globalAlpha = opacity;
             if (compositeOperation) {
@@ -50767,8 +50767,8 @@ ${generateSegmentFilename(i7)}`);
               }
               this.context.drawImage(this.sketchCanvas, bounds.x, bounds.y, bounds.width, bounds.height, bounds.x, bounds.y, bounds.width, bounds.height);
             } else {
-              scale = options2.scale || 1;
-              translate = options2.translate;
+              scale = options.scale || 1;
+              translate = options.translate;
               var position = translate instanceof $3.Point ? translate : new $3.Point(0, 0);
               var widthExt = 0;
               var heightExt = 0;
@@ -50865,23 +50865,23 @@ ${generateSegmentFilename(i7)}`);
           getCanvasCenter: function() {
             return new $3.Point(this.canvas.width / 2, this.canvas.height / 2);
           },
-          _offsetForRotation: function(options2) {
-            var point = options2.point ? options2.point.times($3.pixelDensityRatio) : this.getCanvasCenter();
-            var context = this._getContext(options2.useSketch);
+          _offsetForRotation: function(options) {
+            var point = options.point ? options.point.times($3.pixelDensityRatio) : this.getCanvasCenter();
+            var context = this._getContext(options.useSketch);
             context.save();
             context.translate(point.x, point.y);
             if (this.viewer.viewport.flipped) {
-              context.rotate(Math.PI / 180 * -options2.degrees);
+              context.rotate(Math.PI / 180 * -options.degrees);
               context.scale(-1, 1);
             } else {
-              context.rotate(Math.PI / 180 * options2.degrees);
+              context.rotate(Math.PI / 180 * options.degrees);
             }
             context.translate(-point.x, -point.y);
           },
-          _flip: function(options2) {
-            options2 = options2 || {};
-            var point = options2.point ? options2.point.times($3.pixelDensityRatio) : this.getCanvasCenter();
-            var context = this._getContext(options2.useSketch);
+          _flip: function(options) {
+            options = options || {};
+            var point = options.point ? options.point.times($3.pixelDensityRatio) : this.getCanvasCenter();
+            var context = this._getContext(options.useSketch);
             context.translate(point.x, 0);
             context.scale(-1, 1);
             context.translate(-point.x, 0);
@@ -50912,26 +50912,26 @@ ${generateSegmentFilename(i7)}`);
         };
       })(OpenSeadragon);
       (function($3) {
-        $3.Viewport = function(options2) {
+        $3.Viewport = function(options) {
           var args = arguments;
           if (args.length && args[0] instanceof $3.Point) {
-            options2 = {
+            options = {
               containerSize: args[0],
               contentSize: args[1],
               config: args[2]
             };
           }
-          if (options2.config) {
-            $3.extend(true, options2, options2.config);
-            delete options2.config;
+          if (options.config) {
+            $3.extend(true, options, options.config);
+            delete options.config;
           }
           this._margins = $3.extend({
             left: 0,
             top: 0,
             right: 0,
             bottom: 0
-          }, options2.margins || {});
-          delete options2.margins;
+          }, options.margins || {});
+          delete options.margins;
           $3.extend(true, this, {
             containerSize: null,
             contentSize: null,
@@ -50950,7 +50950,7 @@ ${generateSegmentFilename(i7)}`);
             degrees: $3.DEFAULT_SETTINGS.degrees,
             flipped: $3.DEFAULT_SETTINGS.flipped,
             homeFillsViewer: $3.DEFAULT_SETTINGS.homeFillsViewer
-          }, options2);
+          }, options);
           this._updateContainerInnerSize();
           this.centerSpringX = new $3.Spring({
             initial: 0,
@@ -51177,10 +51177,10 @@ ${generateSegmentFilename(i7)}`);
           ensureVisible: function(immediately) {
             return this.applyConstraints(immediately);
           },
-          _fitBounds: function(bounds, options2) {
-            options2 = options2 || {};
-            var immediately = options2.immediately || false;
-            var constraints = options2.constraints || false;
+          _fitBounds: function(bounds, options) {
+            options = options || {};
+            var immediately = options.immediately || false;
+            var constraints = options.constraints || false;
             var aspect = this.getAspectRatio();
             var center = bounds.getCenter();
             var newBounds = new $3.Rect(bounds.x, bounds.y, bounds.width, bounds.height, bounds.degrees + this.getRotation()).getBoundingBox();
@@ -51555,49 +51555,49 @@ ${generateSegmentFilename(i7)}`);
         };
       })(OpenSeadragon);
       (function($3) {
-        $3.TiledImage = function(options2) {
+        $3.TiledImage = function(options) {
           var _this = this;
-          $3.console.assert(options2.tileCache, "[TiledImage] options.tileCache is required");
-          $3.console.assert(options2.drawer, "[TiledImage] options.drawer is required");
-          $3.console.assert(options2.viewer, "[TiledImage] options.viewer is required");
-          $3.console.assert(options2.imageLoader, "[TiledImage] options.imageLoader is required");
-          $3.console.assert(options2.source, "[TiledImage] options.source is required");
-          $3.console.assert(!options2.clip || options2.clip instanceof $3.Rect, "[TiledImage] options.clip must be an OpenSeadragon.Rect if present");
+          $3.console.assert(options.tileCache, "[TiledImage] options.tileCache is required");
+          $3.console.assert(options.drawer, "[TiledImage] options.drawer is required");
+          $3.console.assert(options.viewer, "[TiledImage] options.viewer is required");
+          $3.console.assert(options.imageLoader, "[TiledImage] options.imageLoader is required");
+          $3.console.assert(options.source, "[TiledImage] options.source is required");
+          $3.console.assert(!options.clip || options.clip instanceof $3.Rect, "[TiledImage] options.clip must be an OpenSeadragon.Rect if present");
           $3.EventSource.call(this);
-          this._tileCache = options2.tileCache;
-          delete options2.tileCache;
-          this._drawer = options2.drawer;
-          delete options2.drawer;
-          this._imageLoader = options2.imageLoader;
-          delete options2.imageLoader;
-          if (options2.clip instanceof $3.Rect) {
-            this._clip = options2.clip.clone();
+          this._tileCache = options.tileCache;
+          delete options.tileCache;
+          this._drawer = options.drawer;
+          delete options.drawer;
+          this._imageLoader = options.imageLoader;
+          delete options.imageLoader;
+          if (options.clip instanceof $3.Rect) {
+            this._clip = options.clip.clone();
           }
-          delete options2.clip;
-          var x4 = options2.x || 0;
-          delete options2.x;
-          var y3 = options2.y || 0;
-          delete options2.y;
-          this.normHeight = options2.source.dimensions.y / options2.source.dimensions.x;
-          this.contentAspectX = options2.source.dimensions.x / options2.source.dimensions.y;
+          delete options.clip;
+          var x4 = options.x || 0;
+          delete options.x;
+          var y3 = options.y || 0;
+          delete options.y;
+          this.normHeight = options.source.dimensions.y / options.source.dimensions.x;
+          this.contentAspectX = options.source.dimensions.x / options.source.dimensions.y;
           var scale = 1;
-          if (options2.width) {
-            scale = options2.width;
-            delete options2.width;
-            if (options2.height) {
+          if (options.width) {
+            scale = options.width;
+            delete options.width;
+            if (options.height) {
               $3.console.error("specifying both width and height to a tiledImage is not supported");
-              delete options2.height;
+              delete options.height;
             }
-          } else if (options2.height) {
-            scale = options2.height / this.normHeight;
-            delete options2.height;
+          } else if (options.height) {
+            scale = options.height / this.normHeight;
+            delete options.height;
           }
-          var fitBounds = options2.fitBounds;
-          delete options2.fitBounds;
-          var fitBoundsPlacement = options2.fitBoundsPlacement || OpenSeadragon.Placement.CENTER;
-          delete options2.fitBoundsPlacement;
-          var degrees = options2.degrees || 0;
-          delete options2.degrees;
+          var fitBounds = options.fitBounds;
+          delete options.fitBounds;
+          var fitBoundsPlacement = options.fitBoundsPlacement || OpenSeadragon.Placement.CENTER;
+          delete options.fitBoundsPlacement;
+          var degrees = options.degrees || 0;
+          delete options.degrees;
           $3.extend(true, this, {
             viewer: null,
             tilesMatrix: {},
@@ -51627,7 +51627,7 @@ ${generateSegmentFilename(i7)}`);
             opacity: $3.DEFAULT_SETTINGS.opacity,
             preload: $3.DEFAULT_SETTINGS.preload,
             compositeOperation: $3.DEFAULT_SETTINGS.compositeOperation
-          }, options2);
+          }, options);
           this._preload = this.preload;
           delete this.preload;
           this._fullyLoaded = false;
@@ -52592,17 +52592,17 @@ ${generateSegmentFilename(i7)}`);
         }
       })(OpenSeadragon);
       (function($3) {
-        var TileRecord = function(options2) {
-          $3.console.assert(options2, "[TileCache.cacheTile] options is required");
-          $3.console.assert(options2.tile, "[TileCache.cacheTile] options.tile is required");
-          $3.console.assert(options2.tiledImage, "[TileCache.cacheTile] options.tiledImage is required");
-          this.tile = options2.tile;
-          this.tiledImage = options2.tiledImage;
+        var TileRecord = function(options) {
+          $3.console.assert(options, "[TileCache.cacheTile] options is required");
+          $3.console.assert(options.tile, "[TileCache.cacheTile] options.tile is required");
+          $3.console.assert(options.tiledImage, "[TileCache.cacheTile] options.tiledImage is required");
+          this.tile = options.tile;
+          this.tiledImage = options.tiledImage;
         };
-        var ImageRecord = function(options2) {
-          $3.console.assert(options2, "[ImageRecord] options is required");
-          $3.console.assert(options2.image, "[ImageRecord] options.image is required");
-          this._image = options2.image;
+        var ImageRecord = function(options) {
+          $3.console.assert(options, "[ImageRecord] options is required");
+          $3.console.assert(options.image, "[ImageRecord] options.image is required");
+          this._image = options.image;
           this._tiles = [];
         };
         ImageRecord.prototype = {
@@ -52646,9 +52646,9 @@ ${generateSegmentFilename(i7)}`);
             return this._tiles.length;
           }
         };
-        $3.TileCache = function(options2) {
-          options2 = options2 || {};
-          this._maxImageCacheCount = options2.maxImageCacheCount || $3.DEFAULT_SETTINGS.maxImageCacheCount;
+        $3.TileCache = function(options) {
+          options = options || {};
+          this._maxImageCacheCount = options.maxImageCacheCount || $3.DEFAULT_SETTINGS.maxImageCacheCount;
           this._tilesLoaded = [];
           this._imagesLoaded = [];
           this._imagesLoadedCount = 0;
@@ -52657,23 +52657,23 @@ ${generateSegmentFilename(i7)}`);
           numTilesLoaded: function() {
             return this._tilesLoaded.length;
           },
-          cacheTile: function(options2) {
-            $3.console.assert(options2, "[TileCache.cacheTile] options is required");
-            $3.console.assert(options2.tile, "[TileCache.cacheTile] options.tile is required");
-            $3.console.assert(options2.tile.cacheKey, "[TileCache.cacheTile] options.tile.cacheKey is required");
-            $3.console.assert(options2.tiledImage, "[TileCache.cacheTile] options.tiledImage is required");
-            var cutoff = options2.cutoff || 0;
+          cacheTile: function(options) {
+            $3.console.assert(options, "[TileCache.cacheTile] options is required");
+            $3.console.assert(options.tile, "[TileCache.cacheTile] options.tile is required");
+            $3.console.assert(options.tile.cacheKey, "[TileCache.cacheTile] options.tile.cacheKey is required");
+            $3.console.assert(options.tiledImage, "[TileCache.cacheTile] options.tiledImage is required");
+            var cutoff = options.cutoff || 0;
             var insertionIndex = this._tilesLoaded.length;
-            var imageRecord = this._imagesLoaded[options2.tile.cacheKey];
+            var imageRecord = this._imagesLoaded[options.tile.cacheKey];
             if (!imageRecord) {
-              $3.console.assert(options2.image, "[TileCache.cacheTile] options.image is required to create an ImageRecord");
-              imageRecord = this._imagesLoaded[options2.tile.cacheKey] = new ImageRecord({
-                image: options2.image
+              $3.console.assert(options.image, "[TileCache.cacheTile] options.image is required to create an ImageRecord");
+              imageRecord = this._imagesLoaded[options.tile.cacheKey] = new ImageRecord({
+                image: options.image
               });
               this._imagesLoadedCount++;
             }
-            imageRecord.addTile(options2.tile);
-            options2.tile.cacheImageRecord = imageRecord;
+            imageRecord.addTile(options.tile);
+            options.tile.cacheImageRecord = imageRecord;
             if (this._imagesLoadedCount > this._maxImageCacheCount) {
               var worstTile = null;
               var worstTileIndex = -1;
@@ -52706,8 +52706,8 @@ ${generateSegmentFilename(i7)}`);
               }
             }
             this._tilesLoaded[insertionIndex] = new TileRecord({
-              tile: options2.tile,
-              tiledImage: options2.tiledImage
+              tile: options.tile,
+              tiledImage: options.tiledImage
             });
           },
           clearTilesFor: function(tiledImage) {
@@ -52747,11 +52747,11 @@ ${generateSegmentFilename(i7)}`);
         };
       })(OpenSeadragon);
       (function($3) {
-        $3.World = function(options2) {
+        $3.World = function(options) {
           var _this = this;
-          $3.console.assert(options2.viewer, "[World] options.viewer is required");
+          $3.console.assert(options.viewer, "[World] options.viewer is required");
           $3.EventSource.call(this);
-          this.viewer = options2.viewer;
+          this.viewer = options.viewer;
           this._items = [];
           this._needsDraw = false;
           this._autoRefigureSizes = true;
@@ -52766,12 +52766,12 @@ ${generateSegmentFilename(i7)}`);
           this._figureSizes();
         };
         $3.extend($3.World.prototype, $3.EventSource.prototype, {
-          addItem: function(item, options2) {
+          addItem: function(item, options) {
             $3.console.assert(item, "[World.addItem] item is required");
             $3.console.assert(item instanceof $3.TiledImage, "[World.addItem] only TiledImages supported at this time");
-            options2 = options2 || {};
-            if (options2.index !== void 0) {
-              var index = Math.max(0, Math.min(this._items.length, options2.index));
+            options = options || {};
+            if (options.index !== void 0) {
+              var index = Math.max(0, Math.min(this._items.length, options.index));
               this._items.splice(index, 0, item);
             } else {
               this._items.push(item);
@@ -52890,17 +52890,17 @@ ${generateSegmentFilename(i7)}`);
               this._needsSizesFigured = false;
             }
           },
-          arrange: function(options2) {
-            options2 = options2 || {};
-            var immediately = options2.immediately || false;
-            var layout = options2.layout || $3.DEFAULT_SETTINGS.collectionLayout;
-            var rows = options2.rows || $3.DEFAULT_SETTINGS.collectionRows;
-            var columns = options2.columns || $3.DEFAULT_SETTINGS.collectionColumns;
-            var tileSize = options2.tileSize || $3.DEFAULT_SETTINGS.collectionTileSize;
-            var tileMargin = options2.tileMargin || $3.DEFAULT_SETTINGS.collectionTileMargin;
+          arrange: function(options) {
+            options = options || {};
+            var immediately = options.immediately || false;
+            var layout = options.layout || $3.DEFAULT_SETTINGS.collectionLayout;
+            var rows = options.rows || $3.DEFAULT_SETTINGS.collectionRows;
+            var columns = options.columns || $3.DEFAULT_SETTINGS.collectionColumns;
+            var tileSize = options.tileSize || $3.DEFAULT_SETTINGS.collectionTileSize;
+            var tileMargin = options.tileMargin || $3.DEFAULT_SETTINGS.collectionTileMargin;
             var increment = tileSize + tileMargin;
             var wrap;
-            if (!options2.rows && columns) {
+            if (!options.rows && columns) {
               wrap = columns;
             } else {
               wrap = Math.ceil(this._items.length / rows);
@@ -52985,7 +52985,7 @@ ${generateSegmentFilename(i7)}`);
     "node_modules/react-error-boundary/dist/react-error-boundary.umd.js"(exports2, module2) {
       (function(global2, factory) {
         typeof exports2 === "object" && typeof module2 !== "undefined" ? factory(exports2, require_react()) : typeof define === "function" && define.amd ? define(["exports", "react"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2.ReactErrorBoundary = {}, global2.React));
-      })(exports2, function(exports3, React31) {
+      })(exports2, function(exports3, React32) {
         "use strict";
         function _interopNamespace(e11) {
           if (e11 && e11.__esModule)
@@ -53007,7 +53007,7 @@ ${generateSegmentFilename(i7)}`);
           n5["default"] = e11;
           return Object.freeze(n5);
         }
-        var React__namespace = /* @__PURE__ */ _interopNamespace(React31);
+        var React__namespace = /* @__PURE__ */ _interopNamespace(React32);
         function _setPrototypeOf(o11, p8) {
           _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
             o12.__proto__ = p9;
@@ -53122,7 +53122,7 @@ ${generateSegmentFilename(i7)}`);
   });
 
   // src/dev.tsx
-  var import_react36 = __toModule(require_react());
+  var import_react38 = __toModule(require_react());
   var import_react_dom2 = __toModule(require_react_dom());
 
   // src/index.tsx
@@ -54283,9 +54283,9 @@ ${generateSegmentFilename(i7)}`);
     throw new Error("Resource type is not known");
   }
   var Traverse = class {
-    constructor(traversals, options2 = {}) {
+    constructor(traversals, options = {}) {
       this.traversals = Object.assign({ collection: [], manifest: [], canvas: [], annotationList: [], sequence: [], annotation: [], contentResource: [], choice: [], range: [], service: [], layer: [] }, traversals);
-      this.options = Object.assign({ convertPropsToArray: true, mergeMemberProperties: true, allowUndefinedReturn: false }, options2);
+      this.options = Object.assign({ convertPropsToArray: true, mergeMemberProperties: true, allowUndefinedReturn: false }, options);
     }
     static all(traversal) {
       return new Traverse({
@@ -55185,9 +55185,9 @@ ${generateSegmentFilename(i7)}`);
     throw new Error("Resource type is not known");
   }
   var Traverse2 = class {
-    constructor(traversals, options2 = {}) {
+    constructor(traversals, options = {}) {
       this.traversals = Object.assign({ collection: [], manifest: [], canvas: [], annotationCollection: [], annotationPage: [], annotation: [], contentResource: [], choice: [], range: [], service: [] }, traversals);
-      this.options = Object.assign({ allowUndefinedReturn: false }, options2);
+      this.options = Object.assign({ allowUndefinedReturn: false }, options);
     }
     static all(traversal) {
       return new Traverse2({
@@ -56111,7 +56111,7 @@ ${generateSegmentFilename(i7)}`);
     return state.hyperion.entities[resourceType][request.resourceUri];
   }
   function createFetchHelper(store, fetcher, { waitTimeout = 30 } = {}) {
-    return (url, options2) => __awaiter2(this, void 0, void 0, function* () {
+    return (url, options) => __awaiter2(this, void 0, void 0, function* () {
       const state = store.getState();
       const request = state.hyperion.requests[url];
       if (request) {
@@ -56164,7 +56164,7 @@ ${generateSegmentFilename(i7)}`);
       }
       store.dispatch(requestResource({ id: url }));
       try {
-        const resource = yield fetcher(url, options2);
+        const resource = yield fetcher(url, options);
         const toDispatch = actionListFromResource(url, resource);
         for (const action of toDispatch) {
           store.dispatch(action);
@@ -56223,7 +56223,7 @@ ${generateSegmentFilename(i7)}`);
     });
   }
   var Vault = class {
-    constructor(options2, store) {
+    constructor(options, store) {
       this.defaultFetcher = (url) => {
         return fetch(url).then((r10) => r10.json());
       };
@@ -56238,7 +56238,7 @@ ${generateSegmentFilename(i7)}`);
         middleware: [],
         defaultState: {},
         customFetcher: this.defaultFetcher
-      }, options2 || {});
+      }, options || {});
       this.store = store || createStore2(this.options.reducers, [...this.options.middleware, this.middleware], this.options.defaultState);
       this.emitter = mitt_es_default();
       this.imageService = new ImageServiceLoader();
@@ -57730,12 +57730,12 @@ ${generateSegmentFilename(i7)}`);
     };
     return medium;
   }
-  function createSidecarMedium(options2) {
-    if (options2 === void 0) {
-      options2 = {};
+  function createSidecarMedium(options) {
+    if (options === void 0) {
+      options = {};
     }
     var medium = innerCreateMedium(null);
-    medium.options = __assign({ async: true, ssr: false }, options2);
+    medium.options = __assign({ async: true, ssr: false }, options);
     return medium;
   }
 
@@ -58065,19 +58065,19 @@ ${generateSegmentFilename(i7)}`);
   var passiveSupported = false;
   if (typeof window !== "undefined") {
     try {
-      options2 = Object.defineProperty({}, "passive", {
+      options = Object.defineProperty({}, "passive", {
         get: function() {
           passiveSupported = true;
           return true;
         }
       });
-      window.addEventListener("test", options2, options2);
-      window.removeEventListener("test", options2, options2);
+      window.addEventListener("test", options, options);
+      window.removeEventListener("test", options, options);
     } catch (err) {
       passiveSupported = false;
     }
   }
-  var options2;
+  var options;
   var nonPassive = passiveSupported ? { passive: false } : false;
 
   // node_modules/react-remove-scroll/dist/es2015/SideEffect.js
@@ -60583,9 +60583,9 @@ ${generateSegmentFilename(i7)}`);
   var stringify_default = stringify;
 
   // node_modules/uuid/dist/esm-browser/v4.js
-  function v42(options2, buf, offset) {
-    options2 = options2 || {};
-    var rnds = options2.random || (options2.rng || rng)();
+  function v42(options, buf, offset) {
+    options = options || {};
+    var rnds = options.random || (options.rng || rng)();
     rnds[6] = rnds[6] & 15 | 64;
     rnds[8] = rnds[8] & 63 | 128;
     if (buf) {
@@ -61162,7 +61162,10 @@ ${generateSegmentFilename(i7)}`);
     }, [service]);
     (0, import_react30.useEffect)(() => {
       if (imageService) {
-        getInfoResponse(imageService.id).then((tileSource) => openSeadragonInstance == null ? void 0 : openSeadragonInstance.open(tileSource));
+        let id;
+        "@id" in imageService ? id = imageService["@id"] : id = imageService.id;
+        if (id)
+          getInfoResponse(id).then((tileSource) => openSeadragonInstance == null ? void 0 : openSeadragonInstance.open(tileSource));
       }
     }, [openSeadragonInstance, imageService]);
     function initOpenSeadragon() {
@@ -61316,20 +61319,20 @@ ${generateSegmentFilename(i7)}`);
     canvasIdCallback = () => {
     },
     customTheme,
-    options: options2
+    options
   }) => {
     return /* @__PURE__ */ import_react34.default.createElement(ViewerProvider, null, /* @__PURE__ */ import_react34.default.createElement(RenderViewer, {
       manifestId,
       canvasIdCallback,
       customTheme,
-      options: options2
+      options
     }));
   };
   var RenderViewer = ({
     manifestId,
     canvasIdCallback,
     customTheme,
-    options: options2
+    options
   }) => {
     const dispatch = useViewerDispatch();
     const store = useViewerState();
@@ -61345,7 +61348,7 @@ ${generateSegmentFilename(i7)}`);
     (0, import_react34.useEffect)(() => {
       dispatch({
         type: "updateConfigOptions",
-        configOptions: options2
+        configOptions: options
       });
       vault.loadManifest(manifestId).then((data) => {
         setManifest(data);
@@ -61379,21 +61382,200 @@ ${generateSegmentFilename(i7)}`);
   };
   var src_default = App;
 
-  // env-ns:/home/runner/work/clover-iiif/clover-iiif/.env
-  var NODE_ENV = "static";
-  var DEV_URL = "http://127.0.0.1:8080";
-  var STATIC_URL = ".";
+  // src/dev/DynamicUrl.tsx
+  var import_react37 = __toModule(require_react());
+
+  // src/dev/DynamicUrl.styled.tsx
+  var DynamicUrlStyled = re("section", {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: "2rem"
+  });
+  var ManualForm = re("form", {
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
+    width: "61.8%",
+    label: {
+      display: "block",
+      marginBottom: "1rem",
+      fontSize: "1.25rem",
+      color: "$primary",
+      fontWeight: "400",
+      fontFamily: "$display"
+    },
+    "> div": {
+      display: "flex",
+      backgroundColor: "$secondaryMuted",
+      position: "relative",
+      width: "100%",
+      borderRadius: "3px",
+      input: {
+        padding: "0.618rem 1rem",
+        background: "transparent",
+        color: "$primary",
+        border: "none",
+        fontFamily: "$sans",
+        width: "100%"
+      },
+      button: {
+        padding: "0.382rem 0.618rem",
+        cursor: "pointer",
+        position: "absolute",
+        right: "0.382rem",
+        alignSelf: "center",
+        background: "$secondary",
+        border: "none",
+        fontSize: "0.7222rem",
+        fontFamily: "$sans",
+        fontWeight: "700",
+        borderRadius: "3px",
+        backgroundColor: "$secondary",
+        color: "$primary"
+      }
+    }
+  });
+  var Curated = re("div", {
+    padding: "2rem",
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap"
+  });
+  var ButtonForm = re("form", {
+    button: {
+      backgroundColor: "$transparent",
+      border: "none",
+      outline: "1px solid $secondaryMuted",
+      color: "$primaryMuted",
+      fontFamily: "$sans",
+      fontSize: "0.8333rem",
+      height: "2rem",
+      padding: "0 1rem",
+      borderRadius: "1rem",
+      cursor: "pointer",
+      margin: "0.5rem"
+    },
+    "&[data-active='true']": {
+      button: {
+        color: "$white",
+        fontWeight: "700",
+        backgroundColor: "$accent",
+        outline: "1px solid $accent"
+      }
+    }
+  });
+
+  // src/dev/manifests.ts
+  var manifests = [
+    {
+      url: "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json",
+      label: "Default"
+    },
+    {
+      url: "https://iiif.stack.rdc.library.northwestern.edu/public/iiif3/72/34/b6/dd/-d/6a/2-/49/54/-8/fc/c-/6c/9f/2d/fb/88/34-manifest.json",
+      label: "The Takeover"
+    },
+    {
+      url: "https://iiif.stack.rdc.library.northwestern.edu/public/iiif3/66/8a/2a/ea/-4/33/3-/4a/5e/-b/52/3-/41/ac/98/bd/15/b7-manifest.json",
+      label: "Highlight Reel, 1935"
+    },
+    {
+      url: "https://iiif.stack.rdc.library.northwestern.edu/public/iiif3/24/68/7f/7d/-1/59/5-/4f/56/-8/3b/2-/5f/93/36/72/86/b3-manifest.json",
+      label: "Syracuse, 1984"
+    },
+    {
+      url: "https://iiif.stack.rdc.library.northwestern.edu/public/iiif3/00/26/de/66/-6/b5/c-/47/da/-8/ee/2-/70/4b/68/0b/2c/81-manifest.json",
+      label: "Piano Trio"
+    },
+    {
+      url: "https://iiif.stack.rdc.library.northwestern.edu/public/ff/51/2f/7c/-b/df/8-/4a/b7/-9/74/f-/f4/36/f0/ed/13/5d-manifest.json",
+      label: "Joan Baez"
+    },
+    {
+      url: "https://iiif.stack.rdc.library.northwestern.edu/public/a3/c6/40/28/-d/1d/c-/4e/97/-8/2b/b-/1e/23/af/95/f5/e3-manifest.json",
+      label: "Bravazzo"
+    },
+    {
+      url: "https://figgy.princeton.edu/concern/scanned_resources/4ff986e6-4f71-4f7c-8ff9-0d0c33d96cf0/manifest",
+      label: "Parrots and Toucans"
+    },
+    {
+      url: "https://manifests.collections.yale.edu/ycba/obj/21168",
+      label: "Greenland Falcon"
+    },
+    {
+      url: "https://api.artic.edu/api/v1/artworks/25865/manifest.json",
+      label: "The Herring Net"
+    },
+    {
+      url: "https://iiif.harvardartmuseums.org/manifests/object/304096",
+      label: "Basin"
+    },
+    {
+      url: "https://curio.lib.utexas.edu/assets/DAMS/utblac/utblac_bd7d20a3-2069-46df-9882-752e17df9f0a/manifests/3/utblac_bd7d20a3-2069-46df-9882-752e17df9f0a.json",
+      label: "Odom Family Oral History"
+    },
+    {
+      url: "https://figgy.princeton.edu/concern/scanned_resources/ace2909a-8966-43f9-b547-084aeaaea13d/manifest",
+      label: "Selma to Montgomery"
+    },
+    {
+      url: "https://view.nls.uk/manifest/7446/74465058/manifest.json",
+      label: "Scotia depicta"
+    }
+  ];
+
+  // src/dev/DynamicUrl.tsx
+  var DynamicUrl = ({ url, setUrl }) => {
+    const inputRef = (0, import_react37.useRef)(null);
+    const handleSubmit = (e11) => {
+      var _a2;
+      e11.preventDefault();
+      const target = e11.target;
+      setUrl((_a2 = target.url) == null ? void 0 : _a2.value);
+    };
+    (0, import_react37.useEffect)(() => {
+      if (inputRef.current)
+        inputRef.current.value = url;
+    }, [url]);
+    return /* @__PURE__ */ import_react37.default.createElement(DynamicUrlStyled, null, /* @__PURE__ */ import_react37.default.createElement(ManualForm, {
+      onSubmit: handleSubmit
+    }, /* @__PURE__ */ import_react37.default.createElement("label", {
+      htmlFor: "manual-manifest"
+    }, "View a IIIF Manifest"), /* @__PURE__ */ import_react37.default.createElement("div", null, /* @__PURE__ */ import_react37.default.createElement("input", {
+      type: "text",
+      name: "url",
+      id: "manual-manifest",
+      placeholder: "IIIF Manifest",
+      ref: inputRef
+    }), /* @__PURE__ */ import_react37.default.createElement("button", {
+      type: "submit"
+    }, "View"))), manifests.length > 0 && /* @__PURE__ */ import_react37.default.createElement(Curated, null, manifests.map((obj) => /* @__PURE__ */ import_react37.default.createElement(ButtonForm, {
+      key: obj.label,
+      onSubmit: handleSubmit,
+      "data-active": url === obj.url ? true : false
+    }, /* @__PURE__ */ import_react37.default.createElement("button", {
+      name: "url",
+      value: obj.url
+    }, obj.label)))));
+  };
+  var DynamicUrl_default = DynamicUrl;
 
   // src/dev.tsx
-  var host = NODE_ENV === "development" ? DEV_URL : STATIC_URL;
-  var sampleManifest = `${host}/fixtures/iiif/manifests/sample.json`;
-  var options = {
-    ignoreCaptionLabels: ["Chapters"]
+  var Wrapper6 = () => {
+    const defaultUrl = manifests[0].url;
+    const [url, setUrl] = import_react38.default.useState(defaultUrl);
+    return /* @__PURE__ */ import_react38.default.createElement(import_react38.default.Fragment, null, /* @__PURE__ */ import_react38.default.createElement(src_default, {
+      manifestId: url,
+      key: url
+    }), /* @__PURE__ */ import_react38.default.createElement(DynamicUrl_default, {
+      url,
+      setUrl
+    }));
   };
-  import_react_dom2.default.render(/* @__PURE__ */ import_react36.default.createElement(src_default, {
-    manifestId: sampleManifest,
-    options
-  }), document.getElementById("root"));
+  import_react_dom2.default.render(/* @__PURE__ */ import_react38.default.createElement(Wrapper6, null), document.getElementById("root"));
 })();
 /*
 object-assign
