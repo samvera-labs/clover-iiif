@@ -14,7 +14,7 @@ Clover IIIF is a UI component that renders a multicanvas IIIF viewer intended fo
 - Renders annotations with the [motivation](https://iiif.io/api/presentation/3.0/#values-for-motivation) of `supplementing` with a content resource having the format of `text/vtt` for _Video_ and _Sound_
 - _Video_ and _Sound_ are rendered within a HTML5 `<video>` element
 - _Image_ canvases are renderered with [OpenSeadragon](https://openseadragon.github.io/)
-- Supports HLS streaming for **.m3u8** extentions
+- Supports HLS streaming for **.m3u8** extensions
 
 ---
 
