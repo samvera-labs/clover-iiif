@@ -1,18 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./index";
+import DynamicUrl from "./dev/DynamicUrl";
+import { manifests } from "./dev/manifests";
 
-// NOTE: "env" is available via the DotEnv ES Build Plugin defined in serve.js
-import { NODE_ENV, DEV_URL, STATIC_URL } from "env";
+const Wrapper = () => {
+  const defaultUrl: string = manifests[0].url;
 
-const host = NODE_ENV === "development" ? DEV_URL : STATIC_URL;
-let sampleManifest: string = `${host}/fixtures/iiif/manifests/sample.json`;
-
-const options: any = {
-  ignoreCaptionLabels: ["Chapters"],
+  const [url, setUrl] = React.useState(defaultUrl);
+  return (
+    <>
+      <App manifestId={url} key={url} />
+      <DynamicUrl url={url} setUrl={setUrl} />
+    </>
+  );
 };
 
-ReactDOM.render(
-  <App manifestId={sampleManifest} options={options} />,
-  document.getElementById("root"),
-);
+ReactDOM.render(<Wrapper />, document.getElementById("root"));
