@@ -35,9 +35,15 @@ const ImageViewer: React.FC<IIIFExternalWebResource> = ({ service }) => {
    */
   useEffect(() => {
     if (imageService) {
-      getInfoResponse(imageService.id).then((tileSource) =>
-        openSeadragonInstance?.open(tileSource),
-      );
+      let id: string | undefined;
+      "@id" in imageService
+        ? (id = imageService["@id"])
+        : (id = imageService.id);
+
+      if (id)
+        getInfoResponse(id).then((tileSource) =>
+          openSeadragonInstance?.open(tileSource),
+        );
     }
   }, [openSeadragonInstance, imageService]);
 
