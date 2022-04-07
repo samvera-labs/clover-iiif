@@ -1,4 +1,4 @@
-import { IIIFExternalWebResource } from "@hyperion-framework/types";
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import { CanvasEntity } from "./getCanvasByCriteria";
 
 export const getThumbnail = (

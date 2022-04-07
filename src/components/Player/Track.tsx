@@ -1,5 +1,5 @@
 import React from "react";
-import { InternationalString } from "@hyperion-framework/types";
+import { InternationalString } from "@iiif/presentation-3";
 import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
 import { getLabel } from "hooks/use-hyperion-framework";
 

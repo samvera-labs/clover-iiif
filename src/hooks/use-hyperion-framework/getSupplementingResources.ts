@@ -3,7 +3,7 @@ import {
   AnnotationPage,
   CanvasNormalized,
   InternationalString,
-} from "@hyperion-framework/types";
+} from "@iiif/presentation-3";
 
 export interface LabeledResource {
   id?: string;

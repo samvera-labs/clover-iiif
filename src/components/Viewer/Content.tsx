@@ -4,7 +4,7 @@ import Navigator from "components/Navigator/Navigator";
 import Player from "components/Player/Player";
 import ImageViewer from "components/ImageViewer/ImageViewer";
 import { Button } from "@nulib/design-system";
-import { Canvas, IIIFExternalWebResource } from "@hyperion-framework/types";
+import { Canvas, IIIFExternalWebResource } from "@iiif/presentation-3";
 import {
   Content,
   Main,

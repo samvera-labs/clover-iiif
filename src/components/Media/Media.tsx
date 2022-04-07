@@ -10,7 +10,7 @@ import {
   Canvas,
   CanvasNormalized,
   ExternalResourceTypes,
-} from "@hyperion-framework/types";
+} from "@iiif/presentation-3";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
 import Thumbnail from "./Thumbnail";
 import { getResourceType } from "hooks/use-hyperion-framework/getResourceType";

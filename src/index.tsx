@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ManifestNormalized } from "@hyperion-framework/types";
+import { ManifestNormalized } from "@iiif/presentation-3";
 import {
   ConfigOptions,
   ViewerProvider,
@@ -44,7 +44,7 @@ const RenderViewer: React.FC<Props> = ({
 
   /**
    * Retrieve state set by the wrapping <ViewerProvider/> and make
-   * the normalized manifest available from @hyperion-framework/vault.
+   * the normalized manifest available from @iiif/vault.
    */
   const store = useViewerState();
   const { activeCanvas, isLoaded, vault } = store;
@@ -72,7 +72,7 @@ const RenderViewer: React.FC<Props> = ({
     });
 
     /**
-     * Loaded manifest and site using @hyperion-framework/vault.
+     * Loaded manifest and site using @iiif/vault.
      */
     vault
       .loadManifest(manifestId)
@@ -103,7 +103,7 @@ const RenderViewer: React.FC<Props> = ({
 
   /**
    * If an error occurs during manifest fetch process used by
-   * @hyperion-framework/vault, vault will not return a manifest
+   * @iiif/vault, vault will not return a manifest
    * that is fully normalized, and be missing the items property.
    * This being undefined signals that something went wrong and we
    * will render a user-friendly error as a functional component.
@@ -115,7 +115,7 @@ const RenderViewer: React.FC<Props> = ({
   }
 
   /**
-   * If the manifest returned by @hyperion-framework/vault does not
+   * If the manifest returned by @iiif/vault does not
    * contain any canvases, then we'll show an error to the screen. This
    * may be required if the viewer is rendered to preview manifests in
    * repository administration views.
@@ -126,7 +126,7 @@ const RenderViewer: React.FC<Props> = ({
   }
 
   /**
-   * If manifest is normalized by @hyperion-framework/vault, we know
+   * If manifest is normalized by @iiif/vault, we know
    * that the manifest data is retrievable via vault.fromRef() and we
    * will will set the activeCanvas to the first index and render the
    * <Viewer/> component.

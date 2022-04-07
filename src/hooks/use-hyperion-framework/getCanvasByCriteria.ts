@@ -5,7 +5,7 @@ import {
   CanvasNormalized,
   ExternalResourceTypes,
   IIIFExternalWebResource,
-} from "@hyperion-framework/types";
+} from "@iiif/presentation-3";
 
 export interface CanvasEntity {
   canvas: CanvasNormalized | undefined;

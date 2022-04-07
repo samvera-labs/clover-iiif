@@ -3,7 +3,7 @@ import {
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
-} from "@hyperion-framework/types";
+} from "@iiif/presentation-3";
 import {
   getPaintingResource,
   getSupplementingResources,
@@ -17,7 +17,7 @@ import * as Collapsible from "@radix-ui/react-collapsible";
 import ViewerHeader from "./Header";
 import ViewerContent from "./Content";
 import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
-import { IIIFExternalWebResource } from "@hyperion-framework/types";
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import ErrorFallback from "components/Viewer/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
 

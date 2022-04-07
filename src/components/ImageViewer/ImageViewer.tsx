@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import OpenSeadragon, { Viewer } from "openseadragon";
-import {
-  IIIFExternalWebResource,
-  ImageService,
-} from "@hyperion-framework/types";
+import { IIIFExternalWebResource, ImageService } from "@iiif/presentation-3";
 import { Navigator, Viewport, Wrapper } from "./ImageViewer.styled";
 import Controls from "./Controls";
 import { getInfoResponse } from "services/iiif";

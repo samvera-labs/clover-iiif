@@ -5,7 +5,7 @@ import {
   CanvasNormalized,
   IIIFExternalWebResource,
   InternationalString,
-} from "@hyperion-framework/types";
+} from "@iiif/presentation-3";
 import { Icon, Tag } from "@nulib/design-system";
 import { Duration, Item, Spacer, Type } from "./Thumbnail.styled";
 

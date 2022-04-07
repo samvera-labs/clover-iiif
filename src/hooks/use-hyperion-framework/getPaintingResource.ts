@@ -1,4 +1,4 @@
-import { IIIFExternalWebResource } from "@hyperion-framework/types";
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import { getCanvasByCriteria } from "./index";
 
 export const getPaintingResource = (

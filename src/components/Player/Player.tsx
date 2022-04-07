@@ -1,7 +1,7 @@
 import React from "react";
 import Hls from "hls.js";
 import { PlayerWrapper } from "./Player.styled";
-import { IIIFExternalWebResource } from "@hyperion-framework/types";
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
 import AudioVisualizer from "./AudioVisualizer";
 import { CurrentTimeContext } from "context/current-time-context";

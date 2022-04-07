@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { getLabel } from "hooks/use-hyperion-framework";
-import { InternationalString } from "@hyperion-framework/types";
+import { InternationalString } from "@iiif/presentation-3";
 import { Group } from "./Cue.styled";
 import useWebVtt, {
   NodeWebVttCue,

@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import Player from "./Player";
-import { IIIFExternalWebResource } from "@hyperion-framework/types";
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import { LabeledResource } from "../../hooks/use-hyperion-framework/getSupplementingResources";
 
 const mockPainting: IIIFExternalWebResource = {
