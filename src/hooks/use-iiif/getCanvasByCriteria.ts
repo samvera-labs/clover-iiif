@@ -4,6 +4,7 @@ import {
   AnnotationPageNormalized,
   Canvas,
   CanvasNormalized,
+  ContentResource,
   ExternalResourceTypes,
   IIIFExternalWebResource,
 } from "@iiif/presentation-3";
@@ -41,7 +42,7 @@ export const getCanvasByCriteria = (
 
       if (!annotation.body) return;
 
-      let annotationBody: AnnotationBody | AnnotationBody[] = annotation.body;
+      let annotationBody: ContentResource | ContentResource[] = annotation.body;
 
       if (Array.isArray(annotationBody)) annotationBody = annotationBody[0];
 

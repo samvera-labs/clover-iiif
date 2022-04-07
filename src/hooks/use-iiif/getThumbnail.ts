@@ -43,7 +43,8 @@ export const getThumbnail = (
      * 3. Check if painting annotation is of type Image.
      */
     if (!entity.annotations[0].body) return;
-    const annotationBody = entity.annotations[0].body as AnnotationBody;
+    const annotationBody = entity.annotations[0]
+      .body as IIIFExternalWebResource;
 
     if (annotationBody.type === "Image") candidates.push(annotationBody);
   }

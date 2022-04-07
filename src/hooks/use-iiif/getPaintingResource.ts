@@ -14,10 +14,8 @@ export const getPaintingResource = (
 
   if (canvasEntity.annotations.length === 0) return;
 
-  if (canvasEntity.annotations[0]) {
-    if (canvasEntity.annotations[0].body)
-      return canvasEntity.annotations[0].body as IIIFExternalWebResource;
-  }
+  if (canvasEntity.annotations[0] && canvasEntity.annotations[0].body)
+    return canvasEntity.annotations[0].body as IIIFExternalWebResource;
 
   return;
 };
