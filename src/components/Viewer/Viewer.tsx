@@ -4,10 +4,7 @@ import {
   InternationalString,
   ManifestNormalized,
 } from "@iiif/presentation-3";
-import {
-  getPaintingResource,
-  getSupplementingResources,
-} from "hooks/use-hyperion-framework";
+import { getPaintingResource, getSupplementingResources } from "hooks/use-iiif";
 import { useViewerState } from "context/viewer-context";
 import { Wrapper } from "./Viewer.styled";
 import { useMediaQuery } from "hooks/useMediaQuery";
@@ -16,7 +13,7 @@ import { media } from "stitches";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import ViewerHeader from "./Header";
 import ViewerContent from "./Content";
-import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
+import { LabeledResource } from "hooks/use-iiif/getSupplementingResources";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import ErrorFallback from "components/Viewer/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";

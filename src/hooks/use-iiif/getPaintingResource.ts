@@ -15,11 +15,8 @@ export const getPaintingResource = (
   if (canvasEntity.annotations.length === 0) return;
 
   if (canvasEntity.annotations[0]) {
-    const resources: IIIFExternalWebResource[] = vault.allFromRef(
-      canvasEntity.annotations[0].body,
-    );
-
-    return resources[0];
+    if (canvasEntity.annotations[0].body)
+      return canvasEntity.annotations[0].body as IIIFExternalWebResource;
   }
 
   return;

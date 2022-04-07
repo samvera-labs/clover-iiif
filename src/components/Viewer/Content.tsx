@@ -13,7 +13,7 @@ import {
   MediaWrapper,
   Aside,
 } from "./Viewer.styled";
-import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
+import { LabeledResource } from "hooks/use-iiif/getSupplementingResources";
 import { CurrentTimeProvider } from "context/current-time-context";
 
 interface Props {

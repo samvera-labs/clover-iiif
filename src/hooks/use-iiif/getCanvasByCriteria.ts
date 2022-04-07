@@ -1,5 +1,6 @@
 import {
   Annotation,
+  AnnotationBody,
   AnnotationPageNormalized,
   Canvas,
   CanvasNormalized,
@@ -38,19 +39,23 @@ export const getCanvasByCriteria = (
         return;
       }
 
-      // TODO: Upstream bug fix: Return some type of value here, even undefined?
-      const resources: IIIFExternalWebResource[] = vault.allFromRef(
-        annotation.body,
-      );
+      if (!annotation.body) return;
+
+      let annotationBody: AnnotationBody | AnnotationBody[] = annotation.body;
+
+      if (Array.isArray(annotationBody)) annotationBody = annotationBody[0];
+
+      const resource: IIIFExternalWebResource = vault.get(annotationBody.id);
+      if (!resource) return;
       switch (motivation) {
         case "painting":
           if (
             annotation.target === item.id &&
             annotation.motivation &&
             annotation.motivation[0] === "painting" &&
-            paintingType.includes(resources[0].type)
+            paintingType.includes(resource.type)
           )
-            annotation.body = resources;
+            annotation.body = resource;
           return annotation;
         case "supplementing":
           return;
@@ -61,18 +66,18 @@ export const getCanvasByCriteria = (
     }
   };
 
-  entity.canvas = vault.fromRef(item);
+  entity.canvas = vault.get(item);
 
   if (entity.canvas) {
-    entity.annotationPage = vault.fromRef(entity.canvas.items[0]);
+    entity.annotationPage = vault.get(entity.canvas.items[0]);
     entity.accompanyingCanvas = entity.canvas?.accompanyingCanvas
-      ? vault.fromRef(entity.canvas?.accompanyingCanvas)
+      ? vault.get(entity.canvas?.accompanyingCanvas)
       : undefined;
   }
 
   if (entity.annotationPage)
     entity.annotations = vault
-      .allFromRef(entity.annotationPage.items)
+      .get(entity.annotationPage.items)
       .filter(filterAnnotations);
 
   return entity;

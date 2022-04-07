@@ -127,7 +127,7 @@ const RenderViewer: React.FC<Props> = ({
 
   /**
    * If manifest is normalized by @iiif/vault, we know
-   * that the manifest data is retrievable via vault.fromRef() and we
+   * that the manifest data is retrievable via vault.get() and we
    * will will set the activeCanvas to the first index and render the
    * <Viewer/> component.
    */

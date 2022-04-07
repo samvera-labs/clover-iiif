@@ -1,5 +1,5 @@
 import React from "react";
-import { getLabel } from "hooks/use-hyperion-framework";
+import { getLabel } from "hooks/use-iiif";
 import { convertTime } from "services/utils";
 import {
   CanvasNormalized,

@@ -1,7 +1,7 @@
 import React from "react";
 import { Header, IIIFBadgeButton, IIIFBadgeContent } from "./Header.styled";
 import { InternationalString } from "@iiif/presentation-3";
-import { getLabel } from "hooks/use-hyperion-framework";
+import { getLabel } from "hooks/use-iiif";
 import { Popover } from "@nulib/design-system";
 import IIIFBadge from "./IIIFBadge";
 import CopyText from "components/CopyText";

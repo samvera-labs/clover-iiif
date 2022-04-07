@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { getLabel } from "hooks/use-hyperion-framework";
+import { getLabel } from "hooks/use-iiif";
 import { InternationalString } from "@iiif/presentation-3";
 import { Group } from "./Cue.styled";
 import useWebVtt, {
