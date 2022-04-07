@@ -42,7 +42,9 @@ export const getCanvasByCriteria = (
 
       if (!annotation.body) return;
 
-      let annotationBody: ContentResource | ContentResource[] = annotation.body;
+      let annotationBody = annotation.body as
+        | ContentResource
+        | ContentResource[];
 
       if (Array.isArray(annotationBody)) annotationBody = annotationBody[0];
 
