@@ -70,6 +70,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
       activeCanvas,
       "text/vtt",
     );
+    console.log(resources);
     if (painting) {
       setIsMedia(
         ["Sound", "Video"].indexOf(painting.type as ExternalResourceTypes) > -1
