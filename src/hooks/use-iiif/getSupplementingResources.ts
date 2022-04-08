@@ -2,8 +2,10 @@ import {
   Annotation,
   AnnotationPage,
   CanvasNormalized,
+  ContentResource,
+  IIIFExternalWebResource,
   InternationalString,
-} from "@hyperion-framework/types";
+} from "@iiif/presentation-3";
 
 export interface LabeledResource {
   id?: string;
@@ -21,23 +23,29 @@ export const getSupplementingResources = (
   activeCanvas: string,
   format: string,
 ): Array<LabeledResource> => {
-  const canvas: CanvasNormalized = vault.fromRef({
+  const canvas: CanvasNormalized = vault.get({
     id: activeCanvas,
     type: "Canvas",
   });
 
   if (!canvas?.annotations || !canvas.annotations[0]) return [];
 
-  const annotationPage: AnnotationPage = vault.fromRef(canvas.annotations[0]);
+  const annotationPage: AnnotationPage = vault.get(canvas.annotations[0]);
 
-  const annotations: Annotation[] = vault.allFromRef(annotationPage.items);
-
+  const annotations: Annotation[] = vault.get(annotationPage.items);
   if (!Array.isArray(annotations)) return [];
 
   return annotations
     .filter((annotation) => {
-      if (annotation.motivation === "supplementing") {
-        const resource: LabeledResource = vault.fromRef(annotation.body);
+      if (!annotation.body) return;
+      if (annotation.motivation?.includes("supplementing")) {
+        let annotationBody = annotation.body as
+          | ContentResource
+          | ContentResource[];
+
+        if (Array.isArray(annotationBody)) annotationBody = annotationBody[0];
+
+        const resource: IIIFExternalWebResource = vault.get(annotationBody.id);
         if (resource.format === format) {
           annotation.body = resource;
           return annotation;

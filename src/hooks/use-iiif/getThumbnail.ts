@@ -1,4 +1,8 @@
-import { IIIFExternalWebResource } from "@hyperion-framework/types";
+import {
+  AnnotationBody,
+  ContentResource,
+  IIIFExternalWebResource,
+} from "@iiif/presentation-3";
 import { CanvasEntity } from "./getCanvasByCriteria";
 
 export const getThumbnail = (
@@ -17,7 +21,7 @@ export const getThumbnail = (
    */
   if (entity.canvas)
     if (entity.canvas.thumbnail.length > 0) {
-      const canvasThumbnail: IIIFExternalWebResource = vault.fromRef(
+      const canvasThumbnail: IIIFExternalWebResource = vault.get(
         entity.canvas.thumbnail[0],
       );
       candidates.push(canvasThumbnail);
@@ -29,7 +33,7 @@ export const getThumbnail = (
      */
     if (entity.annotations[0].thumbnail)
       if (entity.annotations[0].thumbnail.length > 0) {
-        const annotationThumbnail: IIIFExternalWebResource = vault.fromRef(
+        const annotationThumbnail: IIIFExternalWebResource = vault.get(
           entity.annotations[0].thumbnail[0],
         );
         candidates.push(annotationThumbnail);
@@ -38,17 +42,15 @@ export const getThumbnail = (
     /*
      * 3. Check if painting annotation is of type Image.
      */
-    const resources: IIIFExternalWebResource[] = vault.allFromRef(
-      entity.annotations[0].body,
-    );
-    if (resources[0].type === "Image") candidates.push(resources[0]);
+    if (!entity.annotations[0].body) return;
+    const annotationBody = entity.annotations[0]
+      .body as IIIFExternalWebResource;
+
+    if (annotationBody.type === "Image") candidates.push(annotationBody);
   }
 
   /*
    * 4. Validate candidates and make selection.
-   *
-   *    (WIP)
-   *
    */
   if (candidates.length === 0) return;
 

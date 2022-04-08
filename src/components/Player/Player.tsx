@@ -1,8 +1,8 @@
 import React from "react";
 import Hls from "hls.js";
 import { PlayerWrapper } from "./Player.styled";
-import { IIIFExternalWebResource } from "@hyperion-framework/types";
-import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
+import { LabeledResource } from "hooks/use-iiif/getSupplementingResources";
 import AudioVisualizer from "./AudioVisualizer";
 import { CurrentTimeContext } from "context/current-time-context";
 import { useViewerState } from "context/viewer-context";
@@ -10,7 +10,7 @@ import Track from "./Track";
 import {
   getAccompanyingCanvasImage,
   getCanvasByCriteria,
-} from "hooks/use-hyperion-framework";
+} from "hooks/use-iiif";
 
 // Set referrer header as a NU domain: ie. meadow.rdc-staging.library.northwestern.edu
 

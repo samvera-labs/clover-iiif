@@ -1,4 +1,4 @@
-import { IIIFExternalWebResource } from "@hyperion-framework/types";
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import { getCanvasByCriteria } from "./index";
 
 export const getPaintingResource = (
@@ -14,13 +14,8 @@ export const getPaintingResource = (
 
   if (canvasEntity.annotations.length === 0) return;
 
-  if (canvasEntity.annotations[0]) {
-    const resources: IIIFExternalWebResource[] = vault.allFromRef(
-      canvasEntity.annotations[0].body,
-    );
-
-    return resources[0];
-  }
+  if (canvasEntity.annotations[0] && canvasEntity.annotations[0].body)
+    return canvasEntity.annotations[0].body as IIIFExternalWebResource;
 
   return;
 };

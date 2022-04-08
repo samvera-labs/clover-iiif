@@ -236,7 +236,7 @@ Clover IIIF is built with:
 
 - TypeScript
 - [ESBuild](https://esbuild.github.io/)
-- [Hyperion Framework](https://hyperion.stephen.wf/the-vault/vault-api/)
+- [Vault](https://github.com/IIIF-Commons/vault/)
 - [OpenSeadragon](https://openseadragon.github.io/)
 - [Radix UI](https://www.radix-ui.com/)
 - [Stitches](https://stitches.dev/)

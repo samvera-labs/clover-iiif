@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { LabeledResource } from "../../hooks/use-hyperion-framework/getSupplementingResources";
+import { LabeledResource } from "../../hooks/use-iiif/getSupplementingResources";
 import Track from "./Track";
 
 const mockResourceCaptions: LabeledResource = {

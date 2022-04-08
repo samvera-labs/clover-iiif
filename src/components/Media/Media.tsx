@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Group } from "./Media.styled";
-import { CanvasEntity } from "hooks/use-hyperion-framework/getCanvasByCriteria";
-import {
-  getCanvasByCriteria,
-  getLabel,
-  getThumbnail,
-} from "hooks/use-hyperion-framework";
+import { CanvasEntity } from "hooks/use-iiif/getCanvasByCriteria";
+import { getCanvasByCriteria, getLabel, getThumbnail } from "hooks/use-iiif";
 import {
   Canvas,
   CanvasNormalized,
   ExternalResourceTypes,
-} from "@hyperion-framework/types";
+} from "@iiif/presentation-3";
 import { useViewerState, useViewerDispatch } from "context/viewer-context";
 import Thumbnail from "./Thumbnail";
-import { getResourceType } from "hooks/use-hyperion-framework/getResourceType";
+import { getResourceType } from "hooks/use-iiif/getResourceType";
 import Controls from "./Controls";
 
 interface MediaProps {
