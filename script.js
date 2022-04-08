@@ -10,18 +10,18 @@
   var __hasOwnProp = Object.prototype.hasOwnProperty;
   var __propIsEnum = Object.prototype.propertyIsEnumerable;
   var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-  var __spreadValues = (a7, b7) => {
-    for (var prop in b7 || (b7 = {}))
-      if (__hasOwnProp.call(b7, prop))
-        __defNormalProp(a7, prop, b7[prop]);
+  var __spreadValues = (a7, b8) => {
+    for (var prop in b8 || (b8 = {}))
+      if (__hasOwnProp.call(b8, prop))
+        __defNormalProp(a7, prop, b8[prop]);
     if (__getOwnPropSymbols)
-      for (var prop of __getOwnPropSymbols(b7)) {
-        if (__propIsEnum.call(b7, prop))
-          __defNormalProp(a7, prop, b7[prop]);
+      for (var prop of __getOwnPropSymbols(b8)) {
+        if (__propIsEnum.call(b8, prop))
+          __defNormalProp(a7, prop, b8[prop]);
       }
     return a7;
   };
-  var __spreadProps = (a7, b7) => __defProps(a7, __getOwnPropDescs(b7));
+  var __spreadProps = (a7, b8) => __defProps(a7, __getOwnPropDescs(b8));
   var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
   var __commonJS = (cb, mod) => function __require() {
     return mod || (0, cb[Object.keys(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
@@ -87,8 +87,8 @@
         var from;
         var to = toObject(target);
         var symbols;
-        for (var s8 = 1; s8 < arguments.length; s8++) {
-          from = Object(arguments[s8]);
+        for (var s9 = 1; s9 < arguments.length; s9++) {
+          from = Object(arguments[s9]);
           for (var key in from) {
             if (hasOwnProperty.call(from, key)) {
               to[key] = from[key];
@@ -397,7 +397,7 @@
                   var init = lazyComponent._init;
                   try {
                     return getComponentName(init(payload));
-                  } catch (x4) {
+                  } catch (x5) {
                     return null;
                   }
                 }
@@ -685,8 +685,8 @@
                 if (childKey != null) {
                   escapedChildKey = escapeUserProvidedKey(childKey) + "/";
                 }
-                mapIntoArray(mappedChild, array, escapedChildKey, "", function(c7) {
-                  return c7;
+                mapIntoArray(mappedChild, array, escapedChildKey, "", function(c8) {
+                  return c8;
                 });
               } else if (mappedChild != null) {
                 if (isValidElement2(mappedChild)) {
@@ -1184,8 +1184,8 @@
               if (prefix === void 0) {
                 try {
                   throw Error();
-                } catch (x4) {
-                  var match = x4.stack.trim().match(/\n( *(at )?)/);
+                } catch (x5) {
+                  var match = x5.stack.trim().match(/\n( *(at )?)/);
                   prefix = match && match[1] || "";
                 }
               }
@@ -1231,23 +1231,23 @@
                 if (typeof Reflect === "object" && Reflect.construct) {
                   try {
                     Reflect.construct(Fake, []);
-                  } catch (x4) {
-                    control = x4;
+                  } catch (x5) {
+                    control = x5;
                   }
                   Reflect.construct(fn, [], Fake);
                 } else {
                   try {
                     Fake.call();
-                  } catch (x4) {
-                    control = x4;
+                  } catch (x5) {
+                    control = x5;
                   }
                   fn.call(Fake.prototype);
                 }
               } else {
                 try {
                   throw Error();
-                } catch (x4) {
-                  control = x4;
+                } catch (x5) {
+                  control = x5;
                 }
                 fn();
               }
@@ -1255,19 +1255,19 @@
               if (sample && control && typeof sample.stack === "string") {
                 var sampleLines = sample.stack.split("\n");
                 var controlLines = control.stack.split("\n");
-                var s8 = sampleLines.length - 1;
-                var c7 = controlLines.length - 1;
-                while (s8 >= 1 && c7 >= 0 && sampleLines[s8] !== controlLines[c7]) {
-                  c7--;
+                var s9 = sampleLines.length - 1;
+                var c8 = controlLines.length - 1;
+                while (s9 >= 1 && c8 >= 0 && sampleLines[s9] !== controlLines[c8]) {
+                  c8--;
                 }
-                for (; s8 >= 1 && c7 >= 0; s8--, c7--) {
-                  if (sampleLines[s8] !== controlLines[c7]) {
-                    if (s8 !== 1 || c7 !== 1) {
+                for (; s9 >= 1 && c8 >= 0; s9--, c8--) {
+                  if (sampleLines[s9] !== controlLines[c8]) {
+                    if (s9 !== 1 || c8 !== 1) {
                       do {
-                        s8--;
-                        c7--;
-                        if (c7 < 0 || sampleLines[s8] !== controlLines[c7]) {
-                          var _frame = "\n" + sampleLines[s8].replace(" at new ", " at ");
+                        s9--;
+                        c8--;
+                        if (c8 < 0 || sampleLines[s9] !== controlLines[c8]) {
+                          var _frame = "\n" + sampleLines[s9].replace(" at new ", " at ");
                           {
                             if (typeof fn === "function") {
                               componentFrameCache.set(fn, _frame);
@@ -1275,7 +1275,7 @@
                           }
                           return _frame;
                         }
-                      } while (s8 >= 1 && c7 >= 0);
+                      } while (s9 >= 1 && c8 >= 0);
                     }
                     break;
                   }
@@ -1339,7 +1339,7 @@
                   var init = lazyComponent._init;
                   try {
                     return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
-                  } catch (x4) {
+                  } catch (x5) {
                   }
                 }
               }
@@ -1869,9 +1869,9 @@
               }
             }
           }
-          function compare(a7, b7) {
-            var diff = a7.sortIndex - b7.sortIndex;
-            return diff !== 0 ? diff : a7.id - b7.id;
+          function compare(a7, b8) {
+            var diff = a7.sortIndex - b8.sortIndex;
+            return diff !== 0 ? diff : a7.id - b8.id;
           }
           var ImmediatePriority = 1;
           var UserBlockingPriority = 2;
@@ -3106,8 +3106,8 @@
               if (prefix === void 0) {
                 try {
                   throw Error();
-                } catch (x4) {
-                  var match = x4.stack.trim().match(/\n( *(at )?)/);
+                } catch (x5) {
+                  var match = x5.stack.trim().match(/\n( *(at )?)/);
                   prefix = match && match[1] || "";
                 }
               }
@@ -3153,23 +3153,23 @@
                 if (typeof Reflect === "object" && Reflect.construct) {
                   try {
                     Reflect.construct(Fake, []);
-                  } catch (x4) {
-                    control = x4;
+                  } catch (x5) {
+                    control = x5;
                   }
                   Reflect.construct(fn, [], Fake);
                 } else {
                   try {
                     Fake.call();
-                  } catch (x4) {
-                    control = x4;
+                  } catch (x5) {
+                    control = x5;
                   }
                   fn.call(Fake.prototype);
                 }
               } else {
                 try {
                   throw Error();
-                } catch (x4) {
-                  control = x4;
+                } catch (x5) {
+                  control = x5;
                 }
                 fn();
               }
@@ -3177,19 +3177,19 @@
               if (sample && control && typeof sample.stack === "string") {
                 var sampleLines = sample.stack.split("\n");
                 var controlLines = control.stack.split("\n");
-                var s8 = sampleLines.length - 1;
-                var c7 = controlLines.length - 1;
-                while (s8 >= 1 && c7 >= 0 && sampleLines[s8] !== controlLines[c7]) {
-                  c7--;
+                var s9 = sampleLines.length - 1;
+                var c8 = controlLines.length - 1;
+                while (s9 >= 1 && c8 >= 0 && sampleLines[s9] !== controlLines[c8]) {
+                  c8--;
                 }
-                for (; s8 >= 1 && c7 >= 0; s8--, c7--) {
-                  if (sampleLines[s8] !== controlLines[c7]) {
-                    if (s8 !== 1 || c7 !== 1) {
+                for (; s9 >= 1 && c8 >= 0; s9--, c8--) {
+                  if (sampleLines[s9] !== controlLines[c8]) {
+                    if (s9 !== 1 || c8 !== 1) {
                       do {
-                        s8--;
-                        c7--;
-                        if (c7 < 0 || sampleLines[s8] !== controlLines[c7]) {
-                          var _frame = "\n" + sampleLines[s8].replace(" at new ", " at ");
+                        s9--;
+                        c8--;
+                        if (c8 < 0 || sampleLines[s9] !== controlLines[c8]) {
+                          var _frame = "\n" + sampleLines[s9].replace(" at new ", " at ");
                           {
                             if (typeof fn === "function") {
                               componentFrameCache.set(fn, _frame);
@@ -3197,7 +3197,7 @@
                           }
                           return _frame;
                         }
-                      } while (s8 >= 1 && c7 >= 0);
+                      } while (s9 >= 1 && c8 >= 0);
                     }
                     break;
                   }
@@ -3266,7 +3266,7 @@
                   var init = lazyComponent._init;
                   try {
                     return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
-                  } catch (x4) {
+                  } catch (x5) {
                   }
                 }
               }
@@ -3308,8 +3308,8 @@
                 node = node.return;
               } while (node);
               return info;
-            } catch (x4) {
-              return "\nError generating stack: " + x4.message + "\n" + x4.stack;
+            } catch (x5) {
+              return "\nError generating stack: " + x5.message + "\n" + x5.stack;
             }
           }
           function getWrappedName(outerType, innerType, wrapperName) {
@@ -3368,7 +3368,7 @@
                   var init = lazyComponent._init;
                   try {
                     return getComponentName(init(payload));
-                  } catch (x4) {
+                  } catch (x5) {
                     return null;
                   }
                 }
@@ -4161,7 +4161,7 @@
             var warnedForNaNValue = false;
             var warnedForInfinityValue = false;
             var camelize = function(string2) {
-              return string2.replace(hyphenPattern, function(_, character) {
+              return string2.replace(hyphenPattern, function(_2, character) {
                 return character.toUpperCase();
               });
             };
@@ -5177,8 +5177,8 @@
           var batchedUpdatesImpl = function(fn, bookkeeping) {
             return fn(bookkeeping);
           };
-          var discreteUpdatesImpl = function(fn, a7, b7, c7, d7) {
-            return fn(a7, b7, c7, d7);
+          var discreteUpdatesImpl = function(fn, a7, b8, c8, d8) {
+            return fn(a7, b8, c8, d8);
           };
           var flushDiscreteUpdatesImpl = function() {
           };
@@ -5204,23 +5204,23 @@
               finishEventHandler();
             }
           }
-          function batchedEventUpdates(fn, a7, b7) {
+          function batchedEventUpdates(fn, a7, b8) {
             if (isBatchingEventUpdates) {
-              return fn(a7, b7);
+              return fn(a7, b8);
             }
             isBatchingEventUpdates = true;
             try {
-              return batchedEventUpdatesImpl(fn, a7, b7);
+              return batchedEventUpdatesImpl(fn, a7, b8);
             } finally {
               isBatchingEventUpdates = false;
               finishEventHandler();
             }
           }
-          function discreteUpdates(fn, a7, b7, c7, d7) {
+          function discreteUpdates(fn, a7, b8, c8, d8) {
             var prevIsInsideEventHandler = isInsideEventHandler;
             isInsideEventHandler = true;
             try {
-              return discreteUpdatesImpl(fn, a7, b7, c7, d7);
+              return discreteUpdatesImpl(fn, a7, b8, c8, d8);
             } finally {
               isInsideEventHandler = prevIsInsideEventHandler;
               if (!isInsideEventHandler) {
@@ -5297,7 +5297,7 @@
               passiveBrowserEventsSupported = false;
             }
           }
-          function invokeGuardedCallbackProd(name, func, context, a7, b7, c7, d7, e11, f9) {
+          function invokeGuardedCallbackProd(name, func, context, a7, b8, c8, d8, e11, f10) {
             var funcArgs = Array.prototype.slice.call(arguments, 3);
             try {
               func.apply(context, funcArgs);
@@ -5309,7 +5309,7 @@
           {
             if (typeof window !== "undefined" && typeof window.dispatchEvent === "function" && typeof document !== "undefined" && typeof document.createEvent === "function") {
               var fakeNode = document.createElement("react");
-              invokeGuardedCallbackImpl = function invokeGuardedCallbackDev(name, func, context, a7, b7, c7, d7, e11, f9) {
+              invokeGuardedCallbackImpl = function invokeGuardedCallbackDev(name, func, context, a7, b8, c8, d8, e11, f10) {
                 if (!(typeof document !== "undefined")) {
                   {
                     throw Error("The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the test itself to be asynchronous.");
@@ -5386,12 +5386,12 @@
               caughtError = error2;
             }
           };
-          function invokeGuardedCallback(name, func, context, a7, b7, c7, d7, e11, f9) {
+          function invokeGuardedCallback(name, func, context, a7, b8, c8, d8, e11, f10) {
             hasError = false;
             caughtError = null;
             invokeGuardedCallbackImpl$1.apply(reporter, arguments);
           }
-          function invokeGuardedCallbackAndCatchFirstError(name, func, context, a7, b7, c7, d7, e11, f9) {
+          function invokeGuardedCallbackAndCatchFirstError(name, func, context, a7, b8, c8, d8, e11, f10) {
             invokeGuardedCallback.apply(this, arguments);
             if (hasError) {
               var error2 = clearCaughtError();
@@ -5539,7 +5539,7 @@
               return fiber;
             }
             var a7 = fiber;
-            var b7 = alternate;
+            var b8 = alternate;
             while (true) {
               var parentA = a7.return;
               if (parentA === null) {
@@ -5549,7 +5549,7 @@
               if (parentB === null) {
                 var nextParent = parentA.return;
                 if (nextParent !== null) {
-                  a7 = b7 = nextParent;
+                  a7 = b8 = nextParent;
                   continue;
                 }
                 break;
@@ -5561,7 +5561,7 @@
                     assertIsMounted(parentA);
                     return fiber;
                   }
-                  if (child === b7) {
+                  if (child === b8) {
                     assertIsMounted(parentA);
                     return alternate;
                   }
@@ -5573,9 +5573,9 @@
                   }
                 }
               }
-              if (a7.return !== b7.return) {
+              if (a7.return !== b8.return) {
                 a7 = parentA;
-                b7 = parentB;
+                b8 = parentB;
               } else {
                 var didFindChild = false;
                 var _child = parentA.child;
@@ -5583,12 +5583,12 @@
                   if (_child === a7) {
                     didFindChild = true;
                     a7 = parentA;
-                    b7 = parentB;
+                    b8 = parentB;
                     break;
                   }
-                  if (_child === b7) {
+                  if (_child === b8) {
                     didFindChild = true;
-                    b7 = parentA;
+                    b8 = parentA;
                     a7 = parentB;
                     break;
                   }
@@ -5600,12 +5600,12 @@
                     if (_child === a7) {
                       didFindChild = true;
                       a7 = parentB;
-                      b7 = parentA;
+                      b8 = parentA;
                       break;
                     }
-                    if (_child === b7) {
+                    if (_child === b8) {
                       didFindChild = true;
-                      b7 = parentB;
+                      b8 = parentB;
                       a7 = parentA;
                       break;
                     }
@@ -5618,7 +5618,7 @@
                   }
                 }
               }
-              if (!(a7.alternate === b7)) {
+              if (!(a7.alternate === b8)) {
                 {
                   throw Error("Return fibers should always be each others' alternates. This error is likely caused by a bug in React. Please file an issue.");
                 }
@@ -6532,14 +6532,14 @@
           function laneToIndex(lane) {
             return pickArbitraryLaneIndex(lane);
           }
-          function includesSomeLane(a7, b7) {
-            return (a7 & b7) !== NoLanes;
+          function includesSomeLane(a7, b8) {
+            return (a7 & b8) !== NoLanes;
           }
           function isSubsetOfLanes(set2, subset) {
             return (set2 & subset) === subset;
           }
-          function mergeLanes(a7, b7) {
-            return a7 | b7;
+          function mergeLanes(a7, b8) {
+            return a7 | b8;
           }
           function removeLanes(set2, subset) {
             return set2 & ~subset;
@@ -6547,8 +6547,8 @@
           function laneToLanes(lane) {
             return lane;
           }
-          function higherPriorityLane(a7, b7) {
-            return a7 !== NoLane && a7 < b7 ? a7 : b7;
+          function higherPriorityLane(a7, b8) {
+            return a7 !== NoLane && a7 < b8 ? a7 : b8;
           }
           function createLaneMap(initial) {
             var laneMap = [];
@@ -6829,9 +6829,9 @@
                 if (!Interface.hasOwnProperty(_propName)) {
                   continue;
                 }
-                var normalize2 = Interface[_propName];
-                if (normalize2) {
-                  this[_propName] = normalize2(nativeEvent);
+                var normalize = Interface[_propName];
+                if (normalize) {
+                  this[_propName] = normalize(nativeEvent);
                 } else {
                   this[_propName] = nativeEvent[_propName];
                 }
@@ -7545,8 +7545,8 @@
             }
             accumulateEnterLeaveTwoPhaseListeners(dispatchQueue, leave, enter, from, to);
           }
-          function is(x4, y3) {
-            return x4 === y3 && (x4 !== 0 || 1 / x4 === 1 / y3) || x4 !== x4 && y3 !== y3;
+          function is(x5, y4) {
+            return x5 === y4 && (x5 !== 0 || 1 / x5 === 1 / y4) || x5 !== x5 && y4 !== y4;
           }
           var objectIs = typeof Object.is === "function" ? Object.is : is;
           var hasOwnProperty$2 = Object.prototype.hasOwnProperty;
@@ -12217,13 +12217,13 @@
           var contextStackCursor$1 = createCursor(NO_CONTEXT);
           var contextFiberStackCursor = createCursor(NO_CONTEXT);
           var rootInstanceStackCursor = createCursor(NO_CONTEXT);
-          function requiredContext(c7) {
-            if (!(c7 !== NO_CONTEXT)) {
+          function requiredContext(c8) {
+            if (!(c8 !== NO_CONTEXT)) {
               {
                 throw Error("Expected host context to exist. This error is likely caused by a bug in React. Please file an issue.");
               }
             }
-            return c7;
+            return c8;
           }
           function getRootHostContainer() {
             var rootInstance = requiredContext(rootInstanceStackCursor.current);
@@ -14423,7 +14423,7 @@
                   var init = lazyComponent._init;
                   try {
                     outerMemoType = init(payload);
-                  } catch (x4) {
+                  } catch (x5) {
                     outerMemoType = null;
                   }
                   var outerPropTypes = outerMemoType && outerMemoType.propTypes;
@@ -17709,12 +17709,12 @@
               }
             }
           }
-          function discreteUpdates$1(fn, a7, b7, c7, d7) {
+          function discreteUpdates$1(fn, a7, b8, c8, d8) {
             var prevExecutionContext = executionContext;
             executionContext |= DiscreteEventContext;
             {
               try {
-                return runWithPriority$1(UserBlockingPriority$2, fn.bind(null, a7, b7, c7, d7));
+                return runWithPriority$1(UserBlockingPriority$2, fn.bind(null, a7, b8, c8, d8));
               } finally {
                 executionContext = prevExecutionContext;
                 if (executionContext === NoContext) {
@@ -19132,14 +19132,14 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
           var findHostInstancesForRefresh = function(root2, families) {
             {
               var hostInstances = new Set();
-              var types3 = new Set(families.map(function(family) {
+              var types = new Set(families.map(function(family) {
                 return family.current;
               }));
-              findHostInstancesForMatchingFibersRecursively(root2.current, types3, hostInstances);
+              findHostInstancesForMatchingFibersRecursively(root2.current, types, hostInstances);
               return hostInstances;
             }
           };
-          function findHostInstancesForMatchingFibersRecursively(fiber, types3, hostInstances) {
+          function findHostInstancesForMatchingFibersRecursively(fiber, types, hostInstances) {
             {
               var child = fiber.child, sibling = fiber.sibling, tag = fiber.tag, type = fiber.type;
               var candidateType = null;
@@ -19155,7 +19155,7 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
               }
               var didMatch = false;
               if (candidateType !== null) {
-                if (types3.has(candidateType)) {
+                if (types.has(candidateType)) {
                   didMatch = true;
                 }
               }
@@ -19163,11 +19163,11 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
                 findHostInstancesForFiberShallowly(fiber, hostInstances);
               } else {
                 if (child !== null) {
-                  findHostInstancesForMatchingFibersRecursively(child, types3, hostInstances);
+                  findHostInstancesForMatchingFibersRecursively(child, types, hostInstances);
                 }
               }
               if (sibling !== null) {
-                findHostInstancesForMatchingFibersRecursively(sibling, types3, hostInstances);
+                findHostInstancesForMatchingFibersRecursively(sibling, types, hostInstances);
               }
             }
           }
@@ -20461,26 +20461,26 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
           if (n6.getType == null)
             throw new Error("Argument contains array with invalid element at index " + t14 + ', it should be an action-creator instance from "typesafe-actions"');
         }
-        function u5(n6) {
+        function u6(n6) {
           return typeof n6 == "string" || typeof n6 == "symbol";
         }
         function a7(n6) {
-          return !u5(n6);
+          return !u6(n6);
         }
-        function c7(n6) {
+        function c8(n6) {
           throw new Error("Argument " + n6 + " is invalid, it should be an action type of type: string | symbol");
         }
-        function f9(n6, t14) {
+        function f10(n6, t14) {
           if (n6 == null)
             throw new Error("Argument contains array with empty element at index " + t14);
           if (typeof n6 != "string" && typeof n6 != "symbol")
             throw new Error("Argument contains array with invalid element at index " + t14 + ", it should be of type: string | symbol");
         }
-        function s8(n6, e12, o12, u6) {
-          return t13(n6) && r10(1), a7(n6) && i7(1), { type: n6, payload: e12, meta: o12, error: u6 };
+        function s9(n6, e12, o12, u7) {
+          return t13(n6) && r10(1), a7(n6) && i7(1), { type: n6, payload: e12, meta: o12, error: u7 };
         }
-        function y3(n6, e12) {
-          t13(n6) && r10(1), a7(n6) && c7(1);
+        function y4(n6, e12) {
+          t13(n6) && r10(1), a7(n6) && c8(1);
           return Object.assign(function() {
             var t14 = e12 != null ? e12.apply(void 0, arguments) : void 0;
             return Object.assign({ type: n6 }, t14);
@@ -20490,19 +20490,19 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
             return n6;
           } });
         }
-        function l8(n6, e12, i8) {
-          return t13(n6) && r10(1), a7(n6) && c7(1), function() {
-            return y3(n6, function() {
+        function l9(n6, e12, i8) {
+          return t13(n6) && r10(1), a7(n6) && c8(1), function() {
+            return y4(n6, function() {
               var n7 = arguments.length <= 0 ? void 0 : arguments[0], t14 = arguments.length <= 1 ? void 0 : arguments[1];
               return e12 == null && i8 == null || (n7 = e12 != null ? e12.apply(void 0, arguments) : void 0, t14 = i8 != null ? i8.apply(void 0, arguments) : void 0), Object.assign({}, n7 !== void 0 && { payload: n7 }, {}, t14 !== void 0 && { meta: t14 });
             });
           };
         }
-        function p8(n6) {
+        function p9(n6) {
           return t13(n6) && r10(1), e11(n6) || i7(1), n6.getType();
         }
-        function d7(n6, e12) {
-          t13(n6) && r10(1), a7(n6) && c7(1);
+        function d8(n6, e12) {
+          t13(n6) && r10(1), a7(n6) && c8(1);
           var i8 = e12 != null ? e12(n6) : function() {
             return { type: n6 };
           };
@@ -20512,50 +20512,50 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
             return n6;
           } });
         }
-        var g5 = { createAction: function(n6, t14) {
+        var g6 = { createAction: function(n6, t14) {
           var r11 = t14 == null ? function() {
-            return s8(n6);
-          } : t14(s8.bind(null, n6));
+            return s9(n6);
+          } : t14(s9.bind(null, n6));
           return Object.assign(r11, { getType: function() {
             return n6;
           }, toString: function() {
             return n6;
           } });
-        }, createCustomAction: d7, createStandardAction: function(n6) {
-          return t13(n6) && r10(1), a7(n6) && c7(1), Object.assign(function() {
-            return d7(n6, function(n7) {
+        }, createCustomAction: d8, createStandardAction: function(n6) {
+          return t13(n6) && r10(1), a7(n6) && c8(1), Object.assign(function() {
+            return d8(n6, function(n7) {
               return function(t14, r11) {
                 return { type: n7, payload: t14, meta: r11 };
               };
             });
           }, { map: function(t14) {
-            return d7(n6, function(n7) {
+            return d8(n6, function(n7) {
               return function(r11, e12) {
                 return Object.assign(t14(r11, e12), { type: n7 });
               };
             });
           } });
         } };
-        n5.action = s8, n5.createAction = l8, n5.createAsyncAction = function(n6, t14, r11, e12) {
+        n5.action = s9, n5.createAction = l9, n5.createAsyncAction = function(n6, t14, r11, e12) {
           return function() {
             var i8 = [n6, t14, r11, e12].map(function(n7, t15) {
-              return Array.isArray(n7) ? l8(n7[0], n7[1], n7[2])() : typeof n7 == "string" || typeof n7 == "symbol" ? l8(n7)() : void (t15 < 3 && function(n8) {
+              return Array.isArray(n7) ? l9(n7[0], n7[1], n7[2])() : typeof n7 == "string" || typeof n7 == "symbol" ? l9(n7)() : void (t15 < 3 && function(n8) {
                 throw new Error("Argument " + n8 + ' is invalid, it should be an action type of "string | symbol" or a tuple of "[string | symbol, Function, Function?]"');
               }(t15));
             });
             return { request: i8[0], success: i8[1], failure: i8[2], cancel: i8[3] };
           };
-        }, n5.createCustomAction = y3, n5.createReducer = function n6(t14, r11) {
+        }, n5.createCustomAction = y4, n5.createReducer = function n6(t14, r11) {
           r11 === void 0 && (r11 = {});
           var i8 = Object.assign({}, r11), o12 = function(r12, o13) {
-            var a8 = Array.isArray(r12) ? r12 : [r12], c8 = {};
+            var a8 = Array.isArray(r12) ? r12 : [r12], c9 = {};
             return a8.map(function(n7, t15) {
-              return e11(n7) ? p8(n7) : u5(n7) ? n7 : function(n8) {
+              return e11(n7) ? p9(n7) : u6(n7) ? n7 : function(n8) {
                 throw new Error("Argument " + n8 + ' is invalid, it should be an action-creator instance from "typesafe-actions" or action type of type: string | symbol');
               }(t15 + 1);
             }).forEach(function(n7) {
-              return c8[n7] = o13;
-            }), n6(t14, Object.assign({}, i8, {}, c8));
+              return c9[n7] = o13;
+            }), n6(t14, Object.assign({}, i8, {}, c9));
           };
           return Object.assign(function(n7, r12) {
             if (n7 === void 0 && (n7 = t14), i8.hasOwnProperty(r12.type)) {
@@ -20566,20 +20566,20 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
             }
             return n7;
           }, { handlers: Object.assign({}, i8), handleAction: o12, handleType: o12 });
-        }, n5.deprecated = g5, n5.getType = p8, n5.isActionOf = function(n6, e12) {
+        }, n5.deprecated = g6, n5.getType = p9, n5.isActionOf = function(n6, e12) {
           t13(n6) && r10(1);
           var i8 = Array.isArray(n6) ? n6 : [n6];
           i8.forEach(o11);
-          var u6 = function(n7) {
+          var u7 = function(n7) {
             return i8.some(function(t14) {
               return n7.type === t14.getType();
             });
           };
-          return e12 === void 0 ? u6 : u6(e12);
+          return e12 === void 0 ? u7 : u7(e12);
         }, n5.isOfType = function(n6, e12) {
           t13(n6) && r10(1);
           var i8 = Array.isArray(n6) ? n6 : [n6];
-          i8.forEach(f9);
+          i8.forEach(f10);
           var o12 = function(n7) {
             return i8.includes(n7.type);
           };
@@ -20594,11 +20594,11 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
     "node_modules/tslib/tslib.js"(exports2, module2) {
       var __extends2;
       var __assign3;
-      var __rest4;
+      var __rest2;
       var __decorate2;
       var __param2;
       var __metadata2;
-      var __awaiter5;
+      var __awaiter2;
       var __generator2;
       var __exportStar2;
       var __values2;
@@ -20634,55 +20634,55 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
               exports3.__esModule = true;
             }
           }
-          return function(id, v7) {
-            return exports3[id] = previous ? previous(id, v7) : v7;
+          return function(id, v8) {
+            return exports3[id] = previous ? previous(id, v8) : v8;
           };
         }
       })(function(exporter) {
-        var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d7, b7) {
-          d7.__proto__ = b7;
-        } || function(d7, b7) {
-          for (var p8 in b7)
-            if (b7.hasOwnProperty(p8))
-              d7[p8] = b7[p8];
+        var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d8, b8) {
+          d8.__proto__ = b8;
+        } || function(d8, b8) {
+          for (var p9 in b8)
+            if (b8.hasOwnProperty(p9))
+              d8[p9] = b8[p9];
         };
-        __extends2 = function(d7, b7) {
-          extendStatics(d7, b7);
+        __extends2 = function(d8, b8) {
+          extendStatics(d8, b8);
           function __() {
-            this.constructor = d7;
+            this.constructor = d8;
           }
-          d7.prototype = b7 === null ? Object.create(b7) : (__.prototype = b7.prototype, new __());
+          d8.prototype = b8 === null ? Object.create(b8) : (__.prototype = b8.prototype, new __());
         };
         __assign3 = Object.assign || function(t13) {
-          for (var s8, i7 = 1, n5 = arguments.length; i7 < n5; i7++) {
-            s8 = arguments[i7];
-            for (var p8 in s8)
-              if (Object.prototype.hasOwnProperty.call(s8, p8))
-                t13[p8] = s8[p8];
+          for (var s9, i7 = 1, n5 = arguments.length; i7 < n5; i7++) {
+            s9 = arguments[i7];
+            for (var p9 in s9)
+              if (Object.prototype.hasOwnProperty.call(s9, p9))
+                t13[p9] = s9[p9];
           }
           return t13;
         };
-        __rest4 = function(s8, e11) {
+        __rest2 = function(s9, e11) {
           var t13 = {};
-          for (var p8 in s8)
-            if (Object.prototype.hasOwnProperty.call(s8, p8) && e11.indexOf(p8) < 0)
-              t13[p8] = s8[p8];
-          if (s8 != null && typeof Object.getOwnPropertySymbols === "function")
-            for (var i7 = 0, p8 = Object.getOwnPropertySymbols(s8); i7 < p8.length; i7++) {
-              if (e11.indexOf(p8[i7]) < 0 && Object.prototype.propertyIsEnumerable.call(s8, p8[i7]))
-                t13[p8[i7]] = s8[p8[i7]];
+          for (var p9 in s9)
+            if (Object.prototype.hasOwnProperty.call(s9, p9) && e11.indexOf(p9) < 0)
+              t13[p9] = s9[p9];
+          if (s9 != null && typeof Object.getOwnPropertySymbols === "function")
+            for (var i7 = 0, p9 = Object.getOwnPropertySymbols(s9); i7 < p9.length; i7++) {
+              if (e11.indexOf(p9[i7]) < 0 && Object.prototype.propertyIsEnumerable.call(s9, p9[i7]))
+                t13[p9[i7]] = s9[p9[i7]];
             }
           return t13;
         };
         __decorate2 = function(decorators, target, key, desc) {
-          var c7 = arguments.length, r10 = c7 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d7;
+          var c8 = arguments.length, r10 = c8 < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d8;
           if (typeof Reflect === "object" && typeof Reflect.decorate === "function")
             r10 = Reflect.decorate(decorators, target, key, desc);
           else
             for (var i7 = decorators.length - 1; i7 >= 0; i7--)
-              if (d7 = decorators[i7])
-                r10 = (c7 < 3 ? d7(r10) : c7 > 3 ? d7(target, key, r10) : d7(target, key)) || r10;
-          return c7 > 3 && r10 && Object.defineProperty(target, key, r10), r10;
+              if (d8 = decorators[i7])
+                r10 = (c8 < 3 ? d8(r10) : c8 > 3 ? d8(target, key, r10) : d8(target, key)) || r10;
+          return c8 > 3 && r10 && Object.defineProperty(target, key, r10), r10;
         };
         __param2 = function(paramIndex, decorator) {
           return function(target, key) {
@@ -20693,13 +20693,13 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
           if (typeof Reflect === "object" && typeof Reflect.metadata === "function")
             return Reflect.metadata(metadataKey, metadataValue);
         };
-        __awaiter5 = function(thisArg, _arguments, P2, generator) {
+        __awaiter2 = function(thisArg, _arguments, P3, generator) {
           function adopt(value) {
-            return value instanceof P2 ? value : new P2(function(resolve) {
+            return value instanceof P3 ? value : new P3(function(resolve) {
               resolve(value);
             });
           }
-          return new (P2 || (P2 = Promise))(function(resolve, reject) {
+          return new (P3 || (P3 = Promise))(function(resolve, reject) {
             function fulfilled(value) {
               try {
                 step(generator.next(value));
@@ -20721,27 +20721,27 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
           });
         };
         __generator2 = function(thisArg, body) {
-          var _ = { label: 0, sent: function() {
+          var _2 = { label: 0, sent: function() {
             if (t13[0] & 1)
               throw t13[1];
             return t13[1];
-          }, trys: [], ops: [] }, f9, y3, t13, g5;
-          return g5 = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g5[Symbol.iterator] = function() {
+          }, trys: [], ops: [] }, f10, y4, t13, g6;
+          return g6 = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g6[Symbol.iterator] = function() {
             return this;
-          }), g5;
+          }), g6;
           function verb(n5) {
-            return function(v7) {
-              return step([n5, v7]);
+            return function(v8) {
+              return step([n5, v8]);
             };
           }
           function step(op) {
-            if (f9)
+            if (f10)
               throw new TypeError("Generator is already executing.");
-            while (_)
+            while (_2)
               try {
-                if (f9 = 1, y3 && (t13 = op[0] & 2 ? y3["return"] : op[0] ? y3["throw"] || ((t13 = y3["return"]) && t13.call(y3), 0) : y3.next) && !(t13 = t13.call(y3, op[1])).done)
+                if (f10 = 1, y4 && (t13 = op[0] & 2 ? y4["return"] : op[0] ? y4["throw"] || ((t13 = y4["return"]) && t13.call(y4), 0) : y4.next) && !(t13 = t13.call(y4, op[1])).done)
                   return t13;
-                if (y3 = 0, t13)
+                if (y4 = 0, t13)
                   op = [op[0] & 2, t13.value];
                 switch (op[0]) {
                   case 0:
@@ -20749,67 +20749,67 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
                     t13 = op;
                     break;
                   case 4:
-                    _.label++;
+                    _2.label++;
                     return { value: op[1], done: false };
                   case 5:
-                    _.label++;
-                    y3 = op[1];
+                    _2.label++;
+                    y4 = op[1];
                     op = [0];
                     continue;
                   case 7:
-                    op = _.ops.pop();
-                    _.trys.pop();
+                    op = _2.ops.pop();
+                    _2.trys.pop();
                     continue;
                   default:
-                    if (!(t13 = _.trys, t13 = t13.length > 0 && t13[t13.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-                      _ = 0;
+                    if (!(t13 = _2.trys, t13 = t13.length > 0 && t13[t13.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                      _2 = 0;
                       continue;
                     }
                     if (op[0] === 3 && (!t13 || op[1] > t13[0] && op[1] < t13[3])) {
-                      _.label = op[1];
+                      _2.label = op[1];
                       break;
                     }
-                    if (op[0] === 6 && _.label < t13[1]) {
-                      _.label = t13[1];
+                    if (op[0] === 6 && _2.label < t13[1]) {
+                      _2.label = t13[1];
                       t13 = op;
                       break;
                     }
-                    if (t13 && _.label < t13[2]) {
-                      _.label = t13[2];
-                      _.ops.push(op);
+                    if (t13 && _2.label < t13[2]) {
+                      _2.label = t13[2];
+                      _2.ops.push(op);
                       break;
                     }
                     if (t13[2])
-                      _.ops.pop();
-                    _.trys.pop();
+                      _2.ops.pop();
+                    _2.trys.pop();
                     continue;
                 }
-                op = body.call(thisArg, _);
+                op = body.call(thisArg, _2);
               } catch (e11) {
                 op = [6, e11];
-                y3 = 0;
+                y4 = 0;
               } finally {
-                f9 = t13 = 0;
+                f10 = t13 = 0;
               }
             if (op[0] & 5)
               throw op[1];
             return { value: op[0] ? op[1] : void 0, done: true };
           }
         };
-        __createBinding2 = function(o11, m8, k3, k22) {
+        __createBinding2 = function(o11, m9, k4, k22) {
           if (k22 === void 0)
-            k22 = k3;
-          o11[k22] = m8[k3];
+            k22 = k4;
+          o11[k22] = m9[k4];
         };
-        __exportStar2 = function(m8, exports3) {
-          for (var p8 in m8)
-            if (p8 !== "default" && !exports3.hasOwnProperty(p8))
-              exports3[p8] = m8[p8];
+        __exportStar2 = function(m9, exports3) {
+          for (var p9 in m9)
+            if (p9 !== "default" && !exports3.hasOwnProperty(p9))
+              exports3[p9] = m9[p9];
         };
         __values2 = function(o11) {
-          var s8 = typeof Symbol === "function" && Symbol.iterator, m8 = s8 && o11[s8], i7 = 0;
-          if (m8)
-            return m8.call(o11);
+          var s9 = typeof Symbol === "function" && Symbol.iterator, m9 = s9 && o11[s9], i7 = 0;
+          if (m9)
+            return m9.call(o11);
           if (o11 && typeof o11.length === "number")
             return {
               next: function() {
@@ -20818,13 +20818,13 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
                 return { value: o11 && o11[i7++], done: !o11 };
               }
             };
-          throw new TypeError(s8 ? "Object is not iterable." : "Symbol.iterator is not defined.");
+          throw new TypeError(s9 ? "Object is not iterable." : "Symbol.iterator is not defined.");
         };
         __read2 = function(o11, n5) {
-          var m8 = typeof Symbol === "function" && o11[Symbol.iterator];
-          if (!m8)
+          var m9 = typeof Symbol === "function" && o11[Symbol.iterator];
+          if (!m9)
             return o11;
-          var i7 = m8.call(o11), r10, ar = [], e11;
+          var i7 = m9.call(o11), r10, ar = [], e11;
           try {
             while ((n5 === void 0 || n5-- > 0) && !(r10 = i7.next()).done)
               ar.push(r10.value);
@@ -20832,8 +20832,8 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
             e11 = { error };
           } finally {
             try {
-              if (r10 && !r10.done && (m8 = i7["return"]))
-                m8.call(i7);
+              if (r10 && !r10.done && (m9 = i7["return"]))
+                m9.call(i7);
             } finally {
               if (e11)
                 throw e11.error;
@@ -20847,40 +20847,40 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
           return ar;
         };
         __spreadArrays2 = function() {
-          for (var s8 = 0, i7 = 0, il = arguments.length; i7 < il; i7++)
-            s8 += arguments[i7].length;
-          for (var r10 = Array(s8), k3 = 0, i7 = 0; i7 < il; i7++)
-            for (var a7 = arguments[i7], j2 = 0, jl = a7.length; j2 < jl; j2++, k3++)
-              r10[k3] = a7[j2];
+          for (var s9 = 0, i7 = 0, il = arguments.length; i7 < il; i7++)
+            s9 += arguments[i7].length;
+          for (var r10 = Array(s9), k4 = 0, i7 = 0; i7 < il; i7++)
+            for (var a7 = arguments[i7], j3 = 0, jl = a7.length; j3 < jl; j3++, k4++)
+              r10[k4] = a7[j3];
           return r10;
         };
-        __await2 = function(v7) {
-          return this instanceof __await2 ? (this.v = v7, this) : new __await2(v7);
+        __await2 = function(v8) {
+          return this instanceof __await2 ? (this.v = v8, this) : new __await2(v8);
         };
         __asyncGenerator2 = function(thisArg, _arguments, generator) {
           if (!Symbol.asyncIterator)
             throw new TypeError("Symbol.asyncIterator is not defined.");
-          var g5 = generator.apply(thisArg, _arguments || []), i7, q2 = [];
+          var g6 = generator.apply(thisArg, _arguments || []), i7, q3 = [];
           return i7 = {}, verb("next"), verb("throw"), verb("return"), i7[Symbol.asyncIterator] = function() {
             return this;
           }, i7;
           function verb(n5) {
-            if (g5[n5])
-              i7[n5] = function(v7) {
-                return new Promise(function(a7, b7) {
-                  q2.push([n5, v7, a7, b7]) > 1 || resume(n5, v7);
+            if (g6[n5])
+              i7[n5] = function(v8) {
+                return new Promise(function(a7, b8) {
+                  q3.push([n5, v8, a7, b8]) > 1 || resume(n5, v8);
                 });
               };
           }
-          function resume(n5, v7) {
+          function resume(n5, v8) {
             try {
-              step(g5[n5](v7));
+              step(g6[n5](v8));
             } catch (e11) {
-              settle(q2[0][3], e11);
+              settle(q3[0][3], e11);
             }
           }
           function step(r10) {
-            r10.value instanceof __await2 ? Promise.resolve(r10.value.v).then(fulfill, reject) : settle(q2[0][2], r10);
+            r10.value instanceof __await2 ? Promise.resolve(r10.value.v).then(fulfill, reject) : settle(q3[0][2], r10);
           }
           function fulfill(value) {
             resume("next", value);
@@ -20888,41 +20888,41 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
           function reject(value) {
             resume("throw", value);
           }
-          function settle(f9, v7) {
-            if (f9(v7), q2.shift(), q2.length)
-              resume(q2[0][0], q2[0][1]);
+          function settle(f10, v8) {
+            if (f10(v8), q3.shift(), q3.length)
+              resume(q3[0][0], q3[0][1]);
           }
         };
         __asyncDelegator2 = function(o11) {
-          var i7, p8;
+          var i7, p9;
           return i7 = {}, verb("next"), verb("throw", function(e11) {
             throw e11;
           }), verb("return"), i7[Symbol.iterator] = function() {
             return this;
           }, i7;
-          function verb(n5, f9) {
-            i7[n5] = o11[n5] ? function(v7) {
-              return (p8 = !p8) ? { value: __await2(o11[n5](v7)), done: n5 === "return" } : f9 ? f9(v7) : v7;
-            } : f9;
+          function verb(n5, f10) {
+            i7[n5] = o11[n5] ? function(v8) {
+              return (p9 = !p9) ? { value: __await2(o11[n5](v8)), done: n5 === "return" } : f10 ? f10(v8) : v8;
+            } : f10;
           }
         };
         __asyncValues2 = function(o11) {
           if (!Symbol.asyncIterator)
             throw new TypeError("Symbol.asyncIterator is not defined.");
-          var m8 = o11[Symbol.asyncIterator], i7;
-          return m8 ? m8.call(o11) : (o11 = typeof __values2 === "function" ? __values2(o11) : o11[Symbol.iterator](), i7 = {}, verb("next"), verb("throw"), verb("return"), i7[Symbol.asyncIterator] = function() {
+          var m9 = o11[Symbol.asyncIterator], i7;
+          return m9 ? m9.call(o11) : (o11 = typeof __values2 === "function" ? __values2(o11) : o11[Symbol.iterator](), i7 = {}, verb("next"), verb("throw"), verb("return"), i7[Symbol.asyncIterator] = function() {
             return this;
           }, i7);
           function verb(n5) {
-            i7[n5] = o11[n5] && function(v7) {
+            i7[n5] = o11[n5] && function(v8) {
               return new Promise(function(resolve, reject) {
-                v7 = o11[n5](v7), settle(resolve, reject, v7.done, v7.value);
+                v8 = o11[n5](v8), settle(resolve, reject, v8.done, v8.value);
               });
             };
           }
-          function settle(resolve, reject, d7, v7) {
-            Promise.resolve(v7).then(function(v8) {
-              resolve({ value: v8, done: d7 });
+          function settle(resolve, reject, d8, v8) {
+            Promise.resolve(v8).then(function(v9) {
+              resolve({ value: v9, done: d8 });
             }, reject);
           }
         };
@@ -20939,9 +20939,9 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
             return mod;
           var result = {};
           if (mod != null) {
-            for (var k3 in mod)
-              if (Object.hasOwnProperty.call(mod, k3))
-                result[k3] = mod[k3];
+            for (var k4 in mod)
+              if (Object.hasOwnProperty.call(mod, k4))
+                result[k4] = mod[k4];
           }
           result["default"] = mod;
           return result;
@@ -20964,11 +20964,11 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
         };
         exporter("__extends", __extends2);
         exporter("__assign", __assign3);
-        exporter("__rest", __rest4);
+        exporter("__rest", __rest2);
         exporter("__decorate", __decorate2);
         exporter("__param", __param2);
         exporter("__metadata", __metadata2);
-        exporter("__awaiter", __awaiter5);
+        exporter("__awaiter", __awaiter2);
         exporter("__generator", __generator2);
         exporter("__exportStar", __exportStar2);
         exporter("__createBinding", __createBinding2);
@@ -21292,8 +21292,8 @@ ${cue.text}`;
         return segments;
       }
       function shouldSegment(total, length, nextStart, silence) {
-        const x4 = alignToSegmentLength(silence, length);
-        const nextCueIsInNextSegment = silence <= length || x4 + total < nextStart;
+        const x5 = alignToSegmentLength(silence, length);
+        const nextCueIsInNextSegment = silence <= length || x5 + total < nextStart;
         return nextCueIsInNextSegment && nextStart - total >= length;
       }
       function segmentDuration(lastCue, end, length, currentSegment, totalSegments) {
@@ -21313,9 +21313,9 @@ ${cue.text}`;
         return n5;
       }
       var debugging = false;
-      function debug(m8) {
+      function debug(m9) {
         if (debugging) {
-          console.log(m8);
+          console.log(m9);
         }
       }
       module2.exports = { segment };
@@ -21556,10 +21556,10 @@ ${generateSegmentFilename(i7)}`);
                 return [];
               if (handlers.fn)
                 return [handlers.fn];
-              for (var i7 = 0, l8 = handlers.length, ee = new Array(l8); i7 < l8; i7++) {
-                ee[i7] = handlers[i7].fn;
+              for (var i7 = 0, l9 = handlers.length, ee2 = new Array(l9); i7 < l9; i7++) {
+                ee2[i7] = handlers[i7].fn;
               }
-              return ee;
+              return ee2;
             };
             EventEmitter.prototype.listenerCount = function listenerCount(event) {
               var evt = prefix ? prefix + event : event, listeners = this._events[evt];
@@ -21596,7 +21596,7 @@ ${generateSegmentFilename(i7)}`);
                 }
                 listeners.fn.apply(listeners.context, args);
               } else {
-                var length = listeners.length, j2;
+                var length = listeners.length, j3;
                 for (i7 = 0; i7 < length; i7++) {
                   if (listeners[i7].once)
                     this.removeListener(event, listeners[i7].fn, void 0, true);
@@ -21615,8 +21615,8 @@ ${generateSegmentFilename(i7)}`);
                       break;
                     default:
                       if (!args)
-                        for (j2 = 1, args = new Array(len - 1); j2 < len; j2++) {
-                          args[j2 - 1] = arguments[j2];
+                        for (j3 = 1, args = new Array(len - 1); j3 < len; j3++) {
+                          args[j3 - 1] = arguments[j3];
                         }
                       listeners[i7].fn.apply(listeners[i7].context, args);
                   }
@@ -21831,8 +21831,8 @@ ${generateSegmentFilename(i7)}`);
                 console.error(err);
                 throw err;
               };
-              var f9 = __webpack_require__2(__webpack_require__2.s = ENTRY_MODULE);
-              return f9.default || f9;
+              var f10 = __webpack_require__2(__webpack_require__2.s = ENTRY_MODULE);
+              return f10.default || f10;
             }
             var moduleNameReqExp = "[\\.|\\-|\\+|\\w|/|@]+";
             var dependencyRegExp = "\\(\\s*(/\\*.*?\\*/)?\\s*.*?(" + moduleNameReqExp + ").*?\\)";
@@ -21850,15 +21850,15 @@ ${generateSegmentFilename(i7)}`);
               if (!wrapperSignature)
                 return retval;
               var webpackRequireName = wrapperSignature[1];
-              var re2 = new RegExp("(\\\\n|\\W)" + quoteRegExp(webpackRequireName) + dependencyRegExp, "g");
+              var re3 = new RegExp("(\\\\n|\\W)" + quoteRegExp(webpackRequireName) + dependencyRegExp, "g");
               var match;
-              while (match = re2.exec(fnString)) {
+              while (match = re3.exec(fnString)) {
                 if (match[3] === "dll-reference")
                   continue;
                 retval[queueName].push(match[3]);
               }
-              re2 = new RegExp("\\(" + quoteRegExp(webpackRequireName) + '\\("(dll-reference\\s(' + moduleNameReqExp + '))"\\)\\)' + dependencyRegExp, "g");
-              while (match = re2.exec(fnString)) {
+              re3 = new RegExp("\\(" + quoteRegExp(webpackRequireName) + '\\("(dll-reference\\s(' + moduleNameReqExp + '))"\\)\\)' + dependencyRegExp, "g");
+              while (match = re3.exec(fnString)) {
                 if (!sources[match[2]]) {
                   retval[queueName].push(match[1]);
                   sources[match[2]] = __webpack_require__(match[1]).m;
@@ -21868,9 +21868,9 @@ ${generateSegmentFilename(i7)}`);
               }
               var keys = Object.keys(retval);
               for (var i7 = 0; i7 < keys.length; i7++) {
-                for (var j2 = 0; j2 < retval[keys[i7]].length; j2++) {
-                  if (isNumeric(retval[keys[i7]][j2])) {
-                    retval[keys[i7]][j2] = 1 * retval[keys[i7]][j2];
+                for (var j3 = 0; j3 < retval[keys[i7]].length; j3++) {
+                  if (isNumeric(retval[keys[i7]][j3])) {
+                    retval[keys[i7]][j3] = 1 * retval[keys[i7]][j3];
                   }
                 }
               }
@@ -21906,9 +21906,9 @@ ${generateSegmentFilename(i7)}`);
                   requiredModules[queueName].push(moduleToCheck);
                   var newModules = getModuleDependencies(sources, sources[queueName][moduleToCheck], queueName);
                   var newModulesKeys = Object.keys(newModules);
-                  for (var j2 = 0; j2 < newModulesKeys.length; j2++) {
-                    modulesQueue[newModulesKeys[j2]] = modulesQueue[newModulesKeys[j2]] || [];
-                    modulesQueue[newModulesKeys[j2]] = modulesQueue[newModulesKeys[j2]].concat(newModules[newModulesKeys[j2]]);
+                  for (var j3 = 0; j3 < newModulesKeys.length; j3++) {
+                    modulesQueue[newModulesKeys[j3]] = modulesQueue[newModulesKeys[j3]] || [];
+                    modulesQueue[newModulesKeys[j3]] = modulesQueue[newModulesKeys[j3]].concat(newModules[newModulesKeys[j3]]);
                   }
                 }
               }
@@ -21921,8 +21921,8 @@ ${generateSegmentFilename(i7)}`);
               };
               var requiredModules = options.all ? { main: Object.keys(sources.main) } : getRequiredModules(sources, moduleId);
               var src = "";
-              Object.keys(requiredModules).filter(function(m8) {
-                return m8 !== "main";
+              Object.keys(requiredModules).filter(function(m9) {
+                return m9 !== "main";
               }).forEach(function(module4) {
                 var entryModule = 0;
                 while (requiredModules[module4][entryModule]) {
@@ -22480,12 +22480,12 @@ ${generateSegmentFilename(i7)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o11, p8) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
-                o12.__proto__ = p9;
+            function _setPrototypeOf(o11, p9) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p10) {
+                o12.__proto__ = p10;
                 return o12;
               };
-              return _setPrototypeOf(o11, p8);
+              return _setPrototypeOf(o11, p9);
             }
             var TICK_INTERVAL = 100;
             var AudioStreamController = /* @__PURE__ */ function(_BaseStreamController) {
@@ -23068,12 +23068,12 @@ ${generateSegmentFilename(i7)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o11, p8) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
-                o12.__proto__ = p9;
+            function _setPrototypeOf(o11, p9) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p10) {
+                o12.__proto__ = p10;
                 return o12;
               };
-              return _setPrototypeOf(o11, p8);
+              return _setPrototypeOf(o11, p9);
             }
             var AudioTrackController = /* @__PURE__ */ function(_BasePlaylistControll) {
               _inheritsLoose(AudioTrackController2, _BasePlaylistControll);
@@ -23510,12 +23510,12 @@ ${generateSegmentFilename(i7)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o11, p8) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
-                o12.__proto__ = p9;
+            function _setPrototypeOf(o11, p9) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p10) {
+                o12.__proto__ = p10;
                 return o12;
               };
-              return _setPrototypeOf(o11, p8);
+              return _setPrototypeOf(o11, p9);
             }
             var State = {
               STOPPED: "STOPPED",
@@ -25007,8 +25007,8 @@ ${generateSegmentFilename(i7)}`);
                 if (!buffer) {
                   return;
                 }
-                this.listeners[type].forEach(function(l8) {
-                  buffer.removeEventListener(l8.event, l8.listener);
+                this.listeners[type].forEach(function(l9) {
+                  buffer.removeEventListener(l9.event, l9.listener);
                 });
               };
               return BufferController2;
@@ -25327,12 +25327,12 @@ ${generateSegmentFilename(i7)}`);
               return Constructor;
             }
             function _createForOfIteratorHelperLoose(o11, allowArrayLike) {
-              var it = typeof Symbol !== "undefined" && o11[Symbol.iterator] || o11["@@iterator"];
-              if (it)
-                return (it = it.call(o11)).next.bind(it);
-              if (Array.isArray(o11) || (it = _unsupportedIterableToArray(o11)) || allowArrayLike && o11 && typeof o11.length === "number") {
-                if (it)
-                  o11 = it;
+              var it2 = typeof Symbol !== "undefined" && o11[Symbol.iterator] || o11["@@iterator"];
+              if (it2)
+                return (it2 = it2.call(o11)).next.bind(it2);
+              if (Array.isArray(o11) || (it2 = _unsupportedIterableToArray(o11)) || allowArrayLike && o11 && typeof o11.length === "number") {
+                if (it2)
+                  o11 = it2;
                 var i7 = 0;
                 return function() {
                   if (i7 >= o11.length)
@@ -25417,15 +25417,15 @@ ${generateSegmentFilename(i7)}`);
                   try {
                     var fragment = context.frag;
                     var level = _this.hls.levels[fragment.level];
-                    var ot = _this.getObjectType(fragment);
+                    var ot2 = _this.getObjectType(fragment);
                     var data = {
                       d: fragment.duration * 1e3,
-                      ot
+                      ot: ot2
                     };
-                    if (ot === _types_cmcd__WEBPACK_IMPORTED_MODULE_1__["CMCDObjectType"].VIDEO || ot === _types_cmcd__WEBPACK_IMPORTED_MODULE_1__["CMCDObjectType"].AUDIO || ot == _types_cmcd__WEBPACK_IMPORTED_MODULE_1__["CMCDObjectType"].MUXED) {
+                    if (ot2 === _types_cmcd__WEBPACK_IMPORTED_MODULE_1__["CMCDObjectType"].VIDEO || ot2 === _types_cmcd__WEBPACK_IMPORTED_MODULE_1__["CMCDObjectType"].AUDIO || ot2 == _types_cmcd__WEBPACK_IMPORTED_MODULE_1__["CMCDObjectType"].MUXED) {
                       data.br = level.bitrate / 1e3;
-                      data.tb = _this.getTopBandwidth(ot) / 1e3;
-                      data.bl = _this.getBufferLength(ot);
+                      data.tb = _this.getTopBandwidth(ot2) / 1e3;
+                      data.bl = _this.getBufferLength(ot2);
                     }
                     _this.apply(context, data);
                   } catch (error) {
@@ -26951,8 +26951,8 @@ ${generateSegmentFilename(i7)}`);
                     if (timeDiff <= 0) {
                       endTime = startTime + MIN_CUE_DURATION;
                     }
-                    for (var j2 = 0; j2 < frames.length; j2++) {
-                      var frame = frames[j2];
+                    for (var j3 = 0; j3 < frames.length; j3++) {
+                      var frame = frames[j3];
                       if (!_demux_id3__WEBPACK_IMPORTED_MODULE_2__["isTimeStampFrame"](frame)) {
                         var cue = new Cue2(startTime, endTime, "");
                         cue.value = frame;
@@ -27244,12 +27244,12 @@ ${generateSegmentFilename(i7)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o11, p8) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
-                o12.__proto__ = p9;
+            function _setPrototypeOf(o11, p9) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p10) {
+                o12.__proto__ = p10;
                 return o12;
               };
-              return _setPrototypeOf(o11, p8);
+              return _setPrototypeOf(o11, p9);
             }
             var chromeOrFirefox = /chrome|firefox/.test(navigator.userAgent.toLowerCase());
             var LevelController = /* @__PURE__ */ function(_BasePlaylistControll) {
@@ -27354,8 +27354,8 @@ ${generateSegmentFilename(i7)}`);
                 }
                 if (levels.length > 0) {
                   bitrateStart = levels[0].bitrate;
-                  levels.sort(function(a7, b7) {
-                    return a7.bitrate - b7.bitrate;
+                  levels.sort(function(a7, b8) {
+                    return a7.bitrate - b8.bitrate;
                   });
                   this._levels = levels;
                   for (var i7 = 0; i7 < levels.length; i7++) {
@@ -28109,12 +28109,12 @@ ${generateSegmentFilename(i7)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o11, p8) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
-                o12.__proto__ = p9;
+            function _setPrototypeOf(o11, p9) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p10) {
+                o12.__proto__ = p10;
                 return o12;
               };
-              return _setPrototypeOf(o11, p8);
+              return _setPrototypeOf(o11, p9);
             }
             var TICK_INTERVAL = 100;
             var StreamController = /* @__PURE__ */ function(_BaseStreamController) {
@@ -29056,12 +29056,12 @@ ${generateSegmentFilename(i7)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o11, p8) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
-                o12.__proto__ = p9;
+            function _setPrototypeOf(o11, p9) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p10) {
+                o12.__proto__ = p10;
                 return o12;
               };
-              return _setPrototypeOf(o11, p8);
+              return _setPrototypeOf(o11, p9);
             }
             var TICK_INTERVAL = 500;
             var SubtitleStreamController = /* @__PURE__ */ function(_BaseStreamController) {
@@ -29370,12 +29370,12 @@ ${generateSegmentFilename(i7)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o11, p8) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
-                o12.__proto__ = p9;
+            function _setPrototypeOf(o11, p9) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p10) {
+                o12.__proto__ = p10;
                 return o12;
               };
-              return _setPrototypeOf(o11, p8);
+              return _setPrototypeOf(o11, p9);
             }
             var SubtitleTrackController = /* @__PURE__ */ function(_BasePlaylistControll) {
               _inheritsLoose(SubtitleTrackController2, _BasePlaylistControll);
@@ -30183,7 +30183,7 @@ ${generateSegmentFilename(i7)}`);
                 var count = byteArray[0] & 31;
                 var position = 2;
                 var actualCCBytes = [[], []];
-                for (var j2 = 0; j2 < count; j2++) {
+                for (var j3 = 0; j3 < count; j3++) {
                   var tmpByte = byteArray[position++];
                   var ccbyte1 = 127 & byteArray[position++];
                   var ccbyte2 = 127 & byteArray[position++];
@@ -30298,40 +30298,40 @@ ${generateSegmentFilename(i7)}`);
                 var invSubMix1 = invSubMix[1];
                 var invSubMix2 = invSubMix[2];
                 var invSubMix3 = invSubMix[3];
-                var d7 = new Uint32Array(256);
-                var x4 = 0;
+                var d8 = new Uint32Array(256);
+                var x5 = 0;
                 var xi = 0;
                 var i7 = 0;
                 for (i7 = 0; i7 < 256; i7++) {
                   if (i7 < 128) {
-                    d7[i7] = i7 << 1;
+                    d8[i7] = i7 << 1;
                   } else {
-                    d7[i7] = i7 << 1 ^ 283;
+                    d8[i7] = i7 << 1 ^ 283;
                   }
                 }
                 for (i7 = 0; i7 < 256; i7++) {
                   var sx = xi ^ xi << 1 ^ xi << 2 ^ xi << 3 ^ xi << 4;
                   sx = sx >>> 8 ^ sx & 255 ^ 99;
-                  sBox[x4] = sx;
-                  invSBox[sx] = x4;
-                  var x22 = d7[x4];
-                  var x42 = d7[x22];
-                  var x8 = d7[x42];
-                  var t13 = d7[sx] * 257 ^ sx * 16843008;
-                  subMix0[x4] = t13 << 24 | t13 >>> 8;
-                  subMix1[x4] = t13 << 16 | t13 >>> 16;
-                  subMix2[x4] = t13 << 8 | t13 >>> 24;
-                  subMix3[x4] = t13;
-                  t13 = x8 * 16843009 ^ x42 * 65537 ^ x22 * 257 ^ x4 * 16843008;
+                  sBox[x5] = sx;
+                  invSBox[sx] = x5;
+                  var x22 = d8[x5];
+                  var x42 = d8[x22];
+                  var x8 = d8[x42];
+                  var t13 = d8[sx] * 257 ^ sx * 16843008;
+                  subMix0[x5] = t13 << 24 | t13 >>> 8;
+                  subMix1[x5] = t13 << 16 | t13 >>> 16;
+                  subMix2[x5] = t13 << 8 | t13 >>> 24;
+                  subMix3[x5] = t13;
+                  t13 = x8 * 16843009 ^ x42 * 65537 ^ x22 * 257 ^ x5 * 16843008;
                   invSubMix0[sx] = t13 << 24 | t13 >>> 8;
                   invSubMix1[sx] = t13 << 16 | t13 >>> 16;
                   invSubMix2[sx] = t13 << 8 | t13 >>> 24;
                   invSubMix3[sx] = t13;
-                  if (!x4) {
-                    x4 = xi = 1;
+                  if (!x5) {
+                    x5 = xi = 1;
                   } else {
-                    x4 = x22 ^ d7[d7[d7[x8 ^ x22]]];
-                    xi ^= d7[d7[xi]];
+                    x5 = x22 ^ d8[d8[d8[x8 ^ x22]]];
+                    xi ^= d8[d8[xi]];
                   }
                 }
               };
@@ -30644,12 +30644,12 @@ ${generateSegmentFilename(i7)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o11, p8) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
-                o12.__proto__ = p9;
+            function _setPrototypeOf(o11, p9) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p10) {
+                o12.__proto__ = p10;
                 return o12;
               };
-              return _setPrototypeOf(o11, p8);
+              return _setPrototypeOf(o11, p9);
             }
             var AACDemuxer = /* @__PURE__ */ function(_BaseAudioDemuxer) {
               _inheritsLoose(AACDemuxer2, _BaseAudioDemuxer);
@@ -31212,7 +31212,7 @@ ${generateSegmentFilename(i7)}`);
                 var lastScale = 8;
                 var nextScale = 8;
                 var deltaScale;
-                for (var j2 = 0; j2 < count; j2++) {
+                for (var j3 = 0; j3 < count; j3++) {
                   if (nextScale !== 0) {
                     deltaScale = this.readEG();
                     nextScale = (lastScale + deltaScale + 256) % 256;
@@ -31584,19 +31584,19 @@ ${generateSegmentFilename(i7)}`);
                 return decoded.replace(/\0/g, "");
               }
               var len = array.length;
-              var c7;
+              var c8;
               var char2;
               var char3;
               var out = "";
               var i7 = 0;
               while (i7 < len) {
-                c7 = array[i7++];
-                if (c7 === 0 && exitOnNull) {
+                c8 = array[i7++];
+                if (c8 === 0 && exitOnNull) {
                   return out;
-                } else if (c7 === 0 || c7 === 3) {
+                } else if (c8 === 0 || c8 === 3) {
                   continue;
                 }
-                switch (c7 >> 4) {
+                switch (c8 >> 4) {
                   case 0:
                   case 1:
                   case 2:
@@ -31605,17 +31605,17 @@ ${generateSegmentFilename(i7)}`);
                   case 5:
                   case 6:
                   case 7:
-                    out += String.fromCharCode(c7);
+                    out += String.fromCharCode(c8);
                     break;
                   case 12:
                   case 13:
                     char2 = array[i7++];
-                    out += String.fromCharCode((c7 & 31) << 6 | char2 & 63);
+                    out += String.fromCharCode((c8 & 31) << 6 | char2 & 63);
                     break;
                   case 14:
                     char2 = array[i7++];
                     char3 = array[i7++];
-                    out += String.fromCharCode((c7 & 15) << 12 | (char2 & 63) << 6 | (char3 & 63) << 0);
+                    out += String.fromCharCode((c8 & 15) << 12 | (char2 & 63) << 6 | (char3 & 63) << 0);
                     break;
                   default:
                 }
@@ -31645,12 +31645,12 @@ ${generateSegmentFilename(i7)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o11, p8) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
-                o12.__proto__ = p9;
+            function _setPrototypeOf(o11, p9) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p10) {
+                o12.__proto__ = p10;
                 return o12;
               };
-              return _setPrototypeOf(o11, p8);
+              return _setPrototypeOf(o11, p9);
             }
             var MP3Demuxer = /* @__PURE__ */ function(_BaseAudioDemuxer) {
               _inheritsLoose(MP3Demuxer2, _BaseAudioDemuxer);
@@ -32102,10 +32102,10 @@ ${generateSegmentFilename(i7)}`);
               }
               var _proto = TransmuxerInterface2.prototype;
               _proto.destroy = function destroy() {
-                var w5 = this.worker;
-                if (w5) {
-                  w5.removeEventListener("message", this.onwmsg);
-                  w5.terminate();
+                var w6 = this.worker;
+                if (w6) {
+                  w6.removeEventListener("message", this.onwmsg);
+                  w6.terminate();
                   this.worker = null;
                 } else {
                   var transmuxer = this.transmuxer;
@@ -32643,8 +32643,8 @@ ${generateSegmentFilename(i7)}`);
                 chunkMeta
               };
             };
-            function isPromise(p8) {
-              return "then" in p8 && p8.then instanceof Function;
+            function isPromise(p9) {
+              return "then" in p9 && p9.then instanceof Function;
             }
             var TransmuxConfig = function TransmuxConfig2(audioCodec, videoCodec, initSegmentData, duration, defaultInitPts) {
               this.audioCodec = void 0;
@@ -33095,18 +33095,18 @@ ${generateSegmentFilename(i7)}`);
                       var payloadType = 0;
                       var payloadSize = 0;
                       var endOfCaptions = false;
-                      var b7 = 0;
+                      var b8 = 0;
                       while (!endOfCaptions && expGolombDecoder.bytesAvailable > 1) {
                         payloadType = 0;
                         do {
-                          b7 = expGolombDecoder.readUByte();
-                          payloadType += b7;
-                        } while (b7 === 255);
+                          b8 = expGolombDecoder.readUByte();
+                          payloadType += b8;
+                        } while (b8 === 255);
                         payloadSize = 0;
                         do {
-                          b7 = expGolombDecoder.readUByte();
-                          payloadSize += b7;
-                        } while (b7 === 255);
+                          b8 = expGolombDecoder.readUByte();
+                          payloadSize += b8;
+                        } while (b8 === 255);
                         if (payloadType === 4 && expGolombDecoder.bytesAvailable !== 0) {
                           endOfCaptions = true;
                           var countryCode = expGolombDecoder.readUByte();
@@ -33183,11 +33183,11 @@ ${generateSegmentFilename(i7)}`);
                         var codecarray = unit.data.subarray(1, 4);
                         var codecstring = "avc1.";
                         for (var _i4 = 0; _i4 < 3; _i4++) {
-                          var h3 = codecarray[_i4].toString(16);
-                          if (h3.length < 2) {
-                            h3 = "0" + h3;
+                          var h4 = codecarray[_i4].toString(16);
+                          if (h4.length < 2) {
+                            h4 = "0" + h4;
                           }
-                          codecstring += h3;
+                          codecstring += h4;
                         }
                         track.codec = codecstring;
                       }
@@ -33555,8 +33555,8 @@ ${generateSegmentFilename(i7)}`);
                 }
                 stream.size -= payloadStartOffset;
                 var pesData = new Uint8Array(stream.size);
-                for (var j2 = 0, dataLen = data.length; j2 < dataLen; j2++) {
-                  frag = data[j2];
+                for (var j3 = 0, dataLen = data.length; j3 < dataLen; j3++) {
+                  frag = data[j3];
                   var len = frag.byteLength;
                   if (payloadStartOffset) {
                     if (payloadStartOffset > len) {
@@ -34378,12 +34378,12 @@ ${generateSegmentFilename(i7)}`);
             function _isNativeFunction(fn) {
               return Function.toString.call(fn).indexOf("[native code]") !== -1;
             }
-            function _setPrototypeOf(o11, p8) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
-                o12.__proto__ = p9;
+            function _setPrototypeOf(o11, p9) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p10) {
+                o12.__proto__ = p10;
                 return o12;
               };
-              return _setPrototypeOf(o11, p8);
+              return _setPrototypeOf(o11, p9);
             }
             function _getPrototypeOf(o11) {
               _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf2(o12) {
@@ -34663,12 +34663,12 @@ ${generateSegmentFilename(i7)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o11, p8) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
-                o12.__proto__ = p9;
+            function _setPrototypeOf(o11, p9) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p10) {
+                o12.__proto__ = p10;
                 return o12;
               };
-              return _setPrototypeOf(o11, p8);
+              return _setPrototypeOf(o11, p9);
             }
             function _defineProperties(target, props) {
               for (var i7 = 0; i7 < props.length; i7++) {
@@ -35378,8 +35378,8 @@ ${generateSegmentFilename(i7)}`);
                       level.width = resolution.width;
                       level.height = resolution.height;
                     }
-                    setCodecs((attrs.CODECS || "").split(/[ ,]+/).filter(function(c7) {
-                      return c7;
+                    setCodecs((attrs.CODECS || "").split(/[ ,]+/).filter(function(c8) {
+                      return c8;
                     }), level);
                     if (level.videoCodec && level.videoCodec.indexOf("avc1") !== -1) {
                       level.videoCodec = M3U8Parser2.convertAVC1ToAVCOTI(level.videoCodec);
@@ -37537,9 +37537,9 @@ ${generateSegmentFilename(i7)}`);
                   }
                 }
                 if (sortSamples) {
-                  inputSamples.sort(function(a7, b7) {
-                    var deltadts = a7.dts - b7.dts;
-                    var deltapts = a7.pts - b7.pts;
+                  inputSamples.sort(function(a7, b8) {
+                    var deltadts = a7.dts - b8.dts;
+                    var deltapts = a7.pts - b8.pts;
                     return deltadts || deltapts;
                   });
                 }
@@ -37589,8 +37589,8 @@ ${generateSegmentFilename(i7)}`);
                   var units = _sample.units;
                   var nbUnits = units.length;
                   var sampleLen = 0;
-                  for (var j2 = 0; j2 < nbUnits; j2++) {
-                    sampleLen += units[j2].data.length;
+                  for (var j3 = 0; j3 < nbUnits; j3++) {
+                    sampleLen += units[j3].data.length;
                   }
                   naluLen += sampleLen;
                   nbNalu += nbUnits;
@@ -37742,7 +37742,7 @@ ${generateSegmentFilename(i7)}`);
                         this.nextAudioPts = nextAudioPts = nextPts;
                       }
                       _utils_logger__WEBPACK_IMPORTED_MODULE_5__["logger"].warn("[mp4-remuxer]: Injecting " + missing + " audio frame @ " + (nextPts / inputTimeScale).toFixed(3) + "s due to " + Math.round(1e3 * delta / inputTimeScale) + " ms gap.");
-                      for (var j2 = 0; j2 < missing; j2++) {
+                      for (var j3 = 0; j3 < missing; j3++) {
                         var newStamp = Math.max(nextPts, 0);
                         var fillFrame = _aac_helper__WEBPACK_IMPORTED_MODULE_1__["default"].getSilentFrame(track.manifestCodec || track.codec, track.channelCount);
                         if (!fillFrame) {
@@ -37896,8 +37896,8 @@ ${generateSegmentFilename(i7)}`);
                   var sample = track.samples[index];
                   sample.pts = normalizePts(sample.pts - initPTS, timeOffset * inputTimeScale) / inputTimeScale;
                 }
-                track.samples.sort(function(a7, b7) {
-                  return a7.pts - b7.pts;
+                track.samples.sort(function(a7, b8) {
+                  return a7.pts - b8.pts;
                 });
                 var samples = track.samples;
                 track.samples = [];
@@ -38344,8 +38344,8 @@ ${generateSegmentFilename(i7)}`);
                 this.audioCodec = data.audioCodec;
                 this.videoCodec = data.videoCodec;
                 this.unknownCodecs = data.unknownCodecs;
-                this.codecSet = [data.videoCodec, data.audioCodec].filter(function(c7) {
-                  return c7;
+                this.codecSet = [data.videoCodec, data.audioCodec].filter(function(c8) {
+                  return c8;
                 }).join(",").replace(/\.[^.,]+/g, "");
               }
               _createClass(Level2, [{
@@ -38612,12 +38612,12 @@ ${generateSegmentFilename(i7)}`);
               };
               BufferHelper2.bufferedInfo = function bufferedInfo(buffered, pos, maxHoleDuration) {
                 pos = Math.max(0, pos);
-                buffered.sort(function(a7, b7) {
-                  var diff = a7.start - b7.start;
+                buffered.sort(function(a7, b8) {
+                  var diff = a7.start - b8.start;
                   if (diff) {
                     return diff;
                   } else {
-                    return b7.end - a7.end;
+                    return b8.end - a7.end;
                   }
                 });
                 var buffered2 = [];
@@ -38848,8 +38848,8 @@ ${generateSegmentFilename(i7)}`);
             }();
             var numArrayToHexArray = function numArrayToHexArray2(numArray) {
               var hexArray = [];
-              for (var j2 = 0; j2 < numArray.length; j2++) {
-                hexArray.push(numArray[j2].toString(16));
+              for (var j3 = 0; j3 < numArray.length; j3++) {
+                hexArray.push(numArray[j3].toString(16));
               }
               return hexArray;
             };
@@ -39438,29 +39438,29 @@ ${generateSegmentFilename(i7)}`);
               _proto7.addData = function addData(time, byteList) {
                 var cmdFound;
                 var a7;
-                var b7;
+                var b8;
                 var charsFound = false;
                 this.logger.time = time;
                 for (var i7 = 0; i7 < byteList.length; i7 += 2) {
                   a7 = byteList[i7] & 127;
-                  b7 = byteList[i7 + 1] & 127;
-                  if (a7 === 0 && b7 === 0) {
+                  b8 = byteList[i7 + 1] & 127;
+                  if (a7 === 0 && b8 === 0) {
                     continue;
                   } else {
-                    this.logger.log(VerboseLevel.DATA, "[" + numArrayToHexArray([byteList[i7], byteList[i7 + 1]]) + "] -> (" + numArrayToHexArray([a7, b7]) + ")");
+                    this.logger.log(VerboseLevel.DATA, "[" + numArrayToHexArray([byteList[i7], byteList[i7 + 1]]) + "] -> (" + numArrayToHexArray([a7, b8]) + ")");
                   }
-                  cmdFound = this.parseCmd(a7, b7);
+                  cmdFound = this.parseCmd(a7, b8);
                   if (!cmdFound) {
-                    cmdFound = this.parseMidrow(a7, b7);
-                  }
-                  if (!cmdFound) {
-                    cmdFound = this.parsePAC(a7, b7);
+                    cmdFound = this.parseMidrow(a7, b8);
                   }
                   if (!cmdFound) {
-                    cmdFound = this.parseBackgroundAttributes(a7, b7);
+                    cmdFound = this.parsePAC(a7, b8);
                   }
                   if (!cmdFound) {
-                    charsFound = this.parseChars(a7, b7);
+                    cmdFound = this.parseBackgroundAttributes(a7, b8);
+                  }
+                  if (!cmdFound) {
+                    charsFound = this.parseChars(a7, b8);
                     if (charsFound) {
                       var currChNr = this.currentChannel;
                       if (currChNr && currChNr > 0) {
@@ -39472,68 +39472,68 @@ ${generateSegmentFilename(i7)}`);
                     }
                   }
                   if (!cmdFound && !charsFound) {
-                    this.logger.log(VerboseLevel.WARNING, "Couldn't parse cleaned data " + numArrayToHexArray([a7, b7]) + " orig: " + numArrayToHexArray([byteList[i7], byteList[i7 + 1]]));
+                    this.logger.log(VerboseLevel.WARNING, "Couldn't parse cleaned data " + numArrayToHexArray([a7, b8]) + " orig: " + numArrayToHexArray([byteList[i7], byteList[i7 + 1]]));
                   }
                 }
               };
-              _proto7.parseCmd = function parseCmd(a7, b7) {
+              _proto7.parseCmd = function parseCmd(a7, b8) {
                 var cmdHistory = this.cmdHistory;
-                var cond1 = (a7 === 20 || a7 === 28 || a7 === 21 || a7 === 29) && b7 >= 32 && b7 <= 47;
-                var cond2 = (a7 === 23 || a7 === 31) && b7 >= 33 && b7 <= 35;
+                var cond1 = (a7 === 20 || a7 === 28 || a7 === 21 || a7 === 29) && b8 >= 32 && b8 <= 47;
+                var cond2 = (a7 === 23 || a7 === 31) && b8 >= 33 && b8 <= 35;
                 if (!(cond1 || cond2)) {
                   return false;
                 }
-                if (hasCmdRepeated(a7, b7, cmdHistory)) {
+                if (hasCmdRepeated(a7, b8, cmdHistory)) {
                   setLastCmd(null, null, cmdHistory);
-                  this.logger.log(VerboseLevel.DEBUG, "Repeated command (" + numArrayToHexArray([a7, b7]) + ") is dropped");
+                  this.logger.log(VerboseLevel.DEBUG, "Repeated command (" + numArrayToHexArray([a7, b8]) + ") is dropped");
                   return true;
                 }
                 var chNr = a7 === 20 || a7 === 21 || a7 === 23 ? 1 : 2;
                 var channel = this.channels[chNr];
                 if (a7 === 20 || a7 === 21 || a7 === 28 || a7 === 29) {
-                  if (b7 === 32) {
+                  if (b8 === 32) {
                     channel.ccRCL();
-                  } else if (b7 === 33) {
+                  } else if (b8 === 33) {
                     channel.ccBS();
-                  } else if (b7 === 34) {
+                  } else if (b8 === 34) {
                     channel.ccAOF();
-                  } else if (b7 === 35) {
+                  } else if (b8 === 35) {
                     channel.ccAON();
-                  } else if (b7 === 36) {
+                  } else if (b8 === 36) {
                     channel.ccDER();
-                  } else if (b7 === 37) {
+                  } else if (b8 === 37) {
                     channel.ccRU(2);
-                  } else if (b7 === 38) {
+                  } else if (b8 === 38) {
                     channel.ccRU(3);
-                  } else if (b7 === 39) {
+                  } else if (b8 === 39) {
                     channel.ccRU(4);
-                  } else if (b7 === 40) {
+                  } else if (b8 === 40) {
                     channel.ccFON();
-                  } else if (b7 === 41) {
+                  } else if (b8 === 41) {
                     channel.ccRDC();
-                  } else if (b7 === 42) {
+                  } else if (b8 === 42) {
                     channel.ccTR();
-                  } else if (b7 === 43) {
+                  } else if (b8 === 43) {
                     channel.ccRTD();
-                  } else if (b7 === 44) {
+                  } else if (b8 === 44) {
                     channel.ccEDM();
-                  } else if (b7 === 45) {
+                  } else if (b8 === 45) {
                     channel.ccCR();
-                  } else if (b7 === 46) {
+                  } else if (b8 === 46) {
                     channel.ccENM();
-                  } else if (b7 === 47) {
+                  } else if (b8 === 47) {
                     channel.ccEOC();
                   }
                 } else {
-                  channel.ccTO(b7 - 32);
+                  channel.ccTO(b8 - 32);
                 }
-                setLastCmd(a7, b7, cmdHistory);
+                setLastCmd(a7, b8, cmdHistory);
                 this.currentChannel = chNr;
                 return true;
               };
-              _proto7.parseMidrow = function parseMidrow(a7, b7) {
+              _proto7.parseMidrow = function parseMidrow(a7, b8) {
                 var chNr = 0;
-                if ((a7 === 17 || a7 === 25) && b7 >= 32 && b7 <= 47) {
+                if ((a7 === 17 || a7 === 25) && b8 >= 32 && b8 <= 47) {
                   if (a7 === 17) {
                     chNr = 1;
                   } else {
@@ -39547,26 +39547,26 @@ ${generateSegmentFilename(i7)}`);
                   if (!channel) {
                     return false;
                   }
-                  channel.ccMIDROW(b7);
-                  this.logger.log(VerboseLevel.DEBUG, "MIDROW (" + numArrayToHexArray([a7, b7]) + ")");
+                  channel.ccMIDROW(b8);
+                  this.logger.log(VerboseLevel.DEBUG, "MIDROW (" + numArrayToHexArray([a7, b8]) + ")");
                   return true;
                 }
                 return false;
               };
-              _proto7.parsePAC = function parsePAC(a7, b7) {
+              _proto7.parsePAC = function parsePAC(a7, b8) {
                 var row;
                 var cmdHistory = this.cmdHistory;
-                var case1 = (a7 >= 17 && a7 <= 23 || a7 >= 25 && a7 <= 31) && b7 >= 64 && b7 <= 127;
-                var case2 = (a7 === 16 || a7 === 24) && b7 >= 64 && b7 <= 95;
+                var case1 = (a7 >= 17 && a7 <= 23 || a7 >= 25 && a7 <= 31) && b8 >= 64 && b8 <= 127;
+                var case2 = (a7 === 16 || a7 === 24) && b8 >= 64 && b8 <= 95;
                 if (!(case1 || case2)) {
                   return false;
                 }
-                if (hasCmdRepeated(a7, b7, cmdHistory)) {
+                if (hasCmdRepeated(a7, b8, cmdHistory)) {
                   setLastCmd(null, null, cmdHistory);
                   return true;
                 }
                 var chNr = a7 <= 23 ? 1 : 2;
-                if (b7 >= 64 && b7 <= 95) {
+                if (b8 >= 64 && b8 <= 95) {
                   row = chNr === 1 ? rowsLowCh1[a7] : rowsLowCh2[a7];
                 } else {
                   row = chNr === 1 ? rowsHighCh1[a7] : rowsHighCh2[a7];
@@ -39575,8 +39575,8 @@ ${generateSegmentFilename(i7)}`);
                 if (!channel) {
                   return false;
                 }
-                channel.setPAC(this.interpretPAC(row, b7));
-                setLastCmd(a7, b7, cmdHistory);
+                channel.setPAC(this.interpretPAC(row, b8));
+                setLastCmd(a7, b8, cmdHistory);
                 this.currentChannel = chNr;
                 return true;
               };
@@ -39605,7 +39605,7 @@ ${generateSegmentFilename(i7)}`);
                 }
                 return pacData;
               };
-              _proto7.parseChars = function parseChars(a7, b7) {
+              _proto7.parseChars = function parseChars(a7, b8) {
                 var channelNr;
                 var charCodes = null;
                 var charCode1 = null;
@@ -39619,50 +39619,50 @@ ${generateSegmentFilename(i7)}`);
                 if (charCode1 >= 17 && charCode1 <= 19) {
                   var oneCode;
                   if (charCode1 === 17) {
-                    oneCode = b7 + 80;
+                    oneCode = b8 + 80;
                   } else if (charCode1 === 18) {
-                    oneCode = b7 + 112;
+                    oneCode = b8 + 112;
                   } else {
-                    oneCode = b7 + 144;
+                    oneCode = b8 + 144;
                   }
                   this.logger.log(VerboseLevel.INFO, "Special char '" + getCharForByte(oneCode) + "' in channel " + channelNr);
                   charCodes = [oneCode];
                 } else if (a7 >= 32 && a7 <= 127) {
-                  charCodes = b7 === 0 ? [a7] : [a7, b7];
+                  charCodes = b8 === 0 ? [a7] : [a7, b8];
                 }
                 if (charCodes) {
                   var hexCodes = numArrayToHexArray(charCodes);
                   this.logger.log(VerboseLevel.DEBUG, "Char codes =  " + hexCodes.join(","));
-                  setLastCmd(a7, b7, this.cmdHistory);
+                  setLastCmd(a7, b8, this.cmdHistory);
                 }
                 return charCodes;
               };
-              _proto7.parseBackgroundAttributes = function parseBackgroundAttributes(a7, b7) {
-                var case1 = (a7 === 16 || a7 === 24) && b7 >= 32 && b7 <= 47;
-                var case2 = (a7 === 23 || a7 === 31) && b7 >= 45 && b7 <= 47;
+              _proto7.parseBackgroundAttributes = function parseBackgroundAttributes(a7, b8) {
+                var case1 = (a7 === 16 || a7 === 24) && b8 >= 32 && b8 <= 47;
+                var case2 = (a7 === 23 || a7 === 31) && b8 >= 45 && b8 <= 47;
                 if (!(case1 || case2)) {
                   return false;
                 }
                 var index;
                 var bkgData = {};
                 if (a7 === 16 || a7 === 24) {
-                  index = Math.floor((b7 - 32) / 2);
+                  index = Math.floor((b8 - 32) / 2);
                   bkgData.background = backgroundColors[index];
-                  if (b7 % 2 === 1) {
+                  if (b8 % 2 === 1) {
                     bkgData.background = bkgData.background + "_semi";
                   }
-                } else if (b7 === 45) {
+                } else if (b8 === 45) {
                   bkgData.background = "transparent";
                 } else {
                   bkgData.foreground = "black";
-                  if (b7 === 47) {
+                  if (b8 === 47) {
                     bkgData.underline = true;
                   }
                 }
                 var chNr = a7 <= 23 ? 1 : 2;
                 var channel = this.channels[chNr];
                 channel.setBkgData(bkgData);
-                setLastCmd(a7, b7, this.cmdHistory);
+                setLastCmd(a7, b8, this.cmdHistory);
                 return true;
               };
               _proto7.reset = function reset() {
@@ -39684,12 +39684,12 @@ ${generateSegmentFilename(i7)}`);
               };
               return Cea608Parser2;
             }();
-            function setLastCmd(a7, b7, cmdHistory) {
+            function setLastCmd(a7, b8, cmdHistory) {
               cmdHistory.a = a7;
-              cmdHistory.b = b7;
+              cmdHistory.b = b8;
             }
-            function hasCmdRepeated(a7, b7, cmdHistory) {
-              return cmdHistory.a === a7 && cmdHistory.b === b7;
+            function hasCmdRepeated(a7, b8, cmdHistory) {
+              return cmdHistory.a === a7 && cmdHistory.b === b8;
             }
             function createCmdHistory() {
               return {
@@ -39806,11 +39806,11 @@ ${generateSegmentFilename(i7)}`);
                   indent = 0;
                   text = "";
                   if (!row.isEmpty()) {
-                    for (var c7 = 0; c7 < row.chars.length; c7++) {
-                      if (WHITESPACE_CHAR.test(row.chars[c7].uchar) && indenting) {
+                    for (var c8 = 0; c8 < row.chars.length; c8++) {
+                      if (WHITESPACE_CHAR.test(row.chars[c8].uchar) && indenting) {
                         indent++;
                       } else {
-                        text += row.chars[c7].uchar;
+                        text += row.chars[c8].uchar;
                         indenting = false;
                       }
                     }
@@ -40154,12 +40154,12 @@ ${generateSegmentFilename(i7)}`);
             function _isNativeFunction(fn) {
               return Function.toString.call(fn).indexOf("[native code]") !== -1;
             }
-            function _setPrototypeOf(o11, p8) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
-                o12.__proto__ = p9;
+            function _setPrototypeOf(o11, p9) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p10) {
+                o12.__proto__ = p10;
                 return o12;
               };
-              return _setPrototypeOf(o11, p8);
+              return _setPrototypeOf(o11, p9);
             }
             function _getPrototypeOf(o11) {
               _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf2(o12) {
@@ -40416,8 +40416,8 @@ ${generateSegmentFilename(i7)}`);
             function parseTTML(ttml, syncTime) {
               var parser = new DOMParser();
               var xmlDoc = parser.parseFromString(ttml, "text/xml");
-              var tt = xmlDoc.getElementsByTagName("tt")[0];
-              if (!tt) {
+              var tt2 = xmlDoc.getElementsByTagName("tt")[0];
+              if (!tt2) {
                 throw new Error("Invalid ttml");
               }
               var defaultRateInfo = {
@@ -40427,13 +40427,13 @@ ${generateSegmentFilename(i7)}`);
                 tickRate: 0
               };
               var rateInfo = Object.keys(defaultRateInfo).reduce(function(result, key) {
-                result[key] = tt.getAttribute("ttp:" + key) || defaultRateInfo[key];
+                result[key] = tt2.getAttribute("ttp:" + key) || defaultRateInfo[key];
                 return result;
               }, {});
-              var trim = tt.getAttribute("xml:space") !== "preserve";
-              var styleElements = collectionToDictionary(getElementCollection(tt, "styling", "style"));
-              var regionElements = collectionToDictionary(getElementCollection(tt, "layout", "region"));
-              var cueElements = getElementCollection(tt, "body", "[begin]");
+              var trim = tt2.getAttribute("xml:space") !== "preserve";
+              var styleElements = collectionToDictionary(getElementCollection(tt2, "styling", "style"));
+              var regionElements = collectionToDictionary(getElementCollection(tt2, "layout", "region"));
+              var cueElements = getElementCollection(tt2, "body", "[begin]");
               return [].map.call(cueElements, function(cueElement) {
                 var cueText = getTextContent(cueElement, trim);
                 if (!cueText || !cueElement.hasAttribute("begin")) {
@@ -40541,14 +40541,14 @@ ${generateSegmentFilename(i7)}`);
               return seconds;
             }
             function parseHoursMinutesSecondsFrames(timeAttributeValue, rateInfo) {
-              var m8 = HMSF_REGEX.exec(timeAttributeValue);
-              var frames = (m8[4] | 0) + (m8[5] | 0) / rateInfo.subFrameRate;
-              return (m8[1] | 0) * 3600 + (m8[2] | 0) * 60 + (m8[3] | 0) + frames / rateInfo.frameRate;
+              var m9 = HMSF_REGEX.exec(timeAttributeValue);
+              var frames = (m9[4] | 0) + (m9[5] | 0) / rateInfo.subFrameRate;
+              return (m9[1] | 0) * 3600 + (m9[2] | 0) * 60 + (m9[3] | 0) + frames / rateInfo.frameRate;
             }
             function parseTimeUnits(timeAttributeValue, rateInfo) {
-              var m8 = TIME_UNIT_REGEX.exec(timeAttributeValue);
-              var value = Number(m8[1]);
-              var unit = m8[2];
+              var m9 = TIME_UNIT_REGEX.exec(timeAttributeValue);
+              var value = Number(m9[1]);
+              var unit = m9[2];
               switch (unit) {
                 case "h":
                   return value * 3600;
@@ -40929,10 +40929,10 @@ ${generateSegmentFilename(i7)}`);
                 }
                 var timescale = track.timescale || 9e4;
                 var truns = findBox(traf, ["trun"]);
-                for (var j2 = 0; j2 < truns.length; j2++) {
-                  rawDuration = computeRawDurationFromSamples(truns[j2]);
+                for (var j3 = 0; j3 < truns.length; j3++) {
+                  rawDuration = computeRawDurationFromSamples(truns[j3]);
                   if (!rawDuration && sampleDuration) {
-                    var sampleCount = readUint32(truns[j2], 4);
+                    var sampleCount = readUint32(truns[j3], 4);
                     rawDuration = sampleDuration * sampleCount;
                   }
                   if (track.type === _loader_fragment__WEBPACK_IMPORTED_MODULE_1__["ElementaryStreamTypes"].VIDEO) {
@@ -41303,8 +41303,8 @@ ${generateSegmentFilename(i7)}`);
                 var i7 = 1;
                 for (; i7 < arguments.length; i7++) {
                   var cobj = arguments[i7];
-                  for (var p8 in cobj) {
-                    obj[p8] = cobj[p8];
+                  for (var p9 in cobj) {
+                    obj[p9] = cobj[p9];
                   }
                 }
                 return obj;
@@ -41522,55 +41522,55 @@ ${generateSegmentFilename(i7)}`);
               return StringDecoder2;
             }();
             function parseTimeStamp(input) {
-              function computeSeconds(h3, m9, s8, f9) {
-                return (h3 | 0) * 3600 + (m9 | 0) * 60 + (s8 | 0) + parseFloat(f9 || 0);
+              function computeSeconds(h4, m10, s9, f10) {
+                return (h4 | 0) * 3600 + (m10 | 0) * 60 + (s9 | 0) + parseFloat(f10 || 0);
               }
-              var m8 = input.match(/^(?:(\d+):)?(\d{2}):(\d{2})(\.\d+)?/);
-              if (!m8) {
+              var m9 = input.match(/^(?:(\d+):)?(\d{2}):(\d{2})(\.\d+)?/);
+              if (!m9) {
                 return null;
               }
-              if (parseFloat(m8[2]) > 59) {
-                return computeSeconds(m8[2], m8[3], 0, m8[4]);
+              if (parseFloat(m9[2]) > 59) {
+                return computeSeconds(m9[2], m9[3], 0, m9[4]);
               }
-              return computeSeconds(m8[1], m8[2], m8[3], m8[4]);
+              return computeSeconds(m9[1], m9[2], m9[3], m9[4]);
             }
             var Settings = /* @__PURE__ */ function() {
               function Settings2() {
                 this.values = Object.create(null);
               }
               var _proto2 = Settings2.prototype;
-              _proto2.set = function set(k3, v7) {
-                if (!this.get(k3) && v7 !== "") {
-                  this.values[k3] = v7;
+              _proto2.set = function set(k4, v8) {
+                if (!this.get(k4) && v8 !== "") {
+                  this.values[k4] = v8;
                 }
               };
-              _proto2.get = function get(k3, dflt, defaultKey) {
+              _proto2.get = function get(k4, dflt, defaultKey) {
                 if (defaultKey) {
-                  return this.has(k3) ? this.values[k3] : dflt[defaultKey];
+                  return this.has(k4) ? this.values[k4] : dflt[defaultKey];
                 }
-                return this.has(k3) ? this.values[k3] : dflt;
+                return this.has(k4) ? this.values[k4] : dflt;
               };
-              _proto2.has = function has(k3) {
-                return k3 in this.values;
+              _proto2.has = function has(k4) {
+                return k4 in this.values;
               };
-              _proto2.alt = function alt(k3, v7, a7) {
+              _proto2.alt = function alt(k4, v8, a7) {
                 for (var n5 = 0; n5 < a7.length; ++n5) {
-                  if (v7 === a7[n5]) {
-                    this.set(k3, v7);
+                  if (v8 === a7[n5]) {
+                    this.set(k4, v8);
                     break;
                   }
                 }
               };
-              _proto2.integer = function integer(k3, v7) {
-                if (/^-?\d+$/.test(v7)) {
-                  this.set(k3, parseInt(v7, 10));
+              _proto2.integer = function integer(k4, v8) {
+                if (/^-?\d+$/.test(v8)) {
+                  this.set(k4, parseInt(v8, 10));
                 }
               };
-              _proto2.percent = function percent(k3, v7) {
-                if (/^([\d]{1,3})(\.[\d]*)?%$/.test(v7)) {
-                  var percent2 = parseFloat(v7);
+              _proto2.percent = function percent(k4, v8) {
+                if (/^([\d]{1,3})(\.[\d]*)?%$/.test(v8)) {
+                  var percent2 = parseFloat(v8);
                   if (percent2 >= 0 && percent2 <= 100) {
-                    this.set(k3, percent2);
+                    this.set(k4, percent2);
                     return true;
                   }
                 }
@@ -41607,43 +41607,43 @@ ${generateSegmentFilename(i7)}`);
               }
               function consumeCueSettings(input2, cue2) {
                 var settings = new Settings();
-                parseOptions(input2, function(k3, v7) {
+                parseOptions(input2, function(k4, v8) {
                   var vals;
-                  switch (k3) {
+                  switch (k4) {
                     case "region":
                       for (var i7 = regionList.length - 1; i7 >= 0; i7--) {
-                        if (regionList[i7].id === v7) {
-                          settings.set(k3, regionList[i7].region);
+                        if (regionList[i7].id === v8) {
+                          settings.set(k4, regionList[i7].region);
                           break;
                         }
                       }
                       break;
                     case "vertical":
-                      settings.alt(k3, v7, ["rl", "lr"]);
+                      settings.alt(k4, v8, ["rl", "lr"]);
                       break;
                     case "line":
-                      vals = v7.split(",");
-                      settings.integer(k3, vals[0]);
-                      if (settings.percent(k3, vals[0])) {
+                      vals = v8.split(",");
+                      settings.integer(k4, vals[0]);
+                      if (settings.percent(k4, vals[0])) {
                         settings.set("snapToLines", false);
                       }
-                      settings.alt(k3, vals[0], ["auto"]);
+                      settings.alt(k4, vals[0], ["auto"]);
                       if (vals.length === 2) {
                         settings.alt("lineAlign", vals[1], ["start", center, "end"]);
                       }
                       break;
                     case "position":
-                      vals = v7.split(",");
-                      settings.percent(k3, vals[0]);
+                      vals = v8.split(",");
+                      settings.percent(k4, vals[0]);
                       if (vals.length === 2) {
                         settings.alt("positionAlign", vals[1], ["start", center, "end", "line-left", "line-right", "auto"]);
                       }
                       break;
                     case "size":
-                      settings.percent(k3, v7);
+                      settings.percent(k4, v8);
                       break;
                     case "align":
-                      settings.alt(k3, v7, ["start", center, "end", "left", "right"]);
+                      settings.alt(k4, v8, ["start", center, "end", "left", "right"]);
                       break;
                   }
                 }, /:/, /\s/);
@@ -41719,7 +41719,7 @@ ${generateSegmentFilename(i7)}`);
                   return line2;
                 }
                 function parseHeader(input) {
-                  parseOptions(input, function(k3, v7) {
+                  parseOptions(input, function(k4, v8) {
                   }, /:/);
                 }
                 try {
@@ -41729,8 +41729,8 @@ ${generateSegmentFilename(i7)}`);
                       return this;
                     }
                     line = collectNextLine();
-                    var m8 = line.match(/^(ï»¿)?WEBVTT([ \t].*)?$/);
-                    if (!m8 || !m8[0]) {
+                    var m9 = line.match(/^(ï»¿)?WEBVTT([ \t].*)?$/);
+                    if (!m9 || !m9[0]) {
                       throw new Error("Malformed WebVTT signature.");
                     }
                     _this.state = "HEADER";
@@ -41878,16 +41878,16 @@ ${generateSegmentFilename(i7)}`);
               ts += 60 * 60 * 1e3 * hours;
               return ts;
             };
-            var hash2 = function hash3(text) {
-              var hash4 = 5381;
+            var hash = function hash2(text) {
+              var hash3 = 5381;
               var i7 = text.length;
               while (i7) {
-                hash4 = hash4 * 33 ^ text.charCodeAt(--i7);
+                hash3 = hash3 * 33 ^ text.charCodeAt(--i7);
               }
-              return (hash4 >>> 0).toString();
+              return (hash3 >>> 0).toString();
             };
             function generateCueId(startTime, endTime, text) {
-              return hash2(startTime.toString()) + hash2(endTime.toString()) + hash2(text);
+              return hash(startTime.toString()) + hash(endTime.toString()) + hash(text);
             }
             var calculateOffset = function calculateOffset2(vttCCs, cc, presentationTime) {
               var currCC = vttCCs[cc];
@@ -42195,8 +42195,8 @@ ${generateSegmentFilename(i7)}`);
       function OpenSeadragon(options) {
         return new OpenSeadragon.Viewer(options);
       }
-      (function($3) {
-        $3.version = {
+      (function($4) {
+        $4.version = {
           versionStr: "2.4.2",
           major: parseInt("2", 10),
           minor: parseInt("4", 10),
@@ -42212,20 +42212,20 @@ ${generateSegmentFilename(i7)}`);
           "[object RegExp]": "regexp",
           "[object Object]": "object"
         }, toString = Object.prototype.toString, hasOwn = Object.prototype.hasOwnProperty;
-        $3.isFunction = function(obj) {
-          return $3.type(obj) === "function";
+        $4.isFunction = function(obj) {
+          return $4.type(obj) === "function";
         };
-        $3.isArray = Array.isArray || function(obj) {
-          return $3.type(obj) === "array";
+        $4.isArray = Array.isArray || function(obj) {
+          return $4.type(obj) === "array";
         };
-        $3.isWindow = function(obj) {
+        $4.isWindow = function(obj) {
           return obj && typeof obj === "object" && "setInterval" in obj;
         };
-        $3.type = function(obj) {
+        $4.type = function(obj) {
           return obj === null || obj === void 0 ? String(obj) : class2type[toString.call(obj)] || "object";
         };
-        $3.isPlainObject = function(obj) {
-          if (!obj || OpenSeadragon.type(obj) !== "object" || obj.nodeType || $3.isWindow(obj)) {
+        $4.isPlainObject = function(obj) {
+          if (!obj || OpenSeadragon.type(obj) !== "object" || obj.nodeType || $4.isWindow(obj)) {
             return false;
           }
           if (obj.constructor && !hasOwn.call(obj, "constructor") && !hasOwn.call(obj.constructor.prototype, "isPrototypeOf")) {
@@ -42237,27 +42237,27 @@ ${generateSegmentFilename(i7)}`);
           }
           return lastKey === void 0 || hasOwn.call(obj, lastKey);
         };
-        $3.isEmptyObject = function(obj) {
+        $4.isEmptyObject = function(obj) {
           for (var name in obj) {
             return false;
           }
           return true;
         };
-        $3.freezeObject = function(obj) {
+        $4.freezeObject = function(obj) {
           if (Object.freeze) {
-            $3.freezeObject = Object.freeze;
+            $4.freezeObject = Object.freeze;
           } else {
-            $3.freezeObject = function(obj2) {
+            $4.freezeObject = function(obj2) {
               return obj2;
             };
           }
-          return $3.freezeObject(obj);
+          return $4.freezeObject(obj);
         };
-        $3.supportsCanvas = function() {
+        $4.supportsCanvas = function() {
           var canvasElement = document.createElement("canvas");
-          return !!($3.isFunction(canvasElement.getContext) && canvasElement.getContext("2d"));
+          return !!($4.isFunction(canvasElement.getContext) && canvasElement.getContext("2d"));
         }();
-        $3.isCanvasTainted = function(canvas) {
+        $4.isCanvasTainted = function(canvas) {
           var isTainted = false;
           try {
             canvas.getContext("2d").getImageData(0, 0, 1, 1);
@@ -42266,8 +42266,8 @@ ${generateSegmentFilename(i7)}`);
           }
           return isTainted;
         };
-        $3.pixelDensityRatio = function() {
-          if ($3.supportsCanvas) {
+        $4.pixelDensityRatio = function() {
+          if ($4.supportsCanvas) {
             var context = document.createElement("canvas").getContext("2d");
             var devicePixelRatio = window.devicePixelRatio || 1;
             var backingStoreRatio = context.webkitBackingStorePixelRatio || context.mozBackingStorePixelRatio || context.msBackingStorePixelRatio || context.oBackingStorePixelRatio || context.backingStorePixelRatio || 1;
@@ -43124,7 +43124,7 @@ ${generateSegmentFilename(i7)}`);
               script.charset = options.scriptCharset;
             }
             script.src = url;
-            script.onload = script.onreadystatechange = function(_, isAbort) {
+            script.onload = script.onreadystatechange = function(_2, isAbort) {
               if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState)) {
                 script.onload = script.onreadystatechange = null;
                 if (head && script.parentNode) {
@@ -43244,15 +43244,15 @@ ${generateSegmentFilename(i7)}`);
           $.Browser.alpha = !($.Browser.vendor == $.BROWSERS.IE && $.Browser.version < 9 || $.Browser.vendor == $.BROWSERS.CHROME && $.Browser.version < 2);
           $.Browser.opacity = !($.Browser.vendor == $.BROWSERS.IE && $.Browser.version < 9);
         })();
-        (function(w5) {
-          var requestAnimationFrame2 = w5.requestAnimationFrame || w5.mozRequestAnimationFrame || w5.webkitRequestAnimationFrame || w5.msRequestAnimationFrame;
-          var cancelAnimationFrame2 = w5.cancelAnimationFrame || w5.mozCancelAnimationFrame || w5.webkitCancelAnimationFrame || w5.msCancelAnimationFrame;
+        (function(w6) {
+          var requestAnimationFrame2 = w6.requestAnimationFrame || w6.mozRequestAnimationFrame || w6.webkitRequestAnimationFrame || w6.msRequestAnimationFrame;
+          var cancelAnimationFrame2 = w6.cancelAnimationFrame || w6.mozCancelAnimationFrame || w6.webkitCancelAnimationFrame || w6.msCancelAnimationFrame;
           if (requestAnimationFrame2 && cancelAnimationFrame2) {
             $.requestAnimationFrame = function() {
-              return requestAnimationFrame2.apply(w5, arguments);
+              return requestAnimationFrame2.apply(w6, arguments);
             };
             $.cancelAnimationFrame = function() {
-              return cancelAnimationFrame2.apply(w5, arguments);
+              return cancelAnimationFrame2.apply(w6, arguments);
             };
           } else {
             var aAnimQueue = [], processing = [], iRequestId = 0, iIntervalId;
@@ -43277,14 +43277,14 @@ ${generateSegmentFilename(i7)}`);
               return iRequestId;
             };
             $.cancelAnimationFrame = function(requestId) {
-              var i7, j2;
-              for (i7 = 0, j2 = aAnimQueue.length; i7 < j2; i7 += 1) {
+              var i7, j3;
+              for (i7 = 0, j3 = aAnimQueue.length; i7 < j3; i7 += 1) {
                 if (aAnimQueue[i7][0] === requestId) {
                   aAnimQueue.splice(i7, 1);
                   return;
                 }
               }
-              for (i7 = 0, j2 = processing.length; i7 < j2; i7 += 1) {
+              for (i7 = 0, j3 = processing.length; i7 < j3; i7 += 1) {
                 if (processing[i7][0] === requestId) {
                   processing.splice(i7, 1);
                   return;
@@ -43312,7 +43312,7 @@ ${generateSegmentFilename(i7)}`);
       })(exports, function() {
         return OpenSeadragon;
       });
-      (function($3) {
+      (function($4) {
         var fullScreenApi = {
           supportsFullScreen: false,
           isFullScreen: function() {
@@ -43400,16 +43400,16 @@ ${generateSegmentFilename(i7)}`);
           return fullScreenApi.getFullScreenElement() !== null;
         };
         fullScreenApi.cancelFullScreen = function() {
-          $3.console.error("cancelFullScreen is deprecated. Use exitFullScreen instead.");
+          $4.console.error("cancelFullScreen is deprecated. Use exitFullScreen instead.");
           fullScreenApi.exitFullScreen();
         };
-        $3.extend($3, fullScreenApi);
+        $4.extend($4, fullScreenApi);
       })(OpenSeadragon);
-      (function($3) {
-        $3.EventSource = function() {
+      (function($4) {
+        $4.EventSource = function() {
           this.events = {};
         };
-        $3.EventSource.prototype = {
+        $4.EventSource.prototype = {
           addOnceHandler: function(eventName, handler, userData, times) {
             var self2 = this;
             times = times || 1;
@@ -43428,7 +43428,7 @@ ${generateSegmentFilename(i7)}`);
             if (!events) {
               this.events[eventName] = events = [];
             }
-            if (handler && $3.isFunction(handler)) {
+            if (handler && $4.isFunction(handler)) {
               events[events.length] = { handler, userData: userData || null };
             }
           },
@@ -43437,7 +43437,7 @@ ${generateSegmentFilename(i7)}`);
             if (!events) {
               return;
             }
-            if ($3.isArray(events)) {
+            if ($4.isArray(events)) {
               for (i7 = 0; i7 < events.length; i7++) {
                 if (events[i7].handler !== handler) {
                   handlers.push(events[i7]);
@@ -43483,13 +43483,13 @@ ${generateSegmentFilename(i7)}`);
           }
         };
       })(OpenSeadragon);
-      (function($3) {
+      (function($4) {
         var MOUSETRACKERS = [];
         var THIS = {};
-        $3.MouseTracker = function(options) {
+        $4.MouseTracker = function(options) {
           MOUSETRACKERS.push(this);
           var args = arguments;
-          if (!$3.isPlainObject(options)) {
+          if (!$4.isPlainObject(options)) {
             options = {
               element: args[0],
               clickTimeThreshold: args[1],
@@ -43497,11 +43497,11 @@ ${generateSegmentFilename(i7)}`);
             };
           }
           this.hash = Math.random();
-          this.element = $3.getElement(options.element);
-          this.clickTimeThreshold = options.clickTimeThreshold || $3.DEFAULT_SETTINGS.clickTimeThreshold;
-          this.clickDistThreshold = options.clickDistThreshold || $3.DEFAULT_SETTINGS.clickDistThreshold;
-          this.dblClickTimeThreshold = options.dblClickTimeThreshold || $3.DEFAULT_SETTINGS.dblClickTimeThreshold;
-          this.dblClickDistThreshold = options.dblClickDistThreshold || $3.DEFAULT_SETTINGS.dblClickDistThreshold;
+          this.element = $4.getElement(options.element);
+          this.clickTimeThreshold = options.clickTimeThreshold || $4.DEFAULT_SETTINGS.clickTimeThreshold;
+          this.clickDistThreshold = options.clickDistThreshold || $4.DEFAULT_SETTINGS.clickDistThreshold;
+          this.dblClickTimeThreshold = options.dblClickTimeThreshold || $4.DEFAULT_SETTINGS.dblClickTimeThreshold;
+          this.dblClickDistThreshold = options.dblClickDistThreshold || $4.DEFAULT_SETTINGS.dblClickDistThreshold;
           this.userData = options.userData || null;
           this.stopDelay = options.stopDelay || 50;
           this.enterHandler = options.enterHandler || null;
@@ -43665,7 +43665,7 @@ ${generateSegmentFilename(i7)}`);
             this.setTracking(true);
           }
         };
-        $3.MouseTracker.prototype = {
+        $4.MouseTracker.prototype = {
           destroy: function() {
             var i7;
             stopTracking(this);
@@ -43707,7 +43707,7 @@ ${generateSegmentFilename(i7)}`);
                 return delegate.activePointersLists[i7];
               }
             }
-            list = new $3.MouseTracker.GesturePointList(type);
+            list = new $4.MouseTracker.GesturePointList(type);
             delegate.activePointersLists.push(list);
             return list;
           },
@@ -43757,7 +43757,7 @@ ${generateSegmentFilename(i7)}`);
           blurHandler: function() {
           }
         };
-        $3.MouseTracker.resetAllMouseTrackers = function() {
+        $4.MouseTracker.resetAllMouseTrackers = function() {
           for (var i7 = 0; i7 < MOUSETRACKERS.length; i7++) {
             if (MOUSETRACKERS[i7].isTracking()) {
               MOUSETRACKERS[i7].setTracking(false);
@@ -43765,13 +43765,13 @@ ${generateSegmentFilename(i7)}`);
             }
           }
         };
-        $3.MouseTracker.gesturePointVelocityTracker = function() {
+        $4.MouseTracker.gesturePointVelocityTracker = function() {
           var trackerPoints = [], intervalId = 0, lastTime = 0;
           var _generateGuid = function(tracker, gPoint) {
             return tracker.hash.toString() + gPoint.type + gPoint.id.toString();
           };
           var _doTracking = function() {
-            var i7, len = trackerPoints.length, trackPoint, gPoint, now = $3.now(), elapsedTime, distance, speed;
+            var i7, len = trackerPoints.length, trackPoint, gPoint, now = $4.now(), elapsedTime, distance, speed;
             elapsedTime = now - lastTime;
             lastTime = now;
             for (i7 = 0; i7 < len; i7++) {
@@ -43792,7 +43792,7 @@ ${generateSegmentFilename(i7)}`);
               lastPos: gPoint.currentPos
             });
             if (trackerPoints.length === 1) {
-              lastTime = $3.now();
+              lastTime = $4.now();
               intervalId = window.setInterval(_doTracking, 50);
             }
           };
@@ -43814,56 +43814,56 @@ ${generateSegmentFilename(i7)}`);
             removePoint
           };
         }();
-        $3.MouseTracker.captureElement = document;
-        $3.MouseTracker.wheelEventName = $3.Browser.vendor == $3.BROWSERS.IE && $3.Browser.version > 8 || "onwheel" in document.createElement("div") ? "wheel" : document.onmousewheel !== void 0 ? "mousewheel" : "DOMMouseScroll";
-        $3.MouseTracker.supportsMouseCapture = function() {
+        $4.MouseTracker.captureElement = document;
+        $4.MouseTracker.wheelEventName = $4.Browser.vendor == $4.BROWSERS.IE && $4.Browser.version > 8 || "onwheel" in document.createElement("div") ? "wheel" : document.onmousewheel !== void 0 ? "mousewheel" : "DOMMouseScroll";
+        $4.MouseTracker.supportsMouseCapture = function() {
           var divElement = document.createElement("div");
-          return $3.isFunction(divElement.setCapture) && $3.isFunction(divElement.releaseCapture);
+          return $4.isFunction(divElement.setCapture) && $4.isFunction(divElement.releaseCapture);
         }();
-        $3.MouseTracker.subscribeEvents = ["click", "dblclick", "keydown", "keyup", "keypress", "focus", "blur", $3.MouseTracker.wheelEventName];
-        if ($3.MouseTracker.wheelEventName == "DOMMouseScroll") {
-          $3.MouseTracker.subscribeEvents.push("MozMousePixelScroll");
+        $4.MouseTracker.subscribeEvents = ["click", "dblclick", "keydown", "keyup", "keypress", "focus", "blur", $4.MouseTracker.wheelEventName];
+        if ($4.MouseTracker.wheelEventName == "DOMMouseScroll") {
+          $4.MouseTracker.subscribeEvents.push("MozMousePixelScroll");
         }
-        if (window.PointerEvent && (window.navigator.pointerEnabled || $3.Browser.vendor !== $3.BROWSERS.IE)) {
-          $3.MouseTracker.havePointerEvents = true;
-          $3.MouseTracker.subscribeEvents.push("pointerover", "pointerout", "pointerdown", "pointerup", "pointermove", "pointercancel");
-          $3.MouseTracker.unprefixedPointerEvents = true;
+        if (window.PointerEvent && (window.navigator.pointerEnabled || $4.Browser.vendor !== $4.BROWSERS.IE)) {
+          $4.MouseTracker.havePointerEvents = true;
+          $4.MouseTracker.subscribeEvents.push("pointerover", "pointerout", "pointerdown", "pointerup", "pointermove", "pointercancel");
+          $4.MouseTracker.unprefixedPointerEvents = true;
           if (navigator.maxTouchPoints) {
-            $3.MouseTracker.maxTouchPoints = navigator.maxTouchPoints;
+            $4.MouseTracker.maxTouchPoints = navigator.maxTouchPoints;
           } else {
-            $3.MouseTracker.maxTouchPoints = 0;
+            $4.MouseTracker.maxTouchPoints = 0;
           }
-          $3.MouseTracker.haveMouseEnter = false;
+          $4.MouseTracker.haveMouseEnter = false;
         } else if (window.MSPointerEvent && window.navigator.msPointerEnabled) {
-          $3.MouseTracker.havePointerEvents = true;
-          $3.MouseTracker.subscribeEvents.push("MSPointerOver", "MSPointerOut", "MSPointerDown", "MSPointerUp", "MSPointerMove", "MSPointerCancel");
-          $3.MouseTracker.unprefixedPointerEvents = false;
+          $4.MouseTracker.havePointerEvents = true;
+          $4.MouseTracker.subscribeEvents.push("MSPointerOver", "MSPointerOut", "MSPointerDown", "MSPointerUp", "MSPointerMove", "MSPointerCancel");
+          $4.MouseTracker.unprefixedPointerEvents = false;
           if (navigator.msMaxTouchPoints) {
-            $3.MouseTracker.maxTouchPoints = navigator.msMaxTouchPoints;
+            $4.MouseTracker.maxTouchPoints = navigator.msMaxTouchPoints;
           } else {
-            $3.MouseTracker.maxTouchPoints = 0;
+            $4.MouseTracker.maxTouchPoints = 0;
           }
-          $3.MouseTracker.haveMouseEnter = false;
+          $4.MouseTracker.haveMouseEnter = false;
         } else {
-          $3.MouseTracker.havePointerEvents = false;
-          if ($3.Browser.vendor === $3.BROWSERS.IE && $3.Browser.version < 9) {
-            $3.MouseTracker.subscribeEvents.push("mouseenter", "mouseleave");
-            $3.MouseTracker.haveMouseEnter = true;
+          $4.MouseTracker.havePointerEvents = false;
+          if ($4.Browser.vendor === $4.BROWSERS.IE && $4.Browser.version < 9) {
+            $4.MouseTracker.subscribeEvents.push("mouseenter", "mouseleave");
+            $4.MouseTracker.haveMouseEnter = true;
           } else {
-            $3.MouseTracker.subscribeEvents.push("mouseover", "mouseout");
-            $3.MouseTracker.haveMouseEnter = false;
+            $4.MouseTracker.subscribeEvents.push("mouseover", "mouseout");
+            $4.MouseTracker.haveMouseEnter = false;
           }
-          $3.MouseTracker.subscribeEvents.push("mousedown", "mouseup", "mousemove");
+          $4.MouseTracker.subscribeEvents.push("mousedown", "mouseup", "mousemove");
           if ("ontouchstart" in window) {
-            $3.MouseTracker.subscribeEvents.push("touchstart", "touchend", "touchmove", "touchcancel");
+            $4.MouseTracker.subscribeEvents.push("touchstart", "touchend", "touchmove", "touchcancel");
           }
           if ("ongesturestart" in window) {
-            $3.MouseTracker.subscribeEvents.push("gesturestart", "gesturechange");
+            $4.MouseTracker.subscribeEvents.push("gesturestart", "gesturechange");
           }
-          $3.MouseTracker.mousePointerId = "legacy-mouse";
-          $3.MouseTracker.maxTouchPoints = 10;
+          $4.MouseTracker.mousePointerId = "legacy-mouse";
+          $4.MouseTracker.maxTouchPoints = 10;
         }
-        $3.MouseTracker.GesturePointList = function(type) {
+        $4.MouseTracker.GesturePointList = function(type) {
           this._gPoints = [];
           this.type = type;
           this.buttons = 0;
@@ -43871,7 +43871,7 @@ ${generateSegmentFilename(i7)}`);
           this.clicks = 0;
           this.captureCount = 0;
         };
-        $3.MouseTracker.GesturePointList.prototype = {
+        $4.MouseTracker.GesturePointList.prototype = {
           getLength: function() {
             return this._gPoints.length;
           },
@@ -43932,12 +43932,12 @@ ${generateSegmentFilename(i7)}`);
           var delegate = THIS[tracker.hash], i7, pointerListCount = delegate.activePointersLists.length;
           for (i7 = 0; i7 < pointerListCount; i7++) {
             if (delegate.activePointersLists[i7].captureCount > 0) {
-              $3.removeEvent($3.MouseTracker.captureElement, "mousemove", delegate.mousemovecaptured, true);
-              $3.removeEvent($3.MouseTracker.captureElement, "mouseup", delegate.mouseupcaptured, true);
-              $3.removeEvent($3.MouseTracker.captureElement, $3.MouseTracker.unprefixedPointerEvents ? "pointermove" : "MSPointerMove", delegate.pointermovecaptured, true);
-              $3.removeEvent($3.MouseTracker.captureElement, $3.MouseTracker.unprefixedPointerEvents ? "pointerup" : "MSPointerUp", delegate.pointerupcaptured, true);
-              $3.removeEvent($3.MouseTracker.captureElement, "touchmove", delegate.touchmovecaptured, true);
-              $3.removeEvent($3.MouseTracker.captureElement, "touchend", delegate.touchendcaptured, true);
+              $4.removeEvent($4.MouseTracker.captureElement, "mousemove", delegate.mousemovecaptured, true);
+              $4.removeEvent($4.MouseTracker.captureElement, "mouseup", delegate.mouseupcaptured, true);
+              $4.removeEvent($4.MouseTracker.captureElement, $4.MouseTracker.unprefixedPointerEvents ? "pointermove" : "MSPointerMove", delegate.pointermovecaptured, true);
+              $4.removeEvent($4.MouseTracker.captureElement, $4.MouseTracker.unprefixedPointerEvents ? "pointerup" : "MSPointerUp", delegate.pointerupcaptured, true);
+              $4.removeEvent($4.MouseTracker.captureElement, "touchmove", delegate.touchmovecaptured, true);
+              $4.removeEvent($4.MouseTracker.captureElement, "touchend", delegate.touchendcaptured, true);
               delegate.activePointersLists[i7].captureCount = 0;
             }
           }
@@ -43948,9 +43948,9 @@ ${generateSegmentFilename(i7)}`);
         function startTracking(tracker) {
           var delegate = THIS[tracker.hash], event, i7;
           if (!delegate.tracking) {
-            for (i7 = 0; i7 < $3.MouseTracker.subscribeEvents.length; i7++) {
-              event = $3.MouseTracker.subscribeEvents[i7];
-              $3.addEvent(tracker.element, event, delegate[event], false);
+            for (i7 = 0; i7 < $4.MouseTracker.subscribeEvents.length; i7++) {
+              event = $4.MouseTracker.subscribeEvents[i7];
+              $4.addEvent(tracker.element, event, delegate[event], false);
             }
             clearTrackedPointers(tracker);
             delegate.tracking = true;
@@ -43959,9 +43959,9 @@ ${generateSegmentFilename(i7)}`);
         function stopTracking(tracker) {
           var delegate = THIS[tracker.hash], event, i7;
           if (delegate.tracking) {
-            for (i7 = 0; i7 < $3.MouseTracker.subscribeEvents.length; i7++) {
-              event = $3.MouseTracker.subscribeEvents[i7];
-              $3.removeEvent(tracker.element, event, delegate[event], false);
+            for (i7 = 0; i7 < $4.MouseTracker.subscribeEvents.length; i7++) {
+              event = $4.MouseTracker.subscribeEvents[i7];
+              $4.removeEvent(tracker.element, event, delegate[event], false);
             }
             clearTrackedPointers(tracker);
             delegate.tracking = false;
@@ -43971,9 +43971,9 @@ ${generateSegmentFilename(i7)}`);
           var delegate = THIS[tracker.hash];
           if (pointerType === "pointerevent") {
             return {
-              upName: $3.MouseTracker.unprefixedPointerEvents ? "pointerup" : "MSPointerUp",
+              upName: $4.MouseTracker.unprefixedPointerEvents ? "pointerup" : "MSPointerUp",
               upHandler: delegate.pointerupcaptured,
-              moveName: $3.MouseTracker.unprefixedPointerEvents ? "pointermove" : "MSPointerMove",
+              moveName: $4.MouseTracker.unprefixedPointerEvents ? "pointermove" : "MSPointerMove",
               moveHandler: delegate.pointermovecaptured
             };
           } else if (pointerType === "mouse") {
@@ -43998,15 +43998,15 @@ ${generateSegmentFilename(i7)}`);
           var pointsList = tracker.getActivePointersListByType(pointerType), eventParams;
           pointsList.captureCount += pointerCount || 1;
           if (pointsList.captureCount === 1) {
-            if ($3.Browser.vendor === $3.BROWSERS.IE && $3.Browser.version < 9) {
+            if ($4.Browser.vendor === $4.BROWSERS.IE && $4.Browser.version < 9) {
               tracker.element.setCapture(true);
             } else {
-              eventParams = getCaptureEventParams(tracker, $3.MouseTracker.havePointerEvents ? "pointerevent" : pointerType);
+              eventParams = getCaptureEventParams(tracker, $4.MouseTracker.havePointerEvents ? "pointerevent" : pointerType);
               if (isInIframe && canAccessEvents(window.top)) {
-                $3.addEvent(window.top, eventParams.upName, eventParams.upHandler, true);
+                $4.addEvent(window.top, eventParams.upName, eventParams.upHandler, true);
               }
-              $3.addEvent($3.MouseTracker.captureElement, eventParams.upName, eventParams.upHandler, true);
-              $3.addEvent($3.MouseTracker.captureElement, eventParams.moveName, eventParams.moveHandler, true);
+              $4.addEvent($4.MouseTracker.captureElement, eventParams.upName, eventParams.upHandler, true);
+              $4.addEvent($4.MouseTracker.captureElement, eventParams.moveName, eventParams.moveHandler, true);
             }
           }
         }
@@ -44014,21 +44014,21 @@ ${generateSegmentFilename(i7)}`);
           var pointsList = tracker.getActivePointersListByType(pointerType), eventParams;
           pointsList.captureCount -= pointerCount || 1;
           if (pointsList.captureCount === 0) {
-            if ($3.Browser.vendor === $3.BROWSERS.IE && $3.Browser.version < 9) {
+            if ($4.Browser.vendor === $4.BROWSERS.IE && $4.Browser.version < 9) {
               tracker.element.releaseCapture();
             } else {
-              eventParams = getCaptureEventParams(tracker, $3.MouseTracker.havePointerEvents ? "pointerevent" : pointerType);
+              eventParams = getCaptureEventParams(tracker, $4.MouseTracker.havePointerEvents ? "pointerevent" : pointerType);
               if (isInIframe && canAccessEvents(window.top)) {
-                $3.removeEvent(window.top, eventParams.upName, eventParams.upHandler, true);
+                $4.removeEvent(window.top, eventParams.upName, eventParams.upHandler, true);
               }
-              $3.removeEvent($3.MouseTracker.captureElement, eventParams.moveName, eventParams.moveHandler, true);
-              $3.removeEvent($3.MouseTracker.captureElement, eventParams.upName, eventParams.upHandler, true);
+              $4.removeEvent($4.MouseTracker.captureElement, eventParams.moveName, eventParams.moveHandler, true);
+              $4.removeEvent($4.MouseTracker.captureElement, eventParams.upName, eventParams.upHandler, true);
             }
           }
         }
         function getPointerType(event) {
           var pointerTypeStr;
-          if ($3.MouseTracker.unprefixedPointerEvents) {
+          if ($4.MouseTracker.unprefixedPointerEvents) {
             pointerTypeStr = event.pointerType;
           } else {
             switch (event.pointerType) {
@@ -44048,32 +44048,32 @@ ${generateSegmentFilename(i7)}`);
           return pointerTypeStr;
         }
         function getMouseAbsolute(event) {
-          return $3.getMousePosition(event);
+          return $4.getMousePosition(event);
         }
         function getMouseRelative(event, element) {
           return getPointRelativeToAbsolute(getMouseAbsolute(event), element);
         }
         function getPointRelativeToAbsolute(point, element) {
-          var offset = $3.getElementOffset(element);
+          var offset = $4.getElementOffset(element);
           return point.minus(offset);
         }
         function getCenterPoint(point1, point2) {
-          return new $3.Point((point1.x + point2.x) / 2, (point1.y + point2.y) / 2);
+          return new $4.Point((point1.x + point2.x) / 2, (point1.y + point2.y) / 2);
         }
         function onClick(tracker, event) {
           if (tracker.clickHandler) {
-            $3.cancelEvent(event);
+            $4.cancelEvent(event);
           }
         }
         function onDblClick(tracker, event) {
           if (tracker.dblClickHandler) {
-            $3.cancelEvent(event);
+            $4.cancelEvent(event);
           }
         }
         function onKeyDown(tracker, event) {
           var propagate;
           if (tracker.keyDownHandler) {
-            event = $3.getEvent(event);
+            event = $4.getEvent(event);
             propagate = tracker.keyDownHandler({
               eventSource: tracker,
               keyCode: event.keyCode ? event.keyCode : event.charCode,
@@ -44086,14 +44086,14 @@ ${generateSegmentFilename(i7)}`);
               userData: tracker.userData
             });
             if (!propagate) {
-              $3.cancelEvent(event);
+              $4.cancelEvent(event);
             }
           }
         }
         function onKeyUp(tracker, event) {
           var propagate;
           if (tracker.keyUpHandler) {
-            event = $3.getEvent(event);
+            event = $4.getEvent(event);
             propagate = tracker.keyUpHandler({
               eventSource: tracker,
               keyCode: event.keyCode ? event.keyCode : event.charCode,
@@ -44106,14 +44106,14 @@ ${generateSegmentFilename(i7)}`);
               userData: tracker.userData
             });
             if (!propagate) {
-              $3.cancelEvent(event);
+              $4.cancelEvent(event);
             }
           }
         }
         function onKeyPress(tracker, event) {
           var propagate;
           if (tracker.keyHandler) {
-            event = $3.getEvent(event);
+            event = $4.getEvent(event);
             propagate = tracker.keyHandler({
               eventSource: tracker,
               keyCode: event.keyCode ? event.keyCode : event.charCode,
@@ -44126,14 +44126,14 @@ ${generateSegmentFilename(i7)}`);
               userData: tracker.userData
             });
             if (!propagate) {
-              $3.cancelEvent(event);
+              $4.cancelEvent(event);
             }
           }
         }
         function onFocus(tracker, event) {
           var propagate;
           if (tracker.focusHandler) {
-            event = $3.getEvent(event);
+            event = $4.getEvent(event);
             propagate = tracker.focusHandler({
               eventSource: tracker,
               originalEvent: event,
@@ -44141,14 +44141,14 @@ ${generateSegmentFilename(i7)}`);
               userData: tracker.userData
             });
             if (propagate === false) {
-              $3.cancelEvent(event);
+              $4.cancelEvent(event);
             }
           }
         }
         function onBlur(tracker, event) {
           var propagate;
           if (tracker.blurHandler) {
-            event = $3.getEvent(event);
+            event = $4.getEvent(event);
             propagate = tracker.blurHandler({
               eventSource: tracker,
               originalEvent: event,
@@ -44156,7 +44156,7 @@ ${generateSegmentFilename(i7)}`);
               userData: tracker.userData
             });
             if (propagate === false) {
-              $3.cancelEvent(event);
+              $4.cancelEvent(event);
             }
           }
         }
@@ -44164,7 +44164,7 @@ ${generateSegmentFilename(i7)}`);
           handleWheelEvent(tracker, event, event);
         }
         function onMouseWheel(tracker, event) {
-          event = $3.getEvent(event);
+          event = $4.getEvent(event);
           var simulatedEvent = {
             target: event.target || event.srcElement,
             type: "wheel",
@@ -44177,8 +44177,8 @@ ${generateSegmentFilename(i7)}`);
             deltaX: 0,
             deltaZ: 0
           };
-          if ($3.MouseTracker.wheelEventName == "mousewheel") {
-            simulatedEvent.deltaY = -event.wheelDelta / $3.DEFAULT_SETTINGS.pixelsPerWheelLine;
+          if ($4.MouseTracker.wheelEventName == "mousewheel") {
+            simulatedEvent.deltaY = -event.wheelDelta / $4.DEFAULT_SETTINGS.pixelsPerWheelLine;
           } else {
             simulatedEvent.deltaY = event.detail;
           }
@@ -44200,7 +44200,7 @@ ${generateSegmentFilename(i7)}`);
               userData: tracker.userData
             });
             if (propagate === false) {
-              $3.cancelEvent(originalEvent);
+              $4.cancelEvent(originalEvent);
             }
           }
         }
@@ -44214,11 +44214,11 @@ ${generateSegmentFilename(i7)}`);
           return child === parent;
         }
         function onMouseEnter(tracker, event) {
-          event = $3.getEvent(event);
+          event = $4.getEvent(event);
           handleMouseEnter(tracker, event);
         }
         function onMouseOver(tracker, event) {
-          event = $3.getEvent(event);
+          event = $4.getEvent(event);
           if (event.currentTarget === event.relatedTarget || isParentChild(event.currentTarget, event.relatedTarget)) {
             return;
           }
@@ -44226,20 +44226,20 @@ ${generateSegmentFilename(i7)}`);
         }
         function handleMouseEnter(tracker, event) {
           var gPoint = {
-            id: $3.MouseTracker.mousePointerId,
+            id: $4.MouseTracker.mousePointerId,
             type: "mouse",
             isPrimary: true,
             currentPos: getMouseAbsolute(event),
-            currentTime: $3.now()
+            currentTime: $4.now()
           };
           updatePointersEnter(tracker, event, [gPoint]);
         }
         function onMouseLeave(tracker, event) {
-          event = $3.getEvent(event);
+          event = $4.getEvent(event);
           handleMouseExit(tracker, event);
         }
         function onMouseOut(tracker, event) {
-          event = $3.getEvent(event);
+          event = $4.getEvent(event);
           if (event.currentTarget === event.relatedTarget || isParentChild(event.currentTarget, event.relatedTarget)) {
             return;
           }
@@ -44247,16 +44247,16 @@ ${generateSegmentFilename(i7)}`);
         }
         function handleMouseExit(tracker, event) {
           var gPoint = {
-            id: $3.MouseTracker.mousePointerId,
+            id: $4.MouseTracker.mousePointerId,
             type: "mouse",
             isPrimary: true,
             currentPos: getMouseAbsolute(event),
-            currentTime: $3.now()
+            currentTime: $4.now()
           };
           updatePointersExit(tracker, event, [gPoint]);
         }
         function getStandardizedButton(button) {
-          if ($3.Browser.vendor === $3.BROWSERS.IE && $3.Browser.version < 9) {
+          if ($4.Browser.vendor === $4.BROWSERS.IE && $4.Browser.version < 9) {
             if (button === 1) {
               return 0;
             } else if (button === 2) {
@@ -44272,20 +44272,20 @@ ${generateSegmentFilename(i7)}`);
         }
         function onMouseDown(tracker, event) {
           var gPoint;
-          event = $3.getEvent(event);
+          event = $4.getEvent(event);
           gPoint = {
-            id: $3.MouseTracker.mousePointerId,
+            id: $4.MouseTracker.mousePointerId,
             type: "mouse",
             isPrimary: true,
             currentPos: getMouseAbsolute(event),
-            currentTime: $3.now()
+            currentTime: $4.now()
           };
           if (updatePointersDown(tracker, event, [gPoint], getStandardizedButton(event.button))) {
-            $3.stopEvent(event);
+            $4.stopEvent(event);
             capturePointer(tracker, "mouse");
           }
           if (tracker.clickHandler || tracker.dblClickHandler || tracker.pressHandler || tracker.dragHandler || tracker.dragEndHandler) {
-            $3.cancelEvent(event);
+            $4.cancelEvent(event);
           }
         }
         function onMouseUp(tracker, event) {
@@ -44293,17 +44293,17 @@ ${generateSegmentFilename(i7)}`);
         }
         function onMouseUpCaptured(tracker, event) {
           handleMouseUp(tracker, event);
-          $3.stopEvent(event);
+          $4.stopEvent(event);
         }
         function handleMouseUp(tracker, event) {
           var gPoint;
-          event = $3.getEvent(event);
+          event = $4.getEvent(event);
           gPoint = {
-            id: $3.MouseTracker.mousePointerId,
+            id: $4.MouseTracker.mousePointerId,
             type: "mouse",
             isPrimary: true,
             currentPos: getMouseAbsolute(event),
-            currentTime: $3.now()
+            currentTime: $4.now()
           };
           if (updatePointersUp(tracker, event, [gPoint], getStandardizedButton(event.button))) {
             releasePointer(tracker, "mouse");
@@ -44314,17 +44314,17 @@ ${generateSegmentFilename(i7)}`);
         }
         function onMouseMoveCaptured(tracker, event) {
           handleMouseMove(tracker, event);
-          $3.stopEvent(event);
+          $4.stopEvent(event);
         }
         function handleMouseMove(tracker, event) {
           var gPoint;
-          event = $3.getEvent(event);
+          event = $4.getEvent(event);
           gPoint = {
-            id: $3.MouseTracker.mousePointerId,
+            id: $4.MouseTracker.mousePointerId,
             type: "mouse",
             isPrimary: true,
             currentPos: getMouseAbsolute(event),
-            currentTime: $3.now()
+            currentTime: $4.now()
           };
           updatePointersMove(tracker, event, [gPoint]);
         }
@@ -44343,10 +44343,10 @@ ${generateSegmentFilename(i7)}`);
           }
         }
         function onTouchStart(tracker, event) {
-          var time, i7, j2, touchCount = event.changedTouches.length, gPoints = [], parentGPoints, pointsList = tracker.getActivePointersListByType("touch");
-          time = $3.now();
+          var time, i7, j3, touchCount = event.changedTouches.length, gPoints = [], parentGPoints, pointsList = tracker.getActivePointersListByType("touch");
+          time = $4.now();
           if (pointsList.getLength() > event.touches.length - touchCount) {
-            $3.console.warn("Tracked touch contact count doesn't match event.touches.length. Removing all tracked touch pointers.");
+            $4.console.warn("Tracked touch contact count doesn't match event.touches.length. Removing all tracked touch pointers.");
             abortContacts(tracker, event, pointsList);
           }
           for (i7 = 0; i7 < touchCount; i7++) {
@@ -44361,11 +44361,11 @@ ${generateSegmentFilename(i7)}`);
           for (i7 = 0; i7 < MOUSETRACKERS.length; i7++) {
             if (MOUSETRACKERS[i7] !== tracker && MOUSETRACKERS[i7].isTracking() && isParentChild(MOUSETRACKERS[i7].element, tracker.element)) {
               parentGPoints = [];
-              for (j2 = 0; j2 < touchCount; j2++) {
+              for (j3 = 0; j3 < touchCount; j3++) {
                 parentGPoints.push({
-                  id: event.changedTouches[j2].identifier,
+                  id: event.changedTouches[j3].identifier,
                   type: "touch",
-                  currentPos: getMouseAbsolute(event.changedTouches[j2]),
+                  currentPos: getMouseAbsolute(event.changedTouches[j3]),
                   currentTime: time
                 });
               }
@@ -44373,21 +44373,21 @@ ${generateSegmentFilename(i7)}`);
             }
           }
           if (updatePointersDown(tracker, event, gPoints, 0)) {
-            $3.stopEvent(event);
+            $4.stopEvent(event);
             capturePointer(tracker, "touch", touchCount);
           }
-          $3.cancelEvent(event);
+          $4.cancelEvent(event);
         }
         function onTouchEnd(tracker, event) {
           handleTouchEnd(tracker, event);
         }
         function onTouchEndCaptured(tracker, event) {
           handleTouchEnd(tracker, event);
-          $3.stopEvent(event);
+          $4.stopEvent(event);
         }
         function handleTouchEnd(tracker, event) {
-          var time, i7, j2, touchCount = event.changedTouches.length, gPoints = [], parentGPoints;
-          time = $3.now();
+          var time, i7, j3, touchCount = event.changedTouches.length, gPoints = [], parentGPoints;
+          time = $4.now();
           for (i7 = 0; i7 < touchCount; i7++) {
             gPoints.push({
               id: event.changedTouches[i7].identifier,
@@ -44403,25 +44403,25 @@ ${generateSegmentFilename(i7)}`);
           for (i7 = 0; i7 < MOUSETRACKERS.length; i7++) {
             if (MOUSETRACKERS[i7] !== tracker && MOUSETRACKERS[i7].isTracking() && isParentChild(MOUSETRACKERS[i7].element, tracker.element)) {
               parentGPoints = [];
-              for (j2 = 0; j2 < touchCount; j2++) {
+              for (j3 = 0; j3 < touchCount; j3++) {
                 parentGPoints.push({
-                  id: event.changedTouches[j2].identifier,
+                  id: event.changedTouches[j3].identifier,
                   type: "touch",
-                  currentPos: getMouseAbsolute(event.changedTouches[j2]),
+                  currentPos: getMouseAbsolute(event.changedTouches[j3]),
                   currentTime: time
                 });
               }
               updatePointersExit(MOUSETRACKERS[i7], event, parentGPoints);
             }
           }
-          $3.cancelEvent(event);
+          $4.cancelEvent(event);
         }
         function onTouchMove(tracker, event) {
           handleTouchMove(tracker, event);
         }
         function onTouchMoveCaptured(tracker, event) {
           handleTouchMove(tracker, event);
-          $3.stopEvent(event);
+          $4.stopEvent(event);
         }
         function handleTouchMove(tracker, event) {
           var i7, touchCount = event.changedTouches.length, gPoints = [];
@@ -44430,11 +44430,11 @@ ${generateSegmentFilename(i7)}`);
               id: event.changedTouches[i7].identifier,
               type: "touch",
               currentPos: getMouseAbsolute(event.changedTouches[i7]),
-              currentTime: $3.now()
+              currentTime: $4.now()
             });
           }
           updatePointersMove(tracker, event, gPoints);
-          $3.cancelEvent(event);
+          $4.cancelEvent(event);
         }
         function onTouchCancel(tracker, event) {
           var pointsList = tracker.getActivePointersListByType("touch");
@@ -44460,7 +44460,7 @@ ${generateSegmentFilename(i7)}`);
             type: getPointerType(event),
             isPrimary: event.isPrimary,
             currentPos: getMouseAbsolute(event),
-            currentTime: $3.now()
+            currentTime: $4.now()
           };
           updatePointersEnter(tracker, event, [gPoint]);
         }
@@ -44474,7 +44474,7 @@ ${generateSegmentFilename(i7)}`);
             type: getPointerType(event),
             isPrimary: event.isPrimary,
             currentPos: getMouseAbsolute(event),
-            currentTime: $3.now()
+            currentTime: $4.now()
           };
           updatePointersExit(tracker, event, [gPoint]);
         }
@@ -44485,14 +44485,14 @@ ${generateSegmentFilename(i7)}`);
             type: getPointerType(event),
             isPrimary: event.isPrimary,
             currentPos: getMouseAbsolute(event),
-            currentTime: $3.now()
+            currentTime: $4.now()
           };
           if (updatePointersDown(tracker, event, [gPoint], event.button)) {
-            $3.stopEvent(event);
+            $4.stopEvent(event);
             capturePointer(tracker, gPoint.type);
           }
           if (tracker.clickHandler || tracker.dblClickHandler || tracker.pressHandler || tracker.dragHandler || tracker.dragEndHandler || tracker.pinchHandler) {
-            $3.cancelEvent(event);
+            $4.cancelEvent(event);
           }
         }
         function onPointerUp(tracker, event) {
@@ -44503,7 +44503,7 @@ ${generateSegmentFilename(i7)}`);
           if (pointsList.getById(event.pointerId)) {
             handlePointerUp(tracker, event);
           }
-          $3.stopEvent(event);
+          $4.stopEvent(event);
         }
         function handlePointerUp(tracker, event) {
           var gPoint;
@@ -44512,7 +44512,7 @@ ${generateSegmentFilename(i7)}`);
             type: getPointerType(event),
             isPrimary: event.isPrimary,
             currentPos: getMouseAbsolute(event),
-            currentTime: $3.now()
+            currentTime: $4.now()
           };
           if (updatePointersUp(tracker, event, [gPoint], event.button)) {
             releasePointer(tracker, gPoint.type);
@@ -44526,7 +44526,7 @@ ${generateSegmentFilename(i7)}`);
           if (pointsList.getById(event.pointerId)) {
             handlePointerMove(tracker, event);
           }
-          $3.stopEvent(event);
+          $4.stopEvent(event);
         }
         function handlePointerMove(tracker, event) {
           var gPoint;
@@ -44535,7 +44535,7 @@ ${generateSegmentFilename(i7)}`);
             type: getPointerType(event),
             isPrimary: event.isPrimary,
             currentPos: getMouseAbsolute(event),
-            currentTime: $3.now()
+            currentTime: $4.now()
           };
           updatePointersMove(tracker, event, [gPoint]);
         }
@@ -44614,7 +44614,7 @@ ${generateSegmentFilename(i7)}`);
                 userData: tracker.userData
               });
               if (propagate === false) {
-                $3.cancelEvent(event);
+                $4.cancelEvent(event);
               }
             }
           }
@@ -44651,7 +44651,7 @@ ${generateSegmentFilename(i7)}`);
                 userData: tracker.userData
               });
               if (propagate === false) {
-                $3.cancelEvent(event);
+                $4.cancelEvent(event);
               }
             }
           }
@@ -44661,7 +44661,7 @@ ${generateSegmentFilename(i7)}`);
           if (typeof event.buttons !== "undefined") {
             pointsList.buttons = event.buttons;
           } else {
-            if ($3.Browser.vendor === $3.BROWSERS.IE && $3.Browser.version < 9) {
+            if ($4.Browser.vendor === $4.BROWSERS.IE && $4.Browser.version < 9) {
               if (buttonChanged === 0) {
                 pointsList.buttons += 1;
               } else if (buttonChanged === 1) {
@@ -44709,7 +44709,7 @@ ${generateSegmentFilename(i7)}`);
                 userData: tracker.userData
               });
               if (propagate === false) {
-                $3.cancelEvent(event);
+                $4.cancelEvent(event);
               }
             }
             return false;
@@ -44736,7 +44736,7 @@ ${generateSegmentFilename(i7)}`);
             }
             pointsList.addContact();
             if (tracker.dragHandler || tracker.dragEndHandler || tracker.pinchHandler) {
-              $3.MouseTracker.gesturePointVelocityTracker.addPoint(tracker, curGPoint);
+              $4.MouseTracker.gesturePointVelocityTracker.addPoint(tracker, curGPoint);
             }
             if (pointsList.contacts === 1) {
               if (tracker.pressHandler) {
@@ -44751,7 +44751,7 @@ ${generateSegmentFilename(i7)}`);
                   userData: tracker.userData
                 });
                 if (propagate === false) {
-                  $3.cancelEvent(event);
+                  $4.cancelEvent(event);
                 }
               }
             } else if (pointsList.contacts === 2) {
@@ -44769,7 +44769,7 @@ ${generateSegmentFilename(i7)}`);
           if (typeof event.buttons !== "undefined") {
             pointsList.buttons = event.buttons;
           } else {
-            if ($3.Browser.vendor === $3.BROWSERS.IE && $3.Browser.version < 9) {
+            if ($4.Browser.vendor === $4.BROWSERS.IE && $4.Browser.version < 9) {
               if (buttonChanged === 0) {
                 pointsList.buttons -= 1;
               } else if (buttonChanged === 1) {
@@ -44813,7 +44813,7 @@ ${generateSegmentFilename(i7)}`);
                 userData: tracker.userData
               });
               if (propagate === false) {
-                $3.cancelEvent(event);
+                $4.cancelEvent(event);
               }
             }
             var otherPointsList = tracker.getActivePointersListByType("mouse");
@@ -44845,7 +44845,7 @@ ${generateSegmentFilename(i7)}`);
               if (wasCaptured) {
                 pointsList.removeContact();
                 if (tracker.dragHandler || tracker.dragEndHandler || tracker.pinchHandler) {
-                  $3.MouseTracker.gesturePointVelocityTracker.removePoint(tracker, updateGPoint);
+                  $4.MouseTracker.gesturePointVelocityTracker.removePoint(tracker, updateGPoint);
                 }
                 if (pointsList.contacts === 0) {
                   if (tracker.releaseHandler) {
@@ -44862,7 +44862,7 @@ ${generateSegmentFilename(i7)}`);
                       userData: tracker.userData
                     });
                     if (propagate === false) {
-                      $3.cancelEvent(event);
+                      $4.cancelEvent(event);
                     }
                   }
                   if (tracker.dragEndHandler && !updateGPoint.currentPos.equals(updateGPoint.contactPos)) {
@@ -44879,7 +44879,7 @@ ${generateSegmentFilename(i7)}`);
                       userData: tracker.userData
                     });
                     if (propagate === false) {
-                      $3.cancelEvent(event);
+                      $4.cancelEvent(event);
                     }
                   }
                   if ((tracker.clickHandler || tracker.dblClickHandler) && updateGPoint.insideElement) {
@@ -44897,7 +44897,7 @@ ${generateSegmentFilename(i7)}`);
                         userData: tracker.userData
                       });
                       if (propagate === false) {
-                        $3.cancelEvent(event);
+                        $4.cancelEvent(event);
                       }
                     }
                     if (tracker.dblClickHandler && quick) {
@@ -44922,7 +44922,7 @@ ${generateSegmentFilename(i7)}`);
                             userData: tracker.userData
                           });
                           if (propagate === false) {
-                            $3.cancelEvent(event);
+                            $4.cancelEvent(event);
                           }
                         }
                         delegate.lastClickPos = null;
@@ -44951,7 +44951,7 @@ ${generateSegmentFilename(i7)}`);
                     userData: tracker.userData
                   });
                   if (propagate === false) {
-                    $3.cancelEvent(event);
+                    $4.cancelEvent(event);
                   }
                 }
               }
@@ -45001,7 +45001,7 @@ ${generateSegmentFilename(i7)}`);
                 userData: tracker.userData
               });
               if (propagate === false) {
-                $3.cancelEvent(event);
+                $4.cancelEvent(event);
               }
             }
           } else if (pointsList.contacts === 1) {
@@ -45018,7 +45018,7 @@ ${generateSegmentFilename(i7)}`);
                 userData: tracker.userData
               });
               if (propagate === false) {
-                $3.cancelEvent(event);
+                $4.cancelEvent(event);
               }
             }
             if (tracker.dragHandler) {
@@ -45039,7 +45039,7 @@ ${generateSegmentFilename(i7)}`);
                 userData: tracker.userData
               });
               if (propagate === false) {
-                $3.cancelEvent(event);
+                $4.cancelEvent(event);
               }
             }
           } else if (pointsList.contacts === 2) {
@@ -45056,7 +45056,7 @@ ${generateSegmentFilename(i7)}`);
                 userData: tracker.userData
               });
               if (propagate === false) {
-                $3.cancelEvent(event);
+                $4.cancelEvent(event);
               }
             }
             if (tracker.pinchHandler && gPoints[0].type === "touch") {
@@ -45080,7 +45080,7 @@ ${generateSegmentFilename(i7)}`);
                   userData: tracker.userData
                 });
                 if (propagate === false) {
-                  $3.cancelEvent(event);
+                  $4.cancelEvent(event);
                 }
               }
             }
@@ -45119,8 +45119,8 @@ ${generateSegmentFilename(i7)}`);
           }
         }
       })(OpenSeadragon);
-      (function($3) {
-        $3.ControlAnchor = {
+      (function($4) {
+        $4.ControlAnchor = {
           NONE: 0,
           TOP_LEFT: 1,
           TOP_RIGHT: 2,
@@ -45128,10 +45128,10 @@ ${generateSegmentFilename(i7)}`);
           BOTTOM_LEFT: 4,
           ABSOLUTE: 5
         };
-        $3.Control = function(element, options, container) {
+        $4.Control = function(element, options, container) {
           var parent = element.parentNode;
           if (typeof options === "number") {
-            $3.console.error("Passing an anchor directly into the OpenSeadragon.Control constructor is deprecated; please use an options object instead.  Support for this deprecated variant is scheduled for removal in December 2013");
+            $4.console.error("Passing an anchor directly into the OpenSeadragon.Control constructor is deprecated; please use an options object instead.  Support for this deprecated variant is scheduled for removal in December 2013");
             options = { anchor: options };
           }
           options.attachToViewer = typeof options.attachToViewer === "undefined" ? true : options.attachToViewer;
@@ -45139,8 +45139,8 @@ ${generateSegmentFilename(i7)}`);
           this.element = element;
           this.anchor = options.anchor;
           this.container = container;
-          if (this.anchor == $3.ControlAnchor.ABSOLUTE) {
-            this.wrapper = $3.makeNeutralElement("div");
+          if (this.anchor == $4.ControlAnchor.ABSOLUTE) {
+            this.wrapper = $4.makeNeutralElement("div");
             this.wrapper.style.position = "absolute";
             this.wrapper.style.top = typeof options.top == "number" ? options.top + "px" : options.top;
             this.wrapper.style.left = typeof options.left == "number" ? options.left + "px" : options.left;
@@ -45154,15 +45154,15 @@ ${generateSegmentFilename(i7)}`);
             this.element.style.height = "100%";
             this.element.style.width = "100%";
           } else {
-            this.wrapper = $3.makeNeutralElement("div");
+            this.wrapper = $4.makeNeutralElement("div");
             this.wrapper.style.display = "inline-block";
-            if (this.anchor == $3.ControlAnchor.NONE) {
+            if (this.anchor == $4.ControlAnchor.NONE) {
               this.wrapper.style.width = this.wrapper.style.height = "100%";
             }
           }
           this.wrapper.appendChild(this.element);
           if (options.attachToViewer) {
-            if (this.anchor == $3.ControlAnchor.TOP_RIGHT || this.anchor == $3.ControlAnchor.BOTTOM_RIGHT) {
+            if (this.anchor == $4.ControlAnchor.TOP_RIGHT || this.anchor == $4.ControlAnchor.BOTTOM_RIGHT) {
               this.container.insertBefore(this.wrapper, this.container.firstChild);
             } else {
               this.container.appendChild(this.wrapper);
@@ -45171,7 +45171,7 @@ ${generateSegmentFilename(i7)}`);
             parent.appendChild(this.wrapper);
           }
         };
-        $3.Control.prototype = {
+        $4.Control.prototype = {
           destroy: function() {
             this.wrapper.removeChild(this.element);
             this.container.removeChild(this.wrapper);
@@ -45180,30 +45180,30 @@ ${generateSegmentFilename(i7)}`);
             return this.wrapper.style.display != "none";
           },
           setVisible: function(visible) {
-            this.wrapper.style.display = visible ? this.anchor == $3.ControlAnchor.ABSOLUTE ? "block" : "inline-block" : "none";
+            this.wrapper.style.display = visible ? this.anchor == $4.ControlAnchor.ABSOLUTE ? "block" : "inline-block" : "none";
           },
           setOpacity: function(opacity) {
-            if (this.element[$3.SIGNAL] && $3.Browser.vendor == $3.BROWSERS.IE) {
-              $3.setElementOpacity(this.element, opacity, true);
+            if (this.element[$4.SIGNAL] && $4.Browser.vendor == $4.BROWSERS.IE) {
+              $4.setElementOpacity(this.element, opacity, true);
             } else {
-              $3.setElementOpacity(this.wrapper, opacity, true);
+              $4.setElementOpacity(this.wrapper, opacity, true);
             }
           }
         };
       })(OpenSeadragon);
-      (function($3) {
-        $3.ControlDock = function(options) {
+      (function($4) {
+        $4.ControlDock = function(options) {
           var layouts = ["topleft", "topright", "bottomright", "bottomleft"], layout, i7;
-          $3.extend(true, this, {
-            id: "controldock-" + $3.now() + "-" + Math.floor(Math.random() * 1e6),
-            container: $3.makeNeutralElement("div"),
+          $4.extend(true, this, {
+            id: "controldock-" + $4.now() + "-" + Math.floor(Math.random() * 1e6),
+            container: $4.makeNeutralElement("div"),
             controls: []
           }, options);
           this.container.onsubmit = function() {
             return false;
           };
           if (this.element) {
-            this.element = $3.getElement(this.element);
+            this.element = $4.getElement(this.element);
             this.element.appendChild(this.container);
             this.element.style.position = "relative";
             this.container.style.width = "100%";
@@ -45211,7 +45211,7 @@ ${generateSegmentFilename(i7)}`);
           }
           for (i7 = 0; i7 < layouts.length; i7++) {
             layout = layouts[i7];
-            this.controls[layout] = $3.makeNeutralElement("div");
+            this.controls[layout] = $4.makeNeutralElement("div");
             this.controls[layout].style.position = "absolute";
             if (layout.match("left")) {
               this.controls[layout].style.left = "0px";
@@ -45231,55 +45231,55 @@ ${generateSegmentFilename(i7)}`);
           this.container.appendChild(this.controls.bottomright);
           this.container.appendChild(this.controls.bottomleft);
         };
-        $3.ControlDock.prototype = {
+        $4.ControlDock.prototype = {
           addControl: function(element, controlOptions) {
-            element = $3.getElement(element);
+            element = $4.getElement(element);
             var div = null;
             if (getControlIndex(this, element) >= 0) {
               return;
             }
             switch (controlOptions.anchor) {
-              case $3.ControlAnchor.TOP_RIGHT:
+              case $4.ControlAnchor.TOP_RIGHT:
                 div = this.controls.topright;
                 element.style.position = "relative";
                 element.style.paddingRight = "0px";
                 element.style.paddingTop = "0px";
                 break;
-              case $3.ControlAnchor.BOTTOM_RIGHT:
+              case $4.ControlAnchor.BOTTOM_RIGHT:
                 div = this.controls.bottomright;
                 element.style.position = "relative";
                 element.style.paddingRight = "0px";
                 element.style.paddingBottom = "0px";
                 break;
-              case $3.ControlAnchor.BOTTOM_LEFT:
+              case $4.ControlAnchor.BOTTOM_LEFT:
                 div = this.controls.bottomleft;
                 element.style.position = "relative";
                 element.style.paddingLeft = "0px";
                 element.style.paddingBottom = "0px";
                 break;
-              case $3.ControlAnchor.TOP_LEFT:
+              case $4.ControlAnchor.TOP_LEFT:
                 div = this.controls.topleft;
                 element.style.position = "relative";
                 element.style.paddingLeft = "0px";
                 element.style.paddingTop = "0px";
                 break;
-              case $3.ControlAnchor.ABSOLUTE:
+              case $4.ControlAnchor.ABSOLUTE:
                 div = this.container;
                 element.style.margin = "0px";
                 element.style.padding = "0px";
                 break;
               default:
-              case $3.ControlAnchor.NONE:
+              case $4.ControlAnchor.NONE:
                 div = this.container;
                 element.style.margin = "0px";
                 element.style.padding = "0px";
                 break;
             }
-            this.controls.push(new $3.Control(element, controlOptions, div));
+            this.controls.push(new $4.Control(element, controlOptions, div));
             element.style.display = "inline-block";
           },
           removeControl: function(element) {
-            element = $3.getElement(element);
+            element = $4.getElement(element);
             var i7 = getControlIndex(this, element);
             if (i7 >= 0) {
               this.controls[i7].destroy();
@@ -45320,8 +45320,8 @@ ${generateSegmentFilename(i7)}`);
           return -1;
         }
       })(OpenSeadragon);
-      (function($3) {
-        $3.Placement = $3.freezeObject({
+      (function($4) {
+        $4.Placement = $4.freezeObject({
           CENTER: 0,
           TOP_LEFT: 1,
           TOP: 2,
@@ -45407,12 +45407,12 @@ ${generateSegmentFilename(i7)}`);
           }
         });
       })(OpenSeadragon);
-      (function($3) {
+      (function($4) {
         var THIS = {};
         var nextHash = 1;
-        $3.Viewer = function(options) {
+        $4.Viewer = function(options) {
           var args = arguments, _this = this, i7;
-          if (!$3.isPlainObject(options)) {
+          if (!$4.isPlainObject(options)) {
             options = {
               id: args[0],
               xmlPath: args.length > 1 ? args[1] : void 0,
@@ -45422,10 +45422,10 @@ ${generateSegmentFilename(i7)}`);
             };
           }
           if (options.config) {
-            $3.extend(true, options, options.config);
+            $4.extend(true, options, options.config);
             delete options.config;
           }
-          $3.extend(true, this, {
+          $4.extend(true, this, {
             id: options.id,
             hash: options.hash || nextHash++,
             initialPage: 0,
@@ -45446,15 +45446,15 @@ ${generateSegmentFilename(i7)}`);
             navImages: null,
             buttons: null,
             profiler: null
-          }, $3.DEFAULT_SETTINGS, options);
+          }, $4.DEFAULT_SETTINGS, options);
           if (typeof this.hash === "undefined") {
             throw new Error("A hash must be defined, either by specifying options.id or options.hash.");
           }
           if (typeof THIS[this.hash] !== "undefined") {
-            $3.console.warn("Hash " + this.hash + " has already been used.");
+            $4.console.warn("Hash " + this.hash + " has already been used.");
           }
           THIS[this.hash] = {
-            "fsBoundsDelta": new $3.Point(1, 1),
+            "fsBoundsDelta": new $4.Point(1, 1),
             "prevContainerSize": null,
             "animating": false,
             "forceRedraw": false,
@@ -45471,18 +45471,18 @@ ${generateSegmentFilename(i7)}`);
           this._updateRequestId = null;
           this._loadQueue = [];
           this.currentOverlays = [];
-          this._lastScrollTime = $3.now();
-          $3.EventSource.call(this);
+          this._lastScrollTime = $4.now();
+          $4.EventSource.call(this);
           this.addHandler("open-failed", function(event) {
-            var msg = $3.getString("Errors.OpenFailed", event.eventSource, event.message);
+            var msg = $4.getString("Errors.OpenFailed", event.eventSource, event.message);
             _this._showMessage(msg);
           });
-          $3.ControlDock.call(this, options);
+          $4.ControlDock.call(this, options);
           if (this.xmlPath) {
             this.tileSources = [this.xmlPath];
           }
           this.element = this.element || document.getElementById(this.id);
-          this.canvas = $3.makeNeutralElement("div");
+          this.canvas = $4.makeNeutralElement("div");
           this.canvas.className = "openseadragon-canvas";
           (function(style) {
             style.width = "100%";
@@ -45492,7 +45492,7 @@ ${generateSegmentFilename(i7)}`);
             style.top = "0px";
             style.left = "0px";
           })(this.canvas.style);
-          $3.setElementTouchActionNone(this.canvas);
+          $4.setElementTouchActionNone(this.canvas);
           if (options.tabIndex !== "") {
             this.canvas.tabIndex = options.tabIndex === void 0 ? 0 : options.tabIndex;
           }
@@ -45512,44 +45512,44 @@ ${generateSegmentFilename(i7)}`);
           this.bodyHeight = document.body.style.height;
           this.bodyOverflow = document.body.style.overflow;
           this.docOverflow = document.documentElement.style.overflow;
-          this.innerTracker = new $3.MouseTracker({
+          this.innerTracker = new $4.MouseTracker({
             element: this.canvas,
             startDisabled: !this.mouseNavEnabled,
             clickTimeThreshold: this.clickTimeThreshold,
             clickDistThreshold: this.clickDistThreshold,
             dblClickTimeThreshold: this.dblClickTimeThreshold,
             dblClickDistThreshold: this.dblClickDistThreshold,
-            keyDownHandler: $3.delegate(this, onCanvasKeyDown),
-            keyHandler: $3.delegate(this, onCanvasKeyPress),
-            clickHandler: $3.delegate(this, onCanvasClick),
-            dblClickHandler: $3.delegate(this, onCanvasDblClick),
-            dragHandler: $3.delegate(this, onCanvasDrag),
-            dragEndHandler: $3.delegate(this, onCanvasDragEnd),
-            enterHandler: $3.delegate(this, onCanvasEnter),
-            exitHandler: $3.delegate(this, onCanvasExit),
-            pressHandler: $3.delegate(this, onCanvasPress),
-            releaseHandler: $3.delegate(this, onCanvasRelease),
-            nonPrimaryPressHandler: $3.delegate(this, onCanvasNonPrimaryPress),
-            nonPrimaryReleaseHandler: $3.delegate(this, onCanvasNonPrimaryRelease),
-            scrollHandler: $3.delegate(this, onCanvasScroll),
-            pinchHandler: $3.delegate(this, onCanvasPinch)
+            keyDownHandler: $4.delegate(this, onCanvasKeyDown),
+            keyHandler: $4.delegate(this, onCanvasKeyPress),
+            clickHandler: $4.delegate(this, onCanvasClick),
+            dblClickHandler: $4.delegate(this, onCanvasDblClick),
+            dragHandler: $4.delegate(this, onCanvasDrag),
+            dragEndHandler: $4.delegate(this, onCanvasDragEnd),
+            enterHandler: $4.delegate(this, onCanvasEnter),
+            exitHandler: $4.delegate(this, onCanvasExit),
+            pressHandler: $4.delegate(this, onCanvasPress),
+            releaseHandler: $4.delegate(this, onCanvasRelease),
+            nonPrimaryPressHandler: $4.delegate(this, onCanvasNonPrimaryPress),
+            nonPrimaryReleaseHandler: $4.delegate(this, onCanvasNonPrimaryRelease),
+            scrollHandler: $4.delegate(this, onCanvasScroll),
+            pinchHandler: $4.delegate(this, onCanvasPinch)
           });
-          this.outerTracker = new $3.MouseTracker({
+          this.outerTracker = new $4.MouseTracker({
             element: this.container,
             startDisabled: !this.mouseNavEnabled,
             clickTimeThreshold: this.clickTimeThreshold,
             clickDistThreshold: this.clickDistThreshold,
             dblClickTimeThreshold: this.dblClickTimeThreshold,
             dblClickDistThreshold: this.dblClickDistThreshold,
-            enterHandler: $3.delegate(this, onContainerEnter),
-            exitHandler: $3.delegate(this, onContainerExit)
+            enterHandler: $4.delegate(this, onContainerEnter),
+            exitHandler: $4.delegate(this, onContainerExit)
           });
           if (this.toolbar) {
-            this.toolbar = new $3.ControlDock({ element: this.toolbar });
+            this.toolbar = new $4.ControlDock({ element: this.toolbar });
           }
           this.bindStandardControls();
           THIS[this.hash].prevContainerSize = _getSafeElemSize(this.container);
-          this.world = new $3.World({
+          this.world = new $4.World({
             viewer: this
           });
           this.world.addHandler("add-item", function(event) {
@@ -45575,7 +45575,7 @@ ${generateSegmentFilename(i7)}`);
           this.world.addHandler("item-index-change", function(event) {
             _this.source = _this.world.getItemAt(0).source;
           });
-          this.viewport = new $3.Viewport({
+          this.viewport = new $4.Viewport({
             containerSize: THIS[this.hash].prevContainerSize,
             springStiffness: this.springStiffness,
             animationTime: this.animationTime,
@@ -45595,20 +45595,20 @@ ${generateSegmentFilename(i7)}`);
             margins: this.viewportMargins
           });
           this.viewport._setContentBounds(this.world.getHomeBounds(), this.world.getContentFactor());
-          this.imageLoader = new $3.ImageLoader({
+          this.imageLoader = new $4.ImageLoader({
             jobLimit: this.imageLoaderLimit,
             timeout: options.timeout
           });
-          this.tileCache = new $3.TileCache({
+          this.tileCache = new $4.TileCache({
             maxImageCacheCount: this.maxImageCacheCount
           });
-          this.drawer = new $3.Drawer({
+          this.drawer = new $4.Drawer({
             viewer: this,
             viewport: this.viewport,
             element: this.canvas,
             debugGridColor: this.debugGridColor
           });
-          this.overlaysContainer = $3.makeNeutralElement("div");
+          this.overlaysContainer = $4.makeNeutralElement("div");
           this.canvas.appendChild(this.overlaysContainer);
           if (!this.drawer.canRotate()) {
             if (this.rotateLeft) {
@@ -45623,7 +45623,7 @@ ${generateSegmentFilename(i7)}`);
             }
           }
           if (this.showNavigator) {
-            this.navigator = new $3.Navigator({
+            this.navigator = new $4.Navigator({
               id: this.navigatorId,
               position: this.navigatorPosition,
               sizeRatio: this.navigatorSizeRatio,
@@ -45653,23 +45653,23 @@ ${generateSegmentFilename(i7)}`);
           for (i7 = 0; i7 < this.customControls.length; i7++) {
             this.addControl(this.customControls[i7].id, { anchor: this.customControls[i7].anchor });
           }
-          $3.requestAnimationFrame(function() {
+          $4.requestAnimationFrame(function() {
             beginControlsAutoHide(_this);
           });
           if (this.imageSmoothingEnabled !== void 0 && !this.imageSmoothingEnabled) {
             this.drawer.setImageSmoothingEnabled(this.imageSmoothingEnabled);
           }
         };
-        $3.extend($3.Viewer.prototype, $3.EventSource.prototype, $3.ControlDock.prototype, {
+        $4.extend($4.Viewer.prototype, $4.EventSource.prototype, $4.ControlDock.prototype, {
           isOpen: function() {
             return !!this.world.getItemCount();
           },
           openDzi: function(dzi) {
-            $3.console.error("[Viewer.openDzi] this function is deprecated; use Viewer.open() instead.");
+            $4.console.error("[Viewer.openDzi] this function is deprecated; use Viewer.open() instead.");
             return this.open(dzi);
           },
           openTileSource: function(tileSource) {
-            $3.console.error("[Viewer.openTileSource] this function is deprecated; use Viewer.open() instead.");
+            $4.console.error("[Viewer.openTileSource] this function is deprecated; use Viewer.open() instead.");
             return this.open(tileSource);
           },
           open: function(tileSources, initialPage) {
@@ -45678,7 +45678,7 @@ ${generateSegmentFilename(i7)}`);
             if (!tileSources) {
               return;
             }
-            if (this.sequenceMode && $3.isArray(tileSources)) {
+            if (this.sequenceMode && $4.isArray(tileSources)) {
               if (this.referenceStrip) {
                 this.referenceStrip.destroy();
                 this.referenceStrip = null;
@@ -45697,7 +45697,7 @@ ${generateSegmentFilename(i7)}`);
               this._updateSequenceButtons(this._sequenceIndex);
               return;
             }
-            if (!$3.isArray(tileSources)) {
+            if (!$4.isArray(tileSources)) {
               tileSources = [tileSources];
             }
             if (!tileSources.length) {
@@ -45735,13 +45735,13 @@ ${generateSegmentFilename(i7)}`);
               }
             };
             var doOne = function(options) {
-              if (!$3.isPlainObject(options) || !options.tileSource) {
+              if (!$4.isPlainObject(options) || !options.tileSource) {
                 options = {
                   tileSource: options
                 };
               }
               if (options.index !== void 0) {
-                $3.console.error("[Viewer.open] setting indexes here is not supported; use addTiledImage instead");
+                $4.console.error("[Viewer.open] setting indexes here is not supported; use addTiledImage instead");
                 delete options.index;
               }
               if (options.collectionImmediately === void 0) {
@@ -45808,7 +45808,7 @@ ${generateSegmentFilename(i7)}`);
               this.referenceStrip = null;
             }
             if (this._updateRequestId !== null) {
-              $3.cancelAnimationFrame(this._updateRequestId);
+              $4.cancelAnimationFrame(this._updateRequestId);
               this._updateRequestId = null;
             }
             if (this.drawer) {
@@ -45881,8 +45881,8 @@ ${generateSegmentFilename(i7)}`);
               return this;
             }
             if (fullPage) {
-              this.elementSize = $3.getElementSize(this.element);
-              this.pageScroll = $3.getPageScroll();
+              this.elementSize = $4.getElementSize(this.element);
+              this.pageScroll = $4.getPageScroll();
               this.elementMargin = this.element.style.margin;
               this.element.style.margin = "0";
               this.elementPadding = this.element.style.padding;
@@ -45917,17 +45917,17 @@ ${generateSegmentFilename(i7)}`);
                 this.toolbar.parentNode = this.toolbar.element.parentNode;
                 this.toolbar.nextSibling = this.toolbar.element.nextSibling;
                 body.appendChild(this.toolbar.element);
-                $3.addClass(this.toolbar.element, "fullpage");
+                $4.addClass(this.toolbar.element, "fullpage");
               }
-              $3.addClass(this.element, "fullpage");
+              $4.addClass(this.element, "fullpage");
               body.appendChild(this.element);
-              this.element.style.height = $3.getWindowSize().y + "px";
-              this.element.style.width = $3.getWindowSize().x + "px";
+              this.element.style.height = $4.getWindowSize().y + "px";
+              this.element.style.width = $4.getWindowSize().x + "px";
               if (this.toolbar && this.toolbar.element) {
-                this.element.style.height = $3.getElementSize(this.element).y - $3.getElementSize(this.toolbar.element).y + "px";
+                this.element.style.height = $4.getElementSize(this.element).y - $4.getElementSize(this.toolbar.element).y + "px";
               }
               THIS[this.hash].fullPage = true;
-              $3.delegate(this, onContainerEnter)({});
+              $4.delegate(this, onContainerEnter)({});
             } else {
               this.element.style.margin = this.elementMargin;
               this.element.style.padding = this.elementPadding;
@@ -45944,11 +45944,11 @@ ${generateSegmentFilename(i7)}`);
               for (i7 = 0; i7 < nodes; i7++) {
                 body.appendChild(this.previousBody.shift());
               }
-              $3.removeClass(this.element, "fullpage");
+              $4.removeClass(this.element, "fullpage");
               THIS[this.hash].prevElementParent.insertBefore(this.element, THIS[this.hash].prevNextSibling);
               if (this.toolbar && this.toolbar.element) {
                 body.removeChild(this.toolbar.element);
-                $3.removeClass(this.toolbar.element, "fullpage");
+                $4.removeClass(this.toolbar.element, "fullpage");
                 this.toolbar.parentNode.insertBefore(this.toolbar.element, this.toolbar.nextSibling);
                 delete this.toolbar.parentNode;
                 delete this.toolbar.nextSibling;
@@ -45957,16 +45957,16 @@ ${generateSegmentFilename(i7)}`);
               this.element.style.height = THIS[this.hash].prevElementHeight;
               var restoreScrollCounter = 0;
               var restoreScroll = function() {
-                $3.setPageScroll(_this.pageScroll);
-                var pageScroll = $3.getPageScroll();
+                $4.setPageScroll(_this.pageScroll);
+                var pageScroll = $4.getPageScroll();
                 restoreScrollCounter++;
                 if (restoreScrollCounter < 10 && (pageScroll.x !== _this.pageScroll.x || pageScroll.y !== _this.pageScroll.y)) {
-                  $3.requestAnimationFrame(restoreScroll);
+                  $4.requestAnimationFrame(restoreScroll);
                 }
               };
-              $3.requestAnimationFrame(restoreScroll);
+              $4.requestAnimationFrame(restoreScroll);
               THIS[this.hash].fullPage = false;
-              $3.delegate(this, onContainerExit)({});
+              $4.delegate(this, onContainerExit)({});
             }
             if (this.navigator && this.viewport) {
               this.navigator.update(this.viewport);
@@ -45976,10 +45976,10 @@ ${generateSegmentFilename(i7)}`);
           },
           setFullScreen: function(fullScreen) {
             var _this = this;
-            if (!$3.supportsFullScreen) {
+            if (!$4.supportsFullScreen) {
               return this.setFullPage(fullScreen);
             }
-            if ($3.isFullScreen() === fullScreen) {
+            if ($4.isFullScreen() === fullScreen) {
               return this;
             }
             var fullScreeEventArgs = {
@@ -46000,10 +46000,10 @@ ${generateSegmentFilename(i7)}`);
               this.element.style.width = "100%";
               this.element.style.height = "100%";
               var onFullScreenChange = function() {
-                var isFullScreen = $3.isFullScreen();
+                var isFullScreen = $4.isFullScreen();
                 if (!isFullScreen) {
-                  $3.removeEvent(document, $3.fullScreenEventName, onFullScreenChange);
-                  $3.removeEvent(document, $3.fullScreenErrorEventName, onFullScreenChange);
+                  $4.removeEvent(document, $4.fullScreenEventName, onFullScreenChange);
+                  $4.removeEvent(document, $4.fullScreenErrorEventName, onFullScreenChange);
                   _this.setFullPage(false);
                   if (_this.isFullPage()) {
                     _this.element.style.width = _this.fullPageStyleWidth;
@@ -46017,11 +46017,11 @@ ${generateSegmentFilename(i7)}`);
                 }
                 _this.raiseEvent("full-screen", { fullScreen: isFullScreen });
               };
-              $3.addEvent(document, $3.fullScreenEventName, onFullScreenChange);
-              $3.addEvent(document, $3.fullScreenErrorEventName, onFullScreenChange);
-              $3.requestFullScreen(document.body);
+              $4.addEvent(document, $4.fullScreenEventName, onFullScreenChange);
+              $4.addEvent(document, $4.fullScreenErrorEventName, onFullScreenChange);
+              $4.requestFullScreen(document.body);
             } else {
-              $3.exitFullScreen();
+              $4.exitFullScreen();
             }
             return this;
           },
@@ -46034,9 +46034,9 @@ ${generateSegmentFilename(i7)}`);
             return this;
           },
           addTiledImage: function(options) {
-            $3.console.assert(options, "[Viewer.addTiledImage] options is required");
-            $3.console.assert(options.tileSource, "[Viewer.addTiledImage] options.tileSource is required");
-            $3.console.assert(!options.replace || options.index > -1 && options.index < this.world.getItemCount(), "[Viewer.addTiledImage] if options.replace is used, options.index must be a valid index in Viewer.world");
+            $4.console.assert(options, "[Viewer.addTiledImage] options is required");
+            $4.console.assert(options.tileSource, "[Viewer.addTiledImage] options.tileSource is required");
+            $4.console.assert(!options.replace || options.index > -1 && options.index < this.world.getItemCount(), "[Viewer.addTiledImage] if options.replace is used, options.index must be a valid index in Viewer.world");
             var _this = this;
             if (options.replace) {
               options.replaceItem = _this.world.getItemAt(options.index);
@@ -46065,8 +46065,8 @@ ${generateSegmentFilename(i7)}`);
             }
             if (options.ajaxHeaders === void 0 || options.ajaxHeaders === null) {
               options.ajaxHeaders = this.ajaxHeaders;
-            } else if ($3.isPlainObject(options.ajaxHeaders) && $3.isPlainObject(this.ajaxHeaders)) {
-              options.ajaxHeaders = $3.extend({}, this.ajaxHeaders, options.ajaxHeaders);
+            } else if ($4.isPlainObject(options.ajaxHeaders) && $4.isPlainObject(this.ajaxHeaders)) {
+              options.ajaxHeaders = $4.extend({}, this.ajaxHeaders, options.ajaxHeaders);
             }
             var myQueueItem = {
               options
@@ -46099,7 +46099,7 @@ ${generateSegmentFilename(i7)}`);
                 _this.world.setAutoRefigureSizes(true);
               }
             }
-            if ($3.isArray(options.tileSource)) {
+            if ($4.isArray(options.tileSource)) {
               setTimeout(function() {
                 raiseAddItemFailed({
                   message: "[Viewer.addTiledImage] Sequences can not be added; add them one at a time instead.",
@@ -46125,7 +46125,7 @@ ${generateSegmentFilename(i7)}`);
                   }
                   _this.world.removeItem(queueItem.options.replaceItem);
                 }
-                tiledImage = new $3.TiledImage({
+                tiledImage = new $4.TiledImage({
                   viewer: _this,
                   source: queueItem.tileSource,
                   viewport: _this.viewport,
@@ -46174,7 +46174,7 @@ ${generateSegmentFilename(i7)}`);
                   _this.viewport.goHome(true);
                 }
                 if (_this.navigator) {
-                  optionsClone = $3.extend({}, queueItem.options, {
+                  optionsClone = $4.extend({}, queueItem.options, {
                     replace: false,
                     originalTiledImage: tiledImage,
                     tileSource: queueItem.tileSource
@@ -46198,9 +46198,9 @@ ${generateSegmentFilename(i7)}`);
             });
           },
           addSimpleImage: function(options) {
-            $3.console.assert(options, "[Viewer.addSimpleImage] options is required");
-            $3.console.assert(options.url, "[Viewer.addSimpleImage] options.url is required");
-            var opts = $3.extend({}, options, {
+            $4.console.assert(options, "[Viewer.addSimpleImage] options is required");
+            $4.console.assert(options.url, "[Viewer.addSimpleImage] options.url is required");
+            var opts = $4.extend({}, options, {
               tileSource: {
                 type: "image",
                 url: options.url
@@ -46211,8 +46211,8 @@ ${generateSegmentFilename(i7)}`);
           },
           addLayer: function(options) {
             var _this = this;
-            $3.console.error("[Viewer.addLayer] this function is deprecated; use Viewer.addTiledImage() instead.");
-            var optionsClone = $3.extend({}, options, {
+            $4.console.error("[Viewer.addLayer] this function is deprecated; use Viewer.addTiledImage() instead.");
+            var optionsClone = $4.extend({}, options, {
               success: function(event) {
                 _this.raiseEvent("add-layer", {
                   options,
@@ -46227,23 +46227,23 @@ ${generateSegmentFilename(i7)}`);
             return this;
           },
           getLayerAtLevel: function(level) {
-            $3.console.error("[Viewer.getLayerAtLevel] this function is deprecated; use World.getItemAt() instead.");
+            $4.console.error("[Viewer.getLayerAtLevel] this function is deprecated; use World.getItemAt() instead.");
             return this.world.getItemAt(level);
           },
           getLevelOfLayer: function(drawer) {
-            $3.console.error("[Viewer.getLevelOfLayer] this function is deprecated; use World.getIndexOfItem() instead.");
+            $4.console.error("[Viewer.getLevelOfLayer] this function is deprecated; use World.getIndexOfItem() instead.");
             return this.world.getIndexOfItem(drawer);
           },
           getLayersCount: function() {
-            $3.console.error("[Viewer.getLayersCount] this function is deprecated; use World.getItemCount() instead.");
+            $4.console.error("[Viewer.getLayersCount] this function is deprecated; use World.getItemCount() instead.");
             return this.world.getItemCount();
           },
           setLayerLevel: function(drawer, level) {
-            $3.console.error("[Viewer.setLayerLevel] this function is deprecated; use World.setItemIndex() instead.");
+            $4.console.error("[Viewer.setLayerLevel] this function is deprecated; use World.setItemIndex() instead.");
             return this.world.setItemIndex(drawer, level);
           },
           removeLayer: function(drawer) {
-            $3.console.error("[Viewer.removeLayer] this function is deprecated; use World.removeItem() instead.");
+            $4.console.error("[Viewer.removeLayer] this function is deprecated; use World.removeItem() instead.");
             return this.world.removeItem(drawer);
           },
           forceRedraw: function() {
@@ -46251,16 +46251,16 @@ ${generateSegmentFilename(i7)}`);
             return this;
           },
           bindSequenceControls: function() {
-            var onFocusHandler = $3.delegate(this, onFocus), onBlurHandler = $3.delegate(this, onBlur), onNextHandler = $3.delegate(this, onNext), onPreviousHandler = $3.delegate(this, onPrevious), navImages = this.navImages, useGroup = true;
+            var onFocusHandler = $4.delegate(this, onFocus), onBlurHandler = $4.delegate(this, onBlur), onNextHandler = $4.delegate(this, onNext), onPreviousHandler = $4.delegate(this, onPrevious), navImages = this.navImages, useGroup = true;
             if (this.showSequenceControl) {
               if (this.previousButton || this.nextButton) {
                 useGroup = false;
               }
-              this.previousButton = new $3.Button({
-                element: this.previousButton ? $3.getElement(this.previousButton) : null,
+              this.previousButton = new $4.Button({
+                element: this.previousButton ? $4.getElement(this.previousButton) : null,
                 clickTimeThreshold: this.clickTimeThreshold,
                 clickDistThreshold: this.clickDistThreshold,
-                tooltip: $3.getString("Tooltips.PreviousPage"),
+                tooltip: $4.getString("Tooltips.PreviousPage"),
                 srcRest: resolveUrl(this.prefixUrl, navImages.previous.REST),
                 srcGroup: resolveUrl(this.prefixUrl, navImages.previous.GROUP),
                 srcHover: resolveUrl(this.prefixUrl, navImages.previous.HOVER),
@@ -46269,11 +46269,11 @@ ${generateSegmentFilename(i7)}`);
                 onFocus: onFocusHandler,
                 onBlur: onBlurHandler
               });
-              this.nextButton = new $3.Button({
-                element: this.nextButton ? $3.getElement(this.nextButton) : null,
+              this.nextButton = new $4.Button({
+                element: this.nextButton ? $4.getElement(this.nextButton) : null,
                 clickTimeThreshold: this.clickTimeThreshold,
                 clickDistThreshold: this.clickDistThreshold,
-                tooltip: $3.getString("Tooltips.NextPage"),
+                tooltip: $4.getString("Tooltips.NextPage"),
                 srcRest: resolveUrl(this.prefixUrl, navImages.next.REST),
                 srcGroup: resolveUrl(this.prefixUrl, navImages.next.GROUP),
                 srcHover: resolveUrl(this.prefixUrl, navImages.next.HOVER),
@@ -46289,7 +46289,7 @@ ${generateSegmentFilename(i7)}`);
                 this.nextButton.disable();
               }
               if (useGroup) {
-                this.paging = new $3.ButtonGroup({
+                this.paging = new $4.ButtonGroup({
                   buttons: [
                     this.previousButton,
                     this.nextButton
@@ -46299,26 +46299,26 @@ ${generateSegmentFilename(i7)}`);
                 });
                 this.pagingControl = this.paging.element;
                 if (this.toolbar) {
-                  this.toolbar.addControl(this.pagingControl, { anchor: $3.ControlAnchor.BOTTOM_RIGHT });
+                  this.toolbar.addControl(this.pagingControl, { anchor: $4.ControlAnchor.BOTTOM_RIGHT });
                 } else {
-                  this.addControl(this.pagingControl, { anchor: this.sequenceControlAnchor || $3.ControlAnchor.TOP_LEFT });
+                  this.addControl(this.pagingControl, { anchor: this.sequenceControlAnchor || $4.ControlAnchor.TOP_LEFT });
                 }
               }
             }
             return this;
           },
           bindStandardControls: function() {
-            var beginZoomingInHandler = $3.delegate(this, beginZoomingIn), endZoomingHandler = $3.delegate(this, endZooming), doSingleZoomInHandler = $3.delegate(this, doSingleZoomIn), beginZoomingOutHandler = $3.delegate(this, beginZoomingOut), doSingleZoomOutHandler = $3.delegate(this, doSingleZoomOut), onHomeHandler = $3.delegate(this, onHome), onFullScreenHandler = $3.delegate(this, onFullScreen), onRotateLeftHandler = $3.delegate(this, onRotateLeft), onRotateRightHandler = $3.delegate(this, onRotateRight), onFlipHandler = $3.delegate(this, onFlip), onFocusHandler = $3.delegate(this, onFocus), onBlurHandler = $3.delegate(this, onBlur), navImages = this.navImages, buttons = [], useGroup = true;
+            var beginZoomingInHandler = $4.delegate(this, beginZoomingIn), endZoomingHandler = $4.delegate(this, endZooming), doSingleZoomInHandler = $4.delegate(this, doSingleZoomIn), beginZoomingOutHandler = $4.delegate(this, beginZoomingOut), doSingleZoomOutHandler = $4.delegate(this, doSingleZoomOut), onHomeHandler = $4.delegate(this, onHome), onFullScreenHandler = $4.delegate(this, onFullScreen), onRotateLeftHandler = $4.delegate(this, onRotateLeft), onRotateRightHandler = $4.delegate(this, onRotateRight), onFlipHandler = $4.delegate(this, onFlip), onFocusHandler = $4.delegate(this, onFocus), onBlurHandler = $4.delegate(this, onBlur), navImages = this.navImages, buttons = [], useGroup = true;
             if (this.showNavigationControl) {
               if (this.zoomInButton || this.zoomOutButton || this.homeButton || this.fullPageButton || this.rotateLeftButton || this.rotateRightButton || this.flipButton) {
                 useGroup = false;
               }
               if (this.showZoomControl) {
-                buttons.push(this.zoomInButton = new $3.Button({
-                  element: this.zoomInButton ? $3.getElement(this.zoomInButton) : null,
+                buttons.push(this.zoomInButton = new $4.Button({
+                  element: this.zoomInButton ? $4.getElement(this.zoomInButton) : null,
                   clickTimeThreshold: this.clickTimeThreshold,
                   clickDistThreshold: this.clickDistThreshold,
-                  tooltip: $3.getString("Tooltips.ZoomIn"),
+                  tooltip: $4.getString("Tooltips.ZoomIn"),
                   srcRest: resolveUrl(this.prefixUrl, navImages.zoomIn.REST),
                   srcGroup: resolveUrl(this.prefixUrl, navImages.zoomIn.GROUP),
                   srcHover: resolveUrl(this.prefixUrl, navImages.zoomIn.HOVER),
@@ -46331,11 +46331,11 @@ ${generateSegmentFilename(i7)}`);
                   onFocus: onFocusHandler,
                   onBlur: onBlurHandler
                 }));
-                buttons.push(this.zoomOutButton = new $3.Button({
-                  element: this.zoomOutButton ? $3.getElement(this.zoomOutButton) : null,
+                buttons.push(this.zoomOutButton = new $4.Button({
+                  element: this.zoomOutButton ? $4.getElement(this.zoomOutButton) : null,
                   clickTimeThreshold: this.clickTimeThreshold,
                   clickDistThreshold: this.clickDistThreshold,
-                  tooltip: $3.getString("Tooltips.ZoomOut"),
+                  tooltip: $4.getString("Tooltips.ZoomOut"),
                   srcRest: resolveUrl(this.prefixUrl, navImages.zoomOut.REST),
                   srcGroup: resolveUrl(this.prefixUrl, navImages.zoomOut.GROUP),
                   srcHover: resolveUrl(this.prefixUrl, navImages.zoomOut.HOVER),
@@ -46350,11 +46350,11 @@ ${generateSegmentFilename(i7)}`);
                 }));
               }
               if (this.showHomeControl) {
-                buttons.push(this.homeButton = new $3.Button({
-                  element: this.homeButton ? $3.getElement(this.homeButton) : null,
+                buttons.push(this.homeButton = new $4.Button({
+                  element: this.homeButton ? $4.getElement(this.homeButton) : null,
                   clickTimeThreshold: this.clickTimeThreshold,
                   clickDistThreshold: this.clickDistThreshold,
-                  tooltip: $3.getString("Tooltips.Home"),
+                  tooltip: $4.getString("Tooltips.Home"),
                   srcRest: resolveUrl(this.prefixUrl, navImages.home.REST),
                   srcGroup: resolveUrl(this.prefixUrl, navImages.home.GROUP),
                   srcHover: resolveUrl(this.prefixUrl, navImages.home.HOVER),
@@ -46365,11 +46365,11 @@ ${generateSegmentFilename(i7)}`);
                 }));
               }
               if (this.showFullPageControl) {
-                buttons.push(this.fullPageButton = new $3.Button({
-                  element: this.fullPageButton ? $3.getElement(this.fullPageButton) : null,
+                buttons.push(this.fullPageButton = new $4.Button({
+                  element: this.fullPageButton ? $4.getElement(this.fullPageButton) : null,
                   clickTimeThreshold: this.clickTimeThreshold,
                   clickDistThreshold: this.clickDistThreshold,
-                  tooltip: $3.getString("Tooltips.FullPage"),
+                  tooltip: $4.getString("Tooltips.FullPage"),
                   srcRest: resolveUrl(this.prefixUrl, navImages.fullpage.REST),
                   srcGroup: resolveUrl(this.prefixUrl, navImages.fullpage.GROUP),
                   srcHover: resolveUrl(this.prefixUrl, navImages.fullpage.HOVER),
@@ -46380,11 +46380,11 @@ ${generateSegmentFilename(i7)}`);
                 }));
               }
               if (this.showRotationControl) {
-                buttons.push(this.rotateLeftButton = new $3.Button({
-                  element: this.rotateLeftButton ? $3.getElement(this.rotateLeftButton) : null,
+                buttons.push(this.rotateLeftButton = new $4.Button({
+                  element: this.rotateLeftButton ? $4.getElement(this.rotateLeftButton) : null,
                   clickTimeThreshold: this.clickTimeThreshold,
                   clickDistThreshold: this.clickDistThreshold,
-                  tooltip: $3.getString("Tooltips.RotateLeft"),
+                  tooltip: $4.getString("Tooltips.RotateLeft"),
                   srcRest: resolveUrl(this.prefixUrl, navImages.rotateleft.REST),
                   srcGroup: resolveUrl(this.prefixUrl, navImages.rotateleft.GROUP),
                   srcHover: resolveUrl(this.prefixUrl, navImages.rotateleft.HOVER),
@@ -46393,11 +46393,11 @@ ${generateSegmentFilename(i7)}`);
                   onFocus: onFocusHandler,
                   onBlur: onBlurHandler
                 }));
-                buttons.push(this.rotateRightButton = new $3.Button({
-                  element: this.rotateRightButton ? $3.getElement(this.rotateRightButton) : null,
+                buttons.push(this.rotateRightButton = new $4.Button({
+                  element: this.rotateRightButton ? $4.getElement(this.rotateRightButton) : null,
                   clickTimeThreshold: this.clickTimeThreshold,
                   clickDistThreshold: this.clickDistThreshold,
-                  tooltip: $3.getString("Tooltips.RotateRight"),
+                  tooltip: $4.getString("Tooltips.RotateRight"),
                   srcRest: resolveUrl(this.prefixUrl, navImages.rotateright.REST),
                   srcGroup: resolveUrl(this.prefixUrl, navImages.rotateright.GROUP),
                   srcHover: resolveUrl(this.prefixUrl, navImages.rotateright.HOVER),
@@ -46408,11 +46408,11 @@ ${generateSegmentFilename(i7)}`);
                 }));
               }
               if (this.showFlipControl) {
-                buttons.push(this.flipButton = new $3.Button({
-                  element: this.flipButton ? $3.getElement(this.flipButton) : null,
+                buttons.push(this.flipButton = new $4.Button({
+                  element: this.flipButton ? $4.getElement(this.flipButton) : null,
                   clickTimeThreshold: this.clickTimeThreshold,
                   clickDistThreshold: this.clickDistThreshold,
-                  tooltip: $3.getString("Tooltips.Flip"),
+                  tooltip: $4.getString("Tooltips.Flip"),
                   srcRest: resolveUrl(this.prefixUrl, navImages.flip.REST),
                   srcGroup: resolveUrl(this.prefixUrl, navImages.flip.GROUP),
                   srcHover: resolveUrl(this.prefixUrl, navImages.flip.HOVER),
@@ -46423,17 +46423,17 @@ ${generateSegmentFilename(i7)}`);
                 }));
               }
               if (useGroup) {
-                this.buttons = new $3.ButtonGroup({
+                this.buttons = new $4.ButtonGroup({
                   buttons,
                   clickTimeThreshold: this.clickTimeThreshold,
                   clickDistThreshold: this.clickDistThreshold
                 });
                 this.navControl = this.buttons.element;
-                this.addHandler("open", $3.delegate(this, lightUp));
+                this.addHandler("open", $4.delegate(this, lightUp));
                 if (this.toolbar) {
-                  this.toolbar.addControl(this.navControl, { anchor: this.navigationControlAnchor || $3.ControlAnchor.TOP_LEFT });
+                  this.toolbar.addControl(this.navControl, { anchor: this.navigationControlAnchor || $4.ControlAnchor.TOP_LEFT });
                 } else {
-                  this.addControl(this.navControl, { anchor: this.navigationControlAnchor || $3.ControlAnchor.TOP_LEFT });
+                  this.addControl(this.navControl, { anchor: this.navigationControlAnchor || $4.ControlAnchor.TOP_LEFT });
                 }
               }
             }
@@ -46456,7 +46456,7 @@ ${generateSegmentFilename(i7)}`);
           },
           addOverlay: function(element, location2, placement, onDraw) {
             var options;
-            if ($3.isPlainObject(element)) {
+            if ($4.isPlainObject(element)) {
               options = element;
             } else {
               options = {
@@ -46466,7 +46466,7 @@ ${generateSegmentFilename(i7)}`);
                 onDraw
               };
             }
-            element = $3.getElement(options.element);
+            element = $4.getElement(options.element);
             if (getOverlayIndex(this.currentOverlays, element) >= 0) {
               return this;
             }
@@ -46482,7 +46482,7 @@ ${generateSegmentFilename(i7)}`);
           },
           updateOverlay: function(element, location2, placement) {
             var i7;
-            element = $3.getElement(element);
+            element = $4.getElement(element);
             i7 = getOverlayIndex(this.currentOverlays, element);
             if (i7 >= 0) {
               this.currentOverlays[i7].update(location2, placement);
@@ -46497,7 +46497,7 @@ ${generateSegmentFilename(i7)}`);
           },
           removeOverlay: function(element) {
             var i7;
-            element = $3.getElement(element);
+            element = $4.getElement(element);
             i7 = getOverlayIndex(this.currentOverlays, element);
             if (i7 >= 0) {
               this.currentOverlays[i7].destroy();
@@ -46519,7 +46519,7 @@ ${generateSegmentFilename(i7)}`);
           },
           getOverlayById: function(element) {
             var i7;
-            element = $3.getElement(element);
+            element = $4.getElement(element);
             i7 = getOverlayIndex(this.currentOverlays, element);
             if (i7 >= 0) {
               return this.currentOverlays[i7];
@@ -46549,10 +46549,10 @@ ${generateSegmentFilename(i7)}`);
           },
           _showMessage: function(message) {
             this._hideMessage();
-            var div = $3.makeNeutralElement("div");
+            var div = $4.makeNeutralElement("div");
             div.appendChild(document.createTextNode(message));
-            this.messageDiv = $3.makeCenteredNode(div);
-            $3.addClass(this.messageDiv, "openseadragon-message");
+            this.messageDiv = $4.makeCenteredNode(div);
+            $4.addClass(this.messageDiv, "openseadragon-message");
             this.container.appendChild(this.messageDiv);
           },
           _hideMessage: function() {
@@ -46597,7 +46597,7 @@ ${generateSegmentFilename(i7)}`);
                 return;
               }
               if (this.tileSources.length && this.tileSources.length > 1) {
-                this.referenceStrip = new $3.ReferenceStrip({
+                this.referenceStrip = new $4.ReferenceStrip({
                   id: this.referenceStripElement,
                   position: this.referenceStripPosition,
                   sizeRatio: this.referenceStripSizeRatio,
@@ -46612,22 +46612,22 @@ ${generateSegmentFilename(i7)}`);
                 this.referenceStrip.setFocus(this._sequenceIndex);
               }
             } else {
-              $3.console.warn('Attempting to display a reference strip while "sequenceMode" is off.');
+              $4.console.warn('Attempting to display a reference strip while "sequenceMode" is off.');
             }
           }
         });
         function _getSafeElemSize(oElement) {
-          oElement = $3.getElement(oElement);
-          return new $3.Point(oElement.clientWidth === 0 ? 1 : oElement.clientWidth, oElement.clientHeight === 0 ? 1 : oElement.clientHeight);
+          oElement = $4.getElement(oElement);
+          return new $4.Point(oElement.clientWidth === 0 ? 1 : oElement.clientWidth, oElement.clientHeight === 0 ? 1 : oElement.clientHeight);
         }
         function getTileSourceImplementation(viewer, tileSource, imgOptions, successCallback, failCallback) {
           var _this = viewer;
-          if ($3.type(tileSource) == "string") {
+          if ($4.type(tileSource) == "string") {
             if (tileSource.match(/^\s*<.*>\s*$/)) {
-              tileSource = $3.parseXml(tileSource);
+              tileSource = $4.parseXml(tileSource);
             } else if (tileSource.match(/^\s*[\{\[].*[\}\]]\s*$/)) {
               try {
-                var tileSourceJ = $3.parseJSON(tileSource);
+                var tileSourceJ = $4.parseJSON(tileSource);
                 tileSource = tileSourceJ;
               } catch (e11) {
               }
@@ -46649,8 +46649,8 @@ ${generateSegmentFilename(i7)}`);
             }
           }
           setTimeout(function() {
-            if ($3.type(tileSource) == "string") {
-              tileSource = new $3.TileSource({
+            if ($4.type(tileSource) == "string") {
+              tileSource = new $4.TileSource({
                 url: tileSource,
                 crossOriginPolicy: imgOptions.crossOriginPolicy !== void 0 ? imgOptions.crossOriginPolicy : viewer.crossOriginPolicy,
                 ajaxWithCredentials: viewer.ajaxWithCredentials,
@@ -46663,7 +46663,7 @@ ${generateSegmentFilename(i7)}`);
               tileSource.addHandler("open-failed", function(event) {
                 failCallback(event);
               });
-            } else if ($3.isPlainObject(tileSource) || tileSource.nodeType) {
+            } else if ($4.isPlainObject(tileSource) || tileSource.nodeType) {
               if (tileSource.crossOriginPolicy === void 0 && (imgOptions.crossOriginPolicy !== void 0 || viewer.crossOriginPolicy !== void 0)) {
                 tileSource.crossOriginPolicy = imgOptions.crossOriginPolicy !== void 0 ? imgOptions.crossOriginPolicy : viewer.crossOriginPolicy;
               }
@@ -46673,12 +46673,12 @@ ${generateSegmentFilename(i7)}`);
               if (tileSource.useCanvas === void 0) {
                 tileSource.useCanvas = viewer.useCanvas;
               }
-              if ($3.isFunction(tileSource.getTileUrl)) {
-                var customTileSource = new $3.TileSource(tileSource);
+              if ($4.isFunction(tileSource.getTileUrl)) {
+                var customTileSource = new $4.TileSource(tileSource);
                 customTileSource.getTileUrl = tileSource.getTileUrl;
                 successCallback(customTileSource);
               } else {
-                var $TileSource = $3.TileSource.determineType(_this, tileSource);
+                var $TileSource = $4.TileSource.determineType(_this, tileSource);
                 if (!$TileSource) {
                   failCallback({
                     message: "Unable to load TileSource",
@@ -46695,42 +46695,42 @@ ${generateSegmentFilename(i7)}`);
           });
         }
         function getOverlayObject(viewer, overlay) {
-          if (overlay instanceof $3.Overlay) {
+          if (overlay instanceof $4.Overlay) {
             return overlay;
           }
           var element = null;
           if (overlay.element) {
-            element = $3.getElement(overlay.element);
+            element = $4.getElement(overlay.element);
           } else {
             var id = overlay.id ? overlay.id : "openseadragon-overlay-" + Math.floor(Math.random() * 1e7);
-            element = $3.getElement(overlay.id);
+            element = $4.getElement(overlay.id);
             if (!element) {
               element = document.createElement("a");
               element.href = "#/overlay/" + id;
             }
             element.id = id;
-            $3.addClass(element, overlay.className ? overlay.className : "openseadragon-overlay");
+            $4.addClass(element, overlay.className ? overlay.className : "openseadragon-overlay");
           }
           var location2 = overlay.location;
           var width = overlay.width;
           var height = overlay.height;
           if (!location2) {
-            var x4 = overlay.x;
-            var y3 = overlay.y;
+            var x5 = overlay.x;
+            var y4 = overlay.y;
             if (overlay.px !== void 0) {
-              var rect = viewer.viewport.imageToViewportRectangle(new $3.Rect(overlay.px, overlay.py, width || 0, height || 0));
-              x4 = rect.x;
-              y3 = rect.y;
+              var rect = viewer.viewport.imageToViewportRectangle(new $4.Rect(overlay.px, overlay.py, width || 0, height || 0));
+              x5 = rect.x;
+              y4 = rect.y;
               width = width !== void 0 ? rect.width : void 0;
               height = height !== void 0 ? rect.height : void 0;
             }
-            location2 = new $3.Point(x4, y3);
+            location2 = new $4.Point(x5, y4);
           }
           var placement = overlay.placement;
-          if (placement && $3.type(placement) === "string") {
-            placement = $3.Placement[overlay.placement.toUpperCase()];
+          if (placement && $4.type(placement) === "string") {
+            placement = $4.Placement[overlay.placement.toUpperCase()];
           }
-          return new $3.Overlay({
+          return new $4.Overlay({
             element,
             location: location2,
             placement,
@@ -46751,12 +46751,12 @@ ${generateSegmentFilename(i7)}`);
           return -1;
         }
         function scheduleUpdate(viewer, updateFunc) {
-          return $3.requestAnimationFrame(function() {
+          return $4.requestAnimationFrame(function() {
             updateFunc(viewer);
           });
         }
         function scheduleControlsFade(viewer) {
-          $3.requestAnimationFrame(function() {
+          $4.requestAnimationFrame(function() {
             updateControlsFade(viewer);
           });
         }
@@ -46765,7 +46765,7 @@ ${generateSegmentFilename(i7)}`);
             return;
           }
           viewer.controlsShouldFade = true;
-          viewer.controlsFadeBeginTime = $3.now() + viewer.controlsFadeDelay;
+          viewer.controlsFadeBeginTime = $4.now() + viewer.controlsFadeDelay;
           window.setTimeout(function() {
             scheduleControlsFade(viewer);
           }, viewer.controlsFadeDelay);
@@ -46773,7 +46773,7 @@ ${generateSegmentFilename(i7)}`);
         function updateControlsFade(viewer) {
           var currentTime, deltaTime, opacity, i7;
           if (viewer.controlsShouldFade) {
-            currentTime = $3.now();
+            currentTime = $4.now();
             deltaTime = currentTime - viewer.controlsFadeBeginTime;
             opacity = 1 - deltaTime / viewer.controlsFadeLength;
             opacity = Math.min(1, opacity);
@@ -46816,7 +46816,7 @@ ${generateSegmentFilename(i7)}`);
                   if (event.shift) {
                     this.viewport.zoomBy(1.1);
                   } else {
-                    this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $3.Point(0, -this.pixelsPerArrowPress)));
+                    this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $4.Point(0, -this.pixelsPerArrowPress)));
                   }
                   this.viewport.applyConstraints();
                 }
@@ -46826,20 +46826,20 @@ ${generateSegmentFilename(i7)}`);
                   if (event.shift) {
                     this.viewport.zoomBy(0.9);
                   } else {
-                    this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $3.Point(0, this.pixelsPerArrowPress)));
+                    this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $4.Point(0, this.pixelsPerArrowPress)));
                   }
                   this.viewport.applyConstraints();
                 }
                 return false;
               case 37:
                 if (!canvasKeyDownEventArgs.preventHorizontalPan) {
-                  this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $3.Point(-this.pixelsPerArrowPress, 0)));
+                  this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $4.Point(-this.pixelsPerArrowPress, 0)));
                   this.viewport.applyConstraints();
                 }
                 return false;
               case 39:
                 if (!canvasKeyDownEventArgs.preventHorizontalPan) {
-                  this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $3.Point(this.pixelsPerArrowPress, 0)));
+                  this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $4.Point(this.pixelsPerArrowPress, 0)));
                   this.viewport.applyConstraints();
                 }
                 return false;
@@ -46879,7 +46879,7 @@ ${generateSegmentFilename(i7)}`);
                   if (event.shift) {
                     this.viewport.zoomBy(1.1);
                   } else {
-                    this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $3.Point(0, -40)));
+                    this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $4.Point(0, -40)));
                   }
                   this.viewport.applyConstraints();
                 }
@@ -46890,36 +46890,36 @@ ${generateSegmentFilename(i7)}`);
                   if (event.shift) {
                     this.viewport.zoomBy(0.9);
                   } else {
-                    this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $3.Point(0, 40)));
+                    this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $4.Point(0, 40)));
                   }
                   this.viewport.applyConstraints();
                 }
                 return false;
               case 97:
                 if (!canvasKeyPressEventArgs.preventHorizontalPan) {
-                  this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $3.Point(-40, 0)));
+                  this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $4.Point(-40, 0)));
                   this.viewport.applyConstraints();
                 }
                 return false;
               case 100:
                 if (!canvasKeyPressEventArgs.preventHorizontalPan) {
-                  this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $3.Point(40, 0)));
+                  this.viewport.panBy(this.viewport.deltaPointsFromPixels(new $4.Point(40, 0)));
                   this.viewport.applyConstraints();
                 }
                 return false;
               case 114:
                 if (this.viewport.flipped) {
-                  this.viewport.setRotation($3.positiveModulo(this.viewport.degrees - this.rotationIncrement, 360));
+                  this.viewport.setRotation($4.positiveModulo(this.viewport.degrees - this.rotationIncrement, 360));
                 } else {
-                  this.viewport.setRotation($3.positiveModulo(this.viewport.degrees + this.rotationIncrement, 360));
+                  this.viewport.setRotation($4.positiveModulo(this.viewport.degrees + this.rotationIncrement, 360));
                 }
                 this.viewport.applyConstraints();
                 return false;
               case 82:
                 if (this.viewport.flipped) {
-                  this.viewport.setRotation($3.positiveModulo(this.viewport.degrees + this.rotationIncrement, 360));
+                  this.viewport.setRotation($4.positiveModulo(this.viewport.degrees + this.rotationIncrement, 360));
                 } else {
-                  this.viewport.setRotation($3.positiveModulo(this.viewport.degrees - this.rotationIncrement, 360));
+                  this.viewport.setRotation($4.positiveModulo(this.viewport.degrees - this.rotationIncrement, 360));
                 }
                 this.viewport.applyConstraints();
                 return false;
@@ -47032,7 +47032,7 @@ ${generateSegmentFilename(i7)}`);
                 amplitudeY = gestureSettings.flickMomentum * event.speed * Math.sin(event.direction);
               }
               var center = this.viewport.pixelFromPoint(this.viewport.getCenter(true));
-              var target = this.viewport.pointFromPixel(new $3.Point(center.x - amplitudeX, center.y - amplitudeY));
+              var target = this.viewport.pointFromPixel(new $4.Point(center.x - amplitudeX, center.y - amplitudeY));
               this.viewport.panTo(target, false);
             }
             this.viewport.applyConstraints();
@@ -47060,7 +47060,7 @@ ${generateSegmentFilename(i7)}`);
         }
         function onCanvasExit(event) {
           if (window.location != window.parent.location) {
-            $3.MouseTracker.resetAllMouseTrackers();
+            $4.MouseTracker.resetAllMouseTrackers();
           }
           this.raiseEvent("canvas-exit", {
             tracker: event.eventSource,
@@ -47153,7 +47153,7 @@ ${generateSegmentFilename(i7)}`);
         }
         function onCanvasScroll(event) {
           var gestureSettings, factor, thisScrollTime, deltaScrollTime;
-          thisScrollTime = $3.now();
+          thisScrollTime = $4.now();
           deltaScrollTime = thisScrollTime - this._lastScrollTime;
           if (deltaScrollTime > this.minScrollDeltaTime) {
             this._lastScrollTime = thisScrollTime;
@@ -47289,13 +47289,13 @@ ${generateSegmentFilename(i7)}`);
           return prefix ? prefix + url : url;
         }
         function beginZoomingIn() {
-          THIS[this.hash].lastZoomTime = $3.now();
+          THIS[this.hash].lastZoomTime = $4.now();
           THIS[this.hash].zoomFactor = this.zoomPerSecond;
           THIS[this.hash].zooming = true;
           scheduleZoom(this);
         }
         function beginZoomingOut() {
-          THIS[this.hash].lastZoomTime = $3.now();
+          THIS[this.hash].lastZoomTime = $4.now();
           THIS[this.hash].zoomFactor = 1 / this.zoomPerSecond;
           THIS[this.hash].zooming = true;
           scheduleZoom(this);
@@ -47304,12 +47304,12 @@ ${generateSegmentFilename(i7)}`);
           THIS[this.hash].zooming = false;
         }
         function scheduleZoom(viewer) {
-          $3.requestAnimationFrame($3.delegate(viewer, doZoom));
+          $4.requestAnimationFrame($4.delegate(viewer, doZoom));
         }
         function doZoom() {
           var currentTime, deltaTime, adjustedFactor;
           if (THIS[this.hash].zooming && this.viewport) {
-            currentTime = $3.now();
+            currentTime = $4.now();
             deltaTime = currentTime - THIS[this.hash].lastZoomTime;
             adjustedFactor = Math.pow(THIS[this.hash].zoomFactor, deltaTime / 1e3);
             this.viewport.zoomBy(adjustedFactor);
@@ -47342,7 +47342,7 @@ ${generateSegmentFilename(i7)}`);
           }
         }
         function onFullScreen() {
-          if (this.isFullPage() && !$3.isFullScreen()) {
+          if (this.isFullPage() && !$4.isFullScreen()) {
             this.setFullPage(false);
           } else {
             this.setFullScreen(!this.isFullPage());
@@ -47359,9 +47359,9 @@ ${generateSegmentFilename(i7)}`);
           if (this.viewport) {
             var currRotation = this.viewport.getRotation();
             if (this.viewport.flipped) {
-              currRotation = $3.positiveModulo(currRotation + this.rotationIncrement, 360);
+              currRotation = $4.positiveModulo(currRotation + this.rotationIncrement, 360);
             } else {
-              currRotation = $3.positiveModulo(currRotation - this.rotationIncrement, 360);
+              currRotation = $4.positiveModulo(currRotation - this.rotationIncrement, 360);
             }
             this.viewport.setRotation(currRotation);
           }
@@ -47370,9 +47370,9 @@ ${generateSegmentFilename(i7)}`);
           if (this.viewport) {
             var currRotation = this.viewport.getRotation();
             if (this.viewport.flipped) {
-              currRotation = $3.positiveModulo(currRotation - this.rotationIncrement, 360);
+              currRotation = $4.positiveModulo(currRotation - this.rotationIncrement, 360);
             } else {
-              currRotation = $3.positiveModulo(currRotation + this.rotationIncrement, 360);
+              currRotation = $4.positiveModulo(currRotation + this.rotationIncrement, 360);
             }
             this.viewport.setRotation(currRotation);
           }
@@ -47395,28 +47395,28 @@ ${generateSegmentFilename(i7)}`);
           this.goToPage(next);
         }
       })(OpenSeadragon);
-      (function($3) {
-        $3.Navigator = function(options) {
+      (function($4) {
+        $4.Navigator = function(options) {
           var viewer = options.viewer, _this = this, viewerSize, navigatorSize;
           if (!options.id) {
-            options.id = "navigator-" + $3.now();
-            this.element = $3.makeNeutralElement("div");
+            options.id = "navigator-" + $4.now();
+            this.element = $4.makeNeutralElement("div");
             options.controlOptions = {
-              anchor: $3.ControlAnchor.TOP_RIGHT,
+              anchor: $4.ControlAnchor.TOP_RIGHT,
               attachToViewer: true,
               autoFade: options.autoFade
             };
             if (options.position) {
               if (options.position == "BOTTOM_RIGHT") {
-                options.controlOptions.anchor = $3.ControlAnchor.BOTTOM_RIGHT;
+                options.controlOptions.anchor = $4.ControlAnchor.BOTTOM_RIGHT;
               } else if (options.position == "BOTTOM_LEFT") {
-                options.controlOptions.anchor = $3.ControlAnchor.BOTTOM_LEFT;
+                options.controlOptions.anchor = $4.ControlAnchor.BOTTOM_LEFT;
               } else if (options.position == "TOP_RIGHT") {
-                options.controlOptions.anchor = $3.ControlAnchor.TOP_RIGHT;
+                options.controlOptions.anchor = $4.ControlAnchor.TOP_RIGHT;
               } else if (options.position == "TOP_LEFT") {
-                options.controlOptions.anchor = $3.ControlAnchor.TOP_LEFT;
+                options.controlOptions.anchor = $4.ControlAnchor.TOP_LEFT;
               } else if (options.position == "ABSOLUTE") {
-                options.controlOptions.anchor = $3.ControlAnchor.ABSOLUTE;
+                options.controlOptions.anchor = $4.ControlAnchor.ABSOLUTE;
                 options.controlOptions.top = options.top;
                 options.controlOptions.left = options.left;
                 options.controlOptions.height = options.height;
@@ -47426,15 +47426,15 @@ ${generateSegmentFilename(i7)}`);
           } else {
             this.element = document.getElementById(options.id);
             options.controlOptions = {
-              anchor: $3.ControlAnchor.NONE,
+              anchor: $4.ControlAnchor.NONE,
               attachToViewer: false,
               autoFade: false
             };
           }
           this.element.id = options.id;
           this.element.className += " navigator";
-          options = $3.extend(true, {
-            sizeRatio: $3.DEFAULT_SETTINGS.navigatorSizeRatio
+          options = $4.extend(true, {
+            sizeRatio: $4.DEFAULT_SETTINGS.navigatorSizeRatio
           }, options, {
             element: this.element,
             tabIndex: -1,
@@ -47453,11 +47453,11 @@ ${generateSegmentFilename(i7)}`);
             displayRegionColor: options.displayRegionColor
           });
           options.minPixelRatio = this.minPixelRatio = viewer.minPixelRatio;
-          $3.setElementTouchActionNone(this.element);
+          $4.setElementTouchActionNone(this.element);
           this.borderWidth = 2;
-          this.fudge = new $3.Point(1, 1);
-          this.totalBorderWidths = new $3.Point(this.borderWidth * 2, this.borderWidth * 2).minus(this.fudge);
-          if (options.controlOptions.anchor != $3.ControlAnchor.NONE) {
+          this.fudge = new $4.Point(1, 1);
+          this.totalBorderWidths = new $4.Point(this.borderWidth * 2, this.borderWidth * 2).minus(this.fudge);
+          if (options.controlOptions.anchor != $4.ControlAnchor.NONE) {
             (function(style, borderWidth) {
               style.margin = "0px";
               style.border = borderWidth + "px solid " + options.borderColor;
@@ -47467,7 +47467,7 @@ ${generateSegmentFilename(i7)}`);
               style.overflow = "hidden";
             })(this.element.style, this.borderWidth);
           }
-          this.displayRegion = $3.makeNeutralElement("div");
+          this.displayRegion = $4.makeNeutralElement("div");
           this.displayRegion.id = this.element.id + "-displayregion";
           this.displayRegion.className = "displayregion";
           (function(style, borderWidth) {
@@ -47486,26 +47486,26 @@ ${generateSegmentFilename(i7)}`);
             style.zIndex = 999999999;
             style.cursor = "default";
           })(this.displayRegion.style, this.borderWidth);
-          this.displayRegionContainer = $3.makeNeutralElement("div");
+          this.displayRegionContainer = $4.makeNeutralElement("div");
           this.displayRegionContainer.id = this.element.id + "-displayregioncontainer";
           this.displayRegionContainer.className = "displayregioncontainer";
           this.displayRegionContainer.style.width = "100%";
           this.displayRegionContainer.style.height = "100%";
           viewer.addControl(this.element, options.controlOptions);
-          this._resizeWithViewer = options.controlOptions.anchor != $3.ControlAnchor.ABSOLUTE && options.controlOptions.anchor != $3.ControlAnchor.NONE;
+          this._resizeWithViewer = options.controlOptions.anchor != $4.ControlAnchor.ABSOLUTE && options.controlOptions.anchor != $4.ControlAnchor.NONE;
           if (options.width && options.height) {
             this.setWidth(options.width);
             this.setHeight(options.height);
           } else if (this._resizeWithViewer) {
-            viewerSize = $3.getElementSize(viewer.element);
+            viewerSize = $4.getElementSize(viewer.element);
             this.element.style.height = Math.round(viewerSize.y * options.sizeRatio) + "px";
             this.element.style.width = Math.round(viewerSize.x * options.sizeRatio) + "px";
             this.oldViewerSize = viewerSize;
-            navigatorSize = $3.getElementSize(this.element);
+            navigatorSize = $4.getElementSize(this.element);
             this.elementArea = navigatorSize.x * navigatorSize.y;
           }
-          this.oldContainerSize = new $3.Point(0, 0);
-          $3.Viewer.apply(this, [options]);
+          this.oldContainerSize = new $4.Point(0, 0);
+          $4.Viewer.apply(this, [options]);
           this.displayRegionContainer.appendChild(this.displayRegion);
           this.element.getElementsByTagName("div")[0].appendChild(this.displayRegionContainer);
           function rotate(degrees2) {
@@ -47521,12 +47521,12 @@ ${generateSegmentFilename(i7)}`);
             });
           }
           this.innerTracker.destroy();
-          this.innerTracker = new $3.MouseTracker({
+          this.innerTracker = new $4.MouseTracker({
             element: this.element,
-            dragHandler: $3.delegate(this, onCanvasDrag),
-            clickHandler: $3.delegate(this, onCanvasClick),
-            releaseHandler: $3.delegate(this, onCanvasRelease),
-            scrollHandler: $3.delegate(this, onCanvasScroll)
+            dragHandler: $4.delegate(this, onCanvasDrag),
+            clickHandler: $4.delegate(this, onCanvasClick),
+            releaseHandler: $4.delegate(this, onCanvasRelease),
+            scrollHandler: $4.delegate(this, onCanvasScroll)
           });
           this.addHandler("reset-size", function() {
             if (_this.viewport) {
@@ -47548,10 +47548,10 @@ ${generateSegmentFilename(i7)}`);
           });
           this.update(viewer.viewport);
         };
-        $3.extend($3.Navigator.prototype, $3.EventSource.prototype, $3.Viewer.prototype, {
+        $4.extend($4.Navigator.prototype, $4.EventSource.prototype, $4.Viewer.prototype, {
           updateSize: function() {
             if (this.viewport) {
-              var containerSize = new $3.Point(this.container.clientWidth === 0 ? 1 : this.container.clientWidth, this.container.clientHeight === 0 ? 1 : this.container.clientHeight);
+              var containerSize = new $4.Point(this.container.clientWidth === 0 ? 1 : this.container.clientWidth, this.container.clientHeight === 0 ? 1 : this.container.clientHeight);
               if (!containerSize.equals(this.oldContainerSize)) {
                 this.viewport.resize(containerSize, true);
                 this.viewport.goHome(true);
@@ -47583,7 +47583,7 @@ ${generateSegmentFilename(i7)}`);
           },
           update: function(viewport) {
             var viewerSize, newWidth, newHeight, bounds, topleft, bottomright;
-            viewerSize = $3.getElementSize(this.viewer.element);
+            viewerSize = $4.getElementSize(this.viewer.element);
             if (this._resizeWithViewer && viewerSize.x && viewerSize.y && !viewerSize.equals(this.oldViewerSize)) {
               this.oldViewerSize = viewerSize;
               if (this.maintainSizeRatio || !this.elementArea) {
@@ -47618,7 +47618,7 @@ ${generateSegmentFilename(i7)}`);
             var _this = this;
             var original = options.originalTiledImage;
             delete options.original;
-            var optionsClone = $3.extend({}, options, {
+            var optionsClone = $4.extend({}, options, {
               success: function(event) {
                 var myItem = event.item;
                 myItem._originalForNavigator = original;
@@ -47638,7 +47638,7 @@ ${generateSegmentFilename(i7)}`);
                 original.addHandler("composite-operation-change", matchCompositeOperation);
               }
             });
-            return $3.Viewer.prototype.addTiledImage.apply(this, [optionsClone]);
+            return $4.Viewer.prototype.addTiledImage.apply(this, [optionsClone]);
           },
           _getMatchingItem: function(theirItem) {
             var count = this.world.getItemCount();
@@ -47743,7 +47743,7 @@ ${generateSegmentFilename(i7)}`);
           element.style.transform = rule;
         }
       })(OpenSeadragon);
-      (function($3) {
+      (function($4) {
         var I18N = {
           Errors: {
             Dzc: "Sorry, we don't support Deep Zoom Collections!",
@@ -47766,7 +47766,7 @@ ${generateSegmentFilename(i7)}`);
             Flip: "Flip Horizontally"
           }
         };
-        $3.extend($3, {
+        $4.extend($4, {
           getString: function(prop) {
             var props = prop.split("."), string2 = null, args = arguments, container = I18N, i7;
             for (i7 = 0; i7 < props.length - 1; i7++) {
@@ -47774,7 +47774,7 @@ ${generateSegmentFilename(i7)}`);
             }
             string2 = container[props[i7]];
             if (typeof string2 != "string") {
-              $3.console.log("Untranslated source string:", prop);
+              $4.console.log("Untranslated source string:", prop);
               string2 = "";
             }
             return string2.replace(/\{\d+\}/g, function(capture) {
@@ -47794,29 +47794,29 @@ ${generateSegmentFilename(i7)}`);
           }
         });
       })(OpenSeadragon);
-      (function($3) {
-        $3.Point = function(x4, y3) {
-          this.x = typeof x4 == "number" ? x4 : 0;
-          this.y = typeof y3 == "number" ? y3 : 0;
+      (function($4) {
+        $4.Point = function(x5, y4) {
+          this.x = typeof x5 == "number" ? x5 : 0;
+          this.y = typeof y4 == "number" ? y4 : 0;
         };
-        $3.Point.prototype = {
+        $4.Point.prototype = {
           clone: function() {
-            return new $3.Point(this.x, this.y);
+            return new $4.Point(this.x, this.y);
           },
           plus: function(point) {
-            return new $3.Point(this.x + point.x, this.y + point.y);
+            return new $4.Point(this.x + point.x, this.y + point.y);
           },
           minus: function(point) {
-            return new $3.Point(this.x - point.x, this.y - point.y);
+            return new $4.Point(this.x - point.x, this.y - point.y);
           },
           times: function(factor) {
-            return new $3.Point(this.x * factor, this.y * factor);
+            return new $4.Point(this.x * factor, this.y * factor);
           },
           divide: function(factor) {
-            return new $3.Point(this.x / factor, this.y / factor);
+            return new $4.Point(this.x / factor, this.y / factor);
           },
           negate: function() {
-            return new $3.Point(-this.x, -this.y);
+            return new $4.Point(-this.x, -this.y);
           },
           distanceTo: function(point) {
             return Math.sqrt(Math.pow(this.x - point.x, 2) + Math.pow(this.y - point.y, 2));
@@ -47825,18 +47825,18 @@ ${generateSegmentFilename(i7)}`);
             return Math.pow(this.x - point.x, 2) + Math.pow(this.y - point.y, 2);
           },
           apply: function(func) {
-            return new $3.Point(func(this.x), func(this.y));
+            return new $4.Point(func(this.x), func(this.y));
           },
           equals: function(point) {
-            return point instanceof $3.Point && this.x === point.x && this.y === point.y;
+            return point instanceof $4.Point && this.x === point.x && this.y === point.y;
           },
           rotate: function(degrees, pivot) {
-            pivot = pivot || new $3.Point(0, 0);
+            pivot = pivot || new $4.Point(0, 0);
             var cos;
             var sin;
             if (degrees % 90 === 0) {
-              var d7 = $3.positiveModulo(degrees, 360);
-              switch (d7) {
+              var d8 = $4.positiveModulo(degrees, 360);
+              switch (d8) {
                 case 0:
                   cos = 1;
                   sin = 0;
@@ -47859,20 +47859,20 @@ ${generateSegmentFilename(i7)}`);
               cos = Math.cos(angle);
               sin = Math.sin(angle);
             }
-            var x4 = cos * (this.x - pivot.x) - sin * (this.y - pivot.y) + pivot.x;
-            var y3 = sin * (this.x - pivot.x) + cos * (this.y - pivot.y) + pivot.y;
-            return new $3.Point(x4, y3);
+            var x5 = cos * (this.x - pivot.x) - sin * (this.y - pivot.y) + pivot.x;
+            var y4 = sin * (this.x - pivot.x) + cos * (this.y - pivot.y) + pivot.y;
+            return new $4.Point(x5, y4);
           },
           toString: function() {
             return "(" + Math.round(this.x * 100) / 100 + "," + Math.round(this.y * 100) / 100 + ")";
           }
         };
       })(OpenSeadragon);
-      (function($3) {
-        $3.TileSource = function(width, height, tileSize, tileOverlap, minLevel, maxLevel) {
+      (function($4) {
+        $4.TileSource = function(width, height, tileSize, tileOverlap, minLevel, maxLevel) {
           var _this = this;
           var args = arguments, options, i7;
-          if ($3.isPlainObject(width)) {
+          if ($4.isPlainObject(width)) {
             options = width;
           } else {
             options = {
@@ -47884,11 +47884,11 @@ ${generateSegmentFilename(i7)}`);
               maxLevel: args[5]
             };
           }
-          $3.EventSource.call(this);
-          $3.extend(true, this, options);
+          $4.EventSource.call(this);
+          $4.extend(true, this, options);
           if (!this.success) {
             for (i7 = 0; i7 < arguments.length; i7++) {
-              if ($3.isFunction(arguments[i7])) {
+              if ($4.isFunction(arguments[i7])) {
                 this.success = arguments[i7];
                 break;
               }
@@ -47899,12 +47899,12 @@ ${generateSegmentFilename(i7)}`);
               _this.success(event);
             });
           }
-          if ($3.type(arguments[0]) == "string") {
+          if ($4.type(arguments[0]) == "string") {
             this.url = arguments[0];
           }
           if (this.url) {
             this.aspectRatio = 1;
-            this.dimensions = new $3.Point(10, 10);
+            this.dimensions = new $4.Point(10, 10);
             this._tileWidth = 0;
             this._tileHeight = 0;
             this.tileOverlap = 0;
@@ -47915,7 +47915,7 @@ ${generateSegmentFilename(i7)}`);
           } else {
             this.ready = true;
             this.aspectRatio = options.width && options.height ? options.width / options.height : 1;
-            this.dimensions = new $3.Point(options.width, options.height);
+            this.dimensions = new $4.Point(options.width, options.height);
             if (this.tileSize) {
               this._tileWidth = this._tileHeight = this.tileSize;
               delete this.tileSize;
@@ -47936,14 +47936,14 @@ ${generateSegmentFilename(i7)}`);
             this.tileOverlap = options.tileOverlap ? options.tileOverlap : 0;
             this.minLevel = options.minLevel ? options.minLevel : 0;
             this.maxLevel = options.maxLevel !== void 0 && options.maxLevel !== null ? options.maxLevel : options.width && options.height ? Math.ceil(Math.log(Math.max(options.width, options.height)) / Math.log(2)) : 0;
-            if (this.success && $3.isFunction(this.success)) {
+            if (this.success && $4.isFunction(this.success)) {
               this.success(this);
             }
           }
         };
-        $3.TileSource.prototype = {
+        $4.TileSource.prototype = {
           getTileSize: function(level) {
-            $3.console.error("[TileSource.getTileSize] is deprecated. Use TileSource.getTileWidth() and TileSource.getTileHeight() instead");
+            $4.console.error("[TileSource.getTileSize] is deprecated. Use TileSource.getTileWidth() and TileSource.getTileHeight() instead");
             return this._tileWidth;
           },
           getTileWidth: function(level) {
@@ -47969,12 +47969,12 @@ ${generateSegmentFilename(i7)}`);
             return this.getLevelScale(level);
           },
           getNumTiles: function(level) {
-            var scale = this.getLevelScale(level), x4 = Math.ceil(scale * this.dimensions.x / this.getTileWidth(level)), y3 = Math.ceil(scale * this.dimensions.y / this.getTileHeight(level));
-            return new $3.Point(x4, y3);
+            var scale = this.getLevelScale(level), x5 = Math.ceil(scale * this.dimensions.x / this.getTileWidth(level)), y4 = Math.ceil(scale * this.dimensions.y / this.getTileHeight(level));
+            return new $4.Point(x5, y4);
           },
           getPixelRatio: function(level) {
             var imageSizeScaled = this.dimensions.times(this.getLevelScale(level)), rx = 1 / imageSizeScaled.x, ry = 1 / imageSizeScaled.y;
-            return new $3.Point(rx, ry);
+            return new $4.Point(rx, ry);
           },
           getClosestLevel: function() {
             var i7, tiles;
@@ -47988,29 +47988,29 @@ ${generateSegmentFilename(i7)}`);
           },
           getTileAtPoint: function(level, point) {
             var validPoint = point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1 / this.aspectRatio;
-            $3.console.assert(validPoint, "[TileSource.getTileAtPoint] must be called with a valid point.");
+            $4.console.assert(validPoint, "[TileSource.getTileAtPoint] must be called with a valid point.");
             var widthScaled = this.dimensions.x * this.getLevelScale(level);
             var pixelX = point.x * widthScaled;
             var pixelY = point.y * widthScaled;
-            var x4 = Math.floor(pixelX / this.getTileWidth(level));
-            var y3 = Math.floor(pixelY / this.getTileHeight(level));
+            var x5 = Math.floor(pixelX / this.getTileWidth(level));
+            var y4 = Math.floor(pixelY / this.getTileHeight(level));
             if (point.x >= 1) {
-              x4 = this.getNumTiles(level).x - 1;
+              x5 = this.getNumTiles(level).x - 1;
             }
             var EPSILON = 1e-15;
             if (point.y >= 1 / this.aspectRatio - EPSILON) {
-              y3 = this.getNumTiles(level).y - 1;
+              y4 = this.getNumTiles(level).y - 1;
             }
-            return new $3.Point(x4, y3);
+            return new $4.Point(x5, y4);
           },
-          getTileBounds: function(level, x4, y3, isSource) {
-            var dimensionsScaled = this.dimensions.times(this.getLevelScale(level)), tileWidth = this.getTileWidth(level), tileHeight = this.getTileHeight(level), px = x4 === 0 ? 0 : tileWidth * x4 - this.tileOverlap, py = y3 === 0 ? 0 : tileHeight * y3 - this.tileOverlap, sx = tileWidth + (x4 === 0 ? 1 : 2) * this.tileOverlap, sy = tileHeight + (y3 === 0 ? 1 : 2) * this.tileOverlap, scale = 1 / dimensionsScaled.x;
+          getTileBounds: function(level, x5, y4, isSource) {
+            var dimensionsScaled = this.dimensions.times(this.getLevelScale(level)), tileWidth = this.getTileWidth(level), tileHeight = this.getTileHeight(level), px = x5 === 0 ? 0 : tileWidth * x5 - this.tileOverlap, py = y4 === 0 ? 0 : tileHeight * y4 - this.tileOverlap, sx = tileWidth + (x5 === 0 ? 1 : 2) * this.tileOverlap, sy = tileHeight + (y4 === 0 ? 1 : 2) * this.tileOverlap, scale = 1 / dimensionsScaled.x;
             sx = Math.min(sx, dimensionsScaled.x - px);
             sy = Math.min(sy, dimensionsScaled.y - py);
             if (isSource) {
-              return new $3.Rect(0, 0, sx, sy);
+              return new $4.Rect(0, 0, sx, sy);
             }
-            return new $3.Rect(px * scale, py * scale, sx * scale, sy * scale);
+            return new $4.Rect(px * scale, py * scale, sx * scale, sy * scale);
           },
           getImageInfo: function(url) {
             var _this = this, callbackName, callback, readySource, options, urlParts, filename, lastDot;
@@ -48024,9 +48024,9 @@ ${generateSegmentFilename(i7)}`);
             }
             callback = function(data) {
               if (typeof data === "string") {
-                data = $3.parseXml(data);
+                data = $4.parseXml(data);
               }
-              var $TileSource = $3.TileSource.determineType(_this, data, url);
+              var $TileSource = $4.TileSource.determineType(_this, data, url);
               if (!$TileSource) {
                 _this.raiseEvent("open-failed", { message: "Unable to load TileSource", source: url });
                 return;
@@ -48041,14 +48041,14 @@ ${generateSegmentFilename(i7)}`);
             };
             if (url.match(/\.js$/)) {
               callbackName = url.split("/").pop().replace(".js", "");
-              $3.jsonp({
+              $4.jsonp({
                 url,
                 async: false,
                 callbackName,
                 callback
               });
             } else {
-              $3.makeAjaxRequest({
+              $4.makeAjaxRequest({
                 url,
                 withCredentials: this.ajaxWithCredentials,
                 headers: this.ajaxHeaders,
@@ -48083,36 +48083,36 @@ ${generateSegmentFilename(i7)}`);
           configure: function(data, url) {
             throw new Error("Method not implemented.");
           },
-          getTileUrl: function(level, x4, y3) {
+          getTileUrl: function(level, x5, y4) {
             throw new Error("Method not implemented.");
           },
-          getTileAjaxHeaders: function(level, x4, y3) {
+          getTileAjaxHeaders: function(level, x5, y4) {
             return {};
           },
-          tileExists: function(level, x4, y3) {
+          tileExists: function(level, x5, y4) {
             var numTiles = this.getNumTiles(level);
-            return level >= this.minLevel && level <= this.maxLevel && x4 >= 0 && y3 >= 0 && x4 < numTiles.x && y3 < numTiles.y;
+            return level >= this.minLevel && level <= this.maxLevel && x5 >= 0 && y4 >= 0 && x5 < numTiles.x && y4 < numTiles.y;
           }
         };
-        $3.extend(true, $3.TileSource.prototype, $3.EventSource.prototype);
+        $4.extend(true, $4.TileSource.prototype, $4.EventSource.prototype);
         function processResponse(xhr) {
           var responseText = xhr.responseText, status = xhr.status, statusText, data;
           if (!xhr) {
-            throw new Error($3.getString("Errors.Security"));
+            throw new Error($4.getString("Errors.Security"));
           } else if (xhr.status !== 200 && xhr.status !== 0) {
             status = xhr.status;
             statusText = status == 404 ? "Not Found" : xhr.statusText;
-            throw new Error($3.getString("Errors.Status", status, statusText));
+            throw new Error($4.getString("Errors.Status", status, statusText));
           }
           if (responseText.match(/\s*<.*/)) {
             try {
-              data = xhr.responseXML && xhr.responseXML.documentElement ? xhr.responseXML : $3.parseXml(responseText);
+              data = xhr.responseXML && xhr.responseXML.documentElement ? xhr.responseXML : $4.parseXml(responseText);
             } catch (e11) {
               data = xhr.responseText;
             }
           } else if (responseText.match(/\s*[\{\[].*/)) {
             try {
-              data = $3.parseJSON(responseText);
+              data = $4.parseJSON(responseText);
             } catch (e11) {
               data = responseText;
             }
@@ -48121,20 +48121,20 @@ ${generateSegmentFilename(i7)}`);
           }
           return data;
         }
-        $3.TileSource.determineType = function(tileSource, data, url) {
+        $4.TileSource.determineType = function(tileSource, data, url) {
           var property;
           for (property in OpenSeadragon) {
-            if (property.match(/.+TileSource$/) && $3.isFunction(OpenSeadragon[property]) && $3.isFunction(OpenSeadragon[property].prototype.supports) && OpenSeadragon[property].prototype.supports.call(tileSource, data, url)) {
+            if (property.match(/.+TileSource$/) && $4.isFunction(OpenSeadragon[property]) && $4.isFunction(OpenSeadragon[property].prototype.supports) && OpenSeadragon[property].prototype.supports.call(tileSource, data, url)) {
               return OpenSeadragon[property];
             }
           }
-          $3.console.error("No TileSource was able to open %s %s", url, data);
+          $4.console.error("No TileSource was able to open %s %s", url, data);
         };
       })(OpenSeadragon);
-      (function($3) {
-        $3.DziTileSource = function(width, height, tileSize, tileOverlap, tilesUrl, fileFormat, displayRects, minLevel, maxLevel) {
+      (function($4) {
+        $4.DziTileSource = function(width, height, tileSize, tileOverlap, tilesUrl, fileFormat, displayRects, minLevel, maxLevel) {
           var i7, rect, level, options;
-          if ($3.isPlainObject(width)) {
+          if ($4.isPlainObject(width)) {
             options = width;
           } else {
             options = {
@@ -48164,9 +48164,9 @@ ${generateSegmentFilename(i7)}`);
               }
             }
           }
-          $3.TileSource.apply(this, [options]);
+          $4.TileSource.apply(this, [options]);
         };
-        $3.extend($3.DziTileSource.prototype, $3.TileSource.prototype, {
+        $4.extend($4.DziTileSource.prototype, $4.TileSource.prototype, {
           supports: function(data, url) {
             var ns;
             if (data.Image) {
@@ -48181,7 +48181,7 @@ ${generateSegmentFilename(i7)}`);
           },
           configure: function(data, url) {
             var options;
-            if (!$3.isPlainObject(data)) {
+            if (!$4.isPlainObject(data)) {
               options = configureFromXML(this, data);
             } else {
               options = configureFromObject(this, data);
@@ -48196,10 +48196,10 @@ ${generateSegmentFilename(i7)}`);
             }
             return options;
           },
-          getTileUrl: function(level, x4, y3) {
-            return [this.tilesUrl, level, "/", x4, "_", y3, ".", this.fileFormat, this.queryParams].join("");
+          getTileUrl: function(level, x5, y4) {
+            return [this.tilesUrl, level, "/", x5, "_", y4, ".", this.fileFormat, this.queryParams].join("");
           },
-          tileExists: function(level, x4, y3) {
+          tileExists: function(level, x5, y4) {
             var rects = this._levelRects[level], rect, scale, xMin, yMin, xMax, yMax, i7;
             if (this.minLevel && level < this.minLevel || this.maxLevel && level > this.maxLevel) {
               return false;
@@ -48221,7 +48221,7 @@ ${generateSegmentFilename(i7)}`);
               yMin = Math.floor(yMin / this._tileWidth);
               xMax = Math.ceil(xMax / this._tileWidth);
               yMax = Math.ceil(yMax / this._tileWidth);
-              if (xMin <= x4 && x4 < xMax && yMin <= y3 && y3 < yMax) {
+              if (xMin <= x5 && x5 < xMax && yMin <= y4 && y4 < yMax) {
                 return true;
               }
             }
@@ -48230,16 +48230,16 @@ ${generateSegmentFilename(i7)}`);
         });
         function configureFromXML(tileSource, xmlDoc) {
           if (!xmlDoc || !xmlDoc.documentElement) {
-            throw new Error($3.getString("Errors.Xml"));
+            throw new Error($4.getString("Errors.Xml"));
           }
-          var root = xmlDoc.documentElement, rootName = root.localName || root.tagName, ns = xmlDoc.documentElement.namespaceURI, configuration2 = null, displayRects = [], dispRectNodes, dispRectNode, rectNode, sizeNode, i7;
+          var root = xmlDoc.documentElement, rootName = root.localName || root.tagName, ns = xmlDoc.documentElement.namespaceURI, configuration = null, displayRects = [], dispRectNodes, dispRectNode, rectNode, sizeNode, i7;
           if (rootName == "Image") {
             try {
               sizeNode = root.getElementsByTagName("Size")[0];
               if (sizeNode === void 0) {
                 sizeNode = root.getElementsByTagNameNS(ns, "Size")[0];
               }
-              configuration2 = {
+              configuration = {
                 Image: {
                   xmlns: "http://schemas.microsoft.com/deepzoom/2008",
                   Url: root.getAttribute("Url"),
@@ -48253,8 +48253,8 @@ ${generateSegmentFilename(i7)}`);
                   }
                 }
               };
-              if (!$3.imageFormatSupported(configuration2.Image.Format)) {
-                throw new Error($3.getString("Errors.ImageFormat", configuration2.Image.Format.toUpperCase()));
+              if (!$4.imageFormatSupported(configuration.Image.Format)) {
+                throw new Error($4.getString("Errors.ImageFormat", configuration.Image.Format.toUpperCase()));
               }
               dispRectNodes = root.getElementsByTagName("DisplayRect");
               if (dispRectNodes === void 0) {
@@ -48278,28 +48278,28 @@ ${generateSegmentFilename(i7)}`);
                 });
               }
               if (displayRects.length) {
-                configuration2.Image.DisplayRect = displayRects;
+                configuration.Image.DisplayRect = displayRects;
               }
-              return configureFromObject(tileSource, configuration2);
+              return configureFromObject(tileSource, configuration);
             } catch (e11) {
-              throw e11 instanceof Error ? e11 : new Error($3.getString("Errors.Dzi"));
+              throw e11 instanceof Error ? e11 : new Error($4.getString("Errors.Dzi"));
             }
           } else if (rootName == "Collection") {
-            throw new Error($3.getString("Errors.Dzc"));
+            throw new Error($4.getString("Errors.Dzc"));
           } else if (rootName == "Error") {
             var messageNode = root.getElementsByTagName("Message")[0];
             var message = messageNode.firstChild.nodeValue;
             throw new Error(message);
           }
-          throw new Error($3.getString("Errors.Dzi"));
+          throw new Error($4.getString("Errors.Dzi"));
         }
-        function configureFromObject(tileSource, configuration2) {
-          var imageData = configuration2.Image, tilesUrl = imageData.Url, fileFormat = imageData.Format, sizeData = imageData.Size, dispRectData = imageData.DisplayRect || [], width = parseInt(sizeData.Width, 10), height = parseInt(sizeData.Height, 10), tileSize = parseInt(imageData.TileSize, 10), tileOverlap = parseInt(imageData.Overlap, 10), displayRects = [], rectData, i7;
+        function configureFromObject(tileSource, configuration) {
+          var imageData = configuration.Image, tilesUrl = imageData.Url, fileFormat = imageData.Format, sizeData = imageData.Size, dispRectData = imageData.DisplayRect || [], width = parseInt(sizeData.Width, 10), height = parseInt(sizeData.Height, 10), tileSize = parseInt(imageData.TileSize, 10), tileOverlap = parseInt(imageData.Overlap, 10), displayRects = [], rectData, i7;
           for (i7 = 0; i7 < dispRectData.length; i7++) {
             rectData = dispRectData[i7].Rect;
-            displayRects.push(new $3.DisplayRect(parseInt(rectData.X, 10), parseInt(rectData.Y, 10), parseInt(rectData.Width, 10), parseInt(rectData.Height, 10), parseInt(rectData.MinLevel, 10), parseInt(rectData.MaxLevel, 10)));
+            displayRects.push(new $4.DisplayRect(parseInt(rectData.X, 10), parseInt(rectData.Y, 10), parseInt(rectData.Width, 10), parseInt(rectData.Height, 10), parseInt(rectData.MinLevel, 10), parseInt(rectData.MaxLevel, 10)));
           }
-          return $3.extend(true, {
+          return $4.extend(true, {
             width,
             height,
             tileSize,
@@ -48309,12 +48309,12 @@ ${generateSegmentFilename(i7)}`);
             tilesUrl,
             fileFormat,
             displayRects
-          }, configuration2);
+          }, configuration);
         }
       })(OpenSeadragon);
-      (function($3) {
-        $3.IIIFTileSource = function(options) {
-          $3.extend(true, this, options);
+      (function($4) {
+        $4.IIIFTileSource = function(options) {
+          $4.extend(true, this, options);
           if (!(this.height && this.width && this["@id"])) {
             throw new Error("IIIF required parameters not provided.");
           }
@@ -48348,9 +48348,9 @@ ${generateSegmentFilename(i7)}`);
             }
           } else if (canBeTiled(options)) {
             var shortDim = Math.min(this.height, this.width), tileOptions = [256, 512, 1024], smallerTiles = [];
-            for (var c7 = 0; c7 < tileOptions.length; c7++) {
-              if (tileOptions[c7] <= shortDim) {
-                smallerTiles.push(tileOptions[c7]);
+            for (var c8 = 0; c8 < tileOptions.length; c8++) {
+              if (tileOptions[c8] <= shortDim) {
+                smallerTiles.push(tileOptions[c8]);
               }
             }
             if (smallerTiles.length > 0) {
@@ -48361,7 +48361,7 @@ ${generateSegmentFilename(i7)}`);
           } else if (this.sizes && this.sizes.length > 0) {
             this.emulateLegacyImagePyramid = true;
             options.levels = constructLevels(this);
-            $3.extend(true, options, {
+            $4.extend(true, options, {
               width: options.levels[options.levels.length - 1].width,
               height: options.levels[options.levels.length - 1].height,
               tileSize: Math.max(options.height, options.width),
@@ -48371,7 +48371,7 @@ ${generateSegmentFilename(i7)}`);
             });
             this.levels = options.levels;
           } else {
-            $3.console.error("Nothing in the info.json to construct image pyramids from");
+            $4.console.error("Nothing in the info.json to construct image pyramids from");
           }
           if (!options.maxLevel && !this.emulateLegacyImagePyramid) {
             if (!this.scale_factors) {
@@ -48381,9 +48381,9 @@ ${generateSegmentFilename(i7)}`);
               options.maxLevel = Math.round(Math.log(maxScaleFactor) * Math.LOG2E);
             }
           }
-          $3.TileSource.apply(this, [options]);
+          $4.TileSource.apply(this, [options]);
         };
-        $3.extend($3.IIIFTileSource.prototype, $3.TileSource.prototype, {
+        $4.extend($4.IIIFTileSource.prototype, $4.TileSource.prototype, {
           supports: function(data, url) {
             if (data.protocol && data.protocol == "http://iiif.io/api/image") {
               return true;
@@ -48400,7 +48400,7 @@ ${generateSegmentFilename(i7)}`);
             }
           },
           configure: function(data, url) {
-            if (!$3.isPlainObject(data)) {
+            if (!$4.isPlainObject(data)) {
               var options = configureFromXml10(data);
               options["@context"] = "http://iiif.io/api/image/1.0/context.json";
               options["@id"] = url.replace("/info.xml", "");
@@ -48433,16 +48433,16 @@ ${generateSegmentFilename(i7)}`);
                     data.version = 3;
                     break;
                   default:
-                    $3.console.error("Data has a @context property which contains no known IIIF context URI.");
+                    $4.console.error("Data has a @context property which contains no known IIIF context URI.");
                 }
               }
               if (!data["@id"] && data["id"]) {
                 data["@id"] = data["id"];
               }
               if (data.preferredFormats) {
-                for (var f9 = 0; f9 < data.preferredFormats.length; f9++) {
-                  if (OpenSeadragon.imageFormatSupported(data.preferredFormats[f9])) {
-                    data.tileFormat = data.preferredFormats[f9];
+                for (var f10 = 0; f10 < data.preferredFormats.length; f10++) {
+                  if (OpenSeadragon.imageFormatSupported(data.preferredFormats[f10])) {
+                    data.tileFormat = data.preferredFormats[f10];
                     break;
                   }
                 }
@@ -48452,7 +48452,7 @@ ${generateSegmentFilename(i7)}`);
           },
           getTileWidth: function(level) {
             if (this.emulateLegacyImagePyramid) {
-              return $3.TileSource.prototype.getTileWidth.call(this, level);
+              return $4.TileSource.prototype.getTileWidth.call(this, level);
             }
             var scaleFactor = Math.pow(2, this.maxLevel - level);
             if (this.tileSizePerScaleFactor && this.tileSizePerScaleFactor[scaleFactor]) {
@@ -48462,7 +48462,7 @@ ${generateSegmentFilename(i7)}`);
           },
           getTileHeight: function(level) {
             if (this.emulateLegacyImagePyramid) {
-              return $3.TileSource.prototype.getTileHeight.call(this, level);
+              return $4.TileSource.prototype.getTileHeight.call(this, level);
             }
             var scaleFactor = Math.pow(2, this.maxLevel - level);
             if (this.tileSizePerScaleFactor && this.tileSizePerScaleFactor[scaleFactor]) {
@@ -48478,26 +48478,26 @@ ${generateSegmentFilename(i7)}`);
               }
               return levelScale;
             }
-            return $3.TileSource.prototype.getLevelScale.call(this, level);
+            return $4.TileSource.prototype.getLevelScale.call(this, level);
           },
           getNumTiles: function(level) {
             if (this.emulateLegacyImagePyramid) {
               var scale = this.getLevelScale(level);
               if (scale) {
-                return new $3.Point(1, 1);
+                return new $4.Point(1, 1);
               } else {
-                return new $3.Point(0, 0);
+                return new $4.Point(0, 0);
               }
             }
-            return $3.TileSource.prototype.getNumTiles.call(this, level);
+            return $4.TileSource.prototype.getNumTiles.call(this, level);
           },
           getTileAtPoint: function(level, point) {
             if (this.emulateLegacyImagePyramid) {
-              return new $3.Point(0, 0);
+              return new $4.Point(0, 0);
             }
-            return $3.TileSource.prototype.getTileAtPoint.call(this, level, point);
+            return $4.TileSource.prototype.getTileAtPoint.call(this, level, point);
           },
-          getTileUrl: function(level, x4, y3) {
+          getTileUrl: function(level, x5, y4) {
             if (this.emulateLegacyImagePyramid) {
               var url = null;
               if (this.levels.length > 0 && level >= this.minLevel && level <= this.maxLevel) {
@@ -48527,11 +48527,11 @@ ${generateSegmentFilename(i7)}`);
               }
               iiifRegion = "full";
             } else {
-              iiifTileX = x4 * iiifTileSizeWidth;
-              iiifTileY = y3 * iiifTileSizeHeight;
+              iiifTileX = x5 * iiifTileSizeWidth;
+              iiifTileY = y4 * iiifTileSizeHeight;
               iiifTileW = Math.min(iiifTileSizeWidth, this.width - iiifTileX);
               iiifTileH = Math.min(iiifTileSizeHeight, this.height - iiifTileY);
-              if (x4 === 0 && y3 === 0 && iiifTileW === this.width && iiifTileH === this.height) {
+              if (x5 === 0 && y4 === 0 && iiifTileW === this.width && iiifTileH === this.height) {
                 iiifRegion = "full";
               } else {
                 iiifRegion = [iiifTileX, iiifTileY, iiifTileW, iiifTileH].join(",");
@@ -48584,52 +48584,52 @@ ${generateSegmentFilename(i7)}`);
               height: options.sizes[i7].height
             });
           }
-          return levels.sort(function(a7, b7) {
-            return a7.width - b7.width;
+          return levels.sort(function(a7, b8) {
+            return a7.width - b8.width;
           });
         }
         function configureFromXml10(xmlDoc) {
           if (!xmlDoc || !xmlDoc.documentElement) {
-            throw new Error($3.getString("Errors.Xml"));
+            throw new Error($4.getString("Errors.Xml"));
           }
-          var root = xmlDoc.documentElement, rootName = root.tagName, configuration2 = null;
+          var root = xmlDoc.documentElement, rootName = root.tagName, configuration = null;
           if (rootName == "info") {
             try {
-              configuration2 = {};
-              parseXML10(root, configuration2);
-              return configuration2;
+              configuration = {};
+              parseXML10(root, configuration);
+              return configuration;
             } catch (e11) {
-              throw e11 instanceof Error ? e11 : new Error($3.getString("Errors.IIIF"));
+              throw e11 instanceof Error ? e11 : new Error($4.getString("Errors.IIIF"));
             }
           }
-          throw new Error($3.getString("Errors.IIIF"));
+          throw new Error($4.getString("Errors.IIIF"));
         }
-        function parseXML10(node, configuration2, property) {
+        function parseXML10(node, configuration, property) {
           var i7, value;
           if (node.nodeType == 3 && property) {
             value = node.nodeValue.trim();
             if (value.match(/^\d*$/)) {
               value = Number(value);
             }
-            if (!configuration2[property]) {
-              configuration2[property] = value;
+            if (!configuration[property]) {
+              configuration[property] = value;
             } else {
-              if (!$3.isArray(configuration2[property])) {
-                configuration2[property] = [configuration2[property]];
+              if (!$4.isArray(configuration[property])) {
+                configuration[property] = [configuration[property]];
               }
-              configuration2[property].push(value);
+              configuration[property].push(value);
             }
           } else if (node.nodeType == 1) {
             for (i7 = 0; i7 < node.childNodes.length; i7++) {
-              parseXML10(node.childNodes[i7], configuration2, node.nodeName);
+              parseXML10(node.childNodes[i7], configuration, node.nodeName);
             }
           }
         }
       })(OpenSeadragon);
-      (function($3) {
-        $3.OsmTileSource = function(width, height, tileSize, tileOverlap, tilesUrl) {
+      (function($4) {
+        $4.OsmTileSource = function(width, height, tileSize, tileOverlap, tilesUrl) {
           var options;
-          if ($3.isPlainObject(width)) {
+          if ($4.isPlainObject(width)) {
             options = width;
           } else {
             options = {
@@ -48652,24 +48652,24 @@ ${generateSegmentFilename(i7)}`);
             options.tilesUrl = "http://tile.openstreetmap.org/";
           }
           options.minLevel = 8;
-          $3.TileSource.apply(this, [options]);
+          $4.TileSource.apply(this, [options]);
         };
-        $3.extend($3.OsmTileSource.prototype, $3.TileSource.prototype, {
+        $4.extend($4.OsmTileSource.prototype, $4.TileSource.prototype, {
           supports: function(data, url) {
             return data.type && data.type == "openstreetmaps";
           },
           configure: function(data, url) {
             return data;
           },
-          getTileUrl: function(level, x4, y3) {
-            return this.tilesUrl + (level - 8) + "/" + x4 + "/" + y3 + ".png";
+          getTileUrl: function(level, x5, y4) {
+            return this.tilesUrl + (level - 8) + "/" + x5 + "/" + y4 + ".png";
           }
         });
       })(OpenSeadragon);
-      (function($3) {
-        $3.TmsTileSource = function(width, height, tileSize, tileOverlap, tilesUrl) {
+      (function($4) {
+        $4.TmsTileSource = function(width, height, tileSize, tileOverlap, tilesUrl) {
           var options;
-          if ($3.isPlainObject(width)) {
+          if ($4.isPlainObject(width)) {
             options = width;
           } else {
             options = {
@@ -48690,23 +48690,23 @@ ${generateSegmentFilename(i7)}`);
           options.tileSize = 256;
           options.width = bufferedWidth;
           options.height = bufferedHeight;
-          $3.TileSource.apply(this, [options]);
+          $4.TileSource.apply(this, [options]);
         };
-        $3.extend($3.TmsTileSource.prototype, $3.TileSource.prototype, {
+        $4.extend($4.TmsTileSource.prototype, $4.TileSource.prototype, {
           supports: function(data, url) {
             return data.type && data.type == "tiledmapservice";
           },
           configure: function(data, url) {
             return data;
           },
-          getTileUrl: function(level, x4, y3) {
+          getTileUrl: function(level, x5, y4) {
             var yTiles = this.getNumTiles(level).y - 1;
-            return this.tilesUrl + level + "/" + x4 + "/" + (yTiles - y3) + ".png";
+            return this.tilesUrl + level + "/" + x5 + "/" + (yTiles - y4) + ".png";
           }
         });
       })(OpenSeadragon);
-      (function($3) {
-        $3.ZoomifyTileSource = function(options) {
+      (function($4) {
+        $4.ZoomifyTileSource = function(options) {
           options.tileSize = 256;
           var currentImageSize = {
             x: options.width,
@@ -48732,22 +48732,22 @@ ${generateSegmentFilename(i7)}`);
           options.maxLevel = options.gridSize.length - 1;
           OpenSeadragon.TileSource.apply(this, [options]);
         };
-        $3.extend($3.ZoomifyTileSource.prototype, $3.TileSource.prototype, {
+        $4.extend($4.ZoomifyTileSource.prototype, $4.TileSource.prototype, {
           _getGridSize: function(width, height, tileSize) {
             return {
               x: Math.ceil(width / tileSize),
               y: Math.ceil(height / tileSize)
             };
           },
-          _calculateAbsoluteTileNumber: function(level, x4, y3) {
+          _calculateAbsoluteTileNumber: function(level, x5, y4) {
             var num = 0;
             var size = {};
-            for (var z2 = 0; z2 < level; z2++) {
-              size = this.gridSize[z2];
+            for (var z3 = 0; z3 < level; z3++) {
+              size = this.gridSize[z3];
               num += size.x * size.y;
             }
             size = this.gridSize[level];
-            num += size.x * y3 + x4;
+            num += size.x * y4 + x5;
             return num;
           },
           supports: function(data, url) {
@@ -48756,18 +48756,18 @@ ${generateSegmentFilename(i7)}`);
           configure: function(data, url) {
             return data;
           },
-          getTileUrl: function(level, x4, y3) {
+          getTileUrl: function(level, x5, y4) {
             var result = 0;
-            var num = this._calculateAbsoluteTileNumber(level, x4, y3);
+            var num = this._calculateAbsoluteTileNumber(level, x5, y4);
             result = Math.floor(num / 256);
-            return this.tilesUrl + "TileGroup" + result + "/" + level + "-" + x4 + "-" + y3 + ".jpg";
+            return this.tilesUrl + "TileGroup" + result + "/" + level + "-" + x5 + "-" + y4 + ".jpg";
           }
         });
       })(OpenSeadragon);
-      (function($3) {
-        $3.LegacyTileSource = function(levels) {
+      (function($4) {
+        $4.LegacyTileSource = function(levels) {
           var options, width, height;
-          if ($3.isArray(levels)) {
+          if ($4.isArray(levels)) {
             options = {
               type: "legacy-image-pyramid",
               levels
@@ -48780,9 +48780,9 @@ ${generateSegmentFilename(i7)}`);
           } else {
             width = 0;
             height = 0;
-            $3.console.error("No supported image formats found");
+            $4.console.error("No supported image formats found");
           }
-          $3.extend(true, options, {
+          $4.extend(true, options, {
             width,
             height,
             tileSize: Math.max(height, width),
@@ -48790,19 +48790,19 @@ ${generateSegmentFilename(i7)}`);
             minLevel: 0,
             maxLevel: options.levels.length > 0 ? options.levels.length - 1 : 0
           });
-          $3.TileSource.apply(this, [options]);
+          $4.TileSource.apply(this, [options]);
           this.levels = options.levels;
         };
-        $3.extend($3.LegacyTileSource.prototype, $3.TileSource.prototype, {
+        $4.extend($4.LegacyTileSource.prototype, $4.TileSource.prototype, {
           supports: function(data, url) {
             return data.type && data.type == "legacy-image-pyramid" || data.documentElement && data.documentElement.getAttribute("type") == "legacy-image-pyramid";
           },
-          configure: function(configuration2, dataUrl) {
+          configure: function(configuration, dataUrl) {
             var options;
-            if (!$3.isPlainObject(configuration2)) {
-              options = configureFromXML(this, configuration2);
+            if (!$4.isPlainObject(configuration)) {
+              options = configureFromXML(this, configuration);
             } else {
-              options = configureFromObject(this, configuration2);
+              options = configureFromObject(this, configuration);
             }
             return options;
           },
@@ -48816,12 +48816,12 @@ ${generateSegmentFilename(i7)}`);
           getNumTiles: function(level) {
             var scale = this.getLevelScale(level);
             if (scale) {
-              return new $3.Point(1, 1);
+              return new $4.Point(1, 1);
             } else {
-              return new $3.Point(0, 0);
+              return new $4.Point(0, 0);
             }
           },
-          getTileUrl: function(level, x4, y3) {
+          getTileUrl: function(level, x5, y4) {
             var url = null;
             if (this.levels.length > 0 && level >= this.minLevel && level <= this.maxLevel) {
               url = this.levels[level].url;
@@ -48840,16 +48840,16 @@ ${generateSegmentFilename(i7)}`);
                 height: Number(file.height)
               });
             } else {
-              $3.console.error("Unsupported image format: %s", file.url ? file.url : "<no URL>");
+              $4.console.error("Unsupported image format: %s", file.url ? file.url : "<no URL>");
             }
           }
-          return filtered.sort(function(a7, b7) {
-            return a7.height - b7.height;
+          return filtered.sort(function(a7, b8) {
+            return a7.height - b8.height;
           });
         }
         function configureFromXML(tileSource, xmlDoc) {
           if (!xmlDoc || !xmlDoc.documentElement) {
-            throw new Error($3.getString("Errors.Xml"));
+            throw new Error($4.getString("Errors.Xml"));
           }
           var root = xmlDoc.documentElement, rootName = root.tagName, conf = null, levels = [], level, i7;
           if (rootName == "image") {
@@ -48878,21 +48878,21 @@ ${generateSegmentFilename(i7)}`);
           }
           throw new Error("Unknown element " + rootName);
         }
-        function configureFromObject(tileSource, configuration2) {
-          return configuration2.levels;
+        function configureFromObject(tileSource, configuration) {
+          return configuration.levels;
         }
       })(OpenSeadragon);
-      (function($3) {
-        $3.ImageTileSource = function(options) {
-          options = $3.extend({
+      (function($4) {
+        $4.ImageTileSource = function(options) {
+          options = $4.extend({
             buildPyramid: true,
             crossOriginPolicy: false,
             ajaxWithCredentials: false,
             useCanvas: true
           }, options);
-          $3.TileSource.apply(this, [options]);
+          $4.TileSource.apply(this, [options]);
         };
-        $3.extend($3.ImageTileSource.prototype, $3.TileSource.prototype, {
+        $4.extend($4.ImageTileSource.prototype, $4.TileSource.prototype, {
           supports: function(data, url) {
             return data.type && data.type === "image";
           },
@@ -48908,11 +48908,11 @@ ${generateSegmentFilename(i7)}`);
             if (this.ajaxWithCredentials) {
               image.useCredentials = this.ajaxWithCredentials;
             }
-            $3.addEvent(image, "load", function() {
+            $4.addEvent(image, "load", function() {
               _this.width = Object.prototype.hasOwnProperty.call(image, "naturalWidth") ? image.naturalWidth : image.width;
               _this.height = Object.prototype.hasOwnProperty.call(image, "naturalHeight") ? image.naturalHeight : image.height;
               _this.aspectRatio = _this.width / _this.height;
-              _this.dimensions = new $3.Point(_this.width, _this.height);
+              _this.dimensions = new $4.Point(_this.width, _this.height);
               _this._tileWidth = _this.width;
               _this._tileHeight = _this.height;
               _this.tileOverlap = 0;
@@ -48922,7 +48922,7 @@ ${generateSegmentFilename(i7)}`);
               _this.ready = true;
               _this.raiseEvent("ready", { tileSource: _this });
             });
-            $3.addEvent(image, "error", function() {
+            $4.addEvent(image, "error", function() {
               _this.raiseEvent("open-failed", {
                 message: "Error loading image at " + url,
                 source: url
@@ -48940,19 +48940,19 @@ ${generateSegmentFilename(i7)}`);
           getNumTiles: function(level) {
             var scale = this.getLevelScale(level);
             if (scale) {
-              return new $3.Point(1, 1);
+              return new $4.Point(1, 1);
             } else {
-              return new $3.Point(0, 0);
+              return new $4.Point(0, 0);
             }
           },
-          getTileUrl: function(level, x4, y3) {
+          getTileUrl: function(level, x5, y4) {
             var url = null;
             if (level >= this.minLevel && level <= this.maxLevel) {
               url = this.levels[level].url;
             }
             return url;
           },
-          getContext2D: function(level, x4, y3) {
+          getContext2D: function(level, x5, y4) {
             var context = null;
             if (level >= this.minLevel && level <= this.maxLevel) {
               context = this.levels[level].context2D;
@@ -48965,7 +48965,7 @@ ${generateSegmentFilename(i7)}`);
               width: Object.prototype.hasOwnProperty.call(this._image, "naturalWidth") ? this._image.naturalWidth : this._image.width,
               height: Object.prototype.hasOwnProperty.call(this._image, "naturalHeight") ? this._image.naturalHeight : this._image.height
             }];
-            if (!this.buildPyramid || !$3.supportsCanvas || !this.useCanvas) {
+            if (!this.buildPyramid || !$4.supportsCanvas || !this.useCanvas) {
               delete this._image;
               return levels;
             }
@@ -48978,7 +48978,7 @@ ${generateSegmentFilename(i7)}`);
             bigContext.drawImage(this._image, 0, 0, currentWidth, currentHeight);
             levels[0].context2D = bigContext;
             delete this._image;
-            if ($3.isCanvasTainted(bigCanvas)) {
+            if ($4.isCanvasTainted(bigCanvas)) {
               return levels;
             }
             while (currentWidth >= 2 && currentHeight >= 2) {
@@ -49001,29 +49001,29 @@ ${generateSegmentFilename(i7)}`);
           }
         });
       })(OpenSeadragon);
-      (function($3) {
-        $3.TileSourceCollection = function(tileSize, tileSources, rows, layout) {
-          $3.console.error("TileSourceCollection is deprecated; use World instead");
+      (function($4) {
+        $4.TileSourceCollection = function(tileSize, tileSources, rows, layout) {
+          $4.console.error("TileSourceCollection is deprecated; use World instead");
         };
       })(OpenSeadragon);
-      (function($3) {
-        $3.ButtonState = {
+      (function($4) {
+        $4.ButtonState = {
           REST: 0,
           GROUP: 1,
           HOVER: 2,
           DOWN: 3
         };
-        $3.Button = function(options) {
+        $4.Button = function(options) {
           var _this = this;
-          $3.EventSource.call(this);
-          $3.extend(true, this, {
+          $4.EventSource.call(this);
+          $4.extend(true, this, {
             tooltip: null,
             srcRest: null,
             srcGroup: null,
             srcHover: null,
             srcDown: null,
-            clickTimeThreshold: $3.DEFAULT_SETTINGS.clickTimeThreshold,
-            clickDistThreshold: $3.DEFAULT_SETTINGS.clickDistThreshold,
+            clickTimeThreshold: $4.DEFAULT_SETTINGS.clickTimeThreshold,
+            clickDistThreshold: $4.DEFAULT_SETTINGS.clickDistThreshold,
             fadeDelay: 0,
             fadeLength: 2e3,
             onPress: null,
@@ -49034,20 +49034,20 @@ ${generateSegmentFilename(i7)}`);
             onFocus: null,
             onBlur: null
           }, options);
-          this.element = options.element || $3.makeNeutralElement("div");
+          this.element = options.element || $4.makeNeutralElement("div");
           if (!options.element) {
-            this.imgRest = $3.makeTransparentImage(this.srcRest);
-            this.imgGroup = $3.makeTransparentImage(this.srcGroup);
-            this.imgHover = $3.makeTransparentImage(this.srcHover);
-            this.imgDown = $3.makeTransparentImage(this.srcDown);
+            this.imgRest = $4.makeTransparentImage(this.srcRest);
+            this.imgGroup = $4.makeTransparentImage(this.srcGroup);
+            this.imgHover = $4.makeTransparentImage(this.srcHover);
+            this.imgDown = $4.makeTransparentImage(this.srcDown);
             this.imgRest.alt = this.imgGroup.alt = this.imgHover.alt = this.imgDown.alt = this.tooltip;
             this.element.style.position = "relative";
-            $3.setElementTouchActionNone(this.element);
+            $4.setElementTouchActionNone(this.element);
             this.imgGroup.style.position = this.imgHover.style.position = this.imgDown.style.position = "absolute";
             this.imgGroup.style.top = this.imgHover.style.top = this.imgDown.style.top = "0px";
             this.imgGroup.style.left = this.imgHover.style.left = this.imgDown.style.left = "0px";
             this.imgHover.style.visibility = this.imgDown.style.visibility = "hidden";
-            if ($3.Browser.vendor == $3.BROWSERS.FIREFOX && $3.Browser.version < 3) {
+            if ($4.Browser.vendor == $4.BROWSERS.FIREFOX && $4.Browser.version < 3) {
               this.imgGroup.style.top = this.imgHover.style.top = this.imgDown.style.top = "";
             }
             this.element.appendChild(this.imgRest);
@@ -49062,22 +49062,22 @@ ${generateSegmentFilename(i7)}`);
           this.addHandler("exit", this.onExit);
           this.addHandler("focus", this.onFocus);
           this.addHandler("blur", this.onBlur);
-          this.currentState = $3.ButtonState.GROUP;
+          this.currentState = $4.ButtonState.GROUP;
           this.fadeBeginTime = null;
           this.shouldFade = false;
           this.element.style.display = "inline-block";
           this.element.style.position = "relative";
           this.element.title = this.tooltip;
-          this.tracker = new $3.MouseTracker({
+          this.tracker = new $4.MouseTracker({
             element: this.element,
             clickTimeThreshold: this.clickTimeThreshold,
             clickDistThreshold: this.clickDistThreshold,
             enterHandler: function(event) {
               if (event.insideElementPressed) {
-                inTo(_this, $3.ButtonState.DOWN);
+                inTo(_this, $4.ButtonState.DOWN);
                 _this.raiseEvent("enter", { originalEvent: event.originalEvent });
               } else if (!event.buttonDownAny) {
-                inTo(_this, $3.ButtonState.HOVER);
+                inTo(_this, $4.ButtonState.HOVER);
               }
             },
             focusHandler: function(event) {
@@ -49085,7 +49085,7 @@ ${generateSegmentFilename(i7)}`);
               _this.raiseEvent("focus", { originalEvent: event.originalEvent });
             },
             exitHandler: function(event) {
-              outTo(_this, $3.ButtonState.GROUP);
+              outTo(_this, $4.ButtonState.GROUP);
               if (event.insideElementPressed) {
                 _this.raiseEvent("exit", { originalEvent: event.originalEvent });
               }
@@ -49095,17 +49095,17 @@ ${generateSegmentFilename(i7)}`);
               _this.raiseEvent("blur", { originalEvent: event.originalEvent });
             },
             pressHandler: function(event) {
-              inTo(_this, $3.ButtonState.DOWN);
+              inTo(_this, $4.ButtonState.DOWN);
               _this.raiseEvent("press", { originalEvent: event.originalEvent });
             },
             releaseHandler: function(event) {
               if (event.insideElementPressed && event.insideElementReleased) {
-                outTo(_this, $3.ButtonState.HOVER);
+                outTo(_this, $4.ButtonState.HOVER);
                 _this.raiseEvent("release", { originalEvent: event.originalEvent });
               } else if (event.insideElementPressed) {
-                outTo(_this, $3.ButtonState.GROUP);
+                outTo(_this, $4.ButtonState.GROUP);
               } else {
-                inTo(_this, $3.ButtonState.HOVER);
+                inTo(_this, $4.ButtonState.HOVER);
               }
             },
             clickHandler: function(event) {
@@ -49122,41 +49122,41 @@ ${generateSegmentFilename(i7)}`);
               return true;
             }
           });
-          outTo(this, $3.ButtonState.REST);
+          outTo(this, $4.ButtonState.REST);
         };
-        $3.extend($3.Button.prototype, $3.EventSource.prototype, {
+        $4.extend($4.Button.prototype, $4.EventSource.prototype, {
           notifyGroupEnter: function() {
-            inTo(this, $3.ButtonState.GROUP);
+            inTo(this, $4.ButtonState.GROUP);
           },
           notifyGroupExit: function() {
-            outTo(this, $3.ButtonState.REST);
+            outTo(this, $4.ButtonState.REST);
           },
           disable: function() {
             this.notifyGroupExit();
             this.element.disabled = true;
-            $3.setElementOpacity(this.element, 0.2, true);
+            $4.setElementOpacity(this.element, 0.2, true);
           },
           enable: function() {
             this.element.disabled = false;
-            $3.setElementOpacity(this.element, 1, true);
+            $4.setElementOpacity(this.element, 1, true);
             this.notifyGroupEnter();
           }
         });
         function scheduleFade(button) {
-          $3.requestAnimationFrame(function() {
+          $4.requestAnimationFrame(function() {
             updateFade(button);
           });
         }
         function updateFade(button) {
           var currentTime, deltaTime, opacity;
           if (button.shouldFade) {
-            currentTime = $3.now();
+            currentTime = $4.now();
             deltaTime = currentTime - button.fadeBeginTime;
             opacity = 1 - deltaTime / button.fadeLength;
             opacity = Math.min(1, opacity);
             opacity = Math.max(0, opacity);
             if (button.imgGroup) {
-              $3.setElementOpacity(button.imgGroup, opacity, true);
+              $4.setElementOpacity(button.imgGroup, opacity, true);
             }
             if (opacity > 0) {
               scheduleFade(button);
@@ -49165,7 +49165,7 @@ ${generateSegmentFilename(i7)}`);
         }
         function beginFading(button) {
           button.shouldFade = true;
-          button.fadeBeginTime = $3.now() + button.fadeDelay;
+          button.fadeBeginTime = $4.now() + button.fadeDelay;
           window.setTimeout(function() {
             scheduleFade(button);
           }, button.fadeDelay);
@@ -49173,70 +49173,70 @@ ${generateSegmentFilename(i7)}`);
         function stopFading(button) {
           button.shouldFade = false;
           if (button.imgGroup) {
-            $3.setElementOpacity(button.imgGroup, 1, true);
+            $4.setElementOpacity(button.imgGroup, 1, true);
           }
         }
         function inTo(button, newState) {
           if (button.element.disabled) {
             return;
           }
-          if (newState >= $3.ButtonState.GROUP && button.currentState == $3.ButtonState.REST) {
+          if (newState >= $4.ButtonState.GROUP && button.currentState == $4.ButtonState.REST) {
             stopFading(button);
-            button.currentState = $3.ButtonState.GROUP;
+            button.currentState = $4.ButtonState.GROUP;
           }
-          if (newState >= $3.ButtonState.HOVER && button.currentState == $3.ButtonState.GROUP) {
+          if (newState >= $4.ButtonState.HOVER && button.currentState == $4.ButtonState.GROUP) {
             if (button.imgHover) {
               button.imgHover.style.visibility = "";
             }
-            button.currentState = $3.ButtonState.HOVER;
+            button.currentState = $4.ButtonState.HOVER;
           }
-          if (newState >= $3.ButtonState.DOWN && button.currentState == $3.ButtonState.HOVER) {
+          if (newState >= $4.ButtonState.DOWN && button.currentState == $4.ButtonState.HOVER) {
             if (button.imgDown) {
               button.imgDown.style.visibility = "";
             }
-            button.currentState = $3.ButtonState.DOWN;
+            button.currentState = $4.ButtonState.DOWN;
           }
         }
         function outTo(button, newState) {
           if (button.element.disabled) {
             return;
           }
-          if (newState <= $3.ButtonState.HOVER && button.currentState == $3.ButtonState.DOWN) {
+          if (newState <= $4.ButtonState.HOVER && button.currentState == $4.ButtonState.DOWN) {
             if (button.imgDown) {
               button.imgDown.style.visibility = "hidden";
             }
-            button.currentState = $3.ButtonState.HOVER;
+            button.currentState = $4.ButtonState.HOVER;
           }
-          if (newState <= $3.ButtonState.GROUP && button.currentState == $3.ButtonState.HOVER) {
+          if (newState <= $4.ButtonState.GROUP && button.currentState == $4.ButtonState.HOVER) {
             if (button.imgHover) {
               button.imgHover.style.visibility = "hidden";
             }
-            button.currentState = $3.ButtonState.GROUP;
+            button.currentState = $4.ButtonState.GROUP;
           }
-          if (newState <= $3.ButtonState.REST && button.currentState == $3.ButtonState.GROUP) {
+          if (newState <= $4.ButtonState.REST && button.currentState == $4.ButtonState.GROUP) {
             beginFading(button);
-            button.currentState = $3.ButtonState.REST;
+            button.currentState = $4.ButtonState.REST;
           }
         }
       })(OpenSeadragon);
-      (function($3) {
-        $3.ButtonGroup = function(options) {
-          $3.extend(true, this, {
+      (function($4) {
+        $4.ButtonGroup = function(options) {
+          $4.extend(true, this, {
             buttons: [],
-            clickTimeThreshold: $3.DEFAULT_SETTINGS.clickTimeThreshold,
-            clickDistThreshold: $3.DEFAULT_SETTINGS.clickDistThreshold,
+            clickTimeThreshold: $4.DEFAULT_SETTINGS.clickTimeThreshold,
+            clickDistThreshold: $4.DEFAULT_SETTINGS.clickDistThreshold,
             labelText: ""
           }, options);
           var buttons = this.buttons.concat([]), _this = this, i7;
-          this.element = options.element || $3.makeNeutralElement("div");
+          this.element = options.element || $4.makeNeutralElement("div");
           if (!options.group) {
             this.element.style.display = "inline-block";
             for (i7 = 0; i7 < buttons.length; i7++) {
               this.element.appendChild(buttons[i7].element);
             }
           }
-          $3.setElementTouchActionNone(this.element);
-          this.tracker = new $3.MouseTracker({
+          $4.setElementTouchActionNone(this.element);
+          this.tracker = new $4.MouseTracker({
             element: this.element,
             clickTimeThreshold: this.clickTimeThreshold,
             clickDistThreshold: this.clickDistThreshold,
@@ -49256,7 +49256,7 @@ ${generateSegmentFilename(i7)}`);
             }
           });
         };
-        $3.ButtonGroup.prototype = {
+        $4.ButtonGroup.prototype = {
           emulateEnter: function() {
             this.tracker.enterHandler({ eventSource: this.tracker });
           },
@@ -49265,14 +49265,14 @@ ${generateSegmentFilename(i7)}`);
           }
         };
       })(OpenSeadragon);
-      (function($3) {
-        $3.Rect = function(x4, y3, width, height, degrees) {
-          this.x = typeof x4 === "number" ? x4 : 0;
-          this.y = typeof y3 === "number" ? y3 : 0;
+      (function($4) {
+        $4.Rect = function(x5, y4, width, height, degrees) {
+          this.x = typeof x5 === "number" ? x5 : 0;
+          this.y = typeof y4 === "number" ? y4 : 0;
           this.width = typeof width === "number" ? width : 0;
           this.height = typeof height === "number" ? height : 0;
           this.degrees = typeof degrees === "number" ? degrees : 0;
-          this.degrees = $3.positiveModulo(this.degrees, 360);
+          this.degrees = $4.positiveModulo(this.degrees, 360);
           var newTopLeft, newWidth;
           if (this.degrees >= 270) {
             newTopLeft = this.getTopRight();
@@ -49297,7 +49297,7 @@ ${generateSegmentFilename(i7)}`);
             this.degrees -= 90;
           }
         };
-        $3.Rect.fromSummits = function(topLeft, topRight, bottomLeft) {
+        $4.Rect.fromSummits = function(topLeft, topRight, bottomLeft) {
           var width = topLeft.distanceTo(topRight);
           var height = topLeft.distanceTo(bottomLeft);
           var diff = topRight.minus(topLeft);
@@ -49307,41 +49307,41 @@ ${generateSegmentFilename(i7)}`);
           } else if (diff.y < 0) {
             radians += 2 * Math.PI;
           }
-          return new $3.Rect(topLeft.x, topLeft.y, width, height, radians / Math.PI * 180);
+          return new $4.Rect(topLeft.x, topLeft.y, width, height, radians / Math.PI * 180);
         };
-        $3.Rect.prototype = {
+        $4.Rect.prototype = {
           clone: function() {
-            return new $3.Rect(this.x, this.y, this.width, this.height, this.degrees);
+            return new $4.Rect(this.x, this.y, this.width, this.height, this.degrees);
           },
           getAspectRatio: function() {
             return this.width / this.height;
           },
           getTopLeft: function() {
-            return new $3.Point(this.x, this.y);
+            return new $4.Point(this.x, this.y);
           },
           getBottomRight: function() {
-            return new $3.Point(this.x + this.width, this.y + this.height).rotate(this.degrees, this.getTopLeft());
+            return new $4.Point(this.x + this.width, this.y + this.height).rotate(this.degrees, this.getTopLeft());
           },
           getTopRight: function() {
-            return new $3.Point(this.x + this.width, this.y).rotate(this.degrees, this.getTopLeft());
+            return new $4.Point(this.x + this.width, this.y).rotate(this.degrees, this.getTopLeft());
           },
           getBottomLeft: function() {
-            return new $3.Point(this.x, this.y + this.height).rotate(this.degrees, this.getTopLeft());
+            return new $4.Point(this.x, this.y + this.height).rotate(this.degrees, this.getTopLeft());
           },
           getCenter: function() {
-            return new $3.Point(this.x + this.width / 2, this.y + this.height / 2).rotate(this.degrees, this.getTopLeft());
+            return new $4.Point(this.x + this.width / 2, this.y + this.height / 2).rotate(this.degrees, this.getTopLeft());
           },
           getSize: function() {
-            return new $3.Point(this.width, this.height);
+            return new $4.Point(this.width, this.height);
           },
           equals: function(other) {
-            return other instanceof $3.Rect && this.x === other.x && this.y === other.y && this.width === other.width && this.height === other.height && this.degrees === other.degrees;
+            return other instanceof $4.Rect && this.x === other.x && this.y === other.y && this.width === other.width && this.height === other.height && this.degrees === other.degrees;
           },
           times: function(factor) {
-            return new $3.Rect(this.x * factor, this.y * factor, this.width * factor, this.height * factor, this.degrees);
+            return new $4.Rect(this.x * factor, this.y * factor, this.width * factor, this.height * factor, this.degrees);
           },
           translate: function(delta) {
-            return new $3.Rect(this.x + delta.x, this.y + delta.y, this.width, this.height, this.degrees);
+            return new $4.Rect(this.x + delta.x, this.y + delta.y, this.width, this.height, this.degrees);
           },
           union: function(rect) {
             var thisBoundingBox = this.getBoundingBox();
@@ -49350,7 +49350,7 @@ ${generateSegmentFilename(i7)}`);
             var top = Math.min(thisBoundingBox.y, otherBoundingBox.y);
             var right = Math.max(thisBoundingBox.x + thisBoundingBox.width, otherBoundingBox.x + otherBoundingBox.width);
             var bottom = Math.max(thisBoundingBox.y + thisBoundingBox.height, otherBoundingBox.y + otherBoundingBox.height);
-            return new $3.Rect(left, top, right - left, bottom - top);
+            return new $4.Rect(left, top, right - left, bottom - top);
           },
           intersection: function(rect) {
             var EPSILON = 1e-10;
@@ -49391,25 +49391,25 @@ ${generateSegmentFilename(i7)}`);
             var rectSegments = rect._getSegments();
             for (var i7 = 0; i7 < thisSegments.length; i7++) {
               var thisSegment = thisSegments[i7];
-              for (var j2 = 0; j2 < rectSegments.length; j2++) {
-                var rectSegment = rectSegments[j2];
+              for (var j3 = 0; j3 < rectSegments.length; j3++) {
+                var rectSegment = rectSegments[j3];
                 var intersect = getIntersection(thisSegment[0], thisSegment[1], rectSegment[0], rectSegment[1]);
                 if (intersect) {
                   intersectionPoints.push(intersect);
                 }
               }
             }
-            function getIntersection(a7, b7, c7, d7) {
-              var abVector = b7.minus(a7);
-              var cdVector = d7.minus(c7);
+            function getIntersection(a7, b8, c8, d8) {
+              var abVector = b8.minus(a7);
+              var cdVector = d8.minus(c8);
               var denom = -cdVector.x * abVector.y + abVector.x * cdVector.y;
               if (denom === 0) {
                 return null;
               }
-              var s8 = (abVector.x * (a7.y - c7.y) - abVector.y * (a7.x - c7.x)) / denom;
-              var t13 = (cdVector.x * (a7.y - c7.y) - cdVector.y * (a7.x - c7.x)) / denom;
-              if (-EPSILON <= s8 && s8 <= 1 - EPSILON && -EPSILON <= t13 && t13 <= 1 - EPSILON) {
-                return new $3.Point(a7.x + t13 * abVector.x, a7.y + t13 * abVector.y);
+              var s9 = (abVector.x * (a7.y - c8.y) - abVector.y * (a7.x - c8.x)) / denom;
+              var t13 = (cdVector.x * (a7.y - c8.y) - cdVector.y * (a7.x - c8.x)) / denom;
+              if (-EPSILON <= s9 && s9 <= 1 - EPSILON && -EPSILON <= t13 && t13 <= 1 - EPSILON) {
+                return new $4.Point(a7.x + t13 * abVector.x, a7.y + t13 * abVector.y);
               }
               return null;
             }
@@ -49420,8 +49420,8 @@ ${generateSegmentFilename(i7)}`);
             var maxX = intersectionPoints[0].x;
             var minY = intersectionPoints[0].y;
             var maxY = intersectionPoints[0].y;
-            for (var k3 = 1; k3 < intersectionPoints.length; k3++) {
-              var point = intersectionPoints[k3];
+            for (var k4 = 1; k4 < intersectionPoints.length; k4++) {
+              var point = intersectionPoints[k4];
               if (point.x < minX) {
                 minX = point.x;
               }
@@ -49435,7 +49435,7 @@ ${generateSegmentFilename(i7)}`);
                 maxY = point.y;
               }
             }
-            return new $3.Rect(minX, minY, maxX - minX, maxY - minY);
+            return new $4.Rect(minX, minY, maxX - minX, maxY - minY);
           },
           _getSegments: function() {
             var topLeft = this.getTopLeft();
@@ -49450,7 +49450,7 @@ ${generateSegmentFilename(i7)}`);
             ];
           },
           rotate: function(degrees, pivot) {
-            degrees = $3.positiveModulo(degrees, 360);
+            degrees = $4.positiveModulo(degrees, 360);
             if (degrees === 0) {
               return this.clone();
             }
@@ -49458,9 +49458,9 @@ ${generateSegmentFilename(i7)}`);
             var newTopLeft = this.getTopLeft().rotate(degrees, pivot);
             var newTopRight = this.getTopRight().rotate(degrees, pivot);
             var diff = newTopRight.minus(newTopLeft);
-            diff = diff.apply(function(x4) {
+            diff = diff.apply(function(x5) {
               var EPSILON = 1e-15;
-              return Math.abs(x4) < EPSILON ? 0 : x4;
+              return Math.abs(x5) < EPSILON ? 0 : x5;
             });
             var radians = Math.atan(diff.y / diff.x);
             if (diff.x < 0) {
@@ -49468,7 +49468,7 @@ ${generateSegmentFilename(i7)}`);
             } else if (diff.y < 0) {
               radians += 2 * Math.PI;
             }
-            return new $3.Rect(newTopLeft.x, newTopLeft.y, this.width, this.height, radians / Math.PI * 180);
+            return new $4.Rect(newTopLeft.x, newTopLeft.y, this.width, this.height, radians / Math.PI * 180);
           },
           getBoundingBox: function() {
             if (this.degrees === 0) {
@@ -49482,15 +49482,15 @@ ${generateSegmentFilename(i7)}`);
             var maxX = Math.max(topLeft.x, topRight.x, bottomLeft.x, bottomRight.x);
             var minY = Math.min(topLeft.y, topRight.y, bottomLeft.y, bottomRight.y);
             var maxY = Math.max(topLeft.y, topRight.y, bottomLeft.y, bottomRight.y);
-            return new $3.Rect(minX, minY, maxX - minX, maxY - minY);
+            return new $4.Rect(minX, minY, maxX - minX, maxY - minY);
           },
           getIntegerBoundingBox: function() {
             var boundingBox = this.getBoundingBox();
-            var x4 = Math.floor(boundingBox.x);
-            var y3 = Math.floor(boundingBox.y);
-            var width = Math.ceil(boundingBox.width + boundingBox.x - x4);
-            var height = Math.ceil(boundingBox.height + boundingBox.y - y3);
-            return new $3.Rect(x4, y3, width, height);
+            var x5 = Math.floor(boundingBox.x);
+            var y4 = Math.floor(boundingBox.y);
+            var width = Math.ceil(boundingBox.width + boundingBox.x - x5);
+            var height = Math.ceil(boundingBox.height + boundingBox.y - y4);
+            return new $4.Rect(x5, y4, width, height);
           },
           containsPoint: function(point, epsilon) {
             epsilon = epsilon || 0;
@@ -49506,21 +49506,21 @@ ${generateSegmentFilename(i7)}`);
           }
         };
       })(OpenSeadragon);
-      (function($3) {
+      (function($4) {
         var THIS = {};
-        $3.ReferenceStrip = function(options) {
-          var _this = this, viewer = options.viewer, viewerSize = $3.getElementSize(viewer.element), element, style, i7;
+        $4.ReferenceStrip = function(options) {
+          var _this = this, viewer = options.viewer, viewerSize = $4.getElementSize(viewer.element), element, style, i7;
           if (!options.id) {
-            options.id = "referencestrip-" + $3.now();
-            this.element = $3.makeNeutralElement("div");
+            options.id = "referencestrip-" + $4.now();
+            this.element = $4.makeNeutralElement("div");
             this.element.id = options.id;
             this.element.className = "referencestrip";
           }
-          options = $3.extend(true, {
-            sizeRatio: $3.DEFAULT_SETTINGS.referenceStripSizeRatio,
-            position: $3.DEFAULT_SETTINGS.referenceStripPosition,
-            scroll: $3.DEFAULT_SETTINGS.referenceStripScroll,
-            clickTimeThreshold: $3.DEFAULT_SETTINGS.clickTimeThreshold
+          options = $4.extend(true, {
+            sizeRatio: $4.DEFAULT_SETTINGS.referenceStripSizeRatio,
+            position: $4.DEFAULT_SETTINGS.referenceStripPosition,
+            scroll: $4.DEFAULT_SETTINGS.referenceStripScroll,
+            clickTimeThreshold: $4.DEFAULT_SETTINGS.clickTimeThreshold
           }, options, {
             element: this.element,
             showNavigator: false,
@@ -49528,7 +49528,7 @@ ${generateSegmentFilename(i7)}`);
             showNavigationControl: false,
             showSequenceControl: false
           });
-          $3.extend(this, options);
+          $4.extend(this, options);
           THIS[this.id] = {
             "animating": false
           };
@@ -49543,31 +49543,31 @@ ${generateSegmentFilename(i7)}`);
           style.border = "0px";
           style.background = "#000";
           style.position = "relative";
-          $3.setElementTouchActionNone(this.element);
-          $3.setElementOpacity(this.element, 0.8);
+          $4.setElementTouchActionNone(this.element);
+          $4.setElementOpacity(this.element, 0.8);
           this.viewer = viewer;
-          this.innerTracker = new $3.MouseTracker({
+          this.innerTracker = new $4.MouseTracker({
             element: this.element,
-            dragHandler: $3.delegate(this, onStripDrag),
-            scrollHandler: $3.delegate(this, onStripScroll),
-            enterHandler: $3.delegate(this, onStripEnter),
-            exitHandler: $3.delegate(this, onStripExit),
-            keyDownHandler: $3.delegate(this, onKeyDown),
-            keyHandler: $3.delegate(this, onKeyPress)
+            dragHandler: $4.delegate(this, onStripDrag),
+            scrollHandler: $4.delegate(this, onStripScroll),
+            enterHandler: $4.delegate(this, onStripEnter),
+            exitHandler: $4.delegate(this, onStripExit),
+            keyDownHandler: $4.delegate(this, onKeyDown),
+            keyHandler: $4.delegate(this, onKeyPress)
           });
           if (options.width && options.height) {
             this.element.style.width = options.width + "px";
             this.element.style.height = options.height + "px";
-            viewer.addControl(this.element, { anchor: $3.ControlAnchor.BOTTOM_LEFT });
+            viewer.addControl(this.element, { anchor: $4.ControlAnchor.BOTTOM_LEFT });
           } else {
             if (options.scroll == "horizontal") {
               this.element.style.width = viewerSize.x * options.sizeRatio * viewer.tileSources.length + 12 * viewer.tileSources.length + "px";
               this.element.style.height = viewerSize.y * options.sizeRatio + "px";
-              viewer.addControl(this.element, { anchor: $3.ControlAnchor.BOTTOM_LEFT });
+              viewer.addControl(this.element, { anchor: $4.ControlAnchor.BOTTOM_LEFT });
             } else {
               this.element.style.height = viewerSize.y * options.sizeRatio * viewer.tileSources.length + 12 * viewer.tileSources.length + "px";
               this.element.style.width = viewerSize.x * options.sizeRatio + "px";
-              viewer.addControl(this.element, { anchor: $3.ControlAnchor.TOP_LEFT });
+              viewer.addControl(this.element, { anchor: $4.ControlAnchor.TOP_LEFT });
             }
           }
           this.panelWidth = viewerSize.x * this.sizeRatio + 8;
@@ -49575,7 +49575,7 @@ ${generateSegmentFilename(i7)}`);
           this.panels = [];
           this.miniViewers = {};
           for (i7 = 0; i7 < viewer.tileSources.length; i7++) {
-            element = $3.makeNeutralElement("div");
+            element = $4.makeNeutralElement("div");
             element.id = this.element.id + "-" + i7;
             element.style.width = _this.panelWidth + "px";
             element.style.height = _this.panelHeight + "px";
@@ -49584,16 +49584,16 @@ ${generateSegmentFilename(i7)}`);
             element.style.cssFloat = "left";
             element.style.styleFloat = "left";
             element.style.padding = "2px";
-            $3.setElementTouchActionNone(element);
-            element.innerTracker = new $3.MouseTracker({
+            $4.setElementTouchActionNone(element);
+            element.innerTracker = new $4.MouseTracker({
               element,
               clickTimeThreshold: this.clickTimeThreshold,
               clickDistThreshold: this.clickDistThreshold,
               pressHandler: function(event) {
-                event.eventSource.dragging = $3.now();
+                event.eventSource.dragging = $4.now();
               },
               releaseHandler: function(event) {
-                var tracker = event.eventSource, id = tracker.element.id, page = Number(id.split("-")[2]), now = $3.now();
+                var tracker = event.eventSource, id = tracker.element.id, page = Number(id.split("-")[2]), now = $4.now();
                 if (event.insideElementPressed && event.insideElementReleased && tracker.dragging && now - tracker.dragging < tracker.clickTimeThreshold) {
                   tracker.dragging = null;
                   viewer.goToPage(page);
@@ -49607,9 +49607,9 @@ ${generateSegmentFilename(i7)}`);
           loadPanels(this, this.scroll == "vertical" ? viewerSize.y : viewerSize.x, 0);
           this.setFocus(0);
         };
-        $3.extend($3.ReferenceStrip.prototype, $3.EventSource.prototype, $3.Viewer.prototype, {
+        $4.extend($4.ReferenceStrip.prototype, $4.EventSource.prototype, $4.Viewer.prototype, {
           setFocus: function(page) {
-            var element = this.element.querySelector("#" + this.element.id + "-" + page), viewerSize = $3.getElementSize(this.viewer.canvas), scrollWidth = Number(this.element.style.width.replace("px", "")), scrollHeight = Number(this.element.style.height.replace("px", "")), offsetLeft = -Number(this.element.style.marginLeft.replace("px", "")), offsetTop = -Number(this.element.style.marginTop.replace("px", "")), offset;
+            var element = this.element.querySelector("#" + this.element.id + "-" + page), viewerSize = $4.getElementSize(this.viewer.canvas), scrollWidth = Number(this.element.style.width.replace("px", "")), scrollHeight = Number(this.element.style.height.replace("px", "")), offsetLeft = -Number(this.element.style.marginLeft.replace("px", "")), offsetTop = -Number(this.element.style.marginTop.replace("px", "")), offset;
             if (this.currentSelected !== element) {
               if (this.currentSelected) {
                 this.currentSelected.style.background = "#000";
@@ -49645,7 +49645,7 @@ ${generateSegmentFilename(i7)}`);
           },
           update: function() {
             if (THIS[this.id].animating) {
-              $3.console.log("image reference strip update");
+              $4.console.log("image reference strip update");
               return true;
             }
             return false;
@@ -49662,7 +49662,7 @@ ${generateSegmentFilename(i7)}`);
           }
         });
         function onStripDrag(event) {
-          var offsetLeft = Number(this.element.style.marginLeft.replace("px", "")), offsetTop = Number(this.element.style.marginTop.replace("px", "")), scrollWidth = Number(this.element.style.width.replace("px", "")), scrollHeight = Number(this.element.style.height.replace("px", "")), viewerSize = $3.getElementSize(this.viewer.canvas);
+          var offsetLeft = Number(this.element.style.marginLeft.replace("px", "")), offsetTop = Number(this.element.style.marginTop.replace("px", "")), scrollWidth = Number(this.element.style.width.replace("px", "")), scrollHeight = Number(this.element.style.height.replace("px", "")), viewerSize = $4.getElementSize(this.viewer.canvas);
           this.dragging = true;
           if (this.element) {
             if (this.scroll == "horizontal") {
@@ -49694,7 +49694,7 @@ ${generateSegmentFilename(i7)}`);
           return false;
         }
         function onStripScroll(event) {
-          var offsetLeft = Number(this.element.style.marginLeft.replace("px", "")), offsetTop = Number(this.element.style.marginTop.replace("px", "")), scrollWidth = Number(this.element.style.width.replace("px", "")), scrollHeight = Number(this.element.style.height.replace("px", "")), viewerSize = $3.getElementSize(this.viewer.canvas);
+          var offsetLeft = Number(this.element.style.marginLeft.replace("px", "")), offsetTop = Number(this.element.style.marginTop.replace("px", "")), scrollWidth = Number(this.element.style.width.replace("px", "")), scrollHeight = Number(this.element.style.height.replace("px", "")), viewerSize = $4.getElementSize(this.viewer.canvas);
           if (this.element) {
             if (this.scroll == "horizontal") {
               if (event.scroll > 0) {
@@ -49748,7 +49748,7 @@ ${generateSegmentFilename(i7)}`);
               } else {
                 miniTileSource = originalTileSource;
               }
-              miniViewer = new $3.Viewer({
+              miniViewer = new $4.Viewer({
                 id: element.id,
                 tileSources: [miniTileSource],
                 element,
@@ -49764,7 +49764,7 @@ ${generateSegmentFilename(i7)}`);
                 ajaxHeaders: strip.viewer.ajaxHeaders,
                 useCanvas: strip.useCanvas
               });
-              miniViewer.displayRegion = $3.makeNeutralElement("div");
+              miniViewer.displayRegion = $4.makeNeutralElement("div");
               miniViewer.displayRegion.id = element.id + "-displayregion";
               miniViewer.displayRegion.className = "displayregion";
               style = miniViewer.displayRegion.style;
@@ -49780,7 +49780,7 @@ ${generateSegmentFilename(i7)}`);
               style.cursor = "default";
               style.width = strip.panelWidth - 4 + "px";
               style.height = strip.panelHeight - 4 + "px";
-              miniViewer.displayRegion.innerTracker = new $3.MouseTracker({
+              miniViewer.displayRegion.innerTracker = new $4.MouseTracker({
                 element: miniViewer.displayRegion,
                 startDisabled: true
               });
@@ -49802,9 +49802,9 @@ ${generateSegmentFilename(i7)}`);
         function onStripExit(event) {
           var element = event.eventSource.element;
           if (this.scroll == "horizontal") {
-            element.style.marginBottom = "-" + $3.getElementSize(element).y / 2 + "px";
+            element.style.marginBottom = "-" + $4.getElementSize(element).y / 2 + "px";
           } else {
-            element.style.marginLeft = "-" + $3.getElementSize(element).x / 2 + "px";
+            element.style.marginLeft = "-" + $4.getElementSize(element).x / 2 + "px";
           }
           return false;
         }
@@ -49862,16 +49862,16 @@ ${generateSegmentFilename(i7)}`);
           }
         }
       })(OpenSeadragon);
-      (function($3) {
-        $3.DisplayRect = function(x4, y3, width, height, minLevel, maxLevel) {
-          $3.Rect.apply(this, [x4, y3, width, height]);
+      (function($4) {
+        $4.DisplayRect = function(x5, y4, width, height, minLevel, maxLevel) {
+          $4.Rect.apply(this, [x5, y4, width, height]);
           this.minLevel = minLevel;
           this.maxLevel = maxLevel;
         };
-        $3.extend($3.DisplayRect.prototype, $3.Rect.prototype);
+        $4.extend($4.DisplayRect.prototype, $4.Rect.prototype);
       })(OpenSeadragon);
-      (function($3) {
-        $3.Spring = function(options) {
+      (function($4) {
+        $4.Spring = function(options) {
           var args = arguments;
           if (typeof options != "object") {
             options = {
@@ -49880,18 +49880,18 @@ ${generateSegmentFilename(i7)}`);
               animationTime: args.length > 1 ? args[1].animationTime : 1.5
             };
           }
-          $3.console.assert(typeof options.springStiffness === "number" && options.springStiffness !== 0, "[OpenSeadragon.Spring] options.springStiffness must be a non-zero number");
-          $3.console.assert(typeof options.animationTime === "number" && options.animationTime >= 0, "[OpenSeadragon.Spring] options.animationTime must be a number greater than or equal to 0");
+          $4.console.assert(typeof options.springStiffness === "number" && options.springStiffness !== 0, "[OpenSeadragon.Spring] options.springStiffness must be a non-zero number");
+          $4.console.assert(typeof options.animationTime === "number" && options.animationTime >= 0, "[OpenSeadragon.Spring] options.animationTime must be a number greater than or equal to 0");
           if (options.exponential) {
             this._exponential = true;
             delete options.exponential;
           }
-          $3.extend(true, this, options);
+          $4.extend(true, this, options);
           this.current = {
             value: typeof this.initial == "number" ? this.initial : this._exponential ? 0 : 1,
-            time: $3.now()
+            time: $4.now()
           };
-          $3.console.assert(!this._exponential || this.current.value !== 0, "[OpenSeadragon.Spring] value must be non-zero for exponential springs");
+          $4.console.assert(!this._exponential || this.current.value !== 0, "[OpenSeadragon.Spring] value must be non-zero for exponential springs");
           this.start = {
             value: this.current.value,
             time: this.current.time
@@ -49906,11 +49906,11 @@ ${generateSegmentFilename(i7)}`);
             this.current._logValue = Math.log(this.current.value);
           }
         };
-        $3.Spring.prototype = {
+        $4.Spring.prototype = {
           resetTo: function(target) {
-            $3.console.assert(!this._exponential || target !== 0, "[OpenSeadragon.Spring.resetTo] target must be non-zero for exponential springs");
+            $4.console.assert(!this._exponential || target !== 0, "[OpenSeadragon.Spring.resetTo] target must be non-zero for exponential springs");
             this.start.value = this.target.value = this.current.value = target;
-            this.start.time = this.target.time = this.current.time = $3.now();
+            this.start.time = this.target.time = this.current.time = $4.now();
             if (this._exponential) {
               this.start._logValue = Math.log(this.start.value);
               this.target._logValue = Math.log(this.target.value);
@@ -49918,7 +49918,7 @@ ${generateSegmentFilename(i7)}`);
             }
           },
           springTo: function(target) {
-            $3.console.assert(!this._exponential || target !== 0, "[OpenSeadragon.Spring.springTo] target must be non-zero for exponential springs");
+            $4.console.assert(!this._exponential || target !== 0, "[OpenSeadragon.Spring.springTo] target must be non-zero for exponential springs");
             this.start.value = this.current.value;
             this.start.time = this.current.time;
             this.target.value = target;
@@ -49932,7 +49932,7 @@ ${generateSegmentFilename(i7)}`);
             this.start.value += delta;
             this.target.value += delta;
             if (this._exponential) {
-              $3.console.assert(this.target.value !== 0 && this.start.value !== 0, "[OpenSeadragon.Spring.shiftBy] spring value must be non-zero for exponential springs");
+              $4.console.assert(this.target.value !== 0 && this.start.value !== 0, "[OpenSeadragon.Spring.shiftBy] spring value must be non-zero for exponential springs");
               this.start._logValue = Math.log(this.start.value);
               this.target._logValue = Math.log(this.target.value);
             }
@@ -49940,14 +49940,14 @@ ${generateSegmentFilename(i7)}`);
           setExponential: function(value) {
             this._exponential = value;
             if (this._exponential) {
-              $3.console.assert(this.current.value !== 0 && this.target.value !== 0 && this.start.value !== 0, "[OpenSeadragon.Spring.setExponential] spring value must be non-zero for exponential springs");
+              $4.console.assert(this.current.value !== 0 && this.target.value !== 0 && this.start.value !== 0, "[OpenSeadragon.Spring.setExponential] spring value must be non-zero for exponential springs");
               this.start._logValue = Math.log(this.start.value);
               this.target._logValue = Math.log(this.target.value);
               this.current._logValue = Math.log(this.current.value);
             }
           },
           update: function() {
-            this.current.time = $3.now();
+            this.current.time = $4.now();
             var startValue, targetValue;
             if (this._exponential) {
               startValue = this.start._logValue;
@@ -49969,14 +49969,14 @@ ${generateSegmentFilename(i7)}`);
             return this.current.value === this.target.value;
           }
         };
-        function transform(stiffness, x4) {
-          return (1 - Math.exp(stiffness * -x4)) / (1 - Math.exp(-stiffness));
+        function transform(stiffness, x5) {
+          return (1 - Math.exp(stiffness * -x5)) / (1 - Math.exp(-stiffness));
         }
       })(OpenSeadragon);
-      (function($3) {
+      (function($4) {
         function ImageJob(options) {
-          $3.extend(true, this, {
-            timeout: $3.DEFAULT_SETTINGS.timeout,
+          $4.extend(true, this, {
+            timeout: $4.DEFAULT_SETTINGS.timeout,
             jobId: null
           }, options);
           this.image = null;
@@ -49999,7 +49999,7 @@ ${generateSegmentFilename(i7)}`);
               self2.finish(false);
             }, this.timeout);
             if (this.loadWithAjax) {
-              this.request = $3.makeAjaxRequest({
+              this.request = $4.makeAjaxRequest({
                 url: this.src,
                 withCredentials: this.ajaxWithCredentials,
                 headers: this.ajaxHeaders,
@@ -50052,15 +50052,15 @@ ${generateSegmentFilename(i7)}`);
             this.callback(this);
           }
         };
-        $3.ImageLoader = function(options) {
-          $3.extend(true, this, {
-            jobLimit: $3.DEFAULT_SETTINGS.imageLoaderLimit,
-            timeout: $3.DEFAULT_SETTINGS.timeout,
+        $4.ImageLoader = function(options) {
+          $4.extend(true, this, {
+            jobLimit: $4.DEFAULT_SETTINGS.imageLoaderLimit,
+            timeout: $4.DEFAULT_SETTINGS.timeout,
             jobQueue: [],
             jobsInProgress: 0
           }, options);
         };
-        $3.ImageLoader.prototype = {
+        $4.ImageLoader.prototype = {
           addJob: function(options) {
             var _this = this, complete = function(job) {
               completeJob(_this, job, options.callback);
@@ -50102,11 +50102,11 @@ ${generateSegmentFilename(i7)}`);
           callback(job.image, job.errorMsg, job.request);
         }
       })(OpenSeadragon);
-      (function($3) {
-        $3.Tile = function(level, x4, y3, bounds, exists, url, context2D, loadWithAjax, ajaxHeaders, sourceBounds) {
+      (function($4) {
+        $4.Tile = function(level, x5, y4, bounds, exists, url, context2D, loadWithAjax, ajaxHeaders, sourceBounds) {
           this.level = level;
-          this.x = x4;
-          this.y = y3;
+          this.x = x5;
+          this.y = y4;
           this.bounds = bounds;
           this.sourceBounds = sourceBounds;
           this.exists = exists;
@@ -50136,7 +50136,7 @@ ${generateSegmentFilename(i7)}`);
           this.isRightMost = false;
           this.isBottomMost = false;
         };
-        $3.Tile.prototype = {
+        $4.Tile.prototype = {
           toString: function() {
             return this.level + "/" + this.x + "_" + this.y;
           },
@@ -50145,15 +50145,15 @@ ${generateSegmentFilename(i7)}`);
           },
           drawHTML: function(container) {
             if (!this.cacheImageRecord) {
-              $3.console.warn("[Tile.drawHTML] attempting to draw tile %s when it's not cached", this.toString());
+              $4.console.warn("[Tile.drawHTML] attempting to draw tile %s when it's not cached", this.toString());
               return;
             }
             if (!this.loaded) {
-              $3.console.warn("Attempting to draw tile %s when it's not yet loaded.", this.toString());
+              $4.console.warn("Attempting to draw tile %s when it's not yet loaded.", this.toString());
               return;
             }
             if (!this.element) {
-              this.element = $3.makeNeutralElement("div");
+              this.element = $4.makeNeutralElement("div");
               this.imgElement = this.cacheImageRecord.getImage().cloneNode();
               this.imgElement.style.msInterpolationMode = "nearest-neighbor";
               this.imgElement.style.width = "100%";
@@ -50171,17 +50171,17 @@ ${generateSegmentFilename(i7)}`);
             this.style.left = this.position.x + "px";
             this.style.height = this.size.y + "px";
             this.style.width = this.size.x + "px";
-            $3.setElementOpacity(this.element, this.opacity);
+            $4.setElementOpacity(this.element, this.opacity);
           },
           drawCanvas: function(context, drawingHandler, scale, translate) {
-            var position = this.position.times($3.pixelDensityRatio), size = this.size.times($3.pixelDensityRatio), rendered;
+            var position = this.position.times($4.pixelDensityRatio), size = this.size.times($4.pixelDensityRatio), rendered;
             if (!this.context2D && !this.cacheImageRecord) {
-              $3.console.warn("[Tile.drawCanvas] attempting to draw tile %s when it's not cached", this.toString());
+              $4.console.warn("[Tile.drawCanvas] attempting to draw tile %s when it's not cached", this.toString());
               return;
             }
             rendered = this.context2D || this.cacheImageRecord.getRenderedContext();
             if (!this.loaded || !rendered) {
-              $3.console.warn("Attempting to draw tile %s when it's not yet loaded.", this.toString());
+              $4.console.warn("Attempting to draw tile %s when it's not yet loaded.", this.toString());
               return;
             }
             context.save();
@@ -50190,7 +50190,7 @@ ${generateSegmentFilename(i7)}`);
               position = position.times(scale);
               size = size.times(scale);
             }
-            if (translate instanceof $3.Point) {
+            if (translate instanceof $4.Point) {
               position = position.plus(translate);
             }
             if (context.globalAlpha === 1 && this._hasTransparencyChannel()) {
@@ -50215,16 +50215,16 @@ ${generateSegmentFilename(i7)}`);
             } else if (this.context2D) {
               context = this.context2D;
             } else {
-              $3.console.warn("[Tile.drawCanvas] attempting to get tile scale %s when tile's not cached", this.toString());
+              $4.console.warn("[Tile.drawCanvas] attempting to get tile scale %s when tile's not cached", this.toString());
               return 1;
             }
-            return context.canvas.width / (this.size.x * $3.pixelDensityRatio);
+            return context.canvas.width / (this.size.x * $4.pixelDensityRatio);
           },
           getTranslationForEdgeSmoothing: function(scale, canvasSize, sketchCanvasSize) {
-            var x4 = Math.max(1, Math.ceil((sketchCanvasSize.x - canvasSize.x) / 2));
-            var y3 = Math.max(1, Math.ceil((sketchCanvasSize.y - canvasSize.y) / 2));
-            return new $3.Point(x4, y3).minus(this.position.times($3.pixelDensityRatio).times(scale || 1).apply(function(x5) {
-              return x5 % 1;
+            var x5 = Math.max(1, Math.ceil((sketchCanvasSize.x - canvasSize.x) / 2));
+            var y4 = Math.max(1, Math.ceil((sketchCanvasSize.y - canvasSize.y) / 2));
+            return new $4.Point(x5, y4).minus(this.position.times($4.pixelDensityRatio).times(scale || 1).apply(function(x6) {
+              return x6 % 1;
             }));
           },
           unload: function() {
@@ -50241,16 +50241,16 @@ ${generateSegmentFilename(i7)}`);
           }
         };
       })(OpenSeadragon);
-      (function($3) {
-        $3.OverlayPlacement = $3.Placement;
-        $3.OverlayRotationMode = $3.freezeObject({
+      (function($4) {
+        $4.OverlayPlacement = $4.Placement;
+        $4.OverlayRotationMode = $4.freezeObject({
           NO_ROTATION: 1,
           EXACT: 2,
           BOUNDING_BOX: 3
         });
-        $3.Overlay = function(element, location2, placement) {
+        $4.Overlay = function(element, location2, placement) {
           var options;
-          if ($3.isPlainObject(element)) {
+          if ($4.isPlainObject(element)) {
             options = element;
           } else {
             options = {
@@ -50263,27 +50263,27 @@ ${generateSegmentFilename(i7)}`);
           this.style = options.element.style;
           this._init(options);
         };
-        $3.Overlay.prototype = {
+        $4.Overlay.prototype = {
           _init: function(options) {
             this.location = options.location;
-            this.placement = options.placement === void 0 ? $3.Placement.TOP_LEFT : options.placement;
+            this.placement = options.placement === void 0 ? $4.Placement.TOP_LEFT : options.placement;
             this.onDraw = options.onDraw;
             this.checkResize = options.checkResize === void 0 ? true : options.checkResize;
             this.width = options.width === void 0 ? null : options.width;
             this.height = options.height === void 0 ? null : options.height;
-            this.rotationMode = options.rotationMode || $3.OverlayRotationMode.EXACT;
-            if (this.location instanceof $3.Rect) {
+            this.rotationMode = options.rotationMode || $4.OverlayRotationMode.EXACT;
+            if (this.location instanceof $4.Rect) {
               this.width = this.location.width;
               this.height = this.location.height;
               this.location = this.location.getTopLeft();
-              this.placement = $3.Placement.TOP_LEFT;
+              this.placement = $4.Placement.TOP_LEFT;
             }
             this.scales = this.width !== null && this.height !== null;
-            this.bounds = new $3.Rect(this.location.x, this.location.y, this.width, this.height);
+            this.bounds = new $4.Rect(this.location.x, this.location.y, this.width, this.height);
             this.position = this.location;
           },
           adjust: function(position, size) {
-            var properties = $3.Placement.properties[this.placement];
+            var properties = $4.Placement.properties[this.placement];
             if (!properties) {
               return;
             }
@@ -50318,8 +50318,8 @@ ${generateSegmentFilename(i7)}`);
             if (this.height !== null) {
               style.height = "";
             }
-            var transformOriginProp = $3.getCssPropertyWithVendorPrefix("transformOrigin");
-            var transformProp = $3.getCssPropertyWithVendorPrefix("transform");
+            var transformOriginProp = $4.getCssPropertyWithVendorPrefix("transformOrigin");
+            var transformProp = $4.getCssPropertyWithVendorPrefix("transform");
             if (transformOriginProp && transformProp) {
               style[transformOriginProp] = "";
               style[transformProp] = "";
@@ -50332,7 +50332,7 @@ ${generateSegmentFilename(i7)}`);
               element.prevNextSibling = element.nextSibling;
               container.appendChild(element);
               this.style.position = "absolute";
-              this.size = $3.getElementSize(element);
+              this.size = $4.getElementSize(element);
             }
             var positionAndSize = this._getOverlayPositionAndSize(viewport);
             var position = positionAndSize.position;
@@ -50350,8 +50350,8 @@ ${generateSegmentFilename(i7)}`);
               if (this.height !== null) {
                 style.height = size.y + "px";
               }
-              var transformOriginProp = $3.getCssPropertyWithVendorPrefix("transformOrigin");
-              var transformProp = $3.getCssPropertyWithVendorPrefix("transform");
+              var transformOriginProp = $4.getCssPropertyWithVendorPrefix("transformOrigin");
+              var transformProp = $4.getCssPropertyWithVendorPrefix("transform");
               if (transformOriginProp && transformProp) {
                 if (rotate) {
                   style[transformOriginProp] = this._getTransformOrigin();
@@ -50371,9 +50371,9 @@ ${generateSegmentFilename(i7)}`);
             var size = this._getSizeInPixels(viewport);
             this.adjust(position, size);
             var rotate = 0;
-            if (viewport.degrees && this.rotationMode !== $3.OverlayRotationMode.NO_ROTATION) {
-              if (this.rotationMode === $3.OverlayRotationMode.BOUNDING_BOX && this.width !== null && this.height !== null) {
-                var rect = new $3.Rect(position.x, position.y, size.x, size.y);
+            if (viewport.degrees && this.rotationMode !== $4.OverlayRotationMode.NO_ROTATION) {
+              if (this.rotationMode === $4.OverlayRotationMode.BOUNDING_BOX && this.width !== null && this.height !== null) {
+                var rect = new $4.Rect(position.x, position.y, size.x, size.y);
                 var boundingBox = this._getBoundingBox(rect, viewport.degrees);
                 position = boundingBox.getTopLeft();
                 size = boundingBox.getSize();
@@ -50391,7 +50391,7 @@ ${generateSegmentFilename(i7)}`);
             var width = this.size.x;
             var height = this.size.y;
             if (this.width !== null || this.height !== null) {
-              var scaledSize = viewport.deltaPixelsFromPointsNoRotate(new $3.Point(this.width || 0, this.height || 0), true);
+              var scaledSize = viewport.deltaPixelsFromPointsNoRotate(new $4.Point(this.width || 0, this.height || 0), true);
               if (this.width !== null) {
                 width = scaledSize.x;
               }
@@ -50400,7 +50400,7 @@ ${generateSegmentFilename(i7)}`);
               }
             }
             if (this.checkResize && (this.width === null || this.height === null)) {
-              var eltSize = this.size = $3.getElementSize(this.element);
+              var eltSize = this.size = $4.getElementSize(this.element);
               if (this.width === null) {
                 width = eltSize.x;
               }
@@ -50408,15 +50408,15 @@ ${generateSegmentFilename(i7)}`);
                 height = eltSize.y;
               }
             }
-            return new $3.Point(width, height);
+            return new $4.Point(width, height);
           },
           _getBoundingBox: function(rect, degrees) {
             var refPoint = this._getPlacementPoint(rect);
             return rect.rotate(degrees, refPoint).getBoundingBox();
           },
           _getPlacementPoint: function(rect) {
-            var result = new $3.Point(rect.x, rect.y);
-            var properties = $3.Placement.properties[this.placement];
+            var result = new $4.Point(rect.x, rect.y);
+            var properties = $4.Placement.properties[this.placement];
             if (properties) {
               if (properties.isHorizontallyCentered) {
                 result.x += rect.width / 2;
@@ -50433,7 +50433,7 @@ ${generateSegmentFilename(i7)}`);
           },
           _getTransformOrigin: function() {
             var result = "";
-            var properties = $3.Placement.properties[this.placement];
+            var properties = $4.Placement.properties[this.placement];
             if (!properties) {
               return result;
             }
@@ -50450,7 +50450,7 @@ ${generateSegmentFilename(i7)}`);
             return result;
           },
           update: function(location2, placement) {
-            var options = $3.isPlainObject(location2) ? location2 : {
+            var options = $4.isPlainObject(location2) ? location2 : {
               location: location2,
               placement
             };
@@ -50465,7 +50465,7 @@ ${generateSegmentFilename(i7)}`);
             });
           },
           getBounds: function(viewport) {
-            $3.console.assert(viewport, "A viewport must now be passed to Overlay.getBounds.");
+            $4.console.assert(viewport, "A viewport must now be passed to Overlay.getBounds.");
             var width = this.width;
             var height = this.height;
             if (width === null || height === null) {
@@ -50478,49 +50478,49 @@ ${generateSegmentFilename(i7)}`);
               }
             }
             var location2 = this.location.clone();
-            this.adjust(location2, new $3.Point(width, height));
-            return this._adjustBoundsForRotation(viewport, new $3.Rect(location2.x, location2.y, width, height));
+            this.adjust(location2, new $4.Point(width, height));
+            return this._adjustBoundsForRotation(viewport, new $4.Rect(location2.x, location2.y, width, height));
           },
           _adjustBoundsForRotation: function(viewport, bounds) {
-            if (!viewport || viewport.degrees === 0 || this.rotationMode === $3.OverlayRotationMode.EXACT) {
+            if (!viewport || viewport.degrees === 0 || this.rotationMode === $4.OverlayRotationMode.EXACT) {
               return bounds;
             }
-            if (this.rotationMode === $3.OverlayRotationMode.BOUNDING_BOX) {
+            if (this.rotationMode === $4.OverlayRotationMode.BOUNDING_BOX) {
               if (this.width === null || this.height === null) {
                 return bounds;
               }
               var positionAndSize = this._getOverlayPositionAndSize(viewport);
-              return viewport.viewerElementToViewportRectangle(new $3.Rect(positionAndSize.position.x, positionAndSize.position.y, positionAndSize.size.x, positionAndSize.size.y));
+              return viewport.viewerElementToViewportRectangle(new $4.Rect(positionAndSize.position.x, positionAndSize.position.y, positionAndSize.size.x, positionAndSize.size.y));
             }
             return bounds.rotate(-viewport.degrees, this._getPlacementPoint(bounds));
           }
         };
       })(OpenSeadragon);
-      (function($3) {
-        $3.Drawer = function(options) {
-          $3.console.assert(options.viewer, "[Drawer] options.viewer is required");
+      (function($4) {
+        $4.Drawer = function(options) {
+          $4.console.assert(options.viewer, "[Drawer] options.viewer is required");
           var args = arguments;
-          if (!$3.isPlainObject(options)) {
+          if (!$4.isPlainObject(options)) {
             options = {
               source: args[0],
               viewport: args[1],
               element: args[2]
             };
           }
-          $3.console.assert(options.viewport, "[Drawer] options.viewport is required");
-          $3.console.assert(options.element, "[Drawer] options.element is required");
+          $4.console.assert(options.viewport, "[Drawer] options.viewport is required");
+          $4.console.assert(options.element, "[Drawer] options.element is required");
           if (options.source) {
-            $3.console.error("[Drawer] options.source is no longer accepted; use TiledImage instead");
+            $4.console.error("[Drawer] options.source is no longer accepted; use TiledImage instead");
           }
           this.viewer = options.viewer;
           this.viewport = options.viewport;
-          this.debugGridColor = typeof options.debugGridColor === "string" ? [options.debugGridColor] : options.debugGridColor || $3.DEFAULT_SETTINGS.debugGridColor;
+          this.debugGridColor = typeof options.debugGridColor === "string" ? [options.debugGridColor] : options.debugGridColor || $4.DEFAULT_SETTINGS.debugGridColor;
           if (options.opacity) {
-            $3.console.error("[Drawer] options.opacity is no longer accepted; set the opacity on the TiledImage instead");
+            $4.console.error("[Drawer] options.opacity is no longer accepted; set the opacity on the TiledImage instead");
           }
-          this.useCanvas = $3.supportsCanvas && (this.viewer ? this.viewer.useCanvas : true);
-          this.container = $3.getElement(options.element);
-          this.canvas = $3.makeNeutralElement(this.useCanvas ? "canvas" : "div");
+          this.useCanvas = $4.supportsCanvas && (this.viewer ? this.viewer.useCanvas : true);
+          this.container = $4.getElement(options.element);
+          this.canvas = $4.makeNeutralElement(this.useCanvas ? "canvas" : "div");
           this.context = this.useCanvas ? this.canvas.getContext("2d") : null;
           this.sketchCanvas = null;
           this.sketchContext = null;
@@ -50534,35 +50534,35 @@ ${generateSegmentFilename(i7)}`);
           this.canvas.style.width = "100%";
           this.canvas.style.height = "100%";
           this.canvas.style.position = "absolute";
-          $3.setElementOpacity(this.canvas, this.opacity, true);
+          $4.setElementOpacity(this.canvas, this.opacity, true);
           this.container.style.textAlign = "left";
           this.container.appendChild(this.canvas);
           this._imageSmoothingEnabled = true;
         };
-        $3.Drawer.prototype = {
+        $4.Drawer.prototype = {
           addOverlay: function(element, location2, placement, onDraw) {
-            $3.console.error("drawer.addOverlay is deprecated. Use viewer.addOverlay instead.");
+            $4.console.error("drawer.addOverlay is deprecated. Use viewer.addOverlay instead.");
             this.viewer.addOverlay(element, location2, placement, onDraw);
             return this;
           },
           updateOverlay: function(element, location2, placement) {
-            $3.console.error("drawer.updateOverlay is deprecated. Use viewer.updateOverlay instead.");
+            $4.console.error("drawer.updateOverlay is deprecated. Use viewer.updateOverlay instead.");
             this.viewer.updateOverlay(element, location2, placement);
             return this;
           },
           removeOverlay: function(element) {
-            $3.console.error("drawer.removeOverlay is deprecated. Use viewer.removeOverlay instead.");
+            $4.console.error("drawer.removeOverlay is deprecated. Use viewer.removeOverlay instead.");
             this.viewer.removeOverlay(element);
             return this;
           },
           clearOverlays: function() {
-            $3.console.error("drawer.clearOverlays is deprecated. Use viewer.clearOverlays instead.");
+            $4.console.error("drawer.clearOverlays is deprecated. Use viewer.clearOverlays instead.");
             this.viewer.clearOverlays();
             return this;
           },
           viewportCoordToDrawerCoord: function(point) {
             var vpPoint = this.viewport.pixelFromPointNoRotate(point, true);
-            return new $3.Point(vpPoint.x * $3.pixelDensityRatio, vpPoint.y * $3.pixelDensityRatio);
+            return new $4.Point(vpPoint.x * $4.pixelDensityRatio, vpPoint.y * $4.pixelDensityRatio);
           },
           clipWithPolygons: function(polygons, useSketch) {
             if (!this.useCanvas) {
@@ -50578,7 +50578,7 @@ ${generateSegmentFilename(i7)}`);
             context.clip();
           },
           setOpacity: function(opacity) {
-            $3.console.error("drawer.setOpacity is deprecated. Use tiledImage.setOpacity instead.");
+            $4.console.error("drawer.setOpacity is deprecated. Use tiledImage.setOpacity instead.");
             var world = this.viewer.world;
             for (var i7 = 0; i7 < world.getItemCount(); i7++) {
               world.getItemAt(i7).setOpacity(opacity);
@@ -50586,7 +50586,7 @@ ${generateSegmentFilename(i7)}`);
             return this;
           },
           getOpacity: function() {
-            $3.console.error("drawer.getOpacity is deprecated. Use tiledImage.getOpacity instead.");
+            $4.console.error("drawer.getOpacity is deprecated. Use tiledImage.getOpacity instead.");
             var world = this.viewer.world;
             var maxOpacity = 0;
             for (var i7 = 0; i7 < world.getItemCount(); i7++) {
@@ -50598,20 +50598,20 @@ ${generateSegmentFilename(i7)}`);
             return maxOpacity;
           },
           needsUpdate: function() {
-            $3.console.error("[Drawer.needsUpdate] this function is deprecated. Use World.needsDraw instead.");
+            $4.console.error("[Drawer.needsUpdate] this function is deprecated. Use World.needsDraw instead.");
             return this.viewer.world.needsDraw();
           },
           numTilesLoaded: function() {
-            $3.console.error("[Drawer.numTilesLoaded] this function is deprecated. Use TileCache.numTilesLoaded instead.");
+            $4.console.error("[Drawer.numTilesLoaded] this function is deprecated. Use TileCache.numTilesLoaded instead.");
             return this.viewer.tileCache.numTilesLoaded();
           },
           reset: function() {
-            $3.console.error("[Drawer.reset] this function is deprecated. Use World.resetItems instead.");
+            $4.console.error("[Drawer.reset] this function is deprecated. Use World.resetItems instead.");
             this.viewer.world.resetItems();
             return this;
           },
           update: function() {
-            $3.console.error("[Drawer.update] this function is deprecated. Use Drawer.clear and World.draw instead.");
+            $4.console.error("[Drawer.update] this function is deprecated. Use Drawer.clear and World.draw instead.");
             this.clear();
             this.viewer.world.draw();
             return this;
@@ -50658,11 +50658,11 @@ ${generateSegmentFilename(i7)}`);
           viewportToDrawerRectangle: function(rectangle) {
             var topLeft = this.viewport.pixelFromPointNoRotate(rectangle.getTopLeft(), true);
             var size = this.viewport.deltaPixelsFromPointsNoRotate(rectangle.getSize(), true);
-            return new $3.Rect(topLeft.x * $3.pixelDensityRatio, topLeft.y * $3.pixelDensityRatio, size.x * $3.pixelDensityRatio, size.y * $3.pixelDensityRatio);
+            return new $4.Rect(topLeft.x * $4.pixelDensityRatio, topLeft.y * $4.pixelDensityRatio, size.x * $4.pixelDensityRatio, size.y * $4.pixelDensityRatio);
           },
           drawTile: function(tile, drawingHandler, useSketch, scale, translate) {
-            $3.console.assert(tile, "[Drawer.drawTile] tile is required");
-            $3.console.assert(drawingHandler, "[Drawer.drawTile] drawingHandler is required");
+            $4.console.assert(tile, "[Drawer.drawTile] tile is required");
+            $4.console.assert(drawingHandler, "[Drawer.drawTile] drawingHandler is required");
             if (this.useCanvas) {
               var context = this._getContext(useSketch);
               scale = scale || 1;
@@ -50731,7 +50731,7 @@ ${generateSegmentFilename(i7)}`);
           },
           blendSketch: function(opacity, scale, translate, compositeOperation) {
             var options = opacity;
-            if (!$3.isPlainObject(options)) {
+            if (!$4.isPlainObject(options)) {
               options = {
                 opacity,
                 scale,
@@ -50769,7 +50769,7 @@ ${generateSegmentFilename(i7)}`);
             } else {
               scale = options.scale || 1;
               translate = options.translate;
-              var position = translate instanceof $3.Point ? translate : new $3.Point(0, 0);
+              var position = translate instanceof $4.Point ? translate : new $4.Point(0, 0);
               var widthExt = 0;
               var heightExt = 0;
               if (translate) {
@@ -50789,8 +50789,8 @@ ${generateSegmentFilename(i7)}`);
             var colorIndex = this.viewer.world.getIndexOfItem(tiledImage) % this.debugGridColor.length;
             var context = this.context;
             context.save();
-            context.lineWidth = 2 * $3.pixelDensityRatio;
-            context.font = "small-caps bold " + 13 * $3.pixelDensityRatio + "px arial";
+            context.lineWidth = 2 * $4.pixelDensityRatio;
+            context.font = "small-caps bold " + 13 * $4.pixelDensityRatio + "px arial";
             context.strokeStyle = this.debugGridColor[colorIndex];
             context.fillStyle = this.debugGridColor[colorIndex];
             if (this.viewport.degrees !== 0) {
@@ -50807,22 +50807,22 @@ ${generateSegmentFilename(i7)}`);
                 tiledImage._drawer._flip();
               }
             }
-            context.strokeRect(tile.position.x * $3.pixelDensityRatio, tile.position.y * $3.pixelDensityRatio, tile.size.x * $3.pixelDensityRatio, tile.size.y * $3.pixelDensityRatio);
-            var tileCenterX = (tile.position.x + tile.size.x / 2) * $3.pixelDensityRatio;
-            var tileCenterY = (tile.position.y + tile.size.y / 2) * $3.pixelDensityRatio;
+            context.strokeRect(tile.position.x * $4.pixelDensityRatio, tile.position.y * $4.pixelDensityRatio, tile.size.x * $4.pixelDensityRatio, tile.size.y * $4.pixelDensityRatio);
+            var tileCenterX = (tile.position.x + tile.size.x / 2) * $4.pixelDensityRatio;
+            var tileCenterY = (tile.position.y + tile.size.y / 2) * $4.pixelDensityRatio;
             context.translate(tileCenterX, tileCenterY);
             context.rotate(Math.PI / 180 * -this.viewport.degrees);
             context.translate(-tileCenterX, -tileCenterY);
             if (tile.x === 0 && tile.y === 0) {
-              context.fillText("Zoom: " + this.viewport.getZoom(), tile.position.x * $3.pixelDensityRatio, (tile.position.y - 30) * $3.pixelDensityRatio);
-              context.fillText("Pan: " + this.viewport.getBounds().toString(), tile.position.x * $3.pixelDensityRatio, (tile.position.y - 20) * $3.pixelDensityRatio);
+              context.fillText("Zoom: " + this.viewport.getZoom(), tile.position.x * $4.pixelDensityRatio, (tile.position.y - 30) * $4.pixelDensityRatio);
+              context.fillText("Pan: " + this.viewport.getBounds().toString(), tile.position.x * $4.pixelDensityRatio, (tile.position.y - 20) * $4.pixelDensityRatio);
             }
-            context.fillText("Level: " + tile.level, (tile.position.x + 10) * $3.pixelDensityRatio, (tile.position.y + 20) * $3.pixelDensityRatio);
-            context.fillText("Column: " + tile.x, (tile.position.x + 10) * $3.pixelDensityRatio, (tile.position.y + 30) * $3.pixelDensityRatio);
-            context.fillText("Row: " + tile.y, (tile.position.x + 10) * $3.pixelDensityRatio, (tile.position.y + 40) * $3.pixelDensityRatio);
-            context.fillText("Order: " + i7 + " of " + count, (tile.position.x + 10) * $3.pixelDensityRatio, (tile.position.y + 50) * $3.pixelDensityRatio);
-            context.fillText("Size: " + tile.size.toString(), (tile.position.x + 10) * $3.pixelDensityRatio, (tile.position.y + 60) * $3.pixelDensityRatio);
-            context.fillText("Position: " + tile.position.toString(), (tile.position.x + 10) * $3.pixelDensityRatio, (tile.position.y + 70) * $3.pixelDensityRatio);
+            context.fillText("Level: " + tile.level, (tile.position.x + 10) * $4.pixelDensityRatio, (tile.position.y + 20) * $4.pixelDensityRatio);
+            context.fillText("Column: " + tile.x, (tile.position.x + 10) * $4.pixelDensityRatio, (tile.position.y + 30) * $4.pixelDensityRatio);
+            context.fillText("Row: " + tile.y, (tile.position.x + 10) * $4.pixelDensityRatio, (tile.position.y + 40) * $4.pixelDensityRatio);
+            context.fillText("Order: " + i7 + " of " + count, (tile.position.x + 10) * $4.pixelDensityRatio, (tile.position.y + 50) * $4.pixelDensityRatio);
+            context.fillText("Size: " + tile.size.toString(), (tile.position.x + 10) * $4.pixelDensityRatio, (tile.position.y + 60) * $4.pixelDensityRatio);
+            context.fillText("Position: " + tile.position.toString(), (tile.position.x + 10) * $4.pixelDensityRatio, (tile.position.y + 70) * $4.pixelDensityRatio);
             if (this.viewport.degrees !== 0) {
               this._restoreRotationChanges();
             }
@@ -50840,10 +50840,10 @@ ${generateSegmentFilename(i7)}`);
             if (this.useCanvas) {
               var context = this.context;
               context.save();
-              context.lineWidth = 2 * $3.pixelDensityRatio;
+              context.lineWidth = 2 * $4.pixelDensityRatio;
               context.strokeStyle = this.debugGridColor[0];
               context.fillStyle = this.debugGridColor[0];
-              context.strokeRect(rect.x * $3.pixelDensityRatio, rect.y * $3.pixelDensityRatio, rect.width * $3.pixelDensityRatio, rect.height * $3.pixelDensityRatio);
+              context.strokeRect(rect.x * $4.pixelDensityRatio, rect.y * $4.pixelDensityRatio, rect.width * $4.pixelDensityRatio, rect.height * $4.pixelDensityRatio);
               context.restore();
             }
           },
@@ -50860,13 +50860,13 @@ ${generateSegmentFilename(i7)}`);
           },
           getCanvasSize: function(sketch) {
             var canvas = this._getContext(sketch).canvas;
-            return new $3.Point(canvas.width, canvas.height);
+            return new $4.Point(canvas.width, canvas.height);
           },
           getCanvasCenter: function() {
-            return new $3.Point(this.canvas.width / 2, this.canvas.height / 2);
+            return new $4.Point(this.canvas.width / 2, this.canvas.height / 2);
           },
           _offsetForRotation: function(options) {
-            var point = options.point ? options.point.times($3.pixelDensityRatio) : this.getCanvasCenter();
+            var point = options.point ? options.point.times($4.pixelDensityRatio) : this.getCanvasCenter();
             var context = this._getContext(options.useSketch);
             context.save();
             context.translate(point.x, point.y);
@@ -50880,7 +50880,7 @@ ${generateSegmentFilename(i7)}`);
           },
           _flip: function(options) {
             options = options || {};
-            var point = options.point ? options.point.times($3.pixelDensityRatio) : this.getCanvasCenter();
+            var point = options.point ? options.point.times($4.pixelDensityRatio) : this.getCanvasCenter();
             var context = this._getContext(options.useSketch);
             context.translate(point.x, 0);
             context.scale(-1, 1);
@@ -50891,7 +50891,7 @@ ${generateSegmentFilename(i7)}`);
             context.restore();
           },
           _calculateCanvasSize: function() {
-            var pixelDensityRatio = $3.pixelDensityRatio;
+            var pixelDensityRatio = $4.pixelDensityRatio;
             var viewportSize = this.viewport.getContainerSize();
             return {
               x: Math.round(viewportSize.x * pixelDensityRatio),
@@ -50911,10 +50911,10 @@ ${generateSegmentFilename(i7)}`);
           }
         };
       })(OpenSeadragon);
-      (function($3) {
-        $3.Viewport = function(options) {
+      (function($4) {
+        $4.Viewport = function(options) {
           var args = arguments;
-          if (args.length && args[0] instanceof $3.Point) {
+          if (args.length && args[0] instanceof $4.Point) {
             options = {
               containerSize: args[0],
               contentSize: args[1],
@@ -50922,47 +50922,47 @@ ${generateSegmentFilename(i7)}`);
             };
           }
           if (options.config) {
-            $3.extend(true, options, options.config);
+            $4.extend(true, options, options.config);
             delete options.config;
           }
-          this._margins = $3.extend({
+          this._margins = $4.extend({
             left: 0,
             top: 0,
             right: 0,
             bottom: 0
           }, options.margins || {});
           delete options.margins;
-          $3.extend(true, this, {
+          $4.extend(true, this, {
             containerSize: null,
             contentSize: null,
             zoomPoint: null,
             viewer: null,
-            springStiffness: $3.DEFAULT_SETTINGS.springStiffness,
-            animationTime: $3.DEFAULT_SETTINGS.animationTime,
-            minZoomImageRatio: $3.DEFAULT_SETTINGS.minZoomImageRatio,
-            maxZoomPixelRatio: $3.DEFAULT_SETTINGS.maxZoomPixelRatio,
-            visibilityRatio: $3.DEFAULT_SETTINGS.visibilityRatio,
-            wrapHorizontal: $3.DEFAULT_SETTINGS.wrapHorizontal,
-            wrapVertical: $3.DEFAULT_SETTINGS.wrapVertical,
-            defaultZoomLevel: $3.DEFAULT_SETTINGS.defaultZoomLevel,
-            minZoomLevel: $3.DEFAULT_SETTINGS.minZoomLevel,
-            maxZoomLevel: $3.DEFAULT_SETTINGS.maxZoomLevel,
-            degrees: $3.DEFAULT_SETTINGS.degrees,
-            flipped: $3.DEFAULT_SETTINGS.flipped,
-            homeFillsViewer: $3.DEFAULT_SETTINGS.homeFillsViewer
+            springStiffness: $4.DEFAULT_SETTINGS.springStiffness,
+            animationTime: $4.DEFAULT_SETTINGS.animationTime,
+            minZoomImageRatio: $4.DEFAULT_SETTINGS.minZoomImageRatio,
+            maxZoomPixelRatio: $4.DEFAULT_SETTINGS.maxZoomPixelRatio,
+            visibilityRatio: $4.DEFAULT_SETTINGS.visibilityRatio,
+            wrapHorizontal: $4.DEFAULT_SETTINGS.wrapHorizontal,
+            wrapVertical: $4.DEFAULT_SETTINGS.wrapVertical,
+            defaultZoomLevel: $4.DEFAULT_SETTINGS.defaultZoomLevel,
+            minZoomLevel: $4.DEFAULT_SETTINGS.minZoomLevel,
+            maxZoomLevel: $4.DEFAULT_SETTINGS.maxZoomLevel,
+            degrees: $4.DEFAULT_SETTINGS.degrees,
+            flipped: $4.DEFAULT_SETTINGS.flipped,
+            homeFillsViewer: $4.DEFAULT_SETTINGS.homeFillsViewer
           }, options);
           this._updateContainerInnerSize();
-          this.centerSpringX = new $3.Spring({
+          this.centerSpringX = new $4.Spring({
             initial: 0,
             springStiffness: this.springStiffness,
             animationTime: this.animationTime
           });
-          this.centerSpringY = new $3.Spring({
+          this.centerSpringY = new $4.Spring({
             initial: 0,
             springStiffness: this.springStiffness,
             animationTime: this.animationTime
           });
-          this.zoomSpring = new $3.Spring({
+          this.zoomSpring = new $4.Spring({
             exponential: true,
             initial: 1,
             springStiffness: this.springStiffness,
@@ -50971,28 +50971,28 @@ ${generateSegmentFilename(i7)}`);
           this._oldCenterX = this.centerSpringX.current.value;
           this._oldCenterY = this.centerSpringY.current.value;
           this._oldZoom = this.zoomSpring.current.value;
-          this._setContentBounds(new $3.Rect(0, 0, 1, 1), 1);
+          this._setContentBounds(new $4.Rect(0, 0, 1, 1), 1);
           this.goHome(true);
           this.update();
         };
-        $3.Viewport.prototype = {
+        $4.Viewport.prototype = {
           resetContentSize: function(contentSize) {
-            $3.console.assert(contentSize, "[Viewport.resetContentSize] contentSize is required");
-            $3.console.assert(contentSize instanceof $3.Point, "[Viewport.resetContentSize] contentSize must be an OpenSeadragon.Point");
-            $3.console.assert(contentSize.x > 0, "[Viewport.resetContentSize] contentSize.x must be greater than 0");
-            $3.console.assert(contentSize.y > 0, "[Viewport.resetContentSize] contentSize.y must be greater than 0");
-            this._setContentBounds(new $3.Rect(0, 0, 1, contentSize.y / contentSize.x), contentSize.x);
+            $4.console.assert(contentSize, "[Viewport.resetContentSize] contentSize is required");
+            $4.console.assert(contentSize instanceof $4.Point, "[Viewport.resetContentSize] contentSize must be an OpenSeadragon.Point");
+            $4.console.assert(contentSize.x > 0, "[Viewport.resetContentSize] contentSize.x must be greater than 0");
+            $4.console.assert(contentSize.y > 0, "[Viewport.resetContentSize] contentSize.y must be greater than 0");
+            this._setContentBounds(new $4.Rect(0, 0, 1, contentSize.y / contentSize.x), contentSize.x);
             return this;
           },
           setHomeBounds: function(bounds, contentFactor) {
-            $3.console.error("[Viewport.setHomeBounds] this function is deprecated; The content bounds should not be set manually.");
+            $4.console.error("[Viewport.setHomeBounds] this function is deprecated; The content bounds should not be set manually.");
             this._setContentBounds(bounds, contentFactor);
           },
           _setContentBounds: function(bounds, contentFactor) {
-            $3.console.assert(bounds, "[Viewport._setContentBounds] bounds is required");
-            $3.console.assert(bounds instanceof $3.Rect, "[Viewport._setContentBounds] bounds must be an OpenSeadragon.Rect");
-            $3.console.assert(bounds.width > 0, "[Viewport._setContentBounds] bounds.width must be greater than 0");
-            $3.console.assert(bounds.height > 0, "[Viewport._setContentBounds] bounds.height must be greater than 0");
+            $4.console.assert(bounds, "[Viewport._setContentBounds] bounds is required");
+            $4.console.assert(bounds instanceof $4.Rect, "[Viewport._setContentBounds] bounds must be an OpenSeadragon.Rect");
+            $4.console.assert(bounds.width > 0, "[Viewport._setContentBounds] bounds.width must be greater than 0");
+            $4.console.assert(bounds.height > 0, "[Viewport._setContentBounds] bounds.height must be greater than 0");
             this._contentBoundsNoRotate = bounds.clone();
             this._contentSizeNoRotate = this._contentBoundsNoRotate.getSize().times(contentFactor);
             this._contentBounds = bounds.rotate(this.degrees).getBoundingBox();
@@ -51027,7 +51027,7 @@ ${generateSegmentFilename(i7)}`);
             var center = this._contentBounds.getCenter();
             var width = 1 / this.getHomeZoom();
             var height = width / this.getAspectRatio();
-            return new $3.Rect(center.x - width / 2, center.y - height / 2, width, height);
+            return new $4.Rect(center.x - width / 2, center.y - height / 2, width, height);
           },
           goHome: function(immediately) {
             if (this.viewer) {
@@ -51053,14 +51053,14 @@ ${generateSegmentFilename(i7)}`);
             return this._containerInnerSize.x / this._containerInnerSize.y;
           },
           getContainerSize: function() {
-            return new $3.Point(this.containerSize.x, this.containerSize.y);
+            return new $4.Point(this.containerSize.x, this.containerSize.y);
           },
           getMargins: function() {
-            return $3.extend({}, this._margins);
+            return $4.extend({}, this._margins);
           },
           setMargins: function(margins) {
-            $3.console.assert($3.type(margins) === "object", "[Viewport.setMargins] margins must be an object");
-            this._margins = $3.extend({
+            $4.console.assert($4.type(margins) === "object", "[Viewport.setMargins] margins must be an object");
+            this._margins = $4.extend({
               left: 0,
               top: 0,
               right: 0,
@@ -51078,7 +51078,7 @@ ${generateSegmentFilename(i7)}`);
             var center = this.getCenter(current);
             var width = 1 / this.getZoom(current);
             var height = width / this.getAspectRatio();
-            return new $3.Rect(center.x - width / 2, center.y - height / 2, width, height);
+            return new $4.Rect(center.x - width / 2, center.y - height / 2, width, height);
           },
           getBoundsWithMargins: function(current) {
             return this.getBoundsNoRotateWithMargins(current).rotate(-this.getRotation(), this.getCenter(current));
@@ -51093,7 +51093,7 @@ ${generateSegmentFilename(i7)}`);
             return bounds;
           },
           getCenter: function(current) {
-            var centerCurrent = new $3.Point(this.centerSpringX.current.value, this.centerSpringY.current.value), centerTarget = new $3.Point(this.centerSpringX.target.value, this.centerSpringY.target.value), oldZoomPixel, zoom, width, height, bounds, newZoomPixel, deltaZoomPixels, deltaZoomPoints;
+            var centerCurrent = new $4.Point(this.centerSpringX.current.value, this.centerSpringY.current.value), centerTarget = new $4.Point(this.centerSpringX.target.value, this.centerSpringY.target.value), oldZoomPixel, zoom, width, height, bounds, newZoomPixel, deltaZoomPixels, deltaZoomPoints;
             if (current) {
               return centerCurrent;
             } else if (!this.zoomPoint) {
@@ -51103,7 +51103,7 @@ ${generateSegmentFilename(i7)}`);
             zoom = this.getZoom();
             width = 1 / zoom;
             height = width / this.getAspectRatio();
-            bounds = new $3.Rect(centerCurrent.x - width / 2, centerCurrent.y - height / 2, width, height);
+            bounds = new $4.Rect(centerCurrent.x - width / 2, centerCurrent.y - height / 2, width, height);
             newZoomPixel = this._pixelFromPoint(this.zoomPoint, bounds);
             deltaZoomPixels = newZoomPixel.minus(oldZoomPixel);
             deltaZoomPoints = deltaZoomPixels.divide(this._containerInnerSize.x * zoom);
@@ -51120,7 +51120,7 @@ ${generateSegmentFilename(i7)}`);
             return Math.max(Math.min(zoom, this.getMaxZoom()), this.getMinZoom());
           },
           _applyBoundaryConstraints: function(bounds) {
-            var newBounds = new $3.Rect(bounds.x, bounds.y, bounds.width, bounds.height);
+            var newBounds = new $4.Rect(bounds.x, bounds.y, bounds.width, bounds.height);
             if (this.wrapHorizontal) {
             } else {
               var horizontalThreshold = this.visibilityRatio * newBounds.width;
@@ -51183,7 +51183,7 @@ ${generateSegmentFilename(i7)}`);
             var constraints = options.constraints || false;
             var aspect = this.getAspectRatio();
             var center = bounds.getCenter();
-            var newBounds = new $3.Rect(bounds.x, bounds.y, bounds.width, bounds.height, bounds.degrees + this.getRotation()).getBoundingBox();
+            var newBounds = new $4.Rect(bounds.x, bounds.y, bounds.width, bounds.height, bounds.degrees + this.getRotation()).getBoundingBox();
             if (newBounds.getAspectRatio() >= aspect) {
               newBounds.height = newBounds.width / aspect;
             } else {
@@ -51235,11 +51235,11 @@ ${generateSegmentFilename(i7)}`);
             });
           },
           fitVertically: function(immediately) {
-            var box = new $3.Rect(this._contentBounds.x + this._contentBounds.width / 2, this._contentBounds.y, 0, this._contentBounds.height);
+            var box = new $4.Rect(this._contentBounds.x + this._contentBounds.width / 2, this._contentBounds.y, 0, this._contentBounds.height);
             return this.fitBounds(box, immediately);
           },
           fitHorizontally: function(immediately) {
-            var box = new $3.Rect(this._contentBounds.x, this._contentBounds.y + this._contentBounds.height / 2, this._contentBounds.width, 0);
+            var box = new $4.Rect(this._contentBounds.x, this._contentBounds.y + this._contentBounds.height / 2, this._contentBounds.width, 0);
             return this.fitBounds(box, immediately);
           },
           getConstrainedBounds: function(current) {
@@ -51249,7 +51249,7 @@ ${generateSegmentFilename(i7)}`);
             return constrainedBounds;
           },
           panBy: function(delta, immediately) {
-            var center = new $3.Point(this.centerSpringX.target.value, this.centerSpringY.target.value);
+            var center = new $4.Point(this.centerSpringX.target.value, this.centerSpringY.target.value);
             return this.panTo(center.plus(delta), immediately);
           },
           panTo: function(center, immediately) {
@@ -51273,7 +51273,7 @@ ${generateSegmentFilename(i7)}`);
           },
           zoomTo: function(zoom, refPoint, immediately) {
             var _this = this;
-            this.zoomPoint = refPoint instanceof $3.Point && !isNaN(refPoint.x) && !isNaN(refPoint.y) ? refPoint : null;
+            this.zoomPoint = refPoint instanceof $4.Point && !isNaN(refPoint.x) && !isNaN(refPoint.y) ? refPoint : null;
             if (immediately) {
               this._adjustCenterSpringsForZoomPoint(function() {
                 _this.zoomSpring.resetTo(zoom);
@@ -51294,7 +51294,7 @@ ${generateSegmentFilename(i7)}`);
             if (!this.viewer || !this.viewer.drawer.canRotate()) {
               return this;
             }
-            this.degrees = $3.positiveModulo(degrees, 360);
+            this.degrees = $4.positiveModulo(degrees, 360);
             this._setContentBounds(this.viewer.world.getHomeBounds(), this.viewer.world.getContentFactor());
             this.viewer.forceRedraw();
             this.viewer.raiseEvent("rotate", { "degrees": degrees });
@@ -51322,7 +51322,7 @@ ${generateSegmentFilename(i7)}`);
             return this.fitBounds(newBounds, true);
           },
           _updateContainerInnerSize: function() {
-            this._containerInnerSize = new $3.Point(Math.max(1, this.containerSize.x - (this._margins.left + this._margins.right)), Math.max(1, this.containerSize.y - (this._margins.top + this._margins.bottom)));
+            this._containerInnerSize = new $4.Point(Math.max(1, this.containerSize.x - (this._margins.left + this._margins.right)), Math.max(1, this.containerSize.y - (this._margins.top + this._margins.bottom)));
           },
           update: function() {
             var _this = this;
@@ -51372,30 +51372,30 @@ ${generateSegmentFilename(i7)}`);
             return this._pixelFromPoint(point, this.getBoundsNoRotate(current));
           },
           _pixelFromPointNoRotate: function(point, bounds) {
-            return point.minus(bounds.getTopLeft()).times(this._containerInnerSize.x / bounds.width).plus(new $3.Point(this._margins.left, this._margins.top));
+            return point.minus(bounds.getTopLeft()).times(this._containerInnerSize.x / bounds.width).plus(new $4.Point(this._margins.left, this._margins.top));
           },
           _pixelFromPoint: function(point, bounds) {
             return this._pixelFromPointNoRotate(point.rotate(this.getRotation(), this.getCenter(true)), bounds);
           },
           pointFromPixelNoRotate: function(pixel, current) {
             var bounds = this.getBoundsNoRotate(current);
-            return pixel.minus(new $3.Point(this._margins.left, this._margins.top)).divide(this._containerInnerSize.x / bounds.width).plus(bounds.getTopLeft());
+            return pixel.minus(new $4.Point(this._margins.left, this._margins.top)).divide(this._containerInnerSize.x / bounds.width).plus(bounds.getTopLeft());
           },
           pointFromPixel: function(pixel, current) {
             return this.pointFromPixelNoRotate(pixel, current).rotate(-this.getRotation(), this.getCenter(true));
           },
           _viewportToImageDelta: function(viewerX, viewerY) {
             var scale = this._contentBoundsNoRotate.width;
-            return new $3.Point(viewerX * this._contentSizeNoRotate.x / scale, viewerY * this._contentSizeNoRotate.x / scale);
+            return new $4.Point(viewerX * this._contentSizeNoRotate.x / scale, viewerY * this._contentSizeNoRotate.x / scale);
           },
           viewportToImageCoordinates: function(viewerX, viewerY) {
-            if (viewerX instanceof $3.Point) {
+            if (viewerX instanceof $4.Point) {
               return this.viewportToImageCoordinates(viewerX.x, viewerX.y);
             }
             if (this.viewer) {
               var count = this.viewer.world.getItemCount();
               if (count > 1) {
-                $3.console.error("[Viewport.viewportToImageCoordinates] is not accurate with multi-image; use TiledImage.viewportToImageCoordinates instead.");
+                $4.console.error("[Viewport.viewportToImageCoordinates] is not accurate with multi-image; use TiledImage.viewportToImageCoordinates instead.");
               } else if (count === 1) {
                 var item = this.viewer.world.getItemAt(0);
                 return item.viewportToImageCoordinates(viewerX, viewerY, true);
@@ -51405,16 +51405,16 @@ ${generateSegmentFilename(i7)}`);
           },
           _imageToViewportDelta: function(imageX, imageY) {
             var scale = this._contentBoundsNoRotate.width;
-            return new $3.Point(imageX / this._contentSizeNoRotate.x * scale, imageY / this._contentSizeNoRotate.x * scale);
+            return new $4.Point(imageX / this._contentSizeNoRotate.x * scale, imageY / this._contentSizeNoRotate.x * scale);
           },
           imageToViewportCoordinates: function(imageX, imageY) {
-            if (imageX instanceof $3.Point) {
+            if (imageX instanceof $4.Point) {
               return this.imageToViewportCoordinates(imageX.x, imageX.y);
             }
             if (this.viewer) {
               var count = this.viewer.world.getItemCount();
               if (count > 1) {
-                $3.console.error("[Viewport.imageToViewportCoordinates] is not accurate with multi-image; use TiledImage.imageToViewportCoordinates instead.");
+                $4.console.error("[Viewport.imageToViewportCoordinates] is not accurate with multi-image; use TiledImage.imageToViewportCoordinates instead.");
               } else if (count === 1) {
                 var item = this.viewer.world.getItemAt(0);
                 return item.imageToViewportCoordinates(imageX, imageY, true);
@@ -51427,13 +51427,13 @@ ${generateSegmentFilename(i7)}`);
           },
           imageToViewportRectangle: function(imageX, imageY, pixelWidth, pixelHeight) {
             var rect = imageX;
-            if (!(rect instanceof $3.Rect)) {
-              rect = new $3.Rect(imageX, imageY, pixelWidth, pixelHeight);
+            if (!(rect instanceof $4.Rect)) {
+              rect = new $4.Rect(imageX, imageY, pixelWidth, pixelHeight);
             }
             if (this.viewer) {
               var count = this.viewer.world.getItemCount();
               if (count > 1) {
-                $3.console.error("[Viewport.imageToViewportRectangle] is not accurate with multi-image; use TiledImage.imageToViewportRectangle instead.");
+                $4.console.error("[Viewport.imageToViewportRectangle] is not accurate with multi-image; use TiledImage.imageToViewportRectangle instead.");
               } else if (count === 1) {
                 var item = this.viewer.world.getItemAt(0);
                 return item.imageToViewportRectangle(imageX, imageY, pixelWidth, pixelHeight, true);
@@ -51441,17 +51441,17 @@ ${generateSegmentFilename(i7)}`);
             }
             var coordA = this.imageToViewportCoordinates(rect.x, rect.y);
             var coordB = this._imageToViewportDelta(rect.width, rect.height);
-            return new $3.Rect(coordA.x, coordA.y, coordB.x, coordB.y, rect.degrees);
+            return new $4.Rect(coordA.x, coordA.y, coordB.x, coordB.y, rect.degrees);
           },
           viewportToImageRectangle: function(viewerX, viewerY, pointWidth, pointHeight) {
             var rect = viewerX;
-            if (!(rect instanceof $3.Rect)) {
-              rect = new $3.Rect(viewerX, viewerY, pointWidth, pointHeight);
+            if (!(rect instanceof $4.Rect)) {
+              rect = new $4.Rect(viewerX, viewerY, pointWidth, pointHeight);
             }
             if (this.viewer) {
               var count = this.viewer.world.getItemCount();
               if (count > 1) {
-                $3.console.error("[Viewport.viewportToImageRectangle] is not accurate with multi-image; use TiledImage.viewportToImageRectangle instead.");
+                $4.console.error("[Viewport.viewportToImageRectangle] is not accurate with multi-image; use TiledImage.viewportToImageRectangle instead.");
               } else if (count === 1) {
                 var item = this.viewer.world.getItemAt(0);
                 return item.viewportToImageRectangle(viewerX, viewerY, pointWidth, pointHeight, true);
@@ -51459,7 +51459,7 @@ ${generateSegmentFilename(i7)}`);
             }
             var coordA = this.viewportToImageCoordinates(rect.x, rect.y);
             var coordB = this._viewportToImageDelta(rect.width, rect.height);
-            return new $3.Rect(coordA.x, coordA.y, coordB.x, coordB.y, rect.degrees);
+            return new $4.Rect(coordA.x, coordA.y, coordB.x, coordB.y, rect.degrees);
           },
           viewerElementToImageCoordinates: function(pixel) {
             var point = this.pointFromPixel(pixel, true);
@@ -51470,14 +51470,14 @@ ${generateSegmentFilename(i7)}`);
             return this.pixelFromPoint(point, true);
           },
           windowToImageCoordinates: function(pixel) {
-            $3.console.assert(this.viewer, "[Viewport.windowToImageCoordinates] the viewport must have a viewer.");
-            var viewerCoordinates = pixel.minus($3.getElementPosition(this.viewer.element));
+            $4.console.assert(this.viewer, "[Viewport.windowToImageCoordinates] the viewport must have a viewer.");
+            var viewerCoordinates = pixel.minus($4.getElementPosition(this.viewer.element));
             return this.viewerElementToImageCoordinates(viewerCoordinates);
           },
           imageToWindowCoordinates: function(pixel) {
-            $3.console.assert(this.viewer, "[Viewport.imageToWindowCoordinates] the viewport must have a viewer.");
+            $4.console.assert(this.viewer, "[Viewport.imageToWindowCoordinates] the viewport must have a viewer.");
             var viewerCoordinates = this.imageToViewerElementCoordinates(pixel);
-            return viewerCoordinates.plus($3.getElementPosition(this.viewer.element));
+            return viewerCoordinates.plus($4.getElementPosition(this.viewer.element));
           },
           viewerElementToViewportCoordinates: function(pixel) {
             return this.pointFromPixel(pixel, true);
@@ -51486,26 +51486,26 @@ ${generateSegmentFilename(i7)}`);
             return this.pixelFromPoint(point, true);
           },
           viewerElementToViewportRectangle: function(rectangle) {
-            return $3.Rect.fromSummits(this.pointFromPixel(rectangle.getTopLeft(), true), this.pointFromPixel(rectangle.getTopRight(), true), this.pointFromPixel(rectangle.getBottomLeft(), true));
+            return $4.Rect.fromSummits(this.pointFromPixel(rectangle.getTopLeft(), true), this.pointFromPixel(rectangle.getTopRight(), true), this.pointFromPixel(rectangle.getBottomLeft(), true));
           },
           viewportToViewerElementRectangle: function(rectangle) {
-            return $3.Rect.fromSummits(this.pixelFromPoint(rectangle.getTopLeft(), true), this.pixelFromPoint(rectangle.getTopRight(), true), this.pixelFromPoint(rectangle.getBottomLeft(), true));
+            return $4.Rect.fromSummits(this.pixelFromPoint(rectangle.getTopLeft(), true), this.pixelFromPoint(rectangle.getTopRight(), true), this.pixelFromPoint(rectangle.getBottomLeft(), true));
           },
           windowToViewportCoordinates: function(pixel) {
-            $3.console.assert(this.viewer, "[Viewport.windowToViewportCoordinates] the viewport must have a viewer.");
-            var viewerCoordinates = pixel.minus($3.getElementPosition(this.viewer.element));
+            $4.console.assert(this.viewer, "[Viewport.windowToViewportCoordinates] the viewport must have a viewer.");
+            var viewerCoordinates = pixel.minus($4.getElementPosition(this.viewer.element));
             return this.viewerElementToViewportCoordinates(viewerCoordinates);
           },
           viewportToWindowCoordinates: function(point) {
-            $3.console.assert(this.viewer, "[Viewport.viewportToWindowCoordinates] the viewport must have a viewer.");
+            $4.console.assert(this.viewer, "[Viewport.viewportToWindowCoordinates] the viewport must have a viewer.");
             var viewerCoordinates = this.viewportToViewerElementCoordinates(point);
-            return viewerCoordinates.plus($3.getElementPosition(this.viewer.element));
+            return viewerCoordinates.plus($4.getElementPosition(this.viewer.element));
           },
           viewportToImageZoom: function(viewportZoom) {
             if (this.viewer) {
               var count = this.viewer.world.getItemCount();
               if (count > 1) {
-                $3.console.error("[Viewport.viewportToImageZoom] is not accurate with multi-image.");
+                $4.console.error("[Viewport.viewportToImageZoom] is not accurate with multi-image.");
               } else if (count === 1) {
                 var item = this.viewer.world.getItemAt(0);
                 return item.viewportToImageZoom(viewportZoom);
@@ -51521,7 +51521,7 @@ ${generateSegmentFilename(i7)}`);
             if (this.viewer) {
               var count = this.viewer.world.getItemCount();
               if (count > 1) {
-                $3.console.error("[Viewport.imageToViewportZoom] is not accurate with multi-image.");
+                $4.console.error("[Viewport.imageToViewportZoom] is not accurate with multi-image.");
               } else if (count === 1) {
                 var item = this.viewer.world.getItemAt(0);
                 return item.imageToViewportZoom(imageZoom);
@@ -51554,29 +51554,29 @@ ${generateSegmentFilename(i7)}`);
           }
         };
       })(OpenSeadragon);
-      (function($3) {
-        $3.TiledImage = function(options) {
+      (function($4) {
+        $4.TiledImage = function(options) {
           var _this = this;
-          $3.console.assert(options.tileCache, "[TiledImage] options.tileCache is required");
-          $3.console.assert(options.drawer, "[TiledImage] options.drawer is required");
-          $3.console.assert(options.viewer, "[TiledImage] options.viewer is required");
-          $3.console.assert(options.imageLoader, "[TiledImage] options.imageLoader is required");
-          $3.console.assert(options.source, "[TiledImage] options.source is required");
-          $3.console.assert(!options.clip || options.clip instanceof $3.Rect, "[TiledImage] options.clip must be an OpenSeadragon.Rect if present");
-          $3.EventSource.call(this);
+          $4.console.assert(options.tileCache, "[TiledImage] options.tileCache is required");
+          $4.console.assert(options.drawer, "[TiledImage] options.drawer is required");
+          $4.console.assert(options.viewer, "[TiledImage] options.viewer is required");
+          $4.console.assert(options.imageLoader, "[TiledImage] options.imageLoader is required");
+          $4.console.assert(options.source, "[TiledImage] options.source is required");
+          $4.console.assert(!options.clip || options.clip instanceof $4.Rect, "[TiledImage] options.clip must be an OpenSeadragon.Rect if present");
+          $4.EventSource.call(this);
           this._tileCache = options.tileCache;
           delete options.tileCache;
           this._drawer = options.drawer;
           delete options.drawer;
           this._imageLoader = options.imageLoader;
           delete options.imageLoader;
-          if (options.clip instanceof $3.Rect) {
+          if (options.clip instanceof $4.Rect) {
             this._clip = options.clip.clone();
           }
           delete options.clip;
-          var x4 = options.x || 0;
+          var x5 = options.x || 0;
           delete options.x;
-          var y3 = options.y || 0;
+          var y4 = options.y || 0;
           delete options.y;
           this.normHeight = options.source.dimensions.y / options.source.dimensions.x;
           this.contentAspectX = options.source.dimensions.x / options.source.dimensions.y;
@@ -51585,7 +51585,7 @@ ${generateSegmentFilename(i7)}`);
             scale = options.width;
             delete options.width;
             if (options.height) {
-              $3.console.error("specifying both width and height to a tiledImage is not supported");
+              $4.console.error("specifying both width and height to a tiledImage is not supported");
               delete options.height;
             }
           } else if (options.height) {
@@ -51598,7 +51598,7 @@ ${generateSegmentFilename(i7)}`);
           delete options.fitBoundsPlacement;
           var degrees = options.degrees || 0;
           delete options.degrees;
-          $3.extend(true, this, {
+          $4.extend(true, this, {
             viewer: null,
             tilesMatrix: {},
             coverage: {},
@@ -51609,44 +51609,44 @@ ${generateSegmentFilename(i7)}`);
             _needsDraw: true,
             _hasOpaqueTile: false,
             _tilesLoading: 0,
-            springStiffness: $3.DEFAULT_SETTINGS.springStiffness,
-            animationTime: $3.DEFAULT_SETTINGS.animationTime,
-            minZoomImageRatio: $3.DEFAULT_SETTINGS.minZoomImageRatio,
-            wrapHorizontal: $3.DEFAULT_SETTINGS.wrapHorizontal,
-            wrapVertical: $3.DEFAULT_SETTINGS.wrapVertical,
-            immediateRender: $3.DEFAULT_SETTINGS.immediateRender,
-            blendTime: $3.DEFAULT_SETTINGS.blendTime,
-            alwaysBlend: $3.DEFAULT_SETTINGS.alwaysBlend,
-            minPixelRatio: $3.DEFAULT_SETTINGS.minPixelRatio,
-            smoothTileEdgesMinZoom: $3.DEFAULT_SETTINGS.smoothTileEdgesMinZoom,
-            iOSDevice: $3.DEFAULT_SETTINGS.iOSDevice,
-            debugMode: $3.DEFAULT_SETTINGS.debugMode,
-            crossOriginPolicy: $3.DEFAULT_SETTINGS.crossOriginPolicy,
-            ajaxWithCredentials: $3.DEFAULT_SETTINGS.ajaxWithCredentials,
-            placeholderFillStyle: $3.DEFAULT_SETTINGS.placeholderFillStyle,
-            opacity: $3.DEFAULT_SETTINGS.opacity,
-            preload: $3.DEFAULT_SETTINGS.preload,
-            compositeOperation: $3.DEFAULT_SETTINGS.compositeOperation
+            springStiffness: $4.DEFAULT_SETTINGS.springStiffness,
+            animationTime: $4.DEFAULT_SETTINGS.animationTime,
+            minZoomImageRatio: $4.DEFAULT_SETTINGS.minZoomImageRatio,
+            wrapHorizontal: $4.DEFAULT_SETTINGS.wrapHorizontal,
+            wrapVertical: $4.DEFAULT_SETTINGS.wrapVertical,
+            immediateRender: $4.DEFAULT_SETTINGS.immediateRender,
+            blendTime: $4.DEFAULT_SETTINGS.blendTime,
+            alwaysBlend: $4.DEFAULT_SETTINGS.alwaysBlend,
+            minPixelRatio: $4.DEFAULT_SETTINGS.minPixelRatio,
+            smoothTileEdgesMinZoom: $4.DEFAULT_SETTINGS.smoothTileEdgesMinZoom,
+            iOSDevice: $4.DEFAULT_SETTINGS.iOSDevice,
+            debugMode: $4.DEFAULT_SETTINGS.debugMode,
+            crossOriginPolicy: $4.DEFAULT_SETTINGS.crossOriginPolicy,
+            ajaxWithCredentials: $4.DEFAULT_SETTINGS.ajaxWithCredentials,
+            placeholderFillStyle: $4.DEFAULT_SETTINGS.placeholderFillStyle,
+            opacity: $4.DEFAULT_SETTINGS.opacity,
+            preload: $4.DEFAULT_SETTINGS.preload,
+            compositeOperation: $4.DEFAULT_SETTINGS.compositeOperation
           }, options);
           this._preload = this.preload;
           delete this.preload;
           this._fullyLoaded = false;
-          this._xSpring = new $3.Spring({
-            initial: x4,
+          this._xSpring = new $4.Spring({
+            initial: x5,
             springStiffness: this.springStiffness,
             animationTime: this.animationTime
           });
-          this._ySpring = new $3.Spring({
-            initial: y3,
+          this._ySpring = new $4.Spring({
+            initial: y4,
             springStiffness: this.springStiffness,
             animationTime: this.animationTime
           });
-          this._scaleSpring = new $3.Spring({
+          this._scaleSpring = new $4.Spring({
             initial: scale,
             springStiffness: this.springStiffness,
             animationTime: this.animationTime
           });
-          this._degreesSpring = new $3.Spring({
+          this._degreesSpring = new $4.Spring({
             initial: degrees,
             springStiffness: this.springStiffness,
             animationTime: this.animationTime
@@ -51656,12 +51656,12 @@ ${generateSegmentFilename(i7)}`);
             this.fitBounds(fitBounds, fitBoundsPlacement, true);
           }
           this._drawingHandler = function(args) {
-            _this.viewer.raiseEvent("tile-drawing", $3.extend({
+            _this.viewer.raiseEvent("tile-drawing", $4.extend({
               tiledImage: _this
             }, args));
           };
         };
-        $3.extend($3.TiledImage.prototype, $3.EventSource.prototype, {
+        $4.extend($4.TiledImage.prototype, $4.EventSource.prototype, {
           needsDraw: function() {
             return this._needsDraw;
           },
@@ -51679,7 +51679,7 @@ ${generateSegmentFilename(i7)}`);
           },
           reset: function() {
             this._tileCache.clearTilesFor(this);
-            this.lastResetTime = $3.now();
+            this.lastResetTime = $4.now();
             this._needsDraw = true;
           },
           update: function() {
@@ -51710,10 +51710,10 @@ ${generateSegmentFilename(i7)}`);
             return this.getBoundsNoRotate(current).rotate(this.getRotation(current), this._getRotationPoint(current));
           },
           getBoundsNoRotate: function(current) {
-            return current ? new $3.Rect(this._xSpring.current.value, this._ySpring.current.value, this._worldWidthCurrent, this._worldHeightCurrent) : new $3.Rect(this._xSpring.target.value, this._ySpring.target.value, this._worldWidthTarget, this._worldHeightTarget);
+            return current ? new $4.Rect(this._xSpring.current.value, this._ySpring.current.value, this._worldWidthCurrent, this._worldHeightCurrent) : new $4.Rect(this._xSpring.target.value, this._ySpring.target.value, this._worldWidthTarget, this._worldHeightTarget);
           },
           getWorldBounds: function() {
-            $3.console.error("[TiledImage.getWorldBounds] is deprecated; use TiledImage.getBounds instead");
+            $4.console.error("[TiledImage.getWorldBounds] is deprecated; use TiledImage.getBounds instead");
             return this.getBounds();
           },
           getClippedBounds: function(current) {
@@ -51722,34 +51722,34 @@ ${generateSegmentFilename(i7)}`);
               var worldWidth = current ? this._worldWidthCurrent : this._worldWidthTarget;
               var ratio = worldWidth / this.source.dimensions.x;
               var clip = this._clip.times(ratio);
-              bounds = new $3.Rect(bounds.x + clip.x, bounds.y + clip.y, clip.width, clip.height);
+              bounds = new $4.Rect(bounds.x + clip.x, bounds.y + clip.y, clip.width, clip.height);
             }
             return bounds.rotate(this.getRotation(current), this._getRotationPoint(current));
           },
           getContentSize: function() {
-            return new $3.Point(this.source.dimensions.x, this.source.dimensions.y);
+            return new $4.Point(this.source.dimensions.x, this.source.dimensions.y);
           },
           _viewportToImageDelta: function(viewerX, viewerY, current) {
             var scale = current ? this._scaleSpring.current.value : this._scaleSpring.target.value;
-            return new $3.Point(viewerX * (this.source.dimensions.x / scale), viewerY * (this.source.dimensions.y * this.contentAspectX / scale));
+            return new $4.Point(viewerX * (this.source.dimensions.x / scale), viewerY * (this.source.dimensions.y * this.contentAspectX / scale));
           },
           viewportToImageCoordinates: function(viewerX, viewerY, current) {
             var point;
-            if (viewerX instanceof $3.Point) {
+            if (viewerX instanceof $4.Point) {
               current = viewerY;
               point = viewerX;
             } else {
-              point = new $3.Point(viewerX, viewerY);
+              point = new $4.Point(viewerX, viewerY);
             }
             point = point.rotate(-this.getRotation(current), this._getRotationPoint(current));
             return current ? this._viewportToImageDelta(point.x - this._xSpring.current.value, point.y - this._ySpring.current.value) : this._viewportToImageDelta(point.x - this._xSpring.target.value, point.y - this._ySpring.target.value);
           },
           _imageToViewportDelta: function(imageX, imageY, current) {
             var scale = current ? this._scaleSpring.current.value : this._scaleSpring.target.value;
-            return new $3.Point(imageX / this.source.dimensions.x * scale, imageY / this.source.dimensions.y / this.contentAspectX * scale);
+            return new $4.Point(imageX / this.source.dimensions.x * scale, imageY / this.source.dimensions.y / this.contentAspectX * scale);
           },
           imageToViewportCoordinates: function(imageX, imageY, current) {
-            if (imageX instanceof $3.Point) {
+            if (imageX instanceof $4.Point) {
               current = imageY;
               imageY = imageX.y;
               imageX = imageX.x;
@@ -51766,25 +51766,25 @@ ${generateSegmentFilename(i7)}`);
           },
           imageToViewportRectangle: function(imageX, imageY, pixelWidth, pixelHeight, current) {
             var rect = imageX;
-            if (rect instanceof $3.Rect) {
+            if (rect instanceof $4.Rect) {
               current = imageY;
             } else {
-              rect = new $3.Rect(imageX, imageY, pixelWidth, pixelHeight);
+              rect = new $4.Rect(imageX, imageY, pixelWidth, pixelHeight);
             }
             var coordA = this.imageToViewportCoordinates(rect.getTopLeft(), current);
             var coordB = this._imageToViewportDelta(rect.width, rect.height, current);
-            return new $3.Rect(coordA.x, coordA.y, coordB.x, coordB.y, rect.degrees + this.getRotation(current));
+            return new $4.Rect(coordA.x, coordA.y, coordB.x, coordB.y, rect.degrees + this.getRotation(current));
           },
           viewportToImageRectangle: function(viewerX, viewerY, pointWidth, pointHeight, current) {
             var rect = viewerX;
-            if (viewerX instanceof $3.Rect) {
+            if (viewerX instanceof $4.Rect) {
               current = viewerY;
             } else {
-              rect = new $3.Rect(viewerX, viewerY, pointWidth, pointHeight);
+              rect = new $4.Rect(viewerX, viewerY, pointWidth, pointHeight);
             }
             var coordA = this.viewportToImageCoordinates(rect.getTopLeft(), current);
             var coordB = this._viewportToImageDelta(rect.width, rect.height, current);
-            return new $3.Rect(coordA.x, coordA.y, coordB.x, coordB.y, rect.degrees - this.getRotation(current));
+            return new $4.Rect(coordA.x, coordA.y, coordB.x, coordB.y, rect.degrees - this.getRotation(current));
           },
           viewerElementToImageCoordinates: function(pixel) {
             var point = this.viewport.pointFromPixel(pixel, true);
@@ -51805,7 +51805,7 @@ ${generateSegmentFilename(i7)}`);
           _viewportToTiledImageRectangle: function(rect) {
             var scale = this._scaleSpring.current.value;
             rect = rect.rotate(-this.getRotation(true), this._getRotationPoint(true));
-            return new $3.Rect((rect.x - this._xSpring.current.value) / scale, (rect.y - this._ySpring.current.value) / scale, rect.width / scale, rect.height / scale, rect.degrees);
+            return new $4.Rect((rect.x - this._xSpring.current.value) / scale, (rect.y - this._ySpring.current.value) / scale, rect.width / scale, rect.height / scale, rect.degrees);
           },
           viewportToImageZoom: function(viewportZoom) {
             var ratio = this._scaleSpring.current.value * this.viewport._containerInnerSize.x / this.source.dimensions.x;
@@ -51844,7 +51844,7 @@ ${generateSegmentFilename(i7)}`);
           },
           setCroppingPolygons: function(polygons) {
             var isXYObject = function(obj) {
-              return obj instanceof $3.Point || typeof obj.x === "number" && typeof obj.y === "number";
+              return obj instanceof $4.Point || typeof obj.x === "number" && typeof obj.y === "number";
             };
             var objectToSimpleXYObject = function(objs) {
               return objs.map(function(obj) {
@@ -51860,15 +51860,15 @@ ${generateSegmentFilename(i7)}`);
               });
             };
             try {
-              if (!$3.isArray(polygons)) {
+              if (!$4.isArray(polygons)) {
                 throw new Error("Provided cropping polygon is not an array");
               }
               this._croppingPolygons = polygons.map(function(polygon) {
                 return objectToSimpleXYObject(polygon);
               });
             } catch (e11) {
-              $3.console.error("[TiledImage.setCroppingPolygons] Cropping polygon format not supported");
-              $3.console.error(e11);
+              $4.console.error("[TiledImage.setCroppingPolygons] Cropping polygon format not supported");
+              $4.console.error(e11);
               this._croppingPolygons = null;
             }
           },
@@ -51876,8 +51876,8 @@ ${generateSegmentFilename(i7)}`);
             this._croppingPolygons = null;
           },
           fitBounds: function(bounds, anchor, immediately) {
-            anchor = anchor || $3.Placement.CENTER;
-            var anchorProperties = $3.Placement.properties[anchor];
+            anchor = anchor || $4.Placement.CENTER;
+            var anchorProperties = $4.Placement.properties[anchor];
             var aspectRatio = this.contentAspectX;
             var xOffset = 0;
             var yOffset = 0;
@@ -51903,7 +51903,7 @@ ${generateSegmentFilename(i7)}`);
               } else if (anchorProperties.isRight) {
                 marginLeft = bounds.width - bounds.height * aspectRatio;
               }
-              this.setPosition(new $3.Point(bounds.x - xOffset + marginLeft, bounds.y - yOffset), immediately);
+              this.setPosition(new $4.Point(bounds.x - xOffset + marginLeft, bounds.y - yOffset), immediately);
               this.setHeight(height, immediately);
             } else {
               var width = bounds.width / displayedWidthRatio;
@@ -51913,7 +51913,7 @@ ${generateSegmentFilename(i7)}`);
               } else if (anchorProperties.isBottom) {
                 marginTop = bounds.height - bounds.width / aspectRatio;
               }
-              this.setPosition(new $3.Point(bounds.x - xOffset, bounds.y - yOffset + marginTop), immediately);
+              this.setPosition(new $4.Point(bounds.x - xOffset, bounds.y - yOffset + marginTop), immediately);
               this.setWidth(width, immediately);
             }
           },
@@ -51924,8 +51924,8 @@ ${generateSegmentFilename(i7)}`);
             return null;
           },
           setClip: function(newClip) {
-            $3.console.assert(!newClip || newClip instanceof $3.Rect, "[TiledImage.setClip] newClip must be an OpenSeadragon.Rect or null");
-            if (newClip instanceof $3.Rect) {
+            $4.console.assert(!newClip || newClip instanceof $4.Rect, "[TiledImage.setClip] newClip must be an OpenSeadragon.Rect or null");
+            if (newClip instanceof $4.Rect) {
               this._clip = newClip.clone();
             } else {
               this._clip = null;
@@ -52050,7 +52050,7 @@ ${generateSegmentFilename(i7)}`);
             var highestLevel = levelsInterval.highestLevel;
             var bestTile = null;
             var haveDrawn = false;
-            var currentTime = $3.now();
+            var currentTime = $4.now();
             for (var level = highestLevel; level >= lowestLevel; level--) {
               var drawLevel = false;
               var currentRenderPixelRatio = viewport.deltaPixelsFromPointsNoRotate(this.source.getPixelRatio(level), true).x * this._scaleSpring.current.value;
@@ -52083,8 +52083,8 @@ ${generateSegmentFilename(i7)}`);
             var leftX;
             var rightX;
             if (this.wrapHorizontal) {
-              leftX = $3.positiveModulo(topLeftBound.x, 1);
-              rightX = $3.positiveModulo(bottomRightBound.x, 1);
+              leftX = $4.positiveModulo(topLeftBound.x, 1);
+              rightX = $4.positiveModulo(bottomRightBound.x, 1);
             } else {
               leftX = Math.max(0, topLeftBound.x);
               rightX = Math.min(1, bottomRightBound.x);
@@ -52093,14 +52093,14 @@ ${generateSegmentFilename(i7)}`);
             var bottomY;
             var aspectRatio = 1 / this.source.aspectRatio;
             if (this.wrapVertical) {
-              topY = $3.positiveModulo(topLeftBound.y, aspectRatio);
-              bottomY = $3.positiveModulo(bottomRightBound.y, aspectRatio);
+              topY = $4.positiveModulo(topLeftBound.y, aspectRatio);
+              bottomY = $4.positiveModulo(bottomRightBound.y, aspectRatio);
             } else {
               topY = Math.max(0, topLeftBound.y);
               bottomY = Math.min(aspectRatio, bottomRightBound.y);
             }
-            var topLeftTile = this.source.getTileAtPoint(level, new $3.Point(leftX, topY));
-            var bottomRightTile = this.source.getTileAtPoint(level, new $3.Point(rightX, bottomY));
+            var topLeftTile = this.source.getTileAtPoint(level, new $4.Point(leftX, topY));
+            var bottomRightTile = this.source.getTileAtPoint(level, new $4.Point(rightX, bottomY));
             var numTiles = this.source.getNumTiles(level);
             if (this.wrapHorizontal) {
               topLeftTile.x += numTiles.x * Math.floor(topLeftBound.x);
@@ -52140,36 +52140,36 @@ ${generateSegmentFilename(i7)}`);
           var bottomRightTile = cornerTiles.bottomRight;
           var numberOfTiles = tiledImage.source.getNumTiles(level);
           var viewportCenter = tiledImage.viewport.pixelFromPoint(tiledImage.viewport.getCenter());
-          for (var x4 = topLeftTile.x; x4 <= bottomRightTile.x; x4++) {
-            for (var y3 = topLeftTile.y; y3 <= bottomRightTile.y; y3++) {
+          for (var x5 = topLeftTile.x; x5 <= bottomRightTile.x; x5++) {
+            for (var y4 = topLeftTile.y; y4 <= bottomRightTile.y; y4++) {
               if (!tiledImage.wrapHorizontal && !tiledImage.wrapVertical) {
-                var tileBounds = tiledImage.source.getTileBounds(level, x4, y3);
+                var tileBounds = tiledImage.source.getTileBounds(level, x5, y4);
                 if (drawArea.intersection(tileBounds) === null) {
                   continue;
                 }
               }
-              best = updateTile(tiledImage, drawLevel, haveDrawn, x4, y3, level, levelOpacity, levelVisibility, viewportCenter, numberOfTiles, currentTime, best);
+              best = updateTile(tiledImage, drawLevel, haveDrawn, x5, y4, level, levelOpacity, levelVisibility, viewportCenter, numberOfTiles, currentTime, best);
             }
           }
           return best;
         }
-        function updateTile(tiledImage, haveDrawn, drawLevel, x4, y3, level, levelOpacity, levelVisibility, viewportCenter, numberOfTiles, currentTime, best) {
-          var tile = getTile(x4, y3, level, tiledImage, tiledImage.source, tiledImage.tilesMatrix, currentTime, numberOfTiles, tiledImage._worldWidthCurrent, tiledImage._worldHeightCurrent), drawTile = drawLevel;
+        function updateTile(tiledImage, haveDrawn, drawLevel, x5, y4, level, levelOpacity, levelVisibility, viewportCenter, numberOfTiles, currentTime, best) {
+          var tile = getTile(x5, y4, level, tiledImage, tiledImage.source, tiledImage.tilesMatrix, currentTime, numberOfTiles, tiledImage._worldWidthCurrent, tiledImage._worldHeightCurrent), drawTile = drawLevel;
           if (tiledImage.viewer) {
             tiledImage.viewer.raiseEvent("update-tile", {
               tiledImage,
               tile
             });
           }
-          setCoverage(tiledImage.coverage, level, x4, y3, false);
-          var loadingCoverage = tile.loaded || tile.loading || isCovered(tiledImage.loadingCoverage, level, x4, y3);
-          setCoverage(tiledImage.loadingCoverage, level, x4, y3, loadingCoverage);
+          setCoverage(tiledImage.coverage, level, x5, y4, false);
+          var loadingCoverage = tile.loaded || tile.loading || isCovered(tiledImage.loadingCoverage, level, x5, y4);
+          setCoverage(tiledImage.loadingCoverage, level, x5, y4, loadingCoverage);
           if (!tile.exists) {
             return best;
           }
           if (haveDrawn && !drawTile) {
-            if (isCovered(tiledImage.coverage, level, x4, y3)) {
-              setCoverage(tiledImage.coverage, level, x4, y3, true);
+            if (isCovered(tiledImage.coverage, level, x5, y4)) {
+              setCoverage(tiledImage.coverage, level, x5, y4, true);
             } else {
               drawTile = true;
             }
@@ -52190,7 +52190,7 @@ ${generateSegmentFilename(i7)}`);
             }
           }
           if (tile.loaded) {
-            var needsDraw = blendTile(tiledImage, tile, x4, y3, level, levelOpacity, currentTime);
+            var needsDraw = blendTile(tiledImage, tile, x5, y4, level, levelOpacity, currentTime);
             if (needsDraw) {
               tiledImage._needsDraw = true;
             }
@@ -52201,42 +52201,42 @@ ${generateSegmentFilename(i7)}`);
           }
           return best;
         }
-        function getTile(x4, y3, level, tiledImage, tileSource, tilesMatrix, time, numTiles, worldWidth, worldHeight) {
+        function getTile(x5, y4, level, tiledImage, tileSource, tilesMatrix, time, numTiles, worldWidth, worldHeight) {
           var xMod, yMod, bounds, sourceBounds, exists, url, ajaxHeaders, context2D, tile;
           if (!tilesMatrix[level]) {
             tilesMatrix[level] = {};
           }
-          if (!tilesMatrix[level][x4]) {
-            tilesMatrix[level][x4] = {};
+          if (!tilesMatrix[level][x5]) {
+            tilesMatrix[level][x5] = {};
           }
-          if (!tilesMatrix[level][x4][y3]) {
-            xMod = (numTiles.x + x4 % numTiles.x) % numTiles.x;
-            yMod = (numTiles.y + y3 % numTiles.y) % numTiles.y;
+          if (!tilesMatrix[level][x5][y4]) {
+            xMod = (numTiles.x + x5 % numTiles.x) % numTiles.x;
+            yMod = (numTiles.y + y4 % numTiles.y) % numTiles.y;
             bounds = tileSource.getTileBounds(level, xMod, yMod);
             sourceBounds = tileSource.getTileBounds(level, xMod, yMod, true);
             exists = tileSource.tileExists(level, xMod, yMod);
             url = tileSource.getTileUrl(level, xMod, yMod);
             if (tiledImage.loadTilesWithAjax) {
               ajaxHeaders = tileSource.getTileAjaxHeaders(level, xMod, yMod);
-              if ($3.isPlainObject(tiledImage.ajaxHeaders)) {
-                ajaxHeaders = $3.extend({}, tiledImage.ajaxHeaders, ajaxHeaders);
+              if ($4.isPlainObject(tiledImage.ajaxHeaders)) {
+                ajaxHeaders = $4.extend({}, tiledImage.ajaxHeaders, ajaxHeaders);
               }
             } else {
               ajaxHeaders = null;
             }
             context2D = tileSource.getContext2D ? tileSource.getContext2D(level, xMod, yMod) : void 0;
-            bounds.x += (x4 - xMod) / numTiles.x;
-            bounds.y += worldHeight / worldWidth * ((y3 - yMod) / numTiles.y);
-            tile = new $3.Tile(level, x4, y3, bounds, exists, url, context2D, tiledImage.loadTilesWithAjax, ajaxHeaders, sourceBounds);
+            bounds.x += (x5 - xMod) / numTiles.x;
+            bounds.y += worldHeight / worldWidth * ((y4 - yMod) / numTiles.y);
+            tile = new $4.Tile(level, x5, y4, bounds, exists, url, context2D, tiledImage.loadTilesWithAjax, ajaxHeaders, sourceBounds);
             if (xMod === numTiles.x - 1) {
               tile.isRightMost = true;
             }
             if (yMod === numTiles.y - 1) {
               tile.isBottomMost = true;
             }
-            tilesMatrix[level][x4][y3] = tile;
+            tilesMatrix[level][x5][y4] = tile;
           }
-          tile = tilesMatrix[level][x4][y3];
+          tile = tilesMatrix[level][x5][y4];
           tile.lastTouchTime = time;
           return tile;
         }
@@ -52258,7 +52258,7 @@ ${generateSegmentFilename(i7)}`);
         }
         function onTileLoad(tiledImage, tile, time, image, errorMsg, tileRequest) {
           if (!image) {
-            $3.console.log("Tile %s failed to load: %s - error: %s", tile, tile.url, errorMsg);
+            $4.console.log("Tile %s failed to load: %s - error: %s", tile, tile.url, errorMsg);
             tiledImage.viewer.raiseEvent("tile-load-failed", {
               tile,
               tiledImage,
@@ -52271,7 +52271,7 @@ ${generateSegmentFilename(i7)}`);
             return;
           }
           if (time < tiledImage.lastResetTime) {
-            $3.console.log("Ignoring tile %s loaded before reset: %s", tile, tile.url);
+            $4.console.log("Ignoring tile %s loaded before reset: %s", tile, tile.url);
             tile.loading = false;
             return;
           }
@@ -52327,7 +52327,7 @@ ${generateSegmentFilename(i7)}`);
           boundsSize.y *= tiledImage._scaleSpring.current.value;
           var positionC = viewport.pixelFromPointNoRotate(boundsTL, true), positionT = viewport.pixelFromPointNoRotate(boundsTL, false), sizeC = viewport.deltaPixelsFromPointsNoRotate(boundsSize, true), sizeT = viewport.deltaPixelsFromPointsNoRotate(boundsSize, false), tileCenter = positionT.plus(sizeT.divide(2)), tileSquaredDistance = viewportCenter.squaredDistanceTo(tileCenter);
           if (!overlap) {
-            sizeC = sizeC.plus(new $3.Point(1, 1));
+            sizeC = sizeC.plus(new $4.Point(1, 1));
           }
           if (tile.isRightMost && tiledImage.wrapHorizontal) {
             sizeC.x += 0.75;
@@ -52340,7 +52340,7 @@ ${generateSegmentFilename(i7)}`);
           tile.squaredDistance = tileSquaredDistance;
           tile.visibility = levelVisibility;
         }
-        function blendTile(tiledImage, tile, x4, y3, level, levelOpacity, currentTime) {
+        function blendTile(tiledImage, tile, x5, y4, level, levelOpacity, currentTime) {
           var blendTimeMillis = 1e3 * tiledImage.blendTime, deltaTime, opacity;
           if (!tile.blendStart) {
             tile.blendStart = currentTime;
@@ -52353,25 +52353,25 @@ ${generateSegmentFilename(i7)}`);
           tile.opacity = opacity;
           tiledImage.lastDrawn.push(tile);
           if (opacity === 1) {
-            setCoverage(tiledImage.coverage, level, x4, y3, true);
+            setCoverage(tiledImage.coverage, level, x5, y4, true);
             tiledImage._hasOpaqueTile = true;
           } else if (deltaTime < blendTimeMillis) {
             return true;
           }
           return false;
         }
-        function providesCoverage(coverage, level, x4, y3) {
-          var rows, cols, i7, j2;
+        function providesCoverage(coverage, level, x5, y4) {
+          var rows, cols, i7, j3;
           if (!coverage[level]) {
             return false;
           }
-          if (x4 === void 0 || y3 === void 0) {
+          if (x5 === void 0 || y4 === void 0) {
             rows = coverage[level];
             for (i7 in rows) {
               if (Object.prototype.hasOwnProperty.call(rows, i7)) {
                 cols = rows[i7];
-                for (j2 in cols) {
-                  if (Object.prototype.hasOwnProperty.call(cols, j2) && !cols[j2]) {
+                for (j3 in cols) {
+                  if (Object.prototype.hasOwnProperty.call(cols, j3) && !cols[j3]) {
                     return false;
                   }
                 }
@@ -52379,24 +52379,24 @@ ${generateSegmentFilename(i7)}`);
             }
             return true;
           }
-          return coverage[level][x4] === void 0 || coverage[level][x4][y3] === void 0 || coverage[level][x4][y3] === true;
+          return coverage[level][x5] === void 0 || coverage[level][x5][y4] === void 0 || coverage[level][x5][y4] === true;
         }
-        function isCovered(coverage, level, x4, y3) {
-          if (x4 === void 0 || y3 === void 0) {
+        function isCovered(coverage, level, x5, y4) {
+          if (x5 === void 0 || y4 === void 0) {
             return providesCoverage(coverage, level + 1);
           } else {
-            return providesCoverage(coverage, level + 1, 2 * x4, 2 * y3) && providesCoverage(coverage, level + 1, 2 * x4, 2 * y3 + 1) && providesCoverage(coverage, level + 1, 2 * x4 + 1, 2 * y3) && providesCoverage(coverage, level + 1, 2 * x4 + 1, 2 * y3 + 1);
+            return providesCoverage(coverage, level + 1, 2 * x5, 2 * y4) && providesCoverage(coverage, level + 1, 2 * x5, 2 * y4 + 1) && providesCoverage(coverage, level + 1, 2 * x5 + 1, 2 * y4) && providesCoverage(coverage, level + 1, 2 * x5 + 1, 2 * y4 + 1);
           }
         }
-        function setCoverage(coverage, level, x4, y3, covers) {
+        function setCoverage(coverage, level, x5, y4, covers) {
           if (!coverage[level]) {
-            $3.console.warn("Setting coverage for a tile before its level's coverage has been reset: %s", level);
+            $4.console.warn("Setting coverage for a tile before its level's coverage has been reset: %s", level);
             return;
           }
-          if (!coverage[level][x4]) {
-            coverage[level][x4] = {};
+          if (!coverage[level][x5]) {
+            coverage[level][x5] = {};
           }
-          coverage[level][x4][y3] = covers;
+          coverage[level][x5][y4] = covers;
         }
         function resetCoverage(coverage, level) {
           coverage[level] = {};
@@ -52427,7 +52427,7 @@ ${generateSegmentFilename(i7)}`);
           var sketchTranslate;
           var zoom = tiledImage.viewport.getZoom(true);
           var imageZoom = tiledImage.viewportToImageZoom(zoom);
-          if (lastDrawn.length > 1 && imageZoom > tiledImage.smoothTileEdgesMinZoom && !tiledImage.iOSDevice && tiledImage.getRotation(true) % 360 === 0 && $3.supportsCanvas) {
+          if (lastDrawn.length > 1 && imageZoom > tiledImage.smoothTileEdgesMinZoom && !tiledImage.iOSDevice && tiledImage.getRotation(true) % 360 === 0 && $4.supportsCanvas) {
             useSketch = true;
             sketchScale = tile.getScaleForEdgeSmoothing();
             sketchTranslate = tile.getTranslationForEdgeSmoothing(sketchScale, tiledImage._drawer.getCanvasSize(false), tiledImage._drawer.getCanvasSize(true));
@@ -52441,7 +52441,7 @@ ${generateSegmentFilename(i7)}`);
                   bounds.x = tiledImage._drawer.viewer.container.clientWidth - (bounds.x + bounds.width);
                 }
               }
-              bounds = bounds.times($3.pixelDensityRatio);
+              bounds = bounds.times($4.pixelDensityRatio);
             }
             tiledImage._drawer._clear(true, bounds);
           }
@@ -52495,7 +52495,7 @@ ${generateSegmentFilename(i7)}`);
               });
               tiledImage._drawer.clipWithPolygons(polygons, useSketch);
             } catch (e11) {
-              $3.console.error(e11);
+              $4.console.error(e11);
             }
             usedClip = true;
           }
@@ -52585,23 +52585,23 @@ ${generateSegmentFilename(i7)}`);
               try {
                 tiledImage._drawer.drawDebugInfo(tile, lastDrawn.length, i7, tiledImage);
               } catch (e11) {
-                $3.console.error(e11);
+                $4.console.error(e11);
               }
             }
           }
         }
       })(OpenSeadragon);
-      (function($3) {
+      (function($4) {
         var TileRecord = function(options) {
-          $3.console.assert(options, "[TileCache.cacheTile] options is required");
-          $3.console.assert(options.tile, "[TileCache.cacheTile] options.tile is required");
-          $3.console.assert(options.tiledImage, "[TileCache.cacheTile] options.tiledImage is required");
+          $4.console.assert(options, "[TileCache.cacheTile] options is required");
+          $4.console.assert(options.tile, "[TileCache.cacheTile] options.tile is required");
+          $4.console.assert(options.tiledImage, "[TileCache.cacheTile] options.tiledImage is required");
           this.tile = options.tile;
           this.tiledImage = options.tiledImage;
         };
         var ImageRecord = function(options) {
-          $3.console.assert(options, "[ImageRecord] options is required");
-          $3.console.assert(options.image, "[ImageRecord] options.image is required");
+          $4.console.assert(options, "[ImageRecord] options is required");
+          $4.console.assert(options.image, "[ImageRecord] options.image is required");
           this._image = options.image;
           this._tiles = [];
         };
@@ -52626,11 +52626,11 @@ ${generateSegmentFilename(i7)}`);
             return this._renderedContext;
           },
           setRenderedContext: function(renderedContext) {
-            $3.console.error("ImageRecord.setRenderedContext is deprecated. The rendered context should be created by the ImageRecord itself when calling ImageRecord.getRenderedContext.");
+            $4.console.error("ImageRecord.setRenderedContext is deprecated. The rendered context should be created by the ImageRecord itself when calling ImageRecord.getRenderedContext.");
             this._renderedContext = renderedContext;
           },
           addTile: function(tile) {
-            $3.console.assert(tile, "[ImageRecord.addTile] tile is required");
+            $4.console.assert(tile, "[ImageRecord.addTile] tile is required");
             this._tiles.push(tile);
           },
           removeTile: function(tile) {
@@ -52640,33 +52640,33 @@ ${generateSegmentFilename(i7)}`);
                 return;
               }
             }
-            $3.console.warn("[ImageRecord.removeTile] trying to remove unknown tile", tile);
+            $4.console.warn("[ImageRecord.removeTile] trying to remove unknown tile", tile);
           },
           getTileCount: function() {
             return this._tiles.length;
           }
         };
-        $3.TileCache = function(options) {
+        $4.TileCache = function(options) {
           options = options || {};
-          this._maxImageCacheCount = options.maxImageCacheCount || $3.DEFAULT_SETTINGS.maxImageCacheCount;
+          this._maxImageCacheCount = options.maxImageCacheCount || $4.DEFAULT_SETTINGS.maxImageCacheCount;
           this._tilesLoaded = [];
           this._imagesLoaded = [];
           this._imagesLoadedCount = 0;
         };
-        $3.TileCache.prototype = {
+        $4.TileCache.prototype = {
           numTilesLoaded: function() {
             return this._tilesLoaded.length;
           },
           cacheTile: function(options) {
-            $3.console.assert(options, "[TileCache.cacheTile] options is required");
-            $3.console.assert(options.tile, "[TileCache.cacheTile] options.tile is required");
-            $3.console.assert(options.tile.cacheKey, "[TileCache.cacheTile] options.tile.cacheKey is required");
-            $3.console.assert(options.tiledImage, "[TileCache.cacheTile] options.tiledImage is required");
+            $4.console.assert(options, "[TileCache.cacheTile] options is required");
+            $4.console.assert(options.tile, "[TileCache.cacheTile] options.tile is required");
+            $4.console.assert(options.tile.cacheKey, "[TileCache.cacheTile] options.tile.cacheKey is required");
+            $4.console.assert(options.tiledImage, "[TileCache.cacheTile] options.tiledImage is required");
             var cutoff = options.cutoff || 0;
             var insertionIndex = this._tilesLoaded.length;
             var imageRecord = this._imagesLoaded[options.tile.cacheKey];
             if (!imageRecord) {
-              $3.console.assert(options.image, "[TileCache.cacheTile] options.image is required to create an ImageRecord");
+              $4.console.assert(options.image, "[TileCache.cacheTile] options.image is required to create an ImageRecord");
               imageRecord = this._imagesLoaded[options.tile.cacheKey] = new ImageRecord({
                 image: options.image
               });
@@ -52711,7 +52711,7 @@ ${generateSegmentFilename(i7)}`);
             });
           },
           clearTilesFor: function(tiledImage) {
-            $3.console.assert(tiledImage, "[TileCache.clearTilesFor] tiledImage is required");
+            $4.console.assert(tiledImage, "[TileCache.clearTilesFor] tiledImage is required");
             var tileRecord;
             for (var i7 = 0; i7 < this._tilesLoaded.length; ++i7) {
               tileRecord = this._tilesLoaded[i7];
@@ -52723,11 +52723,11 @@ ${generateSegmentFilename(i7)}`);
             }
           },
           getImageRecord: function(cacheKey) {
-            $3.console.assert(cacheKey, "[TileCache.getImageRecord] cacheKey is required");
+            $4.console.assert(cacheKey, "[TileCache.getImageRecord] cacheKey is required");
             return this._imagesLoaded[cacheKey];
           },
           _unloadTile: function(tileRecord) {
-            $3.console.assert(tileRecord, "[TileCache._unloadTile] tileRecord is required");
+            $4.console.assert(tileRecord, "[TileCache._unloadTile] tileRecord is required");
             var tile = tileRecord.tile;
             var tiledImage = tileRecord.tiledImage;
             tile.unload();
@@ -52746,11 +52746,11 @@ ${generateSegmentFilename(i7)}`);
           }
         };
       })(OpenSeadragon);
-      (function($3) {
-        $3.World = function(options) {
+      (function($4) {
+        $4.World = function(options) {
           var _this = this;
-          $3.console.assert(options.viewer, "[World] options.viewer is required");
-          $3.EventSource.call(this);
+          $4.console.assert(options.viewer, "[World] options.viewer is required");
+          $4.EventSource.call(this);
           this.viewer = options.viewer;
           this._items = [];
           this._needsDraw = false;
@@ -52765,10 +52765,10 @@ ${generateSegmentFilename(i7)}`);
           };
           this._figureSizes();
         };
-        $3.extend($3.World.prototype, $3.EventSource.prototype, {
+        $4.extend($4.World.prototype, $4.EventSource.prototype, {
           addItem: function(item, options) {
-            $3.console.assert(item, "[World.addItem] item is required");
-            $3.console.assert(item instanceof $3.TiledImage, "[World.addItem] only TiledImages supported at this time");
+            $4.console.assert(item, "[World.addItem] item is required");
+            $4.console.assert(item instanceof $4.TiledImage, "[World.addItem] only TiledImages supported at this time");
             options = options || {};
             if (options.index !== void 0) {
               var index = Math.max(0, Math.min(this._items.length, options.index));
@@ -52789,19 +52789,19 @@ ${generateSegmentFilename(i7)}`);
             });
           },
           getItemAt: function(index) {
-            $3.console.assert(index !== void 0, "[World.getItemAt] index is required");
+            $4.console.assert(index !== void 0, "[World.getItemAt] index is required");
             return this._items[index];
           },
           getIndexOfItem: function(item) {
-            $3.console.assert(item, "[World.getIndexOfItem] item is required");
-            return $3.indexOf(this._items, item);
+            $4.console.assert(item, "[World.getIndexOfItem] item is required");
+            return $4.indexOf(this._items, item);
           },
           getItemCount: function() {
             return this._items.length;
           },
           setItemIndex: function(item, index) {
-            $3.console.assert(item, "[World.setItemIndex] item is required");
-            $3.console.assert(index !== void 0, "[World.setItemIndex] index is required");
+            $4.console.assert(item, "[World.setItemIndex] item is required");
+            $4.console.assert(index !== void 0, "[World.setItemIndex] index is required");
             var oldIndex = this.getIndexOfItem(item);
             if (index >= this._items.length) {
               throw new Error("Index bigger than number of layers.");
@@ -52819,8 +52819,8 @@ ${generateSegmentFilename(i7)}`);
             });
           },
           removeItem: function(item) {
-            $3.console.assert(item, "[World.removeItem] item is required");
-            var index = $3.indexOf(this._items, item);
+            $4.console.assert(item, "[World.removeItem] item is required");
+            var index = $4.indexOf(this._items, item);
             if (index === -1) {
               return;
             }
@@ -52893,11 +52893,11 @@ ${generateSegmentFilename(i7)}`);
           arrange: function(options) {
             options = options || {};
             var immediately = options.immediately || false;
-            var layout = options.layout || $3.DEFAULT_SETTINGS.collectionLayout;
-            var rows = options.rows || $3.DEFAULT_SETTINGS.collectionRows;
-            var columns = options.columns || $3.DEFAULT_SETTINGS.collectionColumns;
-            var tileSize = options.tileSize || $3.DEFAULT_SETTINGS.collectionTileSize;
-            var tileMargin = options.tileMargin || $3.DEFAULT_SETTINGS.collectionTileMargin;
+            var layout = options.layout || $4.DEFAULT_SETTINGS.collectionLayout;
+            var rows = options.rows || $4.DEFAULT_SETTINGS.collectionRows;
+            var columns = options.columns || $4.DEFAULT_SETTINGS.collectionColumns;
+            var tileSize = options.tileSize || $4.DEFAULT_SETTINGS.collectionTileSize;
+            var tileMargin = options.tileMargin || $4.DEFAULT_SETTINGS.collectionTileMargin;
             var increment = tileSize + tileMargin;
             var wrap;
             if (!options.rows && columns) {
@@ -52905,18 +52905,18 @@ ${generateSegmentFilename(i7)}`);
             } else {
               wrap = Math.ceil(this._items.length / rows);
             }
-            var x4 = 0;
-            var y3 = 0;
+            var x5 = 0;
+            var y4 = 0;
             var item, box, width, height, position;
             this.setAutoRefigureSizes(false);
             for (var i7 = 0; i7 < this._items.length; i7++) {
               if (i7 && i7 % wrap === 0) {
                 if (layout === "horizontal") {
-                  y3 += increment;
-                  x4 = 0;
+                  y4 += increment;
+                  x5 = 0;
                 } else {
-                  x4 += increment;
-                  y3 = 0;
+                  x5 += increment;
+                  y4 = 0;
                 }
               }
               item = this._items[i7];
@@ -52927,13 +52927,13 @@ ${generateSegmentFilename(i7)}`);
                 width = tileSize * (box.width / box.height);
               }
               height = width * (box.height / box.width);
-              position = new $3.Point(x4 + (tileSize - width) / 2, y3 + (tileSize - height) / 2);
+              position = new $4.Point(x5 + (tileSize - width) / 2, y4 + (tileSize - height) / 2);
               item.setPosition(position, immediately);
               item.setWidth(width, immediately);
               if (layout === "horizontal") {
-                x4 += increment;
+                x5 += increment;
               } else {
-                y3 += increment;
+                y4 += increment;
               }
             }
             this.setAutoRefigureSizes(true);
@@ -52943,8 +52943,8 @@ ${generateSegmentFilename(i7)}`);
             var oldContentSize = this._contentSize ? this._contentSize.clone() : null;
             var oldContentFactor = this._contentFactor || 0;
             if (!this._items.length) {
-              this._homeBounds = new $3.Rect(0, 0, 1, 1);
-              this._contentSize = new $3.Point(1, 1);
+              this._homeBounds = new $4.Rect(0, 0, 1, 1);
+              this._contentSize = new $4.Point(1, 1);
               this._contentFactor = 1;
             } else {
               var item = this._items[0];
@@ -52965,8 +52965,8 @@ ${generateSegmentFilename(i7)}`);
                 right = Math.max(right, clippedBounds.x + clippedBounds.width);
                 bottom = Math.max(bottom, clippedBounds.y + clippedBounds.height);
               }
-              this._homeBounds = new $3.Rect(left, top, right - left, bottom - top);
-              this._contentSize = new $3.Point(this._homeBounds.width * this._contentFactor, this._homeBounds.height * this._contentFactor);
+              this._homeBounds = new $4.Rect(left, top, right - left, bottom - top);
+              this._contentSize = new $4.Point(this._homeBounds.width * this._contentFactor, this._homeBounds.height * this._contentFactor);
             }
             if (this._contentFactor !== oldContentFactor || !this._homeBounds.equals(oldHomeBounds) || !this._contentSize.equals(oldContentSize)) {
               this.raiseEvent("metrics-change", {});
@@ -52992,13 +52992,13 @@ ${generateSegmentFilename(i7)}`);
             return e11;
           var n5 = Object.create(null);
           if (e11) {
-            Object.keys(e11).forEach(function(k3) {
-              if (k3 !== "default") {
-                var d7 = Object.getOwnPropertyDescriptor(e11, k3);
-                Object.defineProperty(n5, k3, d7.get ? d7 : {
+            Object.keys(e11).forEach(function(k4) {
+              if (k4 !== "default") {
+                var d8 = Object.getOwnPropertyDescriptor(e11, k4);
+                Object.defineProperty(n5, k4, d8.get ? d8 : {
                   enumerable: true,
                   get: function() {
-                    return e11[k3];
+                    return e11[k4];
                   }
                 });
               }
@@ -53008,27 +53008,27 @@ ${generateSegmentFilename(i7)}`);
           return Object.freeze(n5);
         }
         var React__namespace = /* @__PURE__ */ _interopNamespace(React32);
-        function _setPrototypeOf(o11, p8) {
-          _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p9) {
-            o12.__proto__ = p9;
+        function _setPrototypeOf(o11, p9) {
+          _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o12, p10) {
+            o12.__proto__ = p10;
             return o12;
           };
-          return _setPrototypeOf(o11, p8);
+          return _setPrototypeOf(o11, p9);
         }
         function _inheritsLoose(subClass, superClass) {
           subClass.prototype = Object.create(superClass.prototype);
           subClass.prototype.constructor = subClass;
           _setPrototypeOf(subClass, superClass);
         }
-        var changedArray = function changedArray2(a7, b7) {
+        var changedArray = function changedArray2(a7, b8) {
           if (a7 === void 0) {
             a7 = [];
           }
-          if (b7 === void 0) {
-            b7 = [];
+          if (b8 === void 0) {
+            b8 = [];
           }
-          return a7.length !== b7.length || a7.some(function(item, index) {
-            return !Object.is(item, b7[index]);
+          return a7.length !== b8.length || a7.some(function(item, index) {
+            return !Object.is(item, b8[index]);
           });
         };
         var initialState = {
@@ -53130,6 +53130,791 @@ ${generateSegmentFilename(i7)}`);
 
   // src/context/viewer-context.tsx
   var import_react = __toModule(require_react());
+
+  // node_modules/@iiif/parser/dist/esm/index.mjs
+  var k = { id: "https://iiif-parser/annotation-page", type: "AnnotationPage", behavior: [], motivation: null, label: null, thumbnail: [], summary: null, requiredStatement: null, metadata: [], rights: null, provider: [], items: [], seeAlso: [], homepage: [], logo: [], rendering: [], service: [] };
+  var N = { id: "https://iiif-parser/empty-canvas", type: "Canvas", label: null, behavior: [], motivation: null, thumbnail: [], posterCanvas: null, accompanyingCanvas: null, placeholderCanvas: null, summary: null, requiredStatement: null, metadata: [], rights: null, navDate: null, provider: [], items: [], annotations: [], seeAlso: [], homepage: [], logo: [], partOf: [], rendering: [], service: [], duration: 0, height: 0, width: 0 };
+  var j = { id: "https://iiif-parser/empty-collection", type: "Collection", label: null, viewingDirection: "left-to-right", behavior: [], motivation: null, thumbnail: [], posterCanvas: null, accompanyingCanvas: null, placeholderCanvas: null, summary: null, requiredStatement: null, metadata: [], rights: null, navDate: null, provider: [], items: [], annotations: [], seeAlso: [], homepage: [], logo: [], partOf: [], rendering: [], service: [], services: [] };
+  var G = { id: "https://iiif-parser/empty-manifest", type: "Manifest", annotations: [], behavior: [], homepage: [], items: [], label: null, logo: [], metadata: [], motivation: null, navDate: null, provider: [], partOf: [], posterCanvas: null, accompanyingCanvas: null, placeholderCanvas: null, rendering: [], requiredStatement: null, rights: null, seeAlso: [], service: [], services: [], start: null, structures: [], summary: null, thumbnail: [], viewingDirection: "left-to-right" };
+  var $2 = { id: "https://iiif-parser/empty-canvas", type: "Range", label: null, behavior: [], motivation: null, thumbnail: [], posterCanvas: null, accompanyingCanvas: null, placeholderCanvas: null, summary: null, requiredStatement: null, metadata: [], rights: null, navDate: null, provider: [], items: [], annotations: [], seeAlso: [], homepage: [], logo: [], partOf: [], rendering: [], service: [], start: null, supplementary: null, viewingDirection: "left-to-right" };
+  var q = { id: "https://iiif-parser/empty-agent", type: "Agent", label: {}, logo: [], seeAlso: [], homepage: [] };
+  var M = ["Collection", "Manifest", "Canvas", "AnnotationPage", "AnnotationCollection", "Annotation", "ContentResource", "Range", "Service", "Selector", "Agent"];
+  function U(t13) {
+    if (typeof t13 == "undefined" || t13 === null)
+      throw new Error("Null or undefined is not a valid entity.");
+    if (Array.isArray(t13))
+      throw new Error("Array is not a valid entity");
+    if (typeof t13 != "object")
+      throw new Error(`${typeof t13} is not a valid entity`);
+    if (typeof t13.type == "string") {
+      const e11 = M.indexOf(t13.type);
+      if (e11 !== -1)
+        return M[e11];
+    }
+    if (t13.profile)
+      return "Service";
+    throw new Error("Resource type is not known");
+  }
+  var L = class {
+    traversals;
+    options;
+    constructor(e11, i7 = {}) {
+      this.traversals = { collection: [], manifest: [], canvas: [], annotationCollection: [], annotationPage: [], annotation: [], contentResource: [], choice: [], range: [], service: [], agent: [], ...e11 }, this.options = { allowUndefinedReturn: false, ...i7 };
+    }
+    static all(e11) {
+      return new L({ collection: [e11], manifest: [e11], canvas: [e11], annotationCollection: [e11], annotationPage: [e11], annotation: [e11], contentResource: [e11], choice: [e11], range: [e11], service: [e11] });
+    }
+    traverseDescriptive(e11) {
+      return e11.thumbnail && (e11.thumbnail = e11.thumbnail.map((i7) => this.traverseType(i7, this.traversals.contentResource))), e11.provider && (e11.provider = e11.provider.map((i7) => this.traverseAgent(i7))), e11;
+    }
+    traverseLinking(e11) {
+      return e11.seeAlso && (e11.seeAlso = e11.seeAlso.map((i7) => this.traverseType(i7, this.traversals.contentResource))), e11.service && (e11.service = e11.service.map((i7) => this.traverseType(i7, this.traversals.service))), e11.services && (e11.services = e11.services.map((i7) => this.traverseType(i7, this.traversals.service))), e11.logo && (e11.logo = e11.logo.map((i7) => this.traverseType(i7, this.traversals.contentResource))), e11.homepage && (e11.homepage = e11.homepage.map((i7) => this.traverseType(i7, this.traversals.contentResource))), e11.partOf && (e11.partOf = e11.partOf.map((i7) => typeof i7 == "string" || !i7.type ? this.traverseType(i7, this.traversals.contentResource) : i7.type === "Canvas" ? this.traverseType(i7, this.traversals.canvas) : i7.type === "AnnotationCollection" ? this.traverseType(i7, this.traversals.annotationCollection) : this.traverseType(i7, this.traversals.contentResource))), e11.start && (e11.start = e11.start ? this.traverseType(e11.start, this.traversals.canvas) : null), e11.rendering && (e11.rendering = e11.rendering.map((i7) => this.traverseType(i7, this.traversals.contentResource))), e11.supplementary && (e11.supplementary = e11.supplementary.map((i7) => this.traverseType(i7, this.traversals.contentResource))), e11;
+    }
+    traverseCollectionItems(e11) {
+      return e11.items && e11.items.map((i7) => i7.type === "Collection" ? this.traverseCollection(i7) : this.traverseManifest(i7)), e11;
+    }
+    traverseCollection(e11) {
+      return this.traverseType(this.traverseDescriptive(this.traverseInlineAnnotationPages(this.traverseLinking(this.traversePosterCanvas(this.traverseCollectionItems(e11))))), this.traversals.collection);
+    }
+    traverseManifestItems(e11) {
+      return e11.items && (e11.items = e11.items.map((i7) => this.traverseCanvas(i7))), e11;
+    }
+    traverseManifestStructures(e11) {
+      return e11.structures && (e11.structures = e11.structures.map((i7) => this.traverseRange(i7))), e11;
+    }
+    traverseManifest(e11) {
+      return this.traverseType(this.traverseInlineAnnotationPages(this.traverseManifestStructures(this.traversePosterCanvas(this.traverseDescriptive(this.traverseLinking(this.traverseManifestItems(e11)))))), this.traversals.manifest);
+    }
+    traverseCanvasItems(e11) {
+      return e11.items = (e11.items || []).map((i7) => this.traverseAnnotationPage(i7)), e11;
+    }
+    traverseInlineAnnotationPages(e11) {
+      return typeof e11 == "string" || !e11 || e11.annotations && (e11.annotations = e11.annotations.map((i7) => this.traverseAnnotationPage(i7))), e11;
+    }
+    traverseCanvas(e11) {
+      return this.traverseType(this.traverseInlineAnnotationPages(this.traversePosterCanvas(this.traverseDescriptive(this.traverseLinking(this.traverseCanvasItems(e11))))), this.traversals.canvas);
+    }
+    traverseAnnotationPageItems(e11) {
+      return e11.items && (e11.items = e11.items.map((i7) => this.traverseAnnotation(i7))), e11;
+    }
+    traverseAnnotationPage(e11) {
+      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseAnnotationPageItems(e11))), this.traversals.annotationPage);
+    }
+    traverseAnnotationBody(e11) {
+      return Array.isArray(e11.body) ? e11.body = e11.body.map((i7) => this.traverseContentResource(i7)) : e11.body && (e11.body = this.traverseContentResource(e11.body)), e11;
+    }
+    traversePosterCanvas(e11) {
+      return e11.posterCanvas && (e11.posterCanvas = this.traverseType(e11.posterCanvas, this.traversals.canvas)), e11.placeholderCanvas && (e11.placeholderCanvas = this.traverseType(e11.placeholderCanvas, this.traversals.canvas)), e11.accompanyingCanvas && (e11.accompanyingCanvas = this.traverseType(e11.accompanyingCanvas, this.traversals.canvas)), e11;
+    }
+    traverseAnnotation(e11) {
+      return this.traverseType(this.traverseLinking(this.traverseAnnotationBody(e11)), this.traversals.annotation);
+    }
+    traverseContentResourceLinking(e11) {
+      return typeof e11 == "string" || !e11 || e11 && e11.service && (e11.service = (e11.service || []).map((i7) => this.traverseType(i7, this.traversals.service))), e11;
+    }
+    traverseContentResource(e11) {
+      return e11.type === "Choice" && (e11.items = e11.items.map((i7) => this.traverseContentResource(i7))), this.traverseType(this.traverseInlineAnnotationPages(this.traverseContentResourceLinking(e11)), this.traversals.contentResource);
+    }
+    traverseRangeRanges(e11) {
+      return e11.items && (e11.items = e11.items.map((i7) => typeof i7 == "string" ? this.traverseCanvas({ id: i7, type: "Canvas" }) : i7.type === "Manifest" ? this.traverseManifest(i7) : this.traverseRange(i7))), e11;
+    }
+    traverseRange(e11) {
+      return this.traverseType(this.traversePosterCanvas(this.traverseDescriptive(this.traverseLinking(this.traverseRangeRanges(e11)))), this.traversals.range);
+    }
+    traverseAgent(e11) {
+      return this.traverseType(this.traverseDescriptive(this.traverseLinking(e11)), this.traversals.agent);
+    }
+    traverseType(e11, i7) {
+      return i7.reduce((n5, a7) => {
+        const r10 = a7(n5);
+        return typeof r10 == "undefined" && !this.options.allowUndefinedReturn ? n5 : r10;
+      }, e11);
+    }
+    traverseService(e11) {
+      return this.traverseType(e11, this.traversals.service);
+    }
+    traverseUnknown(e11) {
+      const i7 = U(e11);
+      switch (i7) {
+        case "Collection":
+          return this.traverseCollection(e11);
+        case "Manifest":
+          return this.traverseManifest(e11);
+        case "Canvas":
+          return this.traverseCanvas(e11);
+        case "AnnotationPage":
+          return this.traverseAnnotationPage(e11);
+        case "Annotation":
+          return this.traverseAnnotation(e11);
+        case "ContentResource":
+          return this.traverseContentResource(e11);
+        case "Range":
+          return this.traverseRange(e11);
+        case "Service":
+          return this.traverseService(e11);
+        case "Agent":
+          return this.traverseAgent(e11);
+        default:
+          throw new Error(`Unknown or unsupported resource type of ${i7}`);
+      }
+    }
+  };
+  var V = ["sc:Collection", "sc:Manifest", "sc:Canvas", "oa:AnnotationList", "oa:Annotation", "sc:Range", "sc:Layer", "sc:Sequence", "oa:Choice", "Service", "ContentResource"];
+  function Ie(t13) {
+    if (typeof t13 == "undefined" || t13 === null)
+      throw new Error("Null or undefined is not a valid entity.");
+    if (Array.isArray(t13))
+      throw new Error("Array is not a valid entity");
+    if (typeof t13 != "object")
+      throw new Error(`${typeof t13} is not a valid entity`);
+    if (typeof t13["@type"] == "string") {
+      const e11 = V.indexOf(t13["@type"]);
+      if (e11 !== -1)
+        return V[e11];
+    }
+    if (t13.profile)
+      return "Service";
+    if (t13.format || t13["@type"])
+      return "ContentResource";
+    throw new Error("Resource type is not known");
+  }
+  var x = class {
+    traversals;
+    options;
+    constructor(e11, i7 = {}) {
+      this.traversals = { collection: [], manifest: [], canvas: [], annotationList: [], sequence: [], annotation: [], contentResource: [], choice: [], range: [], service: [], layer: [], ...e11 }, this.options = { convertPropsToArray: true, mergeMemberProperties: true, allowUndefinedReturn: false, ...i7 };
+    }
+    static all(e11) {
+      return new x({ collection: [e11], manifest: [e11], canvas: [e11], annotationList: [e11], sequence: [e11], annotation: [e11], contentResource: [e11], choice: [e11], range: [e11], service: [e11], layer: [e11] });
+    }
+    traverseCollection(e11) {
+      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseCollectionItems(e11))), this.traversals.collection);
+    }
+    traverseCollectionItems(e11) {
+      if (this.options.mergeMemberProperties) {
+        const i7 = [...(e11.manifests || []).map((n5) => typeof n5 == "string" ? { "@id": n5, "@type": "sc:Manifest" } : n5), ...(e11.collections || []).map((n5) => typeof n5 == "string" ? { "@id": n5, "@type": "sc:Collection" } : n5), ...e11.members || []];
+        delete e11.collections, delete e11.manifests, e11.members = i7;
+      }
+      return e11.manifests && (e11.manifests = e11.manifests.map((i7) => this.traverseManifest(typeof i7 == "string" ? { "@id": i7, "@type": "sc:Manifest" } : i7))), e11.collections && (e11.collections = e11.collections.map((i7) => this.traverseCollection(typeof i7 == "string" ? { "@id": i7, "@type": "sc:Collection" } : i7))), e11.members && (e11.members = e11.members.map((i7) => typeof i7 == "string" ? i7 : this.traverseUnknown(i7))), e11;
+    }
+    traverseManifest(e11) {
+      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseManifestItems(e11))), this.traversals.manifest);
+    }
+    traverseManifestItems(e11) {
+      return e11.sequences && (e11.sequences = e11.sequences.map((i7) => this.traverseSequence(i7))), e11.structures && (e11.structures = e11.structures.map((i7) => this.traverseRange(i7))), e11;
+    }
+    traverseSequence(e11) {
+      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseSequenceItems(e11))), this.traversals.sequence);
+    }
+    traverseSequenceItems(e11) {
+      return e11.canvases && (e11.canvases = e11.canvases.map((i7) => this.traverseCanvas(i7))), e11;
+    }
+    traverseCanvas(e11) {
+      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseCanvasItems(e11))), this.traversals.canvas);
+    }
+    traverseCanvasItems(e11) {
+      return e11.images && (e11.images = e11.images.map((i7) => this.traverseAnnotation(i7))), e11.otherContent && (e11.otherContent = e11.otherContent.map((i7) => this.traverseAnnotationList(i7))), e11;
+    }
+    traverseRange(e11) {
+      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseRangeItems(e11))), this.traversals.range);
+    }
+    traverseRangeItems(e11) {
+      if (this.options.mergeMemberProperties) {
+        const i7 = [...(e11.ranges || []).map((n5) => typeof n5 == "string" ? { "@id": n5, "@type": "sc:Range" } : n5), ...(e11.canvases || []).map((n5) => typeof n5 == "string" ? { "@id": n5, "@type": "sc:Canvas" } : n5), ...e11.members || []];
+        delete e11.ranges, delete e11.canvases, e11.members = i7.length ? i7.map((n5) => this.traverseUnknown(n5)) : void 0;
+      }
+      return e11;
+    }
+    traverseAnnotationList(e11) {
+      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseAnnotationListItems(e11))), this.traversals.annotationList);
+    }
+    traverseAnnotationListItems(e11) {
+      return e11.resources && (e11.resources = e11.resources.map((i7) => this.traverseAnnotation(i7))), e11;
+    }
+    traverseAnnotation(e11) {
+      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseAnnotationItems(e11))), this.traversals.annotation);
+    }
+    traverseAnnotationItems(e11) {
+      return e11.resource && (e11.resource = this.traverseContentResource(e11.resource)), e11.on, e11;
+    }
+    traverseLayer(e11) {
+      return this.traverseType(this.traverseLinking(this.traverseLayerItems(e11)), this.traversals.layer);
+    }
+    traverseLayerItems(e11) {
+      return e11.otherContent && (e11.otherContent = e11.otherContent.map((i7) => this.traverseAnnotationList(i7))), e11;
+    }
+    traverseChoice(e11) {
+      return this.traverseType(this.traverseChoiceItems(e11), this.traversals.choice);
+    }
+    traverseChoiceItems(e11) {
+      return e11.default && e11.default !== "rdf:nil" && (e11.default = this.traverseContentResource(e11.default)), e11.item && e11.item !== "rdf:nil" && (e11.item = e11.item.map((i7) => this.traverseContentResource(i7))), e11;
+    }
+    traverseService(e11) {
+      return this.traverseType(this.traverseLinking(e11), this.traversals.service);
+    }
+    traverseContentResource(e11) {
+      return e11["@type"] === "oa:Choice" ? this.traverseChoice(e11) : this.traverseType(this.traverseDescriptive(this.traverseLinking(e11)), this.traversals.contentResource);
+    }
+    traverseUnknown(e11) {
+      if (!e11["@type"] || typeof e11 == "string")
+        return e11;
+      switch (Ie(e11)) {
+        case "sc:Collection":
+          return this.traverseCollection(e11);
+        case "sc:Manifest":
+          return this.traverseManifest(e11);
+        case "sc:Canvas":
+          return this.traverseCanvas(e11);
+        case "sc:Sequence":
+          return this.traverseSequence(e11);
+        case "sc:Range":
+          return this.traverseRange(e11);
+        case "oa:Annotation":
+          return this.traverseAnnotation(e11);
+        case "oa:AnnotationList":
+          return this.traverseAnnotationList(e11);
+        case "sc:Layer":
+          return this.traverseLayer(e11);
+        case "Service":
+          return this.traverseService(e11);
+        case "oa:Choice":
+          return this.traverseChoice(e11);
+        case "ContentResource":
+          return this.traverseContentResource(e11);
+      }
+      return e11.profile ? this.traverseService(e11) : e11;
+    }
+    traverseImageResource(e11) {
+      const i7 = Array.isArray(e11), n5 = Array.isArray(e11) ? e11 : [e11], a7 = [];
+      for (const r10 of n5)
+        typeof r10 == "string" ? a7.push(this.traverseContentResource({ "@id": r10, "@type": "dctypes:Image" })) : a7.push(this.traverseContentResource(r10));
+      return !i7 && !this.options.convertPropsToArray ? a7[0] : a7;
+    }
+    traverseDescriptive(e11) {
+      return e11.thumbnail && (e11.thumbnail = this.traverseImageResource(e11.thumbnail)), e11.logo && (e11.logo = this.traverseImageResource(e11.logo)), e11;
+    }
+    traverseOneOrMoreServices(e11) {
+      const i7 = Array.isArray(e11), n5 = Array.isArray(e11) ? e11 : [e11], a7 = [];
+      for (const r10 of n5)
+        a7.push(this.traverseService(r10));
+      return !i7 && !this.options.convertPropsToArray ? a7[0] : a7;
+    }
+    traverseLinking(e11) {
+      return e11.related && (e11.related = this.traverseOneOrManyType(e11.related, this.traversals.contentResource)), e11.rendering && (e11.rendering = this.traverseOneOrManyType(e11.rendering, this.traversals.contentResource)), e11.service && (e11.service = this.traverseOneOrMoreServices(e11.service)), e11.seeAlso && (e11.seeAlso = this.traverseOneOrManyType(e11.seeAlso, this.traversals.contentResource)), e11.within && (typeof e11.within == "string" || (e11.within = this.traverseOneOrManyType(e11.within, this.traversals.contentResource))), e11.startCanvas && (typeof e11.startCanvas == "string" ? e11.startCanvas = this.traverseType({ "@id": e11.startCanvas, "@type": "sc:Canvas" }, this.traversals.canvas) : e11.startCanvas && this.traverseType(e11.startCanvas, this.traversals.canvas)), e11.contentLayer && (typeof e11.contentLayer == "string" ? e11.contentLayer = this.traverseLayer({ "@id": e11.contentLayer, "@type": "sc:Layer" }) : e11.contentLayer = this.traverseLayer(e11.contentLayer)), e11;
+    }
+    traverseOneOrManyType(e11, i7) {
+      if (!Array.isArray(e11))
+        if (this.options.convertPropsToArray)
+          e11 = [e11];
+        else
+          return this.traverseType(e11, i7);
+      return e11.map((n5) => this.traverseType(n5, i7));
+    }
+    traverseType(e11, i7) {
+      return i7.reduce((n5, a7) => {
+        const r10 = a7(n5);
+        return typeof r10 == "undefined" && !this.options.allowUndefinedReturn ? n5 : r10;
+      }, e11);
+    }
+  };
+  var _e = "http://library.stanford.edu/iiif/image-api/compliance.html#level0";
+  var W = "http://library.stanford.edu/iiif/image-api/compliance.html#level1";
+  var z = "http://library.stanford.edu/iiif/image-api/compliance.html#level2";
+  var be = "http://library.stanford.edu/iiif/image-api/conformance.html#level0";
+  var H = "http://library.stanford.edu/iiif/image-api/conformance.html#level1";
+  var B = "http://library.stanford.edu/iiif/image-api/conformance.html#level2";
+  var Re = "http://library.stanford.edu/iiif/image-api/1.1/compliance.html#level0";
+  var K = "http://library.stanford.edu/iiif/image-api/1.1/compliance.html#level1";
+  var Q = "http://library.stanford.edu/iiif/image-api/1.1/compliance.html#level2";
+  var we = "http://library.stanford.edu/iiif/image-api/1.1/conformance.html#level0";
+  var X = "http://library.stanford.edu/iiif/image-api/1.1/conformance.html#level1";
+  var Y = "http://library.stanford.edu/iiif/image-api/1.1/conformance.html#level2";
+  var Ee = "http://iiif.io/api/image/1/level0.json";
+  var Le = "http://iiif.io/api/image/1/profiles/level0.json";
+  var Z = "http://iiif.io/api/image/1/level1.json";
+  var J = "http://iiif.io/api/image/1/profiles/level1.json";
+  var ee = "http://iiif.io/api/image/1/level2.json";
+  var te = "http://iiif.io/api/image/1/profiles/level2.json";
+  var Te = "http://iiif.io/api/image/2/level0.json";
+  var Me = "http://iiif.io/api/image/2/profiles/level0.json";
+  var ie = "http://iiif.io/api/image/2/level1.json";
+  var ne = "http://iiif.io/api/image/2/profiles/level1.json";
+  var re = "http://iiif.io/api/image/2/level2.json";
+  var ae = "http://iiif.io/api/image/2/profiles/level2.json";
+  var xe = "level0";
+  var se = "level1";
+  var oe = "level2";
+  var Se = "http://iiif.io/api/image/2/level0";
+  var le = "http://iiif.io/api/image/2/level1";
+  var ve = "http://iiif.io/api/image/2/level2";
+  var Oe = [le, ve, W, z, H, B, K, Q, X, Y, Z, J, ee, te, ie, ne, re, ae, se, oe];
+  var Pe = [Se, le, ve, _e, W, z, be, H, B, Re, K, Q, we, X, Y, Ee, Le, Z, J, ee, te, Te, Me, ie, ne, re, ae, xe, se, oe];
+  var S = { attributionLabel: "Attribution", lang: "none", providerId: "http://example.org/provider", providerName: "Unknown" };
+  function u(t13, e11 = "none") {
+    if (!t13)
+      return {};
+    const i7 = Array.isArray(t13) ? t13 : [t13], n5 = {};
+    for (const a7 of i7) {
+      if (typeof a7 == "string") {
+        n5[e11] = n5[e11] ? n5[e11] : [], n5[e11].push(a7 || "");
+        continue;
+      }
+      if (!a7["@language"]) {
+        n5[e11] = n5[e11] ? n5[e11] : [], n5[e11].push(a7["@value"] || "");
+        continue;
+      }
+      const r10 = a7["@language"];
+      n5[r10] = n5[r10] ? n5[r10] : [], n5[r10].push(a7["@value"] || "");
+    }
+    return n5;
+  }
+  function pe(t13) {
+    if (Array.isArray(t13))
+      return pe(t13.find((e11) => typeof e11 == "string"));
+    if (Pe.indexOf(t13) !== -1)
+      return "level2";
+    if (Oe.indexOf(t13) !== -1)
+      return "level1";
+    if (typeof t13 == "string")
+      return t13;
+  }
+  function Fe(t13) {
+    const e11 = Array.isArray(t13) ? t13 : [t13];
+    for (const i7 of e11)
+      switch (i7) {
+        case "http://iiif.io/api/image/2/context.json":
+        case "http://library.stanford.edu/iiif/image-api/1.1/compliance.html#level2":
+          return "ImageService2";
+        case "http://iiif.io/api/image/1/context.json":
+        case "http://library.stanford.edu/iiif/image-api/1.1/context.json":
+          return "ImageService1";
+        case "http://iiif.io/api/annex/openannotation/context.json":
+          return "ImageApiSelector";
+      }
+  }
+  function De(t13) {
+    switch (t13) {
+      case "http://iiif.io/api/image/2/level0.json":
+      case "http://iiif.io/api/image/2/level1.json":
+      case "http://iiif.io/api/image/2/level2.json":
+        return "ImageService2";
+      case "http://iiif.io/api/auth/1/kiosk":
+      case "http://iiif.io/api/auth/1/login":
+      case "http://iiif.io/api/auth/1/clickthrough":
+      case "http://iiif.io/api/auth/1/external":
+      case "http://iiif.io/api/auth/0/kiosk":
+      case "http://iiif.io/api/auth/0/login":
+      case "http://iiif.io/api/auth/0/clickthrough":
+      case "http://iiif.io/api/auth/0/external":
+        return "AuthCookieService1";
+      case "http://iiif.io/api/auth/1/token":
+      case "http://iiif.io/api/auth/0/token":
+        return "AuthTokenService1";
+      case "http://iiif.io/api/auth/1/logout":
+      case "http://iiif.io/api/auth/0/logout":
+        return "AuthLogoutService1";
+      case "http://iiif.io/api/search/1/search":
+      case "http://iiif.io/api/search/0/search":
+        return "SearchService1";
+      case "http://iiif.io/api/search/1/autocomplete":
+      case "http://iiif.io/api/search/0/autocomplete":
+        return "AutoCompleteService1";
+    }
+  }
+  function ke(t13) {
+    return Array.isArray(t13) ? t13 : [t13];
+  }
+  function Ne(t13) {
+    for (const e11 of ["sc", "oa", "dcterms", "dctypes", "iiif"])
+      if (t13.startsWith(`${e11}:`))
+        return t13.slice(e11.length + 1);
+    return t13;
+  }
+  var je = ["Collection", "Manifest", "Annotation", "AnnotationPage", "Range", "Service"];
+  function O(t13) {
+    const e11 = t13["@id"] || t13.id;
+    let i7 = t13["@type"] || t13.type;
+    const n5 = t13.profile || void 0, a7 = t13["@context"] || void 0;
+    if (n5) {
+      const r10 = De(n5);
+      if (r10)
+        return r10;
+    }
+    if (a7) {
+      const r10 = Fe(a7);
+      if (r10)
+        return r10;
+    }
+    if (i7) {
+      if (Array.isArray(i7)) {
+        if (i7.indexOf("oa:CssStylesheet") !== -1)
+          return "CssStylesheet";
+        if (i7.indexOf("cnt:ContentAsText") !== -1)
+          return "TextualBody";
+        i7 = i7[0];
+      }
+      for (const r10 of ["sc", "oa", "dcterms", "dctypes", "iiif"])
+        if (i7.startsWith(`${r10}:`)) {
+          i7 = i7.slice(r10.length + 1);
+          break;
+        }
+      switch (i7) {
+        case "Layer":
+          return "AnnotationCollection";
+        case "AnnotationList":
+          return "AnnotationPage";
+        case "cnt:ContentAsText":
+          return "TextualBody";
+      }
+    }
+    if (i7 && je.indexOf(i7) !== -1)
+      return i7;
+    if (t13.format) {
+      if (t13.format.startsWith("image/"))
+        return "Image";
+      if (t13.format.startsWith("text/") || t13.format === "application/pdf")
+        return "Text";
+      if (t13.format.startsWith("application/"))
+        return "Dataset";
+    }
+    return e11 && (e11.endsWith(".jpg") || e11.endsWith(".png") || e11.endsWith(".jpeg")) ? "Image" : i7 || "unknown";
+  }
+  var Ge = /http(s)?:\/\/(creativecommons.org|rightsstatements.org)[^"'\\<\n]+/gm;
+  function $e(t13) {
+    const e11 = t13.match(Ge);
+    return e11 ? e11[0] : t13;
+  }
+  function qe(t13, e11 = "Rights/License", i7 = "none") {
+    let n5 = null;
+    const a7 = [], r10 = Array.isArray(t13) ? t13 : [t13];
+    for (const I3 of r10) {
+      const o11 = I3 ? $e(I3) : void 0;
+      if (o11 && (o11.indexOf("creativecommons.org") !== -1 || o11.indexOf("rightsstatements.org") !== -1)) {
+        o11.startsWith("https://") ? n5 = `http://${o11.slice(8)}` : n5 = o11;
+        continue;
+      }
+      o11 && a7.push({ label: { [i7]: [e11] }, value: { [i7]: [o11] } });
+    }
+    return [n5, a7];
+  }
+  var Ue = ["http://iiif.io/api/presentation/2/context.json", "http://iiif.io/api/image/2/context.json", "http://iiif.io/api/image/1/context.json", "http://library.stanford.edu/iiif/image-api/1.1/context.json", "http://iiif.io/api/search/1/context.json", "http://iiif.io/api/search/0/context.json", "http://iiif.io/api/auth/1/context.json", "http://iiif.io/api/auth/0/context.json", "http://iiif.io/api/annex/openannotation/context.json"];
+  function Ve(t13) {
+    if (t13) {
+      const e11 = Array.isArray(t13) ? t13 : [t13], i7 = [];
+      for (const n5 of e11)
+        n5 === "http://iiif.io/api/presentation/2/context.json" && i7.push("http://iiif.io/api/presentation/3/context.json"), Ue.indexOf(n5) === -1 && i7.push(n5);
+      if (e11.length)
+        return i7.length === 1 ? i7[0] : i7;
+    }
+  }
+  function We(t13) {
+    return t13 ? t13.map((e11) => ({ label: u(e11.label), value: u(e11.value) })) : [];
+  }
+  function v(t13) {
+    for (const e11 in t13)
+      (typeof t13[e11] == "undefined" || t13[e11] === null) && delete t13[e11];
+    return t13;
+  }
+  var he = 0;
+  function ce(t13, e11) {
+    const i7 = encodeURI(t13.id || t13["@id"] || "").trim();
+    return i7 && e11 ? `${i7}/${e11}` : i7 || (he++, `http://example.org/${t13["@type"]}${e11 ? `/${e11}` : ""}/${he}`);
+  }
+  function p(t13) {
+    const e11 = [...t13.behavior || []];
+    return t13.viewingHint && e11.push(t13.viewingHint), { "@context": t13["@context"] ? Ve(t13["@context"]) : void 0, id: (t13["@id"] || ce(t13)).trim(), type: O(t13), behavior: e11.length ? e11 : void 0, height: t13.height ? t13.height : void 0, width: t13.width ? t13.width : void 0, motivation: t13.motivation ? Ne(t13.motivation) : void 0, viewingDirection: t13.viewingDirection, profile: t13.profile, format: t13.format ? t13.format : void 0, duration: void 0, timeMode: void 0 };
+  }
+  function l(t13) {
+    const [e11, i7] = qe(t13.license), n5 = [...t13.metadata ? We(t13.metadata) : [], ...i7];
+    return { rights: e11, metadata: n5.length ? n5 : void 0, label: t13.label ? u(t13.label) : void 0, requiredStatement: t13.attribution ? { label: u(S.attributionLabel), value: u(t13.attribution) } : void 0, navDate: t13.navDate, summary: t13.description ? u(t13.description) : void 0, thumbnail: t13.thumbnail };
+  }
+  function ze(t13) {
+    if (!t13.within)
+      return;
+    const e11 = Array.isArray(t13.within) ? t13.within : [t13.within], i7 = [];
+    for (const n5 of e11)
+      if (typeof n5 == "string") {
+        if (n5)
+          switch (t13["@type"]) {
+            case "sc:Manifest":
+              i7.push({ id: n5, type: "Collection" });
+              break;
+          }
+      } else
+        n5["@id"] && i7.push({ id: n5["@id"], type: O(n5) });
+    return i7.length ? i7 : void 0;
+  }
+  function h(t13) {
+    const e11 = t13.related ? Array.isArray(t13.related) ? t13.related : [t13.related] : [], i7 = t13.contentLayer;
+    return { provider: t13.logo || e11.length ? [{ id: S.providerId, type: "Agent", homepage: e11.length ? [e11[0]] : void 0, logo: t13.logo ? Array.isArray(t13.logo) ? t13.logo : [t13.logo] : void 0, label: u(S.providerName) }] : void 0, partOf: ze(t13), rendering: t13.rendering, seeAlso: t13.seeAlso, start: t13.startCanvas, service: t13.service ? ke(t13.service) : void 0, supplementary: i7 ? [i7] : void 0 };
+  }
+  function He(t13) {
+    return v({ ...p(t13), ...l(t13), ...h(t13), items: t13.members });
+  }
+  function Be(t13) {
+    const e11 = [], i7 = [];
+    for (const a7 of t13.sequences || [])
+      a7.canvases.length && e11.push(...a7.canvases), a7.behavior && i7.push(...a7.behavior);
+    const n5 = p(t13);
+    return i7.length && (n5.behavior ? n5.behavior.push(...i7) : n5.behavior = i7), v({ ...n5, ...l(t13), ...h(t13), items: e11, structures: t13.structures });
+  }
+  function Ke(t13) {
+    return v({ ...p(t13), ...l(t13), ...h(t13), items: t13.images && t13.images.length ? [{ id: ce(t13, "annotation-page"), type: "AnnotationPage", items: t13.images }] : void 0 });
+  }
+  function Qe(t13) {
+    return v({ ...p(t13), ...l(t13), ...h(t13), items: t13.resources });
+  }
+  function Xe(t13) {
+    return !t13.canvases || t13.canvases.length === 0 ? { canvases: [], behavior: [] } : { canvases: t13.canvases, behavior: t13.viewingHint ? [t13.viewingHint] : [] };
+  }
+  function Ye(t13) {
+    return v({ ...p(t13), ...l(t13), ...h(t13), target: typeof t13.on == "string" ? encodeURI(t13.on).trim() : t13.on, body: t13.resource });
+  }
+  function Ze(t13) {
+    const e11 = t13;
+    return v({ ...p(e11), ...l(e11), ...h(e11) });
+  }
+  function Je(t13) {
+    const e11 = [];
+    return t13.default && t13.default !== "rdf:nil" && e11.push(t13.default), t13.item && t13.item !== "rdf:nil" && e11.push(...t13.item), { ...p(t13), ...l(t13), items: e11 };
+  }
+  function et(t13) {
+    return v({ ...p(t13), ...l(t13), ...h(t13), items: t13.members });
+  }
+  function tt(t13) {
+    const { "@id": e11, "@type": i7, "@context": n5, profile: a7, ...r10 } = t13;
+    return e11 && (r10.id = e11), r10.type = O(t13), r10.type === "unknown" && (r10.type = "Service"), a7 && (r10.profile = pe(a7)), v({ ...r10, ...l(r10) });
+  }
+  function it(t13) {
+    return v({ ...p(t13), ...l(t13), ...h(t13) });
+  }
+  var nt = new x({ collection: [He], manifest: [Be], canvas: [Ke], annotationList: [Qe], sequence: [Xe], annotation: [Ye], contentResource: [Ze], choice: [Je], range: [et], service: [tt], layer: [it] });
+  function rt(t13) {
+    return t13 && t13["@context"] && (t13["@context"] === "http://iiif.io/api/presentation/2/context.json" || t13["@context"].indexOf("http://iiif.io/api/presentation/2/context.json") !== -1 || t13["@context"] === "http://www.shared-canvas.org/ns/context.json") || t13["@context"] === "http://iiif.io/api/image/2/context.json" ? nt.traverseUnknown(t13) : t13;
+  }
+  function fe() {
+    return { Collection: {}, Manifest: {}, Canvas: {}, AnnotationPage: {}, AnnotationCollection: {}, Annotation: {}, ContentResource: {}, Range: {}, Service: {}, Selector: {}, Agent: {} };
+  }
+  function ue(t13, e11) {
+    if (typeof t13 == "string")
+      return { id: t13, type: e11 };
+    if (!t13.id)
+      throw new Error(`Invalid resource does not have an ID (${e11})`);
+    return t13;
+  }
+  function st(t13) {
+    return (e11, i7) => {
+      const n5 = t13[e11] ? t13[e11] : {};
+      return (a7) => {
+        const r10 = ue(a7, i7 || e11);
+        return r10 && r10.id && e11 ? (n5[r10.id] = n5[r10.id] ? Object.assign({}, n5[r10.id], r10) : Object.assign({}, r10), { id: r10.id, type: e11 === "ContentResource" ? e11 : r10.type }) : r10;
+      };
+    };
+  }
+  function ot(t13) {
+    return (e11, i7) => (n5) => {
+      const { id: a7, type: r10 } = ue(n5, i7 || e11);
+      if (typeof a7 == "undefined")
+        throw new Error("Found invalid entity without an ID.");
+      return e11 === "ContentResource" ? t13[a7] = e11 : t13[a7] = r10, n5;
+    };
+  }
+  function lt(t13) {
+    const e11 = JSON.stringify(t13);
+    let i7 = 5381, n5 = e11.length;
+    for (; n5; )
+      i7 = i7 * 33 ^ e11.charCodeAt(--n5);
+    const r10 = (i7 >>> 0).toString(16);
+    return r10.length % 2 ? "0" + r10 : r10;
+  }
+  function P(t13) {
+    return (e11) => typeof e11 == "string" ? { id: e11, type: t13 } : e11.id ? e11.type ? e11 : { type: t13, ...e11 } : { id: lt(e11), type: t13, ...e11 };
+  }
+  function _(t13) {
+    return (e11) => ({ ...t13, ...e11 });
+  }
+  function b(t13) {
+    return Array.isArray(t13) ? t13 : [t13];
+  }
+  function vt(t13) {
+    return t13.body && (t13.body = b(t13.body)), t13.seeAlso && (t13.seeAlso = b(t13.seeAlso)), t13.body && (t13.body = b(t13.body)), t13.audience && (t13.audience = b(t13.audience)), t13.accessibility && (t13.accessibility = b(t13.accessibility)), t13.motivation && (t13.motivation = b(t13.motivation)), t13;
+  }
+  function pt(t13) {
+    const e11 = rt(t13), i7 = fe(), n5 = {}, a7 = st(i7), r10 = ot(n5), o11 = new L({ collection: [_(j), r10("Collection"), a7("Collection")], manifest: [_(G), r10("Manifest"), a7("Manifest")], canvas: [_(N), r10("Canvas"), a7("Canvas")], annotationPage: [P("AnnotationPage"), _(k), r10("AnnotationPage"), a7("AnnotationPage")], annotation: [P("Annotation"), vt, r10("Annotation"), a7("Annotation")], contentResource: [P("ContentResource"), r10("ContentResource"), a7("ContentResource")], range: [_($2), r10("Range", "Canvas"), a7("Range", "Canvas")], agent: [_(q), r10("Agent"), a7("Agent")] }).traverseUnknown(e11);
+    return { entities: i7, resource: o11, mapping: n5 };
+  }
+  var c = "__$UNSET$__";
+  var F = "__$UNWRAP$__";
+  function ht(t13, e11) {
+    const i7 = t13.requests[e11], n5 = t13.mapping[e11];
+    if (!(!n5 || i7 && i7.resourceUri && !t13.entities[n5][i7.resourceUri]))
+      return t13.entities[n5][i7 ? i7.resourceUri : e11];
+  }
+  function de(t13) {
+    const e11 = {};
+    for (const [i7, n5] of t13) {
+      if (i7 === F && n5 !== c)
+        return n5;
+      n5 !== c && typeof n5 != "undefined" && n5 !== null && (e11[i7] = n5);
+    }
+    return e11;
+  }
+  function ct(t13, e11, i7) {
+    if (!e11.type || !e11.id)
+      throw new Error("Unknown entity");
+    if (!i7[e11.type])
+      throw new Error(`Serializer not found for ${e11.type}`);
+    function n5(a7) {
+      const r10 = i7[a7.type];
+      if (!r10)
+        return c;
+      const I3 = ht(t13, a7.id) || (a7.id && a7.type ? a7 : null);
+      if (!I3)
+        return c;
+      const o11 = r10(I3, t13, { isTopLevel: e11.id === a7.id });
+      let R5 = o11.next();
+      for (; !R5.done; ) {
+        const E5 = R5.value;
+        let T2 = c;
+        if (E5)
+          if (Array.isArray(E5)) {
+            const D2 = [];
+            for (const Ae of E5)
+              D2.push(n5(Ae));
+            T2 = D2;
+          } else
+            T2 = n5(E5);
+        R5 = o11.next(T2);
+      }
+      return R5.value === c ? c : de(R5.value);
+    }
+    return n5(e11);
+  }
+  function d(t13) {
+    if (!t13)
+      return;
+    const e11 = Object.keys(t13);
+    if (e11.length !== 0) {
+      if (e11.length === 1) {
+        const i7 = e11[0];
+        if (!i7)
+          return "";
+        const n5 = (t13[i7] || []).join("");
+        return i7 === "@none" || i7 === "none" || i7 === "en" ? n5 : { "@language": i7, "@value": n5 };
+      }
+      return e11.map((i7) => ({ "@language": i7, "@value": (t13[i7] || []).join("") }));
+    }
+  }
+  function me(t13) {
+    return Array.isArray(t13) ? t13.map((e11) => me(e11)) : typeof t13 == "string" ? t13 : t13.type && t13.type === "Canvas" ? t13.id : t13;
+  }
+  function f(t13, e11 = false) {
+    if (!!t13)
+      return t13.length > 1 && !e11 ? t13 : t13[0] || void 0;
+  }
+  function ft(t13) {
+    if (!!t13) {
+      if (typeof t13 == "string")
+        return { "@id": t13 };
+      if ("@id" in t13) {
+        const e11 = { ...t13 };
+        return delete e11["@type"], e11;
+      }
+      return { "@context": "http://iiif.io/api/image/2/context.json", "@id": t13.id, profile: `http://iiif.io/api/image/2/profiles/${t13.profile}.json` };
+    }
+  }
+  function m(t13, e11) {
+    return [["@id", t13.id], ["@type", e11], ["format", t13.format], ["height", t13.height], ["width", t13.width], ["viewingDirection", t13.viewingDirection !== "left-to-right" ? t13.viewingDirection : void 0]];
+  }
+  function* g(t13) {
+    const e11 = t13.provider ? yield t13.provider[0] : void 0;
+    return [["label", d(t13.label)], ["metadata", t13.metadata && t13.metadata.length ? t13.metadata.map((i7) => ({ label: d(i7.label) || "", value: d(i7.value) || "" })) : void 0], ["description", d(t13.summary)], ["thumbnail", f(yield t13.thumbnail)], ["navDate", t13.navDate], ["logo", e11 ? f(e11.logo) : void 0], ["homepage", e11 ? e11.homepage : void 0], ["attribution", t13.requiredStatement ? d(t13.requiredStatement.value) : void 0]];
+  }
+  function* w(t13) {
+    return [["seeAlso", f(yield t13.seeAlso)], ["service", f((t13.service || []).map(ft))], ["rendering", f(yield t13.rendering)], ["startCanvas", t13.start ? t13.start.id : void 0]];
+  }
+  var ut = { Manifest: function* (t13) {
+    return [...m(t13, "sc:Manifest"), ...yield* g(t13), ...yield* w(t13), ["sequences", [{ "@id": `${t13.id}/sequence0`, "@type": "sc:Sequence", canvases: yield t13.items }]], ["structures", yield t13.structures]];
+  }, Canvas: function* (t13) {
+    const i7 = (yield t13.items)[0];
+    return [...m(t13, "sc:Canvas"), ...yield* g(t13), ...yield* w(t13), ["images", i7 ? [i7.resources] : void 0], ["annotations", t13.annotations && t13.annotations.length ? f(yield t13.annotations) : void 0]];
+  }, AnnotationPage: function* (t13) {
+    return [...m(t13, "sc:AnnotationList"), ...yield* g(t13), ["resources", t13.items && t13.items.length ? f(yield t13.items) : void 0]];
+  }, Annotation: function* (t13) {
+    return [["@id", t13.id], ["@type", "oa:Annotation"], ["motivation", "sc:painting"], ["on", me(t13.target)], ["resource", f(yield t13.body, true)]];
+  }, ContentResource: function* (t13) {
+    switch (t13.type) {
+      case "Image":
+        return [...m(t13, "dctypes:Image"), ...yield* g(t13), ...yield* w(t13)];
+      case "Text":
+      case "Dataset":
+      default:
+        return [...m(t13, void 0), ...yield* g(t13)];
+    }
+  }, AnnotationCollection: function* (t13) {
+    return [["@id", t13.id], ["@type", "sc:Layer"], ["label", d(t13.label)]];
+  }, Collection: function* (t13) {
+    return [...m(t13, "sc:Collection"), ...yield* g(t13), ...yield* w(t13), ["members", yield* t13.items]];
+  }, Range: function* (t13) {
+    const e11 = [], i7 = [];
+    if (t13.items)
+      for (const n5 of t13.items) {
+        const a7 = yield n5;
+        e11.push({ "@id": n5.id, "@type": n5.type, label: a7 ? a7.label : void 0, within: t13.id }), n5.type === "Canvas" && i7.push(n5.id);
+      }
+    return [...m(t13, "sc:Range"), ...yield* g(t13), ...yield* w(t13), ["canvases", i7.length === e11.length ? i7 : void 0], ["members", i7.length !== e11.length ? e11 : void 0]];
+  } };
+  function y(t13) {
+    return [["id", t13.id], ["type", t13.type], ["format", t13.format], ["profile", t13.profile], ["height", t13.height], ["width", t13.width], ["duration", t13.duration || void 0], ["viewingDirection", t13.viewingDirection !== "left-to-right" ? t13.viewingDirection : void 0], ["behavior", t13.behavior && t13.behavior.length ? t13.behavior : void 0], ["timeMode", t13.timeMode], ["motivation", t13.motivation]];
+  }
+  function s(t13) {
+    if (!(!t13 || t13.length === 0))
+      return t13;
+  }
+  function ge(t13) {
+    if (t13 && t13.type && t13.type === "ImageService2") {
+      const { id: e11, type: i7, profile: n5, ...a7 } = t13;
+      return { "@id": e11, "@type": i7, profile: n5.startsWith("http") ? n5 : `http://iiif.io/api/image/2/${n5}.json`, ...a7 };
+    }
+    return t13;
+  }
+  function ye(t13) {
+    if (!(!t13 || t13.length === 0))
+      return t13.map(ge);
+  }
+  function* A(t13) {
+    return [["label", t13.label], ["metadata", s(t13.metadata)], ["summary", t13.summary], ["requiredStatement", t13.requiredStatement], ["rights", t13.rights], ["navDate", t13.navDate], ["language", t13.language], ["thumbnail", s(yield t13.thumbnail)], ["placeholderCanvas", yield t13.placeholderCanvas], ["accompanyingCanvas", yield t13.accompanyingCanvas], ["provider", s(yield t13.provider)]];
+  }
+  function* C(t13) {
+    return [["seeAlso", s(yield t13.seeAlso)], ["service", ye(t13.service)], ["services", ye(t13.services)], ["rendering", s(yield t13.rendering)], ["supplementary", s(yield t13.supplementary)], ["homepage", s(yield t13.homepage)], ["logo", s(yield t13.logo)], ["partOf", s(yield t13.partOf)], ["start", t13.start]];
+  }
+  var dt = { Manifest: function* (t13, e11, { isTopLevel: i7 }) {
+    return i7 ? [["@context", "http://iiif.io/api/presentation/3/context.json"], ...y(t13), ...yield* A(t13), ...yield* C(t13), ["items", yield t13.items], ["structures", s(yield t13.structures)], ["annotations", s(yield t13.annotations)]] : [...y(t13), ...yield* A(t13)];
+  }, Canvas: function* (t13) {
+    return [...y(t13), ...yield* A(t13), ...yield* C(t13), ["items", yield t13.items], ["annotations", s(yield t13.annotations)]];
+  }, Agent: function* (t13) {
+    return [["id", t13.id], ["type", "Agent"], ["label", t13.label], ...yield* C(t13)];
+  }, AnnotationPage: function* (t13) {
+    return [...Object.entries(t13).map(([i7, n5]) => [i7, Array.isArray(n5) ? s(n5) : n5]).filter(([i7, n5]) => i7 !== "items"), ...yield* C(t13), ["items", yield t13.items]];
+  }, Service: function* (t13) {
+    return [[F, ge(t13)]];
+  }, Annotation: function* (t13) {
+    return [...Object.entries(t13).map(([i7, n5]) => [i7, Array.isArray(n5) ? s(n5) : n5]).filter(([i7]) => i7 !== "body"), ["body", yield t13.body]];
+  }, ContentResource: function* (t13) {
+    return [...y(t13), ...yield* A(t13), ...yield* C(t13), ["annotations", s(yield t13.annotations)]];
+  }, AnnotationCollection: function* (t13) {
+    return [["id", t13.id], ["type", "AnnotationCollection"], ["label", t13.label]];
+  }, Collection: function* (t13, e11, { isTopLevel: i7 }) {
+    return i7 ? [["@context", "http://iiif.io/api/presentation/3/context.json"], ...y(t13), ...yield* A(t13), ...yield* C(t13), ["items", s(yield t13.items)]] : [...y(t13), ...yield* A(t13)];
+  }, Range: function* (t13) {
+    const e11 = [];
+    for (const i7 of t13.items)
+      i7.type === "Range" ? e11.push(yield i7) : e11.push(i7);
+    return [...y(t13), ...yield* A(t13), ...yield* C(t13), ["items", e11], ["annotations", s(yield t13.annotations)]];
+  } };
+
+  // node_modules/@iiif/vault/dist/esm/index.mjs
+  var import_typesafe_actions = __toModule(require_typesafe_actions_umd_production());
 
   // node_modules/@babel/runtime/helpers/esm/defineProperty.js
   function _defineProperty(obj, key, value) {
@@ -53480,9 +54265,9 @@ ${generateSegmentFilename(i7)}`);
     if (funcs.length === 1) {
       return funcs[0];
     }
-    return funcs.reduce(function(a7, b7) {
+    return funcs.reduce(function(a7, b8) {
       return function() {
-        return a7(b7.apply(void 0, arguments));
+        return a7(b8.apply(void 0, arguments));
       };
     });
   }
@@ -53518,2552 +54303,52 @@ ${generateSegmentFilename(i7)}`);
     warning('You are currently using minified code outside of NODE_ENV === "production". This means that you are running a slower development build of Redux. You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify or setting mode to production in webpack (https://webpack.js.org/concepts/mode/) to ensure you have the correct code for your production build.');
   }
 
-  // node_modules/@hyperion-framework/store/dist/index.es.js
-  var import_typesafe_actions = __toModule(require_typesafe_actions_umd_production());
-
-  // node_modules/@atlas-viewer/iiif-image-api/dist/index.es.js
-  function canonicalServiceUrl(serviceId) {
-    return serviceId.endsWith("info.json") ? serviceId : serviceId.endsWith("/") ? `${serviceId}info.json` : `${serviceId}/info.json`;
-  }
-  function extractFixedSizeScales(width, height, sizes) {
-    const len = sizes.length;
-    const scales = [];
-    for (let i7 = 0; i7 < len; i7++) {
-      const size = sizes[i7];
-      const w5 = size.width;
-      scales.push(width / w5);
-    }
-    return scales;
-  }
-  function fixedSizesFromScales(width, height, scales) {
-    const len = scales.length;
-    const sizes = [];
-    for (let i7 = 0; i7 < len; i7++) {
-      const scale = scales[i7];
-      sizes.push({
-        width: Math.floor(width / scale),
-        height: Math.floor(height / scale)
-      });
-    }
-    return sizes;
-  }
-  var STANFORD_IIIF_IMAGE_COMPLIANCE_0 = "http://library.stanford.edu/iiif/image-api/compliance.html#level0";
-  var STANFORD_IIIF_IMAGE_COMPLIANCE_1 = "http://library.stanford.edu/iiif/image-api/compliance.html#level1";
-  var STANFORD_IIIF_IMAGE_COMPLIANCE_2 = "http://library.stanford.edu/iiif/image-api/compliance.html#level2";
-  var STANFORD_IIIF_IMAGE_CONFORMANCE_0 = "http://library.stanford.edu/iiif/image-api/conformance.html#level0";
-  var STANFORD_IIIF_IMAGE_CONFORMANCE_1 = "http://library.stanford.edu/iiif/image-api/conformance.html#level1";
-  var STANFORD_IIIF_IMAGE_CONFORMANCE_2 = "http://library.stanford.edu/iiif/image-api/conformance.html#level2";
-  var STANFORD_IIIF_1_IMAGE_COMPLIANCE_0 = "http://library.stanford.edu/iiif/image-api/1.1/compliance.html#level0";
-  var STANFORD_IIIF_1_IMAGE_COMPLIANCE_1 = "http://library.stanford.edu/iiif/image-api/1.1/compliance.html#level1";
-  var STANFORD_IIIF_1_IMAGE_COMPLIANCE_2 = "http://library.stanford.edu/iiif/image-api/1.1/compliance.html#level2";
-  var STANFORD_IIIF_1_IMAGE_CONFORMANCE_0 = "http://library.stanford.edu/iiif/image-api/1.1/conformance.html#level0";
-  var STANFORD_IIIF_1_IMAGE_CONFORMANCE_1 = "http://library.stanford.edu/iiif/image-api/1.1/conformance.html#level1";
-  var STANFORD_IIIF_1_IMAGE_CONFORMANCE_2 = "http://library.stanford.edu/iiif/image-api/1.1/conformance.html#level2";
-  var IIIF_1_IMAGE_LEVEL_0 = "http://iiif.io/api/image/1/level0.json";
-  var IIIF_1_IMAGE_LEVEL_0_PROFILE = "http://iiif.io/api/image/1/profiles/level0.json";
-  var IIIF_1_IMAGE_LEVEL_1 = "http://iiif.io/api/image/1/level1.json";
-  var IIIF_1_IMAGE_LEVEL_1_PROFILE = "http://iiif.io/api/image/1/profiles/level1.json";
-  var IIIF_1_IMAGE_LEVEL_2 = "http://iiif.io/api/image/1/level2.json";
-  var IIIF_1_IMAGE_LEVEL_2_PROFILE = "http://iiif.io/api/image/1/profiles/level2.json";
-  var IIIF_2_IMAGE_LEVEL_0 = "http://iiif.io/api/image/2/level0.json";
-  var IIIF_2_IMAGE_LEVEL_0_PROFILE = "http://iiif.io/api/image/2/profiles/level0.json";
-  var IIIF_2_IMAGE_LEVEL_1 = "http://iiif.io/api/image/2/level1.json";
-  var IIIF_2_IMAGE_LEVEL_1_PROFILE = "http://iiif.io/api/image/2/profiles/level1.json";
-  var IIIF_2_IMAGE_LEVEL_2 = "http://iiif.io/api/image/2/level2.json";
-  var IIIF_2_IMAGE_LEVEL_2_PROFILE = "http://iiif.io/api/image/2/profiles/level2.json";
-  var IIIF_3_IMAGE_LEVEL_0 = "level0";
-  var IIIF_3_IMAGE_LEVEL_1 = "level1";
-  var IIIF_3_IMAGE_LEVEL_2 = "level2";
-  var IIIF_2_IMAGE_LEVEL_0_NO_JSON = "http://iiif.io/api/image/2/level0";
-  var IIIF_2_IMAGE_LEVEL_1_NO_JSON = "http://iiif.io/api/image/2/level1";
-  var IIIF_2_IMAGE_LEVEL_2_NO_JSON = "http://iiif.io/api/image/2/level2";
-  var level1Support = [
-    IIIF_2_IMAGE_LEVEL_1_NO_JSON,
-    IIIF_2_IMAGE_LEVEL_2_NO_JSON,
-    STANFORD_IIIF_IMAGE_COMPLIANCE_1,
-    STANFORD_IIIF_IMAGE_COMPLIANCE_2,
-    STANFORD_IIIF_IMAGE_CONFORMANCE_1,
-    STANFORD_IIIF_IMAGE_CONFORMANCE_2,
-    STANFORD_IIIF_1_IMAGE_COMPLIANCE_1,
-    STANFORD_IIIF_1_IMAGE_COMPLIANCE_2,
-    STANFORD_IIIF_1_IMAGE_CONFORMANCE_1,
-    STANFORD_IIIF_1_IMAGE_CONFORMANCE_2,
-    IIIF_1_IMAGE_LEVEL_1,
-    IIIF_1_IMAGE_LEVEL_1_PROFILE,
-    IIIF_1_IMAGE_LEVEL_2,
-    IIIF_1_IMAGE_LEVEL_2_PROFILE,
-    IIIF_2_IMAGE_LEVEL_1,
-    IIIF_2_IMAGE_LEVEL_1_PROFILE,
-    IIIF_2_IMAGE_LEVEL_2,
-    IIIF_2_IMAGE_LEVEL_2_PROFILE,
-    IIIF_3_IMAGE_LEVEL_1,
-    IIIF_3_IMAGE_LEVEL_2
-  ];
-  var imageServiceProfiles = [
-    IIIF_2_IMAGE_LEVEL_0_NO_JSON,
-    IIIF_2_IMAGE_LEVEL_1_NO_JSON,
-    IIIF_2_IMAGE_LEVEL_2_NO_JSON,
-    STANFORD_IIIF_IMAGE_COMPLIANCE_0,
-    STANFORD_IIIF_IMAGE_COMPLIANCE_1,
-    STANFORD_IIIF_IMAGE_COMPLIANCE_2,
-    STANFORD_IIIF_IMAGE_CONFORMANCE_0,
-    STANFORD_IIIF_IMAGE_CONFORMANCE_1,
-    STANFORD_IIIF_IMAGE_CONFORMANCE_2,
-    STANFORD_IIIF_1_IMAGE_COMPLIANCE_0,
-    STANFORD_IIIF_1_IMAGE_COMPLIANCE_1,
-    STANFORD_IIIF_1_IMAGE_COMPLIANCE_2,
-    STANFORD_IIIF_1_IMAGE_CONFORMANCE_0,
-    STANFORD_IIIF_1_IMAGE_CONFORMANCE_1,
-    STANFORD_IIIF_1_IMAGE_CONFORMANCE_2,
-    IIIF_1_IMAGE_LEVEL_0,
-    IIIF_1_IMAGE_LEVEL_0_PROFILE,
-    IIIF_1_IMAGE_LEVEL_1,
-    IIIF_1_IMAGE_LEVEL_1_PROFILE,
-    IIIF_1_IMAGE_LEVEL_2,
-    IIIF_1_IMAGE_LEVEL_2_PROFILE,
-    IIIF_2_IMAGE_LEVEL_0,
-    IIIF_2_IMAGE_LEVEL_0_PROFILE,
-    IIIF_2_IMAGE_LEVEL_1,
-    IIIF_2_IMAGE_LEVEL_1_PROFILE,
-    IIIF_2_IMAGE_LEVEL_2,
-    IIIF_2_IMAGE_LEVEL_2_PROFILE,
-    IIIF_3_IMAGE_LEVEL_0,
-    IIIF_3_IMAGE_LEVEL_1,
-    IIIF_3_IMAGE_LEVEL_2
-  ];
-  function getId(resource) {
-    if (resource["@id"]) {
-      return resource["@id"];
-    }
-    if (resource.id) {
-      return resource.id;
-    }
-    return void 0;
-  }
-  function isImageService(service) {
-    if (!service || !service.profile) {
-      return false;
-    }
-    if (!getId(service)) {
-      return false;
-    }
-    const profiles = Array.isArray(service.profile) ? service.profile : [service.profile];
-    for (const profile of profiles) {
-      if (typeof profile === "string" && imageServiceProfiles.indexOf(profile) !== -1) {
-        return true;
-      }
-    }
-    return false;
-  }
-  function supportsCustomSizes(service) {
-    if (!isImageService(service)) {
-      return false;
-    }
-    const profiles = Array.isArray(service.profile) ? service.profile : [service.profile];
-    for (const profile of profiles) {
-      if (typeof profile === "string") {
-        if (level1Support.indexOf(profile) !== -1) {
-          return true;
-        }
-      } else {
-        const supports = profile.supports || [];
-        if (supports.indexOf("regionByPx") !== -1 && (supports.indexOf("sizeByW") !== -1 || supports.indexOf("sizeByWh") !== -1)) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-  function getCustomSizeFromService(service) {
-    if (!supportsCustomSizes(service)) {
-      return [];
-    }
-    const imagesSizes = [];
-    const profiles = Array.isArray(service.profile) ? service.profile : [service.profile];
-    const pLen = profiles.length;
-    for (let x4 = 0; x4 < pLen; x4++) {
-      const profile = profiles[x4];
-      if (typeof profile !== "string") {
-        if (profile.maxHeight || profile.maxWidth) {
-          return [
-            {
-              id: getId(service),
-              type: "variable",
-              minWidth: 0,
-              minHeight: 0,
-              maxHeight: profile.maxHeight || profile.maxWidth,
-              maxWidth: profile.maxWidth || profile.maxHeight
-            }
-          ];
-        }
-      }
-    }
-    if (service.tiles) {
-      const len = service.tiles.length;
-      for (let y3 = 0; y3 < len; y3++) {
-        const tile = service.tiles[y3];
-        if (tile.height || tile.width) {
-          imagesSizes.push({
-            id: getId(service),
-            type: "variable",
-            minHeight: 0,
-            minWidth: 0,
-            maxHeight: tile.height || tile.width,
-            maxWidth: tile.width
-          });
-        }
-      }
-    }
-    return imagesSizes;
-  }
-  function inferSizeFromUrl(image) {
-    const regex = /^.*\/(full)\/(((\d+),(\d+)?)|max)\/(\d+)\/default\.(jpg|png|jpeg)$/;
-    const match = image.match(regex);
-    if (match) {
-      const region = match[1];
-      const width = parseInt(match[4], 10);
-      const height = parseInt(match[5], 10);
-      const format = match[7];
-      if ((region === "max" || region === "full") && width && height && format) {
-        return {
-          type: "fixed",
-          id: image,
-          height,
-          width
-        };
-      }
-    }
-    return { type: "unknown", id: image };
-  }
-  function getType(resource) {
-    if (resource["@type"]) {
-      return resource["@type"];
-    }
-    if (resource.type) {
-      return resource.type;
-    }
-    return void 0;
-  }
-  function getFixedSizeFromImage(contentResource) {
-    if (typeof contentResource === "string") {
-      return inferSizeFromUrl(contentResource);
-    }
-    const type = getType(contentResource);
-    if (type !== "Image" && type !== "sc:Image") {
-      return null;
-    }
-    const image = contentResource;
-    const id = getId(image);
-    if (!id) {
-      return null;
-    }
-    if (id && image.width && image.height) {
-      return {
-        id,
-        type: "fixed",
-        width: image.width,
-        height: image.height,
-        unsafe: true
-      };
-    }
-    return inferSizeFromUrl(id);
-  }
-  function getFixedSizesFromService(service) {
-    if (!isImageService(service)) {
-      return [];
-    }
-    return (service && service.sizes ? service.sizes : []).map((size) => {
-      return {
-        id: getId(service),
-        type: "fixed-service",
-        height: size.height,
-        width: size.width
-      };
-    });
-  }
-  function getImageCandidatesFromService(service) {
-    const candidates = [];
-    const totalServices = service.length;
-    for (let s8 = 0; s8 < totalServices; s8++) {
-      const fixedSizes = getFixedSizesFromService(service[s8]);
-      if (fixedSizes.length) {
-        candidates.push(...fixedSizes);
-      }
-      const customSizes = getCustomSizeFromService(service[s8]);
-      if (customSizes.length) {
-        candidates.push(...customSizes);
-      }
-    }
-    return candidates;
-  }
-  function getImageServices(resource) {
-    const services = resource.service ? Array.isArray(resource.service) ? resource.service : [resource.service] : [];
-    const totalServices = services.length;
-    const imageServices = [];
-    for (let i7 = 0; i7 < totalServices; i7++) {
-      if (isImageService(services[i7])) {
-        imageServices.push(services[i7]);
-      }
-    }
-    return imageServices;
-  }
-  function getImageCandidates(unknownResource, dereference = true, loader) {
-    const candidates = [];
-    const fixedSizeFromImage = getFixedSizeFromImage(unknownResource);
-    if (fixedSizeFromImage === null) {
-      return candidates;
-    }
-    const resource = unknownResource;
-    candidates.push(fixedSizeFromImage);
-    if (dereference && resource.width && resource.height) {
-      const refCandidates = [];
-      const imageServices = getImageServices(resource);
-      for (const service of imageServices) {
-        const request = {
-          id: getId(service),
-          width: resource.width,
-          height: resource.height
-        };
-        if (loader.canLoadSync(request)) {
-          const externalService = loader.loadServiceSync(request);
-          if (externalService) {
-            if (!externalService.height) {
-              externalService.height = resource.height;
-            }
-            if (!externalService.width) {
-              externalService.width = resource.width;
-            }
-            refCandidates.push(...getImageCandidatesFromService([externalService]));
-          }
-        }
-      }
-      if (refCandidates.length) {
-        candidates.push(...refCandidates);
-        return candidates;
-      }
-    }
-    if (resource.service) {
-      candidates.push(...getImageCandidatesFromService(resource.service));
-    }
-    return candidates;
-  }
-  function getImageFromTileSource(image, targetWidth, targetHeight) {
-    const id = canonicalServiceUrl(getId(image)).slice(0, -10);
-    const url = [
-      id,
-      "full",
-      [targetWidth, targetHeight || ""].join(","),
-      0,
-      "default.jpg"
-    ].join("/");
-    return {
-      id: url,
-      type: "fixed",
-      width: targetWidth,
-      height: targetHeight || image.height / image.width * targetWidth,
-      unsafe: image.width > targetWidth
-    };
-  }
-  function getImageServerFromId(url) {
-    const id = url.replace(/(https?:\/\/)?(www.)?/i, "");
-    if (id.indexOf("/") !== -1) {
-      return id.split("/")[0];
-    }
-    return id;
-  }
-  function isBestMatch(request, current, candidate) {
-    const width = !request.width ? request.maxWidth : request.width;
-    return candidate.height <= request.maxHeight && candidate.width <= request.maxWidth && candidate.height >= request.minHeight && candidate.width >= request.minWidth && (!current || Math.abs(candidate.width - width) < Math.abs(current.width - width));
-  }
-  function pickBestFromCandidates(inputRequest, candidates) {
-    const log = [];
-    const request = Object.assign({
-      unsafeImageService: false,
-      atAnyCost: true,
-      fallback: true,
-      minHeight: 64,
-      minWidth: 64,
-      maxHeight: Infinity,
-      maxWidth: Infinity,
-      returnAllOptions: false,
-      preferFixedSize: false,
-      allowUnsafe: false,
-      explain: false,
-      height: 0,
-      width: 0
-    }, inputRequest);
-    const lastResorts = [];
-    const fallback = [];
-    let currentChoice = null;
-    const swapChoice = (candidate, current) => {
-      if (isBestMatch(request, current, candidate)) {
-        if (request.preferFixedSize && candidate.unsafe) {
-          fallback.push(candidate);
-          return;
-        }
-        if (request.returnAllOptions && current) {
-          fallback.push(current);
-        }
-        currentChoice = candidate;
-      } else if (request.returnAllOptions) {
-        fallback.push(candidate);
-      }
-    };
-    const candidateGroups = candidates.length;
-    for (let x4 = 0; x4 < candidateGroups; x4++) {
-      const group = candidates[x4]();
-      const candidatesLength = group.length;
-      for (let y3 = 0; y3 < candidatesLength; y3++) {
-        const candidate = group[y3];
-        if (candidate.type === "unknown" && request.atAnyCost) {
-          lastResorts.push(candidate);
-        }
-        if (candidate.type === "fixed") {
-          if (candidate.unsafe) {
-            lastResorts.push(candidate);
-          } else {
-            swapChoice(candidate, currentChoice);
-          }
-        }
-        if (candidate.type === "fixed-service") {
-          if (request.unsafeImageService) {
-            const choice = getImageFromTileSource(candidate, request.width, request.height);
-            swapChoice(choice, currentChoice);
-          } else {
-            const choice = getImageFromTileSource(candidate, candidate.width, candidate.height);
-            swapChoice(choice, currentChoice);
-          }
-        }
-        if (candidate.type === "variable") {
-          if (candidate.maxWidth) {
-            const choice = getImageFromTileSource({
-              id: candidate.id,
-              type: "fixed-service",
-              width: candidate.maxWidth,
-              height: candidate.maxWidth
-            }, candidate.maxWidth);
-            swapChoice(choice, currentChoice);
-          }
-        }
-      }
-      if (currentChoice && !request.returnAllOptions) {
-        if (currentChoice.unsafe || request.allowUnsafe) {
-          continue;
-        }
-        break;
-      }
-    }
-    if (request.atAnyCost && fallback.length === 0) {
-      return {
-        best: currentChoice || lastResorts[0],
-        fallback: lastResorts.slice(1),
-        log
-      };
-    }
-    if (request.returnAllOptions) {
-      return {
-        best: request.atAnyCost ? currentChoice || fallback[0] || lastResorts[0] : currentChoice || fallback[0],
-        fallback: [...fallback, ...lastResorts],
-        log
-      };
-    }
-    return {
-      best: currentChoice || fallback[0] || null,
-      fallback: currentChoice ? fallback : fallback.slice(1),
-      log
-    };
-  }
-  function sampledTilesToTiles(width, height, sampledTiles) {
-    const maxDim = width > height ? width : height;
-    const len = sampledTiles.length;
-    const newTiles = [];
-    for (let i7 = 0; i7 < len; i7++) {
-      const tile = sampledTiles[i7];
-      let lastSize = tile.scaleFactors[0];
-      let curWidth = maxDim / lastSize;
-      const scaleFactors = [lastSize];
-      while (curWidth >= tile.width) {
-        lastSize = lastSize * 2;
-        scaleFactors.push(lastSize);
-        curWidth = curWidth / 2;
-      }
-      newTiles.push(Object.assign(Object.assign({}, tile), { scaleFactors }));
-    }
-    return newTiles;
-  }
-  function sizesMatch(sizesA, sizesB) {
-    if (sizesA.length !== sizesB.length) {
-      return false;
-    }
-    if (sizesA.length === 0 && sizesB.length === 0) {
-      return true;
-    }
-    const len = sizesA.length;
-    let matchOrder = true;
-    for (let i7 = 0; i7 < len; i7++) {
-      const a7 = sizesA[i7];
-      const b7 = sizesB[i7];
-      if (a7.width !== b7.width || a7.height !== b7.height) {
-        matchOrder = false;
-        break;
-      }
-    }
-    if (matchOrder) {
-      return true;
-    }
-    let matching = 0;
-    for (let a7 = 0; a7 < len; a7++) {
-      for (let b7 = 0; b7 < len; b7++) {
-        if (sizesA[a7].width === sizesB[b7].width && sizesA[a7].height === sizesB[b7].height) {
-          matching++;
-          break;
-        }
-      }
-    }
-    return matching === len;
-  }
-  function __awaiter(thisArg, _arguments, P2, generator) {
-    function adopt(value) {
-      return value instanceof P2 ? value : new P2(function(resolve) {
-        resolve(value);
-      });
-    }
-    return new (P2 || (P2 = Promise))(function(resolve, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e11) {
-          reject(e11);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e11) {
-          reject(e11);
-        }
-      }
-      function step(result) {
-        result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  }
-  var ImageServiceLoader = class {
-    constructor() {
-      this.config = {
-        verificationsRequired: 1,
-        approximateServices: true,
-        enableFetching: true,
-        disableThrottling: false
-      };
-      this.fetchingCount = 0;
-      this.imageServices = {};
-      this.knownImageServers = {};
-    }
-    setConfig(config2) {
-      Object.assign(this.config, config2);
-    }
-    sample(service, imageServiceRequest, preLoaded = true) {
-      const server = getImageServerFromId(getId(service));
-      const serviceUrl = canonicalServiceUrl(getId(service));
-      const existing = this.knownImageServers[server];
-      this.imageServices[serviceUrl] = Object.assign(service, { real: true });
-      if (existing) {
-        return this.verify(service);
-      }
-      this.knownImageServers[server] = {
-        verifications: 0,
-        malformed: false,
-        root: server,
-        preLoaded,
-        sampledId: getId(service),
-        verified: false,
-        server: null,
-        result: {
-          context: service["@context"] || [],
-          sampledProfile: service.profile,
-          resourceServiceRatio: imageServiceRequest && service.height ? imageServiceRequest.height / service.height : 1,
-          sampledSizes: service.sizes || [],
-          sizeRatios: extractFixedSizeScales(service.width, service.height, service.sizes || []),
-          sampledTiles: service.tiles || []
-        }
-      };
-      return true;
-    }
-    preLoad(server, forceVerify = true) {
-      this.knownImageServers[server.root] = server;
-      if (forceVerify) {
-        this.knownImageServers[server.root].malformed = false;
-        this.knownImageServers[server.root].verifications = this.config.verificationsRequired;
-      }
-    }
-    predict(resource, verify = false, force = false) {
-      const serverId = getImageServerFromId(getId(resource));
-      const imageServer = this.knownImageServers[serverId];
-      if (!imageServer || !imageServer.result || !force && (imageServer.malformed || imageServer.verifications < this.config.verificationsRequired)) {
-        return null;
-      }
-      const serviceUrl = canonicalServiceUrl(getId(resource));
-      if (!this.imageServices[serviceUrl]) {
-        this.imageServices[serviceUrl] = {
-          "@context": imageServer.result.context,
-          "@id": getId(resource),
-          id: getId(resource),
-          protocol: "http://iiif.io/api/image",
-          tiles: sampledTilesToTiles(resource.width, resource.height, imageServer.result.sampledTiles),
-          sizes: fixedSizesFromScales(Math.floor(resource.width / imageServer.result.resourceServiceRatio), Math.floor(resource.height / imageServer.result.resourceServiceRatio), imageServer.result.sizeRatios),
-          profile: imageServer.result.sampledProfile,
-          height: resource.height,
-          width: resource.width,
-          real: false
-        };
-      }
-      return this.imageServices[serviceUrl];
-    }
-    getThumbnailFromResource(unknownResource, request, dereference = true, otherCandidates = []) {
-      return __awaiter(this, void 0, void 0, function* () {
-        const candidates = yield this.getImageCandidates(unknownResource, dereference);
-        return pickBestFromCandidates(request, [
-          () => otherCandidates,
-          () => candidates
-        ]);
-      });
-    }
-    getImageCandidates(unknownResource, dereference = true) {
-      return __awaiter(this, void 0, void 0, function* () {
-        const resource = unknownResource;
-        if (dereference && resource.height && resource.width) {
-          const imageServices = getImageServices(resource);
-          for (const service of imageServices) {
-            const request = {
-              id: getId(service),
-              width: service.width ? service.width : resource.width,
-              height: service.height ? service.height : resource.height
-            };
-            yield this.loadService(request);
-          }
-        }
-        return getImageCandidates(unknownResource, dereference, this);
-      });
-    }
-    verify(resource) {
-      return __awaiter(this, void 0, void 0, function* () {
-        const prediction = this.predict(resource, false, true);
-        const imageService = yield this.fetchService(getId(resource));
-        if (!prediction) {
-          return false;
-        }
-        const isValid = prediction.height === imageService.height && prediction.width === imageService.width && prediction["@context"] === imageService["@context"] && sizesMatch(prediction.sizes || [], imageService.sizes || []);
-        if (isValid) {
-          const serverId = getImageServerFromId(getId(resource));
-          this.knownImageServers[serverId].verifications += 1;
-          if (this.knownImageServers[serverId].verifications >= this.config.verificationsRequired) {
-            this.knownImageServers[serverId].verified = true;
-          }
-        }
-        return isValid;
-      });
-    }
-    canLoadSync(service) {
-      const serviceId = typeof service === "string" ? service : getId(service);
-      const canonical = canonicalServiceUrl(serviceId);
-      if (this.imageServices[canonical]) {
-        return true;
-      }
-      const server = this.knownImageServers[getImageServerFromId(serviceId)];
-      return server && !server.malformed && server.verifications >= this.config.verificationsRequired;
-    }
-    markAsMalformed(resource) {
-      return __awaiter(this, void 0, void 0, function* () {
-        this.knownImageServers[getImageServerFromId(getId(resource))].malformed = true;
-        return this.loadService(resource, true);
-      });
-    }
-    fetchService(serviceId, forceFresh = false) {
-      return __awaiter(this, void 0, void 0, function* () {
-        const serviceUrl = canonicalServiceUrl(serviceId);
-        if (this.imageServices[serviceUrl] && (!forceFresh || this.imageServices[serviceUrl].real)) {
-          return this.imageServices[serviceUrl];
-        }
-        if (!this.config.enableFetching) {
-          throw new Error("Fetching is not enabled");
-        }
-        const json = yield fetch(serviceUrl).then((service) => service.json());
-        if (!json.id && json["@id"]) {
-          json.id = json["@id"];
-        }
-        if (json.id !== serviceId) {
-          json.id = serviceId;
-          if (json["@id"]) {
-            json["@id"] = serviceId;
-          }
-        }
-        this.imageServices[serviceUrl] = Object.assign(json, { real: true });
-        return this.imageServices[serviceUrl];
-      });
-    }
-    loadService(resource, forceFresh = false) {
-      return __awaiter(this, void 0, void 0, function* () {
-        if (!this.config.disableThrottling) {
-          while (true) {
-            if (this.fetchingCount >= this.config.verificationsRequired) {
-              yield new Promise((resolve) => setTimeout(resolve, 500));
-            } else {
-              break;
-            }
-          }
-        }
-        const imageServer = this.knownImageServers[getImageServerFromId(getId(resource))];
-        if (imageServer && !imageServer.malformed && !forceFresh) {
-          yield imageServer.result;
-          const service = this.loadServiceSync(resource);
-          if (service) {
-            return service;
-          }
-        }
-        this.fetchingCount++;
-        const serviceJson = yield this.fetchService(getId(resource), forceFresh);
-        this.fetchingCount--;
-        if (serviceJson.real) {
-          this.sample(serviceJson, resource);
-        }
-        return serviceJson;
-      });
-    }
-    loadServiceSync(resource) {
-      const serviceId = canonicalServiceUrl(getId(resource));
-      if (this.imageServices[serviceId]) {
-        return this.imageServices[serviceId];
-      }
-      return this.predict(resource);
-    }
-  };
-  var imageServiceLoader = new ImageServiceLoader();
-
-  // node_modules/@hyperion-framework/presentation-2-parser/dist/index.es.js
-  var types = [
-    "sc:Collection",
-    "sc:Manifest",
-    "sc:Canvas",
-    "oa:AnnotationList",
-    "oa:Annotation",
-    "sc:Range",
-    "sc:Layer",
-    "sc:Sequence",
-    "oa:Choice",
-    "Service",
-    "ContentResource"
-  ];
-  function identifyResource(resource) {
-    if (typeof resource === "undefined" || resource === null) {
-      throw new Error("Null or undefined is not a valid entity.");
-    }
-    if (Array.isArray(resource)) {
-      throw new Error("Array is not a valid entity");
-    }
-    if (typeof resource !== "object") {
-      throw new Error(`${typeof resource} is not a valid entity`);
-    }
-    if (typeof resource["@type"] === "string") {
-      const hasType = types.indexOf(resource["@type"]);
-      if (hasType !== -1) {
-        return types[hasType];
-      }
-    }
-    if (resource.profile) {
-      return "Service";
-    }
-    if (resource.format) {
-      return "ContentResource";
-    }
-    if (resource["@type"]) {
-      return "ContentResource";
-    }
-    throw new Error("Resource type is not known");
-  }
-  var Traverse = class {
-    constructor(traversals, options = {}) {
-      this.traversals = Object.assign({ collection: [], manifest: [], canvas: [], annotationList: [], sequence: [], annotation: [], contentResource: [], choice: [], range: [], service: [], layer: [] }, traversals);
-      this.options = Object.assign({ convertPropsToArray: true, mergeMemberProperties: true, allowUndefinedReturn: false }, options);
-    }
-    static all(traversal) {
-      return new Traverse({
-        collection: [traversal],
-        manifest: [traversal],
-        canvas: [traversal],
-        annotationList: [traversal],
-        sequence: [traversal],
-        annotation: [traversal],
-        contentResource: [traversal],
-        choice: [traversal],
-        range: [traversal],
-        service: [traversal],
-        layer: [traversal]
-      });
-    }
-    traverseCollection(collection) {
-      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseCollectionItems(collection))), this.traversals.collection);
-    }
-    traverseCollectionItems(collection) {
-      if (this.options.mergeMemberProperties) {
-        const members = [
-          ...(collection.manifests || []).map((manifest) => {
-            if (typeof manifest === "string") {
-              return { "@id": manifest, "@type": "sc:Manifest" };
-            }
-            return manifest;
-          }),
-          ...(collection.collections || []).map((subCollection) => {
-            if (typeof subCollection === "string") {
-              return { "@id": subCollection, "@type": "sc:Collection" };
-            }
-            return subCollection;
-          }),
-          ...collection.members || []
-        ];
-        delete collection.collections;
-        delete collection.manifests;
-        collection.members = members;
-      }
-      if (collection.manifests) {
-        collection.manifests = collection.manifests.map((manifest) => this.traverseManifest(typeof manifest === "string" ? { "@id": manifest, "@type": "sc:Manifest" } : manifest));
-      }
-      if (collection.collections) {
-        collection.collections = collection.collections.map((subCollection) => this.traverseCollection(typeof subCollection === "string" ? { "@id": subCollection, "@type": "sc:Collection" } : subCollection));
-      }
-      if (collection.members) {
-        collection.members = collection.members.map((member) => {
-          if (typeof member === "string") {
-            return member;
-          }
-          return this.traverseUnknown(member);
-        });
-      }
-      return collection;
-    }
-    traverseManifest(manifest) {
-      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseManifestItems(manifest))), this.traversals.manifest);
-    }
-    traverseManifestItems(manifest) {
-      if (manifest.sequences) {
-        manifest.sequences = manifest.sequences.map((sequence) => this.traverseSequence(sequence));
-      }
-      if (manifest.structures) {
-        manifest.structures = manifest.structures.map((structure) => this.traverseRange(structure));
-      }
-      return manifest;
-    }
-    traverseSequence(sequence) {
-      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseSequenceItems(sequence))), this.traversals.sequence);
-    }
-    traverseSequenceItems(sequence) {
-      if (sequence.canvases) {
-        sequence.canvases = sequence.canvases.map((canvas) => this.traverseCanvas(canvas));
-      }
-      return sequence;
-    }
-    traverseCanvas(canvas) {
-      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseCanvasItems(canvas))), this.traversals.canvas);
-    }
-    traverseCanvasItems(canvas) {
-      if (canvas.images) {
-        canvas.images = canvas.images.map((image) => this.traverseAnnotation(image));
-      }
-      if (canvas.otherContent) {
-        canvas.otherContent = canvas.otherContent.map((annotationList) => this.traverseAnnotationList(annotationList));
-      }
-      return canvas;
-    }
-    traverseRange(range) {
-      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseRangeItems(range))), this.traversals.range);
-    }
-    traverseRangeItems(range) {
-      if (this.options.mergeMemberProperties) {
-        const members = [
-          ...(range.ranges || []).map((innerRange) => {
-            if (typeof innerRange === "string") {
-              return { "@id": innerRange, "@type": "sc:Range" };
-            }
-            return innerRange;
-          }),
-          ...(range.canvases || []).map((canvas) => {
-            if (typeof canvas === "string") {
-              return { "@id": canvas, "@type": "sc:Canvas" };
-            }
-            return canvas;
-          }),
-          ...range.members || []
-        ];
-        delete range.ranges;
-        delete range.canvases;
-        range.members = members.length ? members.map((member) => this.traverseUnknown(member)) : void 0;
-      }
-      return range;
-    }
-    traverseAnnotationList(annotationList) {
-      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseAnnotationListItems(annotationList))), this.traversals.annotationList);
-    }
-    traverseAnnotationListItems(annotationList) {
-      if (annotationList.resources) {
-        annotationList.resources = annotationList.resources.map((annotation) => this.traverseAnnotation(annotation));
-      }
-      return annotationList;
-    }
-    traverseAnnotation(annotation) {
-      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseAnnotationItems(annotation))), this.traversals.annotation);
-    }
-    traverseAnnotationItems(annotation) {
-      if (annotation.resource) {
-        annotation.resource = this.traverseContentResource(annotation.resource);
-      }
-      if (annotation.on)
-        ;
-      return annotation;
-    }
-    traverseLayer(layer) {
-      return this.traverseType(this.traverseLinking(this.traverseLayerItems(layer)), this.traversals.layer);
-    }
-    traverseLayerItems(layer) {
-      if (layer.otherContent) {
-        layer.otherContent = layer.otherContent.map((annotationList) => this.traverseAnnotationList(annotationList));
-      }
-      return layer;
-    }
-    traverseChoice(choice) {
-      return this.traverseType(this.traverseChoiceItems(choice), this.traversals.choice);
-    }
-    traverseChoiceItems(choice) {
-      if (choice.default && choice.default !== "rdf:nil") {
-        choice.default = this.traverseContentResource(choice.default);
-      }
-      if (choice.item && choice.item !== "rdf:nil") {
-        choice.item = choice.item.map((item) => this.traverseContentResource(item));
-      }
-      return choice;
-    }
-    traverseService(service) {
-      return this.traverseType(this.traverseLinking(service), this.traversals.service);
-    }
-    traverseContentResource(contentResource) {
-      if (contentResource["@type"] === "oa:Choice") {
-        return this.traverseChoice(contentResource);
-      }
-      return this.traverseType(this.traverseDescriptive(this.traverseLinking(contentResource)), this.traversals.contentResource);
-    }
-    traverseUnknown(item) {
-      if (!item["@type"] || typeof item === "string") {
-        return item;
-      }
-      switch (identifyResource(item)) {
-        case "sc:Collection":
-          return this.traverseCollection(item);
-        case "sc:Manifest":
-          return this.traverseManifest(item);
-        case "sc:Canvas":
-          return this.traverseCanvas(item);
-        case "sc:Sequence":
-          return this.traverseSequence(item);
-        case "sc:Range":
-          return this.traverseRange(item);
-        case "oa:Annotation":
-          return this.traverseAnnotation(item);
-        case "oa:AnnotationList":
-          return this.traverseAnnotationList(item);
-        case "sc:Layer":
-          return this.traverseLayer(item);
-        case "Service":
-          return this.traverseService(item);
-        case "oa:Choice":
-          return this.traverseChoice(item);
-        case "ContentResource":
-          return this.traverseContentResource(item);
-      }
-      if (item.profile) {
-        return this.traverseService(item);
-      }
-      return item;
-    }
-    traverseImageResource(contentResource) {
-      const wasArray = Array.isArray(contentResource);
-      const resourceList = Array.isArray(contentResource) ? contentResource : [contentResource];
-      const newResourceList = [];
-      for (const singleResource of resourceList) {
-        if (typeof singleResource === "string") {
-          newResourceList.push(this.traverseContentResource({ "@id": singleResource, "@type": "dctypes:Image" }));
-        } else {
-          newResourceList.push(this.traverseContentResource(singleResource));
-        }
-      }
-      if (!wasArray && !this.options.convertPropsToArray) {
-        return newResourceList[0];
-      }
-      return newResourceList;
-    }
-    traverseDescriptive(resource) {
-      if (resource.thumbnail) {
-        resource.thumbnail = this.traverseImageResource(resource.thumbnail);
-      }
-      if (resource.logo) {
-        resource.logo = this.traverseImageResource(resource.logo);
-      }
-      return resource;
-    }
-    traverseOneOrMoreServices(allServices) {
-      const wasArray = Array.isArray(allServices);
-      const services = Array.isArray(allServices) ? allServices : [allServices];
-      const newServices = [];
-      for (const service of services) {
-        newServices.push(this.traverseService(service));
-      }
-      if (!wasArray && !this.options.convertPropsToArray) {
-        return newServices[0];
-      }
-      return newServices;
-    }
-    traverseLinking(resource) {
-      if (resource.related) {
-        resource.related = this.traverseOneOrManyType(resource.related, this.traversals.contentResource);
-      }
-      if (resource.rendering) {
-        resource.rendering = this.traverseOneOrManyType(resource.rendering, this.traversals.contentResource);
-      }
-      if (resource.service) {
-        resource.service = this.traverseOneOrMoreServices(resource.service);
-      }
-      if (resource.seeAlso) {
-        resource.seeAlso = this.traverseOneOrManyType(resource.seeAlso, this.traversals.contentResource);
-      }
-      if (resource.within) {
-        if (typeof resource.within === "string")
-          ;
-        else {
-          resource.within = this.traverseOneOrManyType(resource.within, this.traversals.contentResource);
-        }
-      }
-      if (resource.startCanvas) {
-        if (typeof resource.startCanvas === "string") {
-          resource.startCanvas = this.traverseType({ "@id": resource.startCanvas, "@type": "sc:Canvas" }, this.traversals.canvas);
-        } else if (resource.startCanvas) {
-          this.traverseType(resource.startCanvas, this.traversals.canvas);
-        }
-      }
-      if (resource.contentLayer) {
-        if (typeof resource.contentLayer === "string") {
-          resource.contentLayer = this.traverseLayer({ "@id": resource.contentLayer, "@type": "sc:Layer" });
-        } else {
-          resource.contentLayer = this.traverseLayer(resource.contentLayer);
-        }
-      }
-      return resource;
-    }
-    traverseOneOrManyType(object, traversals) {
-      if (!Array.isArray(object)) {
-        if (this.options.convertPropsToArray) {
-          object = [object];
-        } else {
-          return this.traverseType(object, traversals);
-        }
-      }
-      return object.map((singleObj) => this.traverseType(singleObj, traversals));
-    }
-    traverseType(object, traversals) {
-      return traversals.reduce((acc, traversal) => {
-        const returnValue = traversal(acc);
-        if (typeof returnValue === "undefined" && !this.options.allowUndefinedReturn) {
-          return acc;
-        }
-        return returnValue;
-      }, object);
-    }
-  };
-  function __rest(s8, e11) {
-    var t13 = {};
-    for (var p8 in s8)
-      if (Object.prototype.hasOwnProperty.call(s8, p8) && e11.indexOf(p8) < 0)
-        t13[p8] = s8[p8];
-    if (s8 != null && typeof Object.getOwnPropertySymbols === "function")
-      for (var i7 = 0, p8 = Object.getOwnPropertySymbols(s8); i7 < p8.length; i7++) {
-        if (e11.indexOf(p8[i7]) < 0 && Object.prototype.propertyIsEnumerable.call(s8, p8[i7]))
-          t13[p8[i7]] = s8[p8[i7]];
-      }
-    return t13;
-  }
-  var configuration = {
-    attributionLabel: "Attribution",
-    lang: "none",
-    providerId: "http://example.org/provider",
-    providerName: "Unknown"
-  };
-  function convertLanguageMapping(inputLangProperty, defaultLang = "none") {
-    if (!inputLangProperty) {
-      return {};
-    }
-    const arrayOfValues = Array.isArray(inputLangProperty) ? inputLangProperty : [inputLangProperty];
-    const languageMap = {};
-    for (const language of arrayOfValues) {
-      if (typeof language === "string") {
-        languageMap[defaultLang] = languageMap[defaultLang] ? languageMap[defaultLang] : [];
-        languageMap[defaultLang].push(language || "");
-        continue;
-      }
-      if (!language["@language"]) {
-        languageMap[defaultLang] = languageMap[defaultLang] ? languageMap[defaultLang] : [];
-        languageMap[defaultLang].push(language["@value"] || "");
-        continue;
-      }
-      const lang = language["@language"];
-      languageMap[lang] = languageMap[lang] ? languageMap[lang] : [];
-      languageMap[lang].push(language["@value"] || "");
-    }
-    return languageMap;
-  }
-  function getProfile(profile) {
-    if (Array.isArray(profile)) {
-      return getProfile(profile.find((s8) => typeof s8 === "string"));
-    }
-    if (imageServiceProfiles.indexOf(profile) !== -1) {
-      return "level2";
-    }
-    if (level1Support.indexOf(profile) !== -1) {
-      return "level1";
-    }
-    if (typeof profile !== "string") {
-      return void 0;
-    }
-    return profile;
-  }
-  function getTypeFromContext(inputContexts) {
-    const contexts = Array.isArray(inputContexts) ? inputContexts : [inputContexts];
-    for (const context of contexts) {
-      switch (context) {
-        case "http://iiif.io/api/image/2/context.json":
-        case "http://library.stanford.edu/iiif/image-api/1.1/compliance.html#level2":
-          return "ImageService2";
-        case "http://iiif.io/api/image/1/context.json":
-        case "http://library.stanford.edu/iiif/image-api/1.1/context.json":
-          return "ImageService1";
-        case "http://iiif.io/api/annex/openannotation/context.json":
-          return "ImageApiSelector";
-      }
-    }
-    return void 0;
-  }
-  function getTypeFromProfile(inputProfile) {
-    switch (inputProfile) {
-      case "http://iiif.io/api/image/2/level0.json":
-      case "http://iiif.io/api/image/2/level1.json":
-      case "http://iiif.io/api/image/2/level2.json":
-        return "ImageService2";
-      case "http://iiif.io/api/auth/1/kiosk":
-      case "http://iiif.io/api/auth/1/login":
-      case "http://iiif.io/api/auth/1/clickthrough":
-      case "http://iiif.io/api/auth/1/external":
-      case "http://iiif.io/api/auth/0/kiosk":
-      case "http://iiif.io/api/auth/0/login":
-      case "http://iiif.io/api/auth/0/clickthrough":
-      case "http://iiif.io/api/auth/0/external":
-        return "AuthCookieService1";
-      case "http://iiif.io/api/auth/1/token":
-      case "http://iiif.io/api/auth/0/token":
-        return "AuthTokenService1";
-      case "http://iiif.io/api/auth/1/logout":
-      case "http://iiif.io/api/auth/0/logout":
-        return "AuthLogoutService1";
-      case "http://iiif.io/api/search/1/search":
-      case "http://iiif.io/api/search/0/search":
-        return "SearchService1";
-      case "http://iiif.io/api/search/1/autocomplete":
-      case "http://iiif.io/api/search/0/autocomplete":
-        return "AutoCompleteService1";
-    }
-    return void 0;
-  }
-  function ensureArray(maybeArray) {
-    if (Array.isArray(maybeArray)) {
-      return maybeArray;
-    }
-    return [maybeArray];
-  }
-  function removePrefix(str) {
-    for (const prefix of ["sc", "oa", "dcterms", "dctypes", "iiif"]) {
-      if (str.startsWith(`${prefix}:`)) {
-        return str.slice(prefix.length + 1);
-      }
-    }
-    return str;
-  }
-  function getNewType(resource) {
-    const id = resource["@id"] || resource.id;
-    let oldType = resource["@type"] || resource.type;
-    const profile = resource.profile || void 0;
-    const context = resource["@context"] || void 0;
-    if (profile) {
-      const possibleType = getTypeFromProfile(profile);
-      if (possibleType) {
-        return possibleType;
-      }
-    }
-    if (context) {
-      const possibleType = getTypeFromContext(context);
-      if (possibleType) {
-        return possibleType;
-      }
-    }
-    if (oldType) {
-      if (Array.isArray(oldType)) {
-        if (oldType.indexOf("oa:CssStylesheet") !== -1) {
-          return "CssStylesheet";
-        }
-        if (oldType.indexOf("cnt:ContentAsText") !== -1) {
-          return "TextualBody";
-        }
-        oldType = oldType[0];
-      }
-      for (const prefix of ["sc", "oa", "dcterms", "dctypes", "iiif"]) {
-        if (oldType.startsWith(`${prefix}:`)) {
-          oldType = oldType.slice(prefix.length + 1);
-          break;
-        }
-      }
-      switch (oldType) {
-        case "Layer":
-          return "AnnotationCollection";
-        case "AnnotationList":
-          return "AnnotationPage";
-        case "cnt:ContentAsText":
-          return "TextualBody";
-      }
-    }
-    if (resource.format) {
-      if (resource.format.startsWith("image/")) {
-        return "Image";
-      }
-      if (resource.format.startsWith("text/")) {
-        return "Text";
-      }
-      if (resource.format === "application/pdf") {
-        return "Text";
-      }
-      if (resource.format.startsWith("application/")) {
-        return "Dataset";
-      }
-    }
-    if (id && (id.endsWith(".jpg") || id.endsWith(".png") || id.endsWith(".jpeg"))) {
-      return "Image";
-    }
-    if (!oldType) {
-      return "unknown";
-    }
-    return oldType;
-  }
-  var licenseRegex = /http(s)?:\/\/(creativecommons.org|rightsstatements.org)[^"'\\<\n]+/gm;
-  function extractLicense(license) {
-    const matches = license.match(licenseRegex);
-    if (matches) {
-      return matches[0];
-    }
-    return license;
-  }
-  function fixLicense(license, licenseLabel = "Rights/License", lang = "none") {
-    let rights = null;
-    const metadata = [];
-    const licenseList = Array.isArray(license) ? license : [license];
-    for (const rawLicense of licenseList) {
-      const singleLicense = rawLicense ? extractLicense(rawLicense) : void 0;
-      if (singleLicense && (singleLicense.indexOf("creativecommons.org") !== -1 || singleLicense.indexOf("rightsstatements.org") !== -1)) {
-        if (singleLicense.startsWith("https://")) {
-          rights = `http://${singleLicense.slice(8)}`;
-        } else {
-          rights = singleLicense;
-        }
-        continue;
-      }
-      if (singleLicense) {
-        metadata.push({
-          label: { [lang]: [licenseLabel] },
-          value: { [lang]: [singleLicense] }
-        });
-      }
-    }
-    return [rights, metadata];
-  }
-  var removeContexts = [
-    "http://iiif.io/api/presentation/2/context.json",
-    "http://iiif.io/api/image/2/context.json",
-    "http://iiif.io/api/image/1/context.json",
-    "http://library.stanford.edu/iiif/image-api/1.1/context.json",
-    "http://iiif.io/api/search/1/context.json",
-    "http://iiif.io/api/search/0/context.json",
-    "http://iiif.io/api/auth/1/context.json",
-    "http://iiif.io/api/auth/0/context.json",
-    "http://iiif.io/api/annex/openannotation/context.json"
-  ];
-  function fixContext(inputContext) {
-    if (inputContext) {
-      const contexts = Array.isArray(inputContext) ? inputContext : [inputContext];
-      const newContexts = [];
-      for (const context of contexts) {
-        if (context === "http://iiif.io/api/presentation/2/context.json") {
-          newContexts.push("http://iiif.io/api/presentation/3/context.json");
-        }
-        if (removeContexts.indexOf(context) !== -1) {
-          continue;
-        }
-        newContexts.push(context);
-      }
-      if (contexts.length) {
-        return newContexts.length === 1 ? newContexts[0] : newContexts;
-      }
-    }
-    return void 0;
-  }
-  function convertMetadata(metadata) {
-    if (!metadata) {
-      return [];
-    }
-    return metadata.map((item) => {
-      return {
-        label: convertLanguageMapping(item.label),
-        value: convertLanguageMapping(item.value)
-      };
-    });
-  }
-  function removeUndefinedProperties(obj) {
-    for (const prop in obj) {
-      if (typeof obj[prop] === "undefined" || obj[prop] === null) {
-        delete obj[prop];
-      }
-    }
-    return obj;
-  }
-  var mintedIdCounter = 0;
-  function mintNewIdFromResource(resource, subresource) {
-    const origId = encodeURI(resource.id || resource["@id"] || "").trim();
-    if (origId && subresource) {
-      return `${origId}/${subresource}`;
-    }
-    if (origId) {
-      return origId;
-    }
-    mintedIdCounter++;
-    return `http://example.org/${resource["@type"]}${subresource ? `/${subresource}` : ""}/${mintedIdCounter}`;
-  }
-  function technicalProperties(resource) {
-    const allBehaviours = [...resource.behavior || []];
-    if (resource.viewingHint) {
-      allBehaviours.push(resource.viewingHint);
-    }
-    return {
-      "@context": resource["@context"] ? fixContext(resource["@context"]) : void 0,
-      id: (resource["@id"] || mintNewIdFromResource(resource)).trim(),
-      type: getNewType(resource),
-      behavior: allBehaviours.length ? allBehaviours : void 0,
-      height: resource.height ? resource.height : void 0,
-      width: resource.width ? resource.width : void 0,
-      motivation: resource.motivation ? removePrefix(resource.motivation) : void 0,
-      viewingDirection: resource.viewingDirection,
-      profile: resource.profile,
-      format: resource.format ? resource.format : void 0,
-      duration: void 0,
-      timeMode: void 0
-    };
-  }
-  function descriptiveProperties(resource) {
-    const [rights, extraMetadata] = fixLicense(resource.license);
-    const allMetadata = [...resource.metadata ? convertMetadata(resource.metadata) : [], ...extraMetadata];
-    return {
-      rights,
-      metadata: allMetadata.length ? allMetadata : void 0,
-      label: resource.label ? convertLanguageMapping(resource.label) : void 0,
-      requiredStatement: resource.attribution ? {
-        label: convertLanguageMapping(configuration.attributionLabel),
-        value: convertLanguageMapping(resource.attribution)
-      } : void 0,
-      navDate: resource.navDate,
-      summary: resource.description ? convertLanguageMapping(resource.description) : void 0,
-      thumbnail: resource.thumbnail
-    };
-  }
-  function parseWithin(resource) {
-    if (!resource.within) {
-      return void 0;
-    }
-    const withinProperties = Array.isArray(resource.within) ? resource.within : [resource.within];
-    const returnPartOf = [];
-    for (const within of withinProperties) {
-      if (typeof within === "string") {
-        if (within) {
-          switch (resource["@type"]) {
-            case "sc:Manifest":
-              returnPartOf.push({ id: within, type: "Collection" });
-              break;
-          }
-        }
-      } else if (within["@id"]) {
-        returnPartOf.push({
-          id: within["@id"],
-          type: getNewType(within)
-        });
-      } else
-        ;
-    }
-    return returnPartOf.length ? returnPartOf : void 0;
-  }
-  function linkingProperties(resource) {
-    const related = resource.related ? Array.isArray(resource.related) ? resource.related : [resource.related] : [];
-    const layer = resource.contentLayer;
-    return {
-      provider: resource.logo || related.length ? [
-        {
-          id: configuration.providerId,
-          type: "Agent",
-          homepage: related.length ? [related[0]] : void 0,
-          logo: resource.logo ? Array.isArray(resource.logo) ? resource.logo : [resource.logo] : void 0,
-          label: convertLanguageMapping(configuration.providerName)
-        }
-      ] : void 0,
-      partOf: parseWithin(resource),
-      rendering: resource.rendering,
-      seeAlso: resource.seeAlso,
-      start: resource.startCanvas,
-      service: resource.service ? ensureArray(resource.service) : void 0,
-      supplementary: layer ? [layer] : void 0
-    };
-  }
-  function upgradeCollection(collection) {
-    return removeUndefinedProperties(Object.assign(Object.assign(Object.assign(Object.assign({}, technicalProperties(collection)), descriptiveProperties(collection)), linkingProperties(collection)), { items: collection.members }));
-  }
-  function flattenArray(array) {
-    const returnArr = [];
-    for (const arr of array || []) {
-      returnArr.push(...arr);
-    }
-    return returnArr;
-  }
-  function upgradeManifest(manifest) {
-    return removeUndefinedProperties(Object.assign(Object.assign(Object.assign(Object.assign({}, technicalProperties(manifest)), descriptiveProperties(manifest)), linkingProperties(manifest)), { items: flattenArray(manifest.sequences || []), structures: manifest.structures }));
-  }
-  function upgradeCanvas(canvas) {
-    return removeUndefinedProperties(Object.assign(Object.assign(Object.assign(Object.assign({}, technicalProperties(canvas)), descriptiveProperties(canvas)), linkingProperties(canvas)), { items: canvas.images && canvas.images.length ? [
-      {
-        id: mintNewIdFromResource(canvas, "annotation-page"),
-        type: "AnnotationPage",
-        items: canvas.images
-      }
-    ] : void 0 }));
-  }
-  function upgradeAnnotationList(annotationPage) {
-    return removeUndefinedProperties(Object.assign(Object.assign(Object.assign(Object.assign({}, technicalProperties(annotationPage)), descriptiveProperties(annotationPage)), linkingProperties(annotationPage)), { items: annotationPage.resources }));
-  }
-  function upgradeSequence(sequence) {
-    if (!sequence.canvases || sequence.canvases.length === 0) {
-      return [];
-    }
-    return sequence.canvases;
-  }
-  function upgradeAnnotation(annotation) {
-    return removeUndefinedProperties(Object.assign(Object.assign(Object.assign(Object.assign({}, technicalProperties(annotation)), descriptiveProperties(annotation)), linkingProperties(annotation)), { target: typeof annotation.on === "string" ? encodeURI(annotation.on).trim() : annotation.on, body: annotation.resource }));
-  }
-  function upgradeContentResource(inputContentResource) {
-    const contentResource = inputContentResource;
-    return removeUndefinedProperties(Object.assign(Object.assign(Object.assign({}, technicalProperties(contentResource)), descriptiveProperties(contentResource)), linkingProperties(contentResource)));
-  }
-  function upgradeChoice(choice) {
-    const items = [];
-    if (choice.default && choice.default !== "rdf:nil") {
-      items.push(choice.default);
-    }
-    if (choice.item && choice.item !== "rdf:nil") {
-      items.push(...choice.item);
-    }
-    return Object.assign(Object.assign(Object.assign({}, technicalProperties(choice)), descriptiveProperties(choice)), { items });
-  }
-  function upgradeRange(range) {
-    return removeUndefinedProperties(Object.assign(Object.assign(Object.assign(Object.assign({}, technicalProperties(range)), descriptiveProperties(range)), linkingProperties(range)), { items: range.members }));
-  }
-  function upgradeService(service) {
-    const _a2 = service, { "@id": id, "@type": type, "@context": context, profile } = _a2, newService = __rest(_a2, ["@id", "@type", "@context", "profile"]);
-    if (id) {
-      newService.id = id;
-    }
-    newService.type = getNewType(service);
-    if (newService.type === "unknown") {
-      newService.type = "Service";
-    }
-    if (profile) {
-      newService.profile = getProfile(profile);
-    }
-    return removeUndefinedProperties(Object.assign(Object.assign({}, newService), descriptiveProperties(newService)));
-  }
-  function upgradeLayer(layer) {
-    return removeUndefinedProperties(Object.assign(Object.assign(Object.assign({}, technicalProperties(layer)), descriptiveProperties(layer)), linkingProperties(layer)));
-  }
-  var presentation2to3 = new Traverse({
-    collection: [upgradeCollection],
-    manifest: [upgradeManifest],
-    canvas: [upgradeCanvas],
-    annotationList: [upgradeAnnotationList],
-    sequence: [upgradeSequence],
-    annotation: [upgradeAnnotation],
-    contentResource: [upgradeContentResource],
-    choice: [upgradeChoice],
-    range: [upgradeRange],
-    service: [upgradeService],
-    layer: [upgradeLayer]
-  });
-  function convertPresentation2(entity) {
-    if (entity && entity["@context"] && (entity["@context"] === "http://iiif.io/api/presentation/2/context.json" || entity["@context"].indexOf("http://iiif.io/api/presentation/2/context.json") !== -1 || entity["@context"] === "http://www.shared-canvas.org/ns/context.json") || entity["@context"] === "http://iiif.io/api/image/2/context.json") {
-      return presentation2to3.traverseUnknown(entity);
-    }
-    return entity;
-  }
-
-  // node_modules/@hyperion-framework/parser/dist/index.es.js
-  var emptyAnnotationPage = {
-    id: "https://hyperion/annotation-page",
-    type: "AnnotationPage",
-    behavior: [],
-    motivation: null,
-    label: null,
-    thumbnail: [],
-    summary: null,
-    requiredStatement: null,
-    metadata: [],
-    rights: null,
-    provider: [],
-    items: [],
-    seeAlso: [],
-    homepage: null,
-    logo: [],
-    rendering: [],
-    service: []
-  };
-  var emptyCanvas = {
-    id: "https://hyperion/empty-canvas",
-    type: "Canvas",
-    label: null,
-    behavior: [],
-    motivation: null,
-    thumbnail: [],
-    posterCanvas: null,
-    accompanyingCanvas: null,
-    placeholderCanvas: null,
-    summary: null,
-    requiredStatement: null,
-    metadata: [],
-    rights: null,
-    navDate: null,
-    provider: [],
-    items: [],
-    annotations: [],
-    seeAlso: [],
-    homepage: null,
-    logo: [],
-    partOf: [],
-    rendering: [],
-    service: [],
-    duration: 0,
-    height: 0,
-    width: 0
-  };
-  var emptyCollection = {
-    id: "https://hyperion/empty-collection",
-    type: "Collection",
-    label: null,
-    viewingDirection: "left-to-right",
-    behavior: [],
-    motivation: null,
-    thumbnail: [],
-    posterCanvas: null,
-    accompanyingCanvas: null,
-    placeholderCanvas: null,
-    summary: null,
-    requiredStatement: null,
-    metadata: [],
-    rights: null,
-    navDate: null,
-    provider: [],
-    items: [],
-    annotations: [],
-    seeAlso: [],
-    homepage: null,
-    logo: [],
-    partOf: [],
-    rendering: [],
-    service: [],
-    services: []
-  };
-  var emptyManifest = {
-    id: "https://hyperion/empty-manifest",
-    type: "Manifest",
-    annotations: [],
-    behavior: [],
-    homepage: null,
-    items: [],
-    label: null,
-    logo: [],
-    metadata: [],
-    motivation: null,
-    navDate: null,
-    provider: [],
-    partOf: [],
-    posterCanvas: null,
-    accompanyingCanvas: null,
-    placeholderCanvas: null,
-    rendering: [],
-    requiredStatement: null,
-    rights: null,
-    seeAlso: [],
-    service: [],
-    services: [],
-    start: null,
-    structures: [],
-    summary: null,
-    thumbnail: [],
-    viewingDirection: "left-to-right"
-  };
-  var emptyRange = {
-    id: "https://hyperion/empty-canvas",
-    type: "Range",
-    label: null,
-    behavior: [],
-    motivation: null,
-    thumbnail: [],
-    posterCanvas: null,
-    accompanyingCanvas: null,
-    placeholderCanvas: null,
-    summary: null,
-    requiredStatement: null,
-    metadata: [],
-    rights: null,
-    navDate: null,
-    provider: [],
-    items: [],
-    annotations: [],
-    seeAlso: [],
-    homepage: null,
-    logo: [],
-    partOf: [],
-    rendering: [],
-    service: [],
-    start: null,
-    supplementary: null,
-    viewingDirection: "left-to-right"
-  };
-  var types2 = [
-    "Collection",
-    "Manifest",
-    "Canvas",
-    "AnnotationPage",
-    "AnnotationCollection",
-    "Annotation",
-    "ContentResource",
-    "Range",
-    "Service",
-    "Selector"
-  ];
-  function identifyResource2(resource) {
-    if (typeof resource === "undefined" || resource === null) {
-      throw new Error("Null or undefined is not a valid entity.");
-    }
-    if (Array.isArray(resource)) {
-      throw new Error("Array is not a valid entity");
-    }
-    if (typeof resource !== "object") {
-      throw new Error(`${typeof resource} is not a valid entity`);
-    }
-    if (typeof resource.type === "string") {
-      const hasType = types2.indexOf(resource.type);
-      if (hasType !== -1) {
-        return types2[hasType];
-      }
-    }
-    if (resource.profile) {
-      return "Service";
-    }
-    throw new Error("Resource type is not known");
-  }
-  var Traverse2 = class {
-    constructor(traversals, options = {}) {
-      this.traversals = Object.assign({ collection: [], manifest: [], canvas: [], annotationCollection: [], annotationPage: [], annotation: [], contentResource: [], choice: [], range: [], service: [] }, traversals);
-      this.options = Object.assign({ allowUndefinedReturn: false }, options);
-    }
-    static all(traversal) {
-      return new Traverse2({
-        collection: [traversal],
-        manifest: [traversal],
-        canvas: [traversal],
-        annotationCollection: [traversal],
-        annotationPage: [traversal],
-        annotation: [traversal],
-        contentResource: [traversal],
-        choice: [traversal],
-        range: [traversal],
-        service: [traversal]
-      });
-    }
-    traverseDescriptive(resource) {
-      if (resource.thumbnail) {
-        resource.thumbnail = resource.thumbnail.map((thumbnail) => this.traverseType(thumbnail, this.traversals.contentResource));
-      }
-      return resource;
-    }
-    traverseLinking(resource) {
-      if (resource.seeAlso) {
-        resource.seeAlso = resource.seeAlso.map((content) => this.traverseType(content, this.traversals.contentResource));
-      }
-      if (resource.service) {
-        resource.service = resource.service.map((service) => this.traverseType(service, this.traversals.service));
-      }
-      if (resource.services) {
-        resource.services = resource.services.map((service) => this.traverseType(service, this.traversals.service));
-      }
-      if (resource.logo) {
-        resource.logo = resource.logo.map((content) => this.traverseType(content, this.traversals.contentResource));
-      }
-      if (resource.homepage) {
-        resource.homepage = this.traverseType(resource.homepage, this.traversals.contentResource);
-      }
-      if (resource.partOf) {
-        resource.partOf = resource.partOf.map((partOf) => {
-          if (typeof partOf === "string" || !partOf.type) {
-            return this.traverseType(partOf, this.traversals.contentResource);
-          }
-          if (partOf.type === "Canvas") {
-            return this.traverseType(partOf, this.traversals.canvas);
-          }
-          if (partOf.type === "AnnotationCollection") {
-            return this.traverseType(partOf, this.traversals.annotationCollection);
-          }
-          return this.traverseType(partOf, this.traversals.contentResource);
-        });
-      }
-      if (resource.start) {
-        resource.start = resource.start.map((start) => this.traverseType(start, this.traversals.canvas));
-      }
-      if (resource.rendering) {
-        resource.rendering = resource.rendering.map((content) => this.traverseType(content, this.traversals.contentResource));
-      }
-      if (resource.supplementary) {
-        resource.supplementary = resource.supplementary.map((content) => this.traverseType(content, this.traversals.contentResource));
-      }
-      return resource;
-    }
-    traverseCollectionItems(collection) {
-      collection.items.map((collectionOrManifest) => {
-        if (collectionOrManifest.type === "Collection") {
-          return this.traverseCollection(collectionOrManifest);
-        }
-        return this.traverseManifest(collectionOrManifest);
-      });
-      return collection;
-    }
-    traverseCollection(collection) {
-      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traversePosterCanvas(this.traverseCollectionItems(collection)))), this.traversals.collection);
-    }
-    traverseManifestItems(manifest) {
-      if (manifest.items) {
-        manifest.items = manifest.items.map((canvas) => this.traverseCanvas(canvas));
-      }
-      return manifest;
-    }
-    traverseManifestStructures(manifest) {
-      if (manifest.structures) {
-        manifest.structures = manifest.structures.map((range) => this.traverseRange(range));
-      }
-      return manifest;
-    }
-    traverseManifest(manifest) {
-      return this.traverseType(this.traverseManifestStructures(this.traversePosterCanvas(this.traverseDescriptive(this.traverseLinking(this.traverseManifestItems(manifest))))), this.traversals.manifest);
-    }
-    traverseCanvasItems(canvas) {
-      canvas.items = (canvas.items || []).map((annotationPage) => {
-        return this.traverseAnnotationPage(annotationPage);
-      });
-      return canvas;
-    }
-    traverseCanvas(canvas) {
-      return this.traverseType(this.traversePosterCanvas(this.traverseDescriptive(this.traverseLinking(this.traverseCanvasItems(canvas)))), this.traversals.canvas);
-    }
-    traverseAnnotationPageItems(annotationPage) {
-      if (annotationPage.items) {
-        annotationPage.items = annotationPage.items.map((annotation) => {
-          return this.traverseAnnotation(annotation);
-        });
-      }
-      return annotationPage;
-    }
-    traverseAnnotationPage(annotationPageJson) {
-      return this.traverseType(this.traverseDescriptive(this.traverseLinking(this.traverseAnnotationPageItems(annotationPageJson))), this.traversals.annotationPage);
-    }
-    traverseAnnotationBody(annotation) {
-      if (Array.isArray(annotation.body)) {
-        annotation.body = annotation.body.map((annotationBody) => {
-          return this.traverseContentResource(annotationBody);
-        });
-      } else if (annotation.body) {
-        annotation.body = this.traverseContentResource(annotation.body);
-      }
-      return annotation;
-    }
-    traversePosterCanvas(json) {
-      if (json.posterCanvas) {
-        json.posterCanvas = this.traverseType(json.posterCanvas, this.traversals.canvas);
-      }
-      if (json.placeholderCanvas) {
-        json.placeholderCanvas = this.traverseType(json.placeholderCanvas, this.traversals.canvas);
-      }
-      if (json.accompanyingCanvas) {
-        json.accompanyingCanvas = this.traverseType(json.accompanyingCanvas, this.traversals.canvas);
-      }
-      return json;
-    }
-    traverseAnnotation(annotationJson) {
-      return this.traverseType(this.traverseLinking(this.traverseAnnotationBody(annotationJson)), this.traversals.annotation);
-    }
-    traverseContentResourceLinking(contentResourceJson) {
-      if (typeof contentResourceJson === "string" || !contentResourceJson) {
-        return contentResourceJson;
-      }
-      if (contentResourceJson && contentResourceJson.service) {
-        contentResourceJson.service = (contentResourceJson.service || []).map((service) => this.traverseType(service, this.traversals.service));
-      }
-      return contentResourceJson;
-    }
-    traverseContentResource(contentResourceJson) {
-      return this.traverseType(this.traverseContentResourceLinking(contentResourceJson), this.traversals.contentResource);
-    }
-    traverseRangeRanges(range) {
-      if (range.items) {
-        range.items = range.items.map((rangeOrManifest) => {
-          if (typeof rangeOrManifest === "string") {
-            return this.traverseCanvas({ id: rangeOrManifest, type: "Canvas" });
-          }
-          if (rangeOrManifest.type === "Manifest") {
-            return this.traverseManifest(rangeOrManifest);
-          }
-          return this.traverseRange(rangeOrManifest);
-        });
-      }
-      return range;
-    }
-    traverseRange(range) {
-      return this.traverseType(this.traversePosterCanvas(this.traverseDescriptive(this.traverseLinking(this.traverseRangeRanges(range)))), this.traversals.range);
-    }
-    traverseType(object, traversals) {
-      return traversals.reduce((acc, traversal) => {
-        const returnValue = traversal(acc);
-        if (typeof returnValue === "undefined" && !this.options.allowUndefinedReturn) {
-          return acc;
-        }
-        return returnValue;
-      }, object);
-    }
-    traverseService(service) {
-      return this.traverseType(service, this.traversals.service);
-    }
-    traverseUnknown(resource) {
-      const type = identifyResource2(resource);
-      switch (type) {
-        case "Collection":
-          return this.traverseCollection(resource);
-        case "Manifest":
-          return this.traverseManifest(resource);
-        case "Canvas":
-          return this.traverseCanvas(resource);
-        case "AnnotationPage":
-          return this.traverseAnnotationPage(resource);
-        case "Annotation":
-          return this.traverseAnnotation(resource);
-        case "ContentResource":
-          return this.traverseContentResource(resource);
-        case "Range":
-          return this.traverseRange(resource);
-        case "Service":
-          return this.traverseService(resource);
-        default:
-          throw new Error(`Unknown or unsupported resource type of ${type}`);
-      }
-    }
-  };
-  function getDefaultEntities() {
-    return {
-      Collection: {},
-      Manifest: {},
-      Canvas: {},
-      AnnotationPage: {},
-      AnnotationCollection: {},
-      Annotation: {},
-      ContentResource: {},
-      Range: {},
-      Service: {},
-      Selector: {}
-    };
-  }
-  function getResource(entityOrString, type) {
-    if (typeof entityOrString === "string") {
-      return { id: entityOrString, type };
-    }
-    if (!entityOrString.id) {
-      throw new Error(`Invalid resource does not have an ID (${type})`);
-    }
-    return entityOrString;
-  }
-  function mapToEntities(entities) {
-    return (type, defaultStringType) => {
-      const storeType = entities[type] ? entities[type] : {};
-      return (r10) => {
-        const resource = getResource(r10, defaultStringType || type);
-        if (resource && resource.id && type) {
-          storeType[resource.id] = storeType[resource.id] ? Object.assign({}, storeType[resource.id], resource) : Object.assign({}, resource);
-          return { id: resource.id, type: type === "ContentResource" ? type : resource.type };
-        }
-        return resource;
-      };
-    };
-  }
-  function recordTypeInMapping(mapping) {
-    return (type, defaultStringType) => {
-      return (r10) => {
-        const { id, type: foundType } = getResource(r10, defaultStringType || type);
-        if (typeof id === "undefined") {
-          throw new Error("Found invalid entity without an ID.");
-        }
-        if (type === "ContentResource") {
-          mapping[id] = type;
-        } else {
-          mapping[id] = foundType;
-        }
-        return r10;
-      };
-    };
-  }
-  function hash(object) {
-    const text = JSON.stringify(object);
-    let numHash = 5381, index = text.length;
-    while (index) {
-      numHash = numHash * 33 ^ text.charCodeAt(--index);
-    }
-    const num = numHash >>> 0;
-    const hexString = num.toString(16);
-    if (hexString.length % 2) {
-      return "0" + hexString;
-    }
-    return hexString;
-  }
-  function addMissingIdToContentResource(type) {
-    return (resource) => {
-      if (typeof resource === "string") {
-        return { id: resource, type };
-      }
-      if (!resource.id) {
-        return Object.assign({ id: hash(resource), type }, resource);
-      }
-      if (!resource.type) {
-        return Object.assign({ type }, resource);
-      }
-      return resource;
-    };
-  }
-  function ensureDefaultFields(defaultResource) {
-    return (resource) => {
-      return Object.assign(Object.assign({}, defaultResource), resource);
-    };
-  }
-  function ensureArray2(maybeArray) {
-    if (Array.isArray(maybeArray)) {
-      return maybeArray;
-    }
-    return [maybeArray];
-  }
-  function ensureArrayOnAnnotation(annotation) {
-    if (annotation.body) {
-      annotation.body = ensureArray2(annotation.body);
-    }
-    if (annotation.seeAlso) {
-      annotation.seeAlso = ensureArray2(annotation.seeAlso);
-    }
-    if (annotation.body) {
-      annotation.body = ensureArray2(annotation.body);
-    }
-    if (annotation.audience) {
-      annotation.audience = ensureArray2(annotation.audience);
-    }
-    if (annotation.accessibility) {
-      annotation.accessibility = ensureArray2(annotation.accessibility);
-    }
-    if (annotation.motivation) {
-      annotation.motivation = ensureArray2(annotation.motivation);
-    }
-    return annotation;
-  }
-  function normalize(unknownEntity) {
-    const entity = convertPresentation2(unknownEntity);
-    const entities = getDefaultEntities();
-    const mapping = {};
-    const addToEntities = mapToEntities(entities);
-    const addToMapping = recordTypeInMapping(mapping);
-    const traversal = new Traverse2({
-      collection: [
-        ensureDefaultFields(emptyCollection),
-        addToMapping("Collection"),
-        addToEntities("Collection")
-      ],
-      manifest: [
-        ensureDefaultFields(emptyManifest),
-        addToMapping("Manifest"),
-        addToEntities("Manifest")
-      ],
-      canvas: [
-        ensureDefaultFields(emptyCanvas),
-        addToMapping("Canvas"),
-        addToEntities("Canvas")
-      ],
-      annotationPage: [
-        addMissingIdToContentResource("AnnotationPage"),
-        ensureDefaultFields(emptyAnnotationPage),
-        addToMapping("AnnotationPage"),
-        addToEntities("AnnotationPage")
-      ],
-      annotation: [
-        addMissingIdToContentResource("Annotation"),
-        ensureArrayOnAnnotation,
-        addToMapping("Annotation"),
-        addToEntities("Annotation")
-      ],
-      contentResource: [
-        addMissingIdToContentResource("ContentResource"),
-        addToMapping("ContentResource"),
-        addToEntities("ContentResource")
-      ],
-      range: [
-        ensureDefaultFields(emptyRange),
-        addToMapping("Range", "Canvas"),
-        addToEntities("Range", "Canvas")
-      ]
-    });
-    const resource = traversal.traverseUnknown(entity);
-    return { entities, resource, mapping };
-  }
-  var UNSET = "__$HF_UNSET$__";
-  var UNWRAP = "__$HF_UNWRAP$__";
-  function resolveIfExists(state, url) {
-    const request = state.hyperion.requests[url];
-    const resourceType = state.hyperion.mapping[url];
-    if (!resourceType || request && request.resourceUri && !state.hyperion.entities[resourceType][request.resourceUri]) {
-      return void 0;
-    }
-    return state.hyperion.entities[resourceType][request ? request.resourceUri : url];
-  }
-  function serialisedFieldsToObject(fields) {
-    const object = {};
-    for (const [key, value] of fields) {
-      if (key === UNWRAP) {
-        return value;
-      }
-      if (value !== UNSET && typeof value !== "undefined" && value !== null) {
-        object[key] = value;
-      }
-    }
-    return object;
-  }
-  function serialise(state, subject, config2) {
-    if (!subject.type || !subject.id) {
-      throw new Error("Unknown entity");
-    }
-    if (!config2[subject.type]) {
-      throw new Error(`Serialiser not found for ${subject.type}`);
-    }
-    function flatten(sub) {
-      const generator = config2[sub.type];
-      if (!generator) {
-        return UNSET;
-      }
-      const resource = resolveIfExists(state, sub.id);
-      if (!resource) {
-        return UNSET;
-      }
-      const iterator = generator(resource, state);
-      let current = iterator.next();
-      while (!current.done) {
-        const requestToHydrate = current.value;
-        let next = UNSET;
-        if (requestToHydrate) {
-          if (Array.isArray(requestToHydrate)) {
-            const nextList = [];
-            for (const req of requestToHydrate) {
-              nextList.push(flatten(req));
-            }
-            next = nextList;
-          } else {
-            next = flatten(requestToHydrate);
-          }
-        }
-        current = iterator.next(next);
-      }
-      if (current.value === UNSET) {
-        return UNSET;
-      }
-      return serialisedFieldsToObject(current.value);
-    }
-    return flatten(subject);
-  }
-  function languageString2to3(value) {
-    if (!value) {
-      return void 0;
-    }
-    const languages = Object.keys(value);
-    if (languages.length === 0) {
-      return void 0;
-    }
-    if (languages.length === 1) {
-      const language = languages[0];
-      if (!language) {
-        return "";
-      }
-      const singleValue = (value[language] || []).join("");
-      if (language === "@none" || language === "none" || language === "en") {
-        return singleValue;
-      }
-      return {
-        "@language": language,
-        "@value": singleValue
-      };
-    }
-    return languages.map((language) => {
-      return {
-        "@language": language,
-        "@value": (value[language] || []).join("")
-      };
-    });
-  }
-  function parseCanvasTarget(target) {
-    if (Array.isArray(target)) {
-      return target.map((t13) => parseCanvasTarget(t13));
-    }
-    if (typeof target === "string") {
-      return target;
-    }
-    if (target.type && target.type === "Canvas") {
-      return target.id;
-    }
-    return target;
-  }
-  function unNestArray(oneOrArray, onlyOne = false) {
-    if (!oneOrArray) {
-      return void 0;
-    }
-    if (oneOrArray.length > 1 && !onlyOne) {
-      return oneOrArray;
-    }
-    return oneOrArray[0] || void 0;
-  }
-  function convertService(service) {
-    if (!service) {
-      return void 0;
-    }
-    if (typeof service === "string") {
-      return {
-        "@id": service
-      };
-    }
-    if ("@id" in service) {
-      const newService = Object.assign({}, service);
-      delete newService["@type"];
-      return newService;
-    }
-    return {
-      "@context": "http://iiif.io/api/image/2/context.json",
-      "@id": service.id,
-      profile: `http://iiif.io/api/image/2/profiles/${service.profile}.json`
-    };
-  }
-  function technicalProperties$1(props, type) {
-    return [
-      ["@id", props.id],
-      ["@type", type],
-      ["format", props.format],
-      ["height", props.height],
-      ["width", props.width],
-      ["viewingDirection", props.viewingDirection !== "left-to-right" ? props.viewingDirection : void 0]
-    ];
-  }
-  function* descriptiveProperties$1(prop) {
-    const provider = prop.provider ? prop.provider[0] : void 0;
-    return [
-      ["label", languageString2to3(prop.label)],
-      [
-        "metadata",
-        prop.metadata && prop.metadata.length ? prop.metadata.map((item) => ({
-          label: languageString2to3(item.label) || "",
-          value: languageString2to3(item.value) || ""
-        })) : void 0
-      ],
-      ["description", languageString2to3(prop.summary)],
-      ["thumbnail", unNestArray(yield prop.thumbnail)],
-      ["navDate", prop.navDate],
-      ["logo", provider ? unNestArray(provider.logo) : void 0],
-      ["homepage", provider ? provider.homepage : void 0],
-      ["attribution", prop.requiredStatement ? languageString2to3(prop.requiredStatement.value) : void 0]
-    ];
-  }
-  function* linkingProperties$1(prop) {
-    return [
-      ["seeAlso", unNestArray(yield prop.seeAlso)],
-      ["service", unNestArray((prop.service || []).map(convertService))],
-      ["rendering", unNestArray(yield prop.rendering)],
-      ["startCanvas", prop.start ? prop.start.id : void 0]
-    ];
-  }
-  var serialiseConfigPresentation2 = {
-    Manifest: function* (entity) {
-      return [
-        ...technicalProperties$1(entity, "sc:Manifest"),
-        ...yield* descriptiveProperties$1(entity),
-        ...yield* linkingProperties$1(entity),
-        [
-          "sequences",
-          [
-            {
-              "@id": `${entity.id}/sequence0`,
-              "@type": "sc:Sequence",
-              canvases: yield entity.items
-            }
-          ]
-        ],
-        ["structures", yield entity.structures]
-      ];
-    },
-    Canvas: function* (entity) {
-      const paintingPage = yield entity.items;
-      const resources = paintingPage[0];
-      return [
-        ...technicalProperties$1(entity, "sc:Canvas"),
-        ...yield* descriptiveProperties$1(entity),
-        ...yield* linkingProperties$1(entity),
-        ["images", resources ? [resources.resources] : void 0],
-        [
-          "annotations",
-          entity.annotations && entity.annotations.length ? unNestArray(yield entity.annotations) : void 0
-        ]
-      ];
-    },
-    AnnotationPage: function* (entity) {
-      return [
-        ...technicalProperties$1(entity, "sc:AnnotationList"),
-        ...yield* descriptiveProperties$1(entity),
-        ["resources", entity.items && entity.items.length ? unNestArray(yield entity.items) : void 0]
-      ];
-    },
-    Annotation: function* (entity) {
-      return [
-        ["@id", entity.id],
-        ["@type", "oa:Annotation"],
-        ["motivation", "sc:painting"],
-        ["on", parseCanvasTarget(entity.target)],
-        ["resource", unNestArray(yield entity.body, true)]
-      ];
-    },
-    ContentResource: function* (entity) {
-      switch (entity.type) {
-        case "Image":
-          return [
-            ...technicalProperties$1(entity, "dctypes:Image"),
-            ...yield* descriptiveProperties$1(entity),
-            ...yield* linkingProperties$1(entity)
-          ];
-        case "Text":
-        case "Dataset":
-        default:
-          return [...technicalProperties$1(entity, void 0), ...yield* descriptiveProperties$1(entity)];
-      }
-    },
-    AnnotationCollection: function* (entity) {
-      return [
-        ["@id", entity.id],
-        ["@type", "sc:Layer"],
-        ["label", languageString2to3(entity.label)]
-      ];
-    },
-    Collection: function* (entity) {
-      return [
-        ...technicalProperties$1(entity, "sc:Collection"),
-        ...yield* descriptiveProperties$1(entity),
-        ...yield* linkingProperties$1(entity),
-        ["members", yield* entity.items]
-      ];
-    },
-    Range: function* (entity) {
-      const members = [];
-      const canvases = [];
-      if (entity.items) {
-        for (const item of entity.items) {
-          const canvas = yield item;
-          members.push({
-            "@id": item.id,
-            "@type": item.type,
-            label: canvas ? canvas.label : void 0,
-            within: entity.id
-          });
-          if (item.type === "Canvas") {
-            canvases.push(item.id);
-          }
-        }
-      }
-      return [
-        ...technicalProperties$1(entity, "sc:Range"),
-        ...yield* descriptiveProperties$1(entity),
-        ...yield* linkingProperties$1(entity),
-        ["canvases", canvases.length === members.length ? canvases : void 0],
-        ["members", canvases.length !== members.length ? members : void 0]
-      ];
-    }
-  };
-  function __rest2(s8, e11) {
-    var t13 = {};
-    for (var p8 in s8)
-      if (Object.prototype.hasOwnProperty.call(s8, p8) && e11.indexOf(p8) < 0)
-        t13[p8] = s8[p8];
-    if (s8 != null && typeof Object.getOwnPropertySymbols === "function")
-      for (var i7 = 0, p8 = Object.getOwnPropertySymbols(s8); i7 < p8.length; i7++) {
-        if (e11.indexOf(p8[i7]) < 0 && Object.prototype.propertyIsEnumerable.call(s8, p8[i7]))
-          t13[p8[i7]] = s8[p8[i7]];
-      }
-    return t13;
-  }
-  function technicalProperties2(entity) {
-    return [
-      ["id", entity.id],
-      ["type", entity.type],
-      ["format", entity.format],
-      ["profile", entity.profile],
-      ["height", entity.height],
-      ["width", entity.width],
-      ["duration", entity.duration || void 0],
-      ["viewingDirection", entity.viewingDirection !== "left-to-right" ? entity.viewingDirection : void 0],
-      ["behavior", entity.behavior && entity.behavior.length ? entity.behavior : void 0],
-      ["timeMode", entity.timeMode],
-      ["motivation", entity.motivation]
-    ];
-  }
-  function filterEmpty(item) {
-    if (!item || item.length === 0) {
-      return void 0;
-    }
-    return item;
-  }
-  function service2compat(service) {
-    if (service && service.type && service.type === "ImageService2") {
-      const { id, type, profile } = service, _service = __rest2(service, ["id", "type", "profile"]);
-      return Object.assign({ "@id": id, "@type": type, profile: profile.startsWith("http") ? profile : `http://iiif.io/api/image/2/${profile}.json` }, _service);
-    }
-    return service;
-  }
-  function filterService2Compat(services) {
-    if (!services || services.length === 0) {
-      return void 0;
-    }
-    return services.map(service2compat);
-  }
-  function* descriptiveProperties2(entity) {
-    return [
-      ["label", entity.label],
-      ["metadata", filterEmpty(entity.metadata)],
-      ["summary", entity.summary],
-      ["requiredStatement", entity.requiredStatement],
-      ["rights", entity.rights],
-      ["navDate", entity.navDate],
-      ["language", entity.language],
-      ["thumbnail", filterEmpty(yield entity.thumbnail)],
-      ["placeholderCanvas", yield entity.placeholderCanvas],
-      ["accompanyingCanvas", yield entity.accompanyingCanvas],
-      ["provider", filterEmpty(entity.provider)]
-    ];
-  }
-  function* linkingProperties2(entity) {
-    return [
-      ["seeAlso", filterEmpty(yield entity.seeAlso)],
-      ["service", filterService2Compat(entity.service)],
-      ["services", filterService2Compat(entity.services)],
-      ["rendering", filterEmpty(yield entity.rendering)],
-      ["supplementary", filterEmpty(yield entity.supplementary)],
-      ["partOf", filterEmpty(entity.partOf)],
-      ["start", entity.start]
-    ];
-  }
-  var serialiseConfigPresentation3 = {
-    Manifest: function* (entity) {
-      return [
-        ...technicalProperties2(entity),
-        ...yield* descriptiveProperties2(entity),
-        ...yield* linkingProperties2(entity),
-        ["items", yield entity.items],
-        ["structures", filterEmpty(yield entity.structures)]
-      ];
-    },
-    Canvas: function* (entity) {
-      return [
-        ...technicalProperties2(entity),
-        ...yield* descriptiveProperties2(entity),
-        ...yield* linkingProperties2(entity),
-        ["items", yield entity.items],
-        ["annotations", filterEmpty(yield entity.annotations)]
-      ];
-    },
-    AnnotationPage: function* (entity) {
-      const entries = Object.entries(entity).map(([key, item]) => {
-        return [key, Array.isArray(item) ? filterEmpty(item) : item];
-      }).filter(([key, value]) => {
-        return key !== "items";
-      });
-      return [
-        ...entries,
-        ...yield* linkingProperties2(entity),
-        ["items", yield entity.items]
-      ];
-    },
-    Service: function* (entity) {
-      return [[UNWRAP, service2compat(entity)]];
-    },
-    Annotation: function* (entity) {
-      const entries = Object.entries(entity).map(([key, item]) => {
-        return [key, Array.isArray(item) ? filterEmpty(item) : item];
-      }).filter(([key]) => {
-        return key !== "body";
-      });
-      return [...entries, ["body", yield entity.body]];
-    },
-    ContentResource: function* (entity) {
-      return [
-        ...technicalProperties2(entity),
-        ...yield* descriptiveProperties2(entity),
-        ...yield* linkingProperties2(entity)
-      ];
-    },
-    AnnotationCollection: function* (entity) {
-      return [
-        ["id", entity.id],
-        ["type", "AnnotationCollection"],
-        ["label", entity.label]
-      ];
-    },
-    Collection: function* (entity) {
-      return [
-        ...technicalProperties2(entity),
-        ...yield* descriptiveProperties2(entity),
-        ...yield* linkingProperties2(entity),
-        ["items", yield* entity.items]
-      ];
-    },
-    Range: function* (entity) {
-      const rangeItems = [];
-      for (const item of entity.items) {
-        if (item.type === "Range") {
-          rangeItems.push(yield item);
-        } else {
-          rangeItems.push(item);
-        }
-      }
-      return [
-        ...technicalProperties2(entity),
-        ...yield* descriptiveProperties2(entity),
-        ...yield* linkingProperties2(entity),
-        ["items", rangeItems],
-        ["annotations", filterEmpty(yield entity.annotations)]
-      ];
-    }
-  };
-
-  // node_modules/@hyperion-framework/store/dist/index.es.js
-  var ADD_MAPPING = "@hyperion/ADD_MAPPING";
-  var ADD_MAPPINGS = "@hyperion/ADD_MAPPINGS";
-  var addMapping = (0, import_typesafe_actions.createAction)(ADD_MAPPING)();
-  var addMappings = (0, import_typesafe_actions.createAction)(ADD_MAPPINGS)();
-  var mappingReducer = (state = {}, action) => {
-    switch (action.type) {
-      case ADD_MAPPING:
-        return Object.assign(Object.assign({}, state), { [action.payload.id]: action.payload.type });
-      case ADD_MAPPINGS:
-        return Object.assign(Object.assign({}, state), action.payload.mapping);
-      default:
-        return state;
-    }
-  };
-  var IMPORT_ENTITIES = "@hyperion/IMPORT_ENTITIES";
-  var MODIFY_ENTITY_FIELD = "@hyperion/MODIFY_ENTITY_FIELD";
+  // node_modules/@iiif/vault/dist/esm/index.mjs
+  var IMPORT_ENTITIES = "@iiif/IMPORT_ENTITIES";
+  var MODIFY_ENTITY_FIELD = "@iiif/MODIFY_ENTITY_FIELD";
+  var REORDER_ENTITY_FIELD = "@iiif/REORDER_ENTITY_FIELD";
+  var ADD_REFERENCE = "@iiif/ADD_REFERENCE";
+  var REMOVE_REFERENCE = "@iiif/REMOVE_REFERENCE";
   var importEntities = (0, import_typesafe_actions.createAction)(IMPORT_ENTITIES)();
   var modifyEntityField = (0, import_typesafe_actions.createAction)(MODIFY_ENTITY_FIELD)();
-  var entityActions = { importEntities, modifyEntityField };
-  var entityReducer = (state = getDefaultEntities(), action) => {
-    if (action.type === MODIFY_ENTITY_FIELD) {
-      if (!state[action.payload.type] || !state[action.payload.type][action.payload.id]) {
-        return state;
-      }
-      const entity = state[action.payload.type][action.payload.id];
-      if (typeof entity === "string") {
-        return state;
-      }
-      return Object.assign(Object.assign({}, state), { [action.payload.type]: Object.assign(Object.assign({}, state[action.payload.type]), { [action.payload.id]: Object.assign(Object.assign({}, entity), { [action.payload.key]: action.payload.value }) }) });
-    }
-    if (action.type === IMPORT_ENTITIES) {
-      return {
-        Collection: Object.assign(Object.assign({}, state.Collection), action.payload.entities.Collection),
-        Manifest: Object.assign(Object.assign({}, state.Manifest), action.payload.entities.Manifest),
-        Canvas: Object.assign(Object.assign({}, state.Canvas), action.payload.entities.Canvas),
-        AnnotationPage: Object.assign(Object.assign({}, state.AnnotationPage), action.payload.entities.AnnotationPage),
-        AnnotationCollection: Object.assign(Object.assign({}, state.AnnotationCollection), action.payload.entities.AnnotationCollection),
-        Annotation: Object.assign(Object.assign({}, state.Annotation), action.payload.entities.Annotation),
-        ContentResource: Object.assign(Object.assign({}, state.ContentResource), action.payload.entities.ContentResource),
-        Range: Object.assign(Object.assign({}, state.Range), action.payload.entities.Range),
-        Service: Object.assign(Object.assign({}, state.Service), action.payload.entities.Service),
-        Selector: Object.assign(Object.assign({}, state.Selector), action.payload.entities.Selector)
-      };
-    }
-    return state;
+  var reorderEntityField = (0, import_typesafe_actions.createAction)(REORDER_ENTITY_FIELD)();
+  var addReference = (0, import_typesafe_actions.createAction)(ADD_REFERENCE)();
+  var removeReference = (0, import_typesafe_actions.createAction)(REMOVE_REFERENCE)();
+  var entityActions = { importEntities, modifyEntityField, reorderEntityField, addReference, removeReference };
+  var ADD_MAPPING = "@iiif/ADD_MAPPING";
+  var ADD_MAPPINGS = "@iiif/ADD_MAPPINGS";
+  var addMapping = (0, import_typesafe_actions.createAction)(ADD_MAPPING)();
+  var addMappings = (0, import_typesafe_actions.createAction)(ADD_MAPPINGS)();
+  var SET_META_VALUE = "@iiif/SET_META_VALUE";
+  var SET_META_VALUE_DYNAMIC = "@iiif/SET_META_VALUE_DYNAMIC";
+  var UNSET_META_VALUE = "@iiif/UNSET_META_VALUE";
+  var setMetaValue = (0, import_typesafe_actions.createAction)(SET_META_VALUE)();
+  var setMetaValueDynamic = (0, import_typesafe_actions.createAction)(SET_META_VALUE_DYNAMIC)();
+  var unsetMetaValue = (0, import_typesafe_actions.createAction)(UNSET_META_VALUE)();
+  var metaActions = {
+    setMetaValue,
+    setMetaValueDynamic,
+    unsetMetaValue
   };
-  var REQUEST_RESOURCE = "@hyperion/REQUEST_RESOURCE";
-  var REQUEST_ERROR = "@hyperion/REQUEST_ERROR";
-  var REQUEST_MISMATCH = "@hyperion/REQUEST_MISMATCH";
-  var REQUEST_COMPLETE = "@hyperion/REQUEST_COMPLETE";
-  var REQUEST_OFFLINE_RESOURCE = "@hyperion/REQUEST_OFFLINE_RESOURCE";
+  var RESOURCE_ERROR = "RESOURCE_ERROR";
+  var RESOURCE_LOADING = "RESOURCE_LOADING";
+  var RESOURCE_READY = "RESOURCE_READY";
+  var REQUEST_RESOURCE = "@iiif/REQUEST_RESOURCE";
+  var REQUEST_ERROR = "@iiif/REQUEST_ERROR";
+  var REQUEST_MISMATCH = "@iiif/REQUEST_MISMATCH";
+  var REQUEST_COMPLETE = "@iiif/REQUEST_COMPLETE";
+  var REQUEST_OFFLINE_RESOURCE = "@iiif/REQUEST_OFFLINE_RESOURCE";
   var requestResource = (0, import_typesafe_actions.createAction)(REQUEST_RESOURCE)();
   var requestError = (0, import_typesafe_actions.createAction)(REQUEST_ERROR)();
   var requestMismatch = (0, import_typesafe_actions.createAction)(REQUEST_MISMATCH)();
   var requestComplete = (0, import_typesafe_actions.createAction)(REQUEST_COMPLETE)();
-  var requestOfflineResource = (0, import_typesafe_actions.createAction)(REQUEST_OFFLINE_RESOURCE)();
-  var requestReducer = (state = {}, action) => {
-    switch (action.type) {
-      case REQUEST_RESOURCE:
-      case REQUEST_OFFLINE_RESOURCE:
-        return Object.assign(Object.assign({}, state), { [action.payload.id]: {
-          requestUri: action.payload.id,
-          loadingState: "RESOURCE_LOADING",
-          uriMismatch: false,
-          resourceUri: action.payload.id
-        } });
-      case REQUEST_MISMATCH:
-        return Object.assign(Object.assign({}, state), { [action.payload.requestId]: Object.assign(Object.assign({}, state[action.payload.requestId] || {}), { uriMismatch: true, resourceUri: action.payload.actualId }), [action.payload.actualId]: {
-          requestUri: action.payload.requestId,
-          loadingState: state[action.payload.requestId].loadingState,
-          uriMismatch: true,
-          resourceUri: action.payload.actualId
-        } });
-      case REQUEST_ERROR:
-        return Object.assign(Object.assign({}, state), { [action.payload.id]: Object.assign(Object.assign({}, state[action.payload.id] || {}), { loadingState: "RESOURCE_ERROR", error: action.payload.message }) });
-      case REQUEST_COMPLETE:
-        return Object.assign(Object.assign({}, state), { [action.payload.id]: Object.assign(Object.assign({}, state[action.payload.id] || {}), { loadingState: "RESOURCE_READY", error: void 0 }) });
-    }
-    return state;
-  };
-  var reducers = combineReducers({ mapping: mappingReducer, entities: entityReducer, requests: requestReducer });
-  var composeEnhancers = typeof window !== "undefined" ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : compose;
-  function createStore2(customReducers = {}, extraMiddleware = [], defaultState2 = {}) {
-    const store = createStore(combineReducers(Object.assign({ hyperion: reducers }, customReducers)), defaultState2, composeEnhancers(applyMiddleware(...extraMiddleware)));
-    return store;
-  }
+  (0, import_typesafe_actions.createAction)(REQUEST_OFFLINE_RESOURCE)();
+  var BATCH_ACTIONS = "@iiif/BATCH";
+  var BATCH_IMPORT = "@iiif/BATCH_IMPORT";
+  var batchActions = (0, import_typesafe_actions.createAction)(BATCH_ACTIONS)();
+  (0, import_typesafe_actions.createAction)(BATCH_IMPORT)();
   var actionListFromResource = (id, response) => {
-    const { entities, resource, mapping } = normalize(response);
+    const { entities, resource, mapping } = pt(response);
     if (resource.id === void 0) {
       return [requestError({ id, message: "ID is not defined in resource." })];
     }
@@ -56075,62 +54360,65 @@ ${generateSegmentFilename(i7)}`);
     actions.push(requestComplete({ id }));
     return actions;
   };
-  function __awaiter2(thisArg, _arguments, P2, generator) {
-    function adopt(value) {
-      return value instanceof P2 ? value : new P2(function(resolve) {
-        resolve(value);
-      });
+  var safeIsNaN = Number.isNaN || function ponyfill(value) {
+    return typeof value === "number" && value !== value;
+  };
+  function isEqual(first, second) {
+    if (first === second) {
+      return true;
     }
-    return new (P2 || (P2 = Promise))(function(resolve, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e11) {
-          reject(e11);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e11) {
-          reject(e11);
-        }
-      }
-      function step(result) {
-        result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+    if (safeIsNaN(first) && safeIsNaN(second)) {
+      return true;
+    }
+    return false;
   }
-  function resolveIfExists2(state, url) {
-    const request = state.hyperion.requests[url];
-    const resourceType = state.hyperion.mapping[url];
-    if (!resourceType || !state.hyperion.entities[resourceType][request.resourceUri]) {
+  function areInputsEqual(newInputs, lastInputs) {
+    if (!Array.isArray(newInputs) || !Array.isArray(lastInputs)) {
+      return newInputs === lastInputs;
+    }
+    if (newInputs.length !== lastInputs.length) {
+      return false;
+    }
+    for (let i7 = 0; i7 < newInputs.length; i7++) {
+      if (!isEqual(newInputs[i7], lastInputs[i7])) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function resolveIfExists(state, url) {
+    const request = state.iiif.requests[url];
+    const resourceType = state.iiif.mapping[url];
+    if (!resourceType || !state.iiif.entities[resourceType][request.resourceUri]) {
       return void 0;
     }
-    return state.hyperion.entities[resourceType][request.resourceUri];
+    return state.iiif.entities[resourceType][request.resourceUri];
   }
   function createFetchHelper(store, fetcher, { waitTimeout = 30 } = {}) {
-    return (url, options) => __awaiter2(this, void 0, void 0, function* () {
+    return async (url, options) => {
       const state = store.getState();
-      const request = state.hyperion.requests[url];
+      const request = state.iiif.requests[url];
       if (request) {
         switch (request.loadingState) {
-          case "RESOURCE_ERROR":
+          case RESOURCE_ERROR:
             break;
-          case "RESOURCE_LOADING": {
+          case RESOURCE_LOADING: {
             let cleanupSubscription;
+            let didContinue = false;
             try {
-              const resolvedEntity = yield Promise.race([
+              const resolvedEntity = await Promise.race([
                 new Promise((resolve, reject) => {
+                  if (didContinue) {
+                    return;
+                  }
                   cleanupSubscription = store.subscribe(() => {
                     const latestState = store.getState();
-                    if (latestState.hyperion.requests[url].loadingState === "RESOURCE_ERROR") {
+                    if (latestState.iiif.requests[url].loadingState === RESOURCE_ERROR) {
                       reject();
                       return;
                     }
-                    if (latestState.hyperion.requests[url].loadingState === "RESOURCE_READY") {
-                      const maybeResolvedEntity = resolveIfExists2(latestState, url);
+                    if (latestState.iiif.requests[url].loadingState === RESOURCE_READY) {
+                      const maybeResolvedEntity = resolveIfExists(latestState, url);
                       if (maybeResolvedEntity) {
                         resolve(maybeResolvedEntity);
                       } else {
@@ -56139,22 +54427,27 @@ ${generateSegmentFilename(i7)}`);
                     }
                   });
                 }),
-                new Promise((resolve, reject) => setTimeout(reject, waitTimeout * 60))
+                new Promise((resolve, reject) => setTimeout(() => {
+                  didContinue = true;
+                  reject();
+                }, waitTimeout * 60))
               ]);
-              if (cleanupSubscription)
+              if (cleanupSubscription) {
                 cleanupSubscription();
+              }
               if (resolvedEntity) {
                 return resolvedEntity;
               }
             } catch (e11) {
-              if (cleanupSubscription)
+              if (cleanupSubscription) {
                 cleanupSubscription();
+              }
               break;
             }
             break;
           }
-          case "RESOURCE_READY": {
-            const resolvedEntity = resolveIfExists2(state, url);
+          case RESOURCE_READY: {
+            const resolvedEntity = resolveIfExists(state, url);
             if (resolvedEntity) {
               return resolvedEntity;
             }
@@ -56164,114 +54457,432 @@ ${generateSegmentFilename(i7)}`);
       }
       store.dispatch(requestResource({ id: url }));
       try {
-        const resource = yield fetcher(url, options);
-        const toDispatch = actionListFromResource(url, resource);
-        for (const action of toDispatch) {
-          store.dispatch(action);
+        const resource = await fetcher(url, options);
+        if (!resource.id && !resource["@id"]) {
+          if (resource["@type"]) {
+            resource["@id"] = url;
+            resource.id = url;
+          } else {
+            resource.id = url;
+          }
         }
-        return resolveIfExists2(store.getState(), url);
+        const toDispatch = actionListFromResource(url, resource);
+        store.dispatch(batchActions({ actions: toDispatch }));
+        return resolveIfExists(store.getState(), url);
       } catch (err) {
         store.dispatch(requestError({ id: url, message: err.toString() }));
         throw err;
       }
-    });
+    };
   }
-
-  // node_modules/mitt/dist/mitt.es.js
-  function mitt_es_default(n5) {
+  function getDefaultEntities() {
+    return {
+      Collection: {},
+      Manifest: {},
+      Canvas: {},
+      AnnotationPage: {},
+      AnnotationCollection: {},
+      Annotation: {},
+      ContentResource: {},
+      Range: {},
+      Service: {},
+      Selector: {},
+      Agent: {}
+    };
+  }
+  var mappingReducer = (state = {}, action) => {
+    switch (action.type) {
+      case ADD_MAPPING:
+        return {
+          ...state,
+          [action.payload.id]: action.payload.type
+        };
+      case ADD_MAPPINGS:
+        return {
+          ...state,
+          ...action.payload.mapping
+        };
+      default:
+        return state;
+    }
+  };
+  function isReferenceList(state, id, type, key) {
+    return !(!state[type] || !state[type][id] || !state[type][id][key] || !Array.isArray(state[type][id][key]));
+  }
+  var entitiesReducer = (state = getDefaultEntities(), action) => {
+    switch (action.type) {
+      case MODIFY_ENTITY_FIELD: {
+        if (!state[action.payload.type] || !state[action.payload.type][action.payload.id]) {
+          return state;
+        }
+        const entity = state[action.payload.type][action.payload.id];
+        if (typeof entity === "string") {
+          return state;
+        }
+        return {
+          ...state,
+          [action.payload.type]: {
+            ...state[action.payload.type],
+            [action.payload.id]: {
+              ...entity,
+              [action.payload.key]: action.payload.value
+            }
+          }
+        };
+      }
+      case REORDER_ENTITY_FIELD: {
+        if (!isReferenceList(state, action.payload.id, action.payload.type, action.payload.key)) {
+          return state;
+        }
+        const entity = state[action.payload.type][action.payload.id];
+        if (typeof entity === "string") {
+          return state;
+        }
+        const result = Array.from(entity[action.payload.key]);
+        const [removed] = result.splice(action.payload.startIndex, 1);
+        result.splice(action.payload.endIndex, 0, removed);
+        return {
+          ...state,
+          [action.payload.type]: {
+            ...state[action.payload.type],
+            [action.payload.id]: {
+              ...entity,
+              [action.payload.key]: result
+            }
+          }
+        };
+      }
+      case IMPORT_ENTITIES: {
+        const keys = Object.keys(action.payload.entities);
+        const toReturn = { ...state };
+        for (const key of keys) {
+          toReturn[key] = {
+            ...state[key] || {},
+            ...action.payload.entities[key] || {}
+          };
+        }
+        return toReturn;
+      }
+      case ADD_REFERENCE: {
+        if (!isReferenceList(state, action.payload.id, action.payload.type, action.payload.key)) {
+          return state;
+        }
+        const entity = state[action.payload.type][action.payload.id];
+        const result = Array.from(entity[action.payload.key]);
+        result.splice(action.payload.index || result.length + 1, 0, action.payload.reference);
+        return {
+          ...state,
+          [action.payload.type]: {
+            ...state[action.payload.type],
+            [action.payload.id]: {
+              ...entity,
+              [action.payload.key]: result
+            }
+          }
+        };
+      }
+      case REMOVE_REFERENCE: {
+        if (!isReferenceList(state, action.payload.id, action.payload.type, action.payload.key)) {
+          return state;
+        }
+        const entity = state[action.payload.type][action.payload.id];
+        const result = Array.from(entity[action.payload.key]);
+        const indexToRemove = action.payload.index || result.findIndex((e11) => e11 && e11.id === action.payload.reference.id);
+        if (indexToRemove === -1) {
+          return state;
+        }
+        if (result[indexToRemove]?.id !== action.payload.reference.id) {
+          return state;
+        }
+        result.splice(indexToRemove, 1);
+        return {
+          ...state,
+          [action.payload.type]: {
+            ...state[action.payload.type],
+            [action.payload.id]: {
+              ...entity,
+              [action.payload.key]: result
+            }
+          }
+        };
+      }
+      default:
+        return state;
+    }
+  };
+  var requestReducer = (state = {}, action) => {
+    switch (action.type) {
+      case REQUEST_RESOURCE:
+      case REQUEST_OFFLINE_RESOURCE:
+        return {
+          ...state,
+          [action.payload.id]: {
+            requestUri: action.payload.id,
+            loadingState: RESOURCE_LOADING,
+            uriMismatch: false,
+            resourceUri: action.payload.id
+          }
+        };
+      case REQUEST_MISMATCH:
+        return {
+          ...state,
+          [action.payload.requestId]: {
+            ...state[action.payload.requestId] || {},
+            uriMismatch: true,
+            resourceUri: action.payload.actualId
+          },
+          [action.payload.actualId]: {
+            requestUri: action.payload.requestId,
+            loadingState: state[action.payload.requestId].loadingState,
+            uriMismatch: true,
+            resourceUri: action.payload.actualId
+          }
+        };
+      case REQUEST_ERROR:
+        return {
+          ...state,
+          [action.payload.id]: {
+            ...state[action.payload.id] || {},
+            loadingState: RESOURCE_ERROR,
+            error: action.payload.message
+          }
+        };
+      case REQUEST_COMPLETE:
+        return {
+          ...state,
+          [action.payload.id]: {
+            ...state[action.payload.id] || {},
+            loadingState: RESOURCE_READY,
+            error: void 0
+          }
+        };
+    }
+    return state;
+  };
+  var metaReducer = (state = {}, action) => {
+    const { id, updateValue, value, meta, key } = action && action.payload || {};
+    switch (action.type) {
+      case SET_META_VALUE: {
+        return {
+          ...state,
+          [id]: {
+            ...state[id] || {},
+            [meta]: {
+              ...state[id] ? state[id][meta] || {} : {},
+              [key]: value
+            }
+          }
+        };
+      }
+      case SET_META_VALUE_DYNAMIC: {
+        return {
+          ...state,
+          [id]: {
+            ...state[id] || {},
+            [meta]: {
+              ...state[id] ? state[id][meta] || {} : {},
+              [key]: state[id] && state[id][meta] ? updateValue(state[id][meta][key]) : updateValue(void 0)
+            }
+          }
+        };
+      }
+      case UNSET_META_VALUE: {
+        if (state[id] && state[id][meta] && state[id][meta][key]) {
+          return {
+            ...state,
+            [id]: {
+              ...state[id] || {},
+              [meta]: {
+                ...state[id] ? state[id][meta] || {} : {},
+                [key]: void 0
+              }
+            }
+          };
+        }
+        return state;
+      }
+      default:
+        return state;
+    }
+  };
+  function createBatchReducer(rootReducer) {
+    return (state, action) => {
+      if (action && action.type === BATCH_ACTIONS) {
+        return action.payload.actions.reduce(rootReducer, state);
+      }
+      if (action && action.type === BATCH_IMPORT) {
+        return action.payload.state;
+      }
+      return rootReducer(state, action);
+    };
+  }
+  var reducers = combineReducers({
+    mapping: mappingReducer,
+    entities: entitiesReducer,
+    requests: requestReducer,
+    meta: metaReducer
+  });
+  var composeEnhancers = typeof window !== "undefined" ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose : compose;
+  function createStore2(options = {}) {
+    const {
+      enableDevtools = true,
+      iiifStoreName = "iiif",
+      defaultState: defaultState2 = {},
+      extraMiddleware = [],
+      customReducers = {}
+    } = options;
+    const rootReducer = combineReducers({ [iiifStoreName]: reducers, ...customReducers });
+    const store = createStore(createBatchReducer(rootReducer), defaultState2, enableDevtools ? composeEnhancers(applyMiddleware(...extraMiddleware)) : compose(applyMiddleware(...extraMiddleware)));
+    return store;
+  }
+  function mitt(n5) {
     return { all: n5 = n5 || new Map(), on: function(t13, e11) {
       var i7 = n5.get(t13);
-      i7 && i7.push(e11) || n5.set(t13, [e11]);
+      i7 ? i7.push(e11) : n5.set(t13, [e11]);
     }, off: function(t13, e11) {
       var i7 = n5.get(t13);
-      i7 && i7.splice(i7.indexOf(e11) >>> 0, 1);
+      i7 && (e11 ? i7.splice(i7.indexOf(e11) >>> 0, 1) : n5.set(t13, []));
     }, emit: function(t13, e11) {
-      (n5.get(t13) || []).slice().map(function(n6) {
+      var i7 = n5.get(t13);
+      i7 && i7.slice().map(function(n6) {
         n6(e11);
-      }), (n5.get("*") || []).slice().map(function(n6) {
+      }), (i7 = n5.get("*")) && i7.slice().map(function(n6) {
         n6(t13, e11);
       });
     } };
   }
-
-  // node_modules/@hyperion-framework/vault/dist/index.es.js
-  function __awaiter3(thisArg, _arguments, P2, generator) {
-    function adopt(value) {
-      return value instanceof P2 ? value : new P2(function(resolve) {
-        resolve(value);
-      });
-    }
-    return new (P2 || (P2 = Promise))(function(resolve, reject) {
-      function fulfilled(value) {
-        try {
-          step(generator.next(value));
-        } catch (e11) {
-          reject(e11);
-        }
-      }
-      function rejected(value) {
-        try {
-          step(generator["throw"](value));
-        } catch (e11) {
-          reject(e11);
-        }
-      }
-      function step(result) {
-        result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
-      }
-      step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-  }
   var Vault = class {
+    options;
+    store;
+    emitter;
+    isBatching = false;
+    batchQueue = [];
+    remoteFetcher;
+    staticFetcher;
     constructor(options, store) {
-      this.defaultFetcher = (url) => {
-        return fetch(url).then((r10) => r10.json());
-      };
-      this.middleware = (store2) => (next) => (action) => {
-        this.emitter.emit(action.type, { action, state: store2.getState() });
-        const state = next(action);
-        this.emitter.emit(`after:${action.type}`, { action, state: store2.getState() });
-        return state;
-      };
       this.options = Object.assign({
         reducers: {},
         middleware: [],
         defaultState: {},
-        customFetcher: this.defaultFetcher
+        customFetcher: this.defaultFetcher,
+        enableDevtools: true
       }, options || {});
-      this.store = store || createStore2(this.options.reducers, [...this.options.middleware, this.middleware], this.options.defaultState);
-      this.emitter = mitt_es_default();
-      this.imageService = new ImageServiceLoader();
+      this.store = store || createStore2({
+        customReducers: this.options.reducers,
+        extraMiddleware: [...this.options.middleware, this.middleware],
+        defaultState: this.options.defaultState,
+        enableDevtools: this.options.enableDevtools
+      });
+      this.emitter = mitt();
       this.remoteFetcher = createFetchHelper(this.store, this.options.customFetcher);
       this.staticFetcher = createFetchHelper(this.store, (id, json) => json);
     }
+    defaultFetcher = (url) => {
+      return fetch(url).then((r10) => r10.json());
+    };
+    batch(cb) {
+      this.isBatching = true;
+      try {
+        cb(this);
+        this.store.dispatch(batchActions({ actions: this.batchQueue }));
+      } catch (e11) {
+        this.batchQueue = [];
+        this.isBatching = false;
+        throw e11;
+      }
+      this.batchQueue = [];
+      this.isBatching = false;
+    }
+    async asyncBatch(cb) {
+      this.isBatching = true;
+      try {
+        await cb(this);
+        this.store.dispatch(batchActions({ actions: this.batchQueue }));
+      } catch (e11) {
+        this.batchQueue = [];
+        this.isBatching = false;
+        throw e11;
+      }
+      this.batchQueue = [];
+      this.isBatching = false;
+    }
     modifyEntityField(entity, key, value) {
-      this.store.dispatch(entityActions.modifyEntityField({
+      this.dispatch(entityActions.modifyEntityField({
         id: entity.id,
         type: entity.type,
         key,
         value
       }));
     }
-    serialise(entity, config2) {
-      return serialise(this.getState(), entity, config2);
+    dispatch(action) {
+      if (!this.isBatching) {
+        this.store.dispatch(action);
+      } else {
+        this.batchQueue.push(action);
+      }
+    }
+    middleware = (store) => (next) => (action) => {
+      if (action.type === BATCH_ACTIONS) {
+        for (const realAction of action.payload.actions) {
+          this.emitter.emit(realAction.type, { realAction, state: store.getState() });
+        }
+        const state2 = next(action);
+        for (const realAction of action.payload.actions) {
+          this.emitter.emit(`after:${action.type}`, { action, state: state2 });
+        }
+        return state2;
+      }
+      this.emitter.emit(action.type, { action, state: store.getState() });
+      const state = next(action);
+      this.emitter.emit(`after:${action.type}`, { action, state });
+      return state;
+    };
+    serialize(entity, config2) {
+      return ct(this.getState().iiif, entity, config2);
     }
     toPresentation2(entity) {
-      return this.serialise(entity, serialiseConfigPresentation2);
+      return this.serialize(entity, ut);
     }
     toPresentation3(entity) {
-      return this.serialise(entity, serialiseConfigPresentation3);
+      return this.serialize(entity, dt);
     }
-    fromRef(reference, selector) {
-      const state = this.getState();
-      const resource = state.hyperion.entities[reference.type] && state.hyperion.entities[reference.type][reference.id] ? state.hyperion.entities[reference.type][reference.id] : reference;
-      if (!selector) {
-        return resource;
+    hydrate(reference, type) {
+      return this.get(reference, type, { skipSelfReturn: false });
+    }
+    get(reference, type, options = {}) {
+      if (typeof type !== "string") {
+        options = type || {};
+        type = void 0;
       }
-      return selector(state, resource);
-    }
-    allFromRef(references, selector) {
-      return references.map((reference) => this.fromRef(reference, selector));
+      const { skipSelfReturn = true } = options || {};
+      if (Array.isArray(reference)) {
+        return reference.map((i7) => this.get(i7, options));
+      }
+      const state = this.getState();
+      if (typeof reference === "string") {
+        const _type2 = type ? type : state.iiif.mapping[reference];
+        if (!_type2) {
+          if (skipSelfReturn) {
+            return null;
+          }
+          return { id: reference, type: "unknown" };
+        }
+        reference = { id: reference, type: _type2 };
+      }
+      const _type = type ? type : reference.type;
+      const _id = reference.id;
+      const entities = state.iiif.entities[_type];
+      if (!entities) {
+        const request = state.iiif.requests[_id];
+        if (request && request.resourceUri !== _id) {
+          return this.get(request.resourceUri, options);
+        }
+        if (skipSelfReturn) {
+          return null;
+        }
+        return reference;
+      }
+      return entities[reference.id] || (skipSelfReturn ? null : reference);
     }
     select(selector) {
       return selector(this.getState());
@@ -56282,104 +54893,76 @@ ${generateSegmentFilename(i7)}`);
     getState() {
       return this.store.getState();
     }
-    getImageService() {
-      return this.imageService;
-    }
     loadManifest(id, json) {
-      return this.load(id, json);
+      const _id = typeof id === "string" ? id : id.id;
+      return this.load(_id, json);
     }
     loadCollection(id, json) {
-      return this.load(id, json);
+      const _id = typeof id === "string" ? id : id.id;
+      return this.load(_id, json);
     }
-    getThumbnail(input, request, dereference, candidates = [], dimensions) {
-      return __awaiter3(this, void 0, void 0, function* () {
-        if (typeof input === "string") {
-          return { best: getFixedSizeFromImage(input), fallback: [], log: [] };
-        }
-        const fullInput = this.fromRef(input);
-        if (typeof fullInput === "string") {
-          return { best: getFixedSizeFromImage(fullInput), fallback: [], log: [] };
-        }
-        switch (fullInput.type) {
-          case "Annotation": {
-            const contentResources = fullInput.body;
-            const firstContentResources = this.fromRef(contentResources[0]);
-            if (dimensions && !firstContentResources.width) {
-              firstContentResources.width = dimensions.width;
-              firstContentResources.height = dimensions.height;
-            }
-            return yield this.imageService.getThumbnailFromResource(firstContentResources, request, dereference, candidates);
-          }
-          case "Canvas": {
-            const canvas = fullInput;
-            if (canvas.thumbnail && canvas.thumbnail.length) {
-              const thumbnail = this.fromRef(canvas.thumbnail[0]);
-              const potentialThumbnails = yield this.imageService.getImageCandidates(thumbnail, dereference);
-              if (potentialThumbnails && potentialThumbnails.length) {
-                candidates.push(...potentialThumbnails);
-              }
-            }
-            return this.getThumbnail(canvas.items[0], request, dereference, candidates, {
-              width: canvas.width,
-              height: canvas.height
-            });
-          }
-          case "AnnotationPage": {
-            const annotationPage = fullInput;
-            return this.getThumbnail(annotationPage.items[0], request, dereference, candidates, dimensions);
-          }
-          case "Choice": {
-            const choice = fullInput;
-            return this.getThumbnail(choice.items[0], request, dereference, candidates, dimensions);
-          }
-          case "Collection": {
-            const collection = fullInput;
-            const firstManifest = collection.items[0];
-            return this.getThumbnail(firstManifest, request, dereference, candidates, dimensions);
-          }
-          case "Manifest": {
-            const manifest = fullInput;
-            const firstCanvas = manifest.items[0];
-            return this.getThumbnail(firstCanvas, request, dereference, candidates, dimensions);
-          }
-          case "SpecificResource":
-          case "Image":
-          case "Dataset":
-          case "Sound":
-          case "Text":
-          case "TextualBody":
-          case "Video":
-            if (dimensions && !fullInput.width) {
-              fullInput.width = dimensions.width;
-              fullInput.height = dimensions.height;
-            }
-            return this.imageService.getThumbnailFromResource(fullInput, request, dereference, candidates);
-          case "Service":
-          case "Range":
-          case "AnnotationCollection":
-          case "CanvasReference":
-          case "ContentResource":
-            return { best: void 0, fallback: [], log: [] };
-        }
-        return { best: void 0, fallback: [], log: [] };
-      });
-    }
-    load(resource, json) {
+    load(id, json) {
+      const _id = typeof id === "string" ? id : id.id;
       if (json) {
-        return this.staticFetcher(resource, json);
+        return this.staticFetcher(_id, json);
       }
-      return this.remoteFetcher(resource);
+      return this.remoteFetcher(_id);
     }
-    subscribe(selector, subscription) {
-      let lastState;
+    areInputsEqual(newInputs, lastInputs) {
+      return areInputsEqual(newInputs, lastInputs);
+    }
+    subscribe(selector, subscription, skipInitial) {
+      if (typeof skipInitial === "undefined" && (typeof subscription === "undefined" || subscription === false || subscription === true)) {
+        skipInitial = subscription;
+        subscription = selector;
+        selector = (a7) => a7;
+      }
+      let lastState = skipInitial ? null : selector(this.store.getState());
+      if (!skipInitial) {
+        subscription(lastState, this);
+      }
       return this.store.subscribe(() => {
         const state = this.store.getState();
         const selectedState = selector(state);
-        if (lastState !== selectedState) {
+        if (!areInputsEqual(lastState, selectedState)) {
           subscription(selectedState, this);
         }
         lastState = selectedState;
       });
+    }
+    async ensureLoaded(_id) {
+      const id = typeof _id === "string" ? _id : _id.id;
+      if (!this.requestStatus(id)) {
+        await this.load(id);
+      }
+    }
+    requestStatus(id) {
+      return this.select((state) => {
+        return state.iiif.requests[id];
+      });
+    }
+    getResourceMeta(resource, metaKey) {
+      const resourceMeta = this.getState().iiif.meta[resource];
+      if (!resourceMeta) {
+        return void 0;
+      }
+      if (!metaKey) {
+        return resourceMeta;
+      }
+      return resourceMeta[metaKey];
+    }
+    setMetaValue([id, meta, key], newValueOrUpdate) {
+      this.dispatch(typeof newValueOrUpdate === "function" ? metaActions.setMetaValueDynamic({
+        id,
+        meta,
+        key,
+        updateValue: newValueOrUpdate
+      }) : metaActions.setMetaValue({
+        id,
+        meta,
+        key,
+        value: newValueOrUpdate
+      }));
     }
   };
 
@@ -56450,7 +55033,7 @@ ${generateSegmentFilename(i7)}`);
   // src/components/Viewer/Viewer.tsx
   var import_react33 = __toModule(require_react());
 
-  // src/hooks/use-hyperion-framework/getAccompanyingCanvasImage.ts
+  // src/hooks/use-iiif/getAccompanyingCanvasImage.ts
   function getUrl(obj) {
     if (!obj.service) {
       return obj.id;
@@ -56472,7 +55055,7 @@ ${generateSegmentFilename(i7)}`);
     }
   };
 
-  // src/hooks/use-hyperion-framework/getCanvasByCriteria.ts
+  // src/hooks/use-iiif/getCanvasByCriteria.ts
   var getCanvasByCriteria = (vault, item, motivation, paintingType) => {
     var _a2, _b2;
     const entity = {
@@ -56487,11 +55070,18 @@ ${generateSegmentFilename(i7)}`);
           console.error(`Invalid annotation after Hyperion parsing: missing either 'body' or 'motivation'`, annotation);
           return;
         }
-        const resources = vault.allFromRef(annotation.body);
+        if (!annotation.body)
+          return;
+        let annotationBody = annotation.body;
+        if (Array.isArray(annotationBody))
+          annotationBody = annotationBody[0];
+        const resource = vault.get(annotationBody.id);
+        if (!resource)
+          return;
         switch (motivation) {
           case "painting":
-            if (annotation.target === item.id && annotation.motivation && annotation.motivation[0] === "painting" && paintingType.includes(resources[0].type))
-              annotation.body = resources;
+            if (annotation.target === item.id && annotation.motivation && annotation.motivation[0] === "painting" && paintingType.includes(resource.type))
+              annotation.body = resource;
             return annotation;
           case "supplementing":
             return;
@@ -56501,43 +55091,47 @@ ${generateSegmentFilename(i7)}`);
         }
       }
     };
-    entity.canvas = vault.fromRef(item);
+    entity.canvas = vault.get(item);
     if (entity.canvas) {
-      entity.annotationPage = vault.fromRef(entity.canvas.items[0]);
-      entity.accompanyingCanvas = ((_a2 = entity.canvas) == null ? void 0 : _a2.accompanyingCanvas) ? vault.fromRef((_b2 = entity.canvas) == null ? void 0 : _b2.accompanyingCanvas) : void 0;
+      entity.annotationPage = vault.get(entity.canvas.items[0]);
+      entity.accompanyingCanvas = ((_a2 = entity.canvas) == null ? void 0 : _a2.accompanyingCanvas) ? vault.get((_b2 = entity.canvas) == null ? void 0 : _b2.accompanyingCanvas) : void 0;
     }
     if (entity.annotationPage)
-      entity.annotations = vault.allFromRef(entity.annotationPage.items).filter(filterAnnotations);
+      entity.annotations = vault.get(entity.annotationPage.items).filter(filterAnnotations);
     return entity;
   };
 
-  // src/hooks/use-hyperion-framework/getPaintingResource.ts
+  // src/hooks/use-iiif/getPaintingResource.ts
   var getPaintingResource = (vault, id) => {
     const canvasEntity = getCanvasByCriteria(vault, { id, type: "Canvas" }, "painting", ["Image", "Sound", "Video"]);
     if (canvasEntity.annotations.length === 0)
       return;
-    if (canvasEntity.annotations[0]) {
-      const resources = vault.allFromRef(canvasEntity.annotations[0].body);
-      return resources[0];
-    }
+    if (canvasEntity.annotations[0] && canvasEntity.annotations[0].body)
+      return canvasEntity.annotations[0].body;
     return;
   };
 
-  // src/hooks/use-hyperion-framework/getSupplementingResources.ts
+  // src/hooks/use-iiif/getSupplementingResources.ts
   var getSupplementingResources = (vault, activeCanvas, format) => {
-    const canvas = vault.fromRef({
+    const canvas = vault.get({
       id: activeCanvas,
       type: "Canvas"
     });
     if (!(canvas == null ? void 0 : canvas.annotations) || !canvas.annotations[0])
       return [];
-    const annotationPage = vault.fromRef(canvas.annotations[0]);
-    const annotations = vault.allFromRef(annotationPage.items);
+    const annotationPage = vault.get(canvas.annotations[0]);
+    const annotations = vault.get(annotationPage.items);
     if (!Array.isArray(annotations))
       return [];
     return annotations.filter((annotation) => {
-      if (annotation.motivation === "supplementing") {
-        const resource = vault.fromRef(annotation.body);
+      var _a2;
+      if (!annotation.body)
+        return;
+      if ((_a2 = annotation.motivation) == null ? void 0 : _a2.includes("supplementing")) {
+        let annotationBody = annotation.body;
+        if (Array.isArray(annotationBody))
+          annotationBody = annotationBody[0];
+        const resource = vault.get(annotationBody.id);
         if (resource.format === format) {
           annotation.body = resource;
           return annotation;
@@ -56548,7 +55142,7 @@ ${generateSegmentFilename(i7)}`);
     });
   };
 
-  // src/hooks/use-hyperion-framework/getLabel.ts
+  // src/hooks/use-iiif/getLabel.ts
   var getLabel = (label, language = "en") => {
     if (!label)
       return "";
@@ -56560,25 +55154,27 @@ ${generateSegmentFilename(i7)}`);
     return label[language];
   };
 
-  // src/hooks/use-hyperion-framework/getThumbnail.ts
+  // src/hooks/use-iiif/getThumbnail.ts
   var getThumbnail = (vault, entity, width, height) => {
     let candidates = [];
     if (entity.canvas) {
       if (entity.canvas.thumbnail.length > 0) {
-        const canvasThumbnail = vault.fromRef(entity.canvas.thumbnail[0]);
+        const canvasThumbnail = vault.get(entity.canvas.thumbnail[0]);
         candidates.push(canvasThumbnail);
       }
     }
     if (entity.annotations[0]) {
       if (entity.annotations[0].thumbnail) {
         if (entity.annotations[0].thumbnail.length > 0) {
-          const annotationThumbnail = vault.fromRef(entity.annotations[0].thumbnail[0]);
+          const annotationThumbnail = vault.get(entity.annotations[0].thumbnail[0]);
           candidates.push(annotationThumbnail);
         }
       }
-      const resources = vault.allFromRef(entity.annotations[0].body);
-      if (resources[0].type === "Image")
-        candidates.push(resources[0]);
+      if (!entity.annotations[0].body)
+        return;
+      const annotationBody = entity.annotations[0].body;
+      if (annotationBody.type === "Image")
+        candidates.push(annotationBody);
     }
     if (candidates.length === 0)
       return;
@@ -56607,68 +55203,68 @@ ${generateSegmentFilename(i7)}`);
       return o11 in e11 ? e11[o11] : e11[o11] = r10(t13, ...n5);
     };
   };
-  var l = Symbol.for("sxs.internal");
-  var s = (e11, t13) => Object.defineProperties(e11, Object.getOwnPropertyDescriptors(t13));
+  var l2 = Symbol.for("sxs.internal");
+  var s2 = (e11, t13) => Object.defineProperties(e11, Object.getOwnPropertyDescriptors(t13));
   var a = (e11) => {
     for (const t13 in e11)
       return true;
     return false;
   };
-  var { hasOwnProperty: c } = Object.prototype;
-  var d = (e11) => e11.includes("-") ? e11 : e11.replace(/[A-Z]/g, (e12) => "-" + e12.toLowerCase());
-  var g = /\s+(?![^()]*\))/;
-  var p = (e11) => (t13) => e11(...typeof t13 == "string" ? String(t13).split(g) : [t13]);
-  var u = { appearance: (e11) => ({ WebkitAppearance: e11, appearance: e11 }), backfaceVisibility: (e11) => ({ WebkitBackfaceVisibility: e11, backfaceVisibility: e11 }), backdropFilter: (e11) => ({ WebkitBackdropFilter: e11, backdropFilter: e11 }), backgroundClip: (e11) => ({ WebkitBackgroundClip: e11, backgroundClip: e11 }), boxDecorationBreak: (e11) => ({ WebkitBoxDecorationBreak: e11, boxDecorationBreak: e11 }), clipPath: (e11) => ({ WebkitClipPath: e11, clipPath: e11 }), content: (e11) => ({ content: e11.includes('"') || e11.includes("'") || /^([A-Za-z]+\([^]*|[^]*-quote|inherit|initial|none|normal|revert|unset)$/.test(e11) ? e11 : `"${e11}"` }), hyphens: (e11) => ({ WebkitHyphens: e11, hyphens: e11 }), maskImage: (e11) => ({ WebkitMaskImage: e11, maskImage: e11 }), maskSize: (e11) => ({ WebkitMaskSize: e11, maskSize: e11 }), tabSize: (e11) => ({ MozTabSize: e11, tabSize: e11 }), textSizeAdjust: (e11) => ({ WebkitTextSizeAdjust: e11, textSizeAdjust: e11 }), userSelect: (e11) => ({ WebkitUserSelect: e11, userSelect: e11 }), marginBlock: p((e11, t13) => ({ marginBlockStart: e11, marginBlockEnd: t13 || e11 })), marginInline: p((e11, t13) => ({ marginInlineStart: e11, marginInlineEnd: t13 || e11 })), maxSize: p((e11, t13) => ({ maxBlockSize: e11, maxInlineSize: t13 || e11 })), minSize: p((e11, t13) => ({ minBlockSize: e11, minInlineSize: t13 || e11 })), paddingBlock: p((e11, t13) => ({ paddingBlockStart: e11, paddingBlockEnd: t13 || e11 })), paddingInline: p((e11, t13) => ({ paddingInlineStart: e11, paddingInlineEnd: t13 || e11 })) };
-  var h = /([\d.]+)([^]*)/;
-  var f = (e11, t13) => e11.length ? e11.reduce((e12, r10) => (e12.push(...t13.map((e13) => e13.includes("&") ? e13.replace(/&/g, /[ +>|~]/.test(r10) && /&.*&/.test(e13) ? `:is(${r10})` : r10) : r10 + " " + e13)), e12), []) : t13;
-  var m = (e11, t13) => e11 in b && typeof t13 == "string" ? t13.replace(/^((?:[^]*[^\w-])?)(fit-content|stretch)((?:[^\w-][^]*)?)$/, (t14, r10, n5, i7) => r10 + (n5 === "stretch" ? `-moz-available${i7};${d(e11)}:${r10}-webkit-fill-available` : `-moz-fit-content${i7};${d(e11)}:${r10}fit-content`) + i7) : String(t13);
-  var b = { blockSize: 1, height: 1, inlineSize: 1, maxBlockSize: 1, maxHeight: 1, maxInlineSize: 1, maxWidth: 1, minBlockSize: 1, minHeight: 1, minInlineSize: 1, minWidth: 1, width: 1 };
-  var S = (e11) => e11 ? e11 + "-" : "";
-  var k = (e11, t13, r10) => e11.replace(/([+-])?((?:\d+(?:\.\d*)?|\.\d+)(?:[Ee][+-]?\d+)?)?(\$|--)([$\w-]+)/g, (e12, n5, i7, o11, l8) => o11 == "$" == !!i7 ? e12 : (n5 || o11 == "--" ? "calc(" : "") + "var(--" + (o11 === "$" ? S(t13) + (l8.includes("$") ? "" : S(r10)) + l8.replace(/\$/g, "-") : l8) + ")" + (n5 || o11 == "--" ? "*" + (n5 || "") + (i7 || "1") + ")" : ""));
-  var y = /\s*,\s*(?![^()]*\))/;
-  var B = Object.prototype.toString;
-  var $2 = (e11, t13, r10, n5, i7) => {
-    let o11, l8, s8;
+  var { hasOwnProperty: c2 } = Object.prototype;
+  var d2 = (e11) => e11.includes("-") ? e11 : e11.replace(/[A-Z]/g, (e12) => "-" + e12.toLowerCase());
+  var g2 = /\s+(?![^()]*\))/;
+  var p2 = (e11) => (t13) => e11(...typeof t13 == "string" ? String(t13).split(g2) : [t13]);
+  var u2 = { appearance: (e11) => ({ WebkitAppearance: e11, appearance: e11 }), backfaceVisibility: (e11) => ({ WebkitBackfaceVisibility: e11, backfaceVisibility: e11 }), backdropFilter: (e11) => ({ WebkitBackdropFilter: e11, backdropFilter: e11 }), backgroundClip: (e11) => ({ WebkitBackgroundClip: e11, backgroundClip: e11 }), boxDecorationBreak: (e11) => ({ WebkitBoxDecorationBreak: e11, boxDecorationBreak: e11 }), clipPath: (e11) => ({ WebkitClipPath: e11, clipPath: e11 }), content: (e11) => ({ content: e11.includes('"') || e11.includes("'") || /^([A-Za-z]+\([^]*|[^]*-quote|inherit|initial|none|normal|revert|unset)$/.test(e11) ? e11 : `"${e11}"` }), hyphens: (e11) => ({ WebkitHyphens: e11, hyphens: e11 }), maskImage: (e11) => ({ WebkitMaskImage: e11, maskImage: e11 }), maskSize: (e11) => ({ WebkitMaskSize: e11, maskSize: e11 }), tabSize: (e11) => ({ MozTabSize: e11, tabSize: e11 }), textSizeAdjust: (e11) => ({ WebkitTextSizeAdjust: e11, textSizeAdjust: e11 }), userSelect: (e11) => ({ WebkitUserSelect: e11, userSelect: e11 }), marginBlock: p2((e11, t13) => ({ marginBlockStart: e11, marginBlockEnd: t13 || e11 })), marginInline: p2((e11, t13) => ({ marginInlineStart: e11, marginInlineEnd: t13 || e11 })), maxSize: p2((e11, t13) => ({ maxBlockSize: e11, maxInlineSize: t13 || e11 })), minSize: p2((e11, t13) => ({ minBlockSize: e11, minInlineSize: t13 || e11 })), paddingBlock: p2((e11, t13) => ({ paddingBlockStart: e11, paddingBlockEnd: t13 || e11 })), paddingInline: p2((e11, t13) => ({ paddingInlineStart: e11, paddingInlineEnd: t13 || e11 })) };
+  var h2 = /([\d.]+)([^]*)/;
+  var f2 = (e11, t13) => e11.length ? e11.reduce((e12, r10) => (e12.push(...t13.map((e13) => e13.includes("&") ? e13.replace(/&/g, /[ +>|~]/.test(r10) && /&.*&/.test(e13) ? `:is(${r10})` : r10) : r10 + " " + e13)), e12), []) : t13;
+  var m2 = (e11, t13) => e11 in b2 && typeof t13 == "string" ? t13.replace(/^((?:[^]*[^\w-])?)(fit-content|stretch)((?:[^\w-][^]*)?)$/, (t14, r10, n5, i7) => r10 + (n5 === "stretch" ? `-moz-available${i7};${d2(e11)}:${r10}-webkit-fill-available` : `-moz-fit-content${i7};${d2(e11)}:${r10}fit-content`) + i7) : String(t13);
+  var b2 = { blockSize: 1, height: 1, inlineSize: 1, maxBlockSize: 1, maxHeight: 1, maxInlineSize: 1, maxWidth: 1, minBlockSize: 1, minHeight: 1, minInlineSize: 1, minWidth: 1, width: 1 };
+  var S2 = (e11) => e11 ? e11 + "-" : "";
+  var k2 = (e11, t13, r10) => e11.replace(/([+-])?((?:\d+(?:\.\d*)?|\.\d+)(?:[Ee][+-]?\d+)?)?(\$|--)([$\w-]+)/g, (e12, n5, i7, o11, l9) => o11 == "$" == !!i7 ? e12 : (n5 || o11 == "--" ? "calc(" : "") + "var(--" + (o11 === "$" ? S2(t13) + (l9.includes("$") ? "" : S2(r10)) + l9.replace(/\$/g, "-") : l9) + ")" + (n5 || o11 == "--" ? "*" + (n5 || "") + (i7 || "1") + ")" : ""));
+  var y2 = /\s*,\s*(?![^()]*\))/;
+  var B2 = Object.prototype.toString;
+  var $3 = (e11, t13, r10, n5, i7) => {
+    let o11, l9, s9;
     const a7 = (e12, t14, r11) => {
-      let c7, g5;
-      const p8 = (e13) => {
-        for (c7 in e13) {
-          const R5 = c7.charCodeAt(0) === 64, z2 = R5 && Array.isArray(e13[c7]) ? e13[c7] : [e13[c7]];
-          for (g5 of z2) {
-            const e14 = /[A-Z]/.test($3 = c7) ? $3 : $3.replace(/-[^]/g, (e15) => e15[1].toUpperCase()), z3 = typeof g5 == "object" && g5 && g5.toString === B && (!n5.utils[e14] || !t14.length);
-            if (e14 in n5.utils && !z3) {
+      let c8, g6;
+      const p9 = (e13) => {
+        for (c8 in e13) {
+          const R5 = c8.charCodeAt(0) === 64, z3 = R5 && Array.isArray(e13[c8]) ? e13[c8] : [e13[c8]];
+          for (g6 of z3) {
+            const e14 = /[A-Z]/.test($4 = c8) ? $4 : $4.replace(/-[^]/g, (e15) => e15[1].toUpperCase()), z4 = typeof g6 == "object" && g6 && g6.toString === B2 && (!n5.utils[e14] || !t14.length);
+            if (e14 in n5.utils && !z4) {
               const t15 = n5.utils[e14];
-              if (t15 !== l8) {
-                l8 = t15, p8(t15(g5)), l8 = null;
+              if (t15 !== l9) {
+                l9 = t15, p9(t15(g6)), l9 = null;
                 continue;
               }
-            } else if (e14 in u) {
-              const t15 = u[e14];
-              if (t15 !== s8) {
-                s8 = t15, p8(t15(g5)), s8 = null;
+            } else if (e14 in u2) {
+              const t15 = u2[e14];
+              if (t15 !== s9) {
+                s9 = t15, p9(t15(g6)), s9 = null;
                 continue;
               }
             }
-            if (R5 && (b7 = c7.slice(1) in n5.media ? "@media " + n5.media[c7.slice(1)] : c7, c7 = b7.replace(/\(\s*([\w-]+)\s*(=|<|<=|>|>=)\s*([\w-]+)\s*(?:(<|<=|>|>=)\s*([\w-]+)\s*)?\)/g, (e15, t15, r12, n6, i8, o12) => {
-              const l9 = h.test(t15), s9 = 0.0625 * (l9 ? -1 : 1), [a8, c8] = l9 ? [n6, t15] : [t15, n6];
-              return "(" + (r12[0] === "=" ? "" : r12[0] === ">" === l9 ? "max-" : "min-") + a8 + ":" + (r12[0] !== "=" && r12.length === 1 ? c8.replace(h, (e16, t16, n7) => Number(t16) + s9 * (r12 === ">" ? 1 : -1) + n7) : c8) + (i8 ? ") and (" + (i8[0] === ">" ? "min-" : "max-") + a8 + ":" + (i8.length === 1 ? o12.replace(h, (e16, t16, r13) => Number(t16) + s9 * (i8 === ">" ? -1 : 1) + r13) : o12) : "") + ")";
-            })), z3) {
-              const e15 = R5 ? r11.concat(c7) : [...r11], n6 = R5 ? [...t14] : f(t14, c7.split(y));
-              o11 !== void 0 && i7(x(...o11)), o11 = void 0, a7(g5, n6, e15);
+            if (R5 && (b8 = c8.slice(1) in n5.media ? "@media " + n5.media[c8.slice(1)] : c8, c8 = b8.replace(/\(\s*([\w-]+)\s*(=|<|<=|>|>=)\s*([\w-]+)\s*(?:(<|<=|>|>=)\s*([\w-]+)\s*)?\)/g, (e15, t15, r12, n6, i8, o12) => {
+              const l10 = h2.test(t15), s10 = 0.0625 * (l10 ? -1 : 1), [a8, c9] = l10 ? [n6, t15] : [t15, n6];
+              return "(" + (r12[0] === "=" ? "" : r12[0] === ">" === l10 ? "max-" : "min-") + a8 + ":" + (r12[0] !== "=" && r12.length === 1 ? c9.replace(h2, (e16, t16, n7) => Number(t16) + s10 * (r12 === ">" ? 1 : -1) + n7) : c9) + (i8 ? ") and (" + (i8[0] === ">" ? "min-" : "max-") + a8 + ":" + (i8.length === 1 ? o12.replace(h2, (e16, t16, r13) => Number(t16) + s10 * (i8 === ">" ? -1 : 1) + r13) : o12) : "") + ")";
+            })), z4) {
+              const e15 = R5 ? r11.concat(c8) : [...r11], n6 = R5 ? [...t14] : f2(t14, c8.split(y2));
+              o11 !== void 0 && i7(x2(...o11)), o11 = void 0, a7(g6, n6, e15);
             } else
-              o11 === void 0 && (o11 = [[], t14, r11]), c7 = R5 || c7.charCodeAt(0) !== 36 ? c7 : `--${S(n5.prefix)}${c7.slice(1).replace(/\$/g, "-")}`, g5 = z3 ? g5 : typeof g5 == "number" ? g5 && e14 in I ? String(g5) + "px" : String(g5) : k(m(e14, g5 == null ? "" : g5), n5.prefix, n5.themeMap[e14]), o11[0].push(`${R5 ? `${c7} ` : `${d(c7)}:`}${g5}`);
+              o11 === void 0 && (o11 = [[], t14, r11]), c8 = R5 || c8.charCodeAt(0) !== 36 ? c8 : `--${S2(n5.prefix)}${c8.slice(1).replace(/\$/g, "-")}`, g6 = z4 ? g6 : typeof g6 == "number" ? g6 && e14 in I ? String(g6) + "px" : String(g6) : k2(m2(e14, g6 == null ? "" : g6), n5.prefix, n5.themeMap[e14]), o11[0].push(`${R5 ? `${c8} ` : `${d2(c8)}:`}${g6}`);
           }
         }
-        var b7, $3;
+        var b8, $4;
       };
-      p8(e12), o11 !== void 0 && i7(x(...o11)), o11 = void 0;
+      p9(e12), o11 !== void 0 && i7(x2(...o11)), o11 = void 0;
     };
     a7(e11, t13, r10);
   };
-  var x = (e11, t13, r10) => `${r10.map((e12) => `${e12}{`).join("")}${t13.length ? `${t13.join(",")}{` : ""}${e11.join(";")}${t13.length ? "}" : ""}${Array(r10.length ? r10.length + 1 : 0).join("}")}`;
+  var x2 = (e11, t13, r10) => `${r10.map((e12) => `${e12}{`).join("")}${t13.length ? `${t13.join(",")}{` : ""}${e11.join(";")}${t13.length ? "}" : ""}${Array(r10.length ? r10.length + 1 : 0).join("}")}`;
   var I = { animationDelay: 1, animationDuration: 1, backgroundSize: 1, blockSize: 1, border: 1, borderBlock: 1, borderBlockEnd: 1, borderBlockEndWidth: 1, borderBlockStart: 1, borderBlockStartWidth: 1, borderBlockWidth: 1, borderBottom: 1, borderBottomLeftRadius: 1, borderBottomRightRadius: 1, borderBottomWidth: 1, borderEndEndRadius: 1, borderEndStartRadius: 1, borderInlineEnd: 1, borderInlineEndWidth: 1, borderInlineStart: 1, borderInlineStartWidth: 1, borderInlineWidth: 1, borderLeft: 1, borderLeftWidth: 1, borderRadius: 1, borderRight: 1, borderRightWidth: 1, borderSpacing: 1, borderStartEndRadius: 1, borderStartStartRadius: 1, borderTop: 1, borderTopLeftRadius: 1, borderTopRightRadius: 1, borderTopWidth: 1, borderWidth: 1, bottom: 1, columnGap: 1, columnRule: 1, columnRuleWidth: 1, columnWidth: 1, containIntrinsicSize: 1, flexBasis: 1, fontSize: 1, gap: 1, gridAutoColumns: 1, gridAutoRows: 1, gridTemplateColumns: 1, gridTemplateRows: 1, height: 1, inlineSize: 1, inset: 1, insetBlock: 1, insetBlockEnd: 1, insetBlockStart: 1, insetInline: 1, insetInlineEnd: 1, insetInlineStart: 1, left: 1, letterSpacing: 1, margin: 1, marginBlock: 1, marginBlockEnd: 1, marginBlockStart: 1, marginBottom: 1, marginInline: 1, marginInlineEnd: 1, marginInlineStart: 1, marginLeft: 1, marginRight: 1, marginTop: 1, maxBlockSize: 1, maxHeight: 1, maxInlineSize: 1, maxWidth: 1, minBlockSize: 1, minHeight: 1, minInlineSize: 1, minWidth: 1, offsetDistance: 1, offsetRotate: 1, outline: 1, outlineOffset: 1, outlineWidth: 1, overflowClipMargin: 1, padding: 1, paddingBlock: 1, paddingBlockEnd: 1, paddingBlockStart: 1, paddingBottom: 1, paddingInline: 1, paddingInlineEnd: 1, paddingInlineStart: 1, paddingLeft: 1, paddingRight: 1, paddingTop: 1, perspective: 1, right: 1, rowGap: 1, scrollMargin: 1, scrollMarginBlock: 1, scrollMarginBlockEnd: 1, scrollMarginBlockStart: 1, scrollMarginBottom: 1, scrollMarginInline: 1, scrollMarginInlineEnd: 1, scrollMarginInlineStart: 1, scrollMarginLeft: 1, scrollMarginRight: 1, scrollMarginTop: 1, scrollPadding: 1, scrollPaddingBlock: 1, scrollPaddingBlockEnd: 1, scrollPaddingBlockStart: 1, scrollPaddingBottom: 1, scrollPaddingInline: 1, scrollPaddingInlineEnd: 1, scrollPaddingInlineStart: 1, scrollPaddingLeft: 1, scrollPaddingRight: 1, scrollPaddingTop: 1, shapeMargin: 1, textDecoration: 1, textDecorationThickness: 1, textIndent: 1, textUnderlineOffset: 1, top: 1, transitionDelay: 1, transitionDuration: 1, verticalAlign: 1, width: 1, wordSpacing: 1 };
   var R = (e11) => String.fromCharCode(e11 + (e11 > 25 ? 39 : 97));
-  var z = (e11) => ((e12) => {
+  var z2 = (e11) => ((e12) => {
     let t13, r10 = "";
     for (t13 = Math.abs(e12); t13 > 52; t13 = t13 / 52 | 0)
       r10 = R(t13 % 52) + r10;
@@ -56679,8 +55275,8 @@ ${generateSegmentFilename(i7)}`);
       e12 = 33 * e12 ^ t13.charCodeAt(--r10);
     return e12;
   })(5381, JSON.stringify(e11)) >>> 0);
-  var W = ["themed", "global", "styled", "onevar", "resonevar", "allvar", "inline"];
-  var j = (e11) => {
+  var W2 = ["themed", "global", "styled", "onevar", "resonevar", "allvar", "inline"];
+  var j2 = (e11) => {
     if (e11.href && !e11.href.startsWith(location.origin))
       return false;
     try {
@@ -56704,20 +55300,20 @@ ${generateSegmentFilename(i7)}`);
       }
       const n5 = Object(e11).styleSheets || [];
       for (const e12 of n5)
-        if (j(e12)) {
+        if (j2(e12)) {
           for (let n6 = 0, i8 = e12.cssRules; i8[n6]; ++n6) {
             const o12 = Object(i8[n6]);
             if (o12.type !== 1)
               continue;
-            const l8 = Object(i8[n6 + 1]);
-            if (l8.type !== 4)
+            const l9 = Object(i8[n6 + 1]);
+            if (l9.type !== 4)
               continue;
             ++n6;
-            const { cssText: s8 } = o12;
-            if (!s8.startsWith("--sxs"))
+            const { cssText: s9 } = o12;
+            if (!s9.startsWith("--sxs"))
               continue;
-            const a7 = s8.slice(14, -3).trim().split(/\s+/), c7 = W[a7[0]];
-            c7 && (t13 || (t13 = { sheet: e12, reset: r10, rules: {} }), t13.rules[c7] = { group: l8, index: n6, cache: new Set(a7) });
+            const a7 = s9.slice(14, -3).trim().split(/\s+/), c8 = W2[a7[0]];
+            c8 && (t13 || (t13 = { sheet: e12, reset: r10, rules: {} }), t13.rules[c8] = { group: l9, index: n6, cache: new Set(a7) });
           }
           if (t13)
             break;
@@ -56748,18 +55344,18 @@ ${generateSegmentFilename(i7)}`);
         } };
       }
       const { sheet: i7, rules: o11 } = t13;
-      for (let e12 = W.length - 1; e12 >= 0; --e12) {
-        const t14 = W[e12];
+      for (let e12 = W2.length - 1; e12 >= 0; --e12) {
+        const t14 = W2[e12];
         if (!o11[t14]) {
-          const r11 = W[e12 + 1], n6 = o11[r11] ? o11[r11].index : i7.cssRules.length;
+          const r11 = W2[e12 + 1], n6 = o11[r11] ? o11[r11].index : i7.cssRules.length;
           i7.insertRule("@media{}", n6), i7.insertRule(`--sxs{--sxs:${e12}}`, n6), o11[t14] = { group: i7.cssRules[n6 + 1], index: n6, cache: new Set([e12]) };
         }
-        v(o11[t14]);
+        v2(o11[t14]);
       }
     };
     return r10(), t13;
   };
-  var v = (e11) => {
+  var v2 = (e11) => {
     const t13 = e11.group;
     let r10 = t13.cssRules.length;
     e11.apply = (e12) => {
@@ -56770,35 +55366,35 @@ ${generateSegmentFilename(i7)}`);
     };
   };
   var T = Symbol();
-  var w = o();
-  var M = (e11, t13) => w(e11, () => (...r10) => {
+  var w2 = o();
+  var M2 = (e11, t13) => w2(e11, () => (...r10) => {
     let n5 = { type: null, composers: new Set() };
     for (const t14 of r10)
       if (t14 != null)
-        if (t14[l]) {
-          n5.type == null && (n5.type = t14[l].type);
-          for (const e12 of t14[l].composers)
+        if (t14[l2]) {
+          n5.type == null && (n5.type = t14[l2].type);
+          for (const e12 of t14[l2].composers)
             n5.composers.add(e12);
         } else
-          t14.constructor !== Object || t14.$$typeof ? n5.type == null && (n5.type = t14) : n5.composers.add(C(t14, e11));
-    return n5.type == null && (n5.type = "span"), n5.composers.size || n5.composers.add(["PJLV", {}, [], [], {}, []]), P(e11, n5, t13);
+          t14.constructor !== Object || t14.$$typeof ? n5.type == null && (n5.type = t14) : n5.composers.add(C2(t14, e11));
+    return n5.type == null && (n5.type = "span"), n5.composers.size || n5.composers.add(["PJLV", {}, [], [], {}, []]), P2(e11, n5, t13);
   });
-  var C = ({ variants: e11, compoundVariants: t13, defaultVariants: r10, ...n5 }, i7) => {
-    const o11 = `${S(i7.prefix)}c-${z(n5)}`, l8 = [], s8 = [], d7 = Object.create(null), g5 = [];
+  var C2 = ({ variants: e11, compoundVariants: t13, defaultVariants: r10, ...n5 }, i7) => {
+    const o11 = `${S2(i7.prefix)}c-${z2(n5)}`, l9 = [], s9 = [], d8 = Object.create(null), g6 = [];
     for (const e12 in r10)
-      d7[e12] = String(r10[e12]);
+      d8[e12] = String(r10[e12]);
     if (typeof e11 == "object" && e11)
       for (const t14 in e11) {
-        p8 = d7, u5 = t14, c.call(p8, u5) || (d7[t14] = "undefined");
+        p9 = d8, u6 = t14, c2.call(p9, u6) || (d8[t14] = "undefined");
         const r11 = e11[t14];
         for (const e12 in r11) {
           const n6 = { [t14]: String(e12) };
-          String(e12) === "undefined" && g5.push(t14);
+          String(e12) === "undefined" && g6.push(t14);
           const i8 = r11[e12], o12 = [n6, i8, !a(i8)];
-          l8.push(o12);
+          l9.push(o12);
         }
       }
-    var p8, u5;
+    var p9, u6;
     if (typeof t13 == "object" && t13)
       for (const e12 of t13) {
         let { css: t14, ...r11 } = e12;
@@ -56806,12 +55402,12 @@ ${generateSegmentFilename(i7)}`);
         for (const e13 in r11)
           r11[e13] = String(r11[e13]);
         const n6 = [r11, t14, !a(t14)];
-        s8.push(n6);
+        s9.push(n6);
       }
-    return [o11, n5, l8, s8, d7, g5];
+    return [o11, n5, l9, s9, d8, g6];
   };
-  var P = (e11, t13, r10) => {
-    const [n5, i7, o11, a7] = L(t13.composers), c7 = typeof t13.type == "function" || t13.type.$$typeof ? ((e12) => {
+  var P2 = (e11, t13, r10) => {
+    const [n5, i7, o11, a7] = L2(t13.composers), c8 = typeof t13.type == "function" || t13.type.$$typeof ? ((e12) => {
       function t14() {
         for (let r11 = 0; r11 < t14[T].length; r11++) {
           const [n6, i8] = t14[T][r11];
@@ -56819,73 +55415,73 @@ ${generateSegmentFilename(i7)}`);
         }
         return t14[T] = [], null;
       }
-      return t14[T] = [], t14.rules = {}, W.forEach((e13) => t14.rules[e13] = { apply: (r11) => t14[T].push([e13, r11]) }), t14;
-    })(r10) : null, d7 = (c7 || r10).rules, g5 = `.${n5}${i7.length > 1 ? `:where(.${i7.slice(1).join(".")})` : ""}`, p8 = (l8) => {
-      l8 = typeof l8 == "object" && l8 || A;
-      const { css: s8, ...p9 } = l8, u5 = {};
+      return t14[T] = [], t14.rules = {}, W2.forEach((e13) => t14.rules[e13] = { apply: (r11) => t14[T].push([e13, r11]) }), t14;
+    })(r10) : null, d8 = (c8 || r10).rules, g6 = `.${n5}${i7.length > 1 ? `:where(.${i7.slice(1).join(".")})` : ""}`, p9 = (l9) => {
+      l9 = typeof l9 == "object" && l9 || A2;
+      const { css: s9, ...p10 } = l9, u6 = {};
       for (const e12 in o11)
-        if (delete p9[e12], e12 in l8) {
-          let t14 = l8[e12];
-          typeof t14 == "object" && t14 ? u5[e12] = { "@initial": o11[e12], ...t14 } : (t14 = String(t14), u5[e12] = t14 !== "undefined" || a7.has(e12) ? t14 : o11[e12]);
+        if (delete p10[e12], e12 in l9) {
+          let t14 = l9[e12];
+          typeof t14 == "object" && t14 ? u6[e12] = { "@initial": o11[e12], ...t14 } : (t14 = String(t14), u6[e12] = t14 !== "undefined" || a7.has(e12) ? t14 : o11[e12]);
         } else
-          u5[e12] = o11[e12];
-      const h3 = new Set([...i7]);
-      for (const [n6, i8, o12, l9] of t13.composers) {
-        r10.rules.styled.cache.has(n6) || (r10.rules.styled.cache.add(n6), $2(i8, [`.${n6}`], [], e11, (e12) => {
-          d7.styled.apply(e12);
+          u6[e12] = o11[e12];
+      const h4 = new Set([...i7]);
+      for (const [n6, i8, o12, l10] of t13.composers) {
+        r10.rules.styled.cache.has(n6) || (r10.rules.styled.cache.add(n6), $3(i8, [`.${n6}`], [], e11, (e12) => {
+          d8.styled.apply(e12);
         }));
-        const t14 = O(o12, u5, e11.media), s9 = O(l9, u5, e11.media, true);
+        const t14 = O2(o12, u6, e11.media), s10 = O2(l10, u6, e11.media, true);
         for (const i9 of t14)
           if (i9 !== void 0)
-            for (const [t15, o13, l10] of i9) {
-              const i10 = `${n6}-${z(o13)}-${t15}`;
-              h3.add(i10);
-              const s10 = (l10 ? r10.rules.resonevar : r10.rules.onevar).cache, a8 = l10 ? d7.resonevar : d7.onevar;
-              s10.has(i10) || (s10.add(i10), $2(o13, [`.${i10}`], [], e11, (e12) => {
+            for (const [t15, o13, l11] of i9) {
+              const i10 = `${n6}-${z2(o13)}-${t15}`;
+              h4.add(i10);
+              const s11 = (l11 ? r10.rules.resonevar : r10.rules.onevar).cache, a8 = l11 ? d8.resonevar : d8.onevar;
+              s11.has(i10) || (s11.add(i10), $3(o13, [`.${i10}`], [], e11, (e12) => {
                 a8.apply(e12);
               }));
             }
-        for (const t15 of s9)
+        for (const t15 of s10)
           if (t15 !== void 0)
             for (const [i9, o13] of t15) {
-              const t16 = `${n6}-${z(o13)}-${i9}`;
-              h3.add(t16), r10.rules.allvar.cache.has(t16) || (r10.rules.allvar.cache.add(t16), $2(o13, [`.${t16}`], [], e11, (e12) => {
-                d7.allvar.apply(e12);
+              const t16 = `${n6}-${z2(o13)}-${i9}`;
+              h4.add(t16), r10.rules.allvar.cache.has(t16) || (r10.rules.allvar.cache.add(t16), $3(o13, [`.${t16}`], [], e11, (e12) => {
+                d8.allvar.apply(e12);
               }));
             }
       }
-      if (typeof s8 == "object" && s8) {
-        const t14 = `${n5}-i${z(s8)}-css`;
-        h3.add(t14), r10.rules.inline.cache.has(t14) || (r10.rules.inline.cache.add(t14), $2(s8, [`.${t14}`], [], e11, (e12) => {
-          d7.inline.apply(e12);
+      if (typeof s9 == "object" && s9) {
+        const t14 = `${n5}-i${z2(s9)}-css`;
+        h4.add(t14), r10.rules.inline.cache.has(t14) || (r10.rules.inline.cache.add(t14), $3(s9, [`.${t14}`], [], e11, (e12) => {
+          d8.inline.apply(e12);
         }));
       }
-      for (const e12 of String(l8.className || "").trim().split(/\s+/))
-        e12 && h3.add(e12);
-      const f9 = p9.className = [...h3].join(" ");
-      return { type: t13.type, className: f9, selector: g5, props: p9, toString: () => f9, deferredInjector: c7 };
+      for (const e12 of String(l9.className || "").trim().split(/\s+/))
+        e12 && h4.add(e12);
+      const f10 = p10.className = [...h4].join(" ");
+      return { type: t13.type, className: f10, selector: g6, props: p10, toString: () => f10, deferredInjector: c8 };
     };
-    return s(p8, { className: n5, selector: g5, [l]: t13, toString: () => (r10.rules.styled.cache.has(n5) || p8(), n5) });
+    return s2(p9, { className: n5, selector: g6, [l2]: t13, toString: () => (r10.rules.styled.cache.has(n5) || p9(), n5) });
   };
-  var L = (e11) => {
+  var L2 = (e11) => {
     let t13 = "";
     const r10 = [], n5 = {}, i7 = [];
-    for (const [o11, , , , l8, s8] of e11) {
-      t13 === "" && (t13 = o11), r10.push(o11), i7.push(...s8);
-      for (const e12 in l8) {
-        const t14 = l8[e12];
-        (n5[e12] === void 0 || t14 !== "undefined" || s8.includes(t14)) && (n5[e12] = t14);
+    for (const [o11, , , , l9, s9] of e11) {
+      t13 === "" && (t13 = o11), r10.push(o11), i7.push(...s9);
+      for (const e12 in l9) {
+        const t14 = l9[e12];
+        (n5[e12] === void 0 || t14 !== "undefined" || s9.includes(t14)) && (n5[e12] = t14);
       }
     }
     return [t13, r10, n5, new Set(i7)];
   };
-  var O = (e11, t13, r10, n5) => {
+  var O2 = (e11, t13, r10, n5) => {
     const i7 = [];
     e:
-      for (let [o11, l8, s8] of e11) {
-        if (s8)
+      for (let [o11, l9, s9] of e11) {
+        if (s9)
           continue;
-        let e12, a7 = 0, c7 = false;
+        let e12, a7 = 0, c8 = false;
         for (e12 in o11) {
           const n6 = o11[e12];
           let i8 = t13[e12];
@@ -56894,32 +55490,32 @@ ${generateSegmentFilename(i7)}`);
               continue e;
             {
               let e13, t14, o12 = 0;
-              for (const l9 in i8) {
-                if (n6 === String(i8[l9])) {
-                  if (l9 !== "@initial") {
-                    const e14 = l9.slice(1);
-                    (t14 = t14 || []).push(e14 in r10 ? r10[e14] : l9.replace(/^@media ?/, "")), c7 = true;
+              for (const l10 in i8) {
+                if (n6 === String(i8[l10])) {
+                  if (l10 !== "@initial") {
+                    const e14 = l10.slice(1);
+                    (t14 = t14 || []).push(e14 in r10 ? r10[e14] : l10.replace(/^@media ?/, "")), c8 = true;
                   }
                   a7 += o12, e13 = true;
                 }
                 ++o12;
               }
-              if (t14 && t14.length && (l8 = { ["@media " + t14.join(", ")]: l8 }), !e13)
+              if (t14 && t14.length && (l9 = { ["@media " + t14.join(", ")]: l9 }), !e13)
                 continue e;
             }
           }
         }
-        (i7[a7] = i7[a7] || []).push([n5 ? "cv" : `${e12}-${o11[e12]}`, l8, c7]);
+        (i7[a7] = i7[a7] || []).push([n5 ? "cv" : `${e12}-${o11[e12]}`, l9, c8]);
       }
     return i7;
   };
-  var A = {};
-  var N = o();
-  var D = (e11, t13) => N(e11, () => (...r10) => {
+  var A2 = {};
+  var N2 = o();
+  var D = (e11, t13) => N2(e11, () => (...r10) => {
     const n5 = () => {
       for (let n6 of r10) {
         n6 = typeof n6 == "object" && n6 || {};
-        let r11 = z(n6);
+        let r11 = z2(n6);
         if (!t13.rules.global.cache.has(r11)) {
           if (t13.rules.global.cache.add(r11), "@import" in n6) {
             let e12 = [].indexOf.call(t13.sheet.cssRules, t13.rules.themed.group) - 1;
@@ -56927,32 +55523,32 @@ ${generateSegmentFilename(i7)}`);
               r12 = r12.includes('"') || r12.includes("'") ? r12 : `"${r12}"`, t13.sheet.insertRule(`@import ${r12};`, e12++);
             delete n6["@import"];
           }
-          $2(n6, [], [], e11, (e12) => {
+          $3(n6, [], [], e11, (e12) => {
             t13.rules.global.apply(e12);
           });
         }
       }
       return "";
     };
-    return s(n5, { toString: n5 });
+    return s2(n5, { toString: n5 });
   });
-  var H = o();
-  var V = (e11, t13) => H(e11, () => (r10) => {
-    const n5 = `${S(e11.prefix)}k-${z(r10)}`, i7 = () => {
+  var H2 = o();
+  var V2 = (e11, t13) => H2(e11, () => (r10) => {
+    const n5 = `${S2(e11.prefix)}k-${z2(r10)}`, i7 = () => {
       if (!t13.rules.global.cache.has(n5)) {
         t13.rules.global.cache.add(n5);
         const i8 = [];
-        $2(r10, [], [], e11, (e12) => i8.push(e12));
+        $3(r10, [], [], e11, (e12) => i8.push(e12));
         const o11 = `@keyframes ${n5}{${i8.join("")}}`;
         t13.rules.global.apply(o11);
       }
       return n5;
     };
-    return s(i7, { get name() {
+    return s2(i7, { get name() {
       return i7();
     }, toString: i7 });
   });
-  var G = class {
+  var G2 = class {
     constructor(e11, t13, r10, n5) {
       this.token = e11 == null ? "" : String(e11), this.value = t13 == null ? "" : String(t13), this.scale = r10 == null ? "" : String(r10), this.prefix = n5 == null ? "" : String(n5);
     }
@@ -56960,64 +55556,64 @@ ${generateSegmentFilename(i7)}`);
       return "var(" + this.variable + ")";
     }
     get variable() {
-      return "--" + S(this.prefix) + S(this.scale) + this.token;
+      return "--" + S2(this.prefix) + S2(this.scale) + this.token;
     }
     toString() {
       return this.computedValue;
     }
   };
-  var F = o();
-  var J = (e11, t13) => F(e11, () => (r10, n5) => {
+  var F2 = o();
+  var J2 = (e11, t13) => F2(e11, () => (r10, n5) => {
     n5 = typeof r10 == "object" && r10 || Object(n5);
-    const i7 = `.${r10 = (r10 = typeof r10 == "string" ? r10 : "") || `${S(e11.prefix)}t-${z(n5)}`}`, o11 = {}, l8 = [];
+    const i7 = `.${r10 = (r10 = typeof r10 == "string" ? r10 : "") || `${S2(e11.prefix)}t-${z2(n5)}`}`, o11 = {}, l9 = [];
     for (const t14 in n5) {
       o11[t14] = {};
       for (const r11 in n5[t14]) {
-        const i8 = `--${S(e11.prefix)}${t14}-${r11}`, s9 = k(String(n5[t14][r11]), e11.prefix, t14);
-        o11[t14][r11] = new G(r11, s9, t14, e11.prefix), l8.push(`${i8}:${s9}`);
+        const i8 = `--${S2(e11.prefix)}${t14}-${r11}`, s10 = k2(String(n5[t14][r11]), e11.prefix, t14);
+        o11[t14][r11] = new G2(r11, s10, t14, e11.prefix), l9.push(`${i8}:${s10}`);
       }
     }
-    const s8 = () => {
-      if (l8.length && !t13.rules.themed.cache.has(r10)) {
+    const s9 = () => {
+      if (l9.length && !t13.rules.themed.cache.has(r10)) {
         t13.rules.themed.cache.add(r10);
-        const i8 = `${n5 === e11.theme ? ":root," : ""}.${r10}{${l8.join(";")}}`;
+        const i8 = `${n5 === e11.theme ? ":root," : ""}.${r10}{${l9.join(";")}}`;
         t13.rules.themed.apply(i8);
       }
       return r10;
     };
     return { ...o11, get className() {
-      return s8();
-    }, selector: i7, toString: s8 };
+      return s9();
+    }, selector: i7, toString: s9 };
   });
-  var U = o();
-  var X;
-  var Y = o();
-  var q = (e11) => {
+  var U2 = o();
+  var X2;
+  var Y2 = o();
+  var q2 = (e11) => {
     const t13 = ((e12) => {
       let t14 = false;
-      const r10 = U(e12, (e13) => {
+      const r10 = U2(e12, (e13) => {
         t14 = true;
-        const r11 = "prefix" in (e13 = typeof e13 == "object" && e13 || {}) ? String(e13.prefix) : "", i7 = typeof e13.media == "object" && e13.media || {}, o11 = typeof e13.root == "object" ? e13.root || null : globalThis.document || null, l8 = typeof e13.theme == "object" && e13.theme || {}, s8 = { prefix: r11, media: i7, theme: l8, themeMap: typeof e13.themeMap == "object" && e13.themeMap || { ...n }, utils: typeof e13.utils == "object" && e13.utils || {} }, a7 = E(o11), c7 = { css: M(s8, a7), globalCss: D(s8, a7), keyframes: V(s8, a7), createTheme: J(s8, a7), reset() {
-          a7.reset(), c7.theme.toString();
-        }, theme: {}, sheet: a7, config: s8, prefix: r11, getCssText: a7.toString, toString: a7.toString };
-        return String(c7.theme = c7.createTheme(l8)), c7;
+        const r11 = "prefix" in (e13 = typeof e13 == "object" && e13 || {}) ? String(e13.prefix) : "", i7 = typeof e13.media == "object" && e13.media || {}, o11 = typeof e13.root == "object" ? e13.root || null : globalThis.document || null, l9 = typeof e13.theme == "object" && e13.theme || {}, s9 = { prefix: r11, media: i7, theme: l9, themeMap: typeof e13.themeMap == "object" && e13.themeMap || { ...n }, utils: typeof e13.utils == "object" && e13.utils || {} }, a7 = E(o11), c8 = { css: M2(s9, a7), globalCss: D(s9, a7), keyframes: V2(s9, a7), createTheme: J2(s9, a7), reset() {
+          a7.reset(), c8.theme.toString();
+        }, theme: {}, sheet: a7, config: s9, prefix: r11, getCssText: a7.toString, toString: a7.toString };
+        return String(c8.theme = c8.createTheme(l9)), c8;
       });
       return t14 || r10.reset(), r10;
     })(e11);
-    return t13.styled = (({ config: e12, sheet: t14 }) => Y(e12, () => {
-      const r10 = M(e12, t14);
+    return t13.styled = (({ config: e12, sheet: t14 }) => Y2(e12, () => {
+      const r10 = M2(e12, t14);
       return (...e13) => {
-        const t15 = r10(...e13), n5 = t15[l].type, i7 = import_react2.default.forwardRef((e14, r11) => {
-          const i8 = e14 && e14.as || n5, { props: o11, deferredInjector: l8 } = t15(e14);
-          return delete o11.as, o11.ref = r11, l8 ? import_react2.default.createElement(import_react2.default.Fragment, null, import_react2.default.createElement(i8, o11), import_react2.default.createElement(l8, null)) : import_react2.default.createElement(i8, o11);
+        const t15 = r10(...e13), n5 = t15[l2].type, i7 = import_react2.default.forwardRef((e14, r11) => {
+          const i8 = e14 && e14.as || n5, { props: o11, deferredInjector: l9 } = t15(e14);
+          return delete o11.as, o11.ref = r11, l9 ? import_react2.default.createElement(import_react2.default.Fragment, null, import_react2.default.createElement(i8, o11), import_react2.default.createElement(l9, null)) : import_react2.default.createElement(i8, o11);
         });
-        return i7.className = t15.className, i7.displayName = `Styled.${n5.displayName || n5.name || n5}`, i7.selector = t15.selector, i7.toString = () => t15.selector, i7[l] = t15[l], i7;
+        return i7.className = t15.className, i7.displayName = `Styled.${n5.displayName || n5.name || n5}`, i7.selector = t15.selector, i7.toString = () => t15.selector, i7[l2] = t15[l2], i7;
       };
     }))(t13), t13;
   };
-  var K = () => X || (X = q());
-  var Q = (...e11) => K().createTheme(...e11);
-  var re = (...e11) => K().styled(...e11);
+  var K2 = () => X2 || (X2 = q2());
+  var Q2 = (...e11) => K2().createTheme(...e11);
+  var re2 = (...e11) => K2().styled(...e11);
 
   // src/stitches.tsx
   var theme = {
@@ -57048,7 +55644,7 @@ ${generateSegmentFilename(i7)}`);
     xl: "(max-width: 1199px)",
     lg: "(min-width: 1200px)"
   };
-  var { styled, css, keyframes, createTheme } = q({
+  var { styled, css, keyframes, createTheme } = q2({
     theme,
     media
   });
@@ -57064,9 +55660,9 @@ ${generateSegmentFilename(i7)}`);
   });
   var i2 = 0;
   function useId(n5) {
-    const [o11, s8] = t2.useState(r2());
+    const [o11, s9] = t2.useState(r2());
     return useLayoutEffect2(() => {
-      n5 || s8((e11) => e11 != null ? e11 : String(i2++));
+      n5 || s9((e11) => e11 != null ? e11 : String(i2++));
     }, [n5]), n5 || (o11 ? `radix-${o11}` : "");
   }
 
@@ -57083,9 +55679,9 @@ ${generateSegmentFilename(i7)}`);
 
   // node_modules/@radix-ui/react-presence/dist/index.module.js
   var t3 = __toModule(require_react());
-  var Presence = (u5) => {
-    const { present: o11, children: i7 } = u5, s8 = function(n5) {
-      const [u6, o12] = t3.useState(), i8 = t3.useRef({}), s9 = t3.useRef(n5), c8 = t3.useRef("none"), a8 = n5 ? "mounted" : "unmounted", [d7, m8] = function(e11, n6) {
+  var Presence = (u6) => {
+    const { present: o11, children: i7 } = u6, s9 = function(n5) {
+      const [u7, o12] = t3.useState(), i8 = t3.useRef({}), s10 = t3.useRef(n5), c9 = t3.useRef("none"), a8 = n5 ? "mounted" : "unmounted", [d8, m9] = function(e11, n6) {
         return t3.useReducer((e12, t13) => {
           const r10 = n6[e12][t13];
           return r10 != null ? r10 : e12;
@@ -57093,38 +55689,38 @@ ${generateSegmentFilename(i7)}`);
       }(a8, { mounted: { UNMOUNT: "unmounted", ANIMATION_OUT: "unmountSuspended" }, unmountSuspended: { MOUNT: "mounted", ANIMATION_END: "unmounted" }, unmounted: { MOUNT: "mounted" } });
       return t3.useEffect(() => {
         const e11 = r3(i8.current);
-        c8.current = d7 === "mounted" ? e11 : "none";
-      }, [d7]), useLayoutEffect2(() => {
-        const e11 = i8.current, t13 = s9.current;
+        c9.current = d8 === "mounted" ? e11 : "none";
+      }, [d8]), useLayoutEffect2(() => {
+        const e11 = i8.current, t13 = s10.current;
         if (t13 !== n5) {
-          const u7 = c8.current, o13 = r3(e11);
+          const u8 = c9.current, o13 = r3(e11);
           if (n5)
-            m8("MOUNT");
+            m9("MOUNT");
           else if (o13 === "none" || (e11 == null ? void 0 : e11.display) === "none")
-            m8("UNMOUNT");
+            m9("UNMOUNT");
           else {
-            const e12 = u7 !== o13;
-            m8(t13 && e12 ? "ANIMATION_OUT" : "UNMOUNT");
+            const e12 = u8 !== o13;
+            m9(t13 && e12 ? "ANIMATION_OUT" : "UNMOUNT");
           }
-          s9.current = n5;
+          s10.current = n5;
         }
-      }, [n5, m8]), useLayoutEffect2(() => {
-        if (u6) {
+      }, [n5, m9]), useLayoutEffect2(() => {
+        if (u7) {
           const e11 = (e12) => {
             const n7 = r3(i8.current).includes(e12.animationName);
-            e12.target === u6 && n7 && m8("ANIMATION_END");
+            e12.target === u7 && n7 && m9("ANIMATION_END");
           }, n6 = (e12) => {
-            e12.target === u6 && (c8.current = r3(i8.current));
+            e12.target === u7 && (c9.current = r3(i8.current));
           };
-          return u6.addEventListener("animationstart", n6), u6.addEventListener("animationcancel", e11), u6.addEventListener("animationend", e11), () => {
-            u6.removeEventListener("animationstart", n6), u6.removeEventListener("animationcancel", e11), u6.removeEventListener("animationend", e11);
+          return u7.addEventListener("animationstart", n6), u7.addEventListener("animationcancel", e11), u7.addEventListener("animationend", e11), () => {
+            u7.removeEventListener("animationstart", n6), u7.removeEventListener("animationcancel", e11), u7.removeEventListener("animationend", e11);
           };
         }
-      }, [u6, m8]), { isPresent: ["mounted", "unmountSuspended"].includes(d7), ref: t3.useCallback((e11) => {
+      }, [u7, m9]), { isPresent: ["mounted", "unmountSuspended"].includes(d8), ref: t3.useCallback((e11) => {
         e11 && (i8.current = getComputedStyle(e11)), o12(e11);
       }, []) };
-    }(o11), c7 = typeof i7 == "function" ? i7({ present: s8.isPresent }) : t3.Children.only(i7), a7 = useComposedRefs(s8.ref, c7.ref);
-    return typeof i7 == "function" || s8.isPresent ? /* @__PURE__ */ t3.cloneElement(c7, { ref: a7 }) : null;
+    }(o11), c8 = typeof i7 == "function" ? i7({ present: s9.isPresent }) : t3.Children.only(i7), a7 = useComposedRefs(s9.ref, c8.ref);
+    return typeof i7 == "function" || s9.isPresent ? /* @__PURE__ */ t3.cloneElement(c8, { ref: a7 }) : null;
   };
   function r3(e11) {
     return (e11 == null ? void 0 : e11.animationName) || "none";
@@ -57152,37 +55748,37 @@ ${generateSegmentFilename(i7)}`);
 
   // node_modules/@radix-ui/react-slot/dist/index.module.js
   var Slot = /* @__PURE__ */ t4.forwardRef((e11, o11) => {
-    const { children: a7, ...s8 } = e11;
-    return t4.Children.toArray(a7).some(l2) ? /* @__PURE__ */ t4.createElement(t4.Fragment, null, t4.Children.map(a7, (e12) => l2(e12) ? /* @__PURE__ */ t4.createElement(n2, _extends({}, s8, { ref: o11 }), e12.props.children) : e12)) : /* @__PURE__ */ t4.createElement(n2, _extends({}, s8, { ref: o11 }), a7);
+    const { children: a7, ...s9 } = e11;
+    return t4.Children.toArray(a7).some(l3) ? /* @__PURE__ */ t4.createElement(t4.Fragment, null, t4.Children.map(a7, (e12) => l3(e12) ? /* @__PURE__ */ t4.createElement(n2, _extends({}, s9, { ref: o11 }), e12.props.children) : e12)) : /* @__PURE__ */ t4.createElement(n2, _extends({}, s9, { ref: o11 }), a7);
   });
   Slot.displayName = "Slot";
   var n2 = /* @__PURE__ */ t4.forwardRef((r10, n5) => {
-    const { children: l8, ...a7 } = r10;
-    return t4.isValidElement(l8) ? /* @__PURE__ */ t4.cloneElement(l8, { ...o4(a7, l8.props), ref: composeRefs(n5, l8.ref) }) : t4.Children.count(l8) > 1 ? t4.Children.only(null) : null;
+    const { children: l9, ...a7 } = r10;
+    return t4.isValidElement(l9) ? /* @__PURE__ */ t4.cloneElement(l9, { ...o4(a7, l9.props), ref: composeRefs(n5, l9.ref) }) : t4.Children.count(l9) > 1 ? t4.Children.only(null) : null;
   });
   n2.displayName = "SlotClone";
   var Slottable = ({ children: e11 }) => /* @__PURE__ */ t4.createElement(t4.Fragment, null, e11);
-  function l2(e11) {
+  function l3(e11) {
     return t4.isValidElement(e11) && e11.type === Slottable;
   }
   function o4(e11, t13) {
     const r10 = { ...t13 };
     for (const n5 in t13) {
-      const l8 = e11[n5], o11 = t13[n5];
+      const l9 = e11[n5], o11 = t13[n5];
       /^on[A-Z]/.test(n5) ? r10[n5] = (...e12) => {
-        o11 == null || o11(...e12), l8 == null || l8(...e12);
-      } : n5 === "style" ? r10[n5] = { ...l8, ...o11 } : n5 === "className" && (r10[n5] = [l8, o11].filter(Boolean).join(" "));
+        o11 == null || o11(...e12), l9 == null || l9(...e12);
+      } : n5 === "style" ? r10[n5] = { ...l9, ...o11 } : n5 === "className" && (r10[n5] = [l9, o11].filter(Boolean).join(" "));
     }
     return { ...e11, ...r10 };
   }
 
   // node_modules/@radix-ui/react-primitive/dist/index.module.js
   var r4 = __toModule(require_react());
-  var Primitive = ["a", "button", "div", "h2", "h3", "img", "li", "nav", "p", "span", "svg", "ul"].reduce((t13, s8) => ({ ...t13, [s8]: /* @__PURE__ */ r4.forwardRef((t14, n5) => {
-    const { asChild: a7, ...m8 } = t14, d7 = a7 ? Slot : s8;
+  var Primitive = ["a", "button", "div", "h2", "h3", "img", "li", "nav", "p", "span", "svg", "ul"].reduce((t13, s9) => ({ ...t13, [s9]: /* @__PURE__ */ r4.forwardRef((t14, n5) => {
+    const { asChild: a7, ...m9 } = t14, d8 = a7 ? Slot : s9;
     return r4.useEffect(() => {
       window[Symbol.for("radix-ui")] = true;
-    }, []), t14.as && console.error(o5), /* @__PURE__ */ r4.createElement(d7, _extends({}, m8, { ref: n5 }));
+    }, []), t14.as && console.error(o5), /* @__PURE__ */ r4.createElement(d8, _extends({}, m9, { ref: n5 }));
   }) }), {});
   var o5 = "Warning: The `as` prop has been removed in favour of `asChild`. For details, see https://radix-ui.com/docs/primitives/overview/styling#changing-the-rendered-element";
 
@@ -57202,19 +55798,19 @@ ${generateSegmentFilename(i7)}`);
   var t5 = __toModule(require_react());
   function useControllableState({ prop: o11, defaultProp: r10, onChange: n5 = () => {
   } }) {
-    const [a7, u5] = function({ defaultProp: o12, onChange: r11 }) {
-      const n6 = t5.useState(o12), [a8] = n6, u6 = t5.useRef(a8), c8 = useCallbackRef(r11);
+    const [a7, u6] = function({ defaultProp: o12, onChange: r11 }) {
+      const n6 = t5.useState(o12), [a8] = n6, u7 = t5.useRef(a8), c9 = useCallbackRef(r11);
       return t5.useEffect(() => {
-        u6.current !== a8 && (c8(a8), u6.current = a8);
-      }, [a8, u6, c8]), n6;
-    }({ defaultProp: r10, onChange: n5 }), c7 = o11 !== void 0, f9 = c7 ? o11 : a7, l8 = useCallbackRef(n5);
-    return [f9, t5.useCallback((e11) => {
-      if (c7) {
+        u7.current !== a8 && (c9(a8), u7.current = a8);
+      }, [a8, u7, c9]), n6;
+    }({ defaultProp: r10, onChange: n5 }), c8 = o11 !== void 0, f10 = c8 ? o11 : a7, l9 = useCallbackRef(n5);
+    return [f10, t5.useCallback((e11) => {
+      if (c8) {
         const t13 = e11, r11 = typeof e11 == "function" ? t13(o11) : e11;
-        r11 !== o11 && l8(r11);
+        r11 !== o11 && l9(r11);
       } else
-        u5(e11);
-    }, [c7, o11, u5, l8])];
+        u6(e11);
+    }, [c8, o11, u6, l9])];
   }
 
   // node_modules/@radix-ui/react-context/dist/index.module.js
@@ -57222,13 +55818,13 @@ ${generateSegmentFilename(i7)}`);
   function createContext2(t13, n5) {
     const o11 = /* @__PURE__ */ e3.createContext(n5);
     function r10(t14) {
-      const { children: n6, ...r11 } = t14, c7 = e3.useMemo(() => r11, Object.values(r11));
-      return e3.createElement(o11.Provider, { value: c7 }, n6);
+      const { children: n6, ...r11 } = t14, c8 = e3.useMemo(() => r11, Object.values(r11));
+      return e3.createElement(o11.Provider, { value: c8 }, n6);
     }
     return r10.displayName = t13 + "Provider", [r10, function(r11) {
-      const c7 = e3.useContext(o11);
-      if (c7)
-        return c7;
+      const c8 = e3.useContext(o11);
+      if (c8)
+        return c8;
       if (n5 !== void 0)
         return n5;
       throw new Error(`\`${r11}\` must be used within \`${t13}\``);
@@ -57236,28 +55832,28 @@ ${generateSegmentFilename(i7)}`);
   }
   function createContextScope(n5, o11 = []) {
     let r10 = [];
-    const c7 = () => {
+    const c8 = () => {
       const t13 = r10.map((t14) => /* @__PURE__ */ e3.createContext(t14));
       return function(o12) {
         const r11 = (o12 == null ? void 0 : o12[n5]) || t13;
         return e3.useMemo(() => ({ [`__scope${n5}`]: { ...o12, [n5]: r11 } }), [o12, r11]);
       };
     };
-    return c7.scopeName = n5, [function(t13, o12) {
-      const c8 = /* @__PURE__ */ e3.createContext(o12), u5 = r10.length;
-      function s8(t14) {
-        const { scope: o13, children: r11, ...s9 } = t14, i7 = (o13 == null ? void 0 : o13[n5][u5]) || c8, a7 = e3.useMemo(() => s9, Object.values(s9));
+    return c8.scopeName = n5, [function(t13, o12) {
+      const c9 = /* @__PURE__ */ e3.createContext(o12), u6 = r10.length;
+      function s9(t14) {
+        const { scope: o13, children: r11, ...s10 } = t14, i7 = (o13 == null ? void 0 : o13[n5][u6]) || c9, a7 = e3.useMemo(() => s10, Object.values(s10));
         return e3.createElement(i7.Provider, { value: a7 }, r11);
       }
-      return r10 = [...r10, o12], s8.displayName = t13 + "Provider", [s8, function(r11, s9) {
-        const i7 = (s9 == null ? void 0 : s9[n5][u5]) || c8, a7 = e3.useContext(i7);
+      return r10 = [...r10, o12], s9.displayName = t13 + "Provider", [s9, function(r11, s10) {
+        const i7 = (s10 == null ? void 0 : s10[n5][u6]) || c9, a7 = e3.useContext(i7);
         if (a7)
           return a7;
         if (o12 !== void 0)
           return o12;
         throw new Error(`\`${r11}\` must be used within \`${t13}\``);
       }];
-    }, t6(c7, ...o11)];
+    }, t6(c8, ...o11)];
   }
   function t6(...t13) {
     const n5 = t13[0];
@@ -57282,36 +55878,36 @@ ${generateSegmentFilename(i7)}`);
   }
 
   // node_modules/@radix-ui/react-collapsible/dist/index.module.js
-  var s2 = __toModule(require_react());
-  var [p2, d2] = createContextScope("Collapsible");
-  var [u2, m2] = p2("Collapsible");
-  var Collapsible = /* @__PURE__ */ s2.forwardRef((t13, r10) => {
-    const { __scopeCollapsible: n5, open: a7, defaultOpen: l8, disabled: p8, onOpenChange: d7, ...m8 } = t13, [f9 = false, C5] = useControllableState({ prop: a7, defaultProp: l8, onChange: d7 });
-    return s2.createElement(u2, { scope: n5, disabled: p8, contentId: useId(), open: f9, onOpenToggle: s2.useCallback(() => C5((e11) => !e11), [C5]) }, /* @__PURE__ */ s2.createElement(Primitive.div, _extends({ "data-state": b2(f9), "data-disabled": p8 ? "" : void 0 }, m8, { ref: r10 })));
+  var s3 = __toModule(require_react());
+  var [p3, d3] = createContextScope("Collapsible");
+  var [u3, m3] = p3("Collapsible");
+  var Collapsible = /* @__PURE__ */ s3.forwardRef((t13, r10) => {
+    const { __scopeCollapsible: n5, open: a7, defaultOpen: l9, disabled: p9, onOpenChange: d8, ...m9 } = t13, [f10 = false, C6] = useControllableState({ prop: a7, defaultProp: l9, onChange: d8 });
+    return s3.createElement(u3, { scope: n5, disabled: p9, contentId: useId(), open: f10, onOpenToggle: s3.useCallback(() => C6((e11) => !e11), [C6]) }, /* @__PURE__ */ s3.createElement(Primitive.div, _extends({ "data-state": b3(f10), "data-disabled": p9 ? "" : void 0 }, m9, { ref: r10 })));
   });
-  var CollapsibleTrigger = /* @__PURE__ */ s2.forwardRef((e11, t13) => {
-    const { __scopeCollapsible: r10, ...n5 } = e11, i7 = m2("CollapsibleTrigger", r10);
-    return s2.createElement(Primitive.button, _extends({ "aria-controls": i7.contentId, "aria-expanded": i7.open || false, "data-state": b2(i7.open), "data-disabled": i7.disabled ? "" : void 0, disabled: i7.disabled }, n5, { ref: t13, onClick: composeEventHandlers(e11.onClick, i7.onOpenToggle) }));
+  var CollapsibleTrigger = /* @__PURE__ */ s3.forwardRef((e11, t13) => {
+    const { __scopeCollapsible: r10, ...n5 } = e11, i7 = m3("CollapsibleTrigger", r10);
+    return s3.createElement(Primitive.button, _extends({ "aria-controls": i7.contentId, "aria-expanded": i7.open || false, "data-state": b3(i7.open), "data-disabled": i7.disabled ? "" : void 0, disabled: i7.disabled }, n5, { ref: t13, onClick: composeEventHandlers(e11.onClick, i7.onOpenToggle) }));
   });
-  var CollapsibleContent = /* @__PURE__ */ s2.forwardRef((e11, o11) => {
-    const { forceMount: r10, ...n5 } = e11, i7 = m2("CollapsibleContent", e11.__scopeCollapsible);
-    return s2.createElement(Presence, { present: r10 || i7.open }, ({ present: e12 }) => /* @__PURE__ */ s2.createElement(f2, _extends({}, n5, { ref: o11, present: e12 })));
+  var CollapsibleContent = /* @__PURE__ */ s3.forwardRef((e11, o11) => {
+    const { forceMount: r10, ...n5 } = e11, i7 = m3("CollapsibleContent", e11.__scopeCollapsible);
+    return s3.createElement(Presence, { present: r10 || i7.open }, ({ present: e12 }) => /* @__PURE__ */ s3.createElement(f3, _extends({}, n5, { ref: o11, present: e12 })));
   });
-  var f2 = /* @__PURE__ */ s2.forwardRef((e11, t13) => {
-    const { __scopeCollapsible: i7, present: a7, children: l8, ...p8 } = e11, d7 = m2("CollapsibleContent", i7), [u5, f9] = s2.useState(a7), C5 = s2.useRef(null), x4 = useComposedRefs(t13, C5), g5 = s2.useRef(0), h3 = g5.current, R5 = s2.useRef(0), D2 = R5.current, v7 = d7.open || u5, y3 = s2.useRef(v7), _ = s2.useRef();
-    return s2.useEffect(() => {
-      const e12 = requestAnimationFrame(() => y3.current = false);
+  var f3 = /* @__PURE__ */ s3.forwardRef((e11, t13) => {
+    const { __scopeCollapsible: i7, present: a7, children: l9, ...p9 } = e11, d8 = m3("CollapsibleContent", i7), [u6, f10] = s3.useState(a7), C6 = s3.useRef(null), x5 = useComposedRefs(t13, C6), g6 = s3.useRef(0), h4 = g6.current, R5 = s3.useRef(0), D2 = R5.current, v8 = d8.open || u6, y4 = s3.useRef(v8), _2 = s3.useRef();
+    return s3.useEffect(() => {
+      const e12 = requestAnimationFrame(() => y4.current = false);
       return () => cancelAnimationFrame(e12);
     }, []), useLayoutEffect2(() => {
-      const e12 = C5.current;
+      const e12 = C6.current;
       if (e12) {
-        _.current = _.current || { transitionDuration: e12.style.transitionDuration, animationDuration: e12.style.animationDuration }, e12.style.transitionDuration = "0s", e12.style.animationDuration = "0s";
+        _2.current = _2.current || { transitionDuration: e12.style.transitionDuration, animationDuration: e12.style.animationDuration }, e12.style.transitionDuration = "0s", e12.style.animationDuration = "0s";
         const t14 = e12.getBoundingClientRect();
-        g5.current = t14.height, R5.current = t14.width, y3.current || (e12.style.transitionDuration = _.current.transitionDuration, e12.style.animationDuration = _.current.animationDuration), f9(a7);
+        g6.current = t14.height, R5.current = t14.width, y4.current || (e12.style.transitionDuration = _2.current.transitionDuration, e12.style.animationDuration = _2.current.animationDuration), f10(a7);
       }
-    }, [d7.open, a7]), /* @__PURE__ */ s2.createElement(Primitive.div, _extends({ "data-state": b2(d7.open), "data-disabled": d7.disabled ? "" : void 0, id: d7.contentId, hidden: !v7 }, p8, { ref: x4, style: { "--radix-collapsible-content-height": h3 ? `${h3}px` : void 0, "--radix-collapsible-content-width": D2 ? `${D2}px` : void 0, ...e11.style } }), v7 && l8);
+    }, [d8.open, a7]), /* @__PURE__ */ s3.createElement(Primitive.div, _extends({ "data-state": b3(d8.open), "data-disabled": d8.disabled ? "" : void 0, id: d8.contentId, hidden: !v8 }, p9, { ref: x5, style: { "--radix-collapsible-content-height": h4 ? `${h4}px` : void 0, "--radix-collapsible-content-width": D2 ? `${D2}px` : void 0, ...e11.style } }), v8 && l9);
   });
-  function b2(e11) {
+  function b3(e11) {
     return e11 ? "open" : "closed";
   }
   var Root = Collapsible;
@@ -57618,11 +56214,11 @@ ${generateSegmentFilename(i7)}`);
   var {
     __extends,
     __assign,
-    __rest: __rest3,
+    __rest,
     __decorate,
     __param,
     __metadata,
-    __awaiter: __awaiter4,
+    __awaiter,
     __generator,
     __exportStar,
     __createBinding,
@@ -57677,8 +56273,8 @@ ${generateSegmentFilename(i7)}`);
         var item = middleware(data, assigned);
         buffer.push(item);
         return function() {
-          buffer = buffer.filter(function(x4) {
-            return x4 !== item;
+          buffer = buffer.filter(function(x5) {
+            return x5 !== item;
           });
         };
       },
@@ -57690,8 +56286,8 @@ ${generateSegmentFilename(i7)}`);
           cbs.forEach(cb);
         }
         buffer = {
-          push: function(x4) {
-            return cb(x4);
+          push: function(x5) {
+            return cb(x5);
           },
           filter: function() {
             return buffer;
@@ -57717,8 +56313,8 @@ ${generateSegmentFilename(i7)}`);
         };
         cycle();
         buffer = {
-          push: function(x4) {
-            pendingQueue.push(x4);
+          push: function(x5) {
+            pendingQueue.push(x5);
             cycle();
           },
           filter: function(filter) {
@@ -57742,7 +56338,7 @@ ${generateSegmentFilename(i7)}`);
   // node_modules/use-sidecar/dist/es2015/exports.js
   var React2 = __toModule(require_react());
   var SideCar = function(_a2) {
-    var sideCar = _a2.sideCar, rest = __rest3(_a2, ["sideCar"]);
+    var sideCar = _a2.sideCar, rest = __rest(_a2, ["sideCar"]);
     if (!sideCar) {
       throw new Error("Sidecar: please provide `sideCar` property to import the right car");
     }
@@ -57816,7 +56412,7 @@ ${generateSegmentFilename(i7)}`);
       onWheelCapture: nothing,
       onTouchMoveCapture: nothing
     }), callbacks = _a2[0], setCallbacks = _a2[1];
-    var forwardProps = props.forwardProps, children = props.children, className = props.className, removeScrollBar = props.removeScrollBar, enabled = props.enabled, shards = props.shards, sideCar = props.sideCar, noIsolation = props.noIsolation, inert = props.inert, allowPinchZoom = props.allowPinchZoom, _b2 = props.as, Container = _b2 === void 0 ? "div" : _b2, rest = __rest3(props, ["forwardProps", "children", "className", "removeScrollBar", "enabled", "shards", "sideCar", "noIsolation", "inert", "allowPinchZoom", "as"]);
+    var forwardProps = props.forwardProps, children = props.children, className = props.className, removeScrollBar = props.removeScrollBar, enabled = props.enabled, shards = props.shards, sideCar = props.sideCar, noIsolation = props.noIsolation, inert = props.inert, allowPinchZoom = props.allowPinchZoom, _b2 = props.as, Container = _b2 === void 0 ? "div" : _b2, rest = __rest(props, ["forwardProps", "children", "className", "removeScrollBar", "enabled", "shards", "sideCar", "noIsolation", "inert", "allowPinchZoom", "as"]);
     var SideCar2 = sideCar;
     var containerRef = useMergeRefs([
       ref,
@@ -57933,8 +56529,8 @@ ${generateSegmentFilename(i7)}`);
     right: 0,
     gap: 0
   };
-  var parse = function(x4) {
-    return parseInt(x4 || "", 10) || 0;
+  var parse = function(x5) {
+    return parseInt(x5 || "", 10) || 0;
   };
   var getOffset = function(gapMode) {
     var cs = window.getComputedStyle(document.body);
@@ -58007,8 +56603,8 @@ ${generateSegmentFilename(i7)}`);
       }
       var isScrollable = elementCouldBeScrolled(axis, current);
       if (isScrollable) {
-        var _a2 = getScrollVariables(axis, current), s8 = _a2[1], d7 = _a2[2];
-        if (s8 > d7) {
+        var _a2 = getScrollVariables(axis, current), s9 = _a2[1], d8 = _a2[2];
+        if (s9 > d8) {
           return true;
         }
       }
@@ -58090,8 +56686,8 @@ ${generateSegmentFilename(i7)}`);
   var extractRef = function(ref) {
     return ref && "current" in ref ? ref.current : ref;
   };
-  var deltaCompare = function(x4, y3) {
-    return x4[0] === y3[0] && x4[1] === y3[1];
+  var deltaCompare = function(x5, y4) {
+    return x5[0] === y4[0] && x5[1] === y4[1];
   };
   var generateStyle = function(id) {
     return "\n  .block-interactivity-" + id + " {pointer-events: none;}\n  .allow-interactivity-" + id + " {pointer-events: all;}\n";
@@ -58257,73 +56853,73 @@ ${generateSegmentFilename(i7)}`);
   var import_react_dom = __toModule(require_react_dom());
   var r5 = __toModule(require_react());
   var Portal = /* @__PURE__ */ r5.forwardRef((a7, i7) => {
-    var n5, d7;
-    const { containerRef: s8, style: u5, ...c7 } = a7, m8 = (n5 = s8 == null ? void 0 : s8.current) !== null && n5 !== void 0 ? n5 : globalThis === null || globalThis === void 0 || (d7 = globalThis.document) === null || d7 === void 0 ? void 0 : d7.body, [, f9] = r5.useState({});
+    var n5, d8;
+    const { containerRef: s9, style: u6, ...c8 } = a7, m9 = (n5 = s9 == null ? void 0 : s9.current) !== null && n5 !== void 0 ? n5 : globalThis === null || globalThis === void 0 || (d8 = globalThis.document) === null || d8 === void 0 ? void 0 : d8.body, [, f10] = r5.useState({});
     return useLayoutEffect2(() => {
-      f9({});
-    }, []), m8 ? /* @__PURE__ */ import_react_dom.default.createPortal(/* @__PURE__ */ r5.createElement(Primitive.div, _extends({ "data-radix-portal": "" }, c7, { ref: i7, style: m8 === document.body ? { position: "absolute", top: 0, left: 0, zIndex: 2147483647, ...u5 } : void 0 })), m8) : null;
+      f10({});
+    }, []), m9 ? /* @__PURE__ */ import_react_dom.default.createPortal(/* @__PURE__ */ r5.createElement(Primitive.div, _extends({ "data-radix-portal": "" }, c8, { ref: i7, style: m9 === document.body ? { position: "absolute", top: 0, left: 0, zIndex: 2147483647, ...u6 } : void 0 })), m9) : null;
   });
 
   // node_modules/@radix-ui/react-focus-scope/dist/index.module.js
   var o7 = __toModule(require_react());
-  var c2 = { bubbles: false, cancelable: true };
-  var FocusScope = /* @__PURE__ */ o7.forwardRef((i7, f9) => {
-    const { loop: l8 = false, trapped: m8 = false, onMountAutoFocus: p8, onUnmountAutoFocus: v7, ...E5 } = i7, [F3, S2] = o7.useState(null), b7 = useCallbackRef(p8), T2 = useCallbackRef(v7), y3 = o7.useRef(null), L2 = useComposedRefs(f9, (e11) => S2(e11)), h3 = o7.useRef({ paused: false, pause() {
+  var c3 = { bubbles: false, cancelable: true };
+  var FocusScope = /* @__PURE__ */ o7.forwardRef((i7, f10) => {
+    const { loop: l9 = false, trapped: m9 = false, onMountAutoFocus: p9, onUnmountAutoFocus: v8, ...E5 } = i7, [F4, S3] = o7.useState(null), b8 = useCallbackRef(p9), T2 = useCallbackRef(v8), y4 = o7.useRef(null), L3 = useComposedRefs(f10, (e11) => S3(e11)), h4 = o7.useRef({ paused: false, pause() {
       this.paused = true;
     }, resume() {
       this.paused = false;
     } }).current;
     o7.useEffect(() => {
-      if (m8) {
+      if (m9) {
         let e11 = function(e12) {
-          if (h3.paused || !F3)
+          if (h4.paused || !F4)
             return;
           const t14 = e12.target;
-          F3.contains(t14) ? y3.current = t14 : a2(y3.current, { select: true });
+          F4.contains(t14) ? y4.current = t14 : a2(y4.current, { select: true });
         }, t13 = function(e12) {
-          !h3.paused && F3 && (F3.contains(e12.relatedTarget) || a2(y3.current, { select: true }));
+          !h4.paused && F4 && (F4.contains(e12.relatedTarget) || a2(y4.current, { select: true }));
         };
         return document.addEventListener("focusin", e11), document.addEventListener("focusout", t13), () => {
           document.removeEventListener("focusin", e11), document.removeEventListener("focusout", t13);
         };
       }
-    }, [m8, F3, h3.paused]), o7.useEffect(() => {
-      if (F3) {
-        d3.add(h3);
+    }, [m9, F4, h4.paused]), o7.useEffect(() => {
+      if (F4) {
+        d4.add(h4);
         const t13 = document.activeElement;
-        if (!F3.contains(t13)) {
-          const n5 = new Event("focusScope.autoFocusOnMount", c2);
-          F3.addEventListener("focusScope.autoFocusOnMount", b7), F3.dispatchEvent(n5), n5.defaultPrevented || (!function(e12, { select: t14 = false } = {}) {
+        if (!F4.contains(t13)) {
+          const n5 = new Event("focusScope.autoFocusOnMount", c3);
+          F4.addEventListener("focusScope.autoFocusOnMount", b8), F4.dispatchEvent(n5), n5.defaultPrevented || (!function(e12, { select: t14 = false } = {}) {
             const n6 = document.activeElement;
             for (const o11 of e12)
               if (a2(o11, { select: t14 }), document.activeElement !== n6)
                 return;
-          }((e11 = r6(F3), e11.filter((e12) => e12.tagName !== "A")), { select: true }), document.activeElement === t13 && a2(F3));
+          }((e11 = r6(F4), e11.filter((e12) => e12.tagName !== "A")), { select: true }), document.activeElement === t13 && a2(F4));
         }
         return () => {
-          F3.removeEventListener("focusScope.autoFocusOnMount", b7), setTimeout(() => {
-            const e12 = new Event("focusScope.autoFocusOnUnmount", c2);
-            F3.addEventListener("focusScope.autoFocusOnUnmount", T2), F3.dispatchEvent(e12), e12.defaultPrevented || a2(t13 != null ? t13 : document.body, { select: true }), F3.removeEventListener("focusScope.autoFocusOnUnmount", T2), d3.remove(h3);
+          F4.removeEventListener("focusScope.autoFocusOnMount", b8), setTimeout(() => {
+            const e12 = new Event("focusScope.autoFocusOnUnmount", c3);
+            F4.addEventListener("focusScope.autoFocusOnUnmount", T2), F4.dispatchEvent(e12), e12.defaultPrevented || a2(t13 != null ? t13 : document.body, { select: true }), F4.removeEventListener("focusScope.autoFocusOnUnmount", T2), d4.remove(h4);
           }, 0);
         };
       }
       var e11;
-    }, [F3, b7, T2, h3]);
-    const N2 = o7.useCallback((e11) => {
-      if (!l8 && !m8)
+    }, [F4, b8, T2, h4]);
+    const N3 = o7.useCallback((e11) => {
+      if (!l9 && !m9)
         return;
-      if (h3.paused)
+      if (h4.paused)
         return;
       const t13 = e11.key === "Tab" && !e11.altKey && !e11.ctrlKey && !e11.metaKey, n5 = document.activeElement;
       if (t13 && n5) {
-        const t14 = e11.currentTarget, [o11, u5] = function(e12) {
-          const t15 = r6(e12), n6 = s3(t15, e12), o12 = s3(t15.reverse(), e12);
+        const t14 = e11.currentTarget, [o11, u6] = function(e12) {
+          const t15 = r6(e12), n6 = s4(t15, e12), o12 = s4(t15.reverse(), e12);
           return [n6, o12];
         }(t14);
-        o11 && u5 ? e11.shiftKey || n5 !== u5 ? e11.shiftKey && n5 === o11 && (e11.preventDefault(), l8 && a2(u5, { select: true })) : (e11.preventDefault(), l8 && a2(o11, { select: true })) : n5 === t14 && e11.preventDefault();
+        o11 && u6 ? e11.shiftKey || n5 !== u6 ? e11.shiftKey && n5 === o11 && (e11.preventDefault(), l9 && a2(u6, { select: true })) : (e11.preventDefault(), l9 && a2(o11, { select: true })) : n5 === t14 && e11.preventDefault();
       }
-    }, [l8, m8, h3.paused]);
-    return o7.createElement(Primitive.div, _extends({ tabIndex: -1 }, E5, { ref: L2, onKeyDown: N2 }));
+    }, [l9, m9, h4.paused]);
+    return o7.createElement(Primitive.div, _extends({ tabIndex: -1 }, E5, { ref: L3, onKeyDown: N3 }));
   });
   function r6(e11) {
     const t13 = [], n5 = document.createTreeWalker(e11, NodeFilter.SHOW_ELEMENT, { acceptNode: (e12) => {
@@ -58334,7 +56930,7 @@ ${generateSegmentFilename(i7)}`);
       t13.push(n5.currentNode);
     return t13;
   }
-  function s3(e11, t13) {
+  function s4(e11, t13) {
     for (const n5 of e11)
       if (!i3(n5, { upTo: t13 }))
         return n5;
@@ -58359,17 +56955,17 @@ ${generateSegmentFilename(i7)}`);
       }(e11) && t13 && e11.select();
     }
   }
-  var d3 = function() {
+  var d4 = function() {
     let e11 = [];
     return { add(t13) {
       const n5 = e11[0];
-      t13 !== n5 && (n5 == null || n5.pause()), e11 = f3(e11, t13), e11.unshift(t13);
+      t13 !== n5 && (n5 == null || n5.pause()), e11 = f4(e11, t13), e11.unshift(t13);
     }, remove(t13) {
       var n5;
-      e11 = f3(e11, t13), (n5 = e11[0]) === null || n5 === void 0 || n5.resume();
+      e11 = f4(e11, t13), (n5 = e11[0]) === null || n5 === void 0 || n5.resume();
     } };
   }();
-  function f3(e11, t13) {
+  function f4(e11, t13) {
     const n5 = [...e11], o11 = n5.indexOf(t13);
     return o11 !== -1 && n5.splice(o11, 1), n5;
   }
@@ -58391,13 +56987,13 @@ ${generateSegmentFilename(i7)}`);
   var n3;
   var o8 = 0;
   function useBodyPointerEvents({ disabled: r10 }) {
-    const u5 = t9.useRef(false), c7 = t9.useRef(false);
+    const u6 = t9.useRef(false), c8 = t9.useRef(false);
     t9.useEffect(() => {
       const e11 = (e12) => {
         const t14 = e12.pointerType === "mouse";
-        u5.current = !t14, c7.current = t14 && e12.button === 0;
+        u6.current = !t14, c8.current = t14 && e12.button === 0;
       }, t13 = () => {
-        u5.current = false, c7.current = false;
+        u6.current = false, c8.current = false;
       };
       return document.addEventListener("pointerdown", e11), document.addEventListener("pointerup", t13), () => {
         document.removeEventListener("pointerdown", e11), document.removeEventListener("pointerup", t13);
@@ -58408,7 +57004,7 @@ ${generateSegmentFilename(i7)}`);
           o8--, o8 === 0 && (document.body.style.pointerEvents = n3);
         };
         return o8 === 0 && (n3 = document.body.style.pointerEvents), document.body.style.pointerEvents = "none", o8++, () => {
-          u5.current ? document.addEventListener("click", e11, { once: true }) : c7.current ? document.addEventListener("pointerup", e11, { once: true }) : e11();
+          u6.current ? document.addEventListener("click", e11, { once: true }) : c8.current ? document.addEventListener("pointerup", e11, { once: true }) : e11();
         };
       }
     }, [r10]);
@@ -58416,18 +57012,18 @@ ${generateSegmentFilename(i7)}`);
 
   // node_modules/@radix-ui/react-dismissable-layer/dist/index.module.js
   var i4 = __toModule(require_react());
-  var [a3, c3] = C2();
-  var [l3, d4] = b3();
-  var [m3, f4] = C2("TotalLayerCountWithDisabledOutsidePointerEventsProvider");
-  var [p3, v2] = b3("RunningLayerCountWithDisabledOutsidePointerEventsProvider");
+  var [a3, c4] = C3();
+  var [l4, d5] = b4();
+  var [m4, f5] = C3("TotalLayerCountWithDisabledOutsidePointerEventsProvider");
+  var [p4, v3] = b4("RunningLayerCountWithDisabledOutsidePointerEventsProvider");
   var DismissableLayer = /* @__PURE__ */ i4.forwardRef((e11, t13) => {
-    const n5 = d4() === 0, r10 = /* @__PURE__ */ i4.createElement(E2, _extends({}, e11, { ref: t13 }));
-    return n5 ? /* @__PURE__ */ i4.createElement(a3, null, /* @__PURE__ */ i4.createElement(m3, null, r10)) : r10;
+    const n5 = d5() === 0, r10 = /* @__PURE__ */ i4.createElement(E2, _extends({}, e11, { ref: t13 }));
+    return n5 ? /* @__PURE__ */ i4.createElement(a3, null, /* @__PURE__ */ i4.createElement(m4, null, r10)) : r10;
   });
   var E2 = /* @__PURE__ */ i4.forwardRef((r10, a7) => {
-    const { disableOutsidePointerEvents: m8 = false, onEscapeKeyDown: E5, onPointerDownOutside: C5, onFocusOutside: b7, onInteractOutside: w5, onDismiss: L2, ...y3 } = r10, D2 = c3(), P2 = d4() + 1, T2 = P2 === D2, g5 = f4(m8), x4 = v2() + (m8 ? 1 : 0), O3 = x4 < g5;
-    useBodyPointerEvents({ disabled: m8 }), useEscapeKeydown((e11) => {
-      T2 && (E5 == null || E5(e11), e11.defaultPrevented || L2 == null || L2());
+    const { disableOutsidePointerEvents: m9 = false, onEscapeKeyDown: E5, onPointerDownOutside: C6, onFocusOutside: b8, onInteractOutside: w6, onDismiss: L3, ...y4 } = r10, D2 = c4(), P3 = d5() + 1, T2 = P3 === D2, g6 = f5(m9), x5 = v3() + (m9 ? 1 : 0), O4 = x5 < g6;
+    useBodyPointerEvents({ disabled: m9 }), useEscapeKeydown((e11) => {
+      T2 && (E5 == null || E5(e11), e11.defaultPrevented || L3 == null || L3());
     });
     const { onPointerDownCapture: R5 } = function(e11) {
       const n5 = useCallbackRef(e11), r11 = i4.useRef(false);
@@ -58447,8 +57043,8 @@ ${generateSegmentFilename(i7)}`);
         };
       }, [n5]), { onPointerDownCapture: () => r11.current = true };
     }((e11) => {
-      O3 || (C5 == null || C5(e11), w5 == null || w5(e11), e11.defaultPrevented || L2 == null || L2());
-    }), { onBlurCapture: h3, onFocusCapture: F3 } = function(e11) {
+      O4 || (C6 == null || C6(e11), w6 == null || w6(e11), e11.defaultPrevented || L3 == null || L3());
+    }), { onBlurCapture: h4, onFocusCapture: F4 } = function(e11) {
       const n5 = useCallbackRef(e11), r11 = i4.useRef(false);
       return i4.useEffect(() => {
         const e12 = (e13) => {
@@ -58461,11 +57057,11 @@ ${generateSegmentFilename(i7)}`);
         return document.addEventListener("focusin", e12), () => document.removeEventListener("focusin", e12);
       }, [n5]), { onFocusCapture: () => r11.current = true, onBlurCapture: () => r11.current = false };
     }((e11) => {
-      b7 == null || b7(e11), w5 == null || w5(e11), e11.defaultPrevented || L2 == null || L2();
-    }), k3 = g5 > 0 && !O3;
-    return i4.createElement(l3, { runningCount: P2 }, /* @__PURE__ */ i4.createElement(p3, { runningCount: x4 }, /* @__PURE__ */ i4.createElement(Primitive.div, _extends({}, y3, { ref: a7, style: { pointerEvents: k3 ? "auto" : void 0, ...y3.style }, onPointerDownCapture: composeEventHandlers(r10.onPointerDownCapture, R5), onBlurCapture: composeEventHandlers(r10.onBlurCapture, h3), onFocusCapture: composeEventHandlers(r10.onFocusCapture, F3) }))));
+      b8 == null || b8(e11), w6 == null || w6(e11), e11.defaultPrevented || L3 == null || L3();
+    }), k4 = g6 > 0 && !O4;
+    return i4.createElement(l4, { runningCount: P3 }, /* @__PURE__ */ i4.createElement(p4, { runningCount: x5 }, /* @__PURE__ */ i4.createElement(Primitive.div, _extends({}, y4, { ref: a7, style: { pointerEvents: k4 ? "auto" : void 0, ...y4.style }, onPointerDownCapture: composeEventHandlers(r10.onPointerDownCapture, R5), onBlurCapture: composeEventHandlers(r10.onBlurCapture, h4), onFocusCapture: composeEventHandlers(r10.onFocusCapture, F4) }))));
   });
-  function C2(e11) {
+  function C3(e11) {
     const [t13, n5] = createContext2("TotalLayerCount", { total: 0, onTotalIncrease: () => {
     }, onTotalDecrease: () => {
     } }), o11 = ({ children: e12 }) => {
@@ -58480,7 +57076,7 @@ ${generateSegmentFilename(i7)}`);
       }, [e12, r10, o12]), t14;
     }];
   }
-  function b3(e11) {
+  function b4(e11) {
     const [t13, n5] = createContext2("RunningLayerCount", { count: 0 }), o11 = (e12) => {
       const { children: n6, runningCount: r10 } = e12;
       return i4.createElement(t13, { count: r10 }, n6);
@@ -58493,8 +57089,8 @@ ${generateSegmentFilename(i7)}`);
   // node_modules/@radix-ui/react-arrow/dist/index.module.js
   var r7 = __toModule(require_react());
   var Arrow = /* @__PURE__ */ r7.forwardRef((o11, i7) => {
-    const { children: n5, width: s8 = 10, height: m8 = 5, ...p8 } = o11;
-    return r7.createElement(Primitive.svg, _extends({}, p8, { ref: i7, width: s8, height: m8, viewBox: "0 0 30 10", preserveAspectRatio: "none" }), o11.asChild ? n5 : /* @__PURE__ */ r7.createElement("polygon", { points: "0,0 30,0 15,10" }));
+    const { children: n5, width: s9 = 10, height: m9 = 5, ...p9 } = o11;
+    return r7.createElement(Primitive.svg, _extends({}, p9, { ref: i7, width: s9, height: m9, viewBox: "0 0 30 10", preserveAspectRatio: "none" }), o11.asChild ? n5 : /* @__PURE__ */ r7.createElement("polygon", { points: "0,0 30,0 15,10" }));
   });
   var Root2 = Arrow;
 
@@ -58530,119 +57126,119 @@ ${generateSegmentFilename(i7)}`);
   // node_modules/@radix-ui/rect/dist/index.module.js
   function observeElementRect(n5, o11) {
     const i7 = e7.get(n5);
-    return i7 === void 0 ? (e7.set(n5, { rect: {}, callbacks: [o11] }), e7.size === 1 && (t10 = requestAnimationFrame(c4))) : (i7.callbacks.push(o11), o11(n5.getBoundingClientRect())), () => {
-      const c7 = e7.get(n5);
-      if (c7 === void 0)
+    return i7 === void 0 ? (e7.set(n5, { rect: {}, callbacks: [o11] }), e7.size === 1 && (t10 = requestAnimationFrame(c5))) : (i7.callbacks.push(o11), o11(n5.getBoundingClientRect())), () => {
+      const c8 = e7.get(n5);
+      if (c8 === void 0)
         return;
-      const i8 = c7.callbacks.indexOf(o11);
-      i8 > -1 && c7.callbacks.splice(i8, 1), c7.callbacks.length === 0 && (e7.delete(n5), e7.size === 0 && cancelAnimationFrame(t10));
+      const i8 = c8.callbacks.indexOf(o11);
+      i8 > -1 && c8.callbacks.splice(i8, 1), c8.callbacks.length === 0 && (e7.delete(n5), e7.size === 0 && cancelAnimationFrame(t10));
     };
   }
   var t10;
   var e7 = new Map();
-  function c4() {
+  function c5() {
     const n5 = [];
     e7.forEach((t13, e11) => {
-      const c7 = e11.getBoundingClientRect();
+      const c8 = e11.getBoundingClientRect();
       var o11, i7;
-      o11 = t13.rect, i7 = c7, (o11.width !== i7.width || o11.height !== i7.height || o11.top !== i7.top || o11.right !== i7.right || o11.bottom !== i7.bottom || o11.left !== i7.left) && (t13.rect = c7, n5.push(t13));
+      o11 = t13.rect, i7 = c8, (o11.width !== i7.width || o11.height !== i7.height || o11.top !== i7.top || o11.right !== i7.right || o11.bottom !== i7.bottom || o11.left !== i7.left) && (t13.rect = c8, n5.push(t13));
     }), n5.forEach((t13) => {
       t13.callbacks.forEach((e11) => e11(t13.rect));
-    }), t10 = requestAnimationFrame(c4);
+    }), t10 = requestAnimationFrame(c5);
   }
 
   // node_modules/@radix-ui/react-use-rect/dist/index.module.js
   var r8 = __toModule(require_react());
   function useRect(e11) {
-    const [o11, c7] = r8.useState();
+    const [o11, c8] = r8.useState();
     return r8.useEffect(() => {
       if (e11) {
-        const r10 = observeElementRect(e11, c7);
+        const r10 = observeElementRect(e11, c8);
         return () => {
-          c7(void 0), r10();
+          c8(void 0), r10();
         };
       }
     }, [e11]), o11;
   }
 
   // node_modules/@radix-ui/popper/dist/index.module.js
-  function getPlacementData({ anchorRect: p8, popperSize: c7, arrowSize: f9, arrowOffset: l8 = 0, side: d7, sideOffset: h3 = 0, align: x4, alignOffset: g5 = 0, shouldAvoidCollisions: u5 = true, collisionBoundariesRect: w5, collisionTolerance: m8 = 0 }) {
-    if (!p8 || !c7 || !w5)
+  function getPlacementData({ anchorRect: p9, popperSize: c8, arrowSize: f10, arrowOffset: l9 = 0, side: d8, sideOffset: h4 = 0, align: x5, alignOffset: g6 = 0, shouldAvoidCollisions: u6 = true, collisionBoundariesRect: w6, collisionTolerance: m9 = 0 }) {
+    if (!p9 || !c8 || !w6)
       return { popperStyles: o9, arrowStyles: n4 };
-    const y3 = function(e11, r10, o11 = 0, n5 = 0, i7) {
-      const p9 = i7 ? i7.height : 0, a7 = t11(r10, e11, "x"), s8 = t11(r10, e11, "y"), c8 = s8.before - o11 - p9, f10 = s8.after + o11 + p9, l9 = a7.before - o11 - p9, d8 = a7.after + o11 + p9;
-      return { top: { start: { x: a7.start + n5, y: c8 }, center: { x: a7.center, y: c8 }, end: { x: a7.end - n5, y: c8 } }, right: { start: { x: d8, y: s8.start + n5 }, center: { x: d8, y: s8.center }, end: { x: d8, y: s8.end - n5 } }, bottom: { start: { x: a7.start + n5, y: f10 }, center: { x: a7.center, y: f10 }, end: { x: a7.end - n5, y: f10 } }, left: { start: { x: l9, y: s8.start + n5 }, center: { x: l9, y: s8.center }, end: { x: l9, y: s8.end - n5 } } };
-    }(c7, p8, h3, g5, f9), b7 = y3[d7][x4];
-    if (u5 === false) {
-      const t13 = e8(b7);
+    const y4 = function(e11, r10, o11 = 0, n5 = 0, i7) {
+      const p10 = i7 ? i7.height : 0, a7 = t11(r10, e11, "x"), s9 = t11(r10, e11, "y"), c9 = s9.before - o11 - p10, f11 = s9.after + o11 + p10, l10 = a7.before - o11 - p10, d9 = a7.after + o11 + p10;
+      return { top: { start: { x: a7.start + n5, y: c9 }, center: { x: a7.center, y: c9 }, end: { x: a7.end - n5, y: c9 } }, right: { start: { x: d9, y: s9.start + n5 }, center: { x: d9, y: s9.center }, end: { x: d9, y: s9.end - n5 } }, bottom: { start: { x: a7.start + n5, y: f11 }, center: { x: a7.center, y: f11 }, end: { x: a7.end - n5, y: f11 } }, left: { start: { x: l10, y: s9.start + n5 }, center: { x: l10, y: s9.center }, end: { x: l10, y: s9.end - n5 } } };
+    }(c8, p9, h4, g6, f10), b8 = y4[d8][x5];
+    if (u6 === false) {
+      const t13 = e8(b8);
       let o11 = n4;
-      f9 && (o11 = i5({ popperSize: c7, arrowSize: f9, arrowOffset: l8, side: d7, align: x4 }));
-      return { popperStyles: { ...t13, "--radix-popper-transform-origin": r9(c7, d7, x4, l8, f9) }, arrowStyles: o11, placedSide: d7, placedAlign: x4 };
+      f10 && (o11 = i5({ popperSize: c8, arrowSize: f10, arrowOffset: l9, side: d8, align: x5 }));
+      return { popperStyles: { ...t13, "--radix-popper-transform-origin": r9(c8, d8, x5, l9, f10) }, arrowStyles: o11, placedSide: d8, placedAlign: x5 };
     }
-    const S2 = DOMRect.fromRect({ ...c7, ...b7 }), $3 = (O3 = w5, z2 = m8, DOMRect.fromRect({ width: O3.width - 2 * z2, height: O3.height - 2 * z2, x: O3.left + z2, y: O3.top + z2 }));
-    var O3, z2;
-    const R5 = s4(S2, $3), M2 = y3[a4(d7)][x4], D2 = function(t13, e11, r10) {
+    const S3 = DOMRect.fromRect({ ...c8, ...b8 }), $4 = (O4 = w6, z3 = m9, DOMRect.fromRect({ width: O4.width - 2 * z3, height: O4.height - 2 * z3, x: O4.left + z3, y: O4.top + z3 }));
+    var O4, z3;
+    const R5 = s5(S3, $4), M3 = y4[a4(d8)][x5], D2 = function(t13, e11, r10) {
       const o11 = a4(t13);
       return e11[t13] && !r10[o11] ? o11 : t13;
-    }(d7, R5, s4(DOMRect.fromRect({ ...c7, ...M2 }), $3)), A3 = function(t13, e11, r10, o11, n5) {
-      const i7 = r10 === "top" || r10 === "bottom", p9 = i7 ? "left" : "top", a7 = i7 ? "right" : "bottom", s8 = i7 ? "width" : "height", c8 = e11[s8] > t13[s8];
-      if ((o11 === "start" || o11 === "center") && (n5[p9] && c8 || n5[a7] && !c8))
+    }(d8, R5, s5(DOMRect.fromRect({ ...c8, ...M3 }), $4)), A4 = function(t13, e11, r10, o11, n5) {
+      const i7 = r10 === "top" || r10 === "bottom", p10 = i7 ? "left" : "top", a7 = i7 ? "right" : "bottom", s9 = i7 ? "width" : "height", c9 = e11[s9] > t13[s9];
+      if ((o11 === "start" || o11 === "center") && (n5[p10] && c9 || n5[a7] && !c9))
         return "end";
-      if ((o11 === "end" || o11 === "center") && (n5[a7] && c8 || n5[p9] && !c8))
+      if ((o11 === "end" || o11 === "center") && (n5[a7] && c9 || n5[p10] && !c9))
         return "start";
       return o11;
-    }(c7, p8, d7, x4, R5), I3 = e8(y3[D2][A3]);
-    let C5 = n4;
-    f9 && (C5 = i5({ popperSize: c7, arrowSize: f9, arrowOffset: l8, side: D2, align: A3 }));
-    return { popperStyles: { ...I3, "--radix-popper-transform-origin": r9(c7, D2, A3, l8, f9) }, arrowStyles: C5, placedSide: D2, placedAlign: A3 };
+    }(c8, p9, d8, x5, R5), I3 = e8(y4[D2][A4]);
+    let C6 = n4;
+    f10 && (C6 = i5({ popperSize: c8, arrowSize: f10, arrowOffset: l9, side: D2, align: A4 }));
+    return { popperStyles: { ...I3, "--radix-popper-transform-origin": r9(c8, D2, A4, l9, f10) }, arrowStyles: C6, placedSide: D2, placedAlign: A4 };
   }
   function t11(t13, e11, r10) {
-    const o11 = t13[r10 === "x" ? "left" : "top"], n5 = r10 === "x" ? "width" : "height", i7 = t13[n5], p8 = e11[n5];
-    return { before: o11 - p8, start: o11, center: o11 + (i7 - p8) / 2, end: o11 + i7 - p8, after: o11 + i7 };
+    const o11 = t13[r10 === "x" ? "left" : "top"], n5 = r10 === "x" ? "width" : "height", i7 = t13[n5], p9 = e11[n5];
+    return { before: o11 - p9, start: o11, center: o11 + (i7 - p9) / 2, end: o11 + i7 - p9, after: o11 + i7 };
   }
   function e8(t13) {
     return { position: "absolute", top: 0, left: 0, minWidth: "max-content", willChange: "transform", transform: `translate3d(${Math.round(t13.x + window.scrollX)}px, ${Math.round(t13.y + window.scrollY)}px, 0)` };
   }
   function r9(t13, e11, r10, o11, n5) {
-    const i7 = e11 === "top" || e11 === "bottom", p8 = n5 ? n5.width : 0, a7 = n5 ? n5.height : 0, s8 = p8 / 2 + o11;
-    let c7 = "", f9 = "";
-    return i7 ? (c7 = { start: `${s8}px`, center: "center", end: t13.width - s8 + "px" }[r10], f9 = e11 === "top" ? `${t13.height + a7}px` : -a7 + "px") : (c7 = e11 === "left" ? `${t13.width + a7}px` : -a7 + "px", f9 = { start: `${s8}px`, center: "center", end: t13.height - s8 + "px" }[r10]), `${c7} ${f9}`;
+    const i7 = e11 === "top" || e11 === "bottom", p9 = n5 ? n5.width : 0, a7 = n5 ? n5.height : 0, s9 = p9 / 2 + o11;
+    let c8 = "", f10 = "";
+    return i7 ? (c8 = { start: `${s9}px`, center: "center", end: t13.width - s9 + "px" }[r10], f10 = e11 === "top" ? `${t13.height + a7}px` : -a7 + "px") : (c8 = e11 === "left" ? `${t13.width + a7}px` : -a7 + "px", f10 = { start: `${s9}px`, center: "center", end: t13.height - s9 + "px" }[r10]), `${c8} ${f10}`;
   }
   var o9 = { position: "fixed", top: 0, left: 0, opacity: 0, transform: "translate3d(0, -200%, 0)" };
   var n4 = { position: "absolute", opacity: 0 };
   function i5({ popperSize: t13, arrowSize: e11, arrowOffset: r10, side: o11, align: n5 }) {
-    const i7 = (t13.width - e11.width) / 2, a7 = (t13.height - e11.width) / 2, s8 = { top: 0, right: 90, bottom: 180, left: -90 }[o11], c7 = Math.max(e11.width, e11.height), f9 = { width: `${c7}px`, height: `${c7}px`, transform: `rotate(${s8}deg)`, willChange: "transform", position: "absolute", [o11]: "100%", direction: p4(o11, n5) };
-    return o11 !== "top" && o11 !== "bottom" || (n5 === "start" && (f9.left = `${r10}px`), n5 === "center" && (f9.left = `${i7}px`), n5 === "end" && (f9.right = `${r10}px`)), o11 !== "left" && o11 !== "right" || (n5 === "start" && (f9.top = `${r10}px`), n5 === "center" && (f9.top = `${a7}px`), n5 === "end" && (f9.bottom = `${r10}px`)), f9;
+    const i7 = (t13.width - e11.width) / 2, a7 = (t13.height - e11.width) / 2, s9 = { top: 0, right: 90, bottom: 180, left: -90 }[o11], c8 = Math.max(e11.width, e11.height), f10 = { width: `${c8}px`, height: `${c8}px`, transform: `rotate(${s9}deg)`, willChange: "transform", position: "absolute", [o11]: "100%", direction: p5(o11, n5) };
+    return o11 !== "top" && o11 !== "bottom" || (n5 === "start" && (f10.left = `${r10}px`), n5 === "center" && (f10.left = `${i7}px`), n5 === "end" && (f10.right = `${r10}px`)), o11 !== "left" && o11 !== "right" || (n5 === "start" && (f10.top = `${r10}px`), n5 === "center" && (f10.top = `${a7}px`), n5 === "end" && (f10.bottom = `${r10}px`)), f10;
   }
-  function p4(t13, e11) {
+  function p5(t13, e11) {
     return (t13 !== "top" && t13 !== "right" || e11 !== "end") && (t13 !== "bottom" && t13 !== "left" || e11 === "end") ? "ltr" : "rtl";
   }
   function a4(t13) {
     return { top: "bottom", right: "left", bottom: "top", left: "right" }[t13];
   }
-  function s4(t13, e11) {
+  function s5(t13, e11) {
     return { top: t13.top < e11.top, right: t13.right > e11.right, bottom: t13.bottom > e11.bottom, left: t13.left < e11.left };
   }
 
   // node_modules/@radix-ui/react-popper/dist/index.module.js
-  var s5 = __toModule(require_react());
-  var [c5, l4] = createContextScope("Popper");
-  var [f5, d5] = c5("Popper");
+  var s6 = __toModule(require_react());
+  var [c6, l5] = createContextScope("Popper");
+  var [f6, d6] = c6("Popper");
   var Popper = (e11) => {
-    const { __scopePopper: o11, children: r10 } = e11, [t13, n5] = s5.useState(null);
-    return s5.createElement(f5, { scope: o11, anchor: t13, onAnchorChange: n5 }, r10);
+    const { __scopePopper: o11, children: r10 } = e11, [t13, n5] = s6.useState(null);
+    return s6.createElement(f6, { scope: o11, anchor: t13, onAnchorChange: n5 }, r10);
   };
-  var PopperAnchor = /* @__PURE__ */ s5.forwardRef((e11, r10) => {
-    const { __scopePopper: t13, virtualRef: n5, ...p8 } = e11, c7 = d5("PopperAnchor", t13), l8 = s5.useRef(null), f9 = useComposedRefs(r10, l8);
-    return s5.useEffect(() => {
-      c7.onAnchorChange((n5 == null ? void 0 : n5.current) || l8.current);
-    }), n5 ? null : /* @__PURE__ */ s5.createElement(Primitive.div, _extends({}, p8, { ref: f9 }));
+  var PopperAnchor = /* @__PURE__ */ s6.forwardRef((e11, r10) => {
+    const { __scopePopper: t13, virtualRef: n5, ...p9 } = e11, c8 = d6("PopperAnchor", t13), l9 = s6.useRef(null), f10 = useComposedRefs(r10, l9);
+    return s6.useEffect(() => {
+      c8.onAnchorChange((n5 == null ? void 0 : n5.current) || l9.current);
+    }), n5 ? null : /* @__PURE__ */ s6.createElement(Primitive.div, _extends({}, p9, { ref: f10 }));
   });
-  var [u3, m4] = c5("PopperContent");
-  var PopperContent = /* @__PURE__ */ s5.forwardRef((e11, n5) => {
-    const { __scopePopper: c7, side: l8 = "bottom", sideOffset: f9, align: m8 = "center", alignOffset: w5, collisionTolerance: h3, avoidCollisions: x4 = true, ...v7 } = e11, P2 = d5("PopperContent", c7), [A3, g5] = s5.useState(), E5 = useRect(P2.anchor), [y3, C5] = s5.useState(null), S2 = useSize(y3), [R5, O3] = s5.useState(null), _ = useSize(R5), b7 = useComposedRefs(n5, (e12) => C5(e12)), z2 = function() {
-      const [e12, o11] = s5.useState(void 0);
-      return s5.useEffect(() => {
+  var [u4, m5] = c6("PopperContent");
+  var PopperContent = /* @__PURE__ */ s6.forwardRef((e11, n5) => {
+    const { __scopePopper: c8, side: l9 = "bottom", sideOffset: f10, align: m9 = "center", alignOffset: w6, collisionTolerance: h4, avoidCollisions: x5 = true, ...v8 } = e11, P3 = d6("PopperContent", c8), [A4, g6] = s6.useState(), E5 = useRect(P3.anchor), [y4, C6] = s6.useState(null), S3 = useSize(y4), [R5, O4] = s6.useState(null), _2 = useSize(R5), b8 = useComposedRefs(n5, (e12) => C6(e12)), z3 = function() {
+      const [e12, o11] = s6.useState(void 0);
+      return s6.useEffect(() => {
         let e13;
         function r10() {
           o11({ width: window.innerWidth, height: window.innerHeight });
@@ -58652,12 +57248,12 @@ ${generateSegmentFilename(i7)}`);
         }
         return r10(), window.addEventListener("resize", t13), () => window.removeEventListener("resize", t13);
       }, []), e12;
-    }(), T2 = z2 ? DOMRect.fromRect({ ...z2, x: 0, y: 0 }) : void 0, { popperStyles: k3, arrowStyles: L2, placedSide: B2, placedAlign: D2 } = getPlacementData({ anchorRect: E5, popperSize: S2, arrowSize: _, arrowOffset: A3, side: l8, sideOffset: f9, align: m8, alignOffset: w5, shouldAvoidCollisions: x4, collisionBoundariesRect: T2, collisionTolerance: h3 }), H2 = B2 !== void 0;
-    return s5.createElement("div", { style: k3, "data-radix-popper-content-wrapper": "" }, /* @__PURE__ */ s5.createElement(u3, { scope: c7, arrowStyles: L2, onArrowChange: O3, onArrowOffsetChange: g5 }, /* @__PURE__ */ s5.createElement(Primitive.div, _extends({ "data-side": B2, "data-align": D2 }, v7, { style: { ...v7.style, animation: H2 ? void 0 : "none" }, ref: b7 }))));
+    }(), T2 = z3 ? DOMRect.fromRect({ ...z3, x: 0, y: 0 }) : void 0, { popperStyles: k4, arrowStyles: L3, placedSide: B3, placedAlign: D2 } = getPlacementData({ anchorRect: E5, popperSize: S3, arrowSize: _2, arrowOffset: A4, side: l9, sideOffset: f10, align: m9, alignOffset: w6, shouldAvoidCollisions: x5, collisionBoundariesRect: T2, collisionTolerance: h4 }), H3 = B3 !== void 0;
+    return s6.createElement("div", { style: k4, "data-radix-popper-content-wrapper": "" }, /* @__PURE__ */ s6.createElement(u4, { scope: c8, arrowStyles: L3, onArrowChange: O4, onArrowOffsetChange: g6 }, /* @__PURE__ */ s6.createElement(Primitive.div, _extends({ "data-side": B3, "data-align": D2 }, v8, { style: { ...v8.style, animation: H3 ? void 0 : "none" }, ref: b8 }))));
   });
-  var PopperArrow = /* @__PURE__ */ s5.forwardRef(function(o11, r10) {
-    const { __scopePopper: t13, offset: n5, ...i7 } = o11, p8 = m4("PopperArrow", t13), { onArrowOffsetChange: c7 } = p8;
-    return s5.useEffect(() => c7(n5), [c7, n5]), /* @__PURE__ */ s5.createElement("span", { style: { ...p8.arrowStyles, pointerEvents: "none" } }, /* @__PURE__ */ s5.createElement("span", { ref: p8.onArrowChange, style: { display: "inline-block", verticalAlign: "top", pointerEvents: "auto" } }, /* @__PURE__ */ s5.createElement(Root2, _extends({}, i7, { ref: r10, style: { ...i7.style, display: "block" } }))));
+  var PopperArrow = /* @__PURE__ */ s6.forwardRef(function(o11, r10) {
+    const { __scopePopper: t13, offset: n5, ...i7 } = o11, p9 = m5("PopperArrow", t13), { onArrowOffsetChange: c8 } = p9;
+    return s6.useEffect(() => c8(n5), [c8, n5]), /* @__PURE__ */ s6.createElement("span", { style: { ...p9.arrowStyles, pointerEvents: "none" } }, /* @__PURE__ */ s6.createElement("span", { ref: p9.onArrowChange, style: { display: "inline-block", verticalAlign: "top", pointerEvents: "auto" } }, /* @__PURE__ */ s6.createElement(Root2, _extends({}, i7, { ref: r10, style: { ...i7.style, display: "block" } }))));
   });
   var Root3 = Popper;
   var Anchor = PopperAnchor;
@@ -58665,64 +57261,64 @@ ${generateSegmentFilename(i7)}`);
   var Arrow2 = PopperArrow;
 
   // node_modules/@radix-ui/react-popover/dist/index.module.js
-  var v3 = __toModule(require_react());
-  var [C3, g2] = createContextScope("Popover", [l4]);
-  var x2 = l4();
-  var [h2, E3] = C3("Popover");
+  var v4 = __toModule(require_react());
+  var [C4, g3] = createContextScope("Popover", [l5]);
+  var x3 = l5();
+  var [h3, E3] = C4("Popover");
   var Popover = (e11) => {
-    const { __scopePopover: o11, children: t13, open: n5, defaultOpen: c7, onOpenChange: a7, modal: s8 = false } = e11, i7 = x2(o11), u5 = v3.useRef(null), [d7, m8] = v3.useState(false), [f9 = false, P2] = useControllableState({ prop: n5, defaultProp: c7, onChange: a7 });
-    return v3.createElement(Root3, i7, /* @__PURE__ */ v3.createElement(h2, { scope: o11, contentId: useId(), triggerRef: u5, open: f9, onOpenChange: P2, onOpenToggle: v3.useCallback(() => P2((e12) => !e12), [P2]), hasCustomAnchor: d7, onCustomAnchorAdd: v3.useCallback(() => m8(true), []), onCustomAnchorRemove: v3.useCallback(() => m8(false), []), modal: s8 }, t13));
+    const { __scopePopover: o11, children: t13, open: n5, defaultOpen: c8, onOpenChange: a7, modal: s9 = false } = e11, i7 = x3(o11), u6 = v4.useRef(null), [d8, m9] = v4.useState(false), [f10 = false, P3] = useControllableState({ prop: n5, defaultProp: c8, onChange: a7 });
+    return v4.createElement(Root3, i7, /* @__PURE__ */ v4.createElement(h3, { scope: o11, contentId: useId(), triggerRef: u6, open: f10, onOpenChange: P3, onOpenToggle: v4.useCallback(() => P3((e12) => !e12), [P3]), hasCustomAnchor: d8, onCustomAnchorAdd: v4.useCallback(() => m9(true), []), onCustomAnchorRemove: v4.useCallback(() => m9(false), []), modal: s9 }, t13));
   };
-  var PopoverTrigger = /* @__PURE__ */ v3.forwardRef((e11, o11) => {
-    const { __scopePopover: r10, ...n5 } = e11, c7 = E3("PopoverTrigger", r10), a7 = x2(r10), s8 = useComposedRefs(o11, c7.triggerRef), i7 = /* @__PURE__ */ v3.createElement(Primitive.button, _extends({ type: "button", "aria-haspopup": "dialog", "aria-expanded": c7.open, "aria-controls": c7.contentId, "data-state": w2(c7.open) }, n5, { ref: s8, onClick: composeEventHandlers(e11.onClick, c7.onOpenToggle) }));
-    return c7.hasCustomAnchor ? i7 : /* @__PURE__ */ v3.createElement(Anchor, _extends({ asChild: true }, a7), i7);
+  var PopoverTrigger = /* @__PURE__ */ v4.forwardRef((e11, o11) => {
+    const { __scopePopover: r10, ...n5 } = e11, c8 = E3("PopoverTrigger", r10), a7 = x3(r10), s9 = useComposedRefs(o11, c8.triggerRef), i7 = /* @__PURE__ */ v4.createElement(Primitive.button, _extends({ type: "button", "aria-haspopup": "dialog", "aria-expanded": c8.open, "aria-controls": c8.contentId, "data-state": w3(c8.open) }, n5, { ref: s9, onClick: composeEventHandlers(e11.onClick, c8.onOpenToggle) }));
+    return c8.hasCustomAnchor ? i7 : /* @__PURE__ */ v4.createElement(Anchor, _extends({ asChild: true }, a7), i7);
   });
-  var PopoverContent = /* @__PURE__ */ v3.forwardRef((e11, o11) => {
-    const { forceMount: r10, ...t13 } = e11, c7 = E3("PopoverContent", e11.__scopePopover);
-    return v3.createElement(Presence, { present: r10 || c7.open }, c7.modal ? /* @__PURE__ */ v3.createElement(A2, _extends({}, t13, { ref: o11 })) : /* @__PURE__ */ v3.createElement(O2, _extends({}, t13, { ref: o11 })));
+  var PopoverContent = /* @__PURE__ */ v4.forwardRef((e11, o11) => {
+    const { forceMount: r10, ...t13 } = e11, c8 = E3("PopoverContent", e11.__scopePopover);
+    return v4.createElement(Presence, { present: r10 || c8.open }, c8.modal ? /* @__PURE__ */ v4.createElement(A3, _extends({}, t13, { ref: o11 })) : /* @__PURE__ */ v4.createElement(O3, _extends({}, t13, { ref: o11 })));
   });
-  var A2 = /* @__PURE__ */ v3.forwardRef((r10, t13) => {
-    const { allowPinchZoom: n5, portalled: c7 = true, ...s8 } = r10, i7 = E3("PopoverContent", r10.__scopePopover), p8 = v3.useRef(null), u5 = useComposedRefs(t13, p8), l8 = v3.useRef(false);
-    v3.useEffect(() => {
-      const o11 = p8.current;
+  var A3 = /* @__PURE__ */ v4.forwardRef((r10, t13) => {
+    const { allowPinchZoom: n5, portalled: c8 = true, ...s9 } = r10, i7 = E3("PopoverContent", r10.__scopePopover), p9 = v4.useRef(null), u6 = useComposedRefs(t13, p9), l9 = v4.useRef(false);
+    v4.useEffect(() => {
+      const o11 = p9.current;
       if (o11)
         return hideOthers(o11);
     }, []);
-    const d7 = c7 ? Portal : v3.Fragment;
-    return v3.createElement(d7, null, /* @__PURE__ */ v3.createElement(Combination_default, { allowPinchZoom: n5 }, /* @__PURE__ */ v3.createElement(R2, _extends({}, s8, { ref: u5, trapFocus: i7.open, disableOutsidePointerEvents: true, onCloseAutoFocus: composeEventHandlers(r10.onCloseAutoFocus, (e11) => {
+    const d8 = c8 ? Portal : v4.Fragment;
+    return v4.createElement(d8, null, /* @__PURE__ */ v4.createElement(Combination_default, { allowPinchZoom: n5 }, /* @__PURE__ */ v4.createElement(R2, _extends({}, s9, { ref: u6, trapFocus: i7.open, disableOutsidePointerEvents: true, onCloseAutoFocus: composeEventHandlers(r10.onCloseAutoFocus, (e11) => {
       var o11;
-      e11.preventDefault(), l8.current || (o11 = i7.triggerRef.current) === null || o11 === void 0 || o11.focus();
+      e11.preventDefault(), l9.current || (o11 = i7.triggerRef.current) === null || o11 === void 0 || o11.focus();
     }), onPointerDownOutside: composeEventHandlers(r10.onPointerDownOutside, (e11) => {
       const o11 = e11.detail.originalEvent, r11 = o11.button === 0 && o11.ctrlKey === true, t14 = o11.button === 2 || r11;
-      l8.current = t14;
+      l9.current = t14;
     }, { checkForDefaultPrevented: false }), onFocusOutside: composeEventHandlers(r10.onFocusOutside, (e11) => e11.preventDefault(), { checkForDefaultPrevented: false }) }))));
   });
-  var O2 = /* @__PURE__ */ v3.forwardRef((e11, o11) => {
-    const { portalled: r10 = true, ...t13 } = e11, n5 = E3("PopoverContent", e11.__scopePopover), c7 = v3.useRef(false), s8 = r10 ? Portal : v3.Fragment;
-    return v3.createElement(s8, null, /* @__PURE__ */ v3.createElement(R2, _extends({}, t13, { ref: o11, trapFocus: false, disableOutsidePointerEvents: false, onCloseAutoFocus: (o12) => {
+  var O3 = /* @__PURE__ */ v4.forwardRef((e11, o11) => {
+    const { portalled: r10 = true, ...t13 } = e11, n5 = E3("PopoverContent", e11.__scopePopover), c8 = v4.useRef(false), s9 = r10 ? Portal : v4.Fragment;
+    return v4.createElement(s9, null, /* @__PURE__ */ v4.createElement(R2, _extends({}, t13, { ref: o11, trapFocus: false, disableOutsidePointerEvents: false, onCloseAutoFocus: (o12) => {
       var r11, t14;
-      ((r11 = e11.onCloseAutoFocus) === null || r11 === void 0 || r11.call(e11, o12), o12.defaultPrevented) || (c7.current || (t14 = n5.triggerRef.current) === null || t14 === void 0 || t14.focus(), o12.preventDefault());
-      c7.current = false;
+      ((r11 = e11.onCloseAutoFocus) === null || r11 === void 0 || r11.call(e11, o12), o12.defaultPrevented) || (c8.current || (t14 = n5.triggerRef.current) === null || t14 === void 0 || t14.focus(), o12.preventDefault());
+      c8.current = false;
     }, onInteractOutside: (o12) => {
       var r11, t14;
-      (r11 = e11.onInteractOutside) === null || r11 === void 0 || r11.call(e11, o12), o12.defaultPrevented || (c7.current = true);
+      (r11 = e11.onInteractOutside) === null || r11 === void 0 || r11.call(e11, o12), o12.defaultPrevented || (c8.current = true);
       const a7 = o12.target;
       ((t14 = n5.triggerRef.current) === null || t14 === void 0 ? void 0 : t14.contains(a7)) && o12.preventDefault();
     } })));
   });
-  var R2 = /* @__PURE__ */ v3.forwardRef((e11, o11) => {
-    const { __scopePopover: r10, trapFocus: t13, onOpenAutoFocus: n5, onCloseAutoFocus: a7, disableOutsidePointerEvents: u5, onEscapeKeyDown: l8, onPointerDownOutside: d7, onFocusOutside: m8, onInteractOutside: f9, ...C5 } = e11, g5 = E3("PopoverContent", r10), h3 = x2(r10);
-    return useFocusGuards(), /* @__PURE__ */ v3.createElement(FocusScope, { asChild: true, loop: true, trapped: t13, onMountAutoFocus: n5, onUnmountAutoFocus: a7 }, /* @__PURE__ */ v3.createElement(DismissableLayer, { asChild: true, disableOutsidePointerEvents: u5, onInteractOutside: f9, onEscapeKeyDown: l8, onPointerDownOutside: d7, onFocusOutside: m8, onDismiss: () => g5.onOpenChange(false) }, /* @__PURE__ */ v3.createElement(Content3, _extends({ "data-state": w2(g5.open), role: "dialog", id: g5.contentId }, h3, C5, { ref: o11, style: { ...C5.style, "--radix-popover-content-transform-origin": "var(--radix-popper-transform-origin)" } }))));
+  var R2 = /* @__PURE__ */ v4.forwardRef((e11, o11) => {
+    const { __scopePopover: r10, trapFocus: t13, onOpenAutoFocus: n5, onCloseAutoFocus: a7, disableOutsidePointerEvents: u6, onEscapeKeyDown: l9, onPointerDownOutside: d8, onFocusOutside: m9, onInteractOutside: f10, ...C6 } = e11, g6 = E3("PopoverContent", r10), h4 = x3(r10);
+    return useFocusGuards(), /* @__PURE__ */ v4.createElement(FocusScope, { asChild: true, loop: true, trapped: t13, onMountAutoFocus: n5, onUnmountAutoFocus: a7 }, /* @__PURE__ */ v4.createElement(DismissableLayer, { asChild: true, disableOutsidePointerEvents: u6, onInteractOutside: f10, onEscapeKeyDown: l9, onPointerDownOutside: d8, onFocusOutside: m9, onDismiss: () => g6.onOpenChange(false) }, /* @__PURE__ */ v4.createElement(Content3, _extends({ "data-state": w3(g6.open), role: "dialog", id: g6.contentId }, h4, C6, { ref: o11, style: { ...C6.style, "--radix-popover-content-transform-origin": "var(--radix-popper-transform-origin)" } }))));
   });
-  var PopoverClose = /* @__PURE__ */ v3.forwardRef((e11, o11) => {
-    const { __scopePopover: r10, ...n5 } = e11, c7 = E3("PopoverClose", r10);
-    return v3.createElement(Primitive.button, _extends({ type: "button" }, n5, { ref: o11, onClick: composeEventHandlers(e11.onClick, () => c7.onOpenChange(false)) }));
+  var PopoverClose = /* @__PURE__ */ v4.forwardRef((e11, o11) => {
+    const { __scopePopover: r10, ...n5 } = e11, c8 = E3("PopoverClose", r10);
+    return v4.createElement(Primitive.button, _extends({ type: "button" }, n5, { ref: o11, onClick: composeEventHandlers(e11.onClick, () => c8.onOpenChange(false)) }));
   });
-  var PopoverArrow = /* @__PURE__ */ v3.forwardRef((e11, o11) => {
-    const { __scopePopover: r10, ...t13 } = e11, n5 = x2(r10);
-    return v3.createElement(Arrow2, _extends({}, n5, t13, { ref: o11 }));
+  var PopoverArrow = /* @__PURE__ */ v4.forwardRef((e11, o11) => {
+    const { __scopePopover: r10, ...t13 } = e11, n5 = x3(r10);
+    return v4.createElement(Arrow2, _extends({}, n5, t13, { ref: o11 }));
   });
-  function w2(e11) {
+  function w3(e11) {
     return e11 ? "open" : "closed";
   }
   var Root4 = Popover;
@@ -58734,11 +57330,11 @@ ${generateSegmentFilename(i7)}`);
   // node_modules/@nulib/design-system/dist/index.es.js
   var __assign2 = function() {
     __assign2 = Object.assign || function __assign3(t13) {
-      for (var s8, i7 = 1, n5 = arguments.length; i7 < n5; i7++) {
-        s8 = arguments[i7];
-        for (var p8 in s8)
-          if (Object.prototype.hasOwnProperty.call(s8, p8))
-            t13[p8] = s8[p8];
+      for (var s9, i7 = 1, n5 = arguments.length; i7 < n5; i7++) {
+        s9 = arguments[i7];
+        for (var p9 in s9)
+          if (Object.prototype.hasOwnProperty.call(s9, p9))
+            t13[p9] = s9[p9];
       }
       return t13;
     };
@@ -58784,7 +57380,7 @@ ${generateSegmentFilename(i7)}`);
   var white = {
     white: "#fff"
   };
-  var styled2 = (_a$2 = q({
+  var styled2 = (_a$2 = q2({
     theme: {
       colors: __assign2(__assign2(__assign2(__assign2(__assign2(__assign2(__assign2(__assign2(__assign2({}, nuPurples), richBlacks), nuGreys), nuGreen), nuBlue), nuYellow), nuGold), nuRed2), white),
       space: {
@@ -59628,89 +58224,89 @@ ${generateSegmentFilename(i7)}`);
 
   // node_modules/@radix-ui/react-collection/dist/index.module.js
   var import_react13 = __toModule(require_react());
-  function createCollection(c7) {
-    const n5 = c7 + "CollectionProvider", [l8, i7] = createContextScope(n5), [f9, a7] = l8(n5, { collectionRef: { current: null }, itemMap: new Map() }), u5 = (e11) => {
-      const { scope: r10, children: t13 } = e11, c8 = import_react13.default.useRef(null), n6 = import_react13.default.useRef(new Map()).current;
-      return import_react13.default.createElement(f9, { scope: r10, itemMap: n6, collectionRef: c8 }, t13);
-    }, m8 = c7 + "CollectionSlot", s8 = /* @__PURE__ */ import_react13.default.forwardRef((t13, c8) => {
-      const { scope: n6, children: l9 } = t13, i8 = a7(m8, n6), f10 = useComposedRefs(c8, i8.collectionRef);
-      return import_react13.default.createElement(Slot, { ref: f10 }, l9);
-    }), p8 = c7 + "CollectionItemSlot", d7 = "data-radix-collection-item", R5 = /* @__PURE__ */ import_react13.default.forwardRef((t13, c8) => {
-      const { scope: n6, children: l9, ...i8 } = t13, f10 = import_react13.default.useRef(null), u6 = useComposedRefs(c8, f10), m9 = a7(p8, n6);
-      return import_react13.default.useEffect(() => (m9.itemMap.set(f10, { ref: f10, ...i8 }), () => {
-        m9.itemMap.delete(f10);
-      })), /* @__PURE__ */ import_react13.default.createElement(Slot, { [d7]: "", ref: u6 }, l9);
+  function createCollection(c8) {
+    const n5 = c8 + "CollectionProvider", [l9, i7] = createContextScope(n5), [f10, a7] = l9(n5, { collectionRef: { current: null }, itemMap: new Map() }), u6 = (e11) => {
+      const { scope: r10, children: t13 } = e11, c9 = import_react13.default.useRef(null), n6 = import_react13.default.useRef(new Map()).current;
+      return import_react13.default.createElement(f10, { scope: r10, itemMap: n6, collectionRef: c9 }, t13);
+    }, m9 = c8 + "CollectionSlot", s9 = /* @__PURE__ */ import_react13.default.forwardRef((t13, c9) => {
+      const { scope: n6, children: l10 } = t13, i8 = a7(m9, n6), f11 = useComposedRefs(c9, i8.collectionRef);
+      return import_react13.default.createElement(Slot, { ref: f11 }, l10);
+    }), p9 = c8 + "CollectionItemSlot", d8 = "data-radix-collection-item", R5 = /* @__PURE__ */ import_react13.default.forwardRef((t13, c9) => {
+      const { scope: n6, children: l10, ...i8 } = t13, f11 = import_react13.default.useRef(null), u7 = useComposedRefs(c9, f11), m10 = a7(p9, n6);
+      return import_react13.default.useEffect(() => (m10.itemMap.set(f11, { ref: f11, ...i8 }), () => {
+        m10.itemMap.delete(f11);
+      })), /* @__PURE__ */ import_react13.default.createElement(Slot, { [d8]: "", ref: u7 }, l10);
     });
-    return [{ Provider: u5, Slot: s8, ItemSlot: R5 }, function(e11) {
-      const r10 = a7(c7 + "CollectionConsumer", e11);
+    return [{ Provider: u6, Slot: s9, ItemSlot: R5 }, function(e11) {
+      const r10 = a7(c8 + "CollectionConsumer", e11);
       return import_react13.default.useCallback(() => {
         const e12 = r10.collectionRef.current;
         if (!e12)
           return [];
-        const t13 = Array.from(e12.querySelectorAll(`[${d7}]`));
+        const t13 = Array.from(e12.querySelectorAll(`[${d8}]`));
         return Array.from(r10.itemMap.values()).sort((e13, r11) => t13.indexOf(e13.ref.current) - t13.indexOf(r11.ref.current));
       }, [r10.collectionRef, r10.itemMap]);
     }, i7];
   }
 
   // node_modules/@radix-ui/react-roving-focus/dist/index.module.js
-  var s6 = __toModule(require_react());
-  var f6 = { bubbles: false, cancelable: true };
-  var [p6, l5, m5] = createCollection("RovingFocusGroup");
-  var [d6, v4] = createContextScope("RovingFocusGroup", [m5]);
-  var [g3, F2] = d6("RovingFocusGroup");
-  var RovingFocusGroup = /* @__PURE__ */ s6.forwardRef((e11, o11) => /* @__PURE__ */ s6.createElement(p6.Provider, { scope: e11.__scopeRovingFocusGroup }, /* @__PURE__ */ s6.createElement(p6.Slot, { scope: e11.__scopeRovingFocusGroup }, /* @__PURE__ */ s6.createElement(w3, _extends({}, e11, { ref: o11 })))));
-  var w3 = /* @__PURE__ */ s6.forwardRef((t13, n5) => {
-    const { __scopeRovingFocusGroup: c7, orientation: p8, dir: m8 = "ltr", loop: d7 = false, currentTabStopId: v7, defaultCurrentTabStopId: F3, onCurrentTabStopIdChange: w5, onEntryFocus: b7, ...x4 } = t13, E5 = s6.useRef(null), I3 = useComposedRefs(n5, E5), [G3 = null, h3] = useControllableState({ prop: v7, defaultProp: F3, onChange: w5 }), [T2, A3] = s6.useState(false), y3 = useCallbackRef(b7), D2 = l5(c7), S2 = s6.useRef(false);
-    return s6.useEffect(() => {
+  var s7 = __toModule(require_react());
+  var f7 = { bubbles: false, cancelable: true };
+  var [p7, l6, m6] = createCollection("RovingFocusGroup");
+  var [d7, v5] = createContextScope("RovingFocusGroup", [m6]);
+  var [g4, F3] = d7("RovingFocusGroup");
+  var RovingFocusGroup = /* @__PURE__ */ s7.forwardRef((e11, o11) => /* @__PURE__ */ s7.createElement(p7.Provider, { scope: e11.__scopeRovingFocusGroup }, /* @__PURE__ */ s7.createElement(p7.Slot, { scope: e11.__scopeRovingFocusGroup }, /* @__PURE__ */ s7.createElement(w4, _extends({}, e11, { ref: o11 })))));
+  var w4 = /* @__PURE__ */ s7.forwardRef((t13, n5) => {
+    const { __scopeRovingFocusGroup: c8, orientation: p9, dir: m9 = "ltr", loop: d8 = false, currentTabStopId: v8, defaultCurrentTabStopId: F4, onCurrentTabStopIdChange: w6, onEntryFocus: b8, ...x5 } = t13, E5 = s7.useRef(null), I3 = useComposedRefs(n5, E5), [G4 = null, h4] = useControllableState({ prop: v8, defaultProp: F4, onChange: w6 }), [T2, A4] = s7.useState(false), y4 = useCallbackRef(b8), D2 = l6(c8), S3 = s7.useRef(false);
+    return s7.useEffect(() => {
       const e11 = E5.current;
       if (e11)
-        return e11.addEventListener("rovingFocusGroup.onEntryFocus", y3), () => e11.removeEventListener("rovingFocusGroup.onEntryFocus", y3);
-    }, [y3]), /* @__PURE__ */ s6.createElement(g3, { scope: c7, orientation: p8, dir: m8, loop: d7, currentTabStopId: G3, onItemFocus: s6.useCallback((e11) => h3(e11), [h3]), onItemShiftTab: s6.useCallback(() => A3(true), []) }, /* @__PURE__ */ s6.createElement(Primitive.div, _extends({ tabIndex: T2 ? -1 : 0, "data-orientation": p8 }, x4, { ref: I3, style: { outline: "none", ...t13.style }, onMouseDown: composeEventHandlers(t13.onMouseDown, () => {
-      S2.current = true;
+        return e11.addEventListener("rovingFocusGroup.onEntryFocus", y4), () => e11.removeEventListener("rovingFocusGroup.onEntryFocus", y4);
+    }, [y4]), /* @__PURE__ */ s7.createElement(g4, { scope: c8, orientation: p9, dir: m9, loop: d8, currentTabStopId: G4, onItemFocus: s7.useCallback((e11) => h4(e11), [h4]), onItemShiftTab: s7.useCallback(() => A4(true), []) }, /* @__PURE__ */ s7.createElement(Primitive.div, _extends({ tabIndex: T2 ? -1 : 0, "data-orientation": p9 }, x5, { ref: I3, style: { outline: "none", ...t13.style }, onMouseDown: composeEventHandlers(t13.onMouseDown, () => {
+      S3.current = true;
     }), onFocus: composeEventHandlers(t13.onFocus, (e11) => {
-      const o11 = !S2.current;
+      const o11 = !S3.current;
       if (e11.target === e11.currentTarget && o11 && !T2) {
-        const o12 = new Event("rovingFocusGroup.onEntryFocus", f6);
+        const o12 = new Event("rovingFocusGroup.onEntryFocus", f7);
         if (e11.currentTarget.dispatchEvent(o12), !o12.defaultPrevented) {
           const e12 = D2().filter((e13) => e13.focusable);
-          R3([e12.find((e13) => e13.active), e12.find((e13) => e13.id === G3), ...e12].filter(Boolean).map((e13) => e13.ref.current));
+          R3([e12.find((e13) => e13.active), e12.find((e13) => e13.id === G4), ...e12].filter(Boolean).map((e13) => e13.ref.current));
         }
       }
-      S2.current = false;
-    }), onBlur: composeEventHandlers(t13.onBlur, () => A3(false)) })));
+      S3.current = false;
+    }), onBlur: composeEventHandlers(t13.onBlur, () => A4(false)) })));
   });
-  var RovingFocusGroupItem = /* @__PURE__ */ s6.forwardRef((e11, o11) => {
-    const { __scopeRovingFocusGroup: n5, focusable: i7 = true, active: c7 = false, ...f9 } = e11, m8 = useId(), d7 = F2("RovingFocusGroupItem", n5), v7 = d7.currentTabStopId === m8, g5 = l5(n5);
-    return s6.createElement(p6.ItemSlot, { scope: n5, id: m8, focusable: i7, active: c7 }, /* @__PURE__ */ s6.createElement(Primitive.span, _extends({ tabIndex: v7 ? 0 : -1, "data-orientation": d7.orientation }, f9, { ref: o11, onMouseDown: composeEventHandlers(e11.onMouseDown, (e12) => {
-      i7 ? d7.onItemFocus(m8) : e12.preventDefault();
-    }), onFocus: composeEventHandlers(e11.onFocus, () => d7.onItemFocus(m8)), onKeyDown: composeEventHandlers(e11.onKeyDown, (e12) => {
+  var RovingFocusGroupItem = /* @__PURE__ */ s7.forwardRef((e11, o11) => {
+    const { __scopeRovingFocusGroup: n5, focusable: i7 = true, active: c8 = false, ...f10 } = e11, m9 = useId(), d8 = F3("RovingFocusGroupItem", n5), v8 = d8.currentTabStopId === m9, g6 = l6(n5);
+    return s7.createElement(p7.ItemSlot, { scope: n5, id: m9, focusable: i7, active: c8 }, /* @__PURE__ */ s7.createElement(Primitive.span, _extends({ tabIndex: v8 ? 0 : -1, "data-orientation": d8.orientation }, f10, { ref: o11, onMouseDown: composeEventHandlers(e11.onMouseDown, (e12) => {
+      i7 ? d8.onItemFocus(m9) : e12.preventDefault();
+    }), onFocus: composeEventHandlers(e11.onFocus, () => d8.onItemFocus(m9)), onKeyDown: composeEventHandlers(e11.onKeyDown, (e12) => {
       if (e12.key === "Tab" && e12.shiftKey)
-        return void d7.onItemShiftTab();
+        return void d8.onItemShiftTab();
       if (e12.target !== e12.currentTarget)
         return;
       const o12 = function(e13, o13, r11) {
         const t14 = function(e14, o14) {
           return o14 !== "rtl" ? e14 : e14 === "ArrowLeft" ? "ArrowRight" : e14 === "ArrowRight" ? "ArrowLeft" : e14;
         }(e13.key, r11);
-        return o13 === "vertical" && ["ArrowLeft", "ArrowRight"].includes(t14) || o13 === "horizontal" && ["ArrowUp", "ArrowDown"].includes(t14) ? void 0 : b4[t14];
-      }(e12, d7.orientation, d7.dir);
+        return o13 === "vertical" && ["ArrowLeft", "ArrowRight"].includes(t14) || o13 === "horizontal" && ["ArrowUp", "ArrowDown"].includes(t14) ? void 0 : b5[t14];
+      }(e12, d8.orientation, d8.dir);
       if (o12 !== void 0) {
         e12.preventDefault();
-        let n6 = g5().filter((e13) => e13.focusable).map((e13) => e13.ref.current);
+        let n6 = g6().filter((e13) => e13.focusable).map((e13) => e13.ref.current);
         if (o12 === "last")
           n6.reverse();
         else if (o12 === "prev" || o12 === "next") {
           o12 === "prev" && n6.reverse();
           const i8 = n6.indexOf(e12.currentTarget);
-          n6 = d7.loop ? (t13 = i8 + 1, (r10 = n6).map((e13, o13) => r10[(t13 + o13) % r10.length])) : n6.slice(i8 + 1);
+          n6 = d8.loop ? (t13 = i8 + 1, (r10 = n6).map((e13, o13) => r10[(t13 + o13) % r10.length])) : n6.slice(i8 + 1);
         }
         setTimeout(() => R3(n6));
       }
       var r10, t13;
     }) })));
   });
-  var b4 = { ArrowLeft: "prev", ArrowUp: "prev", ArrowRight: "next", ArrowDown: "next", PageUp: "first", Home: "first", PageDown: "last", End: "last" };
+  var b5 = { ArrowLeft: "prev", ArrowUp: "prev", ArrowRight: "next", ArrowDown: "next", PageUp: "first", Home: "first", PageDown: "last", End: "last" };
   function R3(e11) {
     const o11 = document.activeElement;
     for (const r10 of e11) {
@@ -59724,59 +58320,59 @@ ${generateSegmentFilename(i7)}`);
   var Item = RovingFocusGroupItem;
 
   // node_modules/@radix-ui/react-label/dist/index.module.js
-  var l6 = __toModule(require_react());
+  var l7 = __toModule(require_react());
   var [i6, a5] = createContext2("Label", { id: void 0, controlRef: { current: null } });
   var useLabelContext = (e11) => {
     const t13 = a5("LabelConsumer"), { controlRef: r10 } = t13;
-    return l6.useEffect(() => {
+    return l7.useEffect(() => {
       e11 && (r10.current = e11);
     }, [e11, r10]), t13.id;
   };
 
   // node_modules/@radix-ui/react-radio-group/dist/index.module.js
-  var s7 = __toModule(require_react());
-  var [m6, f7] = createContextScope("Radio");
-  var [b5, R4] = m6("Radio");
-  var v5 = /* @__PURE__ */ s7.forwardRef((e11, r10) => {
-    const { __scopeRadio: o11, "aria-labelledby": t13, name: a7, checked: n5 = false, required: c7, disabled: m8, value: f9 = "on", onCheck: R5, ...v7 } = e11, [h3, x4] = s7.useState(null), y3 = useComposedRefs(r10, (e12) => x4(e12)), w5 = useLabelContext(h3), g5 = t13 || w5, G3 = s7.useRef(false), C5 = !h3 || Boolean(h3.closest("form"));
-    return s7.createElement(b5, { scope: o11, checked: n5, disabled: m8 }, /* @__PURE__ */ s7.createElement(Primitive.button, _extends({ type: "button", role: "radio", "aria-checked": n5, "aria-labelledby": g5, "data-state": E4(n5), "data-disabled": m8 ? "" : void 0, disabled: m8, value: f9 }, v7, { ref: y3, onClick: composeEventHandlers(e11.onClick, (e12) => {
-      n5 || R5 == null || R5(), C5 && (G3.current = e12.isPropagationStopped(), G3.current || e12.stopPropagation());
-    }) })), C5 && /* @__PURE__ */ s7.createElement(k2, { control: h3, bubbles: !G3.current, name: a7, value: f9, checked: n5, required: c7, disabled: m8, style: { transform: "translateX(-100%)" } }));
+  var s8 = __toModule(require_react());
+  var [m7, f8] = createContextScope("Radio");
+  var [b6, R4] = m7("Radio");
+  var v6 = /* @__PURE__ */ s8.forwardRef((e11, r10) => {
+    const { __scopeRadio: o11, "aria-labelledby": t13, name: a7, checked: n5 = false, required: c8, disabled: m9, value: f10 = "on", onCheck: R5, ...v8 } = e11, [h4, x5] = s8.useState(null), y4 = useComposedRefs(r10, (e12) => x5(e12)), w6 = useLabelContext(h4), g6 = t13 || w6, G4 = s8.useRef(false), C6 = !h4 || Boolean(h4.closest("form"));
+    return s8.createElement(b6, { scope: o11, checked: n5, disabled: m9 }, /* @__PURE__ */ s8.createElement(Primitive.button, _extends({ type: "button", role: "radio", "aria-checked": n5, "aria-labelledby": g6, "data-state": E4(n5), "data-disabled": m9 ? "" : void 0, disabled: m9, value: f10 }, v8, { ref: y4, onClick: composeEventHandlers(e11.onClick, (e12) => {
+      n5 || R5 == null || R5(), C6 && (G4.current = e12.isPropagationStopped(), G4.current || e12.stopPropagation());
+    }) })), C6 && /* @__PURE__ */ s8.createElement(k3, { control: h4, bubbles: !G4.current, name: a7, value: f10, checked: n5, required: c8, disabled: m9, style: { transform: "translateX(-100%)" } }));
   });
-  var k2 = (e11) => {
-    const { control: t13, checked: a7, bubbles: n5 = true, ...i7 } = e11, c7 = s7.useRef(null), d7 = usePrevious(a7), u5 = useSize(t13);
-    return s7.useEffect(() => {
-      const e12 = c7.current, r10 = window.HTMLInputElement.prototype, o11 = Object.getOwnPropertyDescriptor(r10, "checked").set;
-      if (d7 !== a7 && o11) {
+  var k3 = (e11) => {
+    const { control: t13, checked: a7, bubbles: n5 = true, ...i7 } = e11, c8 = s8.useRef(null), d8 = usePrevious(a7), u6 = useSize(t13);
+    return s8.useEffect(() => {
+      const e12 = c8.current, r10 = window.HTMLInputElement.prototype, o11 = Object.getOwnPropertyDescriptor(r10, "checked").set;
+      if (d8 !== a7 && o11) {
         const r11 = new Event("click", { bubbles: n5 });
         o11.call(e12, a7), e12.dispatchEvent(r11);
       }
-    }, [d7, a7, n5]), /* @__PURE__ */ s7.createElement("input", _extends({ type: "radio", "aria-hidden": true, defaultChecked: a7 }, i7, { tabIndex: -1, ref: c7, style: { ...e11.style, ...u5, position: "absolute", pointerEvents: "none", opacity: 0, margin: 0 } }));
+    }, [d8, a7, n5]), /* @__PURE__ */ s8.createElement("input", _extends({ type: "radio", "aria-hidden": true, defaultChecked: a7 }, i7, { tabIndex: -1, ref: c8, style: { ...e11.style, ...u6, position: "absolute", pointerEvents: "none", opacity: 0, margin: 0 } }));
   };
   function E4(e11) {
     return e11 ? "checked" : "unchecked";
   }
-  var x3 = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
-  var [y2, w4] = createContextScope("RadioGroup", [v4, f7]);
-  var g4 = v4();
-  var G2 = f7();
-  var [C4, I2] = y2("RadioGroup");
-  var RadioGroup = /* @__PURE__ */ s7.forwardRef((e11, r10) => {
-    const { __scopeRadioGroup: o11, name: n5, "aria-labelledby": c7, defaultValue: d7, value: l8, required: m8 = false, orientation: f9, dir: b7 = "ltr", loop: R5 = true, onValueChange: v7, ...h3 } = e11, k3 = useLabelContext(), E5 = c7 || k3, x4 = g4(o11), [y3, w5] = useControllableState({ prop: l8, defaultProp: d7, onChange: v7 });
-    return s7.createElement(C4, { scope: o11, name: n5, required: m8, value: y3, onValueChange: w5 }, /* @__PURE__ */ s7.createElement(Root5, _extends({ asChild: true }, x4, { orientation: f9, dir: b7, loop: R5 }), /* @__PURE__ */ s7.createElement(Primitive.div, _extends({ role: "radiogroup", "aria-orientation": f9, "aria-labelledby": E5, dir: b7 }, h3, { ref: r10 }))));
+  var x4 = ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"];
+  var [y3, w5] = createContextScope("RadioGroup", [v5, f8]);
+  var g5 = v5();
+  var G3 = f8();
+  var [C5, I2] = y3("RadioGroup");
+  var RadioGroup = /* @__PURE__ */ s8.forwardRef((e11, r10) => {
+    const { __scopeRadioGroup: o11, name: n5, "aria-labelledby": c8, defaultValue: d8, value: l9, required: m9 = false, orientation: f10, dir: b8 = "ltr", loop: R5 = true, onValueChange: v8, ...h4 } = e11, k4 = useLabelContext(), E5 = c8 || k4, x5 = g5(o11), [y4, w6] = useControllableState({ prop: l9, defaultProp: d8, onChange: v8 });
+    return s8.createElement(C5, { scope: o11, name: n5, required: m9, value: y4, onValueChange: w6 }, /* @__PURE__ */ s8.createElement(Root5, _extends({ asChild: true }, x5, { orientation: f10, dir: b8, loop: R5 }), /* @__PURE__ */ s8.createElement(Primitive.div, _extends({ role: "radiogroup", "aria-orientation": f10, "aria-labelledby": E5, dir: b8 }, h4, { ref: r10 }))));
   });
-  var RadioGroupItem = /* @__PURE__ */ s7.forwardRef((e11, r10) => {
-    const { __scopeRadioGroup: o11, disabled: t13, ...n5 } = e11, i7 = I2("RadioGroupItem", o11), c7 = g4(o11), u5 = G2(o11), m8 = s7.useRef(null), f9 = useComposedRefs(r10, m8), b7 = i7.value === n5.value, R5 = s7.useRef(false);
-    return s7.useEffect(() => {
+  var RadioGroupItem = /* @__PURE__ */ s8.forwardRef((e11, r10) => {
+    const { __scopeRadioGroup: o11, disabled: t13, ...n5 } = e11, i7 = I2("RadioGroupItem", o11), c8 = g5(o11), u6 = G3(o11), m9 = s8.useRef(null), f10 = useComposedRefs(r10, m9), b8 = i7.value === n5.value, R5 = s8.useRef(false);
+    return s8.useEffect(() => {
       const e12 = (e13) => {
-        x3.includes(e13.key) && (R5.current = true);
+        x4.includes(e13.key) && (R5.current = true);
       }, r11 = () => R5.current = false;
       return document.addEventListener("keydown", e12), document.addEventListener("keyup", r11), () => {
         document.removeEventListener("keydown", e12), document.removeEventListener("keyup", r11);
       };
-    }, []), /* @__PURE__ */ s7.createElement(Item, _extends({ asChild: true }, c7, { focusable: !t13, active: b7 }), /* @__PURE__ */ s7.createElement(v5, _extends({ disabled: t13, required: i7.required, checked: b7 }, u5, n5, { name: i7.name, ref: f9, onCheck: () => i7.onValueChange(n5.value), onFocus: composeEventHandlers(n5.onFocus, () => {
+    }, []), /* @__PURE__ */ s8.createElement(Item, _extends({ asChild: true }, c8, { focusable: !t13, active: b8 }), /* @__PURE__ */ s8.createElement(v6, _extends({ disabled: t13, required: i7.required, checked: b8 }, u6, n5, { name: i7.name, ref: f10, onCheck: () => i7.onValueChange(n5.value), onFocus: composeEventHandlers(n5.onFocus, () => {
       var e12;
-      R5.current && ((e12 = m8.current) === null || e12 === void 0 || e12.click());
+      R5.current && ((e12 = m9.current) === null || e12 === void 0 || e12.click());
     }) })));
   });
   var Root6 = RadioGroup;
@@ -60000,11 +58596,11 @@ ${generateSegmentFilename(i7)}`);
   };
   var Thumbnail_default = Thumbnail;
 
-  // src/hooks/use-hyperion-framework/getResourceType.ts
+  // src/hooks/use-iiif/getResourceType.ts
   var getResourceType = (annotation) => {
     if (!annotation.body)
       return "Image";
-    return annotation.body[0].type;
+    return annotation.body.type;
   };
 
   // src/components/Media/Controls.tsx
@@ -60288,35 +58884,35 @@ ${generateSegmentFilename(i7)}`);
   var import_react22 = __toModule(require_react());
 
   // node_modules/@radix-ui/react-tabs/dist/index.module.js
-  var c6 = __toModule(require_react());
-  var [l7, u4] = createContextScope("Tabs", [v4]);
-  var b6 = v4();
-  var [m7, p7] = l7("Tabs");
-  var Tabs = /* @__PURE__ */ c6.forwardRef((t13, o11) => {
-    const { __scopeTabs: i7, value: n5, onValueChange: s8, defaultValue: l8, orientation: u5 = "horizontal", dir: b7 = "ltr", activationMode: p8 = "automatic", ...f9 } = t13, [v7, T2] = useControllableState({ prop: n5, onChange: s8, defaultProp: l8 });
-    return c6.createElement(m7, { scope: i7, baseId: useId(), value: v7, onValueChange: T2, orientation: u5, dir: b7, activationMode: p8 }, /* @__PURE__ */ c6.createElement(Primitive.div, _extends({ "data-orientation": u5 }, f9, { ref: o11 })));
+  var c7 = __toModule(require_react());
+  var [l8, u5] = createContextScope("Tabs", [v5]);
+  var b7 = v5();
+  var [m8, p8] = l8("Tabs");
+  var Tabs = /* @__PURE__ */ c7.forwardRef((t13, o11) => {
+    const { __scopeTabs: i7, value: n5, onValueChange: s9, defaultValue: l9, orientation: u6 = "horizontal", dir: b8 = "ltr", activationMode: p9 = "automatic", ...f10 } = t13, [v8, T2] = useControllableState({ prop: n5, onChange: s9, defaultProp: l9 });
+    return c7.createElement(m8, { scope: i7, baseId: useId(), value: v8, onValueChange: T2, orientation: u6, dir: b8, activationMode: p9 }, /* @__PURE__ */ c7.createElement(Primitive.div, _extends({ "data-orientation": u6 }, f10, { ref: o11 })));
   });
-  var TabsList = /* @__PURE__ */ c6.forwardRef((e11, o11) => {
-    const { __scopeTabs: r10, loop: i7 = true, ...n5 } = e11, s8 = p7("TabsList", r10), l8 = b6(r10);
-    return c6.createElement(Root5, _extends({ asChild: true }, l8, { orientation: s8.orientation, dir: s8.dir, loop: i7 }), /* @__PURE__ */ c6.createElement(Primitive.div, _extends({ role: "tablist", "aria-orientation": s8.orientation, dir: s8.dir }, n5, { ref: o11 })));
+  var TabsList = /* @__PURE__ */ c7.forwardRef((e11, o11) => {
+    const { __scopeTabs: r10, loop: i7 = true, ...n5 } = e11, s9 = p8("TabsList", r10), l9 = b7(r10);
+    return c7.createElement(Root5, _extends({ asChild: true }, l9, { orientation: s9.orientation, dir: s9.dir, loop: i7 }), /* @__PURE__ */ c7.createElement(Primitive.div, _extends({ role: "tablist", "aria-orientation": s9.orientation, dir: s9.dir }, n5, { ref: o11 })));
   });
-  var TabsTrigger = /* @__PURE__ */ c6.forwardRef((e11, o11) => {
-    const { __scopeTabs: r10, value: n5, disabled: l8 = false, ...u5 } = e11, m8 = p7("TabsTrigger", r10), T2 = b6(r10), x4 = f8(m8.baseId, n5), g5 = v6(m8.baseId, n5), C5 = n5 === m8.value, h3 = useCallbackRef(() => m8.onValueChange(n5));
-    return c6.createElement(Item, _extends({ asChild: true }, T2, { focusable: !l8, active: C5 }), /* @__PURE__ */ c6.createElement(Primitive.button, _extends({ type: "button", role: "tab", "aria-selected": C5, "aria-controls": g5, "data-state": C5 ? "active" : "inactive", "data-disabled": l8 ? "" : void 0, disabled: l8, id: x4 }, u5, { ref: o11, onClick: composeEventHandlers(e11.onClick, h3), onMouseDown: composeEventHandlers(e11.onMouseDown, (e12) => {
-      l8 || e12.button !== 0 || e12.ctrlKey !== false || h3();
+  var TabsTrigger = /* @__PURE__ */ c7.forwardRef((e11, o11) => {
+    const { __scopeTabs: r10, value: n5, disabled: l9 = false, ...u6 } = e11, m9 = p8("TabsTrigger", r10), T2 = b7(r10), x5 = f9(m9.baseId, n5), g6 = v7(m9.baseId, n5), C6 = n5 === m9.value, h4 = useCallbackRef(() => m9.onValueChange(n5));
+    return c7.createElement(Item, _extends({ asChild: true }, T2, { focusable: !l9, active: C6 }), /* @__PURE__ */ c7.createElement(Primitive.button, _extends({ type: "button", role: "tab", "aria-selected": C6, "aria-controls": g6, "data-state": C6 ? "active" : "inactive", "data-disabled": l9 ? "" : void 0, disabled: l9, id: x5 }, u6, { ref: o11, onClick: composeEventHandlers(e11.onClick, h4), onMouseDown: composeEventHandlers(e11.onMouseDown, (e12) => {
+      l9 || e12.button !== 0 || e12.ctrlKey !== false || h4();
     }), onFocus: composeEventHandlers(e11.onFocus, () => {
-      const e12 = m8.activationMode !== "manual";
-      C5 || l8 || !e12 || h3();
+      const e12 = m9.activationMode !== "manual";
+      C6 || l9 || !e12 || h4();
     }) })));
   });
-  var TabsContent = /* @__PURE__ */ c6.forwardRef((e11, t13) => {
-    const { __scopeTabs: o11, value: r10, children: i7, ...n5 } = e11, s8 = p7("TabsContent", o11), l8 = f8(s8.baseId, r10), u5 = v6(s8.baseId, r10), b7 = r10 === s8.value;
-    return c6.createElement(Primitive.div, _extends({ "data-state": b7 ? "active" : "inactive", "data-orientation": s8.orientation, role: "tabpanel", "aria-labelledby": l8, hidden: !b7, id: u5, tabIndex: 0 }, n5, { ref: t13 }), b7 && i7);
+  var TabsContent = /* @__PURE__ */ c7.forwardRef((e11, t13) => {
+    const { __scopeTabs: o11, value: r10, children: i7, ...n5 } = e11, s9 = p8("TabsContent", o11), l9 = f9(s9.baseId, r10), u6 = v7(s9.baseId, r10), b8 = r10 === s9.value;
+    return c7.createElement(Primitive.div, _extends({ "data-state": b8 ? "active" : "inactive", "data-orientation": s9.orientation, role: "tabpanel", "aria-labelledby": l9, hidden: !b8, id: u6, tabIndex: 0 }, n5, { ref: t13 }), b8 && i7);
   });
-  function f8(e11, t13) {
+  function f9(e11, t13) {
     return `${e11}-trigger-${t13}`;
   }
-  function v6(e11, t13) {
+  function v7(e11, t13) {
     return `${e11}-content-${t13}`;
   }
   var Root7 = Tabs;
@@ -60616,9 +59212,9 @@ ${generateSegmentFilename(i7)}`);
           const currentItemParents = arr.filter((arrItem) => {
             return item.start >= arrItem.start && item.end <= arrItem.end && item.identifier !== arrItem.identifier;
           });
-          const currentItemParent = currentItemParents.sort((a7, b7) => {
+          const currentItemParent = currentItemParents.sort((a7, b8) => {
             const aDuration = a7.end - a7.start;
-            const bDuration = b7.end - b7.start;
+            const bDuration = b8.end - b8.start;
             if (aDuration === bDuration)
               return 0;
             return aDuration < bDuration ? -1 : 1;
@@ -60866,15 +59462,15 @@ ${generateSegmentFilename(i7)}`);
     function renderFrame(analyser, ctx, bufferLength, dataArray, width, height) {
       let barWidth = width / bufferLength * 2.6;
       let barHeight;
-      let x4 = 0;
+      let x5 = 0;
       analyser.getByteFrequencyData(dataArray);
       ctx.fillStyle = "#000000";
       ctx.fillRect(0, 0, width, height);
       for (let i7 = 0; i7 < bufferLength; i7++) {
         barHeight = dataArray[i7] * 2;
         ctx.fillStyle = `rgba(${78}, 42, 132, 1)`;
-        ctx.fillRect(x4, height - barHeight, barWidth, barHeight);
-        x4 += barWidth + 6;
+        ctx.fillRect(x5, height - barHeight, barWidth, barHeight);
+        x5 += barWidth + 6;
       }
     }
     return /* @__PURE__ */ import_react23.default.createElement(AudioVisualizerWrapper, {
@@ -61031,7 +59627,7 @@ ${generateSegmentFilename(i7)}`);
   var import_react27 = __toModule(require_react());
 
   // src/components/ImageViewer/Button.styled.tsx
-  var Item5 = re("button", {
+  var Item5 = re2("button", {
     display: "flex",
     height: "2rem",
     width: "2rem",
@@ -61089,7 +59685,7 @@ ${generateSegmentFilename(i7)}`);
   var Button_default = Button3;
 
   // src/components/ImageViewer/Controls.styled.tsx
-  var Wrapper5 = re("div", {
+  var Wrapper5 = re2("div", {
     position: "absolute",
     zIndex: "1",
     top: "1rem",
@@ -61340,7 +59936,7 @@ ${generateSegmentFilename(i7)}`);
     const [manifest, setManifest] = (0, import_react34.useState)();
     let theme3 = {};
     if (customTheme)
-      theme3 = Q("custom", customTheme);
+      theme3 = Q2("custom", customTheme);
     (0, import_react34.useEffect)(() => {
       if (canvasIdCallback)
         canvasIdCallback(activeCanvas);
@@ -61386,13 +59982,13 @@ ${generateSegmentFilename(i7)}`);
   var import_react37 = __toModule(require_react());
 
   // src/dev/DynamicUrl.styled.tsx
-  var DynamicUrlStyled = re("section", {
+  var DynamicUrlStyled = re2("section", {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     padding: "2rem"
   });
-  var ManualForm = re("form", {
+  var ManualForm = re2("form", {
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
@@ -61437,13 +60033,13 @@ ${generateSegmentFilename(i7)}`);
       }
     }
   });
-  var Curated = re("div", {
+  var Curated = re2("div", {
     padding: "2rem",
     display: "flex",
     justifyContent: "center",
     flexWrap: "wrap"
   });
-  var ButtonForm = re("form", {
+  var ButtonForm = re2("form", {
     button: {
       backgroundColor: "$transparent",
       border: "none",
@@ -61595,20 +60191,6 @@ INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
 LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
-***************************************************************************** */
-/*! *****************************************************************************
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at http://www.apache.org/licenses/LICENSE-2.0
-
-THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
-WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
-MERCHANTABLITY OR NON-INFRINGEMENT.
-
-See the Apache Version 2.0 License for specific language governing permissions
-and limitations under the License.
 ***************************************************************************** */
 /**
  * Checks if an event is supported in the current execution environment.
