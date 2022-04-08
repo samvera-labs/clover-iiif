@@ -1,5 +1,9 @@
 export const manifests = [
   {
+    url: "http://127.0.0.1:8080/fixtures/iiif/manifests/rfta.json",
+    label: "RFTA",
+  },
+  {
     url: "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json",
     label: "Default",
   },

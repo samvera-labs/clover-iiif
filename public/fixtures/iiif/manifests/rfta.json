@@ -1,0 +1,565 @@
+{
+  "@context": ["https://iiif.io/api/presentation/3/context.json"],
+  "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8",
+  "type": "Manifest",
+  "label": {
+    "en": ["Interview with Seemona and Daniel Whaley, 2019-09-20"]
+  },
+  "summary": {
+    "en": [
+      "Interview with Seemona and Daniel Whaley, former residents of Gatlinburg. The Whaley's discuss the feeling at the time before the fire had become widespread. They also go into detail about the harrowing efforts to evacuate off a mountain that wass engulfed in the fire. Reflections about community relations and how Gatlinburg began to slowly recover are also touched upon. This is a representative quote from the interview: \"That's where it looked like lava running up the mountain. You could see the fire going uphill.\""
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": ["Date"]
+      },
+      "value": {
+        "en": ["2019-09-20"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Format"]
+      },
+      "value": {
+        "en": ["motion pictures (visual works)"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Extent"]
+      },
+      "value": {
+        "en": ["00:57:15"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Subject"]
+      },
+      "value": {
+        "en": ["Teachers", "Evacuation of civilians", "Wildfires"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Narrator Role"]
+      },
+      "value": {
+        "en": ["Individuals (tourists or locals) directly affected by the fire"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Place"]
+      },
+      "value": {
+        "en": [
+          "Gatlinburg",
+          "Chalet Village",
+          "Pi Beta Phi Elementary School",
+          "Parkway (US-321/US 441 S)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": ["Description"]
+      },
+      "value": {
+        "en": [
+          "Interview with Seemona and Daniel Whaley, former residents of Gatlinburg. The Whaley's discuss the feeling at the time before the fire had become widespread. They also go into detail about the harrowing efforts to evacuate off a mountain that wass engulfed in the fire. Reflections about community relations and how Gatlinburg began to slowly recover are also touched upon. This is a representative quote from the interview: \"That's where it looked like lava running up the mountain. You could see the fire going uphill.\""
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": ["Browse"]
+      },
+      "value": {
+        "en": [
+          "Public or Government Employees",
+          "Gatlinburg, Sevierville and Pittman Center"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": ["Language"]
+      },
+      "value": {
+        "en": ["English"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Interviewee"]
+      },
+      "value": {
+        "en": ["Whaley, Seemona", "Whaley, Daniel"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Interviewer"]
+      },
+      "value": {
+        "en": ["Kaufman, Casey"]
+      }
+    }
+  ],
+  "rights": "http://creativecommons.org/licenses/by/4.0/rdf",
+  "requiredStatement": {
+    "label": {
+      "en": ["Provided by"]
+    },
+    "value": {
+      "en": ["University of Tennessee, Knoxville. Libraries"]
+    }
+  },
+  "provider": [
+    {
+      "id": "https://www.lib.utk.edu/about/",
+      "type": "Agent",
+      "label": {
+        "en": ["University of Tennessee, Knoxville. Libraries"]
+      },
+      "homepage": [
+        {
+          "id": "https://www.lib.utk.edu/",
+          "type": "Text",
+          "label": {
+            "en": ["University of Tennessee Libraries Homepage"]
+          },
+          "format": "text/html"
+        }
+      ],
+      "logo": [
+        {
+          "id": "https://utkdigitalinitiatives.github.io/iiif-level-0/ut_libraries_centered/full/full/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "width": 200,
+          "height": 200
+        }
+      ]
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://digital.lib.utk.edu/iiif/2/collections~islandora~object~rfta%3A8~datastream~TN/full/max/0/default.jpg",
+      "width": 400,
+      "height": 225,
+      "duration": 3435,
+      "type": "Image",
+      "format": "image/jpeg"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas/0",
+      "type": "Canvas",
+      "label": {
+        "none": ["Interview with Seemona and Daniel Whaley, 2019-09-20"]
+      },
+      "height": 640,
+      "width": 360,
+      "duration": 3435,
+      "items": [
+        {
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas/0/page/rfta%3A8",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas/0/page/rfta%3A8/623a264abe13a",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": [
+                {
+                  "id": "https://digital.lib.utk.edu/collections/islandora/object/rfta%3A8/datastream/MP4",
+                  "type": "Video",
+                  "width": 640,
+                  "height": 360,
+                  "duration": 3435,
+                  "format": "video/mp4"
+                }
+              ],
+              "target": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas/0"
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas/0/page2/rfta%3A8",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas/0/page/rfta%3A8/623a264adfc4e",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "https://digital.lib.utk.edu/collections/islandora/object/rfta%3A8/datastream/TRANSCRIPT",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": ["Captions in English"]
+                },
+                "language": "en"
+              },
+              "target": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas/0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "seeAlso": [
+    {
+      "id": "https://digital.lib.utk.edu/collections/islandora/object/rfta%3A8/datastream/MODS",
+      "type": "Dataset",
+      "label": {
+        "en": ["Bibliographic Description in MODS"]
+      },
+      "format": "application/xml",
+      "profile": "http://www.loc.gov/standards/mods/v3/mods-3-5.xsd"
+    }
+  ],
+  "structures": [
+    {
+      "type": "Range",
+      "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions",
+      "label": {
+        "en": ["Interview Questions"]
+      },
+      "items": [
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/0",
+          "label": {
+            "en": [
+              "Can you state your names and tell us about your history in Gatlinburg?"
+            ]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:01:12,00:03:09"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/2",
+          "label": {
+            "en": ["Can you tell us about your occupation in Gatlinburg?"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:03:09,00:04:45"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/4",
+          "label": {
+            "en": [
+              "Can you tell us about your other roles in the community in Gatlinburg?"
+            ]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:04:45,00:06:05"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/6",
+          "label": {
+            "en": [
+              "Can you recall anything about the days leading up to the fire?"
+            ]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:06:05,00:08:20"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/7",
+          "label": {
+            "en": ["At what point did you become concerned?"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:08:20,00:10:24"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/8",
+          "label": {
+            "en": ["So you took your son to the high school?"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:10:24,00:10:46"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/9",
+          "label": {
+            "en": ["This was in the afternoon?"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:10:46,00:11:29"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/10",
+          "label": {
+            "en": ["When you were at the school, what was the general feeling?"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:11:29,00:12:36"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/11",
+          "label": {
+            "en": [
+              "After you went back home, can you tell me about what transpired that evening?"
+            ]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:12:36,00:21:01"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/12",
+          "label": {
+            "en": ["How did you feel at that point in the evacuation?"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:21:01,00:28:26"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/13",
+          "label": {
+            "en": ["You hadn't even made it through the path of the fire yet?"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:28:26,00:29:38"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/14",
+          "label": {
+            "en": ["So where do you evacuate to?"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:29:38,00:32:02"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/15",
+          "label": {
+            "en": [
+              "When you get to your mother's house, what are you thinking?"
+            ]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:32:02,00:33:26"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/16",
+          "label": {
+            "en": ["You returned to Gatlinburg after 3 days?\n"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:33:26,00:36:23"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/17",
+          "label": {
+            "en": ["Where did you go after leaving your mother's house?"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:36:23,00:44:15"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/18",
+          "label": {
+            "en": [
+              "How did you start that first day back at school? What was is like bringing all the kids back together?"
+            ]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:44:15,00:45:49"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/19",
+          "label": {
+            "en": ["Can you tell me about the decision to move after the fire?"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:45:49,00:48:03"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/20",
+          "label": {
+            "en": [
+              "How has this experience affected you emotionally, both as a family and an individual?"
+            ]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:48:03,00:52:15"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/21",
+          "label": {
+            "en": [
+              "Have you thought about making any provisions in case an emergency happens again?"
+            ]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:52:15,00:57:00"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/interview_questions/22",
+          "label": {
+            "en": ["Is there anything else that you would like to add?"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:57:00,00:57:15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Range",
+      "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/places_mentioned",
+      "label": {
+        "en": ["Places Mentioned"]
+      },
+      "items": [
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/places_mentioned/1",
+          "label": {
+            "en": ["Chalet Village"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:12:35,00:26:30"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/places_mentioned/3",
+          "label": {
+            "en": ["Pi Beta Phi Elementary School"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:09:03,12:35:00"
+            }
+          ]
+        },
+        {
+          "type": "Range",
+          "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/range/places_mentioned/5",
+          "label": {
+            "en": ["Parkway (US-321/US 441 S)"]
+          },
+          "items": [
+            {
+              "type": "Canvas",
+              "id": "https://digital.lib.utk.edu/assemble/manifest/rfta/8/canvas#t=00:28:03,00:32:01"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
