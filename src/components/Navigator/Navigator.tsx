@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { InternationalString } from "@hyperion-framework/types";
+import { InternationalString } from "@iiif/presentation-3";
 import { Content, List, Scroll, Trigger, Wrapper } from "./Navigator.styled";
-import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
-import { getLabel } from "hooks/use-hyperion-framework";
+import { LabeledResource } from "hooks/use-iiif/getSupplementingResources";
+import { getLabel } from "hooks/use-iiif";
 import Resource from "./Resource";
 
 interface NavigatorProps {

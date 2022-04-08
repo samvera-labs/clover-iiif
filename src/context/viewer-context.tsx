@@ -1,5 +1,5 @@
 import React from "react";
-import { Vault } from "@hyperion-framework/vault";
+import { Vault } from "@iiif/vault";
 
 export type ConfigOptions = {
   showTitle: boolean;

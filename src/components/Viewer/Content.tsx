@@ -4,7 +4,7 @@ import Navigator from "components/Navigator/Navigator";
 import Player from "components/Player/Player";
 import ImageViewer from "components/ImageViewer/ImageViewer";
 import { Button } from "@nulib/design-system";
-import { Canvas, IIIFExternalWebResource } from "@hyperion-framework/types";
+import { Canvas, IIIFExternalWebResource } from "@iiif/presentation-3";
 import {
   Content,
   Main,
@@ -13,7 +13,7 @@ import {
   MediaWrapper,
   Aside,
 } from "./Viewer.styled";
-import { LabeledResource } from "hooks/use-hyperion-framework/getSupplementingResources";
+import { LabeledResource } from "hooks/use-iiif/getSupplementingResources";
 import { CurrentTimeProvider } from "context/current-time-context";
 
 interface Props {

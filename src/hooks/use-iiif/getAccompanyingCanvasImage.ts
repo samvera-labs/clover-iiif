@@ -1,4 +1,4 @@
-import { IIIFExternalWebResource } from "@hyperion-framework/types";
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
 
 // TODO: Fix this type when fixing tests
 function getUrl(obj: any) {

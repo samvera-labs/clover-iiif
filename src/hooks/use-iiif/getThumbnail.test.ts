@@ -1,4 +1,3 @@
-import { Vault } from "@hyperion-framework/vault";
 import { getThumbnail } from "./getThumbnail";
 import { CanvasEntity } from "./getCanvasByCriteria";
 
