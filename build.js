@@ -2,12 +2,13 @@
 
 const { build } = require("esbuild");
 const { dependencies } = require("./package.json");
+const { peerDependencies } = require("./package.json");
 
 const entryFile = "src/index.tsx";
 const shared = {
   bundle: true,
   entryPoints: [entryFile],
-  external: Object.keys(dependencies),
+  external: [...Object.keys(dependencies), ...Object.keys(peerDependencies)],
   logLevel: "info",
   minify: true,
   sourcemap: true,
