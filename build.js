@@ -8,7 +8,7 @@ const entryFile = "src/index.tsx";
 const shared = {
   bundle: true,
   entryPoints: [entryFile],
-  external: [...Object.keys(dependencies), ...Object.keys(peerDependencies)],
+  external: Object.keys(peerDependencies),
   logLevel: "info",
   minify: true,
   sourcemap: true,

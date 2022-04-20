@@ -56,7 +56,12 @@
   },
   "dependencies": {
     "@iiif/presentation-3": "^1.0.4",
-    "@iiif/vault": "^0.9.17",
+    "@iiif/vault": "^0.9.17"
+  },
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
     "@nulib/design-system": "^1.5.0",
     "@radix-ui/react-collapsible": "^0.1.7-rc.3",
     "@radix-ui/react-radio-group": "^0.1.6-rc.6",
@@ -68,14 +73,9 @@
     "hls.js": "^1.0.10",
     "node-webvtt": "^1.9.3",
     "openseadragon": "^3.0.0",
+    "react": "^16.13.1  || ^17.0 || ^18.0",
+    "react-dom": "^16.13.1  || ^17.0 || ^18.0",
     "react-error-boundary": "^3.1.4",
     "uuid": "^8.3.2"
-  },
-  "files": [
-    "dist"
-  ],
-  "peerDependencies": {
-    "react": "^16.8  || ^17.0 || ^18.0",
-    "react-dom": "^16.8  || ^17.0 || ^18.0"
   }
 }
