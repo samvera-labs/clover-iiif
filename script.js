@@ -1032,7 +1032,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback4(callback, deps) {
+          function useCallback3(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1796,7 +1796,7 @@
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
-          exports.useCallback = useCallback4;
+          exports.useCallback = useCallback3;
           exports.useContext = useContext;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
@@ -64262,7 +64262,7 @@ ${generateSegmentFilename(i3)}`);
   // src/components/ImageViewer/ImageViewer.tsx
   var ImageViewer = ({ service }) => {
     const [imageService, setImageService] = (0, import_react56.useState)();
-    const instance = v4_default();
+    const instance = import_react56.default.useId();
     (0, import_react56.useEffect)(() => {
       if (Array.isArray(service))
         setImageService(service[0]);
@@ -64360,7 +64360,7 @@ ${generateSegmentFilename(i3)}`);
 
   // src/components/Viewer/Viewer.tsx
   var import_react_error_boundary = __toESM(require_react_error_boundary_umd());
-  var Viewer2 = ({ manifest, theme: theme3 }) => {
+  var Viewer = ({ manifest, theme: theme3 }) => {
     const viewerState = useViewerState();
     const { activeCanvas, vault } = viewerState;
     const [isMedia, setIsMedia] = (0, import_react59.useState)(false);
@@ -64417,7 +64417,7 @@ ${generateSegmentFilename(i3)}`);
       isNavigatorOpen
     }))));
   };
-  var Viewer_default = Viewer2;
+  var Viewer_default = Viewer;
 
   // src/index.tsx
   var App = ({
