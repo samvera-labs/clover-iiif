@@ -1,10 +1,9 @@
-import React, { useCallback, useEffect, useState } from "react";
-import OpenSeadragon, { Viewer } from "openseadragon";
+import React, { useEffect, useState } from "react";
+import OpenSeadragon from "openseadragon";
 import { ImageService, Service } from "@iiif/presentation-3";
 import { Navigator, Viewport, Wrapper } from "./ImageViewer.styled";
 import Controls from "./Controls";
 import { getInfoResponse } from "services/iiif";
-import { v4 as uuid } from "uuid";
 
 interface ImageViewerProps {
   service: Service[] | undefined;
@@ -12,7 +11,7 @@ interface ImageViewerProps {
 
 const ImageViewer: React.FC<ImageViewerProps> = ({ service }) => {
   const [imageService, setImageService] = useState<ImageService>();
-  const instance = uuid();
+  const instance = React.useId();
 
   /**
    * Set IIIF image service from given content resource
