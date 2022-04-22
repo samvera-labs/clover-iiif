@@ -1,23 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import OpenSeadragon, { Viewer } from "openseadragon";
-import { IIIFExternalWebResource, ImageService } from "@iiif/presentation-3";
+import { ImageService, Service } from "@iiif/presentation-3";
 import { Navigator, Viewport, Wrapper } from "./ImageViewer.styled";
 import Controls from "./Controls";
 import { getInfoResponse } from "services/iiif";
+import { v4 as uuid } from "uuid";
 
-const ImageViewer: React.FC<IIIFExternalWebResource> = ({ service }) => {
-  const [openSeadragonInstance, setOpenSeadragonInstance] = useState<Viewer>();
+interface ImageViewerProps {
+  service: Service[] | undefined;
+}
+
+const ImageViewer: React.FC<ImageViewerProps> = ({ service }) => {
   const [imageService, setImageService] = useState<ImageService>();
-
-  /**
-   * Initiate OpenSeadragon
-   */
-  useEffect(() => {
-    initOpenSeadragon();
-    return () => {
-      openSeadragonInstance?.destroy();
-    };
-  }, []);
+  const instance = uuid();
 
   /**
    * Set IIIF image service from given content resource
@@ -39,43 +34,26 @@ const ImageViewer: React.FC<IIIFExternalWebResource> = ({ service }) => {
 
       if (id)
         getInfoResponse(id).then((tileSource) =>
-          openSeadragonInstance?.open(tileSource),
+          OpenSeadragon({
+            id: `openseadragon-viewport-${instance}`,
+            loadTilesWithAjax: true,
+            homeButton: "zoomReset",
+            showFullPageControl: false,
+            zoomInButton: "zoomIn",
+            zoomOutButton: "zoomOut",
+            showNavigator: true,
+            navigatorBorderColor: "transparent",
+            navigatorId: `openseadragon-navigator-${instance}`,
+          })?.open(tileSource),
         );
     }
-  }, [openSeadragonInstance, imageService]);
-
-  /**
-   * Set OpenSeadragon instance
-   */
-  function initOpenSeadragon() {
-    const controls: object = {
-      homeButton: "zoomReset",
-      showFullPageControl: false,
-      zoomInButton: "zoomIn",
-      zoomOutButton: "zoomOut",
-    };
-
-    const navigator: object = {
-      showNavigator: true,
-      navigatorBorderColor: "transparent",
-      navigatorId: "openseadragon-navigator",
-    };
-
-    setOpenSeadragonInstance(
-      OpenSeadragon({
-        id: "openseadragon-viewport",
-        loadTilesWithAjax: true,
-        ...controls,
-        ...navigator,
-      }),
-    );
-  }
+  }, [imageService]);
 
   return (
     <Wrapper data-testid="image-viewer">
       <Controls />
-      <Navigator id="openseadragon-navigator" />
-      <Viewport id="openseadragon-viewport" />
+      <Navigator id={`openseadragon-navigator-${instance}`} />
+      <Viewport id={`openseadragon-viewport-${instance}`} />
     </Wrapper>
   );
 };

@@ -1,5 +1,9 @@
 export const manifests = [
   {
+    url: "https://manifests.collections.yale.edu/ycba/obj/21168",
+    label: "Greenland Falcon",
+  },
+  {
     url: "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json",
     label: "Default",
   },
@@ -30,10 +34,6 @@ export const manifests = [
   {
     url: "https://figgy.princeton.edu/concern/scanned_resources/4ff986e6-4f71-4f7c-8ff9-0d0c33d96cf0/manifest",
     label: "Parrots and Toucans",
-  },
-  {
-    url: "https://manifests.collections.yale.edu/ycba/obj/21168",
-    label: "Greenland Falcon",
   },
   {
     url: "https://api.artic.edu/api/v1/artworks/25865/manifest.json",

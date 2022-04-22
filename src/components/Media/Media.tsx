@@ -41,16 +41,13 @@ const Media: React.FC<MediaProps> = ({ items }) => {
   };
 
   useEffect(() => {
-    for (const item of items) {
-      const canvasEntity: CanvasEntity = getCanvasByCriteria(
-        vault,
-        item,
-        motivation,
-        paintingType,
-      );
-
-      if (canvasEntity.annotations.length > 0)
-        setMediaItems((mediaItems) => [...mediaItems, canvasEntity]);
+    if (!mediaItems.length) {
+      const entities: CanvasEntity[] = items
+        .map((item) =>
+          getCanvasByCriteria(vault, item, motivation, paintingType),
+        )
+        .filter((canvasEntity) => canvasEntity.annotations.length > 0);
+      setMediaItems(entities);
     }
   }, []);
 
