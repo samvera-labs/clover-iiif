@@ -1032,7 +1032,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback3(callback, deps) {
+          function useCallback4(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1796,7 +1796,7 @@
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
-          exports.useCallback = useCallback3;
+          exports.useCallback = useCallback4;
           exports.useContext = useContext;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
@@ -22622,6 +22622,7 @@
       var __importDefault3;
       var __classPrivateFieldGet3;
       var __classPrivateFieldSet3;
+      var __classPrivateFieldIn3;
       var __createBinding3;
       (function(factory) {
         var root2 = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
@@ -22814,9 +22815,13 @@
         __createBinding3 = Object.create ? function(o3, m3, k3, k22) {
           if (k22 === void 0)
             k22 = k3;
-          Object.defineProperty(o3, k22, { enumerable: true, get: function() {
-            return m3[k3];
-          } });
+          var desc = Object.getOwnPropertyDescriptor(m3, k3);
+          if (!desc || ("get" in desc ? !m3.__esModule : desc.writable || desc.configurable)) {
+            desc = { enumerable: true, get: function() {
+              return m3[k3];
+            } };
+          }
+          Object.defineProperty(o3, k22, desc);
         } : function(o3, m3, k3, k22) {
           if (k22 === void 0)
             k22 = k3;
@@ -22997,6 +23002,11 @@
             throw new TypeError("Cannot write private member to an object whose class did not declare it");
           return kind === "a" ? f3.call(receiver, value) : f3 ? f3.value = value : state.set(receiver, value), value;
         };
+        __classPrivateFieldIn3 = function(state, receiver) {
+          if (receiver === null || typeof receiver !== "object" && typeof receiver !== "function")
+            throw new TypeError("Cannot use 'in' operator on non-object");
+          return typeof state === "function" ? receiver === state : state.has(receiver);
+        };
         exporter("__extends", __extends3);
         exporter("__assign", __assign4);
         exporter("__rest", __rest3);
@@ -23021,6 +23031,7 @@
         exporter("__importDefault", __importDefault3);
         exporter("__classPrivateFieldGet", __classPrivateFieldGet3);
         exporter("__classPrivateFieldSet", __classPrivateFieldSet3);
+        exporter("__classPrivateFieldIn", __classPrivateFieldIn3);
       });
     }
   });
@@ -23051,6 +23062,7 @@
       var __importDefault3;
       var __classPrivateFieldGet3;
       var __classPrivateFieldSet3;
+      var __classPrivateFieldIn3;
       var __createBinding3;
       (function(factory) {
         var root2 = typeof global === "object" ? global : typeof self === "object" ? self : typeof this === "object" ? this : {};
@@ -23243,9 +23255,13 @@
         __createBinding3 = Object.create ? function(o3, m3, k3, k22) {
           if (k22 === void 0)
             k22 = k3;
-          Object.defineProperty(o3, k22, { enumerable: true, get: function() {
-            return m3[k3];
-          } });
+          var desc = Object.getOwnPropertyDescriptor(m3, k3);
+          if (!desc || ("get" in desc ? !m3.__esModule : desc.writable || desc.configurable)) {
+            desc = { enumerable: true, get: function() {
+              return m3[k3];
+            } };
+          }
+          Object.defineProperty(o3, k22, desc);
         } : function(o3, m3, k3, k22) {
           if (k22 === void 0)
             k22 = k3;
@@ -23426,6 +23442,11 @@
             throw new TypeError("Cannot write private member to an object whose class did not declare it");
           return kind === "a" ? f3.call(receiver, value) : f3 ? f3.value = value : state.set(receiver, value), value;
         };
+        __classPrivateFieldIn3 = function(state, receiver) {
+          if (receiver === null || typeof receiver !== "object" && typeof receiver !== "function")
+            throw new TypeError("Cannot use 'in' operator on non-object");
+          return typeof state === "function" ? receiver === state : state.has(receiver);
+        };
         exporter("__extends", __extends3);
         exporter("__assign", __assign4);
         exporter("__rest", __rest3);
@@ -23450,6 +23471,7 @@
         exporter("__importDefault", __importDefault3);
         exporter("__classPrivateFieldGet", __classPrivateFieldGet3);
         exporter("__classPrivateFieldSet", __classPrivateFieldSet3);
+        exporter("__classPrivateFieldIn", __classPrivateFieldIn3);
       });
     }
   });
@@ -60247,7 +60269,8 @@ ${generateSegmentFilename(i3)}`);
     __importStar,
     __importDefault,
     __classPrivateFieldGet,
-    __classPrivateFieldSet
+    __classPrivateFieldSet,
+    __classPrivateFieldIn
   } = import_tslib.default;
 
   // node_modules/react-remove-scroll/dist/es2015/Combination.js
@@ -60332,7 +60355,8 @@ ${generateSegmentFilename(i3)}`);
     __importStar: __importStar2,
     __importDefault: __importDefault2,
     __classPrivateFieldGet: __classPrivateFieldGet2,
-    __classPrivateFieldSet: __classPrivateFieldSet2
+    __classPrivateFieldSet: __classPrivateFieldSet2,
+    __classPrivateFieldIn: __classPrivateFieldIn2
   } = import_tslib2.default;
 
   // node_modules/use-sidecar/dist/es2015/medium.js
@@ -63217,10 +63241,9 @@ ${generateSegmentFilename(i3)}`);
         });
     };
     (0, import_react42.useEffect)(() => {
-      for (const item of items) {
-        const canvasEntity = getCanvasByCriteria(vault, item, motivation, paintingType);
-        if (canvasEntity.annotations.length > 0)
-          setMediaItems((mediaItems2) => [...mediaItems2, canvasEntity]);
+      if (!mediaItems.length) {
+        const entities = items.map((item) => getCanvasByCriteria(vault, item, motivation, paintingType)).filter((canvasEntity) => canvasEntity.annotations.length > 0);
+        setMediaItems(entities);
       }
     }, []);
     (0, import_react42.useEffect)(() => {
@@ -64238,14 +64261,8 @@ ${generateSegmentFilename(i3)}`);
 
   // src/components/ImageViewer/ImageViewer.tsx
   var ImageViewer = ({ service }) => {
-    const [openSeadragonInstance, setOpenSeadragonInstance] = (0, import_react56.useState)();
     const [imageService, setImageService] = (0, import_react56.useState)();
-    (0, import_react56.useEffect)(() => {
-      initOpenSeadragon();
-      return () => {
-        openSeadragonInstance == null ? void 0 : openSeadragonInstance.destroy();
-      };
-    }, []);
+    const instance = v4_default();
     (0, import_react56.useEffect)(() => {
       if (Array.isArray(service))
         setImageService(service[0]);
@@ -64255,32 +64272,28 @@ ${generateSegmentFilename(i3)}`);
         let id;
         "@id" in imageService ? id = imageService["@id"] : id = imageService.id;
         if (id)
-          getInfoResponse(id).then((tileSource) => openSeadragonInstance == null ? void 0 : openSeadragonInstance.open(tileSource));
+          getInfoResponse(id).then((tileSource) => {
+            var _a2;
+            return (_a2 = (0, import_openseadragon.default)({
+              id: `openseadragon-viewport-${instance}`,
+              loadTilesWithAjax: true,
+              homeButton: "zoomReset",
+              showFullPageControl: false,
+              zoomInButton: "zoomIn",
+              zoomOutButton: "zoomOut",
+              showNavigator: true,
+              navigatorBorderColor: "transparent",
+              navigatorId: `openseadragon-navigator-${instance}`
+            })) == null ? void 0 : _a2.open(tileSource);
+          });
       }
-    }, [openSeadragonInstance, imageService]);
-    function initOpenSeadragon() {
-      const controls = {
-        homeButton: "zoomReset",
-        showFullPageControl: false,
-        zoomInButton: "zoomIn",
-        zoomOutButton: "zoomOut"
-      };
-      const navigator2 = {
-        showNavigator: true,
-        navigatorBorderColor: "transparent",
-        navigatorId: "openseadragon-navigator"
-      };
-      setOpenSeadragonInstance((0, import_openseadragon.default)(__spreadValues(__spreadValues({
-        id: "openseadragon-viewport",
-        loadTilesWithAjax: true
-      }, controls), navigator2)));
-    }
+    }, [imageService]);
     return /* @__PURE__ */ import_react56.default.createElement(Wrapper4, {
       "data-testid": "image-viewer"
     }, /* @__PURE__ */ import_react56.default.createElement(Controls_default2, null), /* @__PURE__ */ import_react56.default.createElement(Navigator2, {
-      id: "openseadragon-navigator"
+      id: `openseadragon-navigator-${instance}`
     }), /* @__PURE__ */ import_react56.default.createElement(Viewport, {
-      id: "openseadragon-viewport"
+      id: `openseadragon-viewport-${instance}`
     }));
   };
   var ImageViewer_default = ImageViewer;
@@ -64298,7 +64311,10 @@ ${generateSegmentFilename(i3)}`);
     return /* @__PURE__ */ import_react57.default.createElement(Content, null, /* @__PURE__ */ import_react57.default.createElement(CurrentTimeProvider, null, /* @__PURE__ */ import_react57.default.createElement(Main, null, isMedia ? /* @__PURE__ */ import_react57.default.createElement(Player_default, {
       painting,
       resources
-    }) : /* @__PURE__ */ import_react57.default.createElement(ImageViewer_default, __spreadValues({}, painting)), /* @__PURE__ */ import_react57.default.createElement(CollapsibleTrigger, {
+    }) : painting && /* @__PURE__ */ import_react57.default.createElement(ImageViewer_default, {
+      service: painting.service,
+      key: activeCanvas
+    }), /* @__PURE__ */ import_react57.default.createElement(CollapsibleTrigger, {
       "data-navigator": isNavigator
     }, /* @__PURE__ */ import_react57.default.createElement(Button, {
       as: "span"
@@ -64560,6 +64576,10 @@ ${generateSegmentFilename(i3)}`);
   // src/dev/manifests.ts
   var manifests = [
     {
+      url: "https://manifests.collections.yale.edu/ycba/obj/21168",
+      label: "Greenland Falcon"
+    },
+    {
       url: "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json",
       label: "Default"
     },
@@ -64590,10 +64610,6 @@ ${generateSegmentFilename(i3)}`);
     {
       url: "https://figgy.princeton.edu/concern/scanned_resources/4ff986e6-4f71-4f7c-8ff9-0d0c33d96cf0/manifest",
       label: "Parrots and Toucans"
-    },
-    {
-      url: "https://manifests.collections.yale.edu/ycba/obj/21168",
-      label: "Greenland Falcon"
     },
     {
       url: "https://api.artic.edu/api/v1/artworks/25865/manifest.json",
@@ -64668,7 +64684,7 @@ ${generateSegmentFilename(i3)}`);
   };
   var container = document.getElementById("root");
   var root = (0, import_client.createRoot)(container);
-  root.render(/* @__PURE__ */ import_react64.default.createElement(Wrapper6, null));
+  root.render(/* @__PURE__ */ import_react64.default.createElement(import_react64.StrictMode, null, /* @__PURE__ */ import_react64.default.createElement(Wrapper6, null)));
 })();
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
