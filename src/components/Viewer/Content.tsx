@@ -4,7 +4,7 @@ import Navigator from "components/Navigator/Navigator";
 import Player from "components/Player/Player";
 import ImageViewer from "components/ImageViewer/ImageViewer";
 import { Button } from "@nulib/design-system";
-import { Canvas, IIIFExternalWebResource } from "@iiif/presentation-3";
+import { Canvas, IIIFExternalWebResource, Service } from "@iiif/presentation-3";
 import {
   Content,
   Main,
@@ -45,7 +45,12 @@ const ViewerContent: React.FC<Props> = ({
               resources={resources}
             />
           ) : (
-            <ImageViewer {...(painting as IIIFExternalWebResource)} />
+            painting && (
+              <ImageViewer
+                service={painting.service as Service[]}
+                key={activeCanvas}
+              />
+            )
           )}
           <CollapsibleTrigger data-navigator={isNavigator}>
             <Button as="span">

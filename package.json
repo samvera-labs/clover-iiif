@@ -68,10 +68,10 @@
     "hls.js": "^1.0.10",
     "node-webvtt": "^1.9.3",
     "openseadragon": "^2.4.2 || ^3.0.0",
-    "react-error-boundary": "^3.1.4",
-    "uuid": "^8.3.2",
     "react": "^16.13.1  || ^17.0 || ^18.0",
-    "react-dom": "^16.13.1  || ^17.0 || ^18.0"
+    "react-dom": "^16.13.1  || ^17.0 || ^18.0",
+    "react-error-boundary": "^3.1.4",
+    "uuid": "^8.3.2"
   },
   "files": [
     "dist"

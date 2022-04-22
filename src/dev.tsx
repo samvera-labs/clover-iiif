@@ -1,4 +1,4 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import App from "./index";
 import DynamicUrl from "./dev/DynamicUrl";
 import { createRoot } from "react-dom/client";
@@ -18,4 +18,8 @@ const Wrapper = () => {
 
 const container = document.getElementById("root");
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
-root.render(<Wrapper />);
+root.render(
+  <StrictMode>
+    <Wrapper />
+  </StrictMode>,
+);
