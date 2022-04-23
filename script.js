@@ -1032,7 +1032,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback3(callback, deps) {
+          function useCallback4(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1796,7 +1796,7 @@
           exports.memo = memo;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
-          exports.useCallback = useCallback3;
+          exports.useCallback = useCallback4;
           exports.useContext = useContext;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
@@ -64262,6 +64262,7 @@ ${generateSegmentFilename(i3)}`);
   // src/components/ImageViewer/ImageViewer.tsx
   var ImageViewer = ({ service }) => {
     const [imageService, setImageService] = (0, import_react56.useState)();
+    const instance = v4_default();
     (0, import_react56.useEffect)(() => {
       if (Array.isArray(service))
         setImageService(service[0]);
@@ -64271,25 +64272,28 @@ ${generateSegmentFilename(i3)}`);
         let id;
         "@id" in imageService ? id = imageService["@id"] : id = imageService.id;
         if (id)
-          getInfoResponse(id).then((tileSource) => (0, import_openseadragon.default)({
-            id: `openseadragon-viewport`,
-            loadTilesWithAjax: true,
-            homeButton: "zoomReset",
-            showFullPageControl: false,
-            zoomInButton: "zoomIn",
-            zoomOutButton: "zoomOut",
-            showNavigator: true,
-            navigatorBorderColor: "transparent",
-            navigatorId: `openseadragon-navigator`
-          }).open(tileSource));
+          getInfoResponse(id).then((tileSource) => {
+            var _a2;
+            return (_a2 = (0, import_openseadragon.default)({
+              id: `openseadragon-viewport-${instance}`,
+              loadTilesWithAjax: true,
+              homeButton: "zoomReset",
+              showFullPageControl: false,
+              zoomInButton: "zoomIn",
+              zoomOutButton: "zoomOut",
+              showNavigator: true,
+              navigatorBorderColor: "transparent",
+              navigatorId: `openseadragon-navigator-${instance}`
+            })) == null ? void 0 : _a2.open(tileSource);
+          });
       }
     }, [imageService]);
     return /* @__PURE__ */ import_react56.default.createElement(Wrapper4, {
       "data-testid": "image-viewer"
     }, /* @__PURE__ */ import_react56.default.createElement(Controls_default2, null), /* @__PURE__ */ import_react56.default.createElement(Navigator2, {
-      id: `openseadragon-navigator`
+      id: `openseadragon-navigator-${instance}`
     }), /* @__PURE__ */ import_react56.default.createElement(Viewport, {
-      id: `openseadragon-viewport`
+      id: `openseadragon-viewport-${instance}`
     }));
   };
   var ImageViewer_default = ImageViewer;
@@ -64356,7 +64360,7 @@ ${generateSegmentFilename(i3)}`);
 
   // src/components/Viewer/Viewer.tsx
   var import_react_error_boundary = __toESM(require_react_error_boundary_umd());
-  var Viewer = ({ manifest, theme: theme3 }) => {
+  var Viewer2 = ({ manifest, theme: theme3 }) => {
     const viewerState = useViewerState();
     const { activeCanvas, vault } = viewerState;
     const [isMedia, setIsMedia] = (0, import_react59.useState)(false);
@@ -64413,7 +64417,7 @@ ${generateSegmentFilename(i3)}`);
       isNavigatorOpen
     }))));
   };
-  var Viewer_default = Viewer;
+  var Viewer_default = Viewer2;
 
   // src/index.tsx
   var App = ({
