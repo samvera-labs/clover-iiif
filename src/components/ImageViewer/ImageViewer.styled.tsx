@@ -10,6 +10,7 @@ const Navigator = styled("div", {
   backgroundColor: "#000D",
   boxShadow: "5px 5px 5px #0002",
   borderRadius: "3px",
+  overflow: "hidden",
 
   "#openseadragon-navigator-displayregion": {
     border: " 3px solid $accent !important",
