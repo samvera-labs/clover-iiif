@@ -1,45 +1,41 @@
 export const tileSourceResponse = {
   "@context": "http://iiif.io/api/image/2/context.json",
   "@id":
-    "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/567d7b42-53e0-4128-ba16-26e6d00d1b43",
+    "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/180682c9-dfaf-4881-b7b6-1f2f21092d4f",
   protocol: "http://iiif.io/api/image",
-  width: 4167,
-  height: 6155,
+  width: 3780,
+  height: 4440,
   sizes: [
     {
-      width: 4167,
-      height: 6155,
+      width: 3780,
+      height: 4440,
     },
     {
-      width: 2083,
-      height: 3077,
+      width: 1890,
+      height: 2220,
     },
     {
-      width: 1041,
-      height: 1538,
+      width: 945,
+      height: 1110,
     },
     {
-      width: 520,
-      height: 769,
+      width: 472,
+      height: 555,
     },
     {
-      width: 260,
-      height: 384,
+      width: 236,
+      height: 277,
     },
     {
-      width: 130,
-      height: 192,
-    },
-    {
-      width: 65,
-      height: 96,
+      width: 118,
+      height: 138,
     },
   ],
   tiles: [
     {
       width: 512,
       height: 512,
-      scaleFactors: [1, 2, 4, 8, 16, 32, 64],
+      scaleFactors: [1, 2, 4, 8, 16, 32],
     },
   ],
   profile: [
@@ -71,12 +67,4 @@ export const tileSourceResponse = {
       ],
     },
   ],
-  crossOriginPolicy: false,
-  ajaxWithCredentials: false,
-  useCanvas: true,
-  version: 2,
-  tileSizePerScaleFactor: {},
-  tileWidth: 512,
-  tileHeight: 512,
-  maxLevel: 6,
 };
