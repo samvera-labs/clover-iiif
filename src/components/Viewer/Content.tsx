@@ -45,12 +45,7 @@ const ViewerContent: React.FC<Props> = ({
               resources={resources}
             />
           ) : (
-            painting && (
-              <ImageViewer
-                service={painting.service as Service[]}
-                key={activeCanvas}
-              />
-            )
+            painting && <ImageViewer body={painting} key={activeCanvas} />
           )}
           <CollapsibleTrigger data-navigator={isNavigator}>
             <Button as="span">
