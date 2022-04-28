@@ -117,7 +117,12 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
   };
 
   return (
-    <PlayerWrapper>
+    <PlayerWrapper
+      css={{
+        backgroundColor: configOptions.canvasBackgroundColor,
+        maxHeight: configOptions.canvasHeight,
+      }}
+    >
       <video
         id="clover-iiif-video"
         key={painting.id}

@@ -184,17 +184,19 @@ return <CloverIIIF manifestId={manifestId} customTheme={customTheme} />;
 
 <h2 id="reference">Reference</h2>
 
-| Prop                          | Type       | Required | Default |
-| ----------------------------- | ---------- | -------- | ------- |
-| `manifestId`                  | `string`   | Yes      |         |
-| `canvasIdCallback`            | `function` | No       |         |
-| `customTheme`                 | `object`   | No       |         |
-| `options`                     | `object`   | No       |         |
-| `options.showTitle`           | `boolean`  | No       | true    |
-| `options.showIIIFBadge`       | `boolean`  | No       | true    |
-| `options.ignoreCaptionLabels` | `string[]` | No       | []      |
+| Prop                            | Type       | Required | Default   |
+| ------------------------------- | ---------- | -------- | --------- |
+| `manifestId`                    | `string`   | Yes      |           |
+| `canvasIdCallback`              | `function` | No       |           |
+| `customTheme`                   | `object`   | No       |           |
+| `options`                       | `object`   | No       |           |
+| `options.showTitle`             | `boolean`  | No       | true      |
+| `options.showIIIFBadge`         | `boolean`  | No       | true      |
+| `options.ignoreCaptionLabels`   | `string[]` | No       | []        |
+| `options.canvasBackgroundColor` | `string`   | No       | `#1a1d1e` |
+| `options.canvasHeight`          | `string`   | No       | `500px`   |
 
-Clover IIIF version 1.4.0, introduces an `options` prop, which will serve as a configuration object for common configuration options.
+Clover IIIF version 1.4.0, introduces an `options` prop, which will serve as a configuration object for common configuration options. Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
 
 ```jsx
 import CloverIIIF from "@samvera/clover-iiif";

@@ -31,7 +31,8 @@ const Viewport = styled("div", {
 
 const Wrapper = styled("div", {
   width: "100%",
-  height: "450px",
+  height: "61.8vh",
+  maxHeight: "100vh",
   background: "black",
   backgroundSize: "contain",
   color: "white",

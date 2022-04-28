@@ -10,7 +10,14 @@ const Wrapper = () => {
   const [url, setUrl] = React.useState(defaultUrl);
   return (
     <>
-      <App manifestId={url} key={url} />
+      <App
+        manifestId={url}
+        key={url}
+        options={{
+          canvasBackgroundColor: "#e6e8eb",
+          canvasHeight: "61.8vh",
+        }}
+      />
       <DynamicUrl url={url} setUrl={setUrl} />
     </>
   );

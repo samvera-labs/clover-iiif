@@ -16,12 +16,16 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
   const viewerState: any = useViewerState();
   const { configOptions } = viewerState;
 
+  const { showTitle, showIIIFBadge } = configOptions;
+
+  if (!showTitle && !showIIIFBadge) return <></>;
+
   return (
-    <Header>
-      {configOptions.showTitle && (
+    <Header className="clover-header">
+      {showTitle && (
         <span>{getLabel(manifestLabel as InternationalString, "en")}</span>
       )}
-      {configOptions.showIIIFBadge && (
+      {showIIIFBadge && (
         <Popover>
           <IIIFBadgeButton>
             <IIIFBadge />
