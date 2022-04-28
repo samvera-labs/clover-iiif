@@ -36,7 +36,7 @@ const ViewerContent: React.FC<Props> = ({
   isNavigatorOpen,
 }) => {
   return (
-    <Content>
+    <Content className="clover-content">
       <CurrentTimeProvider>
         <Main>
           {isMedia ? (
@@ -53,7 +53,7 @@ const ViewerContent: React.FC<Props> = ({
             </Button>
           </CollapsibleTrigger>
           {items.length > 1 && (
-            <MediaWrapper>
+            <MediaWrapper className="clover-canvases">
               <Media items={items} activeItem={0} />
             </MediaWrapper>
           )}

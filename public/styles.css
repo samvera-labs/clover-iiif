@@ -11,10 +11,11 @@ body {
 }
 
 #root {
-  padding: 0 1rem;
+  padding: 0;
 }
 
 #root header > span {
+  font-family: "Calistoga", "Inter", Arial, sans-serif;
   font-weight: 400;
 }
 

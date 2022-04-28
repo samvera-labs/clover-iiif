@@ -5,12 +5,16 @@ export type ConfigOptions = {
   showTitle: boolean;
   showIIIFBadge: boolean;
   ignoreCaptionLabels: string[];
+  canvasBackgroundColor: string;
+  canvasHeight: string;
 };
 
 const defaultConfigOptions = {
   showTitle: true,
   showIIIFBadge: true,
   ignoreCaptionLabels: [],
+  canvasBackgroundColor: "#e6e8eb",
+  canvasHeight: "61.8vh",
 };
 
 interface ViewerContextStore {

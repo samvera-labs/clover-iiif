@@ -4,6 +4,7 @@ import { Navigator, Viewport, Wrapper } from "./ImageViewer.styled";
 import Controls from "./Controls";
 import { getInfoResponse } from "services/iiif";
 import { v4 as uuidv4 } from "uuid";
+import { useViewerState } from "context/viewer-context";
 
 export type osdImageTypes = "tiledImage" | "simpleImage" | undefined;
 
@@ -14,6 +15,9 @@ interface OSDProps {
 
 const OSD: React.FC<OSDProps> = ({ uri, imageType }) => {
   const [osdUri, setOsdUri] = useState<string>();
+  const viewerState: any = useViewerState();
+  const { configOptions } = viewerState;
+
   const instance = uuidv4();
 
   const config = {
@@ -57,7 +61,12 @@ const OSD: React.FC<OSDProps> = ({ uri, imageType }) => {
   }, [osdUri]);
 
   return (
-    <Wrapper>
+    <Wrapper
+      css={{
+        backgroundColor: configOptions.canvasBackgroundColor,
+        height: configOptions.canvasHeight,
+      }}
+    >
       <Controls />
       <Navigator id={`openseadragon-navigator-${instance}`} />
       <Viewport id={`openseadragon-viewport-${instance}`} />

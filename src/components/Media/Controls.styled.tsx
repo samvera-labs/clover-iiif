@@ -77,10 +77,6 @@ const Direction = styled("div", {
     margin: "0 0.5rem",
     fontSize: "0.7222rem",
   },
-
-  [`& ${Button}`]: {
-    // boxShadow: "none",
-  },
 });
 
 const Wrapper = styled("div", {

@@ -4,12 +4,15 @@ import { Popover } from "@nulib/design-system";
 const IIIFBadgeButton = styled(Popover.Trigger, {
   width: "30px",
   padding: "5px",
+  margin: "0 0 0 2rem",
 });
 
 const IIIFBadgeContent = styled(Popover.Content, {
   display: "flex",
   flexDirection: "column",
   fontSize: "0.8333rem",
+  border: "none",
+  boxShadow: "2px 2px 5px #0003",
 
   button: {
     display: "flex",
@@ -31,7 +34,7 @@ const Header = styled("header", {
   display: "flex",
   backgroundColor: "transparent !important",
   justifyContent: "space-between",
-  padding: "0 0 0.5rem",
+  padding: "1rem",
 
   span: {
     fontSize: "1.25rem",
@@ -39,7 +42,6 @@ const Header = styled("header", {
     fontFamily: "$display",
 
     "@sm": {
-      padding: "1rem",
       fontSize: "1rem",
     },
   },

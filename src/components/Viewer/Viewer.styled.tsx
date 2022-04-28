@@ -70,10 +70,9 @@ const Aside = styled("aside", {
   },
 });
 
-const Wrapper = styled("section", {
+const Wrapper = styled("div", {
   display: "flex",
   flexDirection: "column",
-  padding: "1.618rem",
   fontFamily: "$sans",
   backgroundColor: "$secondary",
   fontSmooth: "auto",

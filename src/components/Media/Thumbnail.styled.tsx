@@ -35,21 +35,9 @@ const Item = styled(RadioGroup.Item, {
     marginRight: "1rem",
   },
 
-  "@sm": {
-    margin: "0 1rem 0 0",
-
-    "&:last-child": {
-      marginRight: "0",
-    },
-  },
-
   figure: {
     margin: "0",
     width: "161.8px",
-
-    "@sm": {
-      width: "123px",
-    },
 
     "> div": {
       position: "relative",
@@ -60,10 +48,6 @@ const Item = styled(RadioGroup.Item, {
       overflow: "hidden",
       borderRadius: "3px",
       transition: "$all",
-
-      "@sm": {
-        height: "76px",
-      },
 
       img: {
         width: "100%",
@@ -77,13 +61,8 @@ const Item = styled(RadioGroup.Item, {
 
       [`& ${Type}`]: {
         position: "absolute",
-        right: "0.5rem",
-        bottom: "0.5rem",
-
-        "@sm": {
-          right: "0",
-          bottom: "0",
-        },
+        right: "0",
+        bottom: "0",
 
         [`& ${Tag}`]: {
           margin: "0",
@@ -92,11 +71,8 @@ const Item = styled(RadioGroup.Item, {
           backgroundColor: "#000d",
           color: "$secondary",
           fill: "$secondary",
-
-          "@sm": {
-            borderBottomLeftRadius: "0",
-            borderTopRightRadius: "0",
-          },
+          borderBottomLeftRadius: "0",
+          borderTopRightRadius: "0",
         },
       },
     },

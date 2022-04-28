@@ -85,7 +85,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Wrapper
-        className={theme}
+        className={`${theme} clover-iiif`}
         data-body-locked={isBodyLocked}
         data-navigator={isNavigator}
         data-navigator-open={isNavigatorOpen}
