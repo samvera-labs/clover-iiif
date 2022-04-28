@@ -57886,7 +57886,9 @@ ${generateSegmentFilename(i3)}`);
   var defaultConfigOptions = {
     showTitle: true,
     showIIIFBadge: true,
-    ignoreCaptionLabels: []
+    ignoreCaptionLabels: [],
+    canvasBackgroundColor: "#e6e8eb",
+    canvasHeight: "61.8vh"
   };
   var defaultState = {
     activeCanvas: "",
@@ -59248,10 +59250,9 @@ ${generateSegmentFilename(i3)}`);
       width: "100%"
     }
   });
-  var Wrapper = styled("section", {
+  var Wrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
-    padding: "1.618rem",
     fontFamily: "$sans",
     backgroundColor: "$secondary",
     fontSmooth: "auto",
@@ -62004,12 +62005,15 @@ ${generateSegmentFilename(i3)}`);
   // src/components/Viewer/Header.styled.tsx
   var IIIFBadgeButton = styled(Popover.Trigger, {
     width: "30px",
-    padding: "5px"
+    padding: "5px",
+    margin: "0 0 0 2rem"
   });
   var IIIFBadgeContent = styled(Popover.Content, {
     display: "flex",
     flexDirection: "column",
     fontSize: "0.8333rem",
+    border: "none",
+    boxShadow: "2px 2px 5px #0003",
     button: {
       display: "flex",
       textDecoration: "none",
@@ -62028,13 +62032,12 @@ ${generateSegmentFilename(i3)}`);
     display: "flex",
     backgroundColor: "transparent !important",
     justifyContent: "space-between",
-    padding: "0 0 0.5rem",
+    padding: "1rem",
     span: {
       fontSize: "1.25rem",
       fontWeight: "700",
       fontFamily: "$display",
       "@sm": {
-        padding: "1rem",
         fontSize: "1rem"
       }
     }
@@ -62137,7 +62140,12 @@ ${generateSegmentFilename(i3)}`);
   var ViewerHeader = ({ manifestId, manifestLabel }) => {
     const viewerState = useViewerState();
     const { configOptions } = viewerState;
-    return /* @__PURE__ */ import_react32.default.createElement(Header, null, configOptions.showTitle && /* @__PURE__ */ import_react32.default.createElement("span", null, getLabel(manifestLabel, "en")), configOptions.showIIIFBadge && /* @__PURE__ */ import_react32.default.createElement(Popover, null, /* @__PURE__ */ import_react32.default.createElement(IIIFBadgeButton, null, /* @__PURE__ */ import_react32.default.createElement(IIIFBadge_default, null)), /* @__PURE__ */ import_react32.default.createElement(IIIFBadgeContent, null, /* @__PURE__ */ import_react32.default.createElement("button", {
+    const { showTitle, showIIIFBadge } = configOptions;
+    if (!showTitle && !showIIIFBadge)
+      return /* @__PURE__ */ import_react32.default.createElement(import_react32.default.Fragment, null);
+    return /* @__PURE__ */ import_react32.default.createElement(Header, {
+      className: "clover-header"
+    }, showTitle && /* @__PURE__ */ import_react32.default.createElement("span", null, getLabel(manifestLabel, "en")), showIIIFBadge && /* @__PURE__ */ import_react32.default.createElement(Popover, null, /* @__PURE__ */ import_react32.default.createElement(IIIFBadgeButton, null, /* @__PURE__ */ import_react32.default.createElement(IIIFBadge_default, null)), /* @__PURE__ */ import_react32.default.createElement(IIIFBadgeContent, null, /* @__PURE__ */ import_react32.default.createElement("button", {
       onClick: (e4) => {
         e4.preventDefault();
         window.open(manifestId, "_blank");
@@ -62802,13 +62810,10 @@ ${generateSegmentFilename(i3)}`);
     display: "flex",
     flexDirection: "row",
     flexGrow: "1",
-    padding: "1.618rem 0.618rem 1.618rem 0 ",
+    padding: "1.618rem",
     overflowX: "scroll",
     position: "relative",
-    zIndex: "0",
-    "@sm": {
-      padding: "1rem"
-    }
+    zIndex: "0"
   });
 
   // src/components/Media/Thumbnail.tsx
@@ -62862,18 +62867,9 @@ ${generateSegmentFilename(i3)}`);
     "&:last-child": {
       marginRight: "1rem"
     },
-    "@sm": {
-      margin: "0 1rem 0 0",
-      "&:last-child": {
-        marginRight: "0"
-      }
-    },
     figure: {
       margin: "0",
       width: "161.8px",
-      "@sm": {
-        width: "123px"
-      },
       "> div": {
         position: "relative",
         display: "flex",
@@ -62883,9 +62879,6 @@ ${generateSegmentFilename(i3)}`);
         overflow: "hidden",
         borderRadius: "3px",
         transition: "$all",
-        "@sm": {
-          height: "76px"
-        },
         img: {
           width: "100%",
           height: "100%",
@@ -62897,12 +62890,8 @@ ${generateSegmentFilename(i3)}`);
         },
         [`& ${Type}`]: {
           position: "absolute",
-          right: "0.5rem",
-          bottom: "0.5rem",
-          "@sm": {
-            right: "0",
-            bottom: "0"
-          },
+          right: "0",
+          bottom: "0",
           [`& ${Tag}`]: {
             margin: "0",
             paddingLeft: "0",
@@ -62910,10 +62899,8 @@ ${generateSegmentFilename(i3)}`);
             backgroundColor: "#000d",
             color: "$secondary",
             fill: "$secondary",
-            "@sm": {
-              borderBottomLeftRadius: "0",
-              borderTopRightRadius: "0"
-            }
+            borderBottomLeftRadius: "0",
+            borderTopRightRadius: "0"
           }
         }
       },
@@ -63095,8 +63082,7 @@ ${generateSegmentFilename(i3)}`);
       display: "flex",
       margin: "0 0.5rem",
       fontSize: "0.7222rem"
-    },
-    [`& ${Button2}`]: {}
+    }
   });
   var Wrapper2 = styled("div", {
     display: "flex",
@@ -63925,7 +63911,7 @@ ${generateSegmentFilename(i3)}`);
     display: "flex",
     flexGrow: "0",
     flexShrink: "1",
-    maxHeight: "450px",
+    maxHeight: "500px",
     zIndex: "1",
     video: {
       backgroundColor: "transparent",
@@ -64073,7 +64059,12 @@ ${generateSegmentFilename(i3)}`);
         };
       }
     };
-    return /* @__PURE__ */ import_react51.default.createElement(PlayerWrapper, null, /* @__PURE__ */ import_react51.default.createElement("video", {
+    return /* @__PURE__ */ import_react51.default.createElement(PlayerWrapper, {
+      css: {
+        backgroundColor: configOptions.canvasBackgroundColor,
+        maxHeight: configOptions.canvasHeight
+      }
+    }, /* @__PURE__ */ import_react51.default.createElement("video", {
       id: "clover-iiif-video",
       key: painting.id,
       ref: playerRef,
@@ -64131,7 +64122,8 @@ ${generateSegmentFilename(i3)}`);
   });
   var Wrapper4 = styled("div", {
     width: "100%",
-    height: "450px",
+    height: "61.8vh",
+    maxHeight: "100vh",
     background: "black",
     backgroundSize: "contain",
     color: "white",
@@ -64278,6 +64270,8 @@ ${generateSegmentFilename(i3)}`);
   // src/components/ImageViewer/OSD.tsx
   var OSD = ({ uri, imageType }) => {
     const [osdUri, setOsdUri] = (0, import_react56.useState)();
+    const viewerState = useViewerState();
+    const { configOptions } = viewerState;
     const instance = v4_default();
     const config2 = {
       id: `openseadragon-viewport-${instance}`,
@@ -64313,7 +64307,12 @@ ${generateSegmentFilename(i3)}`);
         }
       }
     }, [osdUri]);
-    return /* @__PURE__ */ import_react56.default.createElement(Wrapper4, null, /* @__PURE__ */ import_react56.default.createElement(Controls_default2, null), /* @__PURE__ */ import_react56.default.createElement(Navigator2, {
+    return /* @__PURE__ */ import_react56.default.createElement(Wrapper4, {
+      css: {
+        backgroundColor: configOptions.canvasBackgroundColor,
+        height: configOptions.canvasHeight
+      }
+    }, /* @__PURE__ */ import_react56.default.createElement(Controls_default2, null), /* @__PURE__ */ import_react56.default.createElement(Navigator2, {
       id: `openseadragon-navigator-${instance}`
     }), /* @__PURE__ */ import_react56.default.createElement(Viewport, {
       id: `openseadragon-viewport-${instance}`
@@ -64352,7 +64351,9 @@ ${generateSegmentFilename(i3)}`);
     isNavigator,
     isNavigatorOpen
   }) => {
-    return /* @__PURE__ */ import_react58.default.createElement(Content, null, /* @__PURE__ */ import_react58.default.createElement(CurrentTimeProvider, null, /* @__PURE__ */ import_react58.default.createElement(Main, null, isMedia ? /* @__PURE__ */ import_react58.default.createElement(Player_default, {
+    return /* @__PURE__ */ import_react58.default.createElement(Content, {
+      className: "clover-content"
+    }, /* @__PURE__ */ import_react58.default.createElement(CurrentTimeProvider, null, /* @__PURE__ */ import_react58.default.createElement(Main, null, isMedia ? /* @__PURE__ */ import_react58.default.createElement(Player_default, {
       painting,
       resources
     }) : painting && /* @__PURE__ */ import_react58.default.createElement(ImageViewer_default, {
@@ -64362,7 +64363,9 @@ ${generateSegmentFilename(i3)}`);
       "data-navigator": isNavigator
     }, /* @__PURE__ */ import_react58.default.createElement(Button, {
       as: "span"
-    }, isNavigatorOpen ? "View Media Items" : "View Navigator")), items.length > 1 && /* @__PURE__ */ import_react58.default.createElement(MediaWrapper, null, /* @__PURE__ */ import_react58.default.createElement(Media_default, {
+    }, isNavigatorOpen ? "View Media Items" : "View Navigator")), items.length > 1 && /* @__PURE__ */ import_react58.default.createElement(MediaWrapper, {
+      className: "clover-canvases"
+    }, /* @__PURE__ */ import_react58.default.createElement(Media_default, {
       items,
       activeItem: 0
     }))), isNavigator && /* @__PURE__ */ import_react58.default.createElement(Aside, null, /* @__PURE__ */ import_react58.default.createElement(CollapsibleContent, null, /* @__PURE__ */ import_react58.default.createElement(Navigator_default, {
@@ -64441,7 +64444,7 @@ ${generateSegmentFilename(i3)}`);
     return /* @__PURE__ */ import_react60.default.createElement(import_react_error_boundary.ErrorBoundary, {
       FallbackComponent: ErrorFallback_default
     }, /* @__PURE__ */ import_react60.default.createElement(Wrapper, {
-      className: theme3,
+      className: `${theme3} clover-iiif`,
       "data-body-locked": isBodyLocked,
       "data-navigator": isNavigator,
       "data-navigator-open": isNavigatorOpen
@@ -64720,7 +64723,11 @@ ${generateSegmentFilename(i3)}`);
     const [url, setUrl] = import_react65.default.useState(defaultUrl);
     return /* @__PURE__ */ import_react65.default.createElement(import_react65.default.Fragment, null, /* @__PURE__ */ import_react65.default.createElement(src_default, {
       manifestId: url,
-      key: url
+      key: url,
+      options: {
+        canvasBackgroundColor: "#e6e8eb",
+        canvasHeight: "61.8vh"
+      }
     }), /* @__PURE__ */ import_react65.default.createElement(DynamicUrl_default, {
       url,
       setUrl
