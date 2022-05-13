@@ -14,7 +14,7 @@
 <h1>Clover IIIF</h1>
 <p><strong>A minimal IIIF viewer for Image, Audio, and Video canvases built with React.js</strong></p>
 <p><a href="https://samvera-labs.github.io/clover-iiif/"><strong>Demo</strong></a></p>
-<p>Clover IIIF is a UI component that renders a multicanvas IIIF item viewer intended for <code>Video</code> and <code>Sound</code> content resources with basic pan-zoom support for <code>Image</code> via OpenSeadragon. Provide a <a href="https://iiif.io/api/presentation/3.0/">IIIF Presentation</a> manifest and the component:</p>
+<p>Clover IIIF is a UI component that renders a multicanvas IIIF item viewer for <code>Video</code> and <code>Sound</code> content resources with pan-zoom support for <code>Image</code> via OpenSeadragon. Provide a <a href="https://iiif.io/api/presentation/3.0/">IIIF Presentation</a> manifest and the component:</p>
 <ul>
 <li>Renders a multi-canvas <em>Video</em>, <em>Sound</em>, and <em>Image</em> viewer</li>
 <li>Renders thumbnails as navigation between canvases</li>
@@ -241,7 +241,7 @@
 <ul>
 <li>MUST be a <a href="https://iiif.io/api/presentation/3.0/">IIIF Presentation API</a> valid manifest,</li>
 <li>MUST have at least one canvas with an annotation of the <strong>motivation</strong> of <code>painting</code> and content resource with the <strong>type</strong> of <code>Video</code>, <code>Sound</code>, or <code>Image</code></li>
-<li>SHOULD have canvases with annotations of the <strong>motivation</strong> of <code>supplementing</code> and content resource with the <strong>format</strong> of <code>text/vtt</code></li>
+<li>MAY have canvases with annotations of the <strong>motivation</strong> of <code>supplementing</code> and content resource with the <strong>format</strong> of <code>text/vtt</code></li>
 <li>MAY have HLS streaming media, however, the file extension MUST be <code>.m3u8</code> for <code>Sound</code> and <code>Video</code></li>
 </ul>
 <hr>
