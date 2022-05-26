@@ -1,6 +1,6 @@
 import React from "react";
-import { styled } from "stitches";
-import { useCopyToClipboard, CopyStatus } from "hooks/useCopyToClipboard";
+import { styled } from "@/stitches";
+import { useCopyToClipboard, CopyStatus } from "@/hooks/useCopyToClipboard";
 
 const Status = styled("span", {
   display: "flex",

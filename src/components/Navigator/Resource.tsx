@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { getLabel } from "hooks/use-iiif";
+import { getLabel } from "@/hooks/use-iiif";
 import { InternationalString } from "@iiif/presentation-3";
-import { Group } from "./Cue.styled";
+import { Group } from "@/components/Navigator/Cue.styled";
 import useWebVtt, {
   NodeWebVttCue,
   NodeWebVttCueNested,
-} from "hooks/use-webvtt";
-import Menu from "components/Navigator/Menu";
+} from "@/hooks/use-webvtt";
+import Menu from "@/components/Navigator/Menu";
 
 // @ts-ignore
 import { parse } from "node-webvtt";

@@ -1,5 +1,5 @@
 import * as Tabs from "@radix-ui/react-tabs";
-import { styled } from "stitches";
+import { styled } from "@/stitches";
 
 const Wrapper = styled(Tabs.Root, {
   display: "flex",

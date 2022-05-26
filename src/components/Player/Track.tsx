@@ -1,7 +1,7 @@
 import React from "react";
 import { InternationalString } from "@iiif/presentation-3";
-import { LabeledResource } from "hooks/use-iiif/getSupplementingResources";
-import { getLabel } from "hooks/use-iiif";
+import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
+import { getLabel } from "@/hooks/use-iiif";
 
 export interface TrackProps {
   resource: LabeledResource;

@@ -1,4 +1,4 @@
-import Media from "./Media";
+import Media from "@/components/Media/Media";
 import React from "react";
 import { render, screen } from "@testing-library/react";
 

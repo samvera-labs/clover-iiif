@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Direction, Form, Input, Wrapper } from "./Controls.styled";
-import useKeyPress from "hooks/useKeyPress";
+import {
+  Button,
+  Direction,
+  Form,
+  Input,
+  Wrapper,
+} from "@/components/Media/Controls.styled";
+import useKeyPress from "@/hooks/useKeyPress";
 
 interface Props {
   handleCanvasToggle: (arg0: -1 | 1) => void;

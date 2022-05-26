@@ -1,6 +1,5 @@
 import {
   Annotation,
-  AnnotationBody,
   AnnotationPageNormalized,
   Canvas,
   CanvasNormalized,

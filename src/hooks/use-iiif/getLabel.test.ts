@@ -1,4 +1,4 @@
-import { getLabel } from "./getLabel";
+import { getLabel } from "@/hooks/use-iiif";
 
 test("Test output of IIIF presentation label by internationalized language code.", () => {
   const englishLabel = getLabel({ en: ["Sample label"] }, "en");

@@ -1,7 +1,7 @@
 import React from "react";
-import { Item } from "./Cue.styled";
-import { convertTime } from "services/utils";
-import { CurrentTimeContext } from "context/current-time-context";
+import { Item } from "@/components/Navigator/Cue.styled";
+import { convertTime } from "@/services/utils";
+import { CurrentTimeContext } from "@/context/current-time-context";
 
 interface Props {
   label: string;

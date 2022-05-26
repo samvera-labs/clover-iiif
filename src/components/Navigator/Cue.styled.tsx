@@ -1,5 +1,5 @@
 import * as RadioGroup from "@radix-ui/react-radio-group";
-import { styled, keyframes } from "stitches";
+import { styled, keyframes } from "@/stitches";
 
 const spin = keyframes({
   from: { transform: "rotate(360deg)" },

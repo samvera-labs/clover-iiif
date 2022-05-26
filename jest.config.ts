@@ -4,6 +4,9 @@ import type { Config } from "@jest/types";
 // Sync object
 const config: Config.InitialOptions = {
   moduleDirectories: ["node_modules", "src"],
+  moduleNameMapper: {
+    "@/(.*)": "<rootDir>/src/$1",
+  },
   roots: ["<rootDir>/src"],
   setupFilesAfterEnv: ["./jest-setup.ts"],
   testEnvironment: "jsdom",

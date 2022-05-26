@@ -1,5 +1,4 @@
-import { getThumbnail } from "./getThumbnail";
-import { CanvasEntity } from "./getCanvasByCriteria";
+import { CanvasEntity } from "@/hooks/use-iiif/getCanvasByCriteria";
 
 //TODO: Figure out how to mock Vault()
 // const vault = new Vault();
@@ -37,7 +36,7 @@ const sampleCanvasEntity: CanvasEntity = {
     ],
     annotations: [],
     seeAlso: [],
-    homepage: null,
+    homepage: [],
     logo: [],
     partOf: [],
     rendering: [],
@@ -65,7 +64,7 @@ const sampleCanvasEntity: CanvasEntity = {
       },
     ],
     seeAlso: [],
-    homepage: null,
+    homepage: [],
     logo: [],
     rendering: [],
     service: [],

@@ -1,5 +1,5 @@
 import React from "react";
-import ErrorFallback from "./ErrorFallback";
+import ErrorFallback from "@/components/Viewer/ErrorFallback";
 import { render, screen } from "@testing-library/react";
 
 describe("ErrorFallback component", () => {

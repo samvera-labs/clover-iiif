@@ -2,11 +2,11 @@ import React from "react";
 import { Vault } from "@iiif/vault";
 
 export type ConfigOptions = {
-  showTitle: boolean;
-  showIIIFBadge: boolean;
-  ignoreCaptionLabels: string[];
-  canvasBackgroundColor: string;
-  canvasHeight: string;
+  showTitle?: boolean;
+  showIIIFBadge?: boolean;
+  ignoreCaptionLabels?: string[];
+  canvasBackgroundColor?: string;
+  canvasHeight?: string;
 };
 
 const defaultConfigOptions = {

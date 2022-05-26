@@ -1,8 +1,8 @@
 import React, { StrictMode } from "react";
-import App from "./index";
-import DynamicUrl from "./dev/DynamicUrl";
+import App from "@/index";
+import DynamicUrl from "@/dev/DynamicUrl";
 import { createRoot } from "react-dom/client";
-import { manifests } from "./dev/manifests";
+import { manifests } from "@/dev/manifests";
 
 const Wrapper = () => {
   const defaultUrl: string = manifests[0].url;

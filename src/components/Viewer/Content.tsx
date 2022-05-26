@@ -1,10 +1,10 @@
 import React from "react";
-import Media from "components/Media/Media";
-import Navigator from "components/Navigator/Navigator";
-import Player from "components/Player/Player";
-import ImageViewer from "components/ImageViewer/ImageViewer";
+import Media from "@/components/Media/Media";
+import Navigator from "@/components/Navigator/Navigator";
+import Player from "@/components/Player/Player";
+import ImageViewer from "@/components/ImageViewer/ImageViewer";
 import { Button } from "@nulib/design-system";
-import { Canvas, IIIFExternalWebResource, Service } from "@iiif/presentation-3";
+import { Canvas, IIIFExternalWebResource } from "@iiif/presentation-3";
 import {
   Content,
   Main,
@@ -12,9 +12,9 @@ import {
   CollapsibleContent,
   MediaWrapper,
   Aside,
-} from "./Viewer.styled";
-import { LabeledResource } from "hooks/use-iiif/getSupplementingResources";
-import { CurrentTimeProvider } from "context/current-time-context";
+} from "@/components/Viewer/Viewer.styled";
+import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
+import { CurrentTimeProvider } from "@/context/current-time-context";
 
 interface Props {
   activeCanvas: string;

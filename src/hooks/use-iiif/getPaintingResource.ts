@@ -1,5 +1,5 @@
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
-import { getCanvasByCriteria } from "./index";
+import { getCanvasByCriteria } from "@/hooks/use-iiif";
 
 export const getPaintingResource = (
   vault: any,

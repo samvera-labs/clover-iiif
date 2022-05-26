@@ -1,5 +1,5 @@
 import { styled } from "stitches";
-import { Item } from "components/Navigator/Cue.styled";
+import { Item } from "@/components/Navigator/Cue.styled";
 
 export const MenuStyled = styled("ul", {
   listStyle: "none",

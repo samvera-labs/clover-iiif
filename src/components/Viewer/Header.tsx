@@ -3,9 +3,9 @@ import { Header, IIIFBadgeButton, IIIFBadgeContent } from "./Header.styled";
 import { InternationalString } from "@iiif/presentation-3";
 import { getLabel } from "hooks/use-iiif";
 import { Popover } from "@nulib/design-system";
-import IIIFBadge from "./IIIFBadge";
-import CopyText from "components/CopyText";
-import { useViewerState } from "context/viewer-context";
+import IIIFBadge from "@/components/Viewer/IIIFBadge";
+import CopyText from "@/components/CopyText";
+import { useViewerState } from "@/context/viewer-context";
 
 interface Props {
   manifestId: string;

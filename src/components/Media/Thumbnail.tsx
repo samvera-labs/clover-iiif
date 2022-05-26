@@ -1,13 +1,18 @@
 import React from "react";
-import { getLabel } from "hooks/use-iiif";
-import { convertTime } from "services/utils";
+import { getLabel } from "@/hooks/use-iiif";
+import { convertTime } from "@/services/utils";
 import {
   CanvasNormalized,
   IIIFExternalWebResource,
   InternationalString,
 } from "@iiif/presentation-3";
 import { Icon, Tag } from "@nulib/design-system";
-import { Duration, Item, Spacer, Type } from "./Thumbnail.styled";
+import {
+  Duration,
+  Item,
+  Spacer,
+  Type,
+} from "@/components/Media/Thumbnail.styled";
 
 /**
  * Determine appropriate icon by resource type

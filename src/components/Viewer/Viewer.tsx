@@ -4,18 +4,21 @@ import {
   InternationalString,
   ManifestNormalized,
 } from "@iiif/presentation-3";
-import { getPaintingResource, getSupplementingResources } from "hooks/use-iiif";
-import { useViewerState } from "context/viewer-context";
-import { Wrapper } from "./Viewer.styled";
-import { useMediaQuery } from "hooks/useMediaQuery";
-import { useBodyLocked } from "hooks/useBodyLocked";
-import { media } from "stitches";
+import {
+  getPaintingResource,
+  getSupplementingResources,
+} from "@/hooks/use-iiif";
+import { useViewerState } from "@/context/viewer-context";
+import { Wrapper } from "@/components/Viewer/Viewer.styled";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useBodyLocked } from "@/hooks/useBodyLocked";
+import { media } from "@/stitches";
 import * as Collapsible from "@radix-ui/react-collapsible";
-import ViewerHeader from "./Header";
-import ViewerContent from "./Content";
-import { LabeledResource } from "hooks/use-iiif/getSupplementingResources";
+import ViewerHeader from "@/components/Viewer/Header";
+import ViewerContent from "@/components/Viewer/Content";
+import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
-import ErrorFallback from "components/Viewer/ErrorFallback";
+import ErrorFallback from "@/components/Viewer/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
 
 interface ViewerProps {
