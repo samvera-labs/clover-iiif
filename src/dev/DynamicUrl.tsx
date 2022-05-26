@@ -10,8 +10,8 @@ import {
   Curated,
   DynamicUrlStyled,
   ManualForm,
-} from "./DynamicUrl.styled";
-import { manifests } from "./manifests";
+} from "@/dev/DynamicUrl.styled";
+import { manifests } from "@/dev/manifests";
 
 interface DynamicUrlProps {
   url: string;

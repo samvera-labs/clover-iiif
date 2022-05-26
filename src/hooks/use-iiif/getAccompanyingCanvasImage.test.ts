@@ -1,5 +1,5 @@
-import { getAccompanyingCanvasImage } from "./getAccompanyingCanvasImage";
-import manifest from "../../../public/fixtures/iiif/manifests/audio-accompanying-canvas.json";
+import { getAccompanyingCanvasImage } from "@/hooks/use-iiif";
+import { manifest } from "@/mocks/iiif/audio-accompanying-canvas";
 
 describe("getAccompanyingCanvasImage hook", () => {
   it("returns a url string if passed valid items", () => {
@@ -10,7 +10,9 @@ describe("getAccompanyingCanvasImage hook", () => {
   });
 
   it("returns undefined if there are any errors", () => {
+    console.error = jest.fn();
     const result = getAccompanyingCanvasImage({ foo: "bar" });
+    expect(console.error).toHaveBeenCalled();
     expect(result).toBeUndefined();
   });
 });

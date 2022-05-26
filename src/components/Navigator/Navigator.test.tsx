@@ -1,4 +1,4 @@
-import Navigator from "./Navigator";
+import Navigator from "@/components/Navigator/Navigator";
 import React from "react";
 import { render, screen } from "@testing-library/react";
 

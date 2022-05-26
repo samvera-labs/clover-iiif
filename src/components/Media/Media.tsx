@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Group } from "./Media.styled";
-import { CanvasEntity } from "hooks/use-iiif/getCanvasByCriteria";
-import { getCanvasByCriteria, getLabel, getThumbnail } from "hooks/use-iiif";
+import { Group } from "@/components/Media/Media.styled";
+import { CanvasEntity } from "@/hooks/use-iiif/getCanvasByCriteria";
+import { getCanvasByCriteria, getLabel, getThumbnail } from "@/hooks/use-iiif";
 import {
   Canvas,
   CanvasNormalized,
   ExternalResourceTypes,
 } from "@iiif/presentation-3";
-import { useViewerState, useViewerDispatch } from "context/viewer-context";
-import Thumbnail from "./Thumbnail";
-import { getResourceType } from "hooks/use-iiif/getResourceType";
-import Controls from "./Controls";
+import { useViewerState, useViewerDispatch } from "@/context/viewer-context";
+import Thumbnail from "@/components/Media/Thumbnail";
+import { getResourceType } from "@/hooks/use-iiif/getResourceType";
+import Controls from "@/components/Media/Controls";
 
 interface MediaProps {
   items: Canvas[];

@@ -1,5 +1,5 @@
 import * as RadioGroup from "@radix-ui/react-radio-group";
-import { styled } from "stitches";
+import { styled } from "@/stitches";
 
 const Group = styled(RadioGroup.Root, {
   display: "flex",

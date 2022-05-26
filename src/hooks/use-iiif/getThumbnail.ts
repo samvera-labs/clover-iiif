@@ -1,9 +1,5 @@
-import {
-  AnnotationBody,
-  ContentResource,
-  IIIFExternalWebResource,
-} from "@iiif/presentation-3";
-import { CanvasEntity } from "./getCanvasByCriteria";
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
+import { CanvasEntity } from "@/hooks/use-iiif/getCanvasByCriteria";
 
 export const getThumbnail = (
   vault: any,

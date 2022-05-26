@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { InternationalString } from "@iiif/presentation-3";
-import { Content, List, Scroll, Trigger, Wrapper } from "./Navigator.styled";
-import { LabeledResource } from "hooks/use-iiif/getSupplementingResources";
-import { getLabel } from "hooks/use-iiif";
-import Resource from "./Resource";
+import {
+  Content,
+  List,
+  Scroll,
+  Trigger,
+  Wrapper,
+} from "@/components/Navigator/Navigator.styled";
+import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
+import { getLabel } from "@/hooks/use-iiif";
+import Resource from "@/components/Navigator/Resource";
 
 interface NavigatorProps {
   activeCanvas: string;

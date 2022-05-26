@@ -1,4 +1,4 @@
-import { styled } from "stitches";
+import { styled } from "@/stitches";
 
 export const PlayerWrapper = styled("div", {
   position: "relative",

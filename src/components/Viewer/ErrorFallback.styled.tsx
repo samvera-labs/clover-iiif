@@ -1,4 +1,4 @@
-import { styled } from "stitches";
+import { styled } from "@/stitches";
 
 const ErrorFallbackStyled = styled("div", {
   display: "flex",

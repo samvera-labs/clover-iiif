@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "./Button";
-import { Wrapper } from "./Controls.styled";
+import Button from "@/components/ImageViewer/Button";
+import { Wrapper } from "@/components/ImageViewer/Controls.styled";
 
 const Controls: React.FC = () => {
   const ZoomIn = () => {

@@ -1,4 +1,4 @@
-import { styled } from "stitches";
+import { styled } from "@/stitches";
 import * as Collapsible from "@radix-ui/react-collapsible";
 
 const MediaWrapper = styled("div", {

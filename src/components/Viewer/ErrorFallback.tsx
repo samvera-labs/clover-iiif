@@ -3,7 +3,7 @@ import {
   ErrorFallbackStyled,
   ErrorBody,
   Headline,
-} from "components/Viewer/ErrorFallback.styled";
+} from "@/components/Viewer/ErrorFallback.styled";
 
 interface ErrorFallbackProps {
   error: Error;

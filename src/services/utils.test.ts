@@ -1,4 +1,4 @@
-import { cleanTime, convertTime } from "./utils";
+import { cleanTime, convertTime } from "@/services/utils";
 
 test("Test output a 'cleaned time' when given international standard time notation.", () => {
   const hours1 = cleanTime("11:15:55.784");

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
-import OSD, { osdImageTypes } from "./OSD";
-import { getImageServiceURI } from "services/iiif";
+import OSD, { osdImageTypes } from "@/components/ImageViewer/OSD";
+import { getImageServiceURI } from "@/services/iiif";
 
 interface ImageViewerProps {
   body: IIIFExternalWebResource;

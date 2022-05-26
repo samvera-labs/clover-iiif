@@ -1,5 +1,5 @@
 import React from "react";
-import { Item } from "./Button.styled";
+import { Item } from "@/components/ImageViewer/Button.styled";
 
 interface ButtonProps {
   id: string;

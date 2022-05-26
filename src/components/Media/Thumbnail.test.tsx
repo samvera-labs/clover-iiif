@@ -1,8 +1,8 @@
 import React from "react";
-import Thumbnail from "./Thumbnail";
+import Thumbnail from "@/components/Media/Thumbnail";
 import { screen, render, within } from "@testing-library/react";
-import { ThumbnailProps } from "./Thumbnail";
-import { Group } from "./Media.styled";
+import { ThumbnailProps } from "@/components/Media/Thumbnail";
+import { Group } from "@/components/Media/Media.styled";
 
 const props: ThumbnailProps = {
   canvas: {
@@ -36,7 +36,7 @@ const props: ThumbnailProps = {
     ],
     annotations: [],
     seeAlso: [],
-    homepage: null,
+    homepage: [],
     logo: [],
     partOf: [],
     rendering: [],

@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { LabeledResource } from "../../hooks/use-iiif/getSupplementingResources";
-import Track from "./Track";
+import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
+import Track from "@/components/Player/Track";
 
 const mockResourceCaptions: LabeledResource = {
   id: "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",

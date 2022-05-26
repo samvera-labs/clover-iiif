@@ -1,7 +1,7 @@
 import React from "react";
-import { NodeWebVttCueNested } from "hooks/use-webvtt";
-import Cue from "components/Navigator/Cue";
-import { MenuStyled } from "components/Navigator/Menu.styled";
+import { NodeWebVttCueNested } from "@/hooks/use-webvtt";
+import Cue from "@/components/Navigator/Cue";
+import { MenuStyled } from "@/components/Navigator/Menu.styled";
 
 interface MenuProps {
   items: Array<NodeWebVttCueNested>;

@@ -1,4 +1,4 @@
-import { styled } from "stitches";
+import { styled } from "@/stitches";
 
 const Navigator = styled("div", {
   position: "absolute !important",

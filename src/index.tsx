@@ -5,8 +5,8 @@ import {
   ViewerProvider,
   useViewerState,
   useViewerDispatch,
-} from "context/viewer-context";
-import Viewer from "components/Viewer/Viewer";
+} from "@/context/viewer-context";
+import Viewer from "@/components/Viewer/Viewer";
 import { createTheme } from "@stitches/react";
 
 interface Props {

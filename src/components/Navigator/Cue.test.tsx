@@ -1,5 +1,5 @@
-import Cue from "./Cue";
-import { Group } from "./Cue.styled";
+import Cue from "@/components/Navigator/Cue";
+import { Group } from "@/components/Navigator/Cue.styled";
 import React from "react";
 import { render, screen } from "@testing-library/react";
 

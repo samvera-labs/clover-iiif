@@ -1,4 +1,4 @@
-import { styled } from "stitches";
+import { styled } from "@/stitches";
 import { Popover } from "@nulib/design-system";
 
 const IIIFBadgeButton = styled(Popover.Trigger, {

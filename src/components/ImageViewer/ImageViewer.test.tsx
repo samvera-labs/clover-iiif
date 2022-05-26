@@ -1,8 +1,8 @@
 import { enableFetchMocks } from "jest-fetch-mock";
 import React from "react";
 import { render } from "@testing-library/react";
-import ImageViewer from "./ImageViewer";
-import { tileSourceResponse } from "../../services/iiif-test-fixtures";
+import ImageViewer from "@/components/ImageViewer/ImageViewer";
+import { tileSourceResponse } from "@/services/iiif-test-fixtures";
 
 enableFetchMocks();
 

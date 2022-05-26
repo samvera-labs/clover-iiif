@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import OpenSeadragon from "openseadragon";
-import { Navigator, Viewport, Wrapper } from "./ImageViewer.styled";
-import Controls from "./Controls";
-import { getInfoResponse } from "services/iiif";
+import {
+  Navigator,
+  Viewport,
+  Wrapper,
+} from "@/components/ImageViewer/ImageViewer.styled";
+import Controls from "@/components/ImageViewer/Controls";
+import { getInfoResponse } from "@/services/iiif";
 import { v4 as uuidv4 } from "uuid";
-import { useViewerState } from "context/viewer-context";
+import { useViewerState } from "@/context/viewer-context";
 
 export type osdImageTypes = "tiledImage" | "simpleImage" | undefined;
 

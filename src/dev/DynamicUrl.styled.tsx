@@ -1,4 +1,4 @@
-import { styled } from "@stitches/react";
+import { styled } from "@/stitches";
 
 const DynamicUrlStyled = styled("section", {
   display: "flex",

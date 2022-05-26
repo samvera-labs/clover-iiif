@@ -1,4 +1,4 @@
-import { styled } from "stitches";
+import { styled } from "@/stitches";
 
 const Form = styled("div", {
   position: "absolute",

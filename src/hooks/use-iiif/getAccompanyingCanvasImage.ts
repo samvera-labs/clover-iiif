@@ -28,6 +28,7 @@ export const getAccompanyingCanvasImage = (
     /**
      * Step 2: Dig into the Annotation Page > Body
      */
+
     return getUrl(accompanyingCanvas.items[0].items[0].body);
   } catch (e) {
     console.error("Error retrieving accompanying canvas image", e);
