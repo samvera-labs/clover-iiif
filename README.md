@@ -5,7 +5,7 @@
 
 **A minimal IIIF viewer for Image, Audio, and Video canvases built with React.js**
 
-[**Demo**](https://samvera-labs.github.io/clover-iiif/)
+[**Demo**](https://samvera-labs.github.io/clover-iiif/)  |  [**Code**](https://github.com/samvera-labs/clover-iiif)
 
 Clover IIIF is a UI component that renders a multicanvas IIIF item viewer for `Video` and `Sound` content resources with pan-zoom support for `Image` via OpenSeadragon. Provide a [IIIF Presentation](https://iiif.io/api/presentation/3.0/) manifest and the component:
 
