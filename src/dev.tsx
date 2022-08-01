@@ -16,11 +16,6 @@ const Wrapper = () => {
         options={{
           canvasBackgroundColor: "#e6e8eb",
           canvasHeight: "61.8vh",
-          openSeadragon: {
-            gestureSettingsMouse: {
-              scrollToZoom: true,
-            },
-          },
         }}
       />
       <DynamicUrl url={url} setUrl={setUrl} />
