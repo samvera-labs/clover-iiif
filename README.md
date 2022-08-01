@@ -5,7 +5,7 @@
 
 **A minimal IIIF viewer for Image, Audio, and Video canvases built with React.js**
 
-[**Demo**](https://samvera-labs.github.io/clover-iiif/)  |  [**Code**](https://github.com/samvera-labs/clover-iiif)
+[**Demo**](https://samvera-labs.github.io/clover-iiif/) | [**Code**](https://github.com/samvera-labs/clover-iiif)
 
 Clover IIIF is a UI component that renders a multicanvas IIIF item viewer for `Video` and `Sound` content resources with pan-zoom support for `Image` via OpenSeadragon. Provide a [IIIF Presentation](https://iiif.io/api/presentation/3.0/) manifest and the component:
 
@@ -195,8 +195,11 @@ return <CloverIIIF manifestId={manifestId} customTheme={customTheme} />;
 | `options.ignoreCaptionLabels`   | `string[]` | No       | []        |
 | `options.canvasBackgroundColor` | `string`   | No       | `#1a1d1e` |
 | `options.canvasHeight`          | `string`   | No       | `500px`   |
+| `options.openSeadragon`         | `Options`  | No       |           |
 
 Clover IIIF version 1.4.0, introduces an `options` prop, which will serve as a configuration object for common configuration options. Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
+
+You can override the [OpenSeadragon default options](https://openseadragon.github.io/docs/OpenSeadragon.html#.Options) set within Clover to adjust touch and mouse gesture settings and various other configurations.
 
 ```jsx
 import CloverIIIF from "@samvera/clover-iiif";
@@ -212,7 +215,17 @@ const options = {
   showIIIFBadge: false,
 
   // Ignore supplementing canvases by label value that are not for captioning
-  ignoreCaptionLabels: ['Chapters']
+  ignoreCaptionLabels: ['Chapters'],
+
+  // Override canvas background color, defaults to #1a1d1e
+  canvasBackgroundColor: "#000",
+
+  // Set canvas zooming onScoll (this defaults to false)
+  openSeadragon: {
+    gestureSettingsMouse: {
+      scrollToZoom: true;
+    }
+  }
 }
 ...
 
