@@ -13,7 +13,7 @@
 <img src="https://user-images.githubusercontent.com/7376450/164540681-0504cae5-58e6-4172-969f-2b289f47b422.png" class="clover-screenshot" alt="Clover screenshot" />
 <h1>Clover IIIF</h1>
 <p><strong>A minimal IIIF viewer for Image, Audio, and Video canvases built with React.js</strong></p>
-<p><a href="https://samvera-labs.github.io/clover-iiif/"><strong>Demo</strong></a>  |  <a href="https://github.com/samvera-labs/clover-iiif"><strong>Code</strong></a></p>
+<p><a href="https://samvera-labs.github.io/clover-iiif/"><strong>Demo</strong></a> | <a href="https://github.com/samvera-labs/clover-iiif"><strong>Code</strong></a></p>
 <p>Clover IIIF is a UI component that renders a multicanvas IIIF item viewer for <code>Video</code> and <code>Sound</code> content resources with pan-zoom support for <code>Image</code> via OpenSeadragon. Provide a <a href="https://iiif.io/api/presentation/3.0/">IIIF Presentation</a> manifest and the component:</p>
 <ul>
 <li>Renders a multi-canvas <em>Video</em>, <em>Sound</em>, and <em>Image</em> viewer</li>
@@ -213,9 +213,16 @@
 <td>No</td>
 <td><code>500px</code></td>
 </tr>
+<tr>
+<td><code>options.openSeadragon</code></td>
+<td><code>Options</code></td>
+<td>No</td>
+<td></td>
+</tr>
 </tbody>
 </table>
 <p>Clover IIIF version 1.4.0, introduces an <code>options</code> prop, which will serve as a configuration object for common configuration options. Options <code>canvasBackgroundColor</code> and <code>canvasHeight</code> will apply to both <code>&lt;video&gt;</code> elements and the OpenseaDragon canvas.</p>
+<p>You can override the <a href="https://openseadragon.github.io/docs/OpenSeadragon.html#.Options">OpenSeadragon default options</a> set within Clover to adjust touch and mouse gesture settings and various other configurations.</p>
 <pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF; font-style: italic">import</span><span style="color: #EEFFFF"> CloverIIIF </span><span style="color: #89DDFF; font-style: italic">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">@samvera/clover-iiif</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
 <span class="line"><span style="color: #89DDFF">...</span></span>
@@ -229,7 +236,17 @@
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">showIIIFBadge</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #FF9CAC">false</span><span style="color: #89DDFF">,</span></span>
 <span class="line"></span>
 <span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454; font-style: italic">// Ignore supplementing canvases by label value that are not for captioning</span></span>
-<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">ignoreCaptionLabels</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> [</span><span style="color: #89DDFF">&#39;</span><span style="color: #C3E88D">Chapters</span><span style="color: #89DDFF">&#39;</span><span style="color: #EEFFFF">]</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">ignoreCaptionLabels</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> [</span><span style="color: #89DDFF">&#39;</span><span style="color: #C3E88D">Chapters</span><span style="color: #89DDFF">&#39;</span><span style="color: #EEFFFF">]</span><span style="color: #89DDFF">,</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454; font-style: italic">// Override canvas background color, defaults to #1a1d1e</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">canvasBackgroundColor</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#000</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454; font-style: italic">// Set canvas zooming onScoll (this defaults to false)</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">openSeadragon</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">gestureSettingsMouse</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
+<span class="line"><span style="color: #EEFFFF">      </span><span style="color: #F07178">scrollToZoom</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #FF9CAC">true</span><span style="color: #EEFFFF">;</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #89DDFF">}</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">}</span></span>
 <span class="line"><span style="color: #89DDFF">}</span></span>
 <span class="line"><span style="color: #89DDFF">...</span></span>
 <span class="line"></span>

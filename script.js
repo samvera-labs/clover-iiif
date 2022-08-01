@@ -64282,7 +64282,13 @@ ${generateSegmentFilename(i3)}`);
       zoomOutButton: "zoomOut",
       showNavigator: true,
       navigatorBorderColor: "transparent",
-      navigatorId: `openseadragon-navigator-${instance}`
+      navigatorId: `openseadragon-navigator-${instance}`,
+      gestureSettingsMouse: {
+        clickToZoom: true,
+        dblClickToZoom: true,
+        pinchToZoom: true,
+        scrollToZoom: false
+      }
     };
     (0, import_react54.useEffect)(() => {
       if (uri !== osdUri)
