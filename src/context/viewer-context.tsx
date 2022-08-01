@@ -1,3 +1,4 @@
+import { Options } from "openseadragon";
 import React from "react";
 import { Vault } from "@iiif/vault";
 
@@ -7,6 +8,7 @@ export type ConfigOptions = {
   ignoreCaptionLabels?: string[];
   canvasBackgroundColor?: string;
   canvasHeight?: string;
+  openSeadragon?: Options;
 };
 
 const defaultConfigOptions = {

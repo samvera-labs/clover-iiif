@@ -34,6 +34,12 @@ const OSD: React.FC<OSDProps> = ({ uri, imageType }) => {
     showNavigator: true,
     navigatorBorderColor: "transparent",
     navigatorId: `openseadragon-navigator-${instance}`,
+    gestureSettingsMouse: {
+      clickToZoom: true,
+      dblClickToZoom: true,
+      pinchToZoom: true,
+      scrollToZoom: false,
+    },
   };
 
   useEffect(() => {
