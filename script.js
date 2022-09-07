@@ -1008,7 +1008,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState16(initialState) {
+          function useState17(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1020,7 +1020,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect18(create, deps) {
+          function useEffect19(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1800,7 +1800,7 @@
           exports.useContext = useContext;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect18;
+          exports.useEffect = useEffect19;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect;
@@ -1808,7 +1808,7 @@
           exports.useMemo = useMemo;
           exports.useReducer = useReducer;
           exports.useRef = useRef4;
-          exports.useState = useState16;
+          exports.useState = useState17;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -64726,7 +64726,13 @@ ${generateSegmentFilename(i3)}`);
   var import_client = __toESM(require_client());
   var Wrapper6 = () => {
     const defaultUrl = manifests[0].url;
-    const [url, setUrl] = import_react62.default.useState(defaultUrl);
+    const [url, setUrl] = (0, import_react62.useState)(defaultUrl);
+    (0, import_react62.useEffect)(() => {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("iiif-content");
+      if (id)
+        setUrl(id);
+    }, []);
     return /* @__PURE__ */ import_react62.default.createElement(import_react62.default.Fragment, null, /* @__PURE__ */ import_react62.default.createElement(src_default, {
       manifestId: url,
       key: url,
