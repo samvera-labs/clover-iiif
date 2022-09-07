@@ -1,4 +1,4 @@
-import React, { StrictMode } from "react";
+import React, { StrictMode, useEffect, useState } from "react";
 import App from "@/index";
 import DynamicUrl from "@/dev/DynamicUrl";
 import { createRoot } from "react-dom/client";
@@ -7,7 +7,14 @@ import { manifests } from "@/dev/manifests";
 const Wrapper = () => {
   const defaultUrl: string = manifests[0].url;
 
-  const [url, setUrl] = React.useState(defaultUrl);
+  const [url, setUrl] = useState(defaultUrl);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("iiif-content");
+    if (id) setUrl(id);
+  }, []);
+
   return (
     <>
       <App
@@ -24,7 +31,8 @@ const Wrapper = () => {
 };
 
 const container = document.getElementById("root");
-const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+const root = createRoot(container!);
+
 root.render(
   <StrictMode>
     <Wrapper />
