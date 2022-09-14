@@ -58,10 +58,10 @@ import CloverIIIF from "@samvera/clover-iiif";
 Mnimal usage providing the `<CloverIIIF/>` component with an external manifest.
 
 ```jsx
-const manifestId =
+const id =
   "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json";
 
-return <CloverIIIF manifestId={manifestId} />;
+return <CloverIIIF id={id} />;
 ```
 
 [See Example](https://codesandbox.io/s/samvera-clover-iiif-i0huq)
@@ -73,19 +73,14 @@ return <CloverIIIF manifestId={manifestId} />;
 Example on using `canvasIdCallback` to return to your consuming application the active canvas ID. This will return as a string.
 
 ```jsx
-const manifestId =
+const id =
   "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json";
 
 const handlCanvasIdCallback = (activeCanvasId) => {
   if (activeCanvasId) console.log(activeCanvasId);
 };
 
-return (
-  <CloverIIIF
-    manifestId={manifestId}
-    canvasIdCallback={handlCanvasIdCallback}
-  />
-);
+return <CloverIIIF id={id} canvasIdCallback={handlCanvasIdCallback} />;
 ```
 
 [See Example](https://codesandbox.io/s/samvera-clover-iiif-i0huq)
@@ -120,14 +115,14 @@ WebVTT content resources are the source for both content mapped closed captionin
 
 ```jsx
 export default function App() {
-  const manifestId =
+  const id =
     "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json";
 
   const options = {
     ignoreCaptionLabels: ["Chapters"],
   };
 
-  return <CloverIIIF manifestId={manifestId} options={options} />;
+  return <CloverIIIF id={id} options={options} />;
 }
 ```
 
@@ -140,7 +135,7 @@ export default function App() {
 You may choose to override the base theme by setting optional colors and fonts. Naming conventions for colors are limited to those shown in the config example below.
 
 ```jsx
-const manifestId =
+const id =
   "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json";
 
 const customTheme = {
@@ -175,7 +170,7 @@ const customTheme = {
   },
 };
 
-return <CloverIIIF manifestId={manifestId} customTheme={customTheme} />;
+return <CloverIIIF id={id} customTheme={customTheme} />;
 ```
 
 [See Example](https://codesandbox.io/s/custom-theme-g6m5v)
@@ -186,7 +181,8 @@ return <CloverIIIF manifestId={manifestId} customTheme={customTheme} />;
 
 | Prop                            | Type       | Required | Default   |
 | ------------------------------- | ---------- | -------- | --------- |
-| `manifestId`                    | `string`   | Yes      |           |
+| `id`                            | `string`   | Yes      |           |
+| `manifestId` _(deprecated)_     | `string`   | No       |           |
 | `canvasIdCallback`              | `function` | No       |           |
 | `customTheme`                   | `object`   | No       |           |
 | `options`                       | `object`   | No       |           |
@@ -229,14 +225,14 @@ const options = {
 }
 ...
 
-<CloverIIIF manifestId={...} options={options} />
+<CloverIIIF id={...} options={options} />
 ```
 
 ---
 
-<h2 id="manifest-requirements">Manifest Requirements</h2>
+<h2 id="manifest-requirements">IIIF Presentation API Requirements</h2>
 
-The manifest provided to `manifestId`:
+The Manifest or Collection provided to `id`:
 
 - MUST be a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) valid manifest,
 - MUST have at least one canvas with an annotation of the **motivation** of `painting` and content resource with the **type** of `Video`, `Sound`, or `Image`

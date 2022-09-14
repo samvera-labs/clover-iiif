@@ -30,21 +30,23 @@ const IIIFBadgeContent = styled(Popover.Content, {
   },
 });
 
+const ManifestLabel = styled("span", {
+  fontSize: "1.25rem",
+  fontWeight: "700",
+  fontFamily: "$display",
+  alignSelf: "flex-start",
+  flexGrow: "1",
+
+  "@sm": {
+    fontSize: "1rem",
+  },
+});
+
 const Header = styled("header", {
   display: "flex",
   backgroundColor: "transparent !important",
   justifyContent: "space-between",
   padding: "1rem",
-
-  span: {
-    fontSize: "1.25rem",
-    fontWeight: "700",
-    fontFamily: "$display",
-
-    "@sm": {
-      fontSize: "1rem",
-    },
-  },
 });
 
-export { Header, IIIFBadgeButton, IIIFBadgeContent };
+export { Header, IIIFBadgeButton, IIIFBadgeContent, ManifestLabel };

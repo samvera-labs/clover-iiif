@@ -1,11 +1,17 @@
 import React from "react";
-import { Header, IIIFBadgeButton, IIIFBadgeContent } from "./Header.styled";
+import {
+  Header,
+  IIIFBadgeButton,
+  IIIFBadgeContent,
+  ManifestLabel,
+} from "./Header.styled";
 import { InternationalString } from "@iiif/presentation-3";
 import { getLabel } from "hooks/use-iiif";
 import { Popover } from "@nulib/design-system";
 import IIIFBadge from "@/components/Viewer/IIIFBadge";
 import CopyText from "@/components/CopyText";
 import { useViewerState } from "@/context/viewer-context";
+import Collection from "@/components/Collection/Collection";
 
 interface Props {
   manifestId: string;
@@ -14,7 +20,7 @@ interface Props {
 
 const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
   const viewerState: any = useViewerState();
-  const { configOptions } = viewerState;
+  const { collection, configOptions } = viewerState;
 
   const { showTitle, showIIIFBadge } = configOptions;
 
@@ -22,8 +28,12 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
 
   return (
     <Header className="clover-header">
-      {showTitle && (
-        <span>{getLabel(manifestLabel as InternationalString, "en")}</span>
+      {collection?.items ? (
+        <Collection />
+      ) : (
+        <ManifestLabel>
+          {getLabel(manifestLabel as InternationalString, "en")}
+        </ManifestLabel>
       )}
       {showIIIFBadge && (
         <Popover>

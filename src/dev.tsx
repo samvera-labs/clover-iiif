@@ -15,11 +15,16 @@ const Wrapper = () => {
     if (id) setUrl(id);
   }, []);
 
+  const customTheme = {
+    fonts: { display: `"Calistoga", "Inter", Arial, sans-serif` },
+  };
+
   return (
     <>
       <App
-        manifestId={url}
+        id={url}
         key={url}
+        customTheme={customTheme}
         options={{
           canvasBackgroundColor: "#e6e8eb",
           canvasHeight: "61.8vh",

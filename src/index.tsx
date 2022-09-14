@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ManifestNormalized } from "@iiif/presentation-3";
+import { CollectionNormalized, ManifestNormalized } from "@iiif/presentation-3";
 import {
   ConfigOptions,
   ViewerProvider,
@@ -10,21 +10,24 @@ import Viewer from "@/components/Viewer/Viewer";
 import { createTheme } from "@stitches/react";
 
 interface Props {
-  manifestId: string;
   canvasIdCallback?: (arg0: string) => void;
   customTheme?: any;
+  id: string;
+  manifestId?: string;
   options?: ConfigOptions;
 }
 
 const App: React.FC<Props> = ({
-  manifestId,
   canvasIdCallback = () => {},
   customTheme,
+  id,
+  manifestId,
   options,
 }) => {
   return (
     <ViewerProvider>
       <RenderViewer
+        id={id}
         manifestId={manifestId}
         canvasIdCallback={canvasIdCallback}
         customTheme={customTheme}
@@ -35,9 +38,10 @@ const App: React.FC<Props> = ({
 };
 
 const RenderViewer: React.FC<Props> = ({
-  manifestId,
   canvasIdCallback,
   customTheme,
+  id,
+  manifestId,
   options,
 }) => {
   const dispatch: any = useViewerDispatch();
@@ -47,7 +51,10 @@ const RenderViewer: React.FC<Props> = ({
    * the normalized manifest available from @iiif/vault.
    */
   const store = useViewerState();
-  const { activeCanvas, isLoaded, vault } = store;
+  const { activeCanvas, activeManifest, isLoaded, vault } = store;
+  const [iiifResource, setIiifResource] = useState<
+    CollectionNormalized | ManifestNormalized
+  >();
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
   /**
@@ -65,34 +72,76 @@ const RenderViewer: React.FC<Props> = ({
   }, [activeCanvas]);
 
   useEffect(() => {
-    // Update with user config options
+    if (activeManifest)
+      vault
+        .loadManifest(activeManifest)
+        .then((data: any) => {
+          setManifest(data);
+          dispatch({
+            type: "updateActiveCanvas",
+            canvasId: data.items[0] && data.items[0].id,
+          });
+        })
+        .catch((error: any) => {
+          console.error(`Manifest failed to load: ${error}`);
+        })
+        .finally(() => {
+          dispatch({
+            type: "updateIsLoaded",
+            isLoaded: true,
+          });
+        });
+  }, [activeManifest]);
+
+  useEffect(() => {
+    let resource = id;
+
+    /**
+     * set resource as manifestIf if it exists
+     */
+    if (manifestId) resource = manifestId;
+
     dispatch({
       type: "updateConfigOptions",
       configOptions: options,
     });
 
-    /**
-     * Loaded manifest and site using @iiif/vault.
-     */
     vault
-      .loadManifest(manifestId)
+      .load(resource)
       .then((data: any) => {
-        setManifest(data);
-        dispatch({
-          type: "updateActiveCanvas",
-          canvasId: data.items[0] && data.items[0].id,
-        });
+        setIiifResource(data);
       })
       .catch((error: any) => {
-        console.error(`Manifest failed to load: ${error}`);
-      })
-      .finally(() => {
-        dispatch({
-          type: "updateIsLoaded",
-          isLoaded: true,
-        });
+        console.error(`The IIIF resource ${resource} failed to load: ${error}`);
       });
-  }, []);
+  }, [id, options]);
+
+  useEffect(() => {
+    let manifests: string[] = [];
+
+    if (iiifResource?.type === "Collection") {
+      dispatch({
+        type: "updateCollection",
+        collection: iiifResource,
+      });
+
+      manifests = iiifResource.items
+        .filter((item) => item.type === "Manifest")
+        .map((manifest) => manifest.id);
+
+      if (manifests.length > 0) {
+        dispatch({
+          type: "updateActiveManifest",
+          manifestId: manifests[0],
+        });
+      }
+    } else if (iiifResource?.type === "Manifest") {
+      dispatch({
+        type: "updateActiveManifest",
+        manifestId: iiifResource.id,
+      });
+    }
+  }, [iiifResource]);
 
   /**
    * Render loading component while manifest is fetched and
@@ -131,7 +180,7 @@ const RenderViewer: React.FC<Props> = ({
    * will will set the activeCanvas to the first index and render the
    * <Viewer/> component.
    */
-  return <Viewer manifest={manifest} theme={theme} />;
+  return <Viewer manifest={manifest} theme={theme} key={manifest.id} />;
 };
 
 export default App;
