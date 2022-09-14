@@ -1,6 +1,7 @@
 import { Options } from "openseadragon";
 import React from "react";
 import { Vault } from "@iiif/vault";
+import { CollectionNormalized } from "@iiif/presentation-3";
 
 export type ConfigOptions = {
   showTitle?: boolean;
@@ -21,6 +22,8 @@ const defaultConfigOptions = {
 
 interface ViewerContextStore {
   activeCanvas: string;
+  activeManifest: string;
+  collection?: CollectionNormalized | {};
   configOptions: ConfigOptions;
   isLoaded: boolean;
   vault: Vault;
@@ -29,12 +32,16 @@ interface ViewerContextStore {
 interface ViewerAction {
   type: string;
   canvasId: string;
+  collection: CollectionNormalized;
   configOptions: ConfigOptions;
   isLoaded: boolean;
+  manifestId: string;
 }
 
 const defaultState: ViewerContextStore = {
   activeCanvas: "",
+  activeManifest: "",
+  collection: {},
   configOptions: defaultConfigOptions,
   isLoaded: false,
   vault: new Vault(),
@@ -55,6 +62,18 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         activeCanvas: action.canvasId,
+      };
+    }
+    case "updateActiveManifest": {
+      return {
+        ...state,
+        activeManifest: action.manifestId,
+      };
+    }
+    case "updateCollection": {
+      return {
+        ...state,
+        collection: action.collection,
       };
     }
     case "updateConfigOptions": {

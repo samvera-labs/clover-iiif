@@ -4,8 +4,8 @@ export const manifests = [
     label: "Greenland Falcon",
   },
   {
-    url: "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json",
-    label: "Default",
+    url: "https://raw.githubusercontent.com/samvera-labs/bloom-iiif/main/public/fixtures/iiif/collection/masks-of-antonio-fava.json",
+    label: "Masks of Antonio Fava (Collection)",
   },
   {
     url: "https://iiif.stack.rdc.library.northwestern.edu/public/iiif3/72/34/b6/dd/-d/6a/2-/49/54/-8/fc/c-/6c/9f/2d/fb/88/34-manifest.json",
@@ -26,10 +26,6 @@ export const manifests = [
   {
     url: "https://iiif.stack.rdc.library.northwestern.edu/public/ff/51/2f/7c/-b/df/8-/4a/b7/-9/74/f-/f4/36/f0/ed/13/5d-manifest.json",
     label: "Joan Baez",
-  },
-  {
-    url: "https://iiif.stack.rdc.library.northwestern.edu/public/a3/c6/40/28/-d/1d/c-/4e/97/-8/2b/b-/1e/23/af/95/f5/e3-manifest.json",
-    label: "Bravazzo",
   },
   {
     url: "https://figgy.princeton.edu/concern/scanned_resources/4ff986e6-4f71-4f7c-8ff9-0d0c33d96cf0/manifest",
