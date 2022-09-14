@@ -343,7 +343,7 @@
                   var init = lazyComponent._init;
                   try {
                     return getComponentNameFromType(init(payload));
-                  } catch (x3) {
+                  } catch (x4) {
                     return null;
                   }
                 }
@@ -703,11 +703,11 @@
             return result;
           }
           function countChildren(children) {
-            var n3 = 0;
+            var n4 = 0;
             mapChildren(children, function() {
-              n3++;
+              n4++;
             });
-            return n3;
+            return n4;
           }
           function forEachChildren(children, forEachFunc, forEachContext) {
             mapChildren(children, function() {
@@ -1020,7 +1020,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect19(create, deps) {
+          function useEffect18(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1036,7 +1036,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
-          function useMemo(create, deps) {
+          function useMemo2(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useMemo(create, deps);
           }
@@ -1151,8 +1151,8 @@
               if (prefix === void 0) {
                 try {
                   throw Error();
-                } catch (x3) {
-                  var match = x3.stack.trim().match(/\n( *(at )?)/);
+                } catch (x4) {
+                  var match = x4.stack.trim().match(/\n( *(at )?)/);
                   prefix = match && match[1] || "";
                 }
               }
@@ -1198,23 +1198,23 @@
                 if (typeof Reflect === "object" && Reflect.construct) {
                   try {
                     Reflect.construct(Fake, []);
-                  } catch (x3) {
-                    control = x3;
+                  } catch (x4) {
+                    control = x4;
                   }
                   Reflect.construct(fn, [], Fake);
                 } else {
                   try {
                     Fake.call();
-                  } catch (x3) {
-                    control = x3;
+                  } catch (x4) {
+                    control = x4;
                   }
                   fn.call(Fake.prototype);
                 }
               } else {
                 try {
                   throw Error();
-                } catch (x3) {
-                  control = x3;
+                } catch (x4) {
+                  control = x4;
                 }
                 fn();
               }
@@ -1222,19 +1222,19 @@
               if (sample && control && typeof sample.stack === "string") {
                 var sampleLines = sample.stack.split("\n");
                 var controlLines = control.stack.split("\n");
-                var s4 = sampleLines.length - 1;
+                var s5 = sampleLines.length - 1;
                 var c4 = controlLines.length - 1;
-                while (s4 >= 1 && c4 >= 0 && sampleLines[s4] !== controlLines[c4]) {
+                while (s5 >= 1 && c4 >= 0 && sampleLines[s5] !== controlLines[c4]) {
                   c4--;
                 }
-                for (; s4 >= 1 && c4 >= 0; s4--, c4--) {
-                  if (sampleLines[s4] !== controlLines[c4]) {
-                    if (s4 !== 1 || c4 !== 1) {
+                for (; s5 >= 1 && c4 >= 0; s5--, c4--) {
+                  if (sampleLines[s5] !== controlLines[c4]) {
+                    if (s5 !== 1 || c4 !== 1) {
                       do {
-                        s4--;
+                        s5--;
                         c4--;
-                        if (c4 < 0 || sampleLines[s4] !== controlLines[c4]) {
-                          var _frame = "\n" + sampleLines[s4].replace(" at new ", " at ");
+                        if (c4 < 0 || sampleLines[s5] !== controlLines[c4]) {
+                          var _frame = "\n" + sampleLines[s5].replace(" at new ", " at ");
                           if (fn.displayName && _frame.includes("<anonymous>")) {
                             _frame = _frame.replace("<anonymous>", fn.displayName);
                           }
@@ -1245,7 +1245,7 @@
                           }
                           return _frame;
                         }
-                      } while (s4 >= 1 && c4 >= 0);
+                      } while (s5 >= 1 && c4 >= 0);
                     }
                     break;
                   }
@@ -1307,7 +1307,7 @@
                   var init = lazyComponent._init;
                   try {
                     return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
-                  } catch (x3) {
+                  } catch (x4) {
                   }
                 }
               }
@@ -1800,12 +1800,12 @@
           exports.useContext = useContext;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect19;
+          exports.useEffect = useEffect18;
           exports.useId = useId;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect;
           exports.useLayoutEffect = useLayoutEffect2;
-          exports.useMemo = useMemo;
+          exports.useMemo = useMemo2;
           exports.useReducer = useReducer;
           exports.useRef = useRef4;
           exports.useState = useState17;
@@ -1835,149 +1835,149 @@
   // node_modules/typesafe-actions/dist/typesafe-actions.umd.production.js
   var require_typesafe_actions_umd_production = __commonJS({
     "node_modules/typesafe-actions/dist/typesafe-actions.umd.production.js"(exports, module) {
-      !function(n3, t4) {
-        typeof exports == "object" && typeof module != "undefined" ? t4(exports) : typeof define == "function" && define.amd ? define(["exports"], t4) : t4((n3 = n3 || self).TypesafeActions = {});
-      }(exports, function(n3) {
+      !function(n4, t4) {
+        typeof exports == "object" && typeof module != "undefined" ? t4(exports) : typeof define == "function" && define.amd ? define(["exports"], t4) : t4((n4 = n4 || self).TypesafeActions = {});
+      }(exports, function(n4) {
         "use strict";
-        function t4(n4) {
-          return n4 == null;
+        function t4(n5) {
+          return n5 == null;
         }
-        function r3(n4) {
-          throw new Error("Argument " + n4 + " is empty.");
+        function r3(n5) {
+          throw new Error("Argument " + n5 + " is empty.");
         }
-        function e4(n4) {
-          return typeof n4 == "function" && "getType" in n4;
+        function e4(n5) {
+          return typeof n5 == "function" && "getType" in n5;
         }
-        function i3(n4) {
-          throw new Error("Argument " + n4 + ' is invalid, it should be an action-creator instance from "typesafe-actions"');
+        function i3(n5) {
+          throw new Error("Argument " + n5 + ' is invalid, it should be an action-creator instance from "typesafe-actions"');
         }
-        function o3(n4, t5) {
-          if (n4 == null)
+        function o3(n5, t5) {
+          if (n5 == null)
             throw new Error("Argument contains array with empty element at index " + t5);
-          if (n4.getType == null)
+          if (n5.getType == null)
             throw new Error("Argument contains array with invalid element at index " + t5 + ', it should be an action-creator instance from "typesafe-actions"');
         }
-        function u3(n4) {
-          return typeof n4 == "string" || typeof n4 == "symbol";
+        function u4(n5) {
+          return typeof n5 == "string" || typeof n5 == "symbol";
         }
-        function a3(n4) {
-          return !u3(n4);
+        function a3(n5) {
+          return !u4(n5);
         }
-        function c4(n4) {
-          throw new Error("Argument " + n4 + " is invalid, it should be an action type of type: string | symbol");
+        function c4(n5) {
+          throw new Error("Argument " + n5 + " is invalid, it should be an action type of type: string | symbol");
         }
-        function f3(n4, t5) {
-          if (n4 == null)
+        function f3(n5, t5) {
+          if (n5 == null)
             throw new Error("Argument contains array with empty element at index " + t5);
-          if (typeof n4 != "string" && typeof n4 != "symbol")
+          if (typeof n5 != "string" && typeof n5 != "symbol")
             throw new Error("Argument contains array with invalid element at index " + t5 + ", it should be of type: string | symbol");
         }
-        function s4(n4, e5, o4, u4) {
-          return t4(n4) && r3(1), a3(n4) && i3(1), { type: n4, payload: e5, meta: o4, error: u4 };
+        function s5(n5, e5, o4, u5) {
+          return t4(n5) && r3(1), a3(n5) && i3(1), { type: n5, payload: e5, meta: o4, error: u5 };
         }
-        function y3(n4, e5) {
-          t4(n4) && r3(1), a3(n4) && c4(1);
+        function y4(n5, e5) {
+          t4(n5) && r3(1), a3(n5) && c4(1);
           return Object.assign(function() {
             var t5 = e5 != null ? e5.apply(void 0, arguments) : void 0;
-            return Object.assign({ type: n4 }, t5);
+            return Object.assign({ type: n5 }, t5);
           }, { getType: function() {
-            return n4;
+            return n5;
           }, toString: function() {
-            return n4;
+            return n5;
           } });
         }
-        function l3(n4, e5, i4) {
-          return t4(n4) && r3(1), a3(n4) && c4(1), function() {
-            return y3(n4, function() {
-              var n5 = arguments.length <= 0 ? void 0 : arguments[0], t5 = arguments.length <= 1 ? void 0 : arguments[1];
-              return e5 == null && i4 == null || (n5 = e5 != null ? e5.apply(void 0, arguments) : void 0, t5 = i4 != null ? i4.apply(void 0, arguments) : void 0), Object.assign({}, n5 !== void 0 && { payload: n5 }, {}, t5 !== void 0 && { meta: t5 });
+        function l4(n5, e5, i4) {
+          return t4(n5) && r3(1), a3(n5) && c4(1), function() {
+            return y4(n5, function() {
+              var n6 = arguments.length <= 0 ? void 0 : arguments[0], t5 = arguments.length <= 1 ? void 0 : arguments[1];
+              return e5 == null && i4 == null || (n6 = e5 != null ? e5.apply(void 0, arguments) : void 0, t5 = i4 != null ? i4.apply(void 0, arguments) : void 0), Object.assign({}, n6 !== void 0 && { payload: n6 }, {}, t5 !== void 0 && { meta: t5 });
             });
           };
         }
-        function p4(n4) {
-          return t4(n4) && r3(1), e4(n4) || i3(1), n4.getType();
+        function p5(n5) {
+          return t4(n5) && r3(1), e4(n5) || i3(1), n5.getType();
         }
-        function d3(n4, e5) {
-          t4(n4) && r3(1), a3(n4) && c4(1);
-          var i4 = e5 != null ? e5(n4) : function() {
-            return { type: n4 };
+        function d3(n5, e5) {
+          t4(n5) && r3(1), a3(n5) && c4(1);
+          var i4 = e5 != null ? e5(n5) : function() {
+            return { type: n5 };
           };
           return Object.assign(i4, { getType: function() {
-            return n4;
+            return n5;
           }, toString: function() {
-            return n4;
+            return n5;
           } });
         }
-        var g3 = { createAction: function(n4, t5) {
+        var g3 = { createAction: function(n5, t5) {
           var r4 = t5 == null ? function() {
-            return s4(n4);
-          } : t5(s4.bind(null, n4));
+            return s5(n5);
+          } : t5(s5.bind(null, n5));
           return Object.assign(r4, { getType: function() {
-            return n4;
+            return n5;
           }, toString: function() {
-            return n4;
+            return n5;
           } });
-        }, createCustomAction: d3, createStandardAction: function(n4) {
-          return t4(n4) && r3(1), a3(n4) && c4(1), Object.assign(function() {
-            return d3(n4, function(n5) {
+        }, createCustomAction: d3, createStandardAction: function(n5) {
+          return t4(n5) && r3(1), a3(n5) && c4(1), Object.assign(function() {
+            return d3(n5, function(n6) {
               return function(t5, r4) {
-                return { type: n5, payload: t5, meta: r4 };
+                return { type: n6, payload: t5, meta: r4 };
               };
             });
           }, { map: function(t5) {
-            return d3(n4, function(n5) {
+            return d3(n5, function(n6) {
               return function(r4, e5) {
-                return Object.assign(t5(r4, e5), { type: n5 });
+                return Object.assign(t5(r4, e5), { type: n6 });
               };
             });
           } });
         } };
-        n3.action = s4, n3.createAction = l3, n3.createAsyncAction = function(n4, t5, r4, e5) {
+        n4.action = s5, n4.createAction = l4, n4.createAsyncAction = function(n5, t5, r4, e5) {
           return function() {
-            var i4 = [n4, t5, r4, e5].map(function(n5, t6) {
-              return Array.isArray(n5) ? l3(n5[0], n5[1], n5[2])() : typeof n5 == "string" || typeof n5 == "symbol" ? l3(n5)() : void (t6 < 3 && function(n6) {
-                throw new Error("Argument " + n6 + ' is invalid, it should be an action type of "string | symbol" or a tuple of "[string | symbol, Function, Function?]"');
+            var i4 = [n5, t5, r4, e5].map(function(n6, t6) {
+              return Array.isArray(n6) ? l4(n6[0], n6[1], n6[2])() : typeof n6 == "string" || typeof n6 == "symbol" ? l4(n6)() : void (t6 < 3 && function(n7) {
+                throw new Error("Argument " + n7 + ' is invalid, it should be an action type of "string | symbol" or a tuple of "[string | symbol, Function, Function?]"');
               }(t6));
             });
             return { request: i4[0], success: i4[1], failure: i4[2], cancel: i4[3] };
           };
-        }, n3.createCustomAction = y3, n3.createReducer = function n4(t5, r4) {
+        }, n4.createCustomAction = y4, n4.createReducer = function n5(t5, r4) {
           r4 === void 0 && (r4 = {});
           var i4 = Object.assign({}, r4), o4 = function(r5, o5) {
             var a4 = Array.isArray(r5) ? r5 : [r5], c5 = {};
-            return a4.map(function(n5, t6) {
-              return e4(n5) ? p4(n5) : u3(n5) ? n5 : function(n6) {
-                throw new Error("Argument " + n6 + ' is invalid, it should be an action-creator instance from "typesafe-actions" or action type of type: string | symbol');
+            return a4.map(function(n6, t6) {
+              return e4(n6) ? p5(n6) : u4(n6) ? n6 : function(n7) {
+                throw new Error("Argument " + n7 + ' is invalid, it should be an action-creator instance from "typesafe-actions" or action type of type: string | symbol');
               }(t6 + 1);
-            }).forEach(function(n5) {
-              return c5[n5] = o5;
-            }), n4(t5, Object.assign({}, i4, {}, c5));
+            }).forEach(function(n6) {
+              return c5[n6] = o5;
+            }), n5(t5, Object.assign({}, i4, {}, c5));
           };
-          return Object.assign(function(n5, r5) {
-            if (n5 === void 0 && (n5 = t5), i4.hasOwnProperty(r5.type)) {
+          return Object.assign(function(n6, r5) {
+            if (n6 === void 0 && (n6 = t5), i4.hasOwnProperty(r5.type)) {
               var e5 = i4[r5.type];
               if (typeof e5 != "function")
                 throw Error('Reducer under "' + r5.type + '" key is not a valid reducer');
-              return e5(n5, r5);
+              return e5(n6, r5);
             }
-            return n5;
+            return n6;
           }, { handlers: Object.assign({}, i4), handleAction: o4, handleType: o4 });
-        }, n3.deprecated = g3, n3.getType = p4, n3.isActionOf = function(n4, e5) {
-          t4(n4) && r3(1);
-          var i4 = Array.isArray(n4) ? n4 : [n4];
+        }, n4.deprecated = g3, n4.getType = p5, n4.isActionOf = function(n5, e5) {
+          t4(n5) && r3(1);
+          var i4 = Array.isArray(n5) ? n5 : [n5];
           i4.forEach(o3);
-          var u4 = function(n5) {
+          var u5 = function(n6) {
             return i4.some(function(t5) {
-              return n5.type === t5.getType();
+              return n6.type === t5.getType();
             });
           };
-          return e5 === void 0 ? u4 : u4(e5);
-        }, n3.isOfType = function(n4, e5) {
-          t4(n4) && r3(1);
-          var i4 = Array.isArray(n4) ? n4 : [n4];
+          return e5 === void 0 ? u5 : u5(e5);
+        }, n4.isOfType = function(n5, e5) {
+          t4(n5) && r3(1);
+          var i4 = Array.isArray(n5) ? n5 : [n5];
           i4.forEach(f3);
-          var o4 = function(n5) {
-            return i4.includes(n5.type);
+          var o4 = function(n6) {
+            return i4.includes(n6.type);
           };
           return e5 === void 0 ? o4 : o4(e5);
         };
@@ -2457,9 +2457,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React33 = require_react();
+          var React35 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React33.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React35.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -3168,8 +3168,8 @@
               if (prefix === void 0) {
                 try {
                   throw Error();
-                } catch (x3) {
-                  var match = x3.stack.trim().match(/\n( *(at )?)/);
+                } catch (x4) {
+                  var match = x4.stack.trim().match(/\n( *(at )?)/);
                   prefix = match && match[1] || "";
                 }
               }
@@ -3215,23 +3215,23 @@
                 if (typeof Reflect === "object" && Reflect.construct) {
                   try {
                     Reflect.construct(Fake, []);
-                  } catch (x3) {
-                    control = x3;
+                  } catch (x4) {
+                    control = x4;
                   }
                   Reflect.construct(fn, [], Fake);
                 } else {
                   try {
                     Fake.call();
-                  } catch (x3) {
-                    control = x3;
+                  } catch (x4) {
+                    control = x4;
                   }
                   fn.call(Fake.prototype);
                 }
               } else {
                 try {
                   throw Error();
-                } catch (x3) {
-                  control = x3;
+                } catch (x4) {
+                  control = x4;
                 }
                 fn();
               }
@@ -3239,19 +3239,19 @@
               if (sample && control && typeof sample.stack === "string") {
                 var sampleLines = sample.stack.split("\n");
                 var controlLines = control.stack.split("\n");
-                var s4 = sampleLines.length - 1;
+                var s5 = sampleLines.length - 1;
                 var c4 = controlLines.length - 1;
-                while (s4 >= 1 && c4 >= 0 && sampleLines[s4] !== controlLines[c4]) {
+                while (s5 >= 1 && c4 >= 0 && sampleLines[s5] !== controlLines[c4]) {
                   c4--;
                 }
-                for (; s4 >= 1 && c4 >= 0; s4--, c4--) {
-                  if (sampleLines[s4] !== controlLines[c4]) {
-                    if (s4 !== 1 || c4 !== 1) {
+                for (; s5 >= 1 && c4 >= 0; s5--, c4--) {
+                  if (sampleLines[s5] !== controlLines[c4]) {
+                    if (s5 !== 1 || c4 !== 1) {
                       do {
-                        s4--;
+                        s5--;
                         c4--;
-                        if (c4 < 0 || sampleLines[s4] !== controlLines[c4]) {
-                          var _frame = "\n" + sampleLines[s4].replace(" at new ", " at ");
+                        if (c4 < 0 || sampleLines[s5] !== controlLines[c4]) {
+                          var _frame = "\n" + sampleLines[s5].replace(" at new ", " at ");
                           if (fn.displayName && _frame.includes("<anonymous>")) {
                             _frame = _frame.replace("<anonymous>", fn.displayName);
                           }
@@ -3262,7 +3262,7 @@
                           }
                           return _frame;
                         }
-                      } while (s4 >= 1 && c4 >= 0);
+                      } while (s5 >= 1 && c4 >= 0);
                     }
                     break;
                   }
@@ -3329,7 +3329,7 @@
                   var init = lazyComponent._init;
                   try {
                     return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
-                  } catch (x3) {
+                  } catch (x4) {
                   }
                 }
               }
@@ -3369,8 +3369,8 @@
                 node = node.return;
               } while (node);
               return info;
-            } catch (x3) {
-              return "\nError generating stack: " + x3.message + "\n" + x3.stack;
+            } catch (x4) {
+              return "\nError generating stack: " + x4.message + "\n" + x4.stack;
             }
           }
           function getWrappedName(outerType, innerType, wrapperName) {
@@ -3435,7 +3435,7 @@
                   var init = lazyComponent._init;
                   try {
                     return getComponentNameFromType(init(payload));
-                  } catch (x3) {
+                  } catch (x4) {
                     return null;
                   }
                 }
@@ -3855,7 +3855,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React33.Children.forEach(props.children, function(child) {
+                  React35.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -4286,7 +4286,7 @@
             var warnedForNaNValue = false;
             var warnedForInfinityValue = false;
             var camelize = function(string) {
-              return string.replace(hyphenPattern, function(_2, character) {
+              return string.replace(hyphenPattern, function(_3, character) {
                 return character.toUpperCase();
               });
             };
@@ -6102,8 +6102,8 @@
           var clz32 = Math.clz32 ? Math.clz32 : clz32Fallback;
           var log = Math.log;
           var LN2 = Math.LN2;
-          function clz32Fallback(x3) {
-            var asUint = x3 >>> 0;
+          function clz32Fallback(x4) {
+            var asUint = x4 >>> 0;
             if (asUint === 0) {
               return 32;
             }
@@ -7963,8 +7963,8 @@
             }
             accumulateEnterLeaveTwoPhaseListeners(dispatchQueue, leave, enter, from, to);
           }
-          function is(x3, y3) {
-            return x3 === y3 && (x3 !== 0 || 1 / x3 === 1 / y3) || x3 !== x3 && y3 !== y3;
+          function is(x4, y4) {
+            return x4 === y4 && (x4 !== 0 || 1 / x4 === 1 / y4) || x4 !== x4 && y4 !== y4;
           }
           var objectIs = typeof Object.is === "function" ? Object.is : is;
           function shallowEqual(objA, objB) {
@@ -11402,7 +11402,7 @@
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React33.Component().refs;
+          var emptyRefsObject = new React35.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -16228,7 +16228,7 @@
                   var init = lazyComponent._init;
                   try {
                     outerMemoType = init(payload);
-                  } catch (x3) {
+                  } catch (x4) {
                     outerMemoType = null;
                   }
                   var outerPropTypes = outerMemoType && outerMemoType.propTypes;
@@ -22643,17 +22643,17 @@
               exports2.__esModule = true;
             }
           }
-          return function(id, v3) {
-            return exports2[id] = previous ? previous(id, v3) : v3;
+          return function(id, v5) {
+            return exports2[id] = previous ? previous(id, v5) : v5;
           };
         }
       })(function(exporter) {
         var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
           d3.__proto__ = b3;
         } || function(d3, b3) {
-          for (var p4 in b3)
-            if (Object.prototype.hasOwnProperty.call(b3, p4))
-              d3[p4] = b3[p4];
+          for (var p5 in b3)
+            if (Object.prototype.hasOwnProperty.call(b3, p5))
+              d3[p5] = b3[p5];
         };
         __extends3 = function(d3, b3) {
           if (typeof b3 !== "function" && b3 !== null)
@@ -22665,23 +22665,23 @@
           d3.prototype = b3 === null ? Object.create(b3) : (__.prototype = b3.prototype, new __());
         };
         __assign4 = Object.assign || function(t4) {
-          for (var s4, i3 = 1, n3 = arguments.length; i3 < n3; i3++) {
-            s4 = arguments[i3];
-            for (var p4 in s4)
-              if (Object.prototype.hasOwnProperty.call(s4, p4))
-                t4[p4] = s4[p4];
+          for (var s5, i3 = 1, n4 = arguments.length; i3 < n4; i3++) {
+            s5 = arguments[i3];
+            for (var p5 in s5)
+              if (Object.prototype.hasOwnProperty.call(s5, p5))
+                t4[p5] = s5[p5];
           }
           return t4;
         };
-        __rest3 = function(s4, e4) {
+        __rest3 = function(s5, e4) {
           var t4 = {};
-          for (var p4 in s4)
-            if (Object.prototype.hasOwnProperty.call(s4, p4) && e4.indexOf(p4) < 0)
-              t4[p4] = s4[p4];
-          if (s4 != null && typeof Object.getOwnPropertySymbols === "function")
-            for (var i3 = 0, p4 = Object.getOwnPropertySymbols(s4); i3 < p4.length; i3++) {
-              if (e4.indexOf(p4[i3]) < 0 && Object.prototype.propertyIsEnumerable.call(s4, p4[i3]))
-                t4[p4[i3]] = s4[p4[i3]];
+          for (var p5 in s5)
+            if (Object.prototype.hasOwnProperty.call(s5, p5) && e4.indexOf(p5) < 0)
+              t4[p5] = s5[p5];
+          if (s5 != null && typeof Object.getOwnPropertySymbols === "function")
+            for (var i3 = 0, p5 = Object.getOwnPropertySymbols(s5); i3 < p5.length; i3++) {
+              if (e4.indexOf(p5[i3]) < 0 && Object.prototype.propertyIsEnumerable.call(s5, p5[i3]))
+                t4[p5[i3]] = s5[p5[i3]];
             }
           return t4;
         };
@@ -22732,27 +22732,27 @@
           });
         };
         __generator3 = function(thisArg, body) {
-          var _2 = { label: 0, sent: function() {
+          var _3 = { label: 0, sent: function() {
             if (t4[0] & 1)
               throw t4[1];
             return t4[1];
-          }, trys: [], ops: [] }, f3, y3, t4, g3;
+          }, trys: [], ops: [] }, f3, y4, t4, g3;
           return g3 = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g3[Symbol.iterator] = function() {
             return this;
           }), g3;
-          function verb(n3) {
-            return function(v3) {
-              return step([n3, v3]);
+          function verb(n4) {
+            return function(v5) {
+              return step([n4, v5]);
             };
           }
           function step(op) {
             if (f3)
               throw new TypeError("Generator is already executing.");
-            while (_2)
+            while (_3)
               try {
-                if (f3 = 1, y3 && (t4 = op[0] & 2 ? y3["return"] : op[0] ? y3["throw"] || ((t4 = y3["return"]) && t4.call(y3), 0) : y3.next) && !(t4 = t4.call(y3, op[1])).done)
+                if (f3 = 1, y4 && (t4 = op[0] & 2 ? y4["return"] : op[0] ? y4["throw"] || ((t4 = y4["return"]) && t4.call(y4), 0) : y4.next) && !(t4 = t4.call(y4, op[1])).done)
                   return t4;
-                if (y3 = 0, t4)
+                if (y4 = 0, t4)
                   op = [op[0] & 2, t4.value];
                 switch (op[0]) {
                   case 0:
@@ -22760,45 +22760,45 @@
                     t4 = op;
                     break;
                   case 4:
-                    _2.label++;
+                    _3.label++;
                     return { value: op[1], done: false };
                   case 5:
-                    _2.label++;
-                    y3 = op[1];
+                    _3.label++;
+                    y4 = op[1];
                     op = [0];
                     continue;
                   case 7:
-                    op = _2.ops.pop();
-                    _2.trys.pop();
+                    op = _3.ops.pop();
+                    _3.trys.pop();
                     continue;
                   default:
-                    if (!(t4 = _2.trys, t4 = t4.length > 0 && t4[t4.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-                      _2 = 0;
+                    if (!(t4 = _3.trys, t4 = t4.length > 0 && t4[t4.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                      _3 = 0;
                       continue;
                     }
                     if (op[0] === 3 && (!t4 || op[1] > t4[0] && op[1] < t4[3])) {
-                      _2.label = op[1];
+                      _3.label = op[1];
                       break;
                     }
-                    if (op[0] === 6 && _2.label < t4[1]) {
-                      _2.label = t4[1];
+                    if (op[0] === 6 && _3.label < t4[1]) {
+                      _3.label = t4[1];
                       t4 = op;
                       break;
                     }
-                    if (t4 && _2.label < t4[2]) {
-                      _2.label = t4[2];
-                      _2.ops.push(op);
+                    if (t4 && _3.label < t4[2]) {
+                      _3.label = t4[2];
+                      _3.ops.push(op);
                       break;
                     }
                     if (t4[2])
-                      _2.ops.pop();
-                    _2.trys.pop();
+                      _3.ops.pop();
+                    _3.trys.pop();
                     continue;
                 }
-                op = body.call(thisArg, _2);
+                op = body.call(thisArg, _3);
               } catch (e4) {
                 op = [6, e4];
-                y3 = 0;
+                y4 = 0;
               } finally {
                 f3 = t4 = 0;
               }
@@ -22808,27 +22808,27 @@
           }
         };
         __exportStar3 = function(m3, o3) {
-          for (var p4 in m3)
-            if (p4 !== "default" && !Object.prototype.hasOwnProperty.call(o3, p4))
-              __createBinding3(o3, m3, p4);
+          for (var p5 in m3)
+            if (p5 !== "default" && !Object.prototype.hasOwnProperty.call(o3, p5))
+              __createBinding3(o3, m3, p5);
         };
-        __createBinding3 = Object.create ? function(o3, m3, k3, k22) {
+        __createBinding3 = Object.create ? function(o3, m3, k4, k22) {
           if (k22 === void 0)
-            k22 = k3;
-          var desc = Object.getOwnPropertyDescriptor(m3, k3);
+            k22 = k4;
+          var desc = Object.getOwnPropertyDescriptor(m3, k4);
           if (!desc || ("get" in desc ? !m3.__esModule : desc.writable || desc.configurable)) {
             desc = { enumerable: true, get: function() {
-              return m3[k3];
+              return m3[k4];
             } };
           }
           Object.defineProperty(o3, k22, desc);
-        } : function(o3, m3, k3, k22) {
+        } : function(o3, m3, k4, k22) {
           if (k22 === void 0)
-            k22 = k3;
-          o3[k22] = m3[k3];
+            k22 = k4;
+          o3[k22] = m3[k4];
         };
         __values3 = function(o3) {
-          var s4 = typeof Symbol === "function" && Symbol.iterator, m3 = s4 && o3[s4], i3 = 0;
+          var s5 = typeof Symbol === "function" && Symbol.iterator, m3 = s5 && o3[s5], i3 = 0;
           if (m3)
             return m3.call(o3);
           if (o3 && typeof o3.length === "number")
@@ -22839,15 +22839,15 @@
                 return { value: o3 && o3[i3++], done: !o3 };
               }
             };
-          throw new TypeError(s4 ? "Object is not iterable." : "Symbol.iterator is not defined.");
+          throw new TypeError(s5 ? "Object is not iterable." : "Symbol.iterator is not defined.");
         };
-        __read3 = function(o3, n3) {
+        __read3 = function(o3, n4) {
           var m3 = typeof Symbol === "function" && o3[Symbol.iterator];
           if (!m3)
             return o3;
           var i3 = m3.call(o3), r3, ar = [], e4;
           try {
-            while ((n3 === void 0 || n3-- > 0) && !(r3 = i3.next()).done)
+            while ((n4 === void 0 || n4-- > 0) && !(r3 = i3.next()).done)
               ar.push(r3.value);
           } catch (error) {
             e4 = { error };
@@ -22868,16 +22868,16 @@
           return ar;
         };
         __spreadArrays3 = function() {
-          for (var s4 = 0, i3 = 0, il = arguments.length; i3 < il; i3++)
-            s4 += arguments[i3].length;
-          for (var r3 = Array(s4), k3 = 0, i3 = 0; i3 < il; i3++)
-            for (var a3 = arguments[i3], j3 = 0, jl = a3.length; j3 < jl; j3++, k3++)
-              r3[k3] = a3[j3];
+          for (var s5 = 0, i3 = 0, il = arguments.length; i3 < il; i3++)
+            s5 += arguments[i3].length;
+          for (var r3 = Array(s5), k4 = 0, i3 = 0; i3 < il; i3++)
+            for (var a3 = arguments[i3], j3 = 0, jl = a3.length; j3 < jl; j3++, k4++)
+              r3[k4] = a3[j3];
           return r3;
         };
         __spreadArray3 = function(to, from, pack) {
           if (pack || arguments.length === 2)
-            for (var i3 = 0, l3 = from.length, ar; i3 < l3; i3++) {
+            for (var i3 = 0, l4 = from.length, ar; i3 < l4; i3++) {
               if (ar || !(i3 in from)) {
                 if (!ar)
                   ar = Array.prototype.slice.call(from, 0, i3);
@@ -22886,33 +22886,33 @@
             }
           return to.concat(ar || Array.prototype.slice.call(from));
         };
-        __await3 = function(v3) {
-          return this instanceof __await3 ? (this.v = v3, this) : new __await3(v3);
+        __await3 = function(v5) {
+          return this instanceof __await3 ? (this.v = v5, this) : new __await3(v5);
         };
         __asyncGenerator3 = function(thisArg, _arguments, generator) {
           if (!Symbol.asyncIterator)
             throw new TypeError("Symbol.asyncIterator is not defined.");
-          var g3 = generator.apply(thisArg, _arguments || []), i3, q3 = [];
+          var g3 = generator.apply(thisArg, _arguments || []), i3, q4 = [];
           return i3 = {}, verb("next"), verb("throw"), verb("return"), i3[Symbol.asyncIterator] = function() {
             return this;
           }, i3;
-          function verb(n3) {
-            if (g3[n3])
-              i3[n3] = function(v3) {
+          function verb(n4) {
+            if (g3[n4])
+              i3[n4] = function(v5) {
                 return new Promise(function(a3, b3) {
-                  q3.push([n3, v3, a3, b3]) > 1 || resume(n3, v3);
+                  q4.push([n4, v5, a3, b3]) > 1 || resume(n4, v5);
                 });
               };
           }
-          function resume(n3, v3) {
+          function resume(n4, v5) {
             try {
-              step(g3[n3](v3));
+              step(g3[n4](v5));
             } catch (e4) {
-              settle(q3[0][3], e4);
+              settle(q4[0][3], e4);
             }
           }
           function step(r3) {
-            r3.value instanceof __await3 ? Promise.resolve(r3.value.v).then(fulfill, reject) : settle(q3[0][2], r3);
+            r3.value instanceof __await3 ? Promise.resolve(r3.value.v).then(fulfill, reject) : settle(q4[0][2], r3);
           }
           function fulfill(value) {
             resume("next", value);
@@ -22920,21 +22920,21 @@
           function reject(value) {
             resume("throw", value);
           }
-          function settle(f3, v3) {
-            if (f3(v3), q3.shift(), q3.length)
-              resume(q3[0][0], q3[0][1]);
+          function settle(f3, v5) {
+            if (f3(v5), q4.shift(), q4.length)
+              resume(q4[0][0], q4[0][1]);
           }
         };
         __asyncDelegator3 = function(o3) {
-          var i3, p4;
+          var i3, p5;
           return i3 = {}, verb("next"), verb("throw", function(e4) {
             throw e4;
           }), verb("return"), i3[Symbol.iterator] = function() {
             return this;
           }, i3;
-          function verb(n3, f3) {
-            i3[n3] = o3[n3] ? function(v3) {
-              return (p4 = !p4) ? { value: __await3(o3[n3](v3)), done: n3 === "return" } : f3 ? f3(v3) : v3;
+          function verb(n4, f3) {
+            i3[n4] = o3[n4] ? function(v5) {
+              return (p5 = !p5) ? { value: __await3(o3[n4](v5)), done: n4 === "return" } : f3 ? f3(v5) : v5;
             } : f3;
           }
         };
@@ -22945,16 +22945,16 @@
           return m3 ? m3.call(o3) : (o3 = typeof __values3 === "function" ? __values3(o3) : o3[Symbol.iterator](), i3 = {}, verb("next"), verb("throw"), verb("return"), i3[Symbol.asyncIterator] = function() {
             return this;
           }, i3);
-          function verb(n3) {
-            i3[n3] = o3[n3] && function(v3) {
+          function verb(n4) {
+            i3[n4] = o3[n4] && function(v5) {
               return new Promise(function(resolve, reject) {
-                v3 = o3[n3](v3), settle(resolve, reject, v3.done, v3.value);
+                v5 = o3[n4](v5), settle(resolve, reject, v5.done, v5.value);
               });
             };
           }
-          function settle(resolve, reject, d3, v3) {
-            Promise.resolve(v3).then(function(v5) {
-              resolve({ value: v5, done: d3 });
+          function settle(resolve, reject, d3, v5) {
+            Promise.resolve(v5).then(function(v6) {
+              resolve({ value: v6, done: d3 });
             }, reject);
           }
         };
@@ -22966,19 +22966,19 @@
           }
           return cooked;
         };
-        var __setModuleDefault = Object.create ? function(o3, v3) {
-          Object.defineProperty(o3, "default", { enumerable: true, value: v3 });
-        } : function(o3, v3) {
-          o3["default"] = v3;
+        var __setModuleDefault = Object.create ? function(o3, v5) {
+          Object.defineProperty(o3, "default", { enumerable: true, value: v5 });
+        } : function(o3, v5) {
+          o3["default"] = v5;
         };
         __importStar3 = function(mod) {
           if (mod && mod.__esModule)
             return mod;
           var result = {};
           if (mod != null) {
-            for (var k3 in mod)
-              if (k3 !== "default" && Object.prototype.hasOwnProperty.call(mod, k3))
-                __createBinding3(result, mod, k3);
+            for (var k4 in mod)
+              if (k4 !== "default" && Object.prototype.hasOwnProperty.call(mod, k4))
+                __createBinding3(result, mod, k4);
           }
           __setModuleDefault(result, mod);
           return result;
@@ -23083,17 +23083,17 @@
               exports2.__esModule = true;
             }
           }
-          return function(id, v3) {
-            return exports2[id] = previous ? previous(id, v3) : v3;
+          return function(id, v5) {
+            return exports2[id] = previous ? previous(id, v5) : v5;
           };
         }
       })(function(exporter) {
         var extendStatics = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(d3, b3) {
           d3.__proto__ = b3;
         } || function(d3, b3) {
-          for (var p4 in b3)
-            if (Object.prototype.hasOwnProperty.call(b3, p4))
-              d3[p4] = b3[p4];
+          for (var p5 in b3)
+            if (Object.prototype.hasOwnProperty.call(b3, p5))
+              d3[p5] = b3[p5];
         };
         __extends3 = function(d3, b3) {
           if (typeof b3 !== "function" && b3 !== null)
@@ -23105,23 +23105,23 @@
           d3.prototype = b3 === null ? Object.create(b3) : (__.prototype = b3.prototype, new __());
         };
         __assign4 = Object.assign || function(t4) {
-          for (var s4, i3 = 1, n3 = arguments.length; i3 < n3; i3++) {
-            s4 = arguments[i3];
-            for (var p4 in s4)
-              if (Object.prototype.hasOwnProperty.call(s4, p4))
-                t4[p4] = s4[p4];
+          for (var s5, i3 = 1, n4 = arguments.length; i3 < n4; i3++) {
+            s5 = arguments[i3];
+            for (var p5 in s5)
+              if (Object.prototype.hasOwnProperty.call(s5, p5))
+                t4[p5] = s5[p5];
           }
           return t4;
         };
-        __rest3 = function(s4, e4) {
+        __rest3 = function(s5, e4) {
           var t4 = {};
-          for (var p4 in s4)
-            if (Object.prototype.hasOwnProperty.call(s4, p4) && e4.indexOf(p4) < 0)
-              t4[p4] = s4[p4];
-          if (s4 != null && typeof Object.getOwnPropertySymbols === "function")
-            for (var i3 = 0, p4 = Object.getOwnPropertySymbols(s4); i3 < p4.length; i3++) {
-              if (e4.indexOf(p4[i3]) < 0 && Object.prototype.propertyIsEnumerable.call(s4, p4[i3]))
-                t4[p4[i3]] = s4[p4[i3]];
+          for (var p5 in s5)
+            if (Object.prototype.hasOwnProperty.call(s5, p5) && e4.indexOf(p5) < 0)
+              t4[p5] = s5[p5];
+          if (s5 != null && typeof Object.getOwnPropertySymbols === "function")
+            for (var i3 = 0, p5 = Object.getOwnPropertySymbols(s5); i3 < p5.length; i3++) {
+              if (e4.indexOf(p5[i3]) < 0 && Object.prototype.propertyIsEnumerable.call(s5, p5[i3]))
+                t4[p5[i3]] = s5[p5[i3]];
             }
           return t4;
         };
@@ -23172,27 +23172,27 @@
           });
         };
         __generator3 = function(thisArg, body) {
-          var _2 = { label: 0, sent: function() {
+          var _3 = { label: 0, sent: function() {
             if (t4[0] & 1)
               throw t4[1];
             return t4[1];
-          }, trys: [], ops: [] }, f3, y3, t4, g3;
+          }, trys: [], ops: [] }, f3, y4, t4, g3;
           return g3 = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g3[Symbol.iterator] = function() {
             return this;
           }), g3;
-          function verb(n3) {
-            return function(v3) {
-              return step([n3, v3]);
+          function verb(n4) {
+            return function(v5) {
+              return step([n4, v5]);
             };
           }
           function step(op) {
             if (f3)
               throw new TypeError("Generator is already executing.");
-            while (_2)
+            while (_3)
               try {
-                if (f3 = 1, y3 && (t4 = op[0] & 2 ? y3["return"] : op[0] ? y3["throw"] || ((t4 = y3["return"]) && t4.call(y3), 0) : y3.next) && !(t4 = t4.call(y3, op[1])).done)
+                if (f3 = 1, y4 && (t4 = op[0] & 2 ? y4["return"] : op[0] ? y4["throw"] || ((t4 = y4["return"]) && t4.call(y4), 0) : y4.next) && !(t4 = t4.call(y4, op[1])).done)
                   return t4;
-                if (y3 = 0, t4)
+                if (y4 = 0, t4)
                   op = [op[0] & 2, t4.value];
                 switch (op[0]) {
                   case 0:
@@ -23200,45 +23200,45 @@
                     t4 = op;
                     break;
                   case 4:
-                    _2.label++;
+                    _3.label++;
                     return { value: op[1], done: false };
                   case 5:
-                    _2.label++;
-                    y3 = op[1];
+                    _3.label++;
+                    y4 = op[1];
                     op = [0];
                     continue;
                   case 7:
-                    op = _2.ops.pop();
-                    _2.trys.pop();
+                    op = _3.ops.pop();
+                    _3.trys.pop();
                     continue;
                   default:
-                    if (!(t4 = _2.trys, t4 = t4.length > 0 && t4[t4.length - 1]) && (op[0] === 6 || op[0] === 2)) {
-                      _2 = 0;
+                    if (!(t4 = _3.trys, t4 = t4.length > 0 && t4[t4.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                      _3 = 0;
                       continue;
                     }
                     if (op[0] === 3 && (!t4 || op[1] > t4[0] && op[1] < t4[3])) {
-                      _2.label = op[1];
+                      _3.label = op[1];
                       break;
                     }
-                    if (op[0] === 6 && _2.label < t4[1]) {
-                      _2.label = t4[1];
+                    if (op[0] === 6 && _3.label < t4[1]) {
+                      _3.label = t4[1];
                       t4 = op;
                       break;
                     }
-                    if (t4 && _2.label < t4[2]) {
-                      _2.label = t4[2];
-                      _2.ops.push(op);
+                    if (t4 && _3.label < t4[2]) {
+                      _3.label = t4[2];
+                      _3.ops.push(op);
                       break;
                     }
                     if (t4[2])
-                      _2.ops.pop();
-                    _2.trys.pop();
+                      _3.ops.pop();
+                    _3.trys.pop();
                     continue;
                 }
-                op = body.call(thisArg, _2);
+                op = body.call(thisArg, _3);
               } catch (e4) {
                 op = [6, e4];
-                y3 = 0;
+                y4 = 0;
               } finally {
                 f3 = t4 = 0;
               }
@@ -23248,27 +23248,27 @@
           }
         };
         __exportStar3 = function(m3, o3) {
-          for (var p4 in m3)
-            if (p4 !== "default" && !Object.prototype.hasOwnProperty.call(o3, p4))
-              __createBinding3(o3, m3, p4);
+          for (var p5 in m3)
+            if (p5 !== "default" && !Object.prototype.hasOwnProperty.call(o3, p5))
+              __createBinding3(o3, m3, p5);
         };
-        __createBinding3 = Object.create ? function(o3, m3, k3, k22) {
+        __createBinding3 = Object.create ? function(o3, m3, k4, k22) {
           if (k22 === void 0)
-            k22 = k3;
-          var desc = Object.getOwnPropertyDescriptor(m3, k3);
+            k22 = k4;
+          var desc = Object.getOwnPropertyDescriptor(m3, k4);
           if (!desc || ("get" in desc ? !m3.__esModule : desc.writable || desc.configurable)) {
             desc = { enumerable: true, get: function() {
-              return m3[k3];
+              return m3[k4];
             } };
           }
           Object.defineProperty(o3, k22, desc);
-        } : function(o3, m3, k3, k22) {
+        } : function(o3, m3, k4, k22) {
           if (k22 === void 0)
-            k22 = k3;
-          o3[k22] = m3[k3];
+            k22 = k4;
+          o3[k22] = m3[k4];
         };
         __values3 = function(o3) {
-          var s4 = typeof Symbol === "function" && Symbol.iterator, m3 = s4 && o3[s4], i3 = 0;
+          var s5 = typeof Symbol === "function" && Symbol.iterator, m3 = s5 && o3[s5], i3 = 0;
           if (m3)
             return m3.call(o3);
           if (o3 && typeof o3.length === "number")
@@ -23279,15 +23279,15 @@
                 return { value: o3 && o3[i3++], done: !o3 };
               }
             };
-          throw new TypeError(s4 ? "Object is not iterable." : "Symbol.iterator is not defined.");
+          throw new TypeError(s5 ? "Object is not iterable." : "Symbol.iterator is not defined.");
         };
-        __read3 = function(o3, n3) {
+        __read3 = function(o3, n4) {
           var m3 = typeof Symbol === "function" && o3[Symbol.iterator];
           if (!m3)
             return o3;
           var i3 = m3.call(o3), r3, ar = [], e4;
           try {
-            while ((n3 === void 0 || n3-- > 0) && !(r3 = i3.next()).done)
+            while ((n4 === void 0 || n4-- > 0) && !(r3 = i3.next()).done)
               ar.push(r3.value);
           } catch (error) {
             e4 = { error };
@@ -23308,16 +23308,16 @@
           return ar;
         };
         __spreadArrays3 = function() {
-          for (var s4 = 0, i3 = 0, il = arguments.length; i3 < il; i3++)
-            s4 += arguments[i3].length;
-          for (var r3 = Array(s4), k3 = 0, i3 = 0; i3 < il; i3++)
-            for (var a3 = arguments[i3], j3 = 0, jl = a3.length; j3 < jl; j3++, k3++)
-              r3[k3] = a3[j3];
+          for (var s5 = 0, i3 = 0, il = arguments.length; i3 < il; i3++)
+            s5 += arguments[i3].length;
+          for (var r3 = Array(s5), k4 = 0, i3 = 0; i3 < il; i3++)
+            for (var a3 = arguments[i3], j3 = 0, jl = a3.length; j3 < jl; j3++, k4++)
+              r3[k4] = a3[j3];
           return r3;
         };
         __spreadArray3 = function(to, from, pack) {
           if (pack || arguments.length === 2)
-            for (var i3 = 0, l3 = from.length, ar; i3 < l3; i3++) {
+            for (var i3 = 0, l4 = from.length, ar; i3 < l4; i3++) {
               if (ar || !(i3 in from)) {
                 if (!ar)
                   ar = Array.prototype.slice.call(from, 0, i3);
@@ -23326,33 +23326,33 @@
             }
           return to.concat(ar || Array.prototype.slice.call(from));
         };
-        __await3 = function(v3) {
-          return this instanceof __await3 ? (this.v = v3, this) : new __await3(v3);
+        __await3 = function(v5) {
+          return this instanceof __await3 ? (this.v = v5, this) : new __await3(v5);
         };
         __asyncGenerator3 = function(thisArg, _arguments, generator) {
           if (!Symbol.asyncIterator)
             throw new TypeError("Symbol.asyncIterator is not defined.");
-          var g3 = generator.apply(thisArg, _arguments || []), i3, q3 = [];
+          var g3 = generator.apply(thisArg, _arguments || []), i3, q4 = [];
           return i3 = {}, verb("next"), verb("throw"), verb("return"), i3[Symbol.asyncIterator] = function() {
             return this;
           }, i3;
-          function verb(n3) {
-            if (g3[n3])
-              i3[n3] = function(v3) {
+          function verb(n4) {
+            if (g3[n4])
+              i3[n4] = function(v5) {
                 return new Promise(function(a3, b3) {
-                  q3.push([n3, v3, a3, b3]) > 1 || resume(n3, v3);
+                  q4.push([n4, v5, a3, b3]) > 1 || resume(n4, v5);
                 });
               };
           }
-          function resume(n3, v3) {
+          function resume(n4, v5) {
             try {
-              step(g3[n3](v3));
+              step(g3[n4](v5));
             } catch (e4) {
-              settle(q3[0][3], e4);
+              settle(q4[0][3], e4);
             }
           }
           function step(r3) {
-            r3.value instanceof __await3 ? Promise.resolve(r3.value.v).then(fulfill, reject) : settle(q3[0][2], r3);
+            r3.value instanceof __await3 ? Promise.resolve(r3.value.v).then(fulfill, reject) : settle(q4[0][2], r3);
           }
           function fulfill(value) {
             resume("next", value);
@@ -23360,21 +23360,21 @@
           function reject(value) {
             resume("throw", value);
           }
-          function settle(f3, v3) {
-            if (f3(v3), q3.shift(), q3.length)
-              resume(q3[0][0], q3[0][1]);
+          function settle(f3, v5) {
+            if (f3(v5), q4.shift(), q4.length)
+              resume(q4[0][0], q4[0][1]);
           }
         };
         __asyncDelegator3 = function(o3) {
-          var i3, p4;
+          var i3, p5;
           return i3 = {}, verb("next"), verb("throw", function(e4) {
             throw e4;
           }), verb("return"), i3[Symbol.iterator] = function() {
             return this;
           }, i3;
-          function verb(n3, f3) {
-            i3[n3] = o3[n3] ? function(v3) {
-              return (p4 = !p4) ? { value: __await3(o3[n3](v3)), done: n3 === "return" } : f3 ? f3(v3) : v3;
+          function verb(n4, f3) {
+            i3[n4] = o3[n4] ? function(v5) {
+              return (p5 = !p5) ? { value: __await3(o3[n4](v5)), done: n4 === "return" } : f3 ? f3(v5) : v5;
             } : f3;
           }
         };
@@ -23385,16 +23385,16 @@
           return m3 ? m3.call(o3) : (o3 = typeof __values3 === "function" ? __values3(o3) : o3[Symbol.iterator](), i3 = {}, verb("next"), verb("throw"), verb("return"), i3[Symbol.asyncIterator] = function() {
             return this;
           }, i3);
-          function verb(n3) {
-            i3[n3] = o3[n3] && function(v3) {
+          function verb(n4) {
+            i3[n4] = o3[n4] && function(v5) {
               return new Promise(function(resolve, reject) {
-                v3 = o3[n3](v3), settle(resolve, reject, v3.done, v3.value);
+                v5 = o3[n4](v5), settle(resolve, reject, v5.done, v5.value);
               });
             };
           }
-          function settle(resolve, reject, d3, v3) {
-            Promise.resolve(v3).then(function(v5) {
-              resolve({ value: v5, done: d3 });
+          function settle(resolve, reject, d3, v5) {
+            Promise.resolve(v5).then(function(v6) {
+              resolve({ value: v6, done: d3 });
             }, reject);
           }
         };
@@ -23406,19 +23406,19 @@
           }
           return cooked;
         };
-        var __setModuleDefault = Object.create ? function(o3, v3) {
-          Object.defineProperty(o3, "default", { enumerable: true, value: v3 });
-        } : function(o3, v3) {
-          o3["default"] = v3;
+        var __setModuleDefault = Object.create ? function(o3, v5) {
+          Object.defineProperty(o3, "default", { enumerable: true, value: v5 });
+        } : function(o3, v5) {
+          o3["default"] = v5;
         };
         __importStar3 = function(mod) {
           if (mod && mod.__esModule)
             return mod;
           var result = {};
           if (mod != null) {
-            for (var k3 in mod)
-              if (k3 !== "default" && Object.prototype.hasOwnProperty.call(mod, k3))
-                __createBinding3(result, mod, k3);
+            for (var k4 in mod)
+              if (k4 !== "default" && Object.prototype.hasOwnProperty.call(mod, k4))
+                __createBinding3(result, mod, k4);
           }
           __setModuleDefault(result, mod);
           return result;
@@ -23476,445 +23476,8 @@
     }
   });
 
-  // node_modules/node-webvtt/lib/parser.js
-  var require_parser = __commonJS({
-    "node_modules/node-webvtt/lib/parser.js"(exports, module) {
-      "use strict";
-      function ParserError(message, error) {
-        this.message = message;
-        this.error = error;
-      }
-      ParserError.prototype = Object.create(Error.prototype);
-      var TIMESTAMP_REGEXP = /([0-9]{1,2})?:?([0-9]{2}):([0-9]{2}\.[0-9]{2,3})/;
-      function parse3(input, options) {
-        if (!options) {
-          options = {};
-        }
-        const { meta = false, strict = true } = options;
-        if (typeof input !== "string") {
-          throw new ParserError("Input must be a string");
-        }
-        input = input.trim();
-        input = input.replace(/\r\n/g, "\n");
-        input = input.replace(/\r/g, "\n");
-        const parts = input.split("\n\n");
-        const header = parts.shift();
-        if (!header.startsWith("WEBVTT")) {
-          throw new ParserError('Must start with "WEBVTT"');
-        }
-        const headerParts = header.split("\n");
-        const headerComments = headerParts[0].replace("WEBVTT", "");
-        if (headerComments.length > 0 && (headerComments[0] !== " " && headerComments[0] !== "	")) {
-          throw new ParserError("Header comment must start with space or tab");
-        }
-        if (parts.length === 0 && headerParts.length === 1) {
-          return { valid: true, strict, cues: [], errors: [] };
-        }
-        if (!meta && headerParts.length > 1 && headerParts[1] !== "") {
-          throw new ParserError("Missing blank line after signature");
-        }
-        const { cues, errors } = parseCues(parts, strict);
-        if (strict && errors.length > 0) {
-          throw errors[0];
-        }
-        const headerMeta = meta ? parseMeta(headerParts) : null;
-        const result = { valid: errors.length === 0, strict, cues, errors };
-        if (meta) {
-          result.meta = headerMeta;
-        }
-        return result;
-      }
-      function parseMeta(headerParts) {
-        const meta = {};
-        headerParts.slice(1).forEach((header) => {
-          const splitIdx = header.indexOf(":");
-          const key = header.slice(0, splitIdx).trim();
-          const value = header.slice(splitIdx + 1).trim();
-          meta[key] = value;
-        });
-        return Object.keys(meta).length > 0 ? meta : null;
-      }
-      function parseCues(cues, strict) {
-        const errors = [];
-        const parsedCues = cues.map((cue, i3) => {
-          try {
-            return parseCue(cue, i3, strict);
-          } catch (e4) {
-            errors.push(e4);
-            return null;
-          }
-        }).filter(Boolean);
-        return {
-          cues: parsedCues,
-          errors
-        };
-      }
-      function parseCue(cue, i3, strict) {
-        let identifier = "";
-        let start = 0;
-        let end = 0.01;
-        let text = "";
-        let styles = "";
-        const lines = cue.split("\n").filter(Boolean);
-        if (lines.length > 0 && lines[0].trim().startsWith("NOTE")) {
-          return null;
-        }
-        if (lines.length === 1 && !lines[0].includes("-->")) {
-          throw new ParserError(`Cue identifier cannot be standalone (cue #${i3})`);
-        }
-        if (lines.length > 1 && !(lines[0].includes("-->") || lines[1].includes("-->"))) {
-          const msg = `Cue identifier needs to be followed by timestamp (cue #${i3})`;
-          throw new ParserError(msg);
-        }
-        if (lines.length > 1 && lines[1].includes("-->")) {
-          identifier = lines.shift();
-        }
-        const times = typeof lines[0] === "string" && lines[0].split(" --> ");
-        if (times.length !== 2 || !validTimestamp(times[0]) || !validTimestamp(times[1])) {
-          throw new ParserError(`Invalid cue timestamp (cue #${i3})`);
-        }
-        start = parseTimestamp(times[0]);
-        end = parseTimestamp(times[1]);
-        if (strict) {
-          if (start > end) {
-            throw new ParserError(`Start timestamp greater than end (cue #${i3})`);
-          }
-          if (end <= start) {
-            throw new ParserError(`End must be greater than start (cue #${i3})`);
-          }
-        }
-        if (!strict && end < start) {
-          throw new ParserError(`End must be greater or equal to start when not strict (cue #${i3})`);
-        }
-        styles = times[1].replace(TIMESTAMP_REGEXP, "").trim();
-        lines.shift();
-        text = lines.join("\n");
-        if (!text) {
-          return false;
-        }
-        return { identifier, start, end, text, styles };
-      }
-      function validTimestamp(timestamp) {
-        return TIMESTAMP_REGEXP.test(timestamp);
-      }
-      function parseTimestamp(timestamp) {
-        const matches = timestamp.match(TIMESTAMP_REGEXP);
-        let secs = parseFloat(matches[1] || 0) * 60 * 60;
-        secs += parseFloat(matches[2]) * 60;
-        secs += parseFloat(matches[3]);
-        return secs;
-      }
-      module.exports = { ParserError, parse: parse3 };
-    }
-  });
-
-  // node_modules/node-webvtt/lib/compiler.js
-  var require_compiler = __commonJS({
-    "node_modules/node-webvtt/lib/compiler.js"(exports, module) {
-      "use strict";
-      function CompilerError(message, error) {
-        this.message = message;
-        this.error = error;
-      }
-      CompilerError.prototype = Object.create(Error.prototype);
-      function compile(input) {
-        if (!input) {
-          throw new CompilerError("Input must be non-null");
-        }
-        if (typeof input !== "object") {
-          throw new CompilerError("Input must be an object");
-        }
-        if (Array.isArray(input)) {
-          throw new CompilerError("Input cannot be array");
-        }
-        if (!input.valid) {
-          throw new CompilerError("Input must be valid");
-        }
-        let output = "WEBVTT\n";
-        if (input.meta) {
-          if (typeof input.meta !== "object" || Array.isArray(input.meta)) {
-            throw new CompilerError("Metadata must be an object");
-          }
-          Object.entries(input.meta).forEach((i3) => {
-            if (typeof i3[1] !== "string") {
-              throw new CompilerError(`Metadata value for "${i3[0]}" must be string`);
-            }
-            output += `${i3[0]}: ${i3[1]}
-`;
-          });
-        }
-        let lastTime = null;
-        input.cues.forEach((cue, index) => {
-          if (lastTime && lastTime > cue.start) {
-            throw new CompilerError(`Cue number ${index} is not in chronological order`);
-          }
-          lastTime = cue.start;
-          output += "\n";
-          output += compileCue(cue);
-          output += "\n";
-        });
-        return output;
-      }
-      function compileCue(cue) {
-        if (typeof cue !== "object") {
-          throw new CompilerError("Cue malformed: not of type object");
-        }
-        if (typeof cue.identifier !== "string" && typeof cue.identifier !== "number" && cue.identifier !== null) {
-          throw new CompilerError(`Cue malformed: identifier value is not a string.
-    ${JSON.stringify(cue)}`);
-        }
-        if (isNaN(cue.start)) {
-          throw new CompilerError(`Cue malformed: null start value.
-    ${JSON.stringify(cue)}`);
-        }
-        if (isNaN(cue.end)) {
-          throw new CompilerError(`Cue malformed: null end value.
-    ${JSON.stringify(cue)}`);
-        }
-        if (cue.start >= cue.end) {
-          throw new CompilerError(`Cue malformed: start timestamp greater than end
-    ${JSON.stringify(cue)}`);
-        }
-        if (typeof cue.text !== "string") {
-          throw new CompilerError(`Cue malformed: null text value.
-    ${JSON.stringify(cue)}`);
-        }
-        if (typeof cue.styles !== "string") {
-          throw new CompilerError(`Cue malformed: null styles value.
-    ${JSON.stringify(cue)}`);
-        }
-        let output = "";
-        if (cue.identifier.length > 0) {
-          output += `${cue.identifier}
-`;
-        }
-        const startTimestamp = convertTimestamp(cue.start);
-        const endTimestamp = convertTimestamp(cue.end);
-        output += `${startTimestamp} --> ${endTimestamp}`;
-        output += cue.styles ? ` ${cue.styles}` : "";
-        output += `
-${cue.text}`;
-        return output;
-      }
-      function convertTimestamp(time) {
-        const hours = pad(calculateHours(time), 2);
-        const minutes = pad(calculateMinutes(time), 2);
-        const seconds = pad(calculateSeconds(time), 2);
-        const milliseconds = pad(calculateMs(time), 3);
-        return `${hours}:${minutes}:${seconds}.${milliseconds}`;
-      }
-      function pad(num, zeroes) {
-        let output = `${num}`;
-        while (output.length < zeroes) {
-          output = `0${output}`;
-        }
-        return output;
-      }
-      function calculateHours(time) {
-        return Math.floor(time / 60 / 60);
-      }
-      function calculateMinutes(time) {
-        return Math.floor(time / 60) % 60;
-      }
-      function calculateSeconds(time) {
-        return Math.floor(time % 60);
-      }
-      function calculateMs(time) {
-        return Math.floor((time % 1).toFixed(4) * 1e3);
-      }
-      module.exports = { CompilerError, compile };
-    }
-  });
-
-  // node_modules/node-webvtt/lib/segmenter.js
-  var require_segmenter = __commonJS({
-    "node_modules/node-webvtt/lib/segmenter.js"(exports, module) {
-      "use strict";
-      var parse3 = require_parser().parse;
-      function segment(input, segmentLength) {
-        segmentLength = segmentLength || 10;
-        const parsed = parse3(input);
-        const segments = [];
-        let cues = [];
-        let queuedCue = null;
-        let currentSegmentDuration = 0;
-        let totalSegmentsDuration = 0;
-        parsed.cues.forEach((cue, i3) => {
-          const firstCue = i3 === 0;
-          const lastCue = i3 === parsed.cues.length - 1;
-          const start = cue.start;
-          const end = cue.end;
-          const nextStart = lastCue ? Infinity : parsed.cues[i3 + 1].start;
-          const cueLength = firstCue ? end : end - start;
-          const silence = firstCue ? 0 : start - parsed.cues[i3 - 1].end;
-          currentSegmentDuration = currentSegmentDuration + cueLength + silence;
-          debug("------------");
-          debug(`Cue #${i3}, segment #${segments.length + 1}`);
-          debug(`Start ${start}`);
-          debug(`End ${end}`);
-          debug(`Length ${cueLength}`);
-          debug(`Total segment duration = ${totalSegmentsDuration}`);
-          debug(`Current segment duration = ${currentSegmentDuration}`);
-          debug(`Start of next = ${nextStart}`);
-          if (queuedCue) {
-            cues.push(queuedCue);
-            currentSegmentDuration += queuedCue.end - totalSegmentsDuration;
-            queuedCue = null;
-          }
-          cues.push(cue);
-          let shouldQueue = nextStart - end < segmentLength && silence < segmentLength && currentSegmentDuration > segmentLength;
-          if (shouldSegment(totalSegmentsDuration, segmentLength, nextStart, silence)) {
-            const duration = segmentDuration(lastCue, end, segmentLength, currentSegmentDuration, totalSegmentsDuration);
-            segments.push({ duration, cues });
-            totalSegmentsDuration += duration;
-            currentSegmentDuration = 0;
-            cues = [];
-          } else {
-            shouldQueue = false;
-          }
-          if (shouldQueue) {
-            queuedCue = cue;
-          }
-        });
-        return segments;
-      }
-      function shouldSegment(total, length, nextStart, silence) {
-        const x3 = alignToSegmentLength(silence, length);
-        const nextCueIsInNextSegment = silence <= length || x3 + total < nextStart;
-        return nextCueIsInNextSegment && nextStart - total >= length;
-      }
-      function segmentDuration(lastCue, end, length, currentSegment, totalSegments) {
-        let duration = length;
-        if (currentSegment > length) {
-          duration = alignToSegmentLength(currentSegment - length, length);
-        }
-        if (lastCue) {
-          duration = parseFloat((end - totalSegments).toFixed(2));
-        } else {
-          duration = Math.round(duration);
-        }
-        return duration;
-      }
-      function alignToSegmentLength(n3, segmentLength) {
-        n3 += segmentLength - n3 % segmentLength;
-        return n3;
-      }
-      var debugging = false;
-      function debug(m3) {
-        if (debugging) {
-          console.log(m3);
-        }
-      }
-      module.exports = { segment };
-    }
-  });
-
-  // node_modules/node-webvtt/lib/hls.js
-  var require_hls = __commonJS({
-    "node_modules/node-webvtt/lib/hls.js"(exports, module) {
-      "use strict";
-      var segment = require_segmenter().segment;
-      function hlsSegment(input, segmentLength, startOffset) {
-        if (typeof startOffset === "undefined") {
-          startOffset = "900000";
-        }
-        const segments = segment(input, segmentLength);
-        const result = [];
-        segments.forEach((seg, i3) => {
-          const content = `WEBVTT
-X-TIMESTAMP-MAP=MPEGTS:${startOffset},LOCAL:00:00:00.000
-
-${printableCues(seg.cues)}
-`;
-          const filename = generateSegmentFilename(i3);
-          result.push({ filename, content });
-        });
-        return result;
-      }
-      function hlsSegmentPlaylist(input, segmentLength) {
-        const segmented = segment(input, segmentLength);
-        const printable = printableSegments(segmented);
-        const longestSegment = Math.round(findLongestSegment(segmented));
-        const template = `#EXTM3U
-#EXT-X-TARGETDURATION:${longestSegment}
-#EXT-X-VERSION:3
-#EXT-X-MEDIA-SEQUENCE:0
-#EXT-X-PLAYLIST-TYPE:VOD
-${printable}
-#EXT-X-ENDLIST
-`;
-        return template;
-      }
-      function pad(num, n3) {
-        const padding = "0".repeat(Math.max(0, n3 - num.toString().length));
-        return `${padding}${num}`;
-      }
-      function generateSegmentFilename(index) {
-        return `${index}.vtt`;
-      }
-      function printableSegments(segments) {
-        const result = [];
-        segments.forEach((seg, i3) => {
-          result.push(`#EXTINF:${seg.duration.toFixed(5)},
-${generateSegmentFilename(i3)}`);
-        });
-        return result.join("\n");
-      }
-      function findLongestSegment(segments) {
-        let max = 0;
-        segments.forEach((seg) => {
-          if (seg.duration > max) {
-            max = seg.duration;
-          }
-        });
-        return max;
-      }
-      function printableCues(cues) {
-        const result = [];
-        cues.forEach((cue) => {
-          result.push(printableCue(cue));
-        });
-        return result.join("\n\n");
-      }
-      function printableCue(cue) {
-        const printable = [];
-        if (cue.identifier) {
-          printable.push(cue.identifier);
-        }
-        const start = printableTimestamp(cue.start);
-        const end = printableTimestamp(cue.end);
-        const styles = cue.styles ? `${cue.styles}` : "";
-        printable.push(`${start} --> ${end} ${styles}`);
-        printable.push(cue.text);
-        return printable.join("\n");
-      }
-      function printableTimestamp(timestamp) {
-        const ms = (timestamp % 1).toFixed(3);
-        timestamp = Math.round(timestamp - ms);
-        const hours = Math.floor(timestamp / 3600);
-        const mins = Math.floor((timestamp - hours * 3600) / 60);
-        const secs = timestamp - hours * 3600 - mins * 60;
-        const hourString = `${pad(hours, 2)}:`;
-        return `${hourString}${pad(mins, 2)}:${pad(secs, 2)}.${pad(ms * 1e3, 3)}`;
-      }
-      module.exports = { hlsSegment, hlsSegmentPlaylist };
-    }
-  });
-
-  // node_modules/node-webvtt/index.js
-  var require_node_webvtt = __commonJS({
-    "node_modules/node-webvtt/index.js"(exports, module) {
-      "use strict";
-      var parse3 = require_parser().parse;
-      var compile = require_compiler().compile;
-      var segment = require_segmenter().segment;
-      var hls = require_hls();
-      module.exports = { parse: parse3, compile, segment, hls };
-    }
-  });
-
   // node_modules/hls.js/dist/hls.js
-  var require_hls2 = __commonJS({
+  var require_hls = __commonJS({
     "node_modules/hls.js/dist/hls.js"(exports, module) {
       typeof window !== "undefined" && function webpackUniversalModuleDefinition(root2, factory) {
         if (typeof exports === "object" && typeof module === "object")
@@ -24043,7 +23606,7 @@ ${generateSegmentFilename(i3)}`);
                 return [];
               if (handlers.fn)
                 return [handlers.fn];
-              for (var i3 = 0, l3 = handlers.length, ee2 = new Array(l3); i3 < l3; i3++) {
+              for (var i3 = 0, l4 = handlers.length, ee2 = new Array(l4); i3 < l4; i3++) {
                 ee2[i3] = handlers[i3].fn;
               }
               return ee2;
@@ -24326,8 +23889,8 @@ ${generateSegmentFilename(i3)}`);
             function quoteRegExp(str) {
               return (str + "").replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&");
             }
-            function isNumeric(n3) {
-              return !isNaN(1 * n3);
+            function isNumeric(n4) {
+              return !isNaN(1 * n4);
             }
             function getModuleDependencies(sources, module3, queueName) {
               var retval = {};
@@ -24967,12 +24530,12 @@ ${generateSegmentFilename(i3)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o3, p4) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p5) {
-                o4.__proto__ = p5;
+            function _setPrototypeOf(o3, p5) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p6) {
+                o4.__proto__ = p6;
                 return o4;
               };
-              return _setPrototypeOf(o3, p4);
+              return _setPrototypeOf(o3, p5);
             }
             var TICK_INTERVAL = 100;
             var AudioStreamController = /* @__PURE__ */ function(_BaseStreamController) {
@@ -25555,12 +25118,12 @@ ${generateSegmentFilename(i3)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o3, p4) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p5) {
-                o4.__proto__ = p5;
+            function _setPrototypeOf(o3, p5) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p6) {
+                o4.__proto__ = p6;
                 return o4;
               };
-              return _setPrototypeOf(o3, p4);
+              return _setPrototypeOf(o3, p5);
             }
             var AudioTrackController = /* @__PURE__ */ function(_BasePlaylistControll) {
               _inheritsLoose(AudioTrackController2, _BasePlaylistControll);
@@ -25997,12 +25560,12 @@ ${generateSegmentFilename(i3)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o3, p4) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p5) {
-                o4.__proto__ = p5;
+            function _setPrototypeOf(o3, p5) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p6) {
+                o4.__proto__ = p6;
                 return o4;
               };
-              return _setPrototypeOf(o3, p4);
+              return _setPrototypeOf(o3, p5);
             }
             var State = {
               STOPPED: "STOPPED",
@@ -27500,8 +27063,8 @@ ${generateSegmentFilename(i3)}`);
                 if (!buffer) {
                   return;
                 }
-                this.listeners[type].forEach(function(l3) {
-                  buffer.removeEventListener(l3.event, l3.listener);
+                this.listeners[type].forEach(function(l4) {
+                  buffer.removeEventListener(l4.event, l4.listener);
                 });
               };
               return BufferController2;
@@ -27820,12 +27383,12 @@ ${generateSegmentFilename(i3)}`);
               return Constructor;
             }
             function _createForOfIteratorHelperLoose(o3, allowArrayLike) {
-              var it2 = typeof Symbol !== "undefined" && o3[Symbol.iterator] || o3["@@iterator"];
-              if (it2)
-                return (it2 = it2.call(o3)).next.bind(it2);
-              if (Array.isArray(o3) || (it2 = _unsupportedIterableToArray(o3)) || allowArrayLike && o3 && typeof o3.length === "number") {
-                if (it2)
-                  o3 = it2;
+              var it3 = typeof Symbol !== "undefined" && o3[Symbol.iterator] || o3["@@iterator"];
+              if (it3)
+                return (it3 = it3.call(o3)).next.bind(it3);
+              if (Array.isArray(o3) || (it3 = _unsupportedIterableToArray(o3)) || allowArrayLike && o3 && typeof o3.length === "number") {
+                if (it3)
+                  o3 = it3;
                 var i3 = 0;
                 return function() {
                   if (i3 >= o3.length)
@@ -27840,12 +27403,12 @@ ${generateSegmentFilename(i3)}`);
                 return;
               if (typeof o3 === "string")
                 return _arrayLikeToArray(o3, minLen);
-              var n3 = Object.prototype.toString.call(o3).slice(8, -1);
-              if (n3 === "Object" && o3.constructor)
-                n3 = o3.constructor.name;
-              if (n3 === "Map" || n3 === "Set")
+              var n4 = Object.prototype.toString.call(o3).slice(8, -1);
+              if (n4 === "Object" && o3.constructor)
+                n4 = o3.constructor.name;
+              if (n4 === "Map" || n4 === "Set")
                 return Array.from(o3);
-              if (n3 === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n3))
+              if (n4 === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n4))
                 return _arrayLikeToArray(o3, minLen);
             }
             function _arrayLikeToArray(arr, len) {
@@ -27910,15 +27473,15 @@ ${generateSegmentFilename(i3)}`);
                   try {
                     var fragment = context.frag;
                     var level = _this.hls.levels[fragment.level];
-                    var ot2 = _this.getObjectType(fragment);
+                    var ot3 = _this.getObjectType(fragment);
                     var data = {
                       d: fragment.duration * 1e3,
-                      ot: ot2
+                      ot: ot3
                     };
-                    if (ot2 === _types_cmcd__WEBPACK_IMPORTED_MODULE_1__["CMCDObjectType"].VIDEO || ot2 === _types_cmcd__WEBPACK_IMPORTED_MODULE_1__["CMCDObjectType"].AUDIO || ot2 == _types_cmcd__WEBPACK_IMPORTED_MODULE_1__["CMCDObjectType"].MUXED) {
+                    if (ot3 === _types_cmcd__WEBPACK_IMPORTED_MODULE_1__["CMCDObjectType"].VIDEO || ot3 === _types_cmcd__WEBPACK_IMPORTED_MODULE_1__["CMCDObjectType"].AUDIO || ot3 == _types_cmcd__WEBPACK_IMPORTED_MODULE_1__["CMCDObjectType"].MUXED) {
                       data.br = level.bitrate / 1e3;
-                      data.tb = _this.getTopBandwidth(ot2) / 1e3;
-                      data.bl = _this.getBufferLength(ot2);
+                      data.tb = _this.getTopBandwidth(ot3) / 1e3;
+                      data.bl = _this.getBufferLength(ot3);
                     }
                     _this.apply(context, data);
                   } catch (error) {
@@ -29737,12 +29300,12 @@ ${generateSegmentFilename(i3)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o3, p4) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p5) {
-                o4.__proto__ = p5;
+            function _setPrototypeOf(o3, p5) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p6) {
+                o4.__proto__ = p6;
                 return o4;
               };
-              return _setPrototypeOf(o3, p4);
+              return _setPrototypeOf(o3, p5);
             }
             var chromeOrFirefox = /chrome|firefox/.test(navigator.userAgent.toLowerCase());
             var LevelController = /* @__PURE__ */ function(_BasePlaylistControll) {
@@ -30602,12 +30165,12 @@ ${generateSegmentFilename(i3)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o3, p4) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p5) {
-                o4.__proto__ = p5;
+            function _setPrototypeOf(o3, p5) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p6) {
+                o4.__proto__ = p6;
                 return o4;
               };
-              return _setPrototypeOf(o3, p4);
+              return _setPrototypeOf(o3, p5);
             }
             var TICK_INTERVAL = 100;
             var StreamController = /* @__PURE__ */ function(_BaseStreamController) {
@@ -31549,12 +31112,12 @@ ${generateSegmentFilename(i3)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o3, p4) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p5) {
-                o4.__proto__ = p5;
+            function _setPrototypeOf(o3, p5) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p6) {
+                o4.__proto__ = p6;
                 return o4;
               };
-              return _setPrototypeOf(o3, p4);
+              return _setPrototypeOf(o3, p5);
             }
             var TICK_INTERVAL = 500;
             var SubtitleStreamController = /* @__PURE__ */ function(_BaseStreamController) {
@@ -31863,12 +31426,12 @@ ${generateSegmentFilename(i3)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o3, p4) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p5) {
-                o4.__proto__ = p5;
+            function _setPrototypeOf(o3, p5) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p6) {
+                o4.__proto__ = p6;
                 return o4;
               };
-              return _setPrototypeOf(o3, p4);
+              return _setPrototypeOf(o3, p5);
             }
             var SubtitleTrackController = /* @__PURE__ */ function(_BasePlaylistControll) {
               _inheritsLoose(SubtitleTrackController2, _BasePlaylistControll);
@@ -32792,7 +32355,7 @@ ${generateSegmentFilename(i3)}`);
                 var invSubMix2 = invSubMix[2];
                 var invSubMix3 = invSubMix[3];
                 var d3 = new Uint32Array(256);
-                var x3 = 0;
+                var x4 = 0;
                 var xi = 0;
                 var i3 = 0;
                 for (i3 = 0; i3 < 256; i3++) {
@@ -32805,25 +32368,25 @@ ${generateSegmentFilename(i3)}`);
                 for (i3 = 0; i3 < 256; i3++) {
                   var sx = xi ^ xi << 1 ^ xi << 2 ^ xi << 3 ^ xi << 4;
                   sx = sx >>> 8 ^ sx & 255 ^ 99;
-                  sBox[x3] = sx;
-                  invSBox[sx] = x3;
-                  var x22 = d3[x3];
-                  var x4 = d3[x22];
-                  var x8 = d3[x4];
+                  sBox[x4] = sx;
+                  invSBox[sx] = x4;
+                  var x22 = d3[x4];
+                  var x42 = d3[x22];
+                  var x8 = d3[x42];
                   var t4 = d3[sx] * 257 ^ sx * 16843008;
-                  subMix0[x3] = t4 << 24 | t4 >>> 8;
-                  subMix1[x3] = t4 << 16 | t4 >>> 16;
-                  subMix2[x3] = t4 << 8 | t4 >>> 24;
-                  subMix3[x3] = t4;
-                  t4 = x8 * 16843009 ^ x4 * 65537 ^ x22 * 257 ^ x3 * 16843008;
+                  subMix0[x4] = t4 << 24 | t4 >>> 8;
+                  subMix1[x4] = t4 << 16 | t4 >>> 16;
+                  subMix2[x4] = t4 << 8 | t4 >>> 24;
+                  subMix3[x4] = t4;
+                  t4 = x8 * 16843009 ^ x42 * 65537 ^ x22 * 257 ^ x4 * 16843008;
                   invSubMix0[sx] = t4 << 24 | t4 >>> 8;
                   invSubMix1[sx] = t4 << 16 | t4 >>> 16;
                   invSubMix2[sx] = t4 << 8 | t4 >>> 24;
                   invSubMix3[sx] = t4;
-                  if (!x3) {
-                    x3 = xi = 1;
+                  if (!x4) {
+                    x4 = xi = 1;
                   } else {
-                    x3 = x22 ^ d3[d3[d3[x8 ^ x22]]];
+                    x4 = x22 ^ d3[d3[d3[x8 ^ x22]]];
                     xi ^= d3[d3[xi]];
                   }
                 }
@@ -33137,12 +32700,12 @@ ${generateSegmentFilename(i3)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o3, p4) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p5) {
-                o4.__proto__ = p5;
+            function _setPrototypeOf(o3, p5) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p6) {
+                o4.__proto__ = p6;
                 return o4;
               };
-              return _setPrototypeOf(o3, p4);
+              return _setPrototypeOf(o3, p5);
             }
             var AACDemuxer = /* @__PURE__ */ function(_BaseAudioDemuxer) {
               _inheritsLoose(AACDemuxer2, _BaseAudioDemuxer);
@@ -34138,12 +33701,12 @@ ${generateSegmentFilename(i3)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o3, p4) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p5) {
-                o4.__proto__ = p5;
+            function _setPrototypeOf(o3, p5) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p6) {
+                o4.__proto__ = p6;
                 return o4;
               };
-              return _setPrototypeOf(o3, p4);
+              return _setPrototypeOf(o3, p5);
             }
             var MP3Demuxer = /* @__PURE__ */ function(_BaseAudioDemuxer) {
               _inheritsLoose(MP3Demuxer2, _BaseAudioDemuxer);
@@ -34595,10 +34158,10 @@ ${generateSegmentFilename(i3)}`);
               }
               var _proto = TransmuxerInterface2.prototype;
               _proto.destroy = function destroy() {
-                var w3 = this.worker;
-                if (w3) {
-                  w3.removeEventListener("message", this.onwmsg);
-                  w3.terminate();
+                var w4 = this.worker;
+                if (w4) {
+                  w4.removeEventListener("message", this.onwmsg);
+                  w4.terminate();
                   this.worker = null;
                 } else {
                   var transmuxer = this.transmuxer;
@@ -35136,8 +34699,8 @@ ${generateSegmentFilename(i3)}`);
                 chunkMeta
               };
             };
-            function isPromise(p4) {
-              return "then" in p4 && p4.then instanceof Function;
+            function isPromise(p5) {
+              return "then" in p5 && p5.then instanceof Function;
             }
             var TransmuxConfig = function TransmuxConfig2(audioCodec, videoCodec, initSegmentData, duration, defaultInitPts) {
               this.audioCodec = void 0;
@@ -36871,12 +36434,12 @@ ${generateSegmentFilename(i3)}`);
             function _isNativeFunction(fn) {
               return Function.toString.call(fn).indexOf("[native code]") !== -1;
             }
-            function _setPrototypeOf(o3, p4) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p5) {
-                o4.__proto__ = p5;
+            function _setPrototypeOf(o3, p5) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p6) {
+                o4.__proto__ = p6;
                 return o4;
               };
-              return _setPrototypeOf(o3, p4);
+              return _setPrototypeOf(o3, p5);
             }
             function _getPrototypeOf(o3) {
               _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf2(o4) {
@@ -37156,12 +36719,12 @@ ${generateSegmentFilename(i3)}`);
               subClass.prototype.constructor = subClass;
               _setPrototypeOf(subClass, superClass);
             }
-            function _setPrototypeOf(o3, p4) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p5) {
-                o4.__proto__ = p5;
+            function _setPrototypeOf(o3, p5) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p6) {
+                o4.__proto__ = p6;
                 return o4;
               };
-              return _setPrototypeOf(o3, p4);
+              return _setPrototypeOf(o3, p5);
             }
             function _defineProperties(target, props) {
               for (var i3 = 0; i3 < props.length; i3++) {
@@ -42647,12 +42210,12 @@ ${generateSegmentFilename(i3)}`);
             function _isNativeFunction(fn) {
               return Function.toString.call(fn).indexOf("[native code]") !== -1;
             }
-            function _setPrototypeOf(o3, p4) {
-              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p5) {
-                o4.__proto__ = p5;
+            function _setPrototypeOf(o3, p5) {
+              _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p6) {
+                o4.__proto__ = p6;
                 return o4;
               };
-              return _setPrototypeOf(o3, p4);
+              return _setPrototypeOf(o3, p5);
             }
             function _getPrototypeOf(o3) {
               _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf2(o4) {
@@ -42909,8 +42472,8 @@ ${generateSegmentFilename(i3)}`);
             function parseTTML(ttml, syncTime) {
               var parser = new DOMParser();
               var xmlDoc = parser.parseFromString(ttml, "text/xml");
-              var tt2 = xmlDoc.getElementsByTagName("tt")[0];
-              if (!tt2) {
+              var tt3 = xmlDoc.getElementsByTagName("tt")[0];
+              if (!tt3) {
                 throw new Error("Invalid ttml");
               }
               var defaultRateInfo = {
@@ -42920,13 +42483,13 @@ ${generateSegmentFilename(i3)}`);
                 tickRate: 0
               };
               var rateInfo = Object.keys(defaultRateInfo).reduce(function(result, key) {
-                result[key] = tt2.getAttribute("ttp:" + key) || defaultRateInfo[key];
+                result[key] = tt3.getAttribute("ttp:" + key) || defaultRateInfo[key];
                 return result;
               }, {});
-              var trim = tt2.getAttribute("xml:space") !== "preserve";
-              var styleElements = collectionToDictionary(getElementCollection(tt2, "styling", "style"));
-              var regionElements = collectionToDictionary(getElementCollection(tt2, "layout", "region"));
-              var cueElements = getElementCollection(tt2, "body", "[begin]");
+              var trim = tt3.getAttribute("xml:space") !== "preserve";
+              var styleElements = collectionToDictionary(getElementCollection(tt3, "styling", "style"));
+              var regionElements = collectionToDictionary(getElementCollection(tt3, "layout", "region"));
+              var cueElements = getElementCollection(tt3, "body", "[begin]");
               return [].map.call(cueElements, function(cueElement) {
                 var cueText = getTextContent(cueElement, trim);
                 if (!cueText || !cueElement.hasAttribute("begin")) {
@@ -43796,8 +43359,8 @@ ${generateSegmentFilename(i3)}`);
                 var i3 = 1;
                 for (; i3 < arguments.length; i3++) {
                   var cobj = arguments[i3];
-                  for (var p4 in cobj) {
-                    obj[p4] = cobj[p4];
+                  for (var p5 in cobj) {
+                    obj[p5] = cobj[p5];
                   }
                 }
                 return obj;
@@ -44015,8 +43578,8 @@ ${generateSegmentFilename(i3)}`);
               return StringDecoder2;
             }();
             function parseTimeStamp(input) {
-              function computeSeconds(h3, m4, s4, f3) {
-                return (h3 | 0) * 3600 + (m4 | 0) * 60 + (s4 | 0) + parseFloat(f3 || 0);
+              function computeSeconds(h3, m4, s5, f3) {
+                return (h3 | 0) * 3600 + (m4 | 0) * 60 + (s5 | 0) + parseFloat(f3 || 0);
               }
               var m3 = input.match(/^(?:(\d+):)?(\d{2}):(\d{2})(\.\d+)?/);
               if (!m3) {
@@ -44032,38 +43595,38 @@ ${generateSegmentFilename(i3)}`);
                 this.values = /* @__PURE__ */ Object.create(null);
               }
               var _proto2 = Settings2.prototype;
-              _proto2.set = function set(k3, v3) {
-                if (!this.get(k3) && v3 !== "") {
-                  this.values[k3] = v3;
+              _proto2.set = function set(k4, v5) {
+                if (!this.get(k4) && v5 !== "") {
+                  this.values[k4] = v5;
                 }
               };
-              _proto2.get = function get(k3, dflt, defaultKey) {
+              _proto2.get = function get(k4, dflt, defaultKey) {
                 if (defaultKey) {
-                  return this.has(k3) ? this.values[k3] : dflt[defaultKey];
+                  return this.has(k4) ? this.values[k4] : dflt[defaultKey];
                 }
-                return this.has(k3) ? this.values[k3] : dflt;
+                return this.has(k4) ? this.values[k4] : dflt;
               };
-              _proto2.has = function has(k3) {
-                return k3 in this.values;
+              _proto2.has = function has(k4) {
+                return k4 in this.values;
               };
-              _proto2.alt = function alt(k3, v3, a3) {
-                for (var n3 = 0; n3 < a3.length; ++n3) {
-                  if (v3 === a3[n3]) {
-                    this.set(k3, v3);
+              _proto2.alt = function alt(k4, v5, a3) {
+                for (var n4 = 0; n4 < a3.length; ++n4) {
+                  if (v5 === a3[n4]) {
+                    this.set(k4, v5);
                     break;
                   }
                 }
               };
-              _proto2.integer = function integer(k3, v3) {
-                if (/^-?\d+$/.test(v3)) {
-                  this.set(k3, parseInt(v3, 10));
+              _proto2.integer = function integer(k4, v5) {
+                if (/^-?\d+$/.test(v5)) {
+                  this.set(k4, parseInt(v5, 10));
                 }
               };
-              _proto2.percent = function percent(k3, v3) {
-                if (/^([\d]{1,3})(\.[\d]*)?%$/.test(v3)) {
-                  var percent2 = parseFloat(v3);
+              _proto2.percent = function percent(k4, v5) {
+                if (/^([\d]{1,3})(\.[\d]*)?%$/.test(v5)) {
+                  var percent2 = parseFloat(v5);
                   if (percent2 >= 0 && percent2 <= 100) {
-                    this.set(k3, percent2);
+                    this.set(k4, percent2);
                     return true;
                   }
                 }
@@ -44100,43 +43663,43 @@ ${generateSegmentFilename(i3)}`);
               }
               function consumeCueSettings(input2, cue2) {
                 var settings = new Settings();
-                parseOptions(input2, function(k3, v3) {
+                parseOptions(input2, function(k4, v5) {
                   var vals;
-                  switch (k3) {
+                  switch (k4) {
                     case "region":
                       for (var i3 = regionList.length - 1; i3 >= 0; i3--) {
-                        if (regionList[i3].id === v3) {
-                          settings.set(k3, regionList[i3].region);
+                        if (regionList[i3].id === v5) {
+                          settings.set(k4, regionList[i3].region);
                           break;
                         }
                       }
                       break;
                     case "vertical":
-                      settings.alt(k3, v3, ["rl", "lr"]);
+                      settings.alt(k4, v5, ["rl", "lr"]);
                       break;
                     case "line":
-                      vals = v3.split(",");
-                      settings.integer(k3, vals[0]);
-                      if (settings.percent(k3, vals[0])) {
+                      vals = v5.split(",");
+                      settings.integer(k4, vals[0]);
+                      if (settings.percent(k4, vals[0])) {
                         settings.set("snapToLines", false);
                       }
-                      settings.alt(k3, vals[0], ["auto"]);
+                      settings.alt(k4, vals[0], ["auto"]);
                       if (vals.length === 2) {
                         settings.alt("lineAlign", vals[1], ["start", center, "end"]);
                       }
                       break;
                     case "position":
-                      vals = v3.split(",");
-                      settings.percent(k3, vals[0]);
+                      vals = v5.split(",");
+                      settings.percent(k4, vals[0]);
                       if (vals.length === 2) {
                         settings.alt("positionAlign", vals[1], ["start", center, "end", "line-left", "line-right", "auto"]);
                       }
                       break;
                     case "size":
-                      settings.percent(k3, v3);
+                      settings.percent(k4, v5);
                       break;
                     case "align":
-                      settings.alt(k3, v3, ["start", center, "end", "left", "right"]);
+                      settings.alt(k4, v5, ["start", center, "end", "left", "right"]);
                       break;
                   }
                 }, /:/, /\s/);
@@ -44212,7 +43775,7 @@ ${generateSegmentFilename(i3)}`);
                   return line2;
                 }
                 function parseHeader(input) {
-                  parseOptions(input, function(k3, v3) {
+                  parseOptions(input, function(k4, v5) {
                   }, /:/);
                 }
                 try {
@@ -44679,6 +44242,443 @@ ${generateSegmentFilename(i3)}`);
           }
         })["default"];
       });
+    }
+  });
+
+  // node_modules/node-webvtt/lib/parser.js
+  var require_parser = __commonJS({
+    "node_modules/node-webvtt/lib/parser.js"(exports, module) {
+      "use strict";
+      function ParserError(message, error) {
+        this.message = message;
+        this.error = error;
+      }
+      ParserError.prototype = Object.create(Error.prototype);
+      var TIMESTAMP_REGEXP = /([0-9]{1,2})?:?([0-9]{2}):([0-9]{2}\.[0-9]{2,3})/;
+      function parse3(input, options) {
+        if (!options) {
+          options = {};
+        }
+        const { meta = false, strict = true } = options;
+        if (typeof input !== "string") {
+          throw new ParserError("Input must be a string");
+        }
+        input = input.trim();
+        input = input.replace(/\r\n/g, "\n");
+        input = input.replace(/\r/g, "\n");
+        const parts = input.split("\n\n");
+        const header = parts.shift();
+        if (!header.startsWith("WEBVTT")) {
+          throw new ParserError('Must start with "WEBVTT"');
+        }
+        const headerParts = header.split("\n");
+        const headerComments = headerParts[0].replace("WEBVTT", "");
+        if (headerComments.length > 0 && (headerComments[0] !== " " && headerComments[0] !== "	")) {
+          throw new ParserError("Header comment must start with space or tab");
+        }
+        if (parts.length === 0 && headerParts.length === 1) {
+          return { valid: true, strict, cues: [], errors: [] };
+        }
+        if (!meta && headerParts.length > 1 && headerParts[1] !== "") {
+          throw new ParserError("Missing blank line after signature");
+        }
+        const { cues, errors } = parseCues(parts, strict);
+        if (strict && errors.length > 0) {
+          throw errors[0];
+        }
+        const headerMeta = meta ? parseMeta(headerParts) : null;
+        const result = { valid: errors.length === 0, strict, cues, errors };
+        if (meta) {
+          result.meta = headerMeta;
+        }
+        return result;
+      }
+      function parseMeta(headerParts) {
+        const meta = {};
+        headerParts.slice(1).forEach((header) => {
+          const splitIdx = header.indexOf(":");
+          const key = header.slice(0, splitIdx).trim();
+          const value = header.slice(splitIdx + 1).trim();
+          meta[key] = value;
+        });
+        return Object.keys(meta).length > 0 ? meta : null;
+      }
+      function parseCues(cues, strict) {
+        const errors = [];
+        const parsedCues = cues.map((cue, i3) => {
+          try {
+            return parseCue(cue, i3, strict);
+          } catch (e4) {
+            errors.push(e4);
+            return null;
+          }
+        }).filter(Boolean);
+        return {
+          cues: parsedCues,
+          errors
+        };
+      }
+      function parseCue(cue, i3, strict) {
+        let identifier = "";
+        let start = 0;
+        let end = 0.01;
+        let text = "";
+        let styles = "";
+        const lines = cue.split("\n").filter(Boolean);
+        if (lines.length > 0 && lines[0].trim().startsWith("NOTE")) {
+          return null;
+        }
+        if (lines.length === 1 && !lines[0].includes("-->")) {
+          throw new ParserError(`Cue identifier cannot be standalone (cue #${i3})`);
+        }
+        if (lines.length > 1 && !(lines[0].includes("-->") || lines[1].includes("-->"))) {
+          const msg = `Cue identifier needs to be followed by timestamp (cue #${i3})`;
+          throw new ParserError(msg);
+        }
+        if (lines.length > 1 && lines[1].includes("-->")) {
+          identifier = lines.shift();
+        }
+        const times = typeof lines[0] === "string" && lines[0].split(" --> ");
+        if (times.length !== 2 || !validTimestamp(times[0]) || !validTimestamp(times[1])) {
+          throw new ParserError(`Invalid cue timestamp (cue #${i3})`);
+        }
+        start = parseTimestamp(times[0]);
+        end = parseTimestamp(times[1]);
+        if (strict) {
+          if (start > end) {
+            throw new ParserError(`Start timestamp greater than end (cue #${i3})`);
+          }
+          if (end <= start) {
+            throw new ParserError(`End must be greater than start (cue #${i3})`);
+          }
+        }
+        if (!strict && end < start) {
+          throw new ParserError(`End must be greater or equal to start when not strict (cue #${i3})`);
+        }
+        styles = times[1].replace(TIMESTAMP_REGEXP, "").trim();
+        lines.shift();
+        text = lines.join("\n");
+        if (!text) {
+          return false;
+        }
+        return { identifier, start, end, text, styles };
+      }
+      function validTimestamp(timestamp) {
+        return TIMESTAMP_REGEXP.test(timestamp);
+      }
+      function parseTimestamp(timestamp) {
+        const matches = timestamp.match(TIMESTAMP_REGEXP);
+        let secs = parseFloat(matches[1] || 0) * 60 * 60;
+        secs += parseFloat(matches[2]) * 60;
+        secs += parseFloat(matches[3]);
+        return secs;
+      }
+      module.exports = { ParserError, parse: parse3 };
+    }
+  });
+
+  // node_modules/node-webvtt/lib/compiler.js
+  var require_compiler = __commonJS({
+    "node_modules/node-webvtt/lib/compiler.js"(exports, module) {
+      "use strict";
+      function CompilerError(message, error) {
+        this.message = message;
+        this.error = error;
+      }
+      CompilerError.prototype = Object.create(Error.prototype);
+      function compile(input) {
+        if (!input) {
+          throw new CompilerError("Input must be non-null");
+        }
+        if (typeof input !== "object") {
+          throw new CompilerError("Input must be an object");
+        }
+        if (Array.isArray(input)) {
+          throw new CompilerError("Input cannot be array");
+        }
+        if (!input.valid) {
+          throw new CompilerError("Input must be valid");
+        }
+        let output = "WEBVTT\n";
+        if (input.meta) {
+          if (typeof input.meta !== "object" || Array.isArray(input.meta)) {
+            throw new CompilerError("Metadata must be an object");
+          }
+          Object.entries(input.meta).forEach((i3) => {
+            if (typeof i3[1] !== "string") {
+              throw new CompilerError(`Metadata value for "${i3[0]}" must be string`);
+            }
+            output += `${i3[0]}: ${i3[1]}
+`;
+          });
+        }
+        let lastTime = null;
+        input.cues.forEach((cue, index) => {
+          if (lastTime && lastTime > cue.start) {
+            throw new CompilerError(`Cue number ${index} is not in chronological order`);
+          }
+          lastTime = cue.start;
+          output += "\n";
+          output += compileCue(cue);
+          output += "\n";
+        });
+        return output;
+      }
+      function compileCue(cue) {
+        if (typeof cue !== "object") {
+          throw new CompilerError("Cue malformed: not of type object");
+        }
+        if (typeof cue.identifier !== "string" && typeof cue.identifier !== "number" && cue.identifier !== null) {
+          throw new CompilerError(`Cue malformed: identifier value is not a string.
+    ${JSON.stringify(cue)}`);
+        }
+        if (isNaN(cue.start)) {
+          throw new CompilerError(`Cue malformed: null start value.
+    ${JSON.stringify(cue)}`);
+        }
+        if (isNaN(cue.end)) {
+          throw new CompilerError(`Cue malformed: null end value.
+    ${JSON.stringify(cue)}`);
+        }
+        if (cue.start >= cue.end) {
+          throw new CompilerError(`Cue malformed: start timestamp greater than end
+    ${JSON.stringify(cue)}`);
+        }
+        if (typeof cue.text !== "string") {
+          throw new CompilerError(`Cue malformed: null text value.
+    ${JSON.stringify(cue)}`);
+        }
+        if (typeof cue.styles !== "string") {
+          throw new CompilerError(`Cue malformed: null styles value.
+    ${JSON.stringify(cue)}`);
+        }
+        let output = "";
+        if (cue.identifier.length > 0) {
+          output += `${cue.identifier}
+`;
+        }
+        const startTimestamp = convertTimestamp(cue.start);
+        const endTimestamp = convertTimestamp(cue.end);
+        output += `${startTimestamp} --> ${endTimestamp}`;
+        output += cue.styles ? ` ${cue.styles}` : "";
+        output += `
+${cue.text}`;
+        return output;
+      }
+      function convertTimestamp(time) {
+        const hours = pad(calculateHours(time), 2);
+        const minutes = pad(calculateMinutes(time), 2);
+        const seconds = pad(calculateSeconds(time), 2);
+        const milliseconds = pad(calculateMs(time), 3);
+        return `${hours}:${minutes}:${seconds}.${milliseconds}`;
+      }
+      function pad(num, zeroes) {
+        let output = `${num}`;
+        while (output.length < zeroes) {
+          output = `0${output}`;
+        }
+        return output;
+      }
+      function calculateHours(time) {
+        return Math.floor(time / 60 / 60);
+      }
+      function calculateMinutes(time) {
+        return Math.floor(time / 60) % 60;
+      }
+      function calculateSeconds(time) {
+        return Math.floor(time % 60);
+      }
+      function calculateMs(time) {
+        return Math.floor((time % 1).toFixed(4) * 1e3);
+      }
+      module.exports = { CompilerError, compile };
+    }
+  });
+
+  // node_modules/node-webvtt/lib/segmenter.js
+  var require_segmenter = __commonJS({
+    "node_modules/node-webvtt/lib/segmenter.js"(exports, module) {
+      "use strict";
+      var parse3 = require_parser().parse;
+      function segment(input, segmentLength) {
+        segmentLength = segmentLength || 10;
+        const parsed = parse3(input);
+        const segments = [];
+        let cues = [];
+        let queuedCue = null;
+        let currentSegmentDuration = 0;
+        let totalSegmentsDuration = 0;
+        parsed.cues.forEach((cue, i3) => {
+          const firstCue = i3 === 0;
+          const lastCue = i3 === parsed.cues.length - 1;
+          const start = cue.start;
+          const end = cue.end;
+          const nextStart = lastCue ? Infinity : parsed.cues[i3 + 1].start;
+          const cueLength = firstCue ? end : end - start;
+          const silence = firstCue ? 0 : start - parsed.cues[i3 - 1].end;
+          currentSegmentDuration = currentSegmentDuration + cueLength + silence;
+          debug("------------");
+          debug(`Cue #${i3}, segment #${segments.length + 1}`);
+          debug(`Start ${start}`);
+          debug(`End ${end}`);
+          debug(`Length ${cueLength}`);
+          debug(`Total segment duration = ${totalSegmentsDuration}`);
+          debug(`Current segment duration = ${currentSegmentDuration}`);
+          debug(`Start of next = ${nextStart}`);
+          if (queuedCue) {
+            cues.push(queuedCue);
+            currentSegmentDuration += queuedCue.end - totalSegmentsDuration;
+            queuedCue = null;
+          }
+          cues.push(cue);
+          let shouldQueue = nextStart - end < segmentLength && silence < segmentLength && currentSegmentDuration > segmentLength;
+          if (shouldSegment(totalSegmentsDuration, segmentLength, nextStart, silence)) {
+            const duration = segmentDuration(lastCue, end, segmentLength, currentSegmentDuration, totalSegmentsDuration);
+            segments.push({ duration, cues });
+            totalSegmentsDuration += duration;
+            currentSegmentDuration = 0;
+            cues = [];
+          } else {
+            shouldQueue = false;
+          }
+          if (shouldQueue) {
+            queuedCue = cue;
+          }
+        });
+        return segments;
+      }
+      function shouldSegment(total, length, nextStart, silence) {
+        const x4 = alignToSegmentLength(silence, length);
+        const nextCueIsInNextSegment = silence <= length || x4 + total < nextStart;
+        return nextCueIsInNextSegment && nextStart - total >= length;
+      }
+      function segmentDuration(lastCue, end, length, currentSegment, totalSegments) {
+        let duration = length;
+        if (currentSegment > length) {
+          duration = alignToSegmentLength(currentSegment - length, length);
+        }
+        if (lastCue) {
+          duration = parseFloat((end - totalSegments).toFixed(2));
+        } else {
+          duration = Math.round(duration);
+        }
+        return duration;
+      }
+      function alignToSegmentLength(n4, segmentLength) {
+        n4 += segmentLength - n4 % segmentLength;
+        return n4;
+      }
+      var debugging = false;
+      function debug(m3) {
+        if (debugging) {
+          console.log(m3);
+        }
+      }
+      module.exports = { segment };
+    }
+  });
+
+  // node_modules/node-webvtt/lib/hls.js
+  var require_hls2 = __commonJS({
+    "node_modules/node-webvtt/lib/hls.js"(exports, module) {
+      "use strict";
+      var segment = require_segmenter().segment;
+      function hlsSegment(input, segmentLength, startOffset) {
+        if (typeof startOffset === "undefined") {
+          startOffset = "900000";
+        }
+        const segments = segment(input, segmentLength);
+        const result = [];
+        segments.forEach((seg, i3) => {
+          const content = `WEBVTT
+X-TIMESTAMP-MAP=MPEGTS:${startOffset},LOCAL:00:00:00.000
+
+${printableCues(seg.cues)}
+`;
+          const filename = generateSegmentFilename(i3);
+          result.push({ filename, content });
+        });
+        return result;
+      }
+      function hlsSegmentPlaylist(input, segmentLength) {
+        const segmented = segment(input, segmentLength);
+        const printable = printableSegments(segmented);
+        const longestSegment = Math.round(findLongestSegment(segmented));
+        const template = `#EXTM3U
+#EXT-X-TARGETDURATION:${longestSegment}
+#EXT-X-VERSION:3
+#EXT-X-MEDIA-SEQUENCE:0
+#EXT-X-PLAYLIST-TYPE:VOD
+${printable}
+#EXT-X-ENDLIST
+`;
+        return template;
+      }
+      function pad(num, n4) {
+        const padding = "0".repeat(Math.max(0, n4 - num.toString().length));
+        return `${padding}${num}`;
+      }
+      function generateSegmentFilename(index) {
+        return `${index}.vtt`;
+      }
+      function printableSegments(segments) {
+        const result = [];
+        segments.forEach((seg, i3) => {
+          result.push(`#EXTINF:${seg.duration.toFixed(5)},
+${generateSegmentFilename(i3)}`);
+        });
+        return result.join("\n");
+      }
+      function findLongestSegment(segments) {
+        let max = 0;
+        segments.forEach((seg) => {
+          if (seg.duration > max) {
+            max = seg.duration;
+          }
+        });
+        return max;
+      }
+      function printableCues(cues) {
+        const result = [];
+        cues.forEach((cue) => {
+          result.push(printableCue(cue));
+        });
+        return result.join("\n\n");
+      }
+      function printableCue(cue) {
+        const printable = [];
+        if (cue.identifier) {
+          printable.push(cue.identifier);
+        }
+        const start = printableTimestamp(cue.start);
+        const end = printableTimestamp(cue.end);
+        const styles = cue.styles ? `${cue.styles}` : "";
+        printable.push(`${start} --> ${end} ${styles}`);
+        printable.push(cue.text);
+        return printable.join("\n");
+      }
+      function printableTimestamp(timestamp) {
+        const ms = (timestamp % 1).toFixed(3);
+        timestamp = Math.round(timestamp - ms);
+        const hours = Math.floor(timestamp / 3600);
+        const mins = Math.floor((timestamp - hours * 3600) / 60);
+        const secs = timestamp - hours * 3600 - mins * 60;
+        const hourString = `${pad(hours, 2)}:`;
+        return `${hourString}${pad(mins, 2)}:${pad(secs, 2)}.${pad(ms * 1e3, 3)}`;
+      }
+      module.exports = { hlsSegment, hlsSegmentPlaylist };
+    }
+  });
+
+  // node_modules/node-webvtt/index.js
+  var require_node_webvtt = __commonJS({
+    "node_modules/node-webvtt/index.js"(exports, module) {
+      "use strict";
+      var parse3 = require_parser().parse;
+      var compile = require_compiler().compile;
+      var segment = require_segmenter().segment;
+      var hls = require_hls2();
+      module.exports = { parse: parse3, compile, segment, hls };
     }
   });
 
@@ -45594,7 +45594,7 @@ ${generateSegmentFilename(i3)}`);
               script.charset = options.scriptCharset;
             }
             script.src = url;
-            script.onload = script.onreadystatechange = function(_2, isAbort) {
+            script.onload = script.onreadystatechange = function(_3, isAbort) {
               if (isAbort || !script.readyState || /loaded|complete/.test(script.readyState)) {
                 script.onload = script.onreadystatechange = null;
                 if (head && script.parentNode) {
@@ -45720,15 +45720,15 @@ ${generateSegmentFilename(i3)}`);
             $3.console.error("Internet Explorer versions < 11 are not supported by OpenSeadragon");
           }
         })();
-        (function(w3) {
-          var requestAnimationFrame2 = w3.requestAnimationFrame || w3.mozRequestAnimationFrame || w3.webkitRequestAnimationFrame || w3.msRequestAnimationFrame;
-          var cancelAnimationFrame2 = w3.cancelAnimationFrame || w3.mozCancelAnimationFrame || w3.webkitCancelAnimationFrame || w3.msCancelAnimationFrame;
+        (function(w4) {
+          var requestAnimationFrame2 = w4.requestAnimationFrame || w4.mozRequestAnimationFrame || w4.webkitRequestAnimationFrame || w4.msRequestAnimationFrame;
+          var cancelAnimationFrame2 = w4.cancelAnimationFrame || w4.mozCancelAnimationFrame || w4.webkitCancelAnimationFrame || w4.msCancelAnimationFrame;
           if (requestAnimationFrame2 && cancelAnimationFrame2) {
             $3.requestAnimationFrame = function() {
-              return requestAnimationFrame2.apply(w3, arguments);
+              return requestAnimationFrame2.apply(w4, arguments);
             };
             $3.cancelAnimationFrame = function() {
-              return cancelAnimationFrame2.apply(w3, arguments);
+              return cancelAnimationFrame2.apply(w4, arguments);
             };
           } else {
             var aAnimQueue = [], processing = [], iRequestId = 0, iIntervalId;
@@ -49444,16 +49444,16 @@ ${generateSegmentFilename(i3)}`);
           var width = overlay.width;
           var height = overlay.height;
           if (!location2) {
-            var x3 = overlay.x;
-            var y3 = overlay.y;
+            var x4 = overlay.x;
+            var y4 = overlay.y;
             if (overlay.px !== void 0) {
               var rect = viewer.viewport.imageToViewportRectangle(new $3.Rect(overlay.px, overlay.py, width || 0, height || 0));
-              x3 = rect.x;
-              y3 = rect.y;
+              x4 = rect.x;
+              y4 = rect.y;
               width = width !== void 0 ? rect.width : void 0;
               height = height !== void 0 ? rect.height : void 0;
             }
-            location2 = new $3.Point(x3, y3);
+            location2 = new $3.Point(x4, y4);
           }
           var placement = overlay.placement;
           if (placement && $3.type(placement) === "string") {
@@ -50573,9 +50573,9 @@ ${generateSegmentFilename(i3)}`);
         });
       })(OpenSeadragon2);
       (function($3) {
-        $3.Point = function(x3, y3) {
-          this.x = typeof x3 === "number" ? x3 : 0;
-          this.y = typeof y3 === "number" ? y3 : 0;
+        $3.Point = function(x4, y4) {
+          this.x = typeof x4 === "number" ? x4 : 0;
+          this.y = typeof y4 === "number" ? y4 : 0;
         };
         $3.Point.prototype = {
           clone: function() {
@@ -50637,9 +50637,9 @@ ${generateSegmentFilename(i3)}`);
               cos = Math.cos(angle);
               sin = Math.sin(angle);
             }
-            var x3 = cos * (this.x - pivot.x) - sin * (this.y - pivot.y) + pivot.x;
-            var y3 = sin * (this.x - pivot.x) + cos * (this.y - pivot.y) + pivot.y;
-            return new $3.Point(x3, y3);
+            var x4 = cos * (this.x - pivot.x) - sin * (this.y - pivot.y) + pivot.x;
+            var y4 = sin * (this.x - pivot.x) + cos * (this.y - pivot.y) + pivot.y;
+            return new $3.Point(x4, y4);
           },
           toString: function() {
             return "(" + Math.round(this.x * 100) / 100 + "," + Math.round(this.y * 100) / 100 + ")";
@@ -50754,8 +50754,8 @@ ${generateSegmentFilename(i3)}`);
             };
           },
           getNumTiles: function(level) {
-            var scale = this.getLevelScale(level), x3 = Math.ceil(scale * this.dimensions.x / this.getTileWidth(level)), y3 = Math.ceil(scale * this.dimensions.y / this.getTileHeight(level));
-            return new $3.Point(x3, y3);
+            var scale = this.getLevelScale(level), x4 = Math.ceil(scale * this.dimensions.x / this.getTileWidth(level)), y4 = Math.ceil(scale * this.dimensions.y / this.getTileHeight(level));
+            return new $3.Point(x4, y4);
           },
           getPixelRatio: function(level) {
             var imageSizeScaled = this.dimensions.times(this.getLevelScale(level)), rx = 1 / imageSizeScaled.x * $3.pixelDensityRatio, ry = 1 / imageSizeScaled.y * $3.pixelDensityRatio;
@@ -50777,19 +50777,19 @@ ${generateSegmentFilename(i3)}`);
             var widthScaled = this.dimensions.x * this.getLevelScale(level);
             var pixelX = point.x * widthScaled;
             var pixelY = point.y * widthScaled;
-            var x3 = Math.floor(pixelX / this.getTileWidth(level));
-            var y3 = Math.floor(pixelY / this.getTileHeight(level));
+            var x4 = Math.floor(pixelX / this.getTileWidth(level));
+            var y4 = Math.floor(pixelY / this.getTileHeight(level));
             if (point.x >= 1) {
-              x3 = this.getNumTiles(level).x - 1;
+              x4 = this.getNumTiles(level).x - 1;
             }
             var EPSILON = 1e-15;
             if (point.y >= 1 / this.aspectRatio - EPSILON) {
-              y3 = this.getNumTiles(level).y - 1;
+              y4 = this.getNumTiles(level).y - 1;
             }
-            return new $3.Point(x3, y3);
+            return new $3.Point(x4, y4);
           },
-          getTileBounds: function(level, x3, y3, isSource) {
-            var dimensionsScaled = this.dimensions.times(this.getLevelScale(level)), tileWidth = this.getTileWidth(level), tileHeight = this.getTileHeight(level), px = x3 === 0 ? 0 : tileWidth * x3 - this.tileOverlap, py = y3 === 0 ? 0 : tileHeight * y3 - this.tileOverlap, sx = tileWidth + (x3 === 0 ? 1 : 2) * this.tileOverlap, sy = tileHeight + (y3 === 0 ? 1 : 2) * this.tileOverlap, scale = 1 / dimensionsScaled.x;
+          getTileBounds: function(level, x4, y4, isSource) {
+            var dimensionsScaled = this.dimensions.times(this.getLevelScale(level)), tileWidth = this.getTileWidth(level), tileHeight = this.getTileHeight(level), px = x4 === 0 ? 0 : tileWidth * x4 - this.tileOverlap, py = y4 === 0 ? 0 : tileHeight * y4 - this.tileOverlap, sx = tileWidth + (x4 === 0 ? 1 : 2) * this.tileOverlap, sy = tileHeight + (y4 === 0 ? 1 : 2) * this.tileOverlap, scale = 1 / dimensionsScaled.x;
             sx = Math.min(sx, dimensionsScaled.x - px);
             sy = Math.min(sy, dimensionsScaled.y - py);
             if (isSource) {
@@ -50868,15 +50868,15 @@ ${generateSegmentFilename(i3)}`);
           configure: function(data, url) {
             throw new Error("Method not implemented.");
           },
-          getTileUrl: function(level, x3, y3) {
+          getTileUrl: function(level, x4, y4) {
             throw new Error("Method not implemented.");
           },
-          getTileAjaxHeaders: function(level, x3, y3) {
+          getTileAjaxHeaders: function(level, x4, y4) {
             return {};
           },
-          tileExists: function(level, x3, y3) {
+          tileExists: function(level, x4, y4) {
             var numTiles = this.getNumTiles(level);
-            return level >= this.minLevel && level <= this.maxLevel && x3 >= 0 && y3 >= 0 && x3 < numTiles.x && y3 < numTiles.y;
+            return level >= this.minLevel && level <= this.maxLevel && x4 >= 0 && y4 >= 0 && x4 < numTiles.x && y4 < numTiles.y;
           }
         };
         $3.extend(true, $3.TileSource.prototype, $3.EventSource.prototype);
@@ -50982,10 +50982,10 @@ ${generateSegmentFilename(i3)}`);
             }
             return options;
           },
-          getTileUrl: function(level, x3, y3) {
-            return [this.tilesUrl, level, "/", x3, "_", y3, ".", this.fileFormat, this.queryParams].join("");
+          getTileUrl: function(level, x4, y4) {
+            return [this.tilesUrl, level, "/", x4, "_", y4, ".", this.fileFormat, this.queryParams].join("");
           },
-          tileExists: function(level, x3, y3) {
+          tileExists: function(level, x4, y4) {
             var rects = this._levelRects[level], rect, scale, xMin, yMin, xMax, yMax, i3;
             if (this.minLevel && level < this.minLevel || this.maxLevel && level > this.maxLevel) {
               return false;
@@ -51007,7 +51007,7 @@ ${generateSegmentFilename(i3)}`);
               yMin = Math.floor(yMin / this._tileWidth);
               xMax = Math.ceil(xMax / this._tileWidth);
               yMax = Math.ceil(yMax / this._tileWidth);
-              if (xMin <= x3 && x3 < xMax && yMin <= y3 && y3 < yMax) {
+              if (xMin <= x4 && x4 < xMax && yMin <= y4 && y4 < yMax) {
                 return true;
               }
             }
@@ -51283,7 +51283,7 @@ ${generateSegmentFilename(i3)}`);
             }
             return $3.TileSource.prototype.getTileAtPoint.call(this, level, point);
           },
-          getTileUrl: function(level, x3, y3) {
+          getTileUrl: function(level, x4, y4) {
             if (this.emulateLegacyImagePyramid) {
               var url = null;
               if (this.levels.length > 0 && level >= this.minLevel && level <= this.maxLevel) {
@@ -51313,11 +51313,11 @@ ${generateSegmentFilename(i3)}`);
               }
               iiifRegion = "full";
             } else {
-              iiifTileX = x3 * iiifTileSizeWidth;
-              iiifTileY = y3 * iiifTileSizeHeight;
+              iiifTileX = x4 * iiifTileSizeWidth;
+              iiifTileY = y4 * iiifTileSizeHeight;
               iiifTileW = Math.min(iiifTileSizeWidth, this.width - iiifTileX);
               iiifTileH = Math.min(iiifTileSizeHeight, this.height - iiifTileY);
-              if (x3 === 0 && y3 === 0 && iiifTileW === this.width && iiifTileH === this.height) {
+              if (x4 === 0 && y4 === 0 && iiifTileW === this.width && iiifTileH === this.height) {
                 iiifRegion = "full";
               } else {
                 iiifRegion = [iiifTileX, iiifTileY, iiifTileW, iiifTileH].join(",");
@@ -51447,8 +51447,8 @@ ${generateSegmentFilename(i3)}`);
           configure: function(data, url) {
             return data;
           },
-          getTileUrl: function(level, x3, y3) {
-            return this.tilesUrl + (level - 8) + "/" + x3 + "/" + y3 + ".png";
+          getTileUrl: function(level, x4, y4) {
+            return this.tilesUrl + (level - 8) + "/" + x4 + "/" + y4 + ".png";
           }
         });
       })(OpenSeadragon2);
@@ -51485,9 +51485,9 @@ ${generateSegmentFilename(i3)}`);
           configure: function(data, url) {
             return data;
           },
-          getTileUrl: function(level, x3, y3) {
+          getTileUrl: function(level, x4, y4) {
             var yTiles = this.getNumTiles(level).y - 1;
-            return this.tilesUrl + level + "/" + x3 + "/" + (yTiles - y3) + ".png";
+            return this.tilesUrl + level + "/" + x4 + "/" + (yTiles - y4) + ".png";
           }
         });
       })(OpenSeadragon2);
@@ -51531,15 +51531,15 @@ ${generateSegmentFilename(i3)}`);
               y: Math.ceil(height / tileSize)
             };
           },
-          _calculateAbsoluteTileNumber: function(level, x3, y3) {
+          _calculateAbsoluteTileNumber: function(level, x4, y4) {
             var num = 0;
             var size = {};
-            for (var z3 = 0; z3 < level; z3++) {
-              size = this.gridSize[z3];
+            for (var z4 = 0; z4 < level; z4++) {
+              size = this.gridSize[z4];
               num += size.x * size.y;
             }
             size = this.gridSize[level];
-            num += size.x * y3 + x3;
+            num += size.x * y4 + x4;
             return num;
           },
           supports: function(data, url) {
@@ -51548,11 +51548,11 @@ ${generateSegmentFilename(i3)}`);
           configure: function(data, url) {
             return data;
           },
-          getTileUrl: function(level, x3, y3) {
+          getTileUrl: function(level, x4, y4) {
             var result = 0;
-            var num = this._calculateAbsoluteTileNumber(level, x3, y3);
+            var num = this._calculateAbsoluteTileNumber(level, x4, y4);
             result = Math.floor(num / 256);
-            return this.tilesUrl + "TileGroup" + result + "/" + level + "-" + x3 + "-" + y3 + "." + this.fileFormat;
+            return this.tilesUrl + "TileGroup" + result + "/" + level + "-" + x4 + "-" + y4 + "." + this.fileFormat;
           }
         });
       })(OpenSeadragon2);
@@ -51613,7 +51613,7 @@ ${generateSegmentFilename(i3)}`);
               return new $3.Point(0, 0);
             }
           },
-          getTileUrl: function(level, x3, y3) {
+          getTileUrl: function(level, x4, y4) {
             var url = null;
             if (this.levels.length > 0 && level >= this.minLevel && level <= this.maxLevel) {
               url = this.levels[level].url;
@@ -51737,14 +51737,14 @@ ${generateSegmentFilename(i3)}`);
               return new $3.Point(0, 0);
             }
           },
-          getTileUrl: function(level, x3, y3) {
+          getTileUrl: function(level, x4, y4) {
             var url = null;
             if (level >= this.minLevel && level <= this.maxLevel) {
               url = this.levels[level].url;
             }
             return url;
           },
-          getContext2D: function(level, x3, y3) {
+          getContext2D: function(level, x4, y4) {
             var context = null;
             if (level >= this.minLevel && level <= this.maxLevel) {
               context = this.levels[level].context2D;
@@ -52105,9 +52105,9 @@ ${generateSegmentFilename(i3)}`);
         };
       })(OpenSeadragon2);
       (function($3) {
-        $3.Rect = function(x3, y3, width, height, degrees) {
-          this.x = typeof x3 === "number" ? x3 : 0;
-          this.y = typeof y3 === "number" ? y3 : 0;
+        $3.Rect = function(x4, y4, width, height, degrees) {
+          this.x = typeof x4 === "number" ? x4 : 0;
+          this.y = typeof y4 === "number" ? y4 : 0;
           this.width = typeof width === "number" ? width : 0;
           this.height = typeof height === "number" ? height : 0;
           this.degrees = typeof degrees === "number" ? degrees : 0;
@@ -52245,9 +52245,9 @@ ${generateSegmentFilename(i3)}`);
               if (denom === 0) {
                 return null;
               }
-              var s4 = (abVector.x * (a3.y - c4.y) - abVector.y * (a3.x - c4.x)) / denom;
+              var s5 = (abVector.x * (a3.y - c4.y) - abVector.y * (a3.x - c4.x)) / denom;
               var t4 = (cdVector.x * (a3.y - c4.y) - cdVector.y * (a3.x - c4.x)) / denom;
-              if (-EPSILON <= s4 && s4 <= 1 - EPSILON && -EPSILON <= t4 && t4 <= 1 - EPSILON) {
+              if (-EPSILON <= s5 && s5 <= 1 - EPSILON && -EPSILON <= t4 && t4 <= 1 - EPSILON) {
                 return new $3.Point(a3.x + t4 * abVector.x, a3.y + t4 * abVector.y);
               }
               return null;
@@ -52259,8 +52259,8 @@ ${generateSegmentFilename(i3)}`);
             var maxX = intersectionPoints[0].x;
             var minY = intersectionPoints[0].y;
             var maxY = intersectionPoints[0].y;
-            for (var k3 = 1; k3 < intersectionPoints.length; k3++) {
-              var point = intersectionPoints[k3];
+            for (var k4 = 1; k4 < intersectionPoints.length; k4++) {
+              var point = intersectionPoints[k4];
               if (point.x < minX) {
                 minX = point.x;
               }
@@ -52297,9 +52297,9 @@ ${generateSegmentFilename(i3)}`);
             var newTopLeft = this.getTopLeft().rotate(degrees, pivot);
             var newTopRight = this.getTopRight().rotate(degrees, pivot);
             var diff = newTopRight.minus(newTopLeft);
-            diff = diff.apply(function(x3) {
+            diff = diff.apply(function(x4) {
               var EPSILON = 1e-15;
-              return Math.abs(x3) < EPSILON ? 0 : x3;
+              return Math.abs(x4) < EPSILON ? 0 : x4;
             });
             var radians = Math.atan(diff.y / diff.x);
             if (diff.x < 0) {
@@ -52325,11 +52325,11 @@ ${generateSegmentFilename(i3)}`);
           },
           getIntegerBoundingBox: function() {
             var boundingBox = this.getBoundingBox();
-            var x3 = Math.floor(boundingBox.x);
-            var y3 = Math.floor(boundingBox.y);
-            var width = Math.ceil(boundingBox.width + boundingBox.x - x3);
-            var height = Math.ceil(boundingBox.height + boundingBox.y - y3);
-            return new $3.Rect(x3, y3, width, height);
+            var x4 = Math.floor(boundingBox.x);
+            var y4 = Math.floor(boundingBox.y);
+            var width = Math.ceil(boundingBox.width + boundingBox.x - x4);
+            var height = Math.ceil(boundingBox.height + boundingBox.y - y4);
+            return new $3.Rect(x4, y4, width, height);
           },
           containsPoint: function(point, epsilon) {
             epsilon = epsilon || 0;
@@ -52697,8 +52697,8 @@ ${generateSegmentFilename(i3)}`);
         }
       })(OpenSeadragon2);
       (function($3) {
-        $3.DisplayRect = function(x3, y3, width, height, minLevel, maxLevel) {
-          $3.Rect.apply(this, [x3, y3, width, height]);
+        $3.DisplayRect = function(x4, y4, width, height, minLevel, maxLevel) {
+          $3.Rect.apply(this, [x4, y4, width, height]);
           this.minLevel = minLevel;
           this.maxLevel = maxLevel;
         };
@@ -52803,8 +52803,8 @@ ${generateSegmentFilename(i3)}`);
             return this.current.value === this.target.value;
           }
         };
-        function transform(stiffness, x3) {
-          return (1 - Math.exp(stiffness * -x3)) / (1 - Math.exp(-stiffness));
+        function transform(stiffness, x4) {
+          return (1 - Math.exp(stiffness * -x4)) / (1 - Math.exp(-stiffness));
         }
       })(OpenSeadragon2);
       (function($3) {
@@ -52937,10 +52937,10 @@ ${generateSegmentFilename(i3)}`);
         }
       })(OpenSeadragon2);
       (function($3) {
-        $3.Tile = function(level, x3, y3, bounds, exists, url, context2D, loadWithAjax, ajaxHeaders, sourceBounds) {
+        $3.Tile = function(level, x4, y4, bounds, exists, url, context2D, loadWithAjax, ajaxHeaders, sourceBounds) {
           this.level = level;
-          this.x = x3;
-          this.y = y3;
+          this.x = x4;
+          this.y = y4;
           this.bounds = bounds;
           this.sourceBounds = sourceBounds;
           this.exists = exists;
@@ -53063,10 +53063,10 @@ ${generateSegmentFilename(i3)}`);
             return context.canvas.width / (this.size.x * $3.pixelDensityRatio);
           },
           getTranslationForEdgeSmoothing: function(scale, canvasSize, sketchCanvasSize) {
-            var x3 = Math.max(1, Math.ceil((sketchCanvasSize.x - canvasSize.x) / 2));
-            var y3 = Math.max(1, Math.ceil((sketchCanvasSize.y - canvasSize.y) / 2));
-            return new $3.Point(x3, y3).minus(this.position.times($3.pixelDensityRatio).times(scale || 1).apply(function(x4) {
-              return x4 % 1;
+            var x4 = Math.max(1, Math.ceil((sketchCanvasSize.x - canvasSize.x) / 2));
+            var y4 = Math.max(1, Math.ceil((sketchCanvasSize.y - canvasSize.y) / 2));
+            return new $3.Point(x4, y4).minus(this.position.times($3.pixelDensityRatio).times(scale || 1).apply(function(x5) {
+              return x5 % 1;
             }));
           },
           unload: function() {
@@ -54416,9 +54416,9 @@ ${generateSegmentFilename(i3)}`);
             this._clip = options.clip.clone();
           }
           delete options.clip;
-          var x3 = options.x || 0;
+          var x4 = options.x || 0;
           delete options.x;
-          var y3 = options.y || 0;
+          var y4 = options.y || 0;
           delete options.y;
           this.normHeight = options.source.dimensions.y / options.source.dimensions.x;
           this.contentAspectX = options.source.dimensions.x / options.source.dimensions.y;
@@ -54474,12 +54474,12 @@ ${generateSegmentFilename(i3)}`);
           delete this.preload;
           this._fullyLoaded = false;
           this._xSpring = new $3.Spring({
-            initial: x3,
+            initial: x4,
             springStiffness: this.springStiffness,
             animationTime: this.animationTime
           });
           this._ySpring = new $3.Spring({
-            initial: y3,
+            initial: y4,
             springStiffness: this.springStiffness,
             animationTime: this.animationTime
           });
@@ -54571,16 +54571,16 @@ ${generateSegmentFilename(i3)}`);
             }
             return bounds.rotate(this.getRotation(current), this._getRotationPoint(current));
           },
-          getTileBounds: function(level, x3, y3) {
+          getTileBounds: function(level, x4, y4) {
             var numTiles = this.source.getNumTiles(level);
-            var xMod = (numTiles.x + x3 % numTiles.x) % numTiles.x;
-            var yMod = (numTiles.y + y3 % numTiles.y) % numTiles.y;
+            var xMod = (numTiles.x + x4 % numTiles.x) % numTiles.x;
+            var yMod = (numTiles.y + y4 % numTiles.y) % numTiles.y;
             var bounds = this.source.getTileBounds(level, xMod, yMod);
             if (this.getFlip()) {
               bounds.x = 1 - bounds.x - bounds.width;
             }
-            bounds.x += (x3 - xMod) / numTiles.x;
-            bounds.y += this._worldHeightCurrent / this._worldWidthCurrent * ((y3 - yMod) / numTiles.y);
+            bounds.x += (x4 - xMod) / numTiles.x;
+            bounds.y += this._worldHeightCurrent / this._worldWidthCurrent * ((y4 - yMod) / numTiles.y);
             return bounds;
           },
           getContentSize: function() {
@@ -55016,40 +55016,40 @@ ${generateSegmentFilename(i3)}`);
               bottomRightTile.x = Math.min(bottomRightTile.x, numberOfTiles.x - 1);
             }
           }
-          for (var x3 = topLeftTile.x; x3 <= bottomRightTile.x; x3++) {
-            for (var y3 = topLeftTile.y; y3 <= bottomRightTile.y; y3++) {
+          for (var x4 = topLeftTile.x; x4 <= bottomRightTile.x; x4++) {
+            for (var y4 = topLeftTile.y; y4 <= bottomRightTile.y; y4++) {
               var flippedX;
               if (tiledImage.getFlip()) {
-                var xMod = (numberOfTiles.x + x3 % numberOfTiles.x) % numberOfTiles.x;
-                flippedX = x3 + numberOfTiles.x - xMod - xMod - 1;
+                var xMod = (numberOfTiles.x + x4 % numberOfTiles.x) % numberOfTiles.x;
+                flippedX = x4 + numberOfTiles.x - xMod - xMod - 1;
               } else {
-                flippedX = x3;
+                flippedX = x4;
               }
-              if (drawArea.intersection(tiledImage.getTileBounds(level, flippedX, y3)) === null) {
+              if (drawArea.intersection(tiledImage.getTileBounds(level, flippedX, y4)) === null) {
                 continue;
               }
-              best = updateTile(tiledImage, drawLevel, haveDrawn, flippedX, y3, level, levelOpacity, levelVisibility, viewportCenter, numberOfTiles, currentTime, best);
+              best = updateTile(tiledImage, drawLevel, haveDrawn, flippedX, y4, level, levelOpacity, levelVisibility, viewportCenter, numberOfTiles, currentTime, best);
             }
           }
           return best;
         }
-        function updateTile(tiledImage, haveDrawn, drawLevel, x3, y3, level, levelOpacity, levelVisibility, viewportCenter, numberOfTiles, currentTime, best) {
-          var tile = getTile(x3, y3, level, tiledImage, tiledImage.source, tiledImage.tilesMatrix, currentTime, numberOfTiles, tiledImage._worldWidthCurrent, tiledImage._worldHeightCurrent), drawTile = drawLevel;
+        function updateTile(tiledImage, haveDrawn, drawLevel, x4, y4, level, levelOpacity, levelVisibility, viewportCenter, numberOfTiles, currentTime, best) {
+          var tile = getTile(x4, y4, level, tiledImage, tiledImage.source, tiledImage.tilesMatrix, currentTime, numberOfTiles, tiledImage._worldWidthCurrent, tiledImage._worldHeightCurrent), drawTile = drawLevel;
           if (tiledImage.viewer) {
             tiledImage.viewer.raiseEvent("update-tile", {
               tiledImage,
               tile
             });
           }
-          setCoverage(tiledImage.coverage, level, x3, y3, false);
-          var loadingCoverage = tile.loaded || tile.loading || isCovered(tiledImage.loadingCoverage, level, x3, y3);
-          setCoverage(tiledImage.loadingCoverage, level, x3, y3, loadingCoverage);
+          setCoverage(tiledImage.coverage, level, x4, y4, false);
+          var loadingCoverage = tile.loaded || tile.loading || isCovered(tiledImage.loadingCoverage, level, x4, y4);
+          setCoverage(tiledImage.loadingCoverage, level, x4, y4, loadingCoverage);
           if (!tile.exists) {
             return best;
           }
           if (haveDrawn && !drawTile) {
-            if (isCovered(tiledImage.coverage, level, x3, y3)) {
-              setCoverage(tiledImage.coverage, level, x3, y3, true);
+            if (isCovered(tiledImage.coverage, level, x4, y4)) {
+              setCoverage(tiledImage.coverage, level, x4, y4, true);
             } else {
               drawTile = true;
             }
@@ -55070,7 +55070,7 @@ ${generateSegmentFilename(i3)}`);
             }
           }
           if (tile.loaded) {
-            var needsDraw = blendTile(tiledImage, tile, x3, y3, level, levelOpacity, currentTime);
+            var needsDraw = blendTile(tiledImage, tile, x4, y4, level, levelOpacity, currentTime);
             if (needsDraw) {
               tiledImage._needsDraw = true;
             }
@@ -55081,18 +55081,18 @@ ${generateSegmentFilename(i3)}`);
           }
           return best;
         }
-        function getTile(x3, y3, level, tiledImage, tileSource, tilesMatrix, time, numTiles, worldWidth, worldHeight) {
+        function getTile(x4, y4, level, tiledImage, tileSource, tilesMatrix, time, numTiles, worldWidth, worldHeight) {
           var xMod, yMod, bounds, sourceBounds, exists, url, ajaxHeaders, context2D, tile;
           if (!tilesMatrix[level]) {
             tilesMatrix[level] = {};
           }
-          if (!tilesMatrix[level][x3]) {
-            tilesMatrix[level][x3] = {};
+          if (!tilesMatrix[level][x4]) {
+            tilesMatrix[level][x4] = {};
           }
-          if (!tilesMatrix[level][x3][y3] || !tilesMatrix[level][x3][y3].flipped !== !tiledImage.flipped) {
-            xMod = (numTiles.x + x3 % numTiles.x) % numTiles.x;
-            yMod = (numTiles.y + y3 % numTiles.y) % numTiles.y;
-            bounds = tiledImage.getTileBounds(level, x3, y3);
+          if (!tilesMatrix[level][x4][y4] || !tilesMatrix[level][x4][y4].flipped !== !tiledImage.flipped) {
+            xMod = (numTiles.x + x4 % numTiles.x) % numTiles.x;
+            yMod = (numTiles.y + y4 % numTiles.y) % numTiles.y;
+            bounds = tiledImage.getTileBounds(level, x4, y4);
             sourceBounds = tileSource.getTileBounds(level, xMod, yMod, true);
             exists = tileSource.tileExists(level, xMod, yMod);
             url = tileSource.getTileUrl(level, xMod, yMod);
@@ -55105,7 +55105,7 @@ ${generateSegmentFilename(i3)}`);
               ajaxHeaders = null;
             }
             context2D = tileSource.getContext2D ? tileSource.getContext2D(level, xMod, yMod) : void 0;
-            tile = new $3.Tile(level, x3, y3, bounds, exists, url, context2D, tiledImage.loadTilesWithAjax, ajaxHeaders, sourceBounds);
+            tile = new $3.Tile(level, x4, y4, bounds, exists, url, context2D, tiledImage.loadTilesWithAjax, ajaxHeaders, sourceBounds);
             if (tiledImage.getFlip()) {
               if (xMod === 0) {
                 tile.isRightMost = true;
@@ -55119,9 +55119,9 @@ ${generateSegmentFilename(i3)}`);
               tile.isBottomMost = true;
             }
             tile.flipped = tiledImage.flipped;
-            tilesMatrix[level][x3][y3] = tile;
+            tilesMatrix[level][x4][y4] = tile;
           }
-          tile = tilesMatrix[level][x3][y3];
+          tile = tilesMatrix[level][x4][y4];
           tile.lastTouchTime = time;
           return tile;
         }
@@ -55225,7 +55225,7 @@ ${generateSegmentFilename(i3)}`);
           tile.squaredDistance = tileSquaredDistance;
           tile.visibility = levelVisibility;
         }
-        function blendTile(tiledImage, tile, x3, y3, level, levelOpacity, currentTime) {
+        function blendTile(tiledImage, tile, x4, y4, level, levelOpacity, currentTime) {
           var blendTimeMillis = 1e3 * tiledImage.blendTime, deltaTime, opacity;
           if (!tile.blendStart) {
             tile.blendStart = currentTime;
@@ -55238,19 +55238,19 @@ ${generateSegmentFilename(i3)}`);
           tile.opacity = opacity;
           tiledImage.lastDrawn.push(tile);
           if (opacity === 1) {
-            setCoverage(tiledImage.coverage, level, x3, y3, true);
+            setCoverage(tiledImage.coverage, level, x4, y4, true);
             tiledImage._hasOpaqueTile = true;
           } else if (deltaTime < blendTimeMillis) {
             return true;
           }
           return false;
         }
-        function providesCoverage(coverage, level, x3, y3) {
+        function providesCoverage(coverage, level, x4, y4) {
           var rows, cols, i3, j3;
           if (!coverage[level]) {
             return false;
           }
-          if (x3 === void 0 || y3 === void 0) {
+          if (x4 === void 0 || y4 === void 0) {
             rows = coverage[level];
             for (i3 in rows) {
               if (Object.prototype.hasOwnProperty.call(rows, i3)) {
@@ -55264,24 +55264,24 @@ ${generateSegmentFilename(i3)}`);
             }
             return true;
           }
-          return coverage[level][x3] === void 0 || coverage[level][x3][y3] === void 0 || coverage[level][x3][y3] === true;
+          return coverage[level][x4] === void 0 || coverage[level][x4][y4] === void 0 || coverage[level][x4][y4] === true;
         }
-        function isCovered(coverage, level, x3, y3) {
-          if (x3 === void 0 || y3 === void 0) {
+        function isCovered(coverage, level, x4, y4) {
+          if (x4 === void 0 || y4 === void 0) {
             return providesCoverage(coverage, level + 1);
           } else {
-            return providesCoverage(coverage, level + 1, 2 * x3, 2 * y3) && providesCoverage(coverage, level + 1, 2 * x3, 2 * y3 + 1) && providesCoverage(coverage, level + 1, 2 * x3 + 1, 2 * y3) && providesCoverage(coverage, level + 1, 2 * x3 + 1, 2 * y3 + 1);
+            return providesCoverage(coverage, level + 1, 2 * x4, 2 * y4) && providesCoverage(coverage, level + 1, 2 * x4, 2 * y4 + 1) && providesCoverage(coverage, level + 1, 2 * x4 + 1, 2 * y4) && providesCoverage(coverage, level + 1, 2 * x4 + 1, 2 * y4 + 1);
           }
         }
-        function setCoverage(coverage, level, x3, y3, covers) {
+        function setCoverage(coverage, level, x4, y4, covers) {
           if (!coverage[level]) {
             $3.console.warn("Setting coverage for a tile before its level's coverage has been reset: %s", level);
             return;
           }
-          if (!coverage[level][x3]) {
-            coverage[level][x3] = {};
+          if (!coverage[level][x4]) {
+            coverage[level][x4] = {};
           }
-          coverage[level][x3][y3] = covers;
+          coverage[level][x4][y4] = covers;
         }
         function resetCoverage(coverage, level) {
           coverage[level] = {};
@@ -55790,18 +55790,18 @@ ${generateSegmentFilename(i3)}`);
             } else {
               wrap = Math.ceil(this._items.length / rows);
             }
-            var x3 = 0;
-            var y3 = 0;
+            var x4 = 0;
+            var y4 = 0;
             var item, box, width, height, position;
             this.setAutoRefigureSizes(false);
             for (var i3 = 0; i3 < this._items.length; i3++) {
               if (i3 && i3 % wrap === 0) {
                 if (layout === "horizontal") {
-                  y3 += increment;
-                  x3 = 0;
+                  y4 += increment;
+                  x4 = 0;
                 } else {
-                  x3 += increment;
-                  y3 = 0;
+                  x4 += increment;
+                  y4 = 0;
                 }
               }
               item = this._items[i3];
@@ -55812,13 +55812,13 @@ ${generateSegmentFilename(i3)}`);
                 width = tileSize * (box.width / box.height);
               }
               height = width * (box.height / box.width);
-              position = new $3.Point(x3 + (tileSize - width) / 2, y3 + (tileSize - height) / 2);
+              position = new $3.Point(x4 + (tileSize - width) / 2, y4 + (tileSize - height) / 2);
               item.setPosition(position, immediately);
               item.setWidth(width, immediately);
               if (layout === "horizontal") {
-                x3 += increment;
+                x4 += increment;
               } else {
-                y3 += increment;
+                y4 += increment;
               }
             }
             this.setAutoRefigureSizes(true);
@@ -55870,35 +55870,35 @@ ${generateSegmentFilename(i3)}`);
     "node_modules/react-error-boundary/dist/react-error-boundary.umd.js"(exports, module) {
       (function(global2, factory) {
         typeof exports === "object" && typeof module !== "undefined" ? factory(exports, require_react()) : typeof define === "function" && define.amd ? define(["exports", "react"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2.ReactErrorBoundary = {}, global2.React));
-      })(exports, function(exports2, React33) {
+      })(exports, function(exports2, React35) {
         "use strict";
         function _interopNamespace(e4) {
           if (e4 && e4.__esModule)
             return e4;
-          var n3 = /* @__PURE__ */ Object.create(null);
+          var n4 = /* @__PURE__ */ Object.create(null);
           if (e4) {
-            Object.keys(e4).forEach(function(k3) {
-              if (k3 !== "default") {
-                var d3 = Object.getOwnPropertyDescriptor(e4, k3);
-                Object.defineProperty(n3, k3, d3.get ? d3 : {
+            Object.keys(e4).forEach(function(k4) {
+              if (k4 !== "default") {
+                var d3 = Object.getOwnPropertyDescriptor(e4, k4);
+                Object.defineProperty(n4, k4, d3.get ? d3 : {
                   enumerable: true,
                   get: function() {
-                    return e4[k3];
+                    return e4[k4];
                   }
                 });
               }
             });
           }
-          n3["default"] = e4;
-          return Object.freeze(n3);
+          n4["default"] = e4;
+          return Object.freeze(n4);
         }
-        var React__namespace = /* @__PURE__ */ _interopNamespace(React33);
-        function _setPrototypeOf(o3, p4) {
-          _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p5) {
-            o4.__proto__ = p5;
+        var React__namespace = /* @__PURE__ */ _interopNamespace(React35);
+        function _setPrototypeOf(o3, p5) {
+          _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o4, p6) {
+            o4.__proto__ = p6;
             return o4;
           };
-          return _setPrototypeOf(o3, p4);
+          return _setPrototypeOf(o3, p5);
         }
         function _inheritsLoose(subClass, superClass) {
           subClass.prototype = Object.create(superClass.prototype);
@@ -56038,10 +56038,10 @@ ${generateSegmentFilename(i3)}`);
   });
 
   // src/dev.tsx
-  var import_react62 = __toESM(require_react());
+  var import_react96 = __toESM(require_react());
 
   // src/index.tsx
-  var import_react59 = __toESM(require_react());
+  var import_react93 = __toESM(require_react());
 
   // src/context/viewer-context.tsx
   var import_react = __toESM(require_react());
@@ -56140,9 +56140,9 @@ ${generateSegmentFilename(i3)}`);
       return this.traverseType(this.traverseDescriptive(this.traverseLinking(e4)), this.traversals.agent);
     }
     traverseType(e4, i3) {
-      return i3.reduce((n3, r3) => {
-        const a3 = r3(n3);
-        return typeof a3 == "undefined" && !this.options.allowUndefinedReturn ? n3 : a3;
+      return i3.reduce((n4, r3) => {
+        const a3 = r3(n4);
+        return typeof a3 == "undefined" && !this.options.allowUndefinedReturn ? n4 : a3;
       }, e4);
     }
     traverseService(e4) {
@@ -56207,7 +56207,7 @@ ${generateSegmentFilename(i3)}`);
     }
     traverseCollectionItems(e4) {
       if (this.options.mergeMemberProperties) {
-        const i3 = [...(e4.manifests || []).map((n3) => typeof n3 == "string" ? { "@id": n3, "@type": "sc:Manifest" } : n3), ...(e4.collections || []).map((n3) => typeof n3 == "string" ? { "@id": n3, "@type": "sc:Collection" } : n3), ...e4.members || []];
+        const i3 = [...(e4.manifests || []).map((n4) => typeof n4 == "string" ? { "@id": n4, "@type": "sc:Manifest" } : n4), ...(e4.collections || []).map((n4) => typeof n4 == "string" ? { "@id": n4, "@type": "sc:Collection" } : n4), ...e4.members || []];
         delete e4.collections, delete e4.manifests, e4.members = i3;
       }
       return e4.manifests && (e4.manifests = e4.manifests.map((i3) => this.traverseManifest(typeof i3 == "string" ? { "@id": i3, "@type": "sc:Manifest" } : i3))), e4.collections && (e4.collections = e4.collections.map((i3) => this.traverseCollection(typeof i3 == "string" ? { "@id": i3, "@type": "sc:Collection" } : i3))), e4.members && (e4.members = e4.members.map((i3) => typeof i3 == "string" ? i3 : this.traverseUnknown(i3))), e4;
@@ -56235,8 +56235,8 @@ ${generateSegmentFilename(i3)}`);
     }
     traverseRangeItems(e4) {
       if (this.options.mergeMemberProperties) {
-        const i3 = [...(e4.ranges || []).map((n3) => typeof n3 == "string" ? { "@id": n3, "@type": "sc:Range" } : n3), ...(e4.canvases || []).map((n3) => typeof n3 == "string" ? { "@id": n3, "@type": "sc:Canvas" } : n3), ...e4.members || []];
-        delete e4.ranges, delete e4.canvases, e4.members = i3.length ? i3.map((n3) => this.traverseUnknown(n3)) : void 0;
+        const i3 = [...(e4.ranges || []).map((n4) => typeof n4 == "string" ? { "@id": n4, "@type": "sc:Range" } : n4), ...(e4.canvases || []).map((n4) => typeof n4 == "string" ? { "@id": n4, "@type": "sc:Canvas" } : n4), ...e4.members || []];
+        delete e4.ranges, delete e4.canvases, e4.members = i3.length ? i3.map((n4) => this.traverseUnknown(n4)) : void 0;
       }
       return e4;
     }
@@ -56300,8 +56300,8 @@ ${generateSegmentFilename(i3)}`);
       return e4.profile ? this.traverseService(e4) : e4;
     }
     traverseImageResource(e4) {
-      const i3 = Array.isArray(e4), n3 = Array.isArray(e4) ? e4 : [e4], r3 = [];
-      for (const a3 of n3)
+      const i3 = Array.isArray(e4), n4 = Array.isArray(e4) ? e4 : [e4], r3 = [];
+      for (const a3 of n4)
         typeof a3 == "string" ? r3.push(this.traverseContentResource({ "@id": a3, "@type": "dctypes:Image" })) : r3.push(this.traverseContentResource(a3));
       return !i3 && !this.options.convertPropsToArray ? r3[0] : r3;
     }
@@ -56309,8 +56309,8 @@ ${generateSegmentFilename(i3)}`);
       return e4.thumbnail && (e4.thumbnail = this.traverseImageResource(e4.thumbnail)), e4.logo && (e4.logo = this.traverseImageResource(e4.logo)), e4;
     }
     traverseOneOrMoreServices(e4) {
-      const i3 = Array.isArray(e4), n3 = Array.isArray(e4) ? e4 : [e4], r3 = [];
-      for (const a3 of n3)
+      const i3 = Array.isArray(e4), n4 = Array.isArray(e4) ? e4 : [e4], r3 = [];
+      for (const a3 of n4)
         r3.push(this.traverseService(a3));
       return !i3 && !this.options.convertPropsToArray ? r3[0] : r3;
     }
@@ -56323,12 +56323,12 @@ ${generateSegmentFilename(i3)}`);
           e4 = [e4];
         else
           return this.traverseType(e4, i3);
-      return e4.map((n3) => this.traverseType(n3, i3));
+      return e4.map((n4) => this.traverseType(n4, i3));
     }
     traverseType(e4, i3) {
-      return i3.reduce((n3, r3) => {
-        const a3 = r3(n3);
-        return typeof a3 == "undefined" && !this.options.allowUndefinedReturn ? n3 : a3;
+      return i3.reduce((n4, r3) => {
+        const a3 = r3(n4);
+        return typeof a3 == "undefined" && !this.options.allowUndefinedReturn ? n4 : a3;
       }, e4);
     }
   };
@@ -56368,20 +56368,20 @@ ${generateSegmentFilename(i3)}`);
   function u(t4, e4 = "none") {
     if (!t4)
       return {};
-    const i3 = Array.isArray(t4) ? t4 : [t4], n3 = {};
+    const i3 = Array.isArray(t4) ? t4 : [t4], n4 = {};
     for (const r3 of i3) {
       if (typeof r3 == "string") {
-        n3[e4] = n3[e4] ? n3[e4] : [], n3[e4].push(r3 || "");
+        n4[e4] = n4[e4] ? n4[e4] : [], n4[e4].push(r3 || "");
         continue;
       }
       if (!r3["@language"]) {
-        n3[e4] = n3[e4] ? n3[e4] : [], n3[e4].push(r3["@value"] || "");
+        n4[e4] = n4[e4] ? n4[e4] : [], n4[e4].push(r3["@value"] || "");
         continue;
       }
       const a3 = r3["@language"];
-      n3[a3] = n3[a3] ? n3[a3] : [], n3[a3].push(r3["@value"] || "");
+      n4[a3] = n4[a3] ? n4[a3] : [], n4[a3].push(r3["@value"] || "");
     }
-    return n3;
+    return n4;
   }
   function pe(t4) {
     if (Array.isArray(t4))
@@ -56449,9 +56449,9 @@ ${generateSegmentFilename(i3)}`);
   function O(t4) {
     const e4 = t4["@id"] || t4.id;
     let i3 = t4["@type"] || t4.type;
-    const n3 = t4.profile || void 0, r3 = t4["@context"] || void 0;
-    if (n3) {
-      const a3 = De(n3);
+    const n4 = t4.profile || void 0, r3 = t4["@context"] || void 0;
+    if (n4) {
+      const a3 = De(n4);
       if (a3)
         return a3;
     }
@@ -56500,24 +56500,24 @@ ${generateSegmentFilename(i3)}`);
     return e4 ? e4[0] : t4;
   }
   function qe(t4, e4 = "Rights/License", i3 = "none") {
-    let n3 = null;
+    let n4 = null;
     const r3 = [], a3 = Array.isArray(t4) ? t4 : [t4];
     for (const I2 of a3) {
       const o3 = I2 ? Ge(I2) : void 0;
       if (o3 && (o3.indexOf("creativecommons.org") !== -1 || o3.indexOf("rightsstatements.org") !== -1)) {
-        o3.startsWith("https://") ? n3 = `http://${o3.slice(8)}` : n3 = o3;
+        o3.startsWith("https://") ? n4 = `http://${o3.slice(8)}` : n4 = o3;
         continue;
       }
       o3 && r3.push({ label: { [i3]: [e4] }, value: { [i3]: [o3] } });
     }
-    return [n3, r3];
+    return [n4, r3];
   }
   var Ue = ["http://iiif.io/api/presentation/2/context.json", "http://iiif.io/api/image/2/context.json", "http://iiif.io/api/image/1/context.json", "http://library.stanford.edu/iiif/image-api/1.1/context.json", "http://iiif.io/api/search/1/context.json", "http://iiif.io/api/search/0/context.json", "http://iiif.io/api/auth/1/context.json", "http://iiif.io/api/auth/0/context.json", "http://iiif.io/api/annex/openannotation/context.json"];
   function Ve(t4) {
     if (t4) {
       const e4 = Array.isArray(t4) ? t4 : [t4], i3 = [];
-      for (const n3 of e4)
-        n3 === "http://iiif.io/api/presentation/2/context.json" && i3.push("http://iiif.io/api/presentation/3/context.json"), Ue.indexOf(n3) === -1 && i3.push(n3);
+      for (const n4 of e4)
+        n4 === "http://iiif.io/api/presentation/2/context.json" && i3.push("http://iiif.io/api/presentation/3/context.json"), Ue.indexOf(n4) === -1 && i3.push(n4);
       if (e4.length)
         return i3.length === 1 ? i3[0] : i3;
     }
@@ -56540,23 +56540,23 @@ ${generateSegmentFilename(i3)}`);
     return t4.viewingHint && e4.push(t4.viewingHint), { "@context": t4["@context"] ? Ve(t4["@context"]) : void 0, id: (t4["@id"] || ce(t4)).trim(), type: O(t4), behavior: e4.length ? e4 : void 0, height: t4.height ? t4.height : void 0, width: t4.width ? t4.width : void 0, motivation: t4.motivation ? Ne(t4.motivation) : void 0, viewingDirection: t4.viewingDirection, profile: t4.profile, format: t4.format ? t4.format : void 0, duration: void 0, timeMode: void 0 };
   }
   function l(t4) {
-    const [e4, i3] = qe(t4.license), n3 = [...t4.metadata ? We(t4.metadata) : [], ...i3];
-    return { rights: e4, metadata: n3.length ? n3 : void 0, label: t4.label ? u(t4.label) : void 0, requiredStatement: t4.attribution ? { label: u(S.attributionLabel), value: u(t4.attribution) } : void 0, navDate: t4.navDate, summary: t4.description ? u(t4.description) : void 0, thumbnail: t4.thumbnail };
+    const [e4, i3] = qe(t4.license), n4 = [...t4.metadata ? We(t4.metadata) : [], ...i3];
+    return { rights: e4, metadata: n4.length ? n4 : void 0, label: t4.label ? u(t4.label) : void 0, requiredStatement: t4.attribution ? { label: u(S.attributionLabel), value: u(t4.attribution) } : void 0, navDate: t4.navDate, summary: t4.description ? u(t4.description) : void 0, thumbnail: t4.thumbnail };
   }
   function ze(t4) {
     if (!t4.within)
       return;
     const e4 = Array.isArray(t4.within) ? t4.within : [t4.within], i3 = [];
-    for (const n3 of e4)
-      if (typeof n3 == "string") {
-        if (n3)
+    for (const n4 of e4)
+      if (typeof n4 == "string") {
+        if (n4)
           switch (t4["@type"]) {
             case "sc:Manifest":
-              i3.push({ id: n3, type: "Collection" });
+              i3.push({ id: n4, type: "Collection" });
               break;
           }
       } else
-        n3["@id"] && i3.push({ id: n3["@id"], type: O(n3) });
+        n4["@id"] && i3.push({ id: n4["@id"], type: O(n4) });
     return i3.length ? i3 : void 0;
   }
   function h(t4) {
@@ -56570,8 +56570,8 @@ ${generateSegmentFilename(i3)}`);
     const e4 = [], i3 = [];
     for (const r3 of t4.sequences || [])
       r3.canvases.length && e4.push(...r3.canvases), r3.behavior && i3.push(...r3.behavior);
-    const n3 = p(t4);
-    return i3.length && (n3.behavior ? n3.behavior.push(...i3) : n3.behavior = i3), v({ ...n3, ...l(t4), ...h(t4), items: e4, structures: t4.structures });
+    const n4 = p(t4);
+    return i3.length && (n4.behavior ? n4.behavior.push(...i3) : n4.behavior = i3), v({ ...n4, ...l(t4), ...h(t4), items: e4, structures: t4.structures });
   }
   function Ke(t4) {
     return v({ ...p(t4), ...l(t4), ...h(t4), items: t4.images && t4.images.length ? [{ id: ce(t4, "annotation-page"), type: "AnnotationPage", items: t4.images }] : void 0 });
@@ -56597,7 +56597,7 @@ ${generateSegmentFilename(i3)}`);
     return v({ ...p(t4), ...l(t4), ...h(t4), items: t4.members });
   }
   function tt(t4) {
-    const { "@id": e4, "@type": i3, "@context": n3, profile: r3, ...a3 } = t4;
+    const { "@id": e4, "@type": i3, "@context": n4, profile: r3, ...a3 } = t4;
     return e4 && (a3.id = e4), a3.type = O(t4), a3.type === "unknown" && (a3.type = "Service"), r3 && (a3.profile = pe(r3)), v({ ...a3, ...l(a3) });
   }
   function it(t4) {
@@ -56619,26 +56619,26 @@ ${generateSegmentFilename(i3)}`);
   }
   function st(t4) {
     return (e4, i3) => {
-      const n3 = t4[e4] ? t4[e4] : {};
+      const n4 = t4[e4] ? t4[e4] : {};
       return (r3) => {
         const a3 = ue(r3, i3 || e4);
-        return a3 && a3.id && e4 ? (n3[a3.id] = n3[a3.id] ? Object.assign({}, n3[a3.id], a3) : Object.assign({}, a3), { id: a3.id, type: e4 === "ContentResource" ? e4 : a3.type }) : a3;
+        return a3 && a3.id && e4 ? (n4[a3.id] = n4[a3.id] ? Object.assign({}, n4[a3.id], a3) : Object.assign({}, a3), { id: a3.id, type: e4 === "ContentResource" ? e4 : a3.type }) : a3;
       };
     };
   }
   function ot(t4) {
-    return (e4, i3) => (n3) => {
-      const { id: r3, type: a3 } = ue(n3, i3 || e4);
+    return (e4, i3) => (n4) => {
+      const { id: r3, type: a3 } = ue(n4, i3 || e4);
       if (typeof r3 == "undefined")
         throw new Error("Found invalid entity without an ID.");
-      return e4 === "ContentResource" ? t4[r3] = e4 : t4[r3] = a3, n3;
+      return e4 === "ContentResource" ? t4[r3] = e4 : t4[r3] = a3, n4;
     };
   }
   function lt(t4) {
     const e4 = JSON.stringify(t4);
-    let i3 = 5381, n3 = e4.length;
-    for (; n3; )
-      i3 = i3 * 33 ^ e4.charCodeAt(--n3);
+    let i3 = 5381, n4 = e4.length;
+    for (; n4; )
+      i3 = i3 * 33 ^ e4.charCodeAt(--n4);
     const a3 = (i3 >>> 0).toString(16);
     return a3.length % 2 ? "0" + a3 : a3;
   }
@@ -56655,22 +56655,22 @@ ${generateSegmentFilename(i3)}`);
     return t4.body && (t4.body = b(t4.body)), t4.seeAlso && (t4.seeAlso = b(t4.seeAlso)), t4.body && (t4.body = b(t4.body)), t4.audience && (t4.audience = b(t4.audience)), t4.accessibility && (t4.accessibility = b(t4.accessibility)), t4.motivation && (t4.motivation = b(t4.motivation)), t4;
   }
   function pt(t4) {
-    const e4 = rt(t4), i3 = fe(), n3 = {}, r3 = st(i3), a3 = ot(n3), o3 = new L({ collection: [_($), a3("Collection"), r3("Collection")], manifest: [_(j), a3("Manifest"), r3("Manifest")], canvas: [_(N), a3("Canvas"), r3("Canvas")], annotationPage: [P("AnnotationPage"), _(k), a3("AnnotationPage"), r3("AnnotationPage")], annotation: [P("Annotation"), vt, a3("Annotation"), r3("Annotation")], contentResource: [P("ContentResource"), a3("ContentResource"), r3("ContentResource")], range: [_(G), a3("Range", "Canvas"), r3("Range", "Canvas")], agent: [_(q), a3("Agent"), r3("Agent")] }).traverseUnknown(e4);
-    return { entities: i3, resource: o3, mapping: n3 };
+    const e4 = rt(t4), i3 = fe(), n4 = {}, r3 = st(i3), a3 = ot(n4), o3 = new L({ collection: [_($), a3("Collection"), r3("Collection")], manifest: [_(j), a3("Manifest"), r3("Manifest")], canvas: [_(N), a3("Canvas"), r3("Canvas")], annotationPage: [P("AnnotationPage"), _(k), a3("AnnotationPage"), r3("AnnotationPage")], annotation: [P("Annotation"), vt, a3("Annotation"), r3("Annotation")], contentResource: [P("ContentResource"), a3("ContentResource"), r3("ContentResource")], range: [_(G), a3("Range", "Canvas"), r3("Range", "Canvas")], agent: [_(q), a3("Agent"), r3("Agent")] }).traverseUnknown(e4);
+    return { entities: i3, resource: o3, mapping: n4 };
   }
   var c = "__$UNSET$__";
   var F = "__$UNWRAP$__";
   function ht(t4, e4) {
-    const i3 = t4.requests[e4], n3 = t4.mapping[e4];
-    if (!(!n3 || i3 && i3.resourceUri && !t4.entities[n3][i3.resourceUri]))
-      return t4.entities[n3][i3 ? i3.resourceUri : e4];
+    const i3 = t4.requests[e4], n4 = t4.mapping[e4];
+    if (!(!n4 || i3 && i3.resourceUri && !t4.entities[n4][i3.resourceUri]))
+      return t4.entities[n4][i3 ? i3.resourceUri : e4];
   }
   function de(t4) {
     const e4 = {};
-    for (const [i3, n3] of t4) {
-      if (i3 === F && n3 !== c)
-        return n3;
-      n3 !== c && typeof n3 != "undefined" && n3 !== null && (e4[i3] = n3);
+    for (const [i3, n4] of t4) {
+      if (i3 === F && n4 !== c)
+        return n4;
+      n4 !== c && typeof n4 != "undefined" && n4 !== null && (e4[i3] = n4);
     }
     return e4;
   }
@@ -56679,7 +56679,7 @@ ${generateSegmentFilename(i3)}`);
       throw new Error("Unknown entity");
     if (!i3[e4.type])
       throw new Error(`Serializer not found for ${e4.type}`);
-    function n3(r3) {
+    function n4(r3) {
       const a3 = i3[r3.type];
       if (!a3)
         return c;
@@ -56690,20 +56690,20 @@ ${generateSegmentFilename(i3)}`);
       let R2 = o3.next();
       for (; !R2.done; ) {
         const E2 = R2.value;
-        let T2 = c;
+        let T3 = c;
         if (E2)
           if (Array.isArray(E2)) {
             const D2 = [];
             for (const Ae of E2)
-              D2.push(n3(Ae));
-            T2 = D2;
+              D2.push(n4(Ae));
+            T3 = D2;
           } else
-            T2 = n3(E2);
-        R2 = o3.next(T2);
+            T3 = n4(E2);
+        R2 = o3.next(T3);
       }
       return R2.value === c ? c : de(R2.value);
     }
-    return n3(e4);
+    return n4(e4);
   }
   function d(t4) {
     if (!t4)
@@ -56714,8 +56714,8 @@ ${generateSegmentFilename(i3)}`);
         const i3 = e4[0];
         if (!i3)
           return "";
-        const n3 = (t4[i3] || []).join("");
-        return i3 === "@none" || i3 === "none" || i3 === "en" ? n3 : { "@language": i3, "@value": n3 };
+        const n4 = (t4[i3] || []).join("");
+        return i3 === "@none" || i3 === "none" || i3 === "en" ? n4 : { "@language": i3, "@value": n4 };
       }
       return e4.map((i3) => ({ "@language": i3, "@value": (t4[i3] || []).join("") }));
     }
@@ -56773,9 +56773,9 @@ ${generateSegmentFilename(i3)}`);
   }, Range: function* (t4) {
     const e4 = [], i3 = [];
     if (t4.items)
-      for (const n3 of t4.items) {
-        const r3 = yield n3;
-        e4.push({ "@id": n3.id, "@type": n3.type, label: r3 ? r3.label : void 0, within: t4.id }), n3.type === "Canvas" && i3.push(n3.id);
+      for (const n4 of t4.items) {
+        const r3 = yield n4;
+        e4.push({ "@id": n4.id, "@type": n4.type, label: r3 ? r3.label : void 0, within: t4.id }), n4.type === "Canvas" && i3.push(n4.id);
       }
     return [...m(t4, "sc:Range"), ...yield* g(t4), ...yield* w(t4), ["canvases", i3.length === e4.length ? i3 : void 0], ["members", i3.length !== e4.length ? e4 : void 0]];
   } };
@@ -56788,8 +56788,8 @@ ${generateSegmentFilename(i3)}`);
   }
   function ge(t4) {
     if (t4 && t4.type && t4.type === "ImageService2") {
-      const { id: e4, type: i3, profile: n3, ...r3 } = t4;
-      return { "@id": e4, "@type": i3, profile: n3.startsWith("http") ? n3 : `http://iiif.io/api/image/2/${n3}.json`, ...r3 };
+      const { id: e4, type: i3, profile: n4, ...r3 } = t4;
+      return { "@id": e4, "@type": i3, profile: n4.startsWith("http") ? n4 : `http://iiif.io/api/image/2/${n4}.json`, ...r3 };
     }
     return t4;
   }
@@ -56810,11 +56810,11 @@ ${generateSegmentFilename(i3)}`);
   }, Agent: function* (t4) {
     return [["id", t4.id], ["type", "Agent"], ["label", t4.label], ...yield* C(t4)];
   }, AnnotationPage: function* (t4) {
-    return [...Object.entries(t4).map(([i3, n3]) => [i3, Array.isArray(n3) ? s(n3) : n3]).filter(([i3, n3]) => i3 !== "items"), ...yield* C(t4), ["items", yield t4.items]];
+    return [...Object.entries(t4).map(([i3, n4]) => [i3, Array.isArray(n4) ? s(n4) : n4]).filter(([i3, n4]) => i3 !== "items"), ...yield* C(t4), ["items", yield t4.items]];
   }, Service: function* (t4) {
     return [[F, ge(t4)]];
   }, Annotation: function* (t4) {
-    const e4 = Object.entries(t4).map(([n3, r3]) => n3 === "motivation" ? [n3, Array.isArray(r3) ? r3[0] : r3] : [n3, Array.isArray(r3) ? s(r3) : r3]).filter(([n3]) => n3 !== "body"), i3 = yield t4.body;
+    const e4 = Object.entries(t4).map(([n4, r3]) => n4 === "motivation" ? [n4, Array.isArray(r3) ? r3[0] : r3] : [n4, Array.isArray(r3) ? s(r3) : r3]).filter(([n4]) => n4 !== "body"), i3 = yield t4.body;
     return [...e4, ["body", i3.length === 1 ? i3[0] : i3]];
   }, ContentResource: function* (t4) {
     return [...y(t4), ...yield* A(t4), ...yield* C(t4), ["annotations", s(yield t4.annotations)], ["items", s(yield t4.items)]];
@@ -57651,19 +57651,19 @@ ${generateSegmentFilename(i3)}`);
     const store = createStore(createBatchReducer(rootReducer), defaultState2, enableDevtools ? composeEnhancers(applyMiddleware(...extraMiddleware)) : compose(applyMiddleware(...extraMiddleware)));
     return store;
   }
-  function mitt(n3) {
-    return { all: n3 = n3 || /* @__PURE__ */ new Map(), on: function(t4, e4) {
-      var i3 = n3.get(t4);
-      i3 ? i3.push(e4) : n3.set(t4, [e4]);
+  function mitt(n4) {
+    return { all: n4 = n4 || /* @__PURE__ */ new Map(), on: function(t4, e4) {
+      var i3 = n4.get(t4);
+      i3 ? i3.push(e4) : n4.set(t4, [e4]);
     }, off: function(t4, e4) {
-      var i3 = n3.get(t4);
-      i3 && (e4 ? i3.splice(i3.indexOf(e4) >>> 0, 1) : n3.set(t4, []));
+      var i3 = n4.get(t4);
+      i3 && (e4 ? i3.splice(i3.indexOf(e4) >>> 0, 1) : n4.set(t4, []));
     }, emit: function(t4, e4) {
-      var i3 = n3.get(t4);
-      i3 && i3.slice().map(function(n4) {
-        n4(e4);
-      }), (i3 = n3.get("*")) && i3.slice().map(function(n4) {
-        n4(t4, e4);
+      var i3 = n4.get(t4);
+      i3 && i3.slice().map(function(n5) {
+        n5(e4);
+      }), (i3 = n4.get("*")) && i3.slice().map(function(n5) {
+        n5(t4, e4);
       });
     } };
   }
@@ -57892,6 +57892,8 @@ ${generateSegmentFilename(i3)}`);
   };
   var defaultState = {
     activeCanvas: "",
+    activeManifest: "",
+    collection: {},
     configOptions: defaultConfigOptions,
     isLoaded: false,
     vault: new Vault()
@@ -57905,6 +57907,16 @@ ${generateSegmentFilename(i3)}`);
           action.canvasId = "";
         return __spreadProps(__spreadValues({}, state), {
           activeCanvas: action.canvasId
+        });
+      }
+      case "updateActiveManifest": {
+        return __spreadProps(__spreadValues({}, state), {
+          activeManifest: action.manifestId
+        });
+      }
+      case "updateCollection": {
+        return __spreadProps(__spreadValues({}, state), {
+          collection: action.collection
         });
       }
       case "updateConfigOptions": {
@@ -57949,7 +57961,7 @@ ${generateSegmentFilename(i3)}`);
   }
 
   // src/components/Viewer/Viewer.tsx
-  var import_react58 = __toESM(require_react());
+  var import_react92 = __toESM(require_react());
 
   // src/hooks/use-iiif/getAccompanyingCanvasImage.ts
   function getUrl(obj) {
@@ -58116,9 +58128,9 @@ ${generateSegmentFilename(i3)}`);
   var i = (e4, t4) => typeof t4 == "function" ? { "()": Function.prototype.toString.call(t4) } : t4;
   var o = () => {
     const e4 = /* @__PURE__ */ Object.create(null);
-    return (t4, r3, ...n3) => {
+    return (t4, r3, ...n4) => {
       const o3 = ((e5) => JSON.stringify(e5, i))(t4);
-      return o3 in e4 ? e4[o3] : e4[o3] = r3(t4, ...n3);
+      return o3 in e4 ? e4[o3] : e4[o3] = r3(t4, ...n4);
     };
   };
   var l2 = Symbol.for("sxs.internal");
@@ -58135,47 +58147,47 @@ ${generateSegmentFilename(i3)}`);
   var u2 = { appearance: (e4) => ({ WebkitAppearance: e4, appearance: e4 }), backfaceVisibility: (e4) => ({ WebkitBackfaceVisibility: e4, backfaceVisibility: e4 }), backdropFilter: (e4) => ({ WebkitBackdropFilter: e4, backdropFilter: e4 }), backgroundClip: (e4) => ({ WebkitBackgroundClip: e4, backgroundClip: e4 }), boxDecorationBreak: (e4) => ({ WebkitBoxDecorationBreak: e4, boxDecorationBreak: e4 }), clipPath: (e4) => ({ WebkitClipPath: e4, clipPath: e4 }), content: (e4) => ({ content: e4.includes('"') || e4.includes("'") || /^([A-Za-z]+\([^]*|[^]*-quote|inherit|initial|none|normal|revert|unset)$/.test(e4) ? e4 : `"${e4}"` }), hyphens: (e4) => ({ WebkitHyphens: e4, hyphens: e4 }), maskImage: (e4) => ({ WebkitMaskImage: e4, maskImage: e4 }), maskSize: (e4) => ({ WebkitMaskSize: e4, maskSize: e4 }), tabSize: (e4) => ({ MozTabSize: e4, tabSize: e4 }), textSizeAdjust: (e4) => ({ WebkitTextSizeAdjust: e4, textSizeAdjust: e4 }), userSelect: (e4) => ({ WebkitUserSelect: e4, userSelect: e4 }), marginBlock: p2((e4, t4) => ({ marginBlockStart: e4, marginBlockEnd: t4 || e4 })), marginInline: p2((e4, t4) => ({ marginInlineStart: e4, marginInlineEnd: t4 || e4 })), maxSize: p2((e4, t4) => ({ maxBlockSize: e4, maxInlineSize: t4 || e4 })), minSize: p2((e4, t4) => ({ minBlockSize: e4, minInlineSize: t4 || e4 })), paddingBlock: p2((e4, t4) => ({ paddingBlockStart: e4, paddingBlockEnd: t4 || e4 })), paddingInline: p2((e4, t4) => ({ paddingInlineStart: e4, paddingInlineEnd: t4 || e4 })) };
   var h2 = /([\d.]+)([^]*)/;
   var f2 = (e4, t4) => e4.length ? e4.reduce((e5, r3) => (e5.push(...t4.map((e6) => e6.includes("&") ? e6.replace(/&/g, /[ +>|~]/.test(r3) && /&.*&/.test(e6) ? `:is(${r3})` : r3) : r3 + " " + e6)), e5), []) : t4;
-  var m2 = (e4, t4) => e4 in b2 && typeof t4 == "string" ? t4.replace(/^((?:[^]*[^\w-])?)(fit-content|stretch)((?:[^\w-][^]*)?)$/, (t5, r3, n3, i3) => r3 + (n3 === "stretch" ? `-moz-available${i3};${d2(e4)}:${r3}-webkit-fill-available` : `-moz-fit-content${i3};${d2(e4)}:${r3}fit-content`) + i3) : String(t4);
+  var m2 = (e4, t4) => e4 in b2 && typeof t4 == "string" ? t4.replace(/^((?:[^]*[^\w-])?)(fit-content|stretch)((?:[^\w-][^]*)?)$/, (t5, r3, n4, i3) => r3 + (n4 === "stretch" ? `-moz-available${i3};${d2(e4)}:${r3}-webkit-fill-available` : `-moz-fit-content${i3};${d2(e4)}:${r3}fit-content`) + i3) : String(t4);
   var b2 = { blockSize: 1, height: 1, inlineSize: 1, maxBlockSize: 1, maxHeight: 1, maxInlineSize: 1, maxWidth: 1, minBlockSize: 1, minHeight: 1, minInlineSize: 1, minWidth: 1, width: 1 };
   var S2 = (e4) => e4 ? e4 + "-" : "";
-  var k2 = (e4, t4, r3) => e4.replace(/([+-])?((?:\d+(?:\.\d*)?|\.\d+)(?:[Ee][+-]?\d+)?)?(\$|--)([$\w-]+)/g, (e5, n3, i3, o3, l3) => o3 == "$" == !!i3 ? e5 : (n3 || o3 == "--" ? "calc(" : "") + "var(--" + (o3 === "$" ? S2(t4) + (l3.includes("$") ? "" : S2(r3)) + l3.replace(/\$/g, "-") : l3) + ")" + (n3 || o3 == "--" ? "*" + (n3 || "") + (i3 || "1") + ")" : ""));
+  var k2 = (e4, t4, r3) => e4.replace(/([+-])?((?:\d+(?:\.\d*)?|\.\d+)(?:[Ee][+-]?\d+)?)?(\$|--)([$\w-]+)/g, (e5, n4, i3, o3, l4) => o3 == "$" == !!i3 ? e5 : (n4 || o3 == "--" ? "calc(" : "") + "var(--" + (o3 === "$" ? S2(t4) + (l4.includes("$") ? "" : S2(r3)) + l4.replace(/\$/g, "-") : l4) + ")" + (n4 || o3 == "--" ? "*" + (n4 || "") + (i3 || "1") + ")" : ""));
   var y2 = /\s*,\s*(?![^()]*\))/;
   var B2 = Object.prototype.toString;
-  var $2 = (e4, t4, r3, n3, i3) => {
-    let o3, l3, s4;
+  var $2 = (e4, t4, r3, n4, i3) => {
+    let o3, l4, s5;
     const a3 = (e5, t5, r4) => {
       let c4, g3;
-      const p4 = (e6) => {
+      const p5 = (e6) => {
         for (c4 in e6) {
-          const R2 = c4.charCodeAt(0) === 64, z3 = R2 && Array.isArray(e6[c4]) ? e6[c4] : [e6[c4]];
-          for (g3 of z3) {
-            const e7 = /[A-Z]/.test($3 = c4) ? $3 : $3.replace(/-[^]/g, (e8) => e8[1].toUpperCase()), z4 = typeof g3 == "object" && g3 && g3.toString === B2 && (!n3.utils[e7] || !t5.length);
-            if (e7 in n3.utils && !z4) {
-              const t6 = n3.utils[e7];
-              if (t6 !== l3) {
-                l3 = t6, p4(t6(g3)), l3 = null;
+          const R2 = c4.charCodeAt(0) === 64, z4 = R2 && Array.isArray(e6[c4]) ? e6[c4] : [e6[c4]];
+          for (g3 of z4) {
+            const e7 = /[A-Z]/.test($3 = c4) ? $3 : $3.replace(/-[^]/g, (e8) => e8[1].toUpperCase()), z5 = typeof g3 == "object" && g3 && g3.toString === B2 && (!n4.utils[e7] || !t5.length);
+            if (e7 in n4.utils && !z5) {
+              const t6 = n4.utils[e7];
+              if (t6 !== l4) {
+                l4 = t6, p5(t6(g3)), l4 = null;
                 continue;
               }
             } else if (e7 in u2) {
               const t6 = u2[e7];
-              if (t6 !== s4) {
-                s4 = t6, p4(t6(g3)), s4 = null;
+              if (t6 !== s5) {
+                s5 = t6, p5(t6(g3)), s5 = null;
                 continue;
               }
             }
-            if (R2 && (b3 = c4.slice(1) in n3.media ? "@media " + n3.media[c4.slice(1)] : c4, c4 = b3.replace(/\(\s*([\w-]+)\s*(=|<|<=|>|>=)\s*([\w-]+)\s*(?:(<|<=|>|>=)\s*([\w-]+)\s*)?\)/g, (e8, t6, r5, n4, i4, o4) => {
-              const l4 = h2.test(t6), s5 = 0.0625 * (l4 ? -1 : 1), [a4, c5] = l4 ? [n4, t6] : [t6, n4];
-              return "(" + (r5[0] === "=" ? "" : r5[0] === ">" === l4 ? "max-" : "min-") + a4 + ":" + (r5[0] !== "=" && r5.length === 1 ? c5.replace(h2, (e9, t7, n5) => Number(t7) + s5 * (r5 === ">" ? 1 : -1) + n5) : c5) + (i4 ? ") and (" + (i4[0] === ">" ? "min-" : "max-") + a4 + ":" + (i4.length === 1 ? o4.replace(h2, (e9, t7, r6) => Number(t7) + s5 * (i4 === ">" ? -1 : 1) + r6) : o4) : "") + ")";
-            })), z4) {
-              const e8 = R2 ? r4.concat(c4) : [...r4], n4 = R2 ? [...t5] : f2(t5, c4.split(y2));
-              o3 !== void 0 && i3(x2(...o3)), o3 = void 0, a3(g3, n4, e8);
+            if (R2 && (b3 = c4.slice(1) in n4.media ? "@media " + n4.media[c4.slice(1)] : c4, c4 = b3.replace(/\(\s*([\w-]+)\s*(=|<|<=|>|>=)\s*([\w-]+)\s*(?:(<|<=|>|>=)\s*([\w-]+)\s*)?\)/g, (e8, t6, r5, n5, i4, o4) => {
+              const l5 = h2.test(t6), s6 = 0.0625 * (l5 ? -1 : 1), [a4, c5] = l5 ? [n5, t6] : [t6, n5];
+              return "(" + (r5[0] === "=" ? "" : r5[0] === ">" === l5 ? "max-" : "min-") + a4 + ":" + (r5[0] !== "=" && r5.length === 1 ? c5.replace(h2, (e9, t7, n6) => Number(t7) + s6 * (r5 === ">" ? 1 : -1) + n6) : c5) + (i4 ? ") and (" + (i4[0] === ">" ? "min-" : "max-") + a4 + ":" + (i4.length === 1 ? o4.replace(h2, (e9, t7, r6) => Number(t7) + s6 * (i4 === ">" ? -1 : 1) + r6) : o4) : "") + ")";
+            })), z5) {
+              const e8 = R2 ? r4.concat(c4) : [...r4], n5 = R2 ? [...t5] : f2(t5, c4.split(y2));
+              o3 !== void 0 && i3(x2(...o3)), o3 = void 0, a3(g3, n5, e8);
             } else
-              o3 === void 0 && (o3 = [[], t5, r4]), c4 = R2 || c4.charCodeAt(0) !== 36 ? c4 : `--${S2(n3.prefix)}${c4.slice(1).replace(/\$/g, "-")}`, g3 = z4 ? g3 : typeof g3 == "number" ? g3 && e7 in I ? String(g3) + "px" : String(g3) : k2(m2(e7, g3 == null ? "" : g3), n3.prefix, n3.themeMap[e7]), o3[0].push(`${R2 ? `${c4} ` : `${d2(c4)}:`}${g3}`);
+              o3 === void 0 && (o3 = [[], t5, r4]), c4 = R2 || c4.charCodeAt(0) !== 36 ? c4 : `--${S2(n4.prefix)}${c4.slice(1).replace(/\$/g, "-")}`, g3 = z5 ? g3 : typeof g3 == "number" ? g3 && e7 in I ? String(g3) + "px" : String(g3) : k2(m2(e7, g3 == null ? "" : g3), n4.prefix, n4.themeMap[e7]), o3[0].push(`${R2 ? `${c4} ` : `${d2(c4)}:`}${g3}`);
           }
         }
         var b3, $3;
       };
-      p4(e5), o3 !== void 0 && i3(x2(...o3)), o3 = void 0;
+      p5(e5), o3 !== void 0 && i3(x2(...o3)), o3 = void 0;
     };
     a3(e4, t4, r3);
   };
@@ -58207,12 +58219,12 @@ ${generateSegmentFilename(i3)}`);
     let t4;
     const r3 = () => {
       const { cssRules: e5 } = t4.sheet;
-      return [].map.call(e5, (r4, n4) => {
+      return [].map.call(e5, (r4, n5) => {
         const { cssText: i3 } = r4;
         let o3 = "";
         if (i3.startsWith("--sxs"))
           return "";
-        if (e5[n4 - 1] && (o3 = e5[n4 - 1].cssText).startsWith("--sxs")) {
+        if (e5[n5 - 1] && (o3 = e5[n5 - 1].cssText).startsWith("--sxs")) {
           if (!r4.cssRules.length)
             return "";
           for (const e6 in t4.rules)
@@ -58222,7 +58234,7 @@ ${generateSegmentFilename(i3)}`);
         }
         return i3;
       }).join("");
-    }, n3 = () => {
+    }, n4 = () => {
       if (t4) {
         const { rules: e5, sheet: r4 } = t4;
         if (!r4.deleteRule) {
@@ -58237,18 +58249,18 @@ ${generateSegmentFilename(i3)}`);
       for (const e5 of i3)
         if (j2(e5)) {
           for (let i4 = 0, o4 = e5.cssRules; o4[i4]; ++i4) {
-            const l4 = Object(o4[i4]);
-            if (l4.type !== 1)
+            const l5 = Object(o4[i4]);
+            if (l5.type !== 1)
               continue;
-            const s4 = Object(o4[i4 + 1]);
-            if (s4.type !== 4)
+            const s5 = Object(o4[i4 + 1]);
+            if (s5.type !== 4)
               continue;
             ++i4;
-            const { cssText: a3 } = l4;
+            const { cssText: a3 } = l5;
             if (!a3.startsWith("--sxs"))
               continue;
             const c4 = a3.slice(14, -3).trim().split(/\s+/), d3 = W2[c4[0]];
-            d3 && (t4 || (t4 = { sheet: e5, reset: n3, rules: {}, toString: r3 }), t4.rules[d3] = { group: s4, index: i4, cache: new Set(c4) });
+            d3 && (t4 || (t4 = { sheet: e5, reset: n4, rules: {}, toString: r3 }), t4.rules[d3] = { group: s5, index: i4, cache: new Set(c4) });
           }
           if (t4)
             break;
@@ -58259,19 +58271,19 @@ ${generateSegmentFilename(i3)}`);
         }, get cssText() {
           return e5 === "@media{}" ? `@media{${[].map.call(this.cssRules, (e6) => e6.cssText).join("")}}` : e5;
         } });
-        t4 = { sheet: e4 ? (e4.head || e4).appendChild(document.createElement("style")).sheet : i4("", "text/css"), rules: {}, reset: n3, toString: r3 };
+        t4 = { sheet: e4 ? (e4.head || e4).appendChild(document.createElement("style")).sheet : i4("", "text/css"), rules: {}, reset: n4, toString: r3 };
       }
-      const { sheet: o3, rules: l3 } = t4;
+      const { sheet: o3, rules: l4 } = t4;
       for (let e5 = W2.length - 1; e5 >= 0; --e5) {
         const t5 = W2[e5];
-        if (!l3[t5]) {
-          const r4 = W2[e5 + 1], n4 = l3[r4] ? l3[r4].index : o3.cssRules.length;
-          o3.insertRule("@media{}", n4), o3.insertRule(`--sxs{--sxs:${e5}}`, n4), l3[t5] = { group: o3.cssRules[n4 + 1], index: n4, cache: /* @__PURE__ */ new Set([e5]) };
+        if (!l4[t5]) {
+          const r4 = W2[e5 + 1], n5 = l4[r4] ? l4[r4].index : o3.cssRules.length;
+          o3.insertRule("@media{}", n5), o3.insertRule(`--sxs{--sxs:${e5}}`, n5), l4[t5] = { group: o3.cssRules[n5 + 1], index: n5, cache: /* @__PURE__ */ new Set([e5]) };
         }
-        v2(l3[t5]);
+        v2(l4[t5]);
       }
     };
-    return n3(), t4;
+    return n4(), t4;
   };
   var v2 = (e4) => {
     const t4 = e4.group;
@@ -58286,189 +58298,189 @@ ${generateSegmentFilename(i3)}`);
   var T = Symbol();
   var w2 = o();
   var M2 = (e4, t4) => w2(e4, () => (...r3) => {
-    let n3 = { type: null, composers: /* @__PURE__ */ new Set() };
+    let n4 = { type: null, composers: /* @__PURE__ */ new Set() };
     for (const t5 of r3)
       if (t5 != null)
         if (t5[l2]) {
-          n3.type == null && (n3.type = t5[l2].type);
+          n4.type == null && (n4.type = t5[l2].type);
           for (const e5 of t5[l2].composers)
-            n3.composers.add(e5);
+            n4.composers.add(e5);
         } else
-          t5.constructor !== Object || t5.$$typeof ? n3.type == null && (n3.type = t5) : n3.composers.add(C2(t5, e4));
-    return n3.type == null && (n3.type = "span"), n3.composers.size || n3.composers.add(["PJLV", {}, [], [], {}, []]), P2(e4, n3, t4);
+          t5.constructor !== Object || t5.$$typeof ? n4.type == null && (n4.type = t5) : n4.composers.add(C2(t5, e4));
+    return n4.type == null && (n4.type = "span"), n4.composers.size || n4.composers.add(["PJLV", {}, [], [], {}, []]), P2(e4, n4, t4);
   });
-  var C2 = ({ variants: e4, compoundVariants: t4, defaultVariants: r3, ...n3 }, i3) => {
-    const o3 = `${S2(i3.prefix)}c-${z2(n3)}`, l3 = [], s4 = [], d3 = /* @__PURE__ */ Object.create(null), g3 = [];
+  var C2 = ({ variants: e4, compoundVariants: t4, defaultVariants: r3, ...n4 }, i3) => {
+    const o3 = `${S2(i3.prefix)}c-${z2(n4)}`, l4 = [], s5 = [], d3 = /* @__PURE__ */ Object.create(null), g3 = [];
     for (const e5 in r3)
       d3[e5] = String(r3[e5]);
     if (typeof e4 == "object" && e4)
       for (const t5 in e4) {
-        p4 = d3, u3 = t5, c2.call(p4, u3) || (d3[t5] = "undefined");
+        p5 = d3, u4 = t5, c2.call(p5, u4) || (d3[t5] = "undefined");
         const r4 = e4[t5];
         for (const e5 in r4) {
-          const n4 = { [t5]: String(e5) };
+          const n5 = { [t5]: String(e5) };
           String(e5) === "undefined" && g3.push(t5);
-          const i4 = r4[e5], o4 = [n4, i4, !a(i4)];
-          l3.push(o4);
+          const i4 = r4[e5], o4 = [n5, i4, !a(i4)];
+          l4.push(o4);
         }
       }
-    var p4, u3;
+    var p5, u4;
     if (typeof t4 == "object" && t4)
       for (const e5 of t4) {
         let { css: t5, ...r4 } = e5;
         t5 = typeof t5 == "object" && t5 || {};
         for (const e6 in r4)
           r4[e6] = String(r4[e6]);
-        const n4 = [r4, t5, !a(t5)];
-        s4.push(n4);
+        const n5 = [r4, t5, !a(t5)];
+        s5.push(n5);
       }
-    return [o3, n3, l3, s4, d3, g3];
+    return [o3, n4, l4, s5, d3, g3];
   };
   var P2 = (e4, t4, r3) => {
-    const [n3, i3, o3, a3] = L2(t4.composers), c4 = typeof t4.type == "function" || t4.type.$$typeof ? ((e5) => {
+    const [n4, i3, o3, a3] = L2(t4.composers), c4 = typeof t4.type == "function" || t4.type.$$typeof ? ((e5) => {
       function t5() {
         for (let r4 = 0; r4 < t5[T].length; r4++) {
-          const [n4, i4] = t5[T][r4];
-          e5.rules[n4].apply(i4);
+          const [n5, i4] = t5[T][r4];
+          e5.rules[n5].apply(i4);
         }
         return t5[T] = [], null;
       }
       return t5[T] = [], t5.rules = {}, W2.forEach((e6) => t5.rules[e6] = { apply: (r4) => t5[T].push([e6, r4]) }), t5;
-    })(r3) : null, d3 = (c4 || r3).rules, g3 = `.${n3}${i3.length > 1 ? `:where(.${i3.slice(1).join(".")})` : ""}`, p4 = (l3) => {
-      l3 = typeof l3 == "object" && l3 || A2;
-      const { css: s4, ...p5 } = l3, u3 = {};
+    })(r3) : null, d3 = (c4 || r3).rules, g3 = `.${n4}${i3.length > 1 ? `:where(.${i3.slice(1).join(".")})` : ""}`, p5 = (l4) => {
+      l4 = typeof l4 == "object" && l4 || A2;
+      const { css: s5, ...p6 } = l4, u4 = {};
       for (const e5 in o3)
-        if (delete p5[e5], e5 in l3) {
-          let t5 = l3[e5];
-          typeof t5 == "object" && t5 ? u3[e5] = { "@initial": o3[e5], ...t5 } : (t5 = String(t5), u3[e5] = t5 !== "undefined" || a3.has(e5) ? t5 : o3[e5]);
+        if (delete p6[e5], e5 in l4) {
+          let t5 = l4[e5];
+          typeof t5 == "object" && t5 ? u4[e5] = { "@initial": o3[e5], ...t5 } : (t5 = String(t5), u4[e5] = t5 !== "undefined" || a3.has(e5) ? t5 : o3[e5]);
         } else
-          u3[e5] = o3[e5];
+          u4[e5] = o3[e5];
       const h3 = /* @__PURE__ */ new Set([...i3]);
-      for (const [n4, i4, o4, l4] of t4.composers) {
-        r3.rules.styled.cache.has(n4) || (r3.rules.styled.cache.add(n4), $2(i4, [`.${n4}`], [], e4, (e5) => {
+      for (const [n5, i4, o4, l5] of t4.composers) {
+        r3.rules.styled.cache.has(n5) || (r3.rules.styled.cache.add(n5), $2(i4, [`.${n5}`], [], e4, (e5) => {
           d3.styled.apply(e5);
         }));
-        const t5 = O2(o4, u3, e4.media), s5 = O2(l4, u3, e4.media, true);
+        const t5 = O2(o4, u4, e4.media), s6 = O2(l5, u4, e4.media, true);
         for (const i5 of t5)
           if (i5 !== void 0)
-            for (const [t6, o5, l5] of i5) {
-              const i6 = `${n4}-${z2(o5)}-${t6}`;
+            for (const [t6, o5, l6] of i5) {
+              const i6 = `${n5}-${z2(o5)}-${t6}`;
               h3.add(i6);
-              const s6 = (l5 ? r3.rules.resonevar : r3.rules.onevar).cache, a4 = l5 ? d3.resonevar : d3.onevar;
-              s6.has(i6) || (s6.add(i6), $2(o5, [`.${i6}`], [], e4, (e5) => {
+              const s7 = (l6 ? r3.rules.resonevar : r3.rules.onevar).cache, a4 = l6 ? d3.resonevar : d3.onevar;
+              s7.has(i6) || (s7.add(i6), $2(o5, [`.${i6}`], [], e4, (e5) => {
                 a4.apply(e5);
               }));
             }
-        for (const t6 of s5)
+        for (const t6 of s6)
           if (t6 !== void 0)
             for (const [i5, o5] of t6) {
-              const t7 = `${n4}-${z2(o5)}-${i5}`;
+              const t7 = `${n5}-${z2(o5)}-${i5}`;
               h3.add(t7), r3.rules.allvar.cache.has(t7) || (r3.rules.allvar.cache.add(t7), $2(o5, [`.${t7}`], [], e4, (e5) => {
                 d3.allvar.apply(e5);
               }));
             }
       }
-      if (typeof s4 == "object" && s4) {
-        const t5 = `${n3}-i${z2(s4)}-css`;
-        h3.add(t5), r3.rules.inline.cache.has(t5) || (r3.rules.inline.cache.add(t5), $2(s4, [`.${t5}`], [], e4, (e5) => {
+      if (typeof s5 == "object" && s5) {
+        const t5 = `${n4}-i${z2(s5)}-css`;
+        h3.add(t5), r3.rules.inline.cache.has(t5) || (r3.rules.inline.cache.add(t5), $2(s5, [`.${t5}`], [], e4, (e5) => {
           d3.inline.apply(e5);
         }));
       }
-      for (const e5 of String(l3.className || "").trim().split(/\s+/))
+      for (const e5 of String(l4.className || "").trim().split(/\s+/))
         e5 && h3.add(e5);
-      const f3 = p5.className = [...h3].join(" ");
-      return { type: t4.type, className: f3, selector: g3, props: p5, toString: () => f3, deferredInjector: c4 };
+      const f3 = p6.className = [...h3].join(" ");
+      return { type: t4.type, className: f3, selector: g3, props: p6, toString: () => f3, deferredInjector: c4 };
     };
-    return s2(p4, { className: n3, selector: g3, [l2]: t4, toString: () => (r3.rules.styled.cache.has(n3) || p4(), n3) });
+    return s2(p5, { className: n4, selector: g3, [l2]: t4, toString: () => (r3.rules.styled.cache.has(n4) || p5(), n4) });
   };
   var L2 = (e4) => {
     let t4 = "";
-    const r3 = [], n3 = {}, i3 = [];
-    for (const [o3, , , , l3, s4] of e4) {
-      t4 === "" && (t4 = o3), r3.push(o3), i3.push(...s4);
-      for (const e5 in l3) {
-        const t5 = l3[e5];
-        (n3[e5] === void 0 || t5 !== "undefined" || s4.includes(t5)) && (n3[e5] = t5);
+    const r3 = [], n4 = {}, i3 = [];
+    for (const [o3, , , , l4, s5] of e4) {
+      t4 === "" && (t4 = o3), r3.push(o3), i3.push(...s5);
+      for (const e5 in l4) {
+        const t5 = l4[e5];
+        (n4[e5] === void 0 || t5 !== "undefined" || s5.includes(t5)) && (n4[e5] = t5);
       }
     }
-    return [t4, r3, n3, new Set(i3)];
+    return [t4, r3, n4, new Set(i3)];
   };
-  var O2 = (e4, t4, r3, n3) => {
+  var O2 = (e4, t4, r3, n4) => {
     const i3 = [];
     e:
-      for (let [o3, l3, s4] of e4) {
-        if (s4)
+      for (let [o3, l4, s5] of e4) {
+        if (s5)
           continue;
         let e5, a3 = 0, c4 = false;
         for (e5 in o3) {
-          const n4 = o3[e5];
+          const n5 = o3[e5];
           let i4 = t4[e5];
-          if (i4 !== n4) {
+          if (i4 !== n5) {
             if (typeof i4 != "object" || !i4)
               continue e;
             {
               let e6, t5, o4 = 0;
-              for (const l4 in i4) {
-                if (n4 === String(i4[l4])) {
-                  if (l4 !== "@initial") {
-                    const e7 = l4.slice(1);
-                    (t5 = t5 || []).push(e7 in r3 ? r3[e7] : l4.replace(/^@media ?/, "")), c4 = true;
+              for (const l5 in i4) {
+                if (n5 === String(i4[l5])) {
+                  if (l5 !== "@initial") {
+                    const e7 = l5.slice(1);
+                    (t5 = t5 || []).push(e7 in r3 ? r3[e7] : l5.replace(/^@media ?/, "")), c4 = true;
                   }
                   a3 += o4, e6 = true;
                 }
                 ++o4;
               }
-              if (t5 && t5.length && (l3 = { ["@media " + t5.join(", ")]: l3 }), !e6)
+              if (t5 && t5.length && (l4 = { ["@media " + t5.join(", ")]: l4 }), !e6)
                 continue e;
             }
           }
         }
-        (i3[a3] = i3[a3] || []).push([n3 ? "cv" : `${e5}-${o3[e5]}`, l3, c4]);
+        (i3[a3] = i3[a3] || []).push([n4 ? "cv" : `${e5}-${o3[e5]}`, l4, c4]);
       }
     return i3;
   };
   var A2 = {};
   var N2 = o();
   var D = (e4, t4) => N2(e4, () => (...r3) => {
-    const n3 = () => {
-      for (let n4 of r3) {
-        n4 = typeof n4 == "object" && n4 || {};
-        let r4 = z2(n4);
+    const n4 = () => {
+      for (let n5 of r3) {
+        n5 = typeof n5 == "object" && n5 || {};
+        let r4 = z2(n5);
         if (!t4.rules.global.cache.has(r4)) {
-          if (t4.rules.global.cache.add(r4), "@import" in n4) {
+          if (t4.rules.global.cache.add(r4), "@import" in n5) {
             let e5 = [].indexOf.call(t4.sheet.cssRules, t4.rules.themed.group) - 1;
-            for (let r5 of [].concat(n4["@import"]))
+            for (let r5 of [].concat(n5["@import"]))
               r5 = r5.includes('"') || r5.includes("'") ? r5 : `"${r5}"`, t4.sheet.insertRule(`@import ${r5};`, e5++);
-            delete n4["@import"];
+            delete n5["@import"];
           }
-          $2(n4, [], [], e4, (e5) => {
+          $2(n5, [], [], e4, (e5) => {
             t4.rules.global.apply(e5);
           });
         }
       }
       return "";
     };
-    return s2(n3, { toString: n3 });
+    return s2(n4, { toString: n4 });
   });
   var H2 = o();
   var V2 = (e4, t4) => H2(e4, () => (r3) => {
-    const n3 = `${S2(e4.prefix)}k-${z2(r3)}`, i3 = () => {
-      if (!t4.rules.global.cache.has(n3)) {
-        t4.rules.global.cache.add(n3);
+    const n4 = `${S2(e4.prefix)}k-${z2(r3)}`, i3 = () => {
+      if (!t4.rules.global.cache.has(n4)) {
+        t4.rules.global.cache.add(n4);
         const i4 = [];
         $2(r3, [], [], e4, (e5) => i4.push(e5));
-        const o3 = `@keyframes ${n3}{${i4.join("")}}`;
+        const o3 = `@keyframes ${n4}{${i4.join("")}}`;
         t4.rules.global.apply(o3);
       }
-      return n3;
+      return n4;
     };
     return s2(i3, { get name() {
       return i3();
     }, toString: i3 });
   });
   var G2 = class {
-    constructor(e4, t4, r3, n3) {
-      this.token = e4 == null ? "" : String(e4), this.value = t4 == null ? "" : String(t4), this.scale = r3 == null ? "" : String(r3), this.prefix = n3 == null ? "" : String(n3);
+    constructor(e4, t4, r3, n4) {
+      this.token = e4 == null ? "" : String(e4), this.value = t4 == null ? "" : String(t4), this.scale = r3 == null ? "" : String(r3), this.prefix = n4 == null ? "" : String(n4);
     }
     get computedValue() {
       return "var(" + this.variable + ")";
@@ -58481,27 +58493,27 @@ ${generateSegmentFilename(i3)}`);
     }
   };
   var F2 = o();
-  var J2 = (e4, t4) => F2(e4, () => (r3, n3) => {
-    n3 = typeof r3 == "object" && r3 || Object(n3);
-    const i3 = `.${r3 = (r3 = typeof r3 == "string" ? r3 : "") || `${S2(e4.prefix)}t-${z2(n3)}`}`, o3 = {}, l3 = [];
-    for (const t5 in n3) {
+  var J2 = (e4, t4) => F2(e4, () => (r3, n4) => {
+    n4 = typeof r3 == "object" && r3 || Object(n4);
+    const i3 = `.${r3 = (r3 = typeof r3 == "string" ? r3 : "") || `${S2(e4.prefix)}t-${z2(n4)}`}`, o3 = {}, l4 = [];
+    for (const t5 in n4) {
       o3[t5] = {};
-      for (const r4 in n3[t5]) {
-        const i4 = `--${S2(e4.prefix)}${t5}-${r4}`, s5 = k2(String(n3[t5][r4]), e4.prefix, t5);
-        o3[t5][r4] = new G2(r4, s5, t5, e4.prefix), l3.push(`${i4}:${s5}`);
+      for (const r4 in n4[t5]) {
+        const i4 = `--${S2(e4.prefix)}${t5}-${r4}`, s6 = k2(String(n4[t5][r4]), e4.prefix, t5);
+        o3[t5][r4] = new G2(r4, s6, t5, e4.prefix), l4.push(`${i4}:${s6}`);
       }
     }
-    const s4 = () => {
-      if (l3.length && !t4.rules.themed.cache.has(r3)) {
+    const s5 = () => {
+      if (l4.length && !t4.rules.themed.cache.has(r3)) {
         t4.rules.themed.cache.add(r3);
-        const i4 = `${n3 === e4.theme ? ":root," : ""}.${r3}{${l3.join(";")}}`;
+        const i4 = `${n4 === e4.theme ? ":root," : ""}.${r3}{${l4.join(";")}}`;
         t4.rules.themed.apply(i4);
       }
       return r3;
     };
     return { ...o3, get className() {
-      return s4();
-    }, selector: i3, toString: s4 };
+      return s5();
+    }, selector: i3, toString: s5 };
   });
   var U2 = o();
   var X2;
@@ -58511,21 +58523,21 @@ ${generateSegmentFilename(i3)}`);
       let t5 = false;
       const r3 = U2(e5, (e6) => {
         t5 = true;
-        const r4 = "prefix" in (e6 = typeof e6 == "object" && e6 || {}) ? String(e6.prefix) : "", i3 = typeof e6.media == "object" && e6.media || {}, o3 = typeof e6.root == "object" ? e6.root || null : globalThis.document || null, l3 = typeof e6.theme == "object" && e6.theme || {}, s4 = { prefix: r4, media: i3, theme: l3, themeMap: typeof e6.themeMap == "object" && e6.themeMap || { ...n }, utils: typeof e6.utils == "object" && e6.utils || {} }, a3 = E(o3), c4 = { css: M2(s4, a3), globalCss: D(s4, a3), keyframes: V2(s4, a3), createTheme: J2(s4, a3), reset() {
+        const r4 = "prefix" in (e6 = typeof e6 == "object" && e6 || {}) ? String(e6.prefix) : "", i3 = typeof e6.media == "object" && e6.media || {}, o3 = typeof e6.root == "object" ? e6.root || null : globalThis.document || null, l4 = typeof e6.theme == "object" && e6.theme || {}, s5 = { prefix: r4, media: i3, theme: l4, themeMap: typeof e6.themeMap == "object" && e6.themeMap || { ...n }, utils: typeof e6.utils == "object" && e6.utils || {} }, a3 = E(o3), c4 = { css: M2(s5, a3), globalCss: D(s5, a3), keyframes: V2(s5, a3), createTheme: J2(s5, a3), reset() {
           a3.reset(), c4.theme.toString();
-        }, theme: {}, sheet: a3, config: s4, prefix: r4, getCssText: a3.toString, toString: a3.toString };
-        return String(c4.theme = c4.createTheme(l3)), c4;
+        }, theme: {}, sheet: a3, config: s5, prefix: r4, getCssText: a3.toString, toString: a3.toString };
+        return String(c4.theme = c4.createTheme(l4)), c4;
       });
       return t5 || r3.reset(), r3;
     })(e4);
     return t4.styled = (({ config: e5, sheet: t5 }) => Y2(e5, () => {
       const r3 = M2(e5, t5);
       return (...e6) => {
-        const t6 = r3(...e6), n3 = t6[l2].type, i3 = import_react2.default.forwardRef((e7, r4) => {
-          const i4 = e7 && e7.as || n3, { props: o3, deferredInjector: l3 } = t6(e7);
-          return delete o3.as, o3.ref = r4, l3 ? import_react2.default.createElement(import_react2.default.Fragment, null, import_react2.default.createElement(i4, o3), import_react2.default.createElement(l3, null)) : import_react2.default.createElement(i4, o3);
+        const t6 = r3(...e6), n4 = t6[l2].type, i3 = import_react2.default.forwardRef((e7, r4) => {
+          const i4 = e7 && e7.as || n4, { props: o3, deferredInjector: l4 } = t6(e7);
+          return delete o3.as, o3.ref = r4, l4 ? import_react2.default.createElement(import_react2.default.Fragment, null, import_react2.default.createElement(i4, o3), import_react2.default.createElement(l4, null)) : import_react2.default.createElement(i4, o3);
         });
-        return i3.className = t6.className, i3.displayName = `Styled.${n3.displayName || n3.name || n3}`, i3.selector = t6.selector, i3.toString = () => t6.selector, i3[l2] = t6[l2], i3;
+        return i3.className = t6.className, i3.displayName = `Styled.${n4.displayName || n4.name || n4}`, i3.selector = t6.selector, i3.toString = () => t6.selector, i3[l2] = t6[l2], i3;
       };
     }))(t4), t4;
   };
@@ -58587,17 +58599,17 @@ ${generateSegmentFilename(i3)}`);
   var import_react12 = __toESM(require_react());
 
   // node_modules/@radix-ui/primitive/dist/index.module.js
-  function composeEventHandlers(e4, n3, { checkForDefaultPrevented: t4 = true } = {}) {
+  function composeEventHandlers(e4, n4, { checkForDefaultPrevented: t4 = true } = {}) {
     return function(r3) {
       if (e4 == null || e4(r3), t4 === false || !r3.defaultPrevented)
-        return n3 == null ? void 0 : n3(r3);
+        return n4 == null ? void 0 : n4(r3);
     };
   }
 
   // node_modules/@radix-ui/react-context/dist/index.module.js
   var import_react4 = __toESM(require_react());
-  function $parcel$export(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $c512c27ab02ef895$exports = {};
   $parcel$export($c512c27ab02ef895$exports, "createContext", () => $c512c27ab02ef895$export$fd42f52fd3ae1109);
@@ -58627,7 +58639,7 @@ ${generateSegmentFilename(i3)}`);
   }
   function $c512c27ab02ef895$export$50c7b4e9d9f19c1(scopeName, createContextScopeDeps = []) {
     let defaultContexts = [];
-    function $c512c27ab02ef895$export$fd42f52fd3ae11092(rootComponentName, defaultContext) {
+    function $c512c27ab02ef895$export$fd42f52fd3ae11093(rootComponentName, defaultContext) {
       const BaseContext = /* @__PURE__ */ (0, import_react4.createContext)(defaultContext);
       const index = defaultContexts.length;
       defaultContexts = [
@@ -58676,7 +58688,7 @@ ${generateSegmentFilename(i3)}`);
     };
     createScope.scopeName = scopeName;
     return [
-      $c512c27ab02ef895$export$fd42f52fd3ae11092,
+      $c512c27ab02ef895$export$fd42f52fd3ae11093,
       $c512c27ab02ef895$var$composeContextScopes(createScope, ...createContextScopeDeps)
     ];
   }
@@ -58714,8 +58726,8 @@ ${generateSegmentFilename(i3)}`);
 
   // node_modules/@radix-ui/react-use-callback-ref/dist/index.module.js
   var import_react5 = __toESM(require_react());
-  function $parcel$export2(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export2(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $b1b2314f5f9a1d84$exports = {};
   $parcel$export2($b1b2314f5f9a1d84$exports, "useCallbackRef", () => $b1b2314f5f9a1d84$export$25bec8c6f54ee79a);
@@ -58731,8 +58743,8 @@ ${generateSegmentFilename(i3)}`);
   }
 
   // node_modules/@radix-ui/react-use-controllable-state/dist/index.module.js
-  function $parcel$export3(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export3(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $71cd76cc60e0454e$exports = {};
   $parcel$export3($71cd76cc60e0454e$exports, "useControllableState", () => $71cd76cc60e0454e$export$6f32135080cb4c3);
@@ -58784,8 +58796,8 @@ ${generateSegmentFilename(i3)}`);
 
   // node_modules/@radix-ui/react-use-layout-effect/dist/index.module.js
   var import_react7 = __toESM(require_react());
-  function $parcel$export4(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export4(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $9f79659886946c16$exports = {};
   $parcel$export4($9f79659886946c16$exports, "useLayoutEffect", () => $9f79659886946c16$export$e5c5a5f917a5871c);
@@ -58794,8 +58806,8 @@ ${generateSegmentFilename(i3)}`);
 
   // node_modules/@radix-ui/react-compose-refs/dist/index.module.js
   var import_react8 = __toESM(require_react());
-  function $parcel$export5(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export5(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $6ed0406888f73fc4$exports = {};
   $parcel$export5($6ed0406888f73fc4$exports, "composeRefs", () => $6ed0406888f73fc4$export$43e446d32b3d21af);
@@ -58818,8 +58830,8 @@ ${generateSegmentFilename(i3)}`);
 
   // node_modules/@radix-ui/react-slot/dist/index.module.js
   var import_react9 = __toESM(require_react());
-  function $parcel$export6(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export6(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $5e63c961fc1ce211$exports = {};
   $parcel$export6($5e63c961fc1ce211$exports, "Slot", () => $5e63c961fc1ce211$export$8c6ed5c666ac1360);
@@ -58886,8 +58898,8 @@ ${generateSegmentFilename(i3)}`);
   var $5e63c961fc1ce211$export$be92b6f5f03c0fe9 = $5e63c961fc1ce211$export$8c6ed5c666ac1360;
 
   // node_modules/@radix-ui/react-primitive/dist/index.module.js
-  function $parcel$export7(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export7(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $8927f6f2acc4f386$exports = {};
   $parcel$export7($8927f6f2acc4f386$exports, "Primitive", () => $8927f6f2acc4f386$export$250ffa63cdc0d034);
@@ -58924,8 +58936,8 @@ ${generateSegmentFilename(i3)}`);
 
   // node_modules/@radix-ui/react-presence/dist/index.module.js
   var import_react11 = __toESM(require_react());
-  function $parcel$export8(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export8(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $921a889cee6df7e8$exports = {};
   $parcel$export8($921a889cee6df7e8$exports, "Presence", () => $921a889cee6df7e8$export$99c2b779aa4e8b8b);
@@ -59041,8 +59053,8 @@ ${generateSegmentFilename(i3)}`);
 
   // node_modules/@radix-ui/react-id/dist/index.module.js
   var $2AODx$react = __toESM(require_react());
-  function $parcel$export9(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export9(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $1746a345f3d73bb7$exports = {};
   $parcel$export9($1746a345f3d73bb7$exports, "useId", () => $1746a345f3d73bb7$export$f680877a34711e37);
@@ -59066,8 +59078,8 @@ ${generateSegmentFilename(i3)}`);
   }
 
   // node_modules/@radix-ui/react-collapsible/dist/index.module.js
-  function $parcel$export10(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export10(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $409067139f391064$exports = {};
   $parcel$export10($409067139f391064$exports, "createCollapsibleScope", () => $409067139f391064$export$952b32dcbe73087a);
@@ -59333,7 +59345,7 @@ ${generateSegmentFilename(i3)}`);
   };
 
   // src/components/Viewer/Header.tsx
-  var import_react32 = __toESM(require_react());
+  var import_react66 = __toESM(require_react());
 
   // node_modules/@nulib/design-system/dist/index.es.js
   var import_react28 = __toESM(require_react());
@@ -59345,53 +59357,53 @@ ${generateSegmentFilename(i3)}`);
   var import_react18 = __toESM(require_react());
 
   // node_modules/@radix-ui/popper/dist/index.module.js
-  function getPlacementData({ anchorRect: p4, popperSize: c4, arrowSize: f3, arrowOffset: l3 = 0, side: d3, sideOffset: h3 = 0, align: x3, alignOffset: g3 = 0, shouldAvoidCollisions: u3 = true, collisionBoundariesRect: w3, collisionTolerance: m3 = 0 }) {
-    if (!p4 || !c4 || !w3)
+  function getPlacementData({ anchorRect: p5, popperSize: c4, arrowSize: f3, arrowOffset: l4 = 0, side: d3, sideOffset: h3 = 0, align: x4, alignOffset: g3 = 0, shouldAvoidCollisions: u4 = true, collisionBoundariesRect: w4, collisionTolerance: m3 = 0 }) {
+    if (!p5 || !c4 || !w4)
       return { popperStyles: o2, arrowStyles: n2 };
-    const y3 = function(e4, r3, o3 = 0, n3 = 0, i3) {
-      const p5 = i3 ? i3.height : 0, a3 = t2(r3, e4, "x"), s4 = t2(r3, e4, "y"), c5 = s4.before - o3 - p5, f4 = s4.after + o3 + p5, l4 = a3.before - o3 - p5, d4 = a3.after + o3 + p5;
-      return { top: { start: { x: a3.start + n3, y: c5 }, center: { x: a3.center, y: c5 }, end: { x: a3.end - n3, y: c5 } }, right: { start: { x: d4, y: s4.start + n3 }, center: { x: d4, y: s4.center }, end: { x: d4, y: s4.end - n3 } }, bottom: { start: { x: a3.start + n3, y: f4 }, center: { x: a3.center, y: f4 }, end: { x: a3.end - n3, y: f4 } }, left: { start: { x: l4, y: s4.start + n3 }, center: { x: l4, y: s4.center }, end: { x: l4, y: s4.end - n3 } } };
-    }(c4, p4, h3, g3, f3), b3 = y3[d3][x3];
-    if (u3 === false) {
+    const y4 = function(e4, r3, o3 = 0, n4 = 0, i3) {
+      const p6 = i3 ? i3.height : 0, a3 = t2(r3, e4, "x"), s5 = t2(r3, e4, "y"), c5 = s5.before - o3 - p6, f4 = s5.after + o3 + p6, l5 = a3.before - o3 - p6, d4 = a3.after + o3 + p6;
+      return { top: { start: { x: a3.start + n4, y: c5 }, center: { x: a3.center, y: c5 }, end: { x: a3.end - n4, y: c5 } }, right: { start: { x: d4, y: s5.start + n4 }, center: { x: d4, y: s5.center }, end: { x: d4, y: s5.end - n4 } }, bottom: { start: { x: a3.start + n4, y: f4 }, center: { x: a3.center, y: f4 }, end: { x: a3.end - n4, y: f4 } }, left: { start: { x: l5, y: s5.start + n4 }, center: { x: l5, y: s5.center }, end: { x: l5, y: s5.end - n4 } } };
+    }(c4, p5, h3, g3, f3), b3 = y4[d3][x4];
+    if (u4 === false) {
       const t4 = e2(b3);
       let o3 = n2;
-      f3 && (o3 = i2({ popperSize: c4, arrowSize: f3, arrowOffset: l3, side: d3, align: x3 }));
-      return { popperStyles: { ...t4, "--radix-popper-transform-origin": r2(c4, d3, x3, l3, f3) }, arrowStyles: o3, placedSide: d3, placedAlign: x3 };
+      f3 && (o3 = i2({ popperSize: c4, arrowSize: f3, arrowOffset: l4, side: d3, align: x4 }));
+      return { popperStyles: { ...t4, "--radix-popper-transform-origin": r2(c4, d3, x4, l4, f3) }, arrowStyles: o3, placedSide: d3, placedAlign: x4 };
     }
-    const S3 = DOMRect.fromRect({ ...c4, ...b3 }), $3 = (O3 = w3, z3 = m3, DOMRect.fromRect({ width: O3.width - 2 * z3, height: O3.height - 2 * z3, x: O3.left + z3, y: O3.top + z3 }));
-    var O3, z3;
-    const R2 = s3(S3, $3), M3 = y3[a2(d3)][x3], D2 = function(t4, e4, r3) {
+    const S3 = DOMRect.fromRect({ ...c4, ...b3 }), $3 = (O4 = w4, z4 = m3, DOMRect.fromRect({ width: O4.width - 2 * z4, height: O4.height - 2 * z4, x: O4.left + z4, y: O4.top + z4 }));
+    var O4, z4;
+    const R2 = s3(S3, $3), M3 = y4[a2(d3)][x4], D2 = function(t4, e4, r3) {
       const o3 = a2(t4);
       return e4[t4] && !r3[o3] ? o3 : t4;
-    }(d3, R2, s3(DOMRect.fromRect({ ...c4, ...M3 }), $3)), A3 = function(t4, e4, r3, o3, n3) {
-      const i3 = r3 === "top" || r3 === "bottom", p5 = i3 ? "left" : "top", a3 = i3 ? "right" : "bottom", s4 = i3 ? "width" : "height", c5 = e4[s4] > t4[s4];
-      if ((o3 === "start" || o3 === "center") && (n3[p5] && c5 || n3[a3] && !c5))
+    }(d3, R2, s3(DOMRect.fromRect({ ...c4, ...M3 }), $3)), A4 = function(t4, e4, r3, o3, n4) {
+      const i3 = r3 === "top" || r3 === "bottom", p6 = i3 ? "left" : "top", a3 = i3 ? "right" : "bottom", s5 = i3 ? "width" : "height", c5 = e4[s5] > t4[s5];
+      if ((o3 === "start" || o3 === "center") && (n4[p6] && c5 || n4[a3] && !c5))
         return "end";
-      if ((o3 === "end" || o3 === "center") && (n3[a3] && c5 || n3[p5] && !c5))
+      if ((o3 === "end" || o3 === "center") && (n4[a3] && c5 || n4[p6] && !c5))
         return "start";
       return o3;
-    }(c4, p4, d3, x3, R2), I2 = e2(y3[D2][A3]);
-    let C3 = n2;
-    f3 && (C3 = i2({ popperSize: c4, arrowSize: f3, arrowOffset: l3, side: D2, align: A3 }));
-    return { popperStyles: { ...I2, "--radix-popper-transform-origin": r2(c4, D2, A3, l3, f3) }, arrowStyles: C3, placedSide: D2, placedAlign: A3 };
+    }(c4, p5, d3, x4, R2), I2 = e2(y4[D2][A4]);
+    let C4 = n2;
+    f3 && (C4 = i2({ popperSize: c4, arrowSize: f3, arrowOffset: l4, side: D2, align: A4 }));
+    return { popperStyles: { ...I2, "--radix-popper-transform-origin": r2(c4, D2, A4, l4, f3) }, arrowStyles: C4, placedSide: D2, placedAlign: A4 };
   }
   function t2(t4, e4, r3) {
-    const o3 = t4[r3 === "x" ? "left" : "top"], n3 = r3 === "x" ? "width" : "height", i3 = t4[n3], p4 = e4[n3];
-    return { before: o3 - p4, start: o3, center: o3 + (i3 - p4) / 2, end: o3 + i3 - p4, after: o3 + i3 };
+    const o3 = t4[r3 === "x" ? "left" : "top"], n4 = r3 === "x" ? "width" : "height", i3 = t4[n4], p5 = e4[n4];
+    return { before: o3 - p5, start: o3, center: o3 + (i3 - p5) / 2, end: o3 + i3 - p5, after: o3 + i3 };
   }
   function e2(t4) {
     return { position: "absolute", top: 0, left: 0, minWidth: "max-content", willChange: "transform", transform: `translate3d(${Math.round(t4.x + window.scrollX)}px, ${Math.round(t4.y + window.scrollY)}px, 0)` };
   }
-  function r2(t4, e4, r3, o3, n3) {
-    const i3 = e4 === "top" || e4 === "bottom", p4 = n3 ? n3.width : 0, a3 = n3 ? n3.height : 0, s4 = p4 / 2 + o3;
+  function r2(t4, e4, r3, o3, n4) {
+    const i3 = e4 === "top" || e4 === "bottom", p5 = n4 ? n4.width : 0, a3 = n4 ? n4.height : 0, s5 = p5 / 2 + o3;
     let c4 = "", f3 = "";
-    return i3 ? (c4 = { start: `${s4}px`, center: "center", end: t4.width - s4 + "px" }[r3], f3 = e4 === "top" ? `${t4.height + a3}px` : -a3 + "px") : (c4 = e4 === "left" ? `${t4.width + a3}px` : -a3 + "px", f3 = { start: `${s4}px`, center: "center", end: t4.height - s4 + "px" }[r3]), `${c4} ${f3}`;
+    return i3 ? (c4 = { start: `${s5}px`, center: "center", end: t4.width - s5 + "px" }[r3], f3 = e4 === "top" ? `${t4.height + a3}px` : -a3 + "px") : (c4 = e4 === "left" ? `${t4.width + a3}px` : -a3 + "px", f3 = { start: `${s5}px`, center: "center", end: t4.height - s5 + "px" }[r3]), `${c4} ${f3}`;
   }
   var o2 = { position: "fixed", top: 0, left: 0, opacity: 0, transform: "translate3d(0, -200%, 0)" };
   var n2 = { position: "absolute", opacity: 0 };
-  function i2({ popperSize: t4, arrowSize: e4, arrowOffset: r3, side: o3, align: n3 }) {
-    const i3 = (t4.width - e4.width) / 2, a3 = (t4.height - e4.width) / 2, s4 = { top: 0, right: 90, bottom: 180, left: -90 }[o3], c4 = Math.max(e4.width, e4.height), f3 = { width: `${c4}px`, height: `${c4}px`, transform: `rotate(${s4}deg)`, willChange: "transform", position: "absolute", [o3]: "100%", direction: p3(o3, n3) };
-    return o3 !== "top" && o3 !== "bottom" || (n3 === "start" && (f3.left = `${r3}px`), n3 === "center" && (f3.left = `${i3}px`), n3 === "end" && (f3.right = `${r3}px`)), o3 !== "left" && o3 !== "right" || (n3 === "start" && (f3.top = `${r3}px`), n3 === "center" && (f3.top = `${a3}px`), n3 === "end" && (f3.bottom = `${r3}px`)), f3;
+  function i2({ popperSize: t4, arrowSize: e4, arrowOffset: r3, side: o3, align: n4 }) {
+    const i3 = (t4.width - e4.width) / 2, a3 = (t4.height - e4.width) / 2, s5 = { top: 0, right: 90, bottom: 180, left: -90 }[o3], c4 = Math.max(e4.width, e4.height), f3 = { width: `${c4}px`, height: `${c4}px`, transform: `rotate(${s5}deg)`, willChange: "transform", position: "absolute", [o3]: "100%", direction: p3(o3, n4) };
+    return o3 !== "top" && o3 !== "bottom" || (n4 === "start" && (f3.left = `${r3}px`), n4 === "center" && (f3.left = `${i3}px`), n4 === "end" && (f3.right = `${r3}px`)), o3 !== "left" && o3 !== "right" || (n4 === "start" && (f3.top = `${r3}px`), n4 === "center" && (f3.top = `${a3}px`), n4 === "end" && (f3.bottom = `${r3}px`)), f3;
   }
   function p3(t4, e4) {
     return (t4 !== "top" && t4 !== "right" || e4 !== "end") && (t4 !== "bottom" && t4 !== "left" || e4 === "end") ? "ltr" : "rtl";
@@ -59407,32 +59419,32 @@ ${generateSegmentFilename(i3)}`);
   var import_react15 = __toESM(require_react());
 
   // node_modules/@radix-ui/rect/dist/index.module.js
-  function observeElementRect(n3, o3) {
-    const i3 = e3.get(n3);
-    return i3 === void 0 ? (e3.set(n3, { rect: {}, callbacks: [o3] }), e3.size === 1 && (t3 = requestAnimationFrame(c3))) : (i3.callbacks.push(o3), o3(n3.getBoundingClientRect())), () => {
-      const c4 = e3.get(n3);
+  function observeElementRect(n4, o3) {
+    const i3 = e3.get(n4);
+    return i3 === void 0 ? (e3.set(n4, { rect: {}, callbacks: [o3] }), e3.size === 1 && (t3 = requestAnimationFrame(c3))) : (i3.callbacks.push(o3), o3(n4.getBoundingClientRect())), () => {
+      const c4 = e3.get(n4);
       if (c4 === void 0)
         return;
       const i4 = c4.callbacks.indexOf(o3);
-      i4 > -1 && c4.callbacks.splice(i4, 1), c4.callbacks.length === 0 && (e3.delete(n3), e3.size === 0 && cancelAnimationFrame(t3));
+      i4 > -1 && c4.callbacks.splice(i4, 1), c4.callbacks.length === 0 && (e3.delete(n4), e3.size === 0 && cancelAnimationFrame(t3));
     };
   }
   var t3;
   var e3 = /* @__PURE__ */ new Map();
   function c3() {
-    const n3 = [];
+    const n4 = [];
     e3.forEach((t4, e4) => {
       const c4 = e4.getBoundingClientRect();
       var o3, i3;
-      o3 = t4.rect, i3 = c4, (o3.width !== i3.width || o3.height !== i3.height || o3.top !== i3.top || o3.right !== i3.right || o3.bottom !== i3.bottom || o3.left !== i3.left) && (t4.rect = c4, n3.push(t4));
-    }), n3.forEach((t4) => {
+      o3 = t4.rect, i3 = c4, (o3.width !== i3.width || o3.height !== i3.height || o3.top !== i3.top || o3.right !== i3.right || o3.bottom !== i3.bottom || o3.left !== i3.left) && (t4.rect = c4, n4.push(t4));
+    }), n4.forEach((t4) => {
       t4.callbacks.forEach((e4) => e4(t4.rect));
     }), t3 = requestAnimationFrame(c3);
   }
 
   // node_modules/@radix-ui/react-use-rect/dist/index.module.js
-  function $parcel$export11(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export11(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $ccac1052a272b78b$exports = {};
   $parcel$export11($ccac1052a272b78b$exports, "useRect", () => $ccac1052a272b78b$export$9823a655542017cd);
@@ -59455,8 +59467,8 @@ ${generateSegmentFilename(i3)}`);
 
   // node_modules/@radix-ui/react-use-size/dist/index.module.js
   var import_react16 = __toESM(require_react());
-  function $parcel$export12(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export12(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $db6c3485150b8e66$exports = {};
   $parcel$export12($db6c3485150b8e66$exports, "useSize", () => $db6c3485150b8e66$export$1ab7ae714698c4b8);
@@ -59501,8 +59513,8 @@ ${generateSegmentFilename(i3)}`);
 
   // node_modules/@radix-ui/react-arrow/dist/index.module.js
   var import_react17 = __toESM(require_react());
-  function $parcel$export13(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export13(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $7e8f5cd07187803e$exports = {};
   $parcel$export13($7e8f5cd07187803e$exports, "Arrow", () => $7e8f5cd07187803e$export$21b07c8f274aebd5);
@@ -59522,8 +59534,8 @@ ${generateSegmentFilename(i3)}`);
   var $7e8f5cd07187803e$export$be92b6f5f03c0fe9 = $7e8f5cd07187803e$export$21b07c8f274aebd5;
 
   // node_modules/@radix-ui/react-popper/dist/index.module.js
-  function $parcel$export14(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export14(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $cf1ac5d9fe0e8206$exports = {};
   $parcel$export14($cf1ac5d9fe0e8206$exports, "createPopperScope", () => $cf1ac5d9fe0e8206$export$722aac194ae923);
@@ -59671,8 +59683,8 @@ ${generateSegmentFilename(i3)}`);
 
   // node_modules/@radix-ui/react-use-body-pointer-events/dist/index.module.js
   var import_react19 = __toESM(require_react());
-  function $parcel$export15(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export15(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $95af0b826cbc904b$exports = {};
   $parcel$export15($95af0b826cbc904b$exports, "useBodyPointerEvents", () => $95af0b826cbc904b$export$c78b33423ab8317c);
@@ -59711,8 +59723,8 @@ ${generateSegmentFilename(i3)}`);
 
   // node_modules/@radix-ui/react-use-escape-keydown/dist/index.module.js
   var import_react20 = __toESM(require_react());
-  function $parcel$export16(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export16(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $addc16e1bbe58fd0$exports = {};
   $parcel$export16($addc16e1bbe58fd0$exports, "useEscapeKeydown", () => $addc16e1bbe58fd0$export$3a72a57244d6e765);
@@ -59731,8 +59743,8 @@ ${generateSegmentFilename(i3)}`);
   }
 
   // node_modules/@radix-ui/react-dismissable-layer/dist/index.module.js
-  function $parcel$export17(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export17(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $5cb92bef7577960e$exports = {};
   $parcel$export17($5cb92bef7577960e$exports, "DismissableLayer", () => $5cb92bef7577960e$export$177fb62ff3ec1f22);
@@ -59926,8 +59938,8 @@ ${generateSegmentFilename(i3)}`);
 
   // node_modules/@radix-ui/react-focus-scope/dist/index.module.js
   var import_react22 = __toESM(require_react());
-  function $parcel$export18(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export18(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $d3863c46a17e8a28$exports = {};
   $parcel$export18($d3863c46a17e8a28$exports, "FocusScope", () => $d3863c46a17e8a28$export$20e40289641fbbb6);
@@ -60167,8 +60179,8 @@ ${generateSegmentFilename(i3)}`);
   // node_modules/@radix-ui/react-portal/dist/index.module.js
   var import_react23 = __toESM(require_react());
   var import_react_dom = __toESM(require_react_dom());
-  function $parcel$export19(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export19(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $f1701beae083dbae$exports = {};
   $parcel$export19($f1701beae083dbae$exports, "Portal", () => $f1701beae083dbae$export$602eac185826482c);
@@ -60209,8 +60221,8 @@ ${generateSegmentFilename(i3)}`);
 
   // node_modules/@radix-ui/react-focus-guards/dist/index.module.js
   var import_react24 = __toESM(require_react());
-  function $parcel$export20(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export20(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $3db38b7d1fb3fe6a$exports = {};
   $parcel$export20($3db38b7d1fb3fe6a$exports, "FocusGuards", () => $3db38b7d1fb3fe6a$export$ac5b58043b79449b);
@@ -60384,8 +60396,8 @@ ${generateSegmentFilename(i3)}`);
         var item = middleware(data, assigned);
         buffer.push(item);
         return function() {
-          buffer = buffer.filter(function(x3) {
-            return x3 !== item;
+          buffer = buffer.filter(function(x4) {
+            return x4 !== item;
           });
         };
       },
@@ -60397,8 +60409,8 @@ ${generateSegmentFilename(i3)}`);
           cbs.forEach(cb);
         }
         buffer = {
-          push: function(x3) {
-            return cb(x3);
+          push: function(x4) {
+            return cb(x4);
           },
           filter: function() {
             return buffer;
@@ -60424,8 +60436,8 @@ ${generateSegmentFilename(i3)}`);
         };
         cycle();
         buffer = {
-          push: function(x3) {
-            pendingQueue.push(x3);
+          push: function(x4) {
+            pendingQueue.push(x4);
             cycle();
           },
           filter: function(filter) {
@@ -60565,13 +60577,13 @@ ${generateSegmentFilename(i3)}`);
   // node_modules/react-style-singleton/dist/es2015/hook.js
   var styleHookSingleton = function() {
     var sheet = stylesheetSingleton();
-    return function(styles) {
+    return function(styles, isDynamic) {
       React4.useEffect(function() {
         sheet.add(styles);
         return function() {
           sheet.remove();
         };
-      }, [styles]);
+      }, [styles && isDynamic]);
     };
   };
 
@@ -60579,8 +60591,8 @@ ${generateSegmentFilename(i3)}`);
   var styleSingleton = function() {
     var useStyle = styleHookSingleton();
     var Sheet = function(_a2) {
-      var styles = _a2.styles;
-      useStyle(styles);
+      var styles = _a2.styles, dynamic = _a2.dynamic;
+      useStyle(styles, dynamic);
       return null;
     };
     return Sheet;
@@ -60593,11 +60605,16 @@ ${generateSegmentFilename(i3)}`);
     right: 0,
     gap: 0
   };
-  var parse = function(x3) {
-    return parseInt(x3 || "", 10) || 0;
+  var parse = function(x4) {
+    return parseInt(x4 || "", 10) || 0;
   };
   var getOffset = function(gapMode) {
     var cs = window.getComputedStyle(document.body);
+    if (true) {
+      if (cs.overflowY === "hidden") {
+        console.error("react-remove-scroll-bar: cannot calculate scrollbar size because it is removed (overflow:hidden on body");
+      }
+    }
     var left = cs[gapMode === "padding" ? "paddingLeft" : "marginLeft"];
     var top = cs[gapMode === "padding" ? "paddingTop" : "marginTop"];
     var right = cs[gapMode === "padding" ? "paddingRight" : "marginRight"];
@@ -60628,18 +60645,17 @@ ${generateSegmentFilename(i3)}`);
     if (gapMode === void 0) {
       gapMode = "margin";
     }
-    return "\n  .".concat(noScrollbarsClassName, " {\n   overflow: hidden ").concat(important, ";\n   padding-right: ").concat(gap, "px ").concat(important, ";\n  }\n  body {\n    overflow: hidden ").concat(important, ";\n    ").concat([
+    return "\n  .".concat(noScrollbarsClassName, " {\n   overflow: hidden ").concat(important, ";\n   padding-right: ").concat(gap, "px ").concat(important, ";\n  }\n  body {\n    overflow: hidden ").concat(important, ";\n    overscroll-behavior: contain;\n    ").concat([
       allowRelative && "position: relative ".concat(important, ";"),
       gapMode === "margin" && "\n    padding-left: ".concat(left, "px;\n    padding-top: ").concat(top, "px;\n    padding-right: ").concat(right, "px;\n    margin-left:0;\n    margin-top:0;\n    margin-right: ").concat(gap, "px ").concat(important, ";\n    "),
       gapMode === "padding" && "padding-right: ".concat(gap, "px ").concat(important, ";")
     ].filter(Boolean).join(""), "\n  }\n  \n  .").concat(zeroRightClassName, " {\n    right: ").concat(gap, "px ").concat(important, ";\n  }\n  \n  .").concat(fullWidthClassName, " {\n    margin-right: ").concat(gap, "px ").concat(important, ";\n  }\n  \n  .").concat(zeroRightClassName, " .").concat(zeroRightClassName, " {\n    right: 0 ").concat(important, ";\n  }\n  \n  .").concat(fullWidthClassName, " .").concat(fullWidthClassName, " {\n    margin-right: 0 ").concat(important, ";\n  }\n  \n  body {\n    ").concat(removedBarSizeVariable, ": ").concat(gap, "px;\n  }\n");
   };
   var RemoveScrollBar = function(props) {
-    var _a2 = React5.useState(getGapWidth(props.gapMode)), gap = _a2[0], setGap = _a2[1];
-    React5.useEffect(function() {
-      setGap(getGapWidth(props.gapMode));
-    }, [props.gapMode]);
-    var noRelative = props.noRelative, noImportant = props.noImportant, _b2 = props.gapMode, gapMode = _b2 === void 0 ? "margin" : _b2;
+    var noRelative = props.noRelative, noImportant = props.noImportant, _a2 = props.gapMode, gapMode = _a2 === void 0 ? "margin" : _a2;
+    var gap = React5.useMemo(function() {
+      return getGapWidth(gapMode);
+    }, [gapMode]);
     return React5.createElement(Style, { styles: getStyles(gap, !noRelative, gapMode, !noImportant ? "!important" : "") });
   };
 
@@ -60679,8 +60695,8 @@ ${generateSegmentFilename(i3)}`);
       }
       var isScrollable = elementCouldBeScrolled(axis, current);
       if (isScrollable) {
-        var _a2 = getScrollVariables(axis, current), s4 = _a2[1], d3 = _a2[2];
-        if (s4 > d3) {
+        var _a2 = getScrollVariables(axis, current), s5 = _a2[1], d3 = _a2[2];
+        if (s5 > d3) {
           return true;
         }
       }
@@ -60751,8 +60767,8 @@ ${generateSegmentFilename(i3)}`);
   var extractRef = function(ref) {
     return ref && "current" in ref ? ref.current : ref;
   };
-  var deltaCompare = function(x3, y3) {
-    return x3[0] === y3[0] && x3[1] === y3[1];
+  var deltaCompare = function(x4, y4) {
+    return x4[0] === y4[0] && x4[1] === y4[1];
   };
   var generateStyle = function(id) {
     return "\n  .block-interactivity-".concat(id, " {pointer-events: none;}\n  .allow-interactivity-").concat(id, " {pointer-events: all;}\n");
@@ -60989,8 +61005,8 @@ ${generateSegmentFilename(i3)}`);
   };
 
   // node_modules/@radix-ui/react-popover/dist/index.module.js
-  function $parcel$export21(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export21(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $cb5cc270b50c6fcd$exports = {};
   $parcel$export21($cb5cc270b50c6fcd$exports, "createPopoverScope", () => $cb5cc270b50c6fcd$export$c8393c9e73286932);
@@ -61220,11 +61236,11 @@ ${generateSegmentFilename(i3)}`);
   });
   var __assign3 = function() {
     __assign3 = Object.assign || function __assign4(t4) {
-      for (var s4, i3 = 1, n3 = arguments.length; i3 < n3; i3++) {
-        s4 = arguments[i3];
-        for (var p4 in s4)
-          if (Object.prototype.hasOwnProperty.call(s4, p4))
-            t4[p4] = s4[p4];
+      for (var s5, i3 = 1, n4 = arguments.length; i3 < n4; i3++) {
+        s5 = arguments[i3];
+        for (var p5 in s5)
+          if (Object.prototype.hasOwnProperty.call(s5, p5))
+            t4[p5] = s5[p5];
       }
       return t4;
     };
@@ -62002,7 +62018,7 @@ ${generateSegmentFilename(i3)}`);
     }
   }, _a));
 
-  // src/components/Viewer/Header.styled.tsx
+  // src/components/Viewer/Header.styled.ts
   var IIIFBadgeButton = styled(Popover.Trigger, {
     width: "30px",
     padding: "5px",
@@ -62028,19 +62044,21 @@ ${generateSegmentFilename(i3)}`);
       }
     }
   });
+  var ManifestLabel = styled("span", {
+    fontSize: "1.25rem",
+    fontWeight: "700",
+    fontFamily: "$display",
+    alignSelf: "flex-start",
+    flexGrow: "1",
+    "@sm": {
+      fontSize: "1rem"
+    }
+  });
   var Header = styled("header", {
     display: "flex",
     backgroundColor: "transparent !important",
     justifyContent: "space-between",
-    padding: "1rem",
-    span: {
-      fontSize: "1.25rem",
-      fontWeight: "700",
-      fontFamily: "$display",
-      "@sm": {
-        fontSize: "1rem"
-      }
-    }
+    padding: "1rem"
   });
 
   // src/components/Viewer/IIIFBadge.tsx
@@ -62136,21 +62154,2293 @@ ${generateSegmentFilename(i3)}`);
   };
   var CopyText_default = CopyText;
 
+  // node_modules/@radix-ui/react-select/dist/index.module.js
+  var import_react51 = __toESM(require_react());
+  var import_react_dom4 = __toESM(require_react_dom());
+
+  // node_modules/@radix-ui/number/dist/index.module.js
+  function $ae6933e535247d3d$export$7d15b64cf5a3a4c4(value, [min, max]) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/primitive/dist/index.module.js
+  function $e42e1063c40fb3ef$export$b9ecd428b558ff10(originalEventHandler, ourEventHandler, { checkForDefaultPrevented = true } = {}) {
+    return function handleEvent(event) {
+      originalEventHandler === null || originalEventHandler === void 0 || originalEventHandler(event);
+      if (checkForDefaultPrevented === false || !event.defaultPrevented)
+        return ourEventHandler === null || ourEventHandler === void 0 ? void 0 : ourEventHandler(event);
+    };
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-collection/dist/index.module.js
+  var import_react35 = __toESM(require_react());
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-context/dist/index.module.js
+  var import_react32 = __toESM(require_react());
+  function $c512c27ab02ef895$export$fd42f52fd3ae11092(rootComponentName, defaultContext) {
+    const Context = /* @__PURE__ */ (0, import_react32.createContext)(defaultContext);
+    function Provider(props) {
+      const { children, ...context } = props;
+      const value = (0, import_react32.useMemo)(() => context, Object.values(context));
+      return /* @__PURE__ */ (0, import_react32.createElement)(Context.Provider, {
+        value
+      }, children);
+    }
+    function useContext(consumerName) {
+      const context = (0, import_react32.useContext)(Context);
+      if (context)
+        return context;
+      if (defaultContext !== void 0)
+        return defaultContext;
+      throw new Error(`\`${consumerName}\` must be used within \`${rootComponentName}\``);
+    }
+    Provider.displayName = rootComponentName + "Provider";
+    return [
+      Provider,
+      useContext
+    ];
+  }
+  function $c512c27ab02ef895$export$50c7b4e9d9f19c12(scopeName, createContextScopeDeps = []) {
+    let defaultContexts = [];
+    function $c512c27ab02ef895$export$fd42f52fd3ae11093(rootComponentName, defaultContext) {
+      const BaseContext = /* @__PURE__ */ (0, import_react32.createContext)(defaultContext);
+      const index = defaultContexts.length;
+      defaultContexts = [
+        ...defaultContexts,
+        defaultContext
+      ];
+      function Provider(props) {
+        const { scope, children, ...context } = props;
+        const Context = (scope === null || scope === void 0 ? void 0 : scope[scopeName][index]) || BaseContext;
+        const value = (0, import_react32.useMemo)(() => context, Object.values(context));
+        return /* @__PURE__ */ (0, import_react32.createElement)(Context.Provider, {
+          value
+        }, children);
+      }
+      function useContext(consumerName, scope) {
+        const Context = (scope === null || scope === void 0 ? void 0 : scope[scopeName][index]) || BaseContext;
+        const context = (0, import_react32.useContext)(Context);
+        if (context)
+          return context;
+        if (defaultContext !== void 0)
+          return defaultContext;
+        throw new Error(`\`${consumerName}\` must be used within \`${rootComponentName}\``);
+      }
+      Provider.displayName = rootComponentName + "Provider";
+      return [
+        Provider,
+        useContext
+      ];
+    }
+    const createScope = () => {
+      const scopeContexts = defaultContexts.map((defaultContext) => {
+        return /* @__PURE__ */ (0, import_react32.createContext)(defaultContext);
+      });
+      return function useScope(scope) {
+        const contexts = (scope === null || scope === void 0 ? void 0 : scope[scopeName]) || scopeContexts;
+        return (0, import_react32.useMemo)(() => ({
+          [`__scope${scopeName}`]: {
+            ...scope,
+            [scopeName]: contexts
+          }
+        }), [
+          scope,
+          contexts
+        ]);
+      };
+    };
+    createScope.scopeName = scopeName;
+    return [
+      $c512c27ab02ef895$export$fd42f52fd3ae11093,
+      $c512c27ab02ef895$var$composeContextScopes2(createScope, ...createContextScopeDeps)
+    ];
+  }
+  function $c512c27ab02ef895$var$composeContextScopes2(...scopes) {
+    const baseScope = scopes[0];
+    if (scopes.length === 1)
+      return baseScope;
+    const createScope1 = () => {
+      const scopeHooks = scopes.map((createScope) => ({
+        useScope: createScope(),
+        scopeName: createScope.scopeName
+      }));
+      return function useComposedScopes(overrideScopes) {
+        const nextScopes1 = scopeHooks.reduce((nextScopes, { useScope, scopeName }) => {
+          const scopeProps = useScope(overrideScopes);
+          const currentScope = scopeProps[`__scope${scopeName}`];
+          return {
+            ...nextScopes,
+            ...currentScope
+          };
+        }, {});
+        return (0, import_react32.useMemo)(() => ({
+          [`__scope${baseScope.scopeName}`]: nextScopes1
+        }), [
+          nextScopes1
+        ]);
+      };
+    };
+    createScope1.scopeName = baseScope.scopeName;
+    return createScope1;
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-compose-refs/dist/index.module.js
+  var import_react33 = __toESM(require_react());
+  function $6ed0406888f73fc4$var$setRef2(ref, value) {
+    if (typeof ref === "function")
+      ref(value);
+    else if (ref !== null && ref !== void 0)
+      ref.current = value;
+  }
+  function $6ed0406888f73fc4$export$43e446d32b3d21af2(...refs) {
+    return (node) => refs.forEach((ref) => $6ed0406888f73fc4$var$setRef2(ref, node));
+  }
+  function $6ed0406888f73fc4$export$c7b2cbe3552a0d052(...refs) {
+    return (0, import_react33.useCallback)($6ed0406888f73fc4$export$43e446d32b3d21af2(...refs), refs);
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-slot/dist/index.module.js
+  var import_react34 = __toESM(require_react());
+  var $5e63c961fc1ce211$export$8c6ed5c666ac13602 = /* @__PURE__ */ (0, import_react34.forwardRef)((props, forwardedRef) => {
+    const { children, ...slotProps } = props;
+    const childrenArray = import_react34.Children.toArray(children);
+    const slottable = childrenArray.find($5e63c961fc1ce211$var$isSlottable2);
+    if (slottable) {
+      const newElement = slottable.props.children;
+      const newChildren = childrenArray.map((child) => {
+        if (child === slottable) {
+          if (import_react34.Children.count(newElement) > 1)
+            return import_react34.Children.only(null);
+          return /* @__PURE__ */ (0, import_react34.isValidElement)(newElement) ? newElement.props.children : null;
+        } else
+          return child;
+      });
+      return /* @__PURE__ */ (0, import_react34.createElement)($5e63c961fc1ce211$var$SlotClone2, _extends({}, slotProps, {
+        ref: forwardedRef
+      }), /* @__PURE__ */ (0, import_react34.isValidElement)(newElement) ? /* @__PURE__ */ (0, import_react34.cloneElement)(newElement, void 0, newChildren) : null);
+    }
+    return /* @__PURE__ */ (0, import_react34.createElement)($5e63c961fc1ce211$var$SlotClone2, _extends({}, slotProps, {
+      ref: forwardedRef
+    }), children);
+  });
+  $5e63c961fc1ce211$export$8c6ed5c666ac13602.displayName = "Slot";
+  var $5e63c961fc1ce211$var$SlotClone2 = /* @__PURE__ */ (0, import_react34.forwardRef)((props, forwardedRef) => {
+    const { children, ...slotProps } = props;
+    if (/* @__PURE__ */ (0, import_react34.isValidElement)(children))
+      return /* @__PURE__ */ (0, import_react34.cloneElement)(children, {
+        ...$5e63c961fc1ce211$var$mergeProps2(slotProps, children.props),
+        ref: $6ed0406888f73fc4$export$43e446d32b3d21af2(forwardedRef, children.ref)
+      });
+    return import_react34.Children.count(children) > 1 ? import_react34.Children.only(null) : null;
+  });
+  $5e63c961fc1ce211$var$SlotClone2.displayName = "SlotClone";
+  var $5e63c961fc1ce211$export$d9f1ccf0bdb05d452 = ({ children }) => {
+    return /* @__PURE__ */ (0, import_react34.createElement)(import_react34.Fragment, null, children);
+  };
+  function $5e63c961fc1ce211$var$isSlottable2(child) {
+    return /* @__PURE__ */ (0, import_react34.isValidElement)(child) && child.type === $5e63c961fc1ce211$export$d9f1ccf0bdb05d452;
+  }
+  function $5e63c961fc1ce211$var$mergeProps2(slotProps, childProps) {
+    const overrideProps = {
+      ...childProps
+    };
+    for (const propName in childProps) {
+      const slotPropValue = slotProps[propName];
+      const childPropValue = childProps[propName];
+      const isHandler = /^on[A-Z]/.test(propName);
+      if (isHandler)
+        overrideProps[propName] = (...args) => {
+          childPropValue === null || childPropValue === void 0 || childPropValue(...args);
+          slotPropValue === null || slotPropValue === void 0 || slotPropValue(...args);
+        };
+      else if (propName === "style")
+        overrideProps[propName] = {
+          ...slotPropValue,
+          ...childPropValue
+        };
+      else if (propName === "className")
+        overrideProps[propName] = [
+          slotPropValue,
+          childPropValue
+        ].filter(Boolean).join(" ");
+    }
+    return {
+      ...slotProps,
+      ...overrideProps
+    };
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-collection/dist/index.module.js
+  function $e02a7d9cb1dc128c$export$c74125a8e3af6bb2(name) {
+    const PROVIDER_NAME = name + "CollectionProvider";
+    const [createCollectionContext, createCollectionScope] = $c512c27ab02ef895$export$50c7b4e9d9f19c12(PROVIDER_NAME);
+    const [CollectionProviderImpl, useCollectionContext] = createCollectionContext(PROVIDER_NAME, {
+      collectionRef: {
+        current: null
+      },
+      itemMap: /* @__PURE__ */ new Map()
+    });
+    const CollectionProvider = (props) => {
+      const { scope, children } = props;
+      const ref = import_react35.default.useRef(null);
+      const itemMap = import_react35.default.useRef(/* @__PURE__ */ new Map()).current;
+      return /* @__PURE__ */ import_react35.default.createElement(CollectionProviderImpl, {
+        scope,
+        itemMap,
+        collectionRef: ref
+      }, children);
+    };
+    /* @__PURE__ */ Object.assign(CollectionProvider, {
+      displayName: PROVIDER_NAME
+    });
+    const COLLECTION_SLOT_NAME = name + "CollectionSlot";
+    const CollectionSlot = /* @__PURE__ */ import_react35.default.forwardRef((props, forwardedRef) => {
+      const { scope, children } = props;
+      const context = useCollectionContext(COLLECTION_SLOT_NAME, scope);
+      const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d052(forwardedRef, context.collectionRef);
+      return /* @__PURE__ */ import_react35.default.createElement($5e63c961fc1ce211$export$8c6ed5c666ac13602, {
+        ref: composedRefs
+      }, children);
+    });
+    /* @__PURE__ */ Object.assign(CollectionSlot, {
+      displayName: COLLECTION_SLOT_NAME
+    });
+    const ITEM_SLOT_NAME = name + "CollectionItemSlot";
+    const ITEM_DATA_ATTR = "data-radix-collection-item";
+    const CollectionItemSlot = /* @__PURE__ */ import_react35.default.forwardRef((props, forwardedRef) => {
+      const { scope, children, ...itemData } = props;
+      const ref = import_react35.default.useRef(null);
+      const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d052(forwardedRef, ref);
+      const context = useCollectionContext(ITEM_SLOT_NAME, scope);
+      import_react35.default.useEffect(() => {
+        context.itemMap.set(ref, {
+          ref,
+          ...itemData
+        });
+        return () => void context.itemMap.delete(ref);
+      });
+      return /* @__PURE__ */ import_react35.default.createElement($5e63c961fc1ce211$export$8c6ed5c666ac13602, {
+        [ITEM_DATA_ATTR]: "",
+        ref: composedRefs
+      }, children);
+    });
+    /* @__PURE__ */ Object.assign(CollectionItemSlot, {
+      displayName: ITEM_SLOT_NAME
+    });
+    function useCollection(scope) {
+      const context = useCollectionContext(name + "CollectionConsumer", scope);
+      const getItems = import_react35.default.useCallback(() => {
+        const collectionNode = context.collectionRef.current;
+        if (!collectionNode)
+          return [];
+        const orderedNodes = Array.from(collectionNode.querySelectorAll(`[${ITEM_DATA_ATTR}]`));
+        const items = Array.from(context.itemMap.values());
+        const orderedItems = items.sort((a3, b3) => orderedNodes.indexOf(a3.ref.current) - orderedNodes.indexOf(b3.ref.current));
+        return orderedItems;
+      }, [
+        context.collectionRef,
+        context.itemMap
+      ]);
+      return getItems;
+    }
+    return [
+      {
+        Provider: CollectionProvider,
+        Slot: CollectionSlot,
+        ItemSlot: CollectionItemSlot
+      },
+      useCollection,
+      createCollectionScope
+    ];
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-direction/dist/index.module.js
+  var import_react36 = __toESM(require_react());
+  var $f631663db3294ace$var$DirectionContext = /* @__PURE__ */ (0, import_react36.createContext)(void 0);
+  function $f631663db3294ace$export$b39126d51d94e6f3(localDir) {
+    const globalDir = (0, import_react36.useContext)($f631663db3294ace$var$DirectionContext);
+    return localDir || globalDir || "ltr";
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-dismissable-layer/dist/index.module.js
+  var import_react40 = __toESM(require_react());
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-primitive/dist/index.module.js
+  var import_react37 = __toESM(require_react());
+  var import_react_dom2 = __toESM(require_react_dom());
+  var $8927f6f2acc4f386$var$NODES2 = [
+    "a",
+    "button",
+    "div",
+    "h2",
+    "h3",
+    "img",
+    "li",
+    "nav",
+    "ol",
+    "p",
+    "span",
+    "svg",
+    "ul"
+  ];
+  var $8927f6f2acc4f386$export$250ffa63cdc0d0342 = $8927f6f2acc4f386$var$NODES2.reduce((primitive, node) => {
+    const Node = /* @__PURE__ */ (0, import_react37.forwardRef)((props, forwardedRef) => {
+      const { asChild, ...primitiveProps } = props;
+      const Comp = asChild ? $5e63c961fc1ce211$export$8c6ed5c666ac13602 : node;
+      (0, import_react37.useEffect)(() => {
+        window[Symbol.for("radix-ui")] = true;
+      }, []);
+      return /* @__PURE__ */ (0, import_react37.createElement)(Comp, _extends({}, primitiveProps, {
+        ref: forwardedRef
+      }));
+    });
+    Node.displayName = `Primitive.${node}`;
+    return {
+      ...primitive,
+      [node]: Node
+    };
+  }, {});
+  function $8927f6f2acc4f386$export$6d1a0317bde7de7f(target, event) {
+    if (target)
+      (0, import_react_dom2.flushSync)(() => target.dispatchEvent(event));
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-use-callback-ref/dist/index.module.js
+  var import_react38 = __toESM(require_react());
+  function $b1b2314f5f9a1d84$export$25bec8c6f54ee79a2(callback) {
+    const callbackRef = (0, import_react38.useRef)(callback);
+    (0, import_react38.useEffect)(() => {
+      callbackRef.current = callback;
+    });
+    return (0, import_react38.useMemo)(() => (...args) => {
+      var _callbackRef$current;
+      return (_callbackRef$current = callbackRef.current) === null || _callbackRef$current === void 0 ? void 0 : _callbackRef$current.call(callbackRef, ...args);
+    }, []);
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-use-escape-keydown/dist/index.module.js
+  var import_react39 = __toESM(require_react());
+  function $addc16e1bbe58fd0$export$3a72a57244d6e7652(onEscapeKeyDownProp) {
+    const onEscapeKeyDown = $b1b2314f5f9a1d84$export$25bec8c6f54ee79a2(onEscapeKeyDownProp);
+    (0, import_react39.useEffect)(() => {
+      const handleKeyDown = (event) => {
+        if (event.key === "Escape")
+          onEscapeKeyDown(event);
+      };
+      document.addEventListener("keydown", handleKeyDown);
+      return () => document.removeEventListener("keydown", handleKeyDown);
+    }, [
+      onEscapeKeyDown
+    ]);
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-dismissable-layer/dist/index.module.js
+  var $5cb92bef7577960e$var$CONTEXT_UPDATE2 = "dismissableLayer.update";
+  var $5cb92bef7577960e$var$POINTER_DOWN_OUTSIDE2 = "dismissableLayer.pointerDownOutside";
+  var $5cb92bef7577960e$var$FOCUS_OUTSIDE2 = "dismissableLayer.focusOutside";
+  var $5cb92bef7577960e$var$originalBodyPointerEvents;
+  var $5cb92bef7577960e$var$DismissableLayerContext2 = /* @__PURE__ */ (0, import_react40.createContext)({
+    layers: /* @__PURE__ */ new Set(),
+    layersWithOutsidePointerEventsDisabled: /* @__PURE__ */ new Set(),
+    branches: /* @__PURE__ */ new Set()
+  });
+  var $5cb92bef7577960e$export$177fb62ff3ec1f222 = /* @__PURE__ */ (0, import_react40.forwardRef)((props, forwardedRef) => {
+    const { disableOutsidePointerEvents = false, onEscapeKeyDown, onPointerDownOutside, onFocusOutside, onInteractOutside, onDismiss, ...layerProps } = props;
+    const context = (0, import_react40.useContext)($5cb92bef7577960e$var$DismissableLayerContext2);
+    const [node1, setNode] = (0, import_react40.useState)(null);
+    const [, force] = (0, import_react40.useState)({});
+    const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d052(forwardedRef, (node) => setNode(node));
+    const layers = Array.from(context.layers);
+    const [highestLayerWithOutsidePointerEventsDisabled] = [
+      ...context.layersWithOutsidePointerEventsDisabled
+    ].slice(-1);
+    const highestLayerWithOutsidePointerEventsDisabledIndex = layers.indexOf(highestLayerWithOutsidePointerEventsDisabled);
+    const index = node1 ? layers.indexOf(node1) : -1;
+    const isBodyPointerEventsDisabled = context.layersWithOutsidePointerEventsDisabled.size > 0;
+    const isPointerEventsEnabled = index >= highestLayerWithOutsidePointerEventsDisabledIndex;
+    const pointerDownOutside = $5cb92bef7577960e$var$usePointerDownOutside2((event) => {
+      const target = event.target;
+      const isPointerDownOnBranch = [
+        ...context.branches
+      ].some((branch) => branch.contains(target));
+      if (!isPointerEventsEnabled || isPointerDownOnBranch)
+        return;
+      onPointerDownOutside === null || onPointerDownOutside === void 0 || onPointerDownOutside(event);
+      onInteractOutside === null || onInteractOutside === void 0 || onInteractOutside(event);
+      if (!event.defaultPrevented)
+        onDismiss === null || onDismiss === void 0 || onDismiss();
+    });
+    const focusOutside = $5cb92bef7577960e$var$useFocusOutside2((event) => {
+      const target = event.target;
+      const isFocusInBranch = [
+        ...context.branches
+      ].some((branch) => branch.contains(target));
+      if (isFocusInBranch)
+        return;
+      onFocusOutside === null || onFocusOutside === void 0 || onFocusOutside(event);
+      onInteractOutside === null || onInteractOutside === void 0 || onInteractOutside(event);
+      if (!event.defaultPrevented)
+        onDismiss === null || onDismiss === void 0 || onDismiss();
+    });
+    $addc16e1bbe58fd0$export$3a72a57244d6e7652((event) => {
+      const isHighestLayer = index === context.layers.size - 1;
+      if (!isHighestLayer)
+        return;
+      onEscapeKeyDown === null || onEscapeKeyDown === void 0 || onEscapeKeyDown(event);
+      if (!event.defaultPrevented && onDismiss) {
+        event.preventDefault();
+        onDismiss();
+      }
+    });
+    (0, import_react40.useEffect)(() => {
+      if (!node1)
+        return;
+      if (disableOutsidePointerEvents) {
+        if (context.layersWithOutsidePointerEventsDisabled.size === 0) {
+          $5cb92bef7577960e$var$originalBodyPointerEvents = document.body.style.pointerEvents;
+          document.body.style.pointerEvents = "none";
+        }
+        context.layersWithOutsidePointerEventsDisabled.add(node1);
+      }
+      context.layers.add(node1);
+      $5cb92bef7577960e$var$dispatchUpdate2();
+      return () => {
+        if (disableOutsidePointerEvents && context.layersWithOutsidePointerEventsDisabled.size === 1)
+          document.body.style.pointerEvents = $5cb92bef7577960e$var$originalBodyPointerEvents;
+      };
+    }, [
+      node1,
+      disableOutsidePointerEvents,
+      context
+    ]);
+    (0, import_react40.useEffect)(() => {
+      return () => {
+        if (!node1)
+          return;
+        context.layers.delete(node1);
+        context.layersWithOutsidePointerEventsDisabled.delete(node1);
+        $5cb92bef7577960e$var$dispatchUpdate2();
+      };
+    }, [
+      node1,
+      context
+    ]);
+    (0, import_react40.useEffect)(() => {
+      const handleUpdate = () => force({});
+      document.addEventListener($5cb92bef7577960e$var$CONTEXT_UPDATE2, handleUpdate);
+      return () => document.removeEventListener($5cb92bef7577960e$var$CONTEXT_UPDATE2, handleUpdate);
+    }, []);
+    return /* @__PURE__ */ (0, import_react40.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d0342.div, _extends({}, layerProps, {
+      ref: composedRefs,
+      style: {
+        pointerEvents: isBodyPointerEventsDisabled ? isPointerEventsEnabled ? "auto" : "none" : void 0,
+        ...props.style
+      },
+      onFocusCapture: $e42e1063c40fb3ef$export$b9ecd428b558ff10(props.onFocusCapture, focusOutside.onFocusCapture),
+      onBlurCapture: $e42e1063c40fb3ef$export$b9ecd428b558ff10(props.onBlurCapture, focusOutside.onBlurCapture),
+      onPointerDownCapture: $e42e1063c40fb3ef$export$b9ecd428b558ff10(props.onPointerDownCapture, pointerDownOutside.onPointerDownCapture)
+    }));
+  });
+  function $5cb92bef7577960e$var$usePointerDownOutside2(onPointerDownOutside) {
+    const handlePointerDownOutside = $b1b2314f5f9a1d84$export$25bec8c6f54ee79a2(onPointerDownOutside);
+    const isPointerInsideReactTreeRef = (0, import_react40.useRef)(false);
+    const handleClickRef = (0, import_react40.useRef)(() => {
+    });
+    (0, import_react40.useEffect)(() => {
+      const handlePointerDown = (event) => {
+        if (event.target && !isPointerInsideReactTreeRef.current) {
+          let handleAndDispatchPointerDownOutsideEvent = function() {
+            $5cb92bef7577960e$var$handleAndDispatchCustomEvent($5cb92bef7577960e$var$POINTER_DOWN_OUTSIDE2, handlePointerDownOutside, eventDetail, {
+              discrete: true
+            });
+          };
+          const eventDetail = {
+            originalEvent: event
+          };
+          if (event.pointerType === "touch") {
+            document.removeEventListener("click", handleClickRef.current);
+            handleClickRef.current = handleAndDispatchPointerDownOutsideEvent;
+            document.addEventListener("click", handleClickRef.current, {
+              once: true
+            });
+          } else
+            handleAndDispatchPointerDownOutsideEvent();
+        }
+        isPointerInsideReactTreeRef.current = false;
+      };
+      const timerId = window.setTimeout(() => {
+        document.addEventListener("pointerdown", handlePointerDown);
+      }, 0);
+      return () => {
+        window.clearTimeout(timerId);
+        document.removeEventListener("pointerdown", handlePointerDown);
+        document.removeEventListener("click", handleClickRef.current);
+      };
+    }, [
+      handlePointerDownOutside
+    ]);
+    return {
+      onPointerDownCapture: () => isPointerInsideReactTreeRef.current = true
+    };
+  }
+  function $5cb92bef7577960e$var$useFocusOutside2(onFocusOutside) {
+    const handleFocusOutside = $b1b2314f5f9a1d84$export$25bec8c6f54ee79a2(onFocusOutside);
+    const isFocusInsideReactTreeRef = (0, import_react40.useRef)(false);
+    (0, import_react40.useEffect)(() => {
+      const handleFocus = (event) => {
+        if (event.target && !isFocusInsideReactTreeRef.current) {
+          const eventDetail = {
+            originalEvent: event
+          };
+          $5cb92bef7577960e$var$handleAndDispatchCustomEvent($5cb92bef7577960e$var$FOCUS_OUTSIDE2, handleFocusOutside, eventDetail, {
+            discrete: false
+          });
+        }
+      };
+      document.addEventListener("focusin", handleFocus);
+      return () => document.removeEventListener("focusin", handleFocus);
+    }, [
+      handleFocusOutside
+    ]);
+    return {
+      onFocusCapture: () => isFocusInsideReactTreeRef.current = true,
+      onBlurCapture: () => isFocusInsideReactTreeRef.current = false
+    };
+  }
+  function $5cb92bef7577960e$var$dispatchUpdate2() {
+    const event = new CustomEvent($5cb92bef7577960e$var$CONTEXT_UPDATE2);
+    document.dispatchEvent(event);
+  }
+  function $5cb92bef7577960e$var$handleAndDispatchCustomEvent(name, handler, detail, { discrete }) {
+    const target = detail.originalEvent.target;
+    const event = new CustomEvent(name, {
+      bubbles: false,
+      cancelable: true,
+      detail
+    });
+    if (handler)
+      target.addEventListener(name, handler, {
+        once: true
+      });
+    if (discrete)
+      $8927f6f2acc4f386$export$6d1a0317bde7de7f(target, event);
+    else
+      target.dispatchEvent(event);
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-focus-guards/dist/index.module.js
+  var import_react41 = __toESM(require_react());
+  var $3db38b7d1fb3fe6a$var$count2 = 0;
+  function $3db38b7d1fb3fe6a$export$b7ece24a22aeda8c2() {
+    (0, import_react41.useEffect)(() => {
+      var _edgeGuards$, _edgeGuards$2;
+      const edgeGuards = document.querySelectorAll("[data-radix-focus-guard]");
+      document.body.insertAdjacentElement("afterbegin", (_edgeGuards$ = edgeGuards[0]) !== null && _edgeGuards$ !== void 0 ? _edgeGuards$ : $3db38b7d1fb3fe6a$var$createFocusGuard2());
+      document.body.insertAdjacentElement("beforeend", (_edgeGuards$2 = edgeGuards[1]) !== null && _edgeGuards$2 !== void 0 ? _edgeGuards$2 : $3db38b7d1fb3fe6a$var$createFocusGuard2());
+      $3db38b7d1fb3fe6a$var$count2++;
+      return () => {
+        if ($3db38b7d1fb3fe6a$var$count2 === 1)
+          document.querySelectorAll("[data-radix-focus-guard]").forEach((node) => node.remove());
+        $3db38b7d1fb3fe6a$var$count2--;
+      };
+    }, []);
+  }
+  function $3db38b7d1fb3fe6a$var$createFocusGuard2() {
+    const element = document.createElement("span");
+    element.setAttribute("data-radix-focus-guard", "");
+    element.tabIndex = 0;
+    element.style.cssText = "outline: none; opacity: 0; position: fixed; pointer-events: none";
+    return element;
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-focus-scope/dist/index.module.js
+  var import_react42 = __toESM(require_react());
+  var $d3863c46a17e8a28$var$AUTOFOCUS_ON_MOUNT2 = "focusScope.autoFocusOnMount";
+  var $d3863c46a17e8a28$var$AUTOFOCUS_ON_UNMOUNT2 = "focusScope.autoFocusOnUnmount";
+  var $d3863c46a17e8a28$var$EVENT_OPTIONS2 = {
+    bubbles: false,
+    cancelable: true
+  };
+  var $d3863c46a17e8a28$export$20e40289641fbbb62 = /* @__PURE__ */ (0, import_react42.forwardRef)((props, forwardedRef) => {
+    const { loop = false, trapped = false, onMountAutoFocus: onMountAutoFocusProp, onUnmountAutoFocus: onUnmountAutoFocusProp, ...scopeProps } = props;
+    const [container1, setContainer] = (0, import_react42.useState)(null);
+    const onMountAutoFocus = $b1b2314f5f9a1d84$export$25bec8c6f54ee79a2(onMountAutoFocusProp);
+    const onUnmountAutoFocus = $b1b2314f5f9a1d84$export$25bec8c6f54ee79a2(onUnmountAutoFocusProp);
+    const lastFocusedElementRef = (0, import_react42.useRef)(null);
+    const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d052(forwardedRef, (node) => setContainer(node));
+    const focusScope = (0, import_react42.useRef)({
+      paused: false,
+      pause() {
+        this.paused = true;
+      },
+      resume() {
+        this.paused = false;
+      }
+    }).current;
+    (0, import_react42.useEffect)(() => {
+      if (trapped) {
+        let handleFocusIn = function(event) {
+          if (focusScope.paused || !container1)
+            return;
+          const target = event.target;
+          if (container1.contains(target))
+            lastFocusedElementRef.current = target;
+          else
+            $d3863c46a17e8a28$var$focus2(lastFocusedElementRef.current, {
+              select: true
+            });
+        }, handleFocusOut = function(event) {
+          if (focusScope.paused || !container1)
+            return;
+          if (!container1.contains(event.relatedTarget))
+            $d3863c46a17e8a28$var$focus2(lastFocusedElementRef.current, {
+              select: true
+            });
+        };
+        document.addEventListener("focusin", handleFocusIn);
+        document.addEventListener("focusout", handleFocusOut);
+        return () => {
+          document.removeEventListener("focusin", handleFocusIn);
+          document.removeEventListener("focusout", handleFocusOut);
+        };
+      }
+    }, [
+      trapped,
+      container1,
+      focusScope.paused
+    ]);
+    (0, import_react42.useEffect)(() => {
+      if (container1) {
+        $d3863c46a17e8a28$var$focusScopesStack2.add(focusScope);
+        const previouslyFocusedElement = document.activeElement;
+        const hasFocusedCandidate = container1.contains(previouslyFocusedElement);
+        if (!hasFocusedCandidate) {
+          const mountEvent = new CustomEvent($d3863c46a17e8a28$var$AUTOFOCUS_ON_MOUNT2, $d3863c46a17e8a28$var$EVENT_OPTIONS2);
+          container1.addEventListener($d3863c46a17e8a28$var$AUTOFOCUS_ON_MOUNT2, onMountAutoFocus);
+          container1.dispatchEvent(mountEvent);
+          if (!mountEvent.defaultPrevented) {
+            $d3863c46a17e8a28$var$focusFirst2($d3863c46a17e8a28$var$removeLinks2($d3863c46a17e8a28$var$getTabbableCandidates2(container1)), {
+              select: true
+            });
+            if (document.activeElement === previouslyFocusedElement)
+              $d3863c46a17e8a28$var$focus2(container1);
+          }
+        }
+        return () => {
+          container1.removeEventListener($d3863c46a17e8a28$var$AUTOFOCUS_ON_MOUNT2, onMountAutoFocus);
+          setTimeout(() => {
+            const unmountEvent = new CustomEvent($d3863c46a17e8a28$var$AUTOFOCUS_ON_UNMOUNT2, $d3863c46a17e8a28$var$EVENT_OPTIONS2);
+            container1.addEventListener($d3863c46a17e8a28$var$AUTOFOCUS_ON_UNMOUNT2, onUnmountAutoFocus);
+            container1.dispatchEvent(unmountEvent);
+            if (!unmountEvent.defaultPrevented)
+              $d3863c46a17e8a28$var$focus2(previouslyFocusedElement !== null && previouslyFocusedElement !== void 0 ? previouslyFocusedElement : document.body, {
+                select: true
+              });
+            container1.removeEventListener($d3863c46a17e8a28$var$AUTOFOCUS_ON_UNMOUNT2, onUnmountAutoFocus);
+            $d3863c46a17e8a28$var$focusScopesStack2.remove(focusScope);
+          }, 0);
+        };
+      }
+    }, [
+      container1,
+      onMountAutoFocus,
+      onUnmountAutoFocus,
+      focusScope
+    ]);
+    const handleKeyDown = (0, import_react42.useCallback)((event) => {
+      if (!loop && !trapped)
+        return;
+      if (focusScope.paused)
+        return;
+      const isTabKey = event.key === "Tab" && !event.altKey && !event.ctrlKey && !event.metaKey;
+      const focusedElement = document.activeElement;
+      if (isTabKey && focusedElement) {
+        const container2 = event.currentTarget;
+        const [first, last] = $d3863c46a17e8a28$var$getTabbableEdges2(container2);
+        const hasTabbableElementsInside = first && last;
+        if (!hasTabbableElementsInside) {
+          if (focusedElement === container2)
+            event.preventDefault();
+        } else {
+          if (!event.shiftKey && focusedElement === last) {
+            event.preventDefault();
+            if (loop)
+              $d3863c46a17e8a28$var$focus2(first, {
+                select: true
+              });
+          } else if (event.shiftKey && focusedElement === first) {
+            event.preventDefault();
+            if (loop)
+              $d3863c46a17e8a28$var$focus2(last, {
+                select: true
+              });
+          }
+        }
+      }
+    }, [
+      loop,
+      trapped,
+      focusScope.paused
+    ]);
+    return /* @__PURE__ */ (0, import_react42.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d0342.div, _extends({
+      tabIndex: -1
+    }, scopeProps, {
+      ref: composedRefs,
+      onKeyDown: handleKeyDown
+    }));
+  });
+  function $d3863c46a17e8a28$var$focusFirst2(candidates, { select = false } = {}) {
+    const previouslyFocusedElement = document.activeElement;
+    for (const candidate of candidates) {
+      $d3863c46a17e8a28$var$focus2(candidate, {
+        select
+      });
+      if (document.activeElement !== previouslyFocusedElement)
+        return;
+    }
+  }
+  function $d3863c46a17e8a28$var$getTabbableEdges2(container2) {
+    const candidates = $d3863c46a17e8a28$var$getTabbableCandidates2(container2);
+    const first = $d3863c46a17e8a28$var$findVisible2(candidates, container2);
+    const last = $d3863c46a17e8a28$var$findVisible2(candidates.reverse(), container2);
+    return [
+      first,
+      last
+    ];
+  }
+  function $d3863c46a17e8a28$var$getTabbableCandidates2(container2) {
+    const nodes = [];
+    const walker = document.createTreeWalker(container2, NodeFilter.SHOW_ELEMENT, {
+      acceptNode: (node) => {
+        const isHiddenInput = node.tagName === "INPUT" && node.type === "hidden";
+        if (node.disabled || node.hidden || isHiddenInput)
+          return NodeFilter.FILTER_SKIP;
+        return node.tabIndex >= 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+      }
+    });
+    while (walker.nextNode())
+      nodes.push(walker.currentNode);
+    return nodes;
+  }
+  function $d3863c46a17e8a28$var$findVisible2(elements, container2) {
+    for (const element of elements) {
+      if (!$d3863c46a17e8a28$var$isHidden2(element, {
+        upTo: container2
+      }))
+        return element;
+    }
+  }
+  function $d3863c46a17e8a28$var$isHidden2(node, { upTo }) {
+    if (getComputedStyle(node).visibility === "hidden")
+      return true;
+    while (node) {
+      if (upTo !== void 0 && node === upTo)
+        return false;
+      if (getComputedStyle(node).display === "none")
+        return true;
+      node = node.parentElement;
+    }
+    return false;
+  }
+  function $d3863c46a17e8a28$var$isSelectableInput2(element) {
+    return element instanceof HTMLInputElement && "select" in element;
+  }
+  function $d3863c46a17e8a28$var$focus2(element, { select = false } = {}) {
+    if (element && element.focus) {
+      const previouslyFocusedElement = document.activeElement;
+      element.focus({
+        preventScroll: true
+      });
+      if (element !== previouslyFocusedElement && $d3863c46a17e8a28$var$isSelectableInput2(element) && select)
+        element.select();
+    }
+  }
+  var $d3863c46a17e8a28$var$focusScopesStack2 = $d3863c46a17e8a28$var$createFocusScopesStack2();
+  function $d3863c46a17e8a28$var$createFocusScopesStack2() {
+    let stack = [];
+    return {
+      add(focusScope) {
+        const activeFocusScope = stack[0];
+        if (focusScope !== activeFocusScope)
+          activeFocusScope === null || activeFocusScope === void 0 || activeFocusScope.pause();
+        stack = $d3863c46a17e8a28$var$arrayRemove2(stack, focusScope);
+        stack.unshift(focusScope);
+      },
+      remove(focusScope) {
+        var _stack$;
+        stack = $d3863c46a17e8a28$var$arrayRemove2(stack, focusScope);
+        (_stack$ = stack[0]) === null || _stack$ === void 0 || _stack$.resume();
+      }
+    };
+  }
+  function $d3863c46a17e8a28$var$arrayRemove2(array, item) {
+    const updatedArray = [
+      ...array
+    ];
+    const index = updatedArray.indexOf(item);
+    if (index !== -1)
+      updatedArray.splice(index, 1);
+    return updatedArray;
+  }
+  function $d3863c46a17e8a28$var$removeLinks2(items) {
+    return items.filter((item) => item.tagName !== "A");
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-id/dist/index.module.js
+  var $2AODx$react2 = __toESM(require_react());
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-use-layout-effect/dist/index.module.js
+  var import_react43 = __toESM(require_react());
+  var $9f79659886946c16$export$e5c5a5f917a5871c2 = Boolean(globalThis === null || globalThis === void 0 ? void 0 : globalThis.document) ? import_react43.useLayoutEffect : () => {
+  };
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-id/dist/index.module.js
+  var $1746a345f3d73bb7$var$useReactId2 = $2AODx$react2["useId".toString()] || (() => void 0);
+  var $1746a345f3d73bb7$var$count2 = 0;
+  function $1746a345f3d73bb7$export$f680877a34711e372(deterministicId) {
+    const [id, setId] = $2AODx$react2.useState($1746a345f3d73bb7$var$useReactId2());
+    $9f79659886946c16$export$e5c5a5f917a5871c2(() => {
+      if (!deterministicId)
+        setId((reactId) => reactId !== null && reactId !== void 0 ? reactId : String($1746a345f3d73bb7$var$count2++));
+    }, [
+      deterministicId
+    ]);
+    return deterministicId || (id ? `radix-${id}` : "");
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-label/dist/index.module.js
+  var import_react44 = __toESM(require_react());
+  var $b73a6c6685e72184$var$NAME = "Label";
+  var [$b73a6c6685e72184$var$LabelProvider, $b73a6c6685e72184$var$useLabelContextImpl] = $c512c27ab02ef895$export$fd42f52fd3ae11092($b73a6c6685e72184$var$NAME, {
+    id: void 0,
+    controlRef: {
+      current: null
+    }
+  });
+  var $b73a6c6685e72184$export$feddbbf47baabdb9 = (element) => {
+    const context = $b73a6c6685e72184$var$useLabelContextImpl("LabelConsumer");
+    const { controlRef } = context;
+    (0, import_react44.useEffect)(() => {
+      if (element)
+        controlRef.current = element;
+    }, [
+      element,
+      controlRef
+    ]);
+    return context.id;
+  };
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-use-controllable-state/dist/index.module.js
+  var import_react45 = __toESM(require_react());
+  function $71cd76cc60e0454e$export$6f32135080cb4c32({ prop, defaultProp, onChange = () => {
+  } }) {
+    const [uncontrolledProp, setUncontrolledProp] = $71cd76cc60e0454e$var$useUncontrolledState2({
+      defaultProp,
+      onChange
+    });
+    const isControlled = prop !== void 0;
+    const value1 = isControlled ? prop : uncontrolledProp;
+    const handleChange = $b1b2314f5f9a1d84$export$25bec8c6f54ee79a2(onChange);
+    const setValue = (0, import_react45.useCallback)((nextValue) => {
+      if (isControlled) {
+        const setter = nextValue;
+        const value = typeof nextValue === "function" ? setter(prop) : nextValue;
+        if (value !== prop)
+          handleChange(value);
+      } else
+        setUncontrolledProp(nextValue);
+    }, [
+      isControlled,
+      prop,
+      setUncontrolledProp,
+      handleChange
+    ]);
+    return [
+      value1,
+      setValue
+    ];
+  }
+  function $71cd76cc60e0454e$var$useUncontrolledState2({ defaultProp, onChange }) {
+    const uncontrolledState = (0, import_react45.useState)(defaultProp);
+    const [value] = uncontrolledState;
+    const prevValueRef = (0, import_react45.useRef)(value);
+    const handleChange = $b1b2314f5f9a1d84$export$25bec8c6f54ee79a2(onChange);
+    (0, import_react45.useEffect)(() => {
+      if (prevValueRef.current !== value) {
+        handleChange(value);
+        prevValueRef.current = value;
+      }
+    }, [
+      value,
+      prevValueRef,
+      handleChange
+    ]);
+    return uncontrolledState;
+  }
+
+  // node_modules/@radix-ui/react-select/node_modules/@radix-ui/react-use-previous/dist/index.module.js
+  var import_react46 = __toESM(require_react());
+  function $010c2913dbd2fe3d$export$5cae361ad82dce8b(value) {
+    const ref = (0, import_react46.useRef)({
+      value,
+      previous: value
+    });
+    return (0, import_react46.useMemo)(() => {
+      if (ref.current.value !== value) {
+        ref.current.previous = ref.current.value;
+        ref.current.value = value;
+      }
+      return ref.current.previous;
+    }, [
+      value
+    ]);
+  }
+
+  // node_modules/@radix-ui/react-visually-hidden/dist/index.module.js
+  var import_react50 = __toESM(require_react());
+
+  // node_modules/@radix-ui/react-visually-hidden/node_modules/@radix-ui/react-primitive/dist/index.module.js
+  var import_react49 = __toESM(require_react());
+  var import_react_dom3 = __toESM(require_react_dom());
+
+  // node_modules/@radix-ui/react-visually-hidden/node_modules/@radix-ui/react-slot/dist/index.module.js
+  var import_react48 = __toESM(require_react());
+
+  // node_modules/@radix-ui/react-visually-hidden/node_modules/@radix-ui/react-compose-refs/dist/index.module.js
+  var import_react47 = __toESM(require_react());
+  function $6ed0406888f73fc4$var$setRef3(ref, value) {
+    if (typeof ref === "function")
+      ref(value);
+    else if (ref !== null && ref !== void 0)
+      ref.current = value;
+  }
+  function $6ed0406888f73fc4$export$43e446d32b3d21af3(...refs) {
+    return (node) => refs.forEach((ref) => $6ed0406888f73fc4$var$setRef3(ref, node));
+  }
+
+  // node_modules/@radix-ui/react-visually-hidden/node_modules/@radix-ui/react-slot/dist/index.module.js
+  var $5e63c961fc1ce211$export$8c6ed5c666ac13603 = /* @__PURE__ */ (0, import_react48.forwardRef)((props, forwardedRef) => {
+    const { children, ...slotProps } = props;
+    const childrenArray = import_react48.Children.toArray(children);
+    const slottable = childrenArray.find($5e63c961fc1ce211$var$isSlottable3);
+    if (slottable) {
+      const newElement = slottable.props.children;
+      const newChildren = childrenArray.map((child) => {
+        if (child === slottable) {
+          if (import_react48.Children.count(newElement) > 1)
+            return import_react48.Children.only(null);
+          return /* @__PURE__ */ (0, import_react48.isValidElement)(newElement) ? newElement.props.children : null;
+        } else
+          return child;
+      });
+      return /* @__PURE__ */ (0, import_react48.createElement)($5e63c961fc1ce211$var$SlotClone3, _extends({}, slotProps, {
+        ref: forwardedRef
+      }), /* @__PURE__ */ (0, import_react48.isValidElement)(newElement) ? /* @__PURE__ */ (0, import_react48.cloneElement)(newElement, void 0, newChildren) : null);
+    }
+    return /* @__PURE__ */ (0, import_react48.createElement)($5e63c961fc1ce211$var$SlotClone3, _extends({}, slotProps, {
+      ref: forwardedRef
+    }), children);
+  });
+  $5e63c961fc1ce211$export$8c6ed5c666ac13603.displayName = "Slot";
+  var $5e63c961fc1ce211$var$SlotClone3 = /* @__PURE__ */ (0, import_react48.forwardRef)((props, forwardedRef) => {
+    const { children, ...slotProps } = props;
+    if (/* @__PURE__ */ (0, import_react48.isValidElement)(children))
+      return /* @__PURE__ */ (0, import_react48.cloneElement)(children, {
+        ...$5e63c961fc1ce211$var$mergeProps3(slotProps, children.props),
+        ref: $6ed0406888f73fc4$export$43e446d32b3d21af3(forwardedRef, children.ref)
+      });
+    return import_react48.Children.count(children) > 1 ? import_react48.Children.only(null) : null;
+  });
+  $5e63c961fc1ce211$var$SlotClone3.displayName = "SlotClone";
+  var $5e63c961fc1ce211$export$d9f1ccf0bdb05d453 = ({ children }) => {
+    return /* @__PURE__ */ (0, import_react48.createElement)(import_react48.Fragment, null, children);
+  };
+  function $5e63c961fc1ce211$var$isSlottable3(child) {
+    return /* @__PURE__ */ (0, import_react48.isValidElement)(child) && child.type === $5e63c961fc1ce211$export$d9f1ccf0bdb05d453;
+  }
+  function $5e63c961fc1ce211$var$mergeProps3(slotProps, childProps) {
+    const overrideProps = {
+      ...childProps
+    };
+    for (const propName in childProps) {
+      const slotPropValue = slotProps[propName];
+      const childPropValue = childProps[propName];
+      const isHandler = /^on[A-Z]/.test(propName);
+      if (isHandler)
+        overrideProps[propName] = (...args) => {
+          childPropValue === null || childPropValue === void 0 || childPropValue(...args);
+          slotPropValue === null || slotPropValue === void 0 || slotPropValue(...args);
+        };
+      else if (propName === "style")
+        overrideProps[propName] = {
+          ...slotPropValue,
+          ...childPropValue
+        };
+      else if (propName === "className")
+        overrideProps[propName] = [
+          slotPropValue,
+          childPropValue
+        ].filter(Boolean).join(" ");
+    }
+    return {
+      ...slotProps,
+      ...overrideProps
+    };
+  }
+
+  // node_modules/@radix-ui/react-visually-hidden/node_modules/@radix-ui/react-primitive/dist/index.module.js
+  var $8927f6f2acc4f386$var$NODES3 = [
+    "a",
+    "button",
+    "div",
+    "h2",
+    "h3",
+    "img",
+    "li",
+    "nav",
+    "ol",
+    "p",
+    "span",
+    "svg",
+    "ul"
+  ];
+  var $8927f6f2acc4f386$export$250ffa63cdc0d0343 = $8927f6f2acc4f386$var$NODES3.reduce((primitive, node) => {
+    const Node = /* @__PURE__ */ (0, import_react49.forwardRef)((props, forwardedRef) => {
+      const { asChild, ...primitiveProps } = props;
+      const Comp = asChild ? $5e63c961fc1ce211$export$8c6ed5c666ac13603 : node;
+      (0, import_react49.useEffect)(() => {
+        window[Symbol.for("radix-ui")] = true;
+      }, []);
+      return /* @__PURE__ */ (0, import_react49.createElement)(Comp, _extends({}, primitiveProps, {
+        ref: forwardedRef
+      }));
+    });
+    Node.displayName = `Primitive.${node}`;
+    return {
+      ...primitive,
+      [node]: Node
+    };
+  }, {});
+
+  // node_modules/@radix-ui/react-visually-hidden/dist/index.module.js
+  var $ea1ef594cf570d83$export$439d29a4e110a164 = /* @__PURE__ */ (0, import_react50.forwardRef)((props, forwardedRef) => {
+    return /* @__PURE__ */ (0, import_react50.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d0343.span, _extends({}, props, {
+      ref: forwardedRef,
+      style: {
+        position: "absolute",
+        border: 0,
+        width: 1,
+        height: 1,
+        padding: 0,
+        margin: -1,
+        overflow: "hidden",
+        clip: "rect(0, 0, 0, 0)",
+        whiteSpace: "nowrap",
+        wordWrap: "normal",
+        ...props.style
+      }
+    }));
+  });
+
+  // node_modules/@radix-ui/react-select/dist/index.module.js
+  var $cc7e05a45900e73f$var$OPEN_KEYS = [
+    " ",
+    "Enter",
+    "ArrowUp",
+    "ArrowDown"
+  ];
+  var $cc7e05a45900e73f$var$SELECTION_KEYS = [
+    " ",
+    "Enter"
+  ];
+  var $cc7e05a45900e73f$var$SELECT_NAME = "Select";
+  var [$cc7e05a45900e73f$var$Collection, $cc7e05a45900e73f$var$useCollection, $cc7e05a45900e73f$var$createCollectionScope] = $e02a7d9cb1dc128c$export$c74125a8e3af6bb2($cc7e05a45900e73f$var$SELECT_NAME);
+  var [$cc7e05a45900e73f$var$createSelectContext, $cc7e05a45900e73f$export$286727a75dc039bd] = $c512c27ab02ef895$export$50c7b4e9d9f19c12($cc7e05a45900e73f$var$SELECT_NAME, [
+    $cc7e05a45900e73f$var$createCollectionScope
+  ]);
+  var [$cc7e05a45900e73f$var$SelectProvider, $cc7e05a45900e73f$var$useSelectContext] = $cc7e05a45900e73f$var$createSelectContext($cc7e05a45900e73f$var$SELECT_NAME);
+  var [$cc7e05a45900e73f$var$SelectNativeOptionsProvider, $cc7e05a45900e73f$var$useSelectNativeOptionsContext] = $cc7e05a45900e73f$var$createSelectContext($cc7e05a45900e73f$var$SELECT_NAME);
+  var $cc7e05a45900e73f$export$ef9b1a59e592288f = (props) => {
+    const { __scopeSelect, children, open: openProp, defaultOpen, onOpenChange, value: valueProp, defaultValue: defaultValue2, onValueChange, dir, name, autoComplete } = props;
+    const [trigger, setTrigger] = (0, import_react51.useState)(null);
+    const [valueNode, setValueNode] = (0, import_react51.useState)(null);
+    const [valueNodeHasChildren, setValueNodeHasChildren] = (0, import_react51.useState)(false);
+    const direction = $f631663db3294ace$export$b39126d51d94e6f3(dir);
+    const [open = false, setOpen] = $71cd76cc60e0454e$export$6f32135080cb4c32({
+      prop: openProp,
+      defaultProp: defaultOpen,
+      onChange: onOpenChange
+    });
+    const [value, setValue] = $71cd76cc60e0454e$export$6f32135080cb4c32({
+      prop: valueProp,
+      defaultProp: defaultValue2,
+      onChange: onValueChange
+    });
+    const triggerPointerDownPosRef = (0, import_react51.useRef)(null);
+    const isFormControl = trigger ? Boolean(trigger.closest("form")) : true;
+    const [nativeOptionsSet, setNativeOptionsSet] = (0, import_react51.useState)(/* @__PURE__ */ new Set());
+    const nativeSelectKey = Array.from(nativeOptionsSet).map((option) => option.props.value).join(";");
+    return /* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$SelectProvider, {
+      scope: __scopeSelect,
+      trigger,
+      onTriggerChange: setTrigger,
+      valueNode,
+      onValueNodeChange: setValueNode,
+      valueNodeHasChildren,
+      onValueNodeHasChildrenChange: setValueNodeHasChildren,
+      contentId: $1746a345f3d73bb7$export$f680877a34711e372(),
+      value,
+      onValueChange: setValue,
+      open,
+      onOpenChange: setOpen,
+      dir: direction,
+      triggerPointerDownPosRef
+    }, /* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$Collection.Provider, {
+      scope: __scopeSelect
+    }, /* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$SelectNativeOptionsProvider, {
+      scope: props.__scopeSelect,
+      onNativeOptionAdd: (0, import_react51.useCallback)((option) => {
+        setNativeOptionsSet((prev) => new Set(prev).add(option));
+      }, []),
+      onNativeOptionRemove: (0, import_react51.useCallback)((option) => {
+        setNativeOptionsSet((prev) => {
+          const optionsSet = new Set(prev);
+          optionsSet.delete(option);
+          return optionsSet;
+        });
+      }, [])
+    }, children)), isFormControl ? /* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$BubbleSelect, {
+      key: nativeSelectKey,
+      "aria-hidden": true,
+      tabIndex: -1,
+      name,
+      autoComplete,
+      value,
+      onChange: (event) => setValue(event.target.value)
+    }, Array.from(nativeOptionsSet)) : null);
+  };
+  var $cc7e05a45900e73f$var$TRIGGER_NAME = "SelectTrigger";
+  var $cc7e05a45900e73f$export$3ac1e88a1c0b9f1 = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const { __scopeSelect, disabled = false, "aria-labelledby": ariaLabelledby, ...triggerProps } = props;
+    const context = $cc7e05a45900e73f$var$useSelectContext($cc7e05a45900e73f$var$TRIGGER_NAME, __scopeSelect);
+    const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d052(forwardedRef, context.onTriggerChange);
+    const getItems = $cc7e05a45900e73f$var$useCollection(__scopeSelect);
+    const labelId = $b73a6c6685e72184$export$feddbbf47baabdb9(context.trigger);
+    const labelledBy = ariaLabelledby || labelId;
+    const [searchRef, handleTypeaheadSearch, resetTypeahead] = $cc7e05a45900e73f$var$useTypeaheadSearch((search) => {
+      const enabledItems = getItems().filter((item) => !item.disabled);
+      const currentItem = enabledItems.find((item) => item.value === context.value);
+      const nextItem = $cc7e05a45900e73f$var$findNextItem(enabledItems, search, currentItem);
+      if (nextItem !== void 0)
+        context.onValueChange(nextItem.value);
+    });
+    const handleOpen = () => {
+      if (!disabled) {
+        context.onOpenChange(true);
+        resetTypeahead();
+      }
+    };
+    return /* @__PURE__ */ (0, import_react51.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d0342.button, _extends({
+      type: "button",
+      role: "combobox",
+      "aria-controls": context.contentId,
+      "aria-expanded": context.open,
+      "aria-autocomplete": "none",
+      "aria-labelledby": labelledBy,
+      dir: context.dir,
+      "data-state": context.open ? "open" : "closed",
+      disabled,
+      "data-disabled": disabled ? "" : void 0,
+      "data-placeholder": context.value === void 0 ? "" : void 0
+    }, triggerProps, {
+      ref: composedRefs,
+      onPointerDown: $e42e1063c40fb3ef$export$b9ecd428b558ff10(triggerProps.onPointerDown, (event) => {
+        event.target.releasePointerCapture(event.pointerId);
+        if (event.button === 0 && event.ctrlKey === false) {
+          handleOpen();
+          context.triggerPointerDownPosRef.current = {
+            x: Math.round(event.pageX),
+            y: Math.round(event.pageY)
+          };
+          event.preventDefault();
+        }
+      }),
+      onKeyDown: $e42e1063c40fb3ef$export$b9ecd428b558ff10(triggerProps.onKeyDown, (event) => {
+        const isTypingAhead = searchRef.current !== "";
+        const isModifierKey = event.ctrlKey || event.altKey || event.metaKey;
+        if (!isModifierKey && event.key.length === 1)
+          handleTypeaheadSearch(event.key);
+        if (isTypingAhead && event.key === " ")
+          return;
+        if ($cc7e05a45900e73f$var$OPEN_KEYS.includes(event.key)) {
+          handleOpen();
+          event.preventDefault();
+        }
+      })
+    }));
+  });
+  var $cc7e05a45900e73f$var$VALUE_NAME = "SelectValue";
+  var $cc7e05a45900e73f$export$e288731fd71264f0 = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const { __scopeSelect, className, style, children, placeholder, ...valueProps } = props;
+    const context = $cc7e05a45900e73f$var$useSelectContext($cc7e05a45900e73f$var$VALUE_NAME, __scopeSelect);
+    const { onValueNodeHasChildrenChange } = context;
+    const hasChildren = children !== void 0;
+    const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d052(forwardedRef, context.onValueNodeChange);
+    $9f79659886946c16$export$e5c5a5f917a5871c2(() => {
+      onValueNodeHasChildrenChange(hasChildren);
+    }, [
+      onValueNodeHasChildrenChange,
+      hasChildren
+    ]);
+    return /* @__PURE__ */ (0, import_react51.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d0342.span, _extends({}, valueProps, {
+      ref: composedRefs,
+      style: {
+        pointerEvents: "none"
+      }
+    }), context.value === void 0 && placeholder !== void 0 ? placeholder : children);
+  });
+  var $cc7e05a45900e73f$export$99b400cabb58c515 = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const { __scopeSelect, children, ...iconProps } = props;
+    return /* @__PURE__ */ (0, import_react51.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d0342.span, _extends({
+      "aria-hidden": true
+    }, iconProps, {
+      ref: forwardedRef
+    }), children || "\u25BC");
+  });
+  var $cc7e05a45900e73f$var$CONTENT_NAME = "SelectContent";
+  var $cc7e05a45900e73f$export$c973a4b3cb86a03d = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const context = $cc7e05a45900e73f$var$useSelectContext($cc7e05a45900e73f$var$CONTENT_NAME, props.__scopeSelect);
+    const [fragment, setFragment] = (0, import_react51.useState)();
+    $9f79659886946c16$export$e5c5a5f917a5871c2(() => {
+      setFragment(new DocumentFragment());
+    }, []);
+    return /* @__PURE__ */ (0, import_react51.createElement)(import_react51.Fragment, null, context.open ? /* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$SelectContentImpl, _extends({}, props, {
+      ref: forwardedRef
+    })) : fragment ? /* @__PURE__ */ (0, import_react_dom4.createPortal)(/* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$SelectContentProvider, {
+      scope: props.__scopeSelect
+    }, /* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$Collection.Slot, {
+      scope: props.__scopeSelect
+    }, /* @__PURE__ */ (0, import_react51.createElement)("div", null, props.children))), fragment) : null);
+  });
+  var $cc7e05a45900e73f$var$CONTENT_MARGIN = 10;
+  var [$cc7e05a45900e73f$var$SelectContentProvider, $cc7e05a45900e73f$var$useSelectContentContext] = $cc7e05a45900e73f$var$createSelectContext($cc7e05a45900e73f$var$CONTENT_NAME);
+  var $cc7e05a45900e73f$var$SelectContentImpl = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const { __scopeSelect, onCloseAutoFocus, ...contentProps } = props;
+    const context = $cc7e05a45900e73f$var$useSelectContext($cc7e05a45900e73f$var$CONTENT_NAME, __scopeSelect);
+    const [contentWrapper, setContentWrapper] = (0, import_react51.useState)(null);
+    const [content, setContent] = (0, import_react51.useState)(null);
+    const [viewport, setViewport] = (0, import_react51.useState)(null);
+    const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d052(forwardedRef, (node) => setContent(node));
+    const [selectedItem, setSelectedItem] = (0, import_react51.useState)(null);
+    const [selectedItemText, setSelectedItemText] = (0, import_react51.useState)(null);
+    const getItems = $cc7e05a45900e73f$var$useCollection(__scopeSelect);
+    const [isPositioned, setIsPositioned] = (0, import_react51.useState)(false);
+    const shouldRepositionRef = (0, import_react51.useRef)(true);
+    const shouldExpandOnScrollRef = (0, import_react51.useRef)(false);
+    const firstValidItemFoundRef = (0, import_react51.useRef)(false);
+    (0, import_react51.useEffect)(() => {
+      if (content)
+        return hideOthers(content);
+    }, [
+      content
+    ]);
+    $3db38b7d1fb3fe6a$export$b7ece24a22aeda8c2();
+    const [contentZIndex, setContentZIndex] = (0, import_react51.useState)();
+    $9f79659886946c16$export$e5c5a5f917a5871c2(() => {
+      if (content)
+        setContentZIndex(window.getComputedStyle(content).zIndex);
+    }, [
+      content
+    ]);
+    const focusFirst = (0, import_react51.useCallback)((candidates) => {
+      const [firstItem, ...restItems] = getItems().map((item) => item.ref.current);
+      const [lastItem] = restItems.slice(-1);
+      const PREVIOUSLY_FOCUSED_ELEMENT = document.activeElement;
+      for (const candidate of candidates) {
+        if (candidate === PREVIOUSLY_FOCUSED_ELEMENT)
+          return;
+        candidate === null || candidate === void 0 || candidate.scrollIntoView({
+          block: "nearest"
+        });
+        if (candidate === firstItem && viewport)
+          viewport.scrollTop = 0;
+        if (candidate === lastItem && viewport)
+          viewport.scrollTop = viewport.scrollHeight;
+        candidate === null || candidate === void 0 || candidate.focus();
+        if (document.activeElement !== PREVIOUSLY_FOCUSED_ELEMENT)
+          return;
+      }
+    }, [
+      getItems,
+      viewport
+    ]);
+    const position = (0, import_react51.useCallback)(() => {
+      if (context.trigger && context.valueNode && contentWrapper && content && viewport && selectedItem && selectedItemText) {
+        const triggerRect = context.trigger.getBoundingClientRect();
+        const contentRect = content.getBoundingClientRect();
+        const valueNodeRect = context.valueNode.getBoundingClientRect();
+        const itemTextRect = selectedItemText.getBoundingClientRect();
+        if (context.dir !== "rtl") {
+          const itemTextOffset = itemTextRect.left - contentRect.left;
+          const left = valueNodeRect.left - itemTextOffset;
+          const leftDelta = triggerRect.left - left;
+          const minContentWidth = triggerRect.width + leftDelta;
+          const contentWidth = Math.max(minContentWidth, contentRect.width);
+          const rightEdge = window.innerWidth - $cc7e05a45900e73f$var$CONTENT_MARGIN;
+          const clampedLeft = $ae6933e535247d3d$export$7d15b64cf5a3a4c4(left, [
+            $cc7e05a45900e73f$var$CONTENT_MARGIN,
+            rightEdge - contentWidth
+          ]);
+          contentWrapper.style.minWidth = minContentWidth + "px";
+          contentWrapper.style.left = clampedLeft + "px";
+        } else {
+          const itemTextOffset = contentRect.right - itemTextRect.right;
+          const right = window.innerWidth - valueNodeRect.right - itemTextOffset;
+          const rightDelta = window.innerWidth - triggerRect.right - right;
+          const minContentWidth = triggerRect.width + rightDelta;
+          const contentWidth = Math.max(minContentWidth, contentRect.width);
+          const leftEdge = window.innerWidth - $cc7e05a45900e73f$var$CONTENT_MARGIN;
+          const clampedRight = $ae6933e535247d3d$export$7d15b64cf5a3a4c4(right, [
+            $cc7e05a45900e73f$var$CONTENT_MARGIN,
+            leftEdge - contentWidth
+          ]);
+          contentWrapper.style.minWidth = minContentWidth + "px";
+          contentWrapper.style.right = clampedRight + "px";
+        }
+        const items = getItems();
+        const availableHeight = window.innerHeight - $cc7e05a45900e73f$var$CONTENT_MARGIN * 2;
+        const itemsHeight = viewport.scrollHeight;
+        const contentStyles = window.getComputedStyle(content);
+        const contentBorderTopWidth = parseInt(contentStyles.borderTopWidth, 10);
+        const contentPaddingTop = parseInt(contentStyles.paddingTop, 10);
+        const contentBorderBottomWidth = parseInt(contentStyles.borderBottomWidth, 10);
+        const contentPaddingBottom = parseInt(contentStyles.paddingBottom, 10);
+        const fullContentHeight = contentBorderTopWidth + contentPaddingTop + itemsHeight + contentPaddingBottom + contentBorderBottomWidth;
+        const minContentHeight = Math.min(selectedItem.offsetHeight * 5, fullContentHeight);
+        const viewportStyles = window.getComputedStyle(viewport);
+        const viewportPaddingTop = parseInt(viewportStyles.paddingTop, 10);
+        const viewportPaddingBottom = parseInt(viewportStyles.paddingBottom, 10);
+        const topEdgeToTriggerMiddle = triggerRect.top + triggerRect.height / 2 - $cc7e05a45900e73f$var$CONTENT_MARGIN;
+        const triggerMiddleToBottomEdge = availableHeight - topEdgeToTriggerMiddle;
+        const selectedItemHalfHeight = selectedItem.offsetHeight / 2;
+        const itemOffsetMiddle = selectedItem.offsetTop + selectedItemHalfHeight;
+        const contentTopToItemMiddle = contentBorderTopWidth + contentPaddingTop + itemOffsetMiddle;
+        const itemMiddleToContentBottom = fullContentHeight - contentTopToItemMiddle;
+        const willAlignWithoutTopOverflow = contentTopToItemMiddle <= topEdgeToTriggerMiddle;
+        if (willAlignWithoutTopOverflow) {
+          const isLastItem = selectedItem === items[items.length - 1].ref.current;
+          contentWrapper.style.bottom = "0px";
+          const viewportOffsetBottom = content.clientHeight - viewport.offsetTop - viewport.offsetHeight;
+          const clampedTriggerMiddleToBottomEdge = Math.max(triggerMiddleToBottomEdge, selectedItemHalfHeight + (isLastItem ? viewportPaddingBottom : 0) + viewportOffsetBottom + contentBorderBottomWidth);
+          const height = contentTopToItemMiddle + clampedTriggerMiddleToBottomEdge;
+          contentWrapper.style.height = height + "px";
+        } else {
+          const isFirstItem = selectedItem === items[0].ref.current;
+          contentWrapper.style.top = "0px";
+          const clampedTopEdgeToTriggerMiddle = Math.max(topEdgeToTriggerMiddle, contentBorderTopWidth + viewport.offsetTop + (isFirstItem ? viewportPaddingTop : 0) + selectedItemHalfHeight);
+          const height = clampedTopEdgeToTriggerMiddle + itemMiddleToContentBottom;
+          contentWrapper.style.height = height + "px";
+          viewport.scrollTop = contentTopToItemMiddle - topEdgeToTriggerMiddle + viewport.offsetTop;
+        }
+        contentWrapper.style.margin = `${$cc7e05a45900e73f$var$CONTENT_MARGIN}px 0`;
+        contentWrapper.style.minHeight = minContentHeight + "px";
+        contentWrapper.style.maxHeight = availableHeight + "px";
+        setIsPositioned(true);
+        requestAnimationFrame(() => shouldExpandOnScrollRef.current = true);
+      }
+    }, [
+      getItems,
+      context.trigger,
+      context.valueNode,
+      contentWrapper,
+      content,
+      viewport,
+      selectedItem,
+      selectedItemText,
+      context.dir
+    ]);
+    $9f79659886946c16$export$e5c5a5f917a5871c2(() => position(), [
+      position
+    ]);
+    const focusSelectedItem = (0, import_react51.useCallback)(() => focusFirst([
+      selectedItem,
+      content
+    ]), [
+      focusFirst,
+      selectedItem,
+      content
+    ]);
+    (0, import_react51.useEffect)(() => {
+      if (isPositioned)
+        focusSelectedItem();
+    }, [
+      isPositioned,
+      focusSelectedItem
+    ]);
+    const handleScrollButtonChange = (0, import_react51.useCallback)((node) => {
+      if (node && shouldRepositionRef.current === true) {
+        position();
+        focusSelectedItem();
+        shouldRepositionRef.current = false;
+      }
+    }, [
+      position,
+      focusSelectedItem
+    ]);
+    const { onOpenChange, triggerPointerDownPosRef } = context;
+    (0, import_react51.useEffect)(() => {
+      if (content) {
+        let pointerMoveDelta = {
+          x: 0,
+          y: 0
+        };
+        const handlePointerMove = (event) => {
+          var _triggerPointerDownPo, _triggerPointerDownPo2, _triggerPointerDownPo3, _triggerPointerDownPo4;
+          pointerMoveDelta = {
+            x: Math.abs(Math.round(event.pageX) - ((_triggerPointerDownPo = (_triggerPointerDownPo2 = triggerPointerDownPosRef.current) === null || _triggerPointerDownPo2 === void 0 ? void 0 : _triggerPointerDownPo2.x) !== null && _triggerPointerDownPo !== void 0 ? _triggerPointerDownPo : 0)),
+            y: Math.abs(Math.round(event.pageY) - ((_triggerPointerDownPo3 = (_triggerPointerDownPo4 = triggerPointerDownPosRef.current) === null || _triggerPointerDownPo4 === void 0 ? void 0 : _triggerPointerDownPo4.y) !== null && _triggerPointerDownPo3 !== void 0 ? _triggerPointerDownPo3 : 0))
+          };
+        };
+        const handlePointerUp = (event) => {
+          if (pointerMoveDelta.x <= 10 && pointerMoveDelta.y <= 10)
+            event.preventDefault();
+          else if (!content.contains(event.target))
+            onOpenChange(false);
+          document.removeEventListener("pointermove", handlePointerMove);
+          triggerPointerDownPosRef.current = null;
+        };
+        if (triggerPointerDownPosRef.current !== null) {
+          document.addEventListener("pointermove", handlePointerMove);
+          document.addEventListener("pointerup", handlePointerUp, {
+            capture: true,
+            once: true
+          });
+        }
+        return () => {
+          document.removeEventListener("pointermove", handlePointerMove);
+          document.removeEventListener("pointerup", handlePointerUp, {
+            capture: true
+          });
+        };
+      }
+    }, [
+      content,
+      onOpenChange,
+      triggerPointerDownPosRef
+    ]);
+    (0, import_react51.useEffect)(() => {
+      const close = () => onOpenChange(false);
+      window.addEventListener("blur", close);
+      window.addEventListener("resize", close);
+      return () => {
+        window.removeEventListener("blur", close);
+        window.removeEventListener("resize", close);
+      };
+    }, [
+      onOpenChange
+    ]);
+    const [searchRef, handleTypeaheadSearch] = $cc7e05a45900e73f$var$useTypeaheadSearch((search) => {
+      const enabledItems = getItems().filter((item) => !item.disabled);
+      const currentItem = enabledItems.find((item) => item.ref.current === document.activeElement);
+      const nextItem = $cc7e05a45900e73f$var$findNextItem(enabledItems, search, currentItem);
+      if (nextItem)
+        setTimeout(() => nextItem.ref.current.focus());
+    });
+    const itemRefCallback = (0, import_react51.useCallback)((node, value, disabled) => {
+      const isFirstValidItem = !firstValidItemFoundRef.current && !disabled;
+      const isSelectedItem = context.value !== void 0 && context.value === value;
+      if (isSelectedItem || isFirstValidItem) {
+        setSelectedItem(node);
+        if (isFirstValidItem)
+          firstValidItemFoundRef.current = true;
+      }
+    }, [
+      context.value
+    ]);
+    const handleItemLeave = (0, import_react51.useCallback)(() => content === null || content === void 0 ? void 0 : content.focus(), [
+      content
+    ]);
+    const itemTextRefCallback = (0, import_react51.useCallback)((node, value, disabled) => {
+      const isFirstValidItem = !firstValidItemFoundRef.current && !disabled;
+      const isSelectedItem = context.value !== void 0 && context.value === value;
+      if (isSelectedItem || isFirstValidItem)
+        setSelectedItemText(node);
+    }, [
+      context.value
+    ]);
+    return /* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$SelectContentProvider, {
+      scope: __scopeSelect,
+      contentWrapper,
+      content,
+      viewport,
+      onViewportChange: setViewport,
+      itemRefCallback,
+      selectedItem,
+      onItemLeave: handleItemLeave,
+      itemTextRefCallback,
+      selectedItemText,
+      onScrollButtonChange: handleScrollButtonChange,
+      isPositioned,
+      shouldExpandOnScrollRef,
+      searchRef
+    }, /* @__PURE__ */ (0, import_react51.createElement)(Combination_default, {
+      as: $5e63c961fc1ce211$export$8c6ed5c666ac13602,
+      allowPinchZoom: true
+    }, /* @__PURE__ */ (0, import_react51.createElement)("div", {
+      ref: setContentWrapper,
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        position: "fixed",
+        zIndex: contentZIndex
+      }
+    }, /* @__PURE__ */ (0, import_react51.createElement)($d3863c46a17e8a28$export$20e40289641fbbb62, {
+      asChild: true,
+      trapped: context.open,
+      onMountAutoFocus: (event) => {
+        event.preventDefault();
+      },
+      onUnmountAutoFocus: $e42e1063c40fb3ef$export$b9ecd428b558ff10(onCloseAutoFocus, (event) => {
+        var _context$trigger;
+        (_context$trigger = context.trigger) === null || _context$trigger === void 0 || _context$trigger.focus({
+          preventScroll: true
+        });
+        event.preventDefault();
+      })
+    }, /* @__PURE__ */ (0, import_react51.createElement)($5cb92bef7577960e$export$177fb62ff3ec1f222, _extends({
+      role: "listbox",
+      id: context.contentId,
+      "data-state": context.open ? "open" : "closed",
+      dir: context.dir,
+      onContextMenu: (event) => event.preventDefault()
+    }, contentProps, {
+      ref: composedRefs,
+      style: {
+        display: "flex",
+        flexDirection: "column",
+        boxSizing: "border-box",
+        maxHeight: "100%",
+        outline: "none",
+        ...contentProps.style
+      },
+      disableOutsidePointerEvents: true,
+      onFocusOutside: (event) => event.preventDefault(),
+      onDismiss: () => context.onOpenChange(false),
+      onKeyDown: $e42e1063c40fb3ef$export$b9ecd428b558ff10(contentProps.onKeyDown, (event) => {
+        const isModifierKey = event.ctrlKey || event.altKey || event.metaKey;
+        if (event.key === "Tab")
+          event.preventDefault();
+        if (!isModifierKey && event.key.length === 1)
+          handleTypeaheadSearch(event.key);
+        if ([
+          "ArrowUp",
+          "ArrowDown",
+          "Home",
+          "End"
+        ].includes(event.key)) {
+          const items = getItems().filter((item) => !item.disabled);
+          let candidateNodes = items.map((item) => item.ref.current);
+          if ([
+            "ArrowUp",
+            "End"
+          ].includes(event.key))
+            candidateNodes = candidateNodes.slice().reverse();
+          if ([
+            "ArrowUp",
+            "ArrowDown"
+          ].includes(event.key)) {
+            const currentElement = event.target;
+            const currentIndex = candidateNodes.indexOf(currentElement);
+            candidateNodes = candidateNodes.slice(currentIndex + 1);
+          }
+          setTimeout(() => focusFirst(candidateNodes));
+          event.preventDefault();
+        }
+      })
+    }))))));
+  });
+  var $cc7e05a45900e73f$var$VIEWPORT_NAME = "SelectViewport";
+  var $cc7e05a45900e73f$export$9ed6e7b40248d36d = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const { __scopeSelect, ...viewportProps } = props;
+    const contentContext = $cc7e05a45900e73f$var$useSelectContentContext($cc7e05a45900e73f$var$VIEWPORT_NAME, __scopeSelect);
+    const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d052(forwardedRef, contentContext.onViewportChange);
+    const prevScrollTopRef = (0, import_react51.useRef)(0);
+    return /* @__PURE__ */ (0, import_react51.createElement)(import_react51.Fragment, null, /* @__PURE__ */ (0, import_react51.createElement)("style", {
+      dangerouslySetInnerHTML: {
+        __html: `[data-radix-select-viewport]{scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;}[data-radix-select-viewport]::-webkit-scrollbar{display:none}`
+      }
+    }), /* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$Collection.Slot, {
+      scope: __scopeSelect
+    }, /* @__PURE__ */ (0, import_react51.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d0342.div, _extends({
+      "data-radix-select-viewport": "",
+      role: "presentation"
+    }, viewportProps, {
+      ref: composedRefs,
+      style: {
+        position: "relative",
+        flex: 1,
+        overflow: "auto",
+        ...viewportProps.style
+      },
+      onScroll: $e42e1063c40fb3ef$export$b9ecd428b558ff10(viewportProps.onScroll, (event) => {
+        const viewport = event.currentTarget;
+        const { contentWrapper, shouldExpandOnScrollRef } = contentContext;
+        if (shouldExpandOnScrollRef !== null && shouldExpandOnScrollRef !== void 0 && shouldExpandOnScrollRef.current && contentWrapper) {
+          const scrolledBy = Math.abs(prevScrollTopRef.current - viewport.scrollTop);
+          if (scrolledBy > 0) {
+            const availableHeight = window.innerHeight - $cc7e05a45900e73f$var$CONTENT_MARGIN * 2;
+            const cssMinHeight = parseFloat(contentWrapper.style.minHeight);
+            const cssHeight = parseFloat(contentWrapper.style.height);
+            const prevHeight = Math.max(cssMinHeight, cssHeight);
+            if (prevHeight < availableHeight) {
+              const nextHeight = prevHeight + scrolledBy;
+              const clampedNextHeight = Math.min(availableHeight, nextHeight);
+              const heightDiff = nextHeight - clampedNextHeight;
+              contentWrapper.style.height = clampedNextHeight + "px";
+              if (contentWrapper.style.bottom === "0px") {
+                viewport.scrollTop = heightDiff > 0 ? heightDiff : 0;
+                contentWrapper.style.justifyContent = "flex-end";
+              }
+            }
+          }
+        }
+        prevScrollTopRef.current = viewport.scrollTop;
+      })
+    }))));
+  });
+  var $cc7e05a45900e73f$var$GROUP_NAME = "SelectGroup";
+  var [$cc7e05a45900e73f$var$SelectGroupContextProvider, $cc7e05a45900e73f$var$useSelectGroupContext] = $cc7e05a45900e73f$var$createSelectContext($cc7e05a45900e73f$var$GROUP_NAME);
+  var $cc7e05a45900e73f$export$ee25a334c55de1f4 = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const { __scopeSelect, ...groupProps } = props;
+    const groupId = $1746a345f3d73bb7$export$f680877a34711e372();
+    return /* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$SelectGroupContextProvider, {
+      scope: __scopeSelect,
+      id: groupId
+    }, /* @__PURE__ */ (0, import_react51.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d0342.div, _extends({
+      role: "group",
+      "aria-labelledby": groupId
+    }, groupProps, {
+      ref: forwardedRef
+    })));
+  });
+  var $cc7e05a45900e73f$var$LABEL_NAME = "SelectLabel";
+  var $cc7e05a45900e73f$export$f67338d29bd972f8 = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const { __scopeSelect, ...labelProps } = props;
+    const groupContext = $cc7e05a45900e73f$var$useSelectGroupContext($cc7e05a45900e73f$var$LABEL_NAME, __scopeSelect);
+    return /* @__PURE__ */ (0, import_react51.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d0342.div, _extends({
+      id: groupContext.id
+    }, labelProps, {
+      ref: forwardedRef
+    }));
+  });
+  var $cc7e05a45900e73f$var$ITEM_NAME = "SelectItem";
+  var [$cc7e05a45900e73f$var$SelectItemContextProvider, $cc7e05a45900e73f$var$useSelectItemContext] = $cc7e05a45900e73f$var$createSelectContext($cc7e05a45900e73f$var$ITEM_NAME);
+  var $cc7e05a45900e73f$export$13ef48a934230896 = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const { __scopeSelect, value, disabled = false, textValue: textValueProp, ...itemProps } = props;
+    const context = $cc7e05a45900e73f$var$useSelectContext($cc7e05a45900e73f$var$ITEM_NAME, __scopeSelect);
+    const contentContext = $cc7e05a45900e73f$var$useSelectContentContext($cc7e05a45900e73f$var$ITEM_NAME, __scopeSelect);
+    const isSelected = context.value === value;
+    const [textValue, setTextValue] = (0, import_react51.useState)(textValueProp !== null && textValueProp !== void 0 ? textValueProp : "");
+    const [isFocused, setIsFocused] = (0, import_react51.useState)(false);
+    const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d052(forwardedRef, (node) => {
+      var _contentContext$itemR;
+      return (_contentContext$itemR = contentContext.itemRefCallback) === null || _contentContext$itemR === void 0 ? void 0 : _contentContext$itemR.call(contentContext, node, value, disabled);
+    });
+    const textId = $1746a345f3d73bb7$export$f680877a34711e372();
+    const handleSelect = () => {
+      if (!disabled) {
+        context.onValueChange(value);
+        context.onOpenChange(false);
+      }
+    };
+    return /* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$SelectItemContextProvider, {
+      scope: __scopeSelect,
+      value,
+      disabled,
+      textId,
+      isSelected,
+      onItemTextChange: (0, import_react51.useCallback)((node) => {
+        setTextValue((prevTextValue) => {
+          var _node$textContent;
+          return prevTextValue || ((_node$textContent = node === null || node === void 0 ? void 0 : node.textContent) !== null && _node$textContent !== void 0 ? _node$textContent : "").trim();
+        });
+      }, [])
+    }, /* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$Collection.ItemSlot, {
+      scope: __scopeSelect,
+      value,
+      disabled,
+      textValue
+    }, /* @__PURE__ */ (0, import_react51.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d0342.div, _extends({
+      role: "option",
+      "aria-labelledby": textId,
+      "data-highlighted": isFocused ? "" : void 0,
+      "aria-selected": isSelected && isFocused,
+      "data-state": isSelected ? "checked" : "unchecked",
+      "aria-disabled": disabled || void 0,
+      "data-disabled": disabled ? "" : void 0,
+      tabIndex: disabled ? void 0 : -1
+    }, itemProps, {
+      ref: composedRefs,
+      onFocus: $e42e1063c40fb3ef$export$b9ecd428b558ff10(itemProps.onFocus, () => setIsFocused(true)),
+      onBlur: $e42e1063c40fb3ef$export$b9ecd428b558ff10(itemProps.onBlur, () => setIsFocused(false)),
+      onPointerUp: $e42e1063c40fb3ef$export$b9ecd428b558ff10(itemProps.onPointerUp, handleSelect),
+      onPointerMove: $e42e1063c40fb3ef$export$b9ecd428b558ff10(itemProps.onPointerMove, (event) => {
+        if (disabled) {
+          var _contentContext$onIte;
+          (_contentContext$onIte = contentContext.onItemLeave) === null || _contentContext$onIte === void 0 || _contentContext$onIte.call(contentContext);
+        } else
+          event.currentTarget.focus({
+            preventScroll: true
+          });
+      }),
+      onPointerLeave: $e42e1063c40fb3ef$export$b9ecd428b558ff10(itemProps.onPointerLeave, (event) => {
+        if (event.currentTarget === document.activeElement) {
+          var _contentContext$onIte2;
+          (_contentContext$onIte2 = contentContext.onItemLeave) === null || _contentContext$onIte2 === void 0 || _contentContext$onIte2.call(contentContext);
+        }
+      }),
+      onKeyDown: $e42e1063c40fb3ef$export$b9ecd428b558ff10(itemProps.onKeyDown, (event) => {
+        var _contentContext$searc;
+        const isTypingAhead = ((_contentContext$searc = contentContext.searchRef) === null || _contentContext$searc === void 0 ? void 0 : _contentContext$searc.current) !== "";
+        if (isTypingAhead && event.key === " ")
+          return;
+        if ($cc7e05a45900e73f$var$SELECTION_KEYS.includes(event.key))
+          handleSelect();
+        if (event.key === " ")
+          event.preventDefault();
+      })
+    }))));
+  });
+  var $cc7e05a45900e73f$var$ITEM_TEXT_NAME = "SelectItemText";
+  var $cc7e05a45900e73f$export$3572fb0fb821ff49 = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const { __scopeSelect, className, style, ...itemTextProps } = props;
+    const context = $cc7e05a45900e73f$var$useSelectContext($cc7e05a45900e73f$var$ITEM_TEXT_NAME, __scopeSelect);
+    const contentContext = $cc7e05a45900e73f$var$useSelectContentContext($cc7e05a45900e73f$var$ITEM_TEXT_NAME, __scopeSelect);
+    const itemContext = $cc7e05a45900e73f$var$useSelectItemContext($cc7e05a45900e73f$var$ITEM_TEXT_NAME, __scopeSelect);
+    const nativeOptionsContext = $cc7e05a45900e73f$var$useSelectNativeOptionsContext($cc7e05a45900e73f$var$ITEM_TEXT_NAME, __scopeSelect);
+    const [itemTextNode, setItemTextNode] = (0, import_react51.useState)(null);
+    const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d052(forwardedRef, (node) => setItemTextNode(node), itemContext.onItemTextChange, (node) => {
+      var _contentContext$itemT;
+      return (_contentContext$itemT = contentContext.itemTextRefCallback) === null || _contentContext$itemT === void 0 ? void 0 : _contentContext$itemT.call(contentContext, node, itemContext.value, itemContext.disabled);
+    });
+    const textContent = itemTextNode === null || itemTextNode === void 0 ? void 0 : itemTextNode.textContent;
+    const nativeOption = (0, import_react51.useMemo)(() => /* @__PURE__ */ (0, import_react51.createElement)("option", {
+      key: itemContext.value,
+      value: itemContext.value,
+      disabled: itemContext.disabled
+    }, textContent), [
+      itemContext.disabled,
+      itemContext.value,
+      textContent
+    ]);
+    const { onNativeOptionAdd, onNativeOptionRemove } = nativeOptionsContext;
+    $9f79659886946c16$export$e5c5a5f917a5871c2(() => {
+      onNativeOptionAdd(nativeOption);
+      return () => onNativeOptionRemove(nativeOption);
+    }, [
+      onNativeOptionAdd,
+      onNativeOptionRemove,
+      nativeOption
+    ]);
+    return /* @__PURE__ */ (0, import_react51.createElement)(import_react51.Fragment, null, /* @__PURE__ */ (0, import_react51.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d0342.span, _extends({
+      id: itemContext.textId
+    }, itemTextProps, {
+      ref: composedRefs
+    })), itemContext.isSelected && context.valueNode && !context.valueNodeHasChildren ? /* @__PURE__ */ (0, import_react_dom4.createPortal)(itemTextProps.children, context.valueNode) : null);
+  });
+  var $cc7e05a45900e73f$var$ITEM_INDICATOR_NAME = "SelectItemIndicator";
+  var $cc7e05a45900e73f$export$6b9198de19accfe6 = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const { __scopeSelect, ...itemIndicatorProps } = props;
+    const itemContext = $cc7e05a45900e73f$var$useSelectItemContext($cc7e05a45900e73f$var$ITEM_INDICATOR_NAME, __scopeSelect);
+    return itemContext.isSelected ? /* @__PURE__ */ (0, import_react51.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d0342.span, _extends({
+      "aria-hidden": true
+    }, itemIndicatorProps, {
+      ref: forwardedRef
+    })) : null;
+  });
+  var $cc7e05a45900e73f$var$SCROLL_UP_BUTTON_NAME = "SelectScrollUpButton";
+  var $cc7e05a45900e73f$export$d8117927658af6d7 = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const contentContext = $cc7e05a45900e73f$var$useSelectContentContext($cc7e05a45900e73f$var$SCROLL_UP_BUTTON_NAME, props.__scopeSelect);
+    const [canScrollUp1, setCanScrollUp] = (0, import_react51.useState)(false);
+    const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d052(forwardedRef, contentContext.onScrollButtonChange);
+    $9f79659886946c16$export$e5c5a5f917a5871c2(() => {
+      if (contentContext.viewport && contentContext.isPositioned) {
+        let handleScroll2 = function() {
+          const canScrollUp = viewport.scrollTop > 0;
+          setCanScrollUp(canScrollUp);
+        };
+        const viewport = contentContext.viewport;
+        handleScroll2();
+        viewport.addEventListener("scroll", handleScroll2);
+        return () => viewport.removeEventListener("scroll", handleScroll2);
+      }
+    }, [
+      contentContext.viewport,
+      contentContext.isPositioned
+    ]);
+    return canScrollUp1 ? /* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$SelectScrollButtonImpl, _extends({}, props, {
+      ref: composedRefs,
+      onAutoScroll: () => {
+        const { viewport, selectedItem } = contentContext;
+        if (viewport && selectedItem)
+          viewport.scrollTop = viewport.scrollTop - selectedItem.offsetHeight;
+      }
+    })) : null;
+  });
+  var $cc7e05a45900e73f$var$SCROLL_DOWN_BUTTON_NAME = "SelectScrollDownButton";
+  var $cc7e05a45900e73f$export$ff951e476c12189 = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const contentContext = $cc7e05a45900e73f$var$useSelectContentContext($cc7e05a45900e73f$var$SCROLL_DOWN_BUTTON_NAME, props.__scopeSelect);
+    const [canScrollDown1, setCanScrollDown] = (0, import_react51.useState)(false);
+    const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d052(forwardedRef, contentContext.onScrollButtonChange);
+    $9f79659886946c16$export$e5c5a5f917a5871c2(() => {
+      if (contentContext.viewport && contentContext.isPositioned) {
+        let handleScroll2 = function() {
+          const maxScroll = viewport.scrollHeight - viewport.clientHeight;
+          const canScrollDown = Math.ceil(viewport.scrollTop) < maxScroll;
+          setCanScrollDown(canScrollDown);
+        };
+        const viewport = contentContext.viewport;
+        handleScroll2();
+        viewport.addEventListener("scroll", handleScroll2);
+        return () => viewport.removeEventListener("scroll", handleScroll2);
+      }
+    }, [
+      contentContext.viewport,
+      contentContext.isPositioned
+    ]);
+    return canScrollDown1 ? /* @__PURE__ */ (0, import_react51.createElement)($cc7e05a45900e73f$var$SelectScrollButtonImpl, _extends({}, props, {
+      ref: composedRefs,
+      onAutoScroll: () => {
+        const { viewport, selectedItem } = contentContext;
+        if (viewport && selectedItem)
+          viewport.scrollTop = viewport.scrollTop + selectedItem.offsetHeight;
+      }
+    })) : null;
+  });
+  var $cc7e05a45900e73f$var$SelectScrollButtonImpl = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const { __scopeSelect, onAutoScroll, ...scrollIndicatorProps } = props;
+    const contentContext = $cc7e05a45900e73f$var$useSelectContentContext("SelectScrollButton", __scopeSelect);
+    const autoScrollTimerRef = (0, import_react51.useRef)(null);
+    const getItems = $cc7e05a45900e73f$var$useCollection(__scopeSelect);
+    const clearAutoScrollTimer = (0, import_react51.useCallback)(() => {
+      if (autoScrollTimerRef.current !== null) {
+        window.clearInterval(autoScrollTimerRef.current);
+        autoScrollTimerRef.current = null;
+      }
+    }, []);
+    (0, import_react51.useEffect)(() => {
+      return () => clearAutoScrollTimer();
+    }, [
+      clearAutoScrollTimer
+    ]);
+    $9f79659886946c16$export$e5c5a5f917a5871c2(() => {
+      var _activeItem$ref$curre;
+      const activeItem = getItems().find((item) => item.ref.current === document.activeElement);
+      activeItem === null || activeItem === void 0 || (_activeItem$ref$curre = activeItem.ref.current) === null || _activeItem$ref$curre === void 0 || _activeItem$ref$curre.scrollIntoView({
+        block: "nearest"
+      });
+    }, [
+      getItems
+    ]);
+    return /* @__PURE__ */ (0, import_react51.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d0342.div, _extends({
+      "aria-hidden": true
+    }, scrollIndicatorProps, {
+      ref: forwardedRef,
+      style: {
+        flexShrink: 0,
+        ...scrollIndicatorProps.style
+      },
+      onPointerMove: $e42e1063c40fb3ef$export$b9ecd428b558ff10(scrollIndicatorProps.onPointerMove, () => {
+        var _contentContext$onIte3;
+        (_contentContext$onIte3 = contentContext.onItemLeave) === null || _contentContext$onIte3 === void 0 || _contentContext$onIte3.call(contentContext);
+        if (autoScrollTimerRef.current === null)
+          autoScrollTimerRef.current = window.setInterval(onAutoScroll, 50);
+      }),
+      onPointerLeave: $e42e1063c40fb3ef$export$b9ecd428b558ff10(scrollIndicatorProps.onPointerLeave, () => {
+        clearAutoScrollTimer();
+      })
+    }));
+  });
+  var $cc7e05a45900e73f$var$BubbleSelect = /* @__PURE__ */ (0, import_react51.forwardRef)((props, forwardedRef) => {
+    const { value, ...selectProps } = props;
+    const ref = (0, import_react51.useRef)(null);
+    const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d052(forwardedRef, ref);
+    const prevValue = $010c2913dbd2fe3d$export$5cae361ad82dce8b(value);
+    (0, import_react51.useEffect)(() => {
+      const select = ref.current;
+      const selectProto = window.HTMLSelectElement.prototype;
+      const descriptor = Object.getOwnPropertyDescriptor(selectProto, "value");
+      const setValue = descriptor.set;
+      if (prevValue !== value && setValue) {
+        const event = new Event("change", {
+          bubbles: true
+        });
+        setValue.call(select, value);
+        select.dispatchEvent(event);
+      }
+    }, [
+      prevValue,
+      value
+    ]);
+    return /* @__PURE__ */ (0, import_react51.createElement)($ea1ef594cf570d83$export$439d29a4e110a164, {
+      asChild: true
+    }, /* @__PURE__ */ (0, import_react51.createElement)("select", _extends({}, selectProps, {
+      ref: composedRefs,
+      defaultValue: value
+    })));
+  });
+  $cc7e05a45900e73f$var$BubbleSelect.displayName = "BubbleSelect";
+  function $cc7e05a45900e73f$var$useTypeaheadSearch(onSearchChange) {
+    const handleSearchChange = $b1b2314f5f9a1d84$export$25bec8c6f54ee79a2(onSearchChange);
+    const searchRef = (0, import_react51.useRef)("");
+    const timerRef = (0, import_react51.useRef)(0);
+    const handleTypeaheadSearch = (0, import_react51.useCallback)((key) => {
+      const search = searchRef.current + key;
+      handleSearchChange(search);
+      (function updateSearch(value) {
+        searchRef.current = value;
+        window.clearTimeout(timerRef.current);
+        if (value !== "")
+          timerRef.current = window.setTimeout(() => updateSearch(""), 1e3);
+      })(search);
+    }, [
+      handleSearchChange
+    ]);
+    const resetTypeahead = (0, import_react51.useCallback)(() => {
+      searchRef.current = "";
+      window.clearTimeout(timerRef.current);
+    }, []);
+    (0, import_react51.useEffect)(() => {
+      return () => window.clearTimeout(timerRef.current);
+    }, []);
+    return [
+      searchRef,
+      handleTypeaheadSearch,
+      resetTypeahead
+    ];
+  }
+  function $cc7e05a45900e73f$var$findNextItem(items, search, currentItem) {
+    const isRepeated = search.length > 1 && Array.from(search).every((char) => char === search[0]);
+    const normalizedSearch = isRepeated ? search[0] : search;
+    const currentItemIndex = currentItem ? items.indexOf(currentItem) : -1;
+    let wrappedItems = $cc7e05a45900e73f$var$wrapArray(items, Math.max(currentItemIndex, 0));
+    const excludeCurrentItem = normalizedSearch.length === 1;
+    if (excludeCurrentItem)
+      wrappedItems = wrappedItems.filter((v5) => v5 !== currentItem);
+    const nextItem = wrappedItems.find((item) => item.textValue.toLowerCase().startsWith(normalizedSearch.toLowerCase()));
+    return nextItem !== currentItem ? nextItem : void 0;
+  }
+  function $cc7e05a45900e73f$var$wrapArray(array, startIndex) {
+    return array.map((_3, index) => array[(startIndex + index) % array.length]);
+  }
+  var $cc7e05a45900e73f$export$be92b6f5f03c0fe9 = $cc7e05a45900e73f$export$ef9b1a59e592288f;
+  var $cc7e05a45900e73f$export$41fb9f06171c75f4 = $cc7e05a45900e73f$export$3ac1e88a1c0b9f1;
+  var $cc7e05a45900e73f$export$4c8d1a57a761ef94 = $cc7e05a45900e73f$export$e288731fd71264f0;
+  var $cc7e05a45900e73f$export$f04a61298a47a40f = $cc7e05a45900e73f$export$99b400cabb58c515;
+  var $cc7e05a45900e73f$export$7c6e2c02157bb7d2 = $cc7e05a45900e73f$export$c973a4b3cb86a03d;
+  var $cc7e05a45900e73f$export$d5c6c08dc2d3ca7 = $cc7e05a45900e73f$export$9ed6e7b40248d36d;
+  var $cc7e05a45900e73f$export$eb2fcfdbd7ba97d4 = $cc7e05a45900e73f$export$ee25a334c55de1f4;
+  var $cc7e05a45900e73f$export$b04be29aa201d4f5 = $cc7e05a45900e73f$export$f67338d29bd972f8;
+  var $cc7e05a45900e73f$export$6d08773d2e66f8f2 = $cc7e05a45900e73f$export$13ef48a934230896;
+  var $cc7e05a45900e73f$export$d6e5bf9c43ea9319 = $cc7e05a45900e73f$export$3572fb0fb821ff49;
+  var $cc7e05a45900e73f$export$c3468e2714d175fa = $cc7e05a45900e73f$export$6b9198de19accfe6;
+  var $cc7e05a45900e73f$export$2f60d3ec9ad468f2 = $cc7e05a45900e73f$export$d8117927658af6d7;
+  var $cc7e05a45900e73f$export$bf1aedc3039c8d63 = $cc7e05a45900e73f$export$ff951e476c12189;
+
+  // src/components/Collection/Collection.styled.ts
+  var CollectionIcon = styled("svg", {
+    height: "19px",
+    color: "$accent",
+    fill: "$accent",
+    stroke: "$accent",
+    display: "flex",
+    margin: "0.25rem 0.85rem"
+  });
+  var CollectionButton = styled($cc7e05a45900e73f$export$41fb9f06171c75f4, {
+    fontSize: "1.25rem",
+    fontWeight: "400",
+    fontFamily: "$display",
+    alignSelf: "flex-start",
+    flexGrow: "1",
+    backgroundColor: "$secondary",
+    cursor: "pointer",
+    transition: "$all",
+    border: "1px solid $secondaryMuted",
+    boxShadow: "2px 2px 5px #0001",
+    borderRadius: "3px",
+    display: "flex",
+    alignItems: "center",
+    paddingLeft: "0.5rem",
+    "@sm": {
+      fontSize: "1rem"
+    }
+  });
+  var CollectionContent = styled($cc7e05a45900e73f$export$7c6e2c02157bb7d2, {
+    borderRadius: "3px",
+    boxShadow: "3px 3px 8px #0003",
+    backgroundColor: "$secondary",
+    marginTop: "2.25rem",
+    marginLeft: "6px",
+    paddingBottom: "0.25rem",
+    maxHeight: "calc(61.8vh - 2.5rem) !important",
+    borderTopLeftRadius: "0",
+    border: "1px solid $secondaryMuted",
+    maxWidth: "90vw"
+  });
+  var CollectionItem = styled($cc7e05a45900e73f$export$6d08773d2e66f8f2, {
+    display: "flex",
+    alignItems: "center",
+    fontFamily: "$sans",
+    padding: "0.25rem 0.5rem",
+    color: "$primary",
+    fontWeight: "400",
+    fontSize: "0.8333rem",
+    cursor: "pointer",
+    backgroundColor: "$secondary",
+    width: "calc(100% - 1rem)",
+    "> span": {
+      whiteSpace: "nowrap",
+      textOverflow: "ellipsis",
+      overflow: "hidden"
+    },
+    '&[data-state="checked"]': {
+      fontWeight: "700",
+      color: "$primary !important"
+    },
+    "&:hover": {
+      color: "$accent"
+    },
+    img: {
+      width: "31px",
+      height: "31px",
+      marginRight: "0.5rem",
+      borderRadius: "3px"
+    }
+  });
+  var CollectionLabel = styled($cc7e05a45900e73f$export$b04be29aa201d4f5, {
+    color: "$primaryMuted",
+    fontFamily: "$sans",
+    fontSize: "0.85rem",
+    padding: "0.5rem 1rem 0.5rem 0.5rem",
+    display: "flex",
+    alignItems: "center",
+    marginBottom: "0.25rem",
+    borderRadius: "3px",
+    borderTopLeftRadius: "0",
+    borderBottomLeftRadius: "0",
+    borderBottomRightRadius: "0",
+    backgroundColor: "$secondaryMuted"
+  });
+  var CollectionStyled = styled("div", {
+    position: "relative",
+    zIndex: "5"
+  });
+
+  // node_modules/@samvera/nectar-iiif/dist/index.esm.js
+  var import_react52 = __toESM(require_react());
+  var import_react54 = __toESM(require_react());
+  var import_react55 = __toESM(require_react());
+  var import_react56 = __toESM(require_react());
+  var import_react57 = __toESM(require_react());
+  var import_react58 = __toESM(require_react());
+  var import_react59 = __toESM(require_react());
+  var import_react60 = __toESM(require_react());
+  var import_react61 = __toESM(require_react());
+  var import_react62 = __toESM(require_react());
+  var import_react63 = __toESM(require_react());
+  var import_hls = __toESM(require_hls());
+  var _2 = Object.defineProperty;
+  var w3 = Object.getOwnPropertySymbols;
+  var K3 = Object.prototype.hasOwnProperty;
+  var B3 = Object.prototype.propertyIsEnumerable;
+  var z3 = (t4, e4, r3) => e4 in t4 ? _2(t4, e4, { enumerable: true, configurable: true, writable: true, value: r3 }) : t4[e4] = r3;
+  var n3 = (t4, e4) => {
+    for (var r3 in e4 || (e4 = {}))
+      K3.call(e4, r3) && z3(t4, r3, e4[r3]);
+    if (w3)
+      for (var r3 of w3(e4))
+        B3.call(e4, r3) && z3(t4, r3, e4[r3]);
+    return t4;
+  };
+  var { styled: l3, css: xt, keyframes: Et } = q2({ prefix: "nectar" });
+  var u3 = (t4, e4 = "none") => {
+    var i3;
+    if (!t4)
+      return null;
+    if (typeof t4 == "string")
+      return [t4];
+    if (!t4[e4]) {
+      let o3 = Object.getOwnPropertyNames(t4);
+      if (o3.length > 0)
+        return (i3 = t4[o3[0]]) == null ? void 0 : i3.join(", ");
+    }
+    return !t4[e4] || !Array.isArray(t4[e4]) ? null : t4[e4].join(", ");
+  };
+  function s4(t4, e4) {
+    let r3 = Object.keys(t4).filter((o3) => e4.includes(o3) ? null : o3), i3 = new Object();
+    return r3.forEach((o3) => {
+      i3[o3] = t4[o3];
+    }), i3;
+  }
+  var X3 = l3("a", {});
+  var et2 = l3("span", {});
+  var rt2 = (t4) => {
+    let { as: e4, label: r3 } = t4, o3 = s4(t4, ["as", "label"]);
+    return import_react54.default.createElement(et2, n3({ as: e4 }, o3), u3(r3, o3.lang));
+  };
+  var L3 = rt2;
+  var ot2 = l3("span", {});
+  var mt = l3("dl", {});
+  var ct2 = l3("dl", {});
+  var dt2 = l3("li", {});
+  var gt = l3("ul", {});
+  var q3 = (t4, e4 = "200,", r3 = "full") => {
+    Array.isArray(t4) && (t4 = t4[0]);
+    let { id: i3, service: o3 } = t4, a3;
+    if (!o3)
+      return i3;
+    if (Array.isArray(t4.service) && t4.service.length > 0 && (a3 = o3[0]), a3) {
+      if (a3["@id"])
+        return `${a3["@id"]}/${r3}/${e4}/0/default.jpg`;
+      if (a3.id)
+        return `${a3.id}/${r3}/${e4}/0/default.jpg`;
+    }
+  };
+  var O3 = l3("img", { objectFit: "cover" });
+  var Mt = (t4) => {
+    let e4 = (0, import_react63.useRef)(null), { contentResource: r3, altAsLabel: i3, region: o3 = "full" } = t4, a3;
+    i3 && (a3 = u3(i3));
+    let W3 = s4(t4, ["contentResource", "altAsLabel"]), { type: M3, id: c4, width: N3 = 200, height: I2 = 200, format: Rt, duration: b3 } = r3;
+    (0, import_react63.useEffect)(() => {
+      if (!c4 && !e4.current || ["Image"].includes(M3) || !c4.includes("m3u8"))
+        return;
+      let m3 = new import_hls.default();
+      return e4.current && (m3.attachMedia(e4.current), m3.on(import_hls.default.Events.MEDIA_ATTACHED, function() {
+        m3.loadSource(c4);
+      })), m3.on(import_hls.default.Events.ERROR, function(d3, g3) {
+        if (g3.fatal)
+          switch (g3.type) {
+            case import_hls.default.ErrorTypes.NETWORK_ERROR:
+              console.error(`fatal ${d3} network error encountered, try to recover`), m3.startLoad();
+              break;
+            case import_hls.default.ErrorTypes.MEDIA_ERROR:
+              console.error(`fatal ${d3} media error encountered, try to recover`), m3.recoverMediaError();
+              break;
+            default:
+              m3.destroy();
+              break;
+          }
+      }), () => {
+        m3 && (m3.detachMedia(), m3.destroy());
+      };
+    }, []), (0, import_react63.useEffect)(() => R2(), []);
+    let R2 = () => {
+      if (!e4.current)
+        return;
+      let m3 = 0, d3 = 30;
+      if (b3 && (d3 = b3), !c4.split("#t=") && b3 && (m3 = b3 * 0.1), c4.split("#t=").pop()) {
+        let H3 = c4.split("#t=").pop();
+        H3 && (m3 = parseInt(H3.split(",")[0]));
+      }
+      let g3 = e4.current;
+      g3.autoplay = true, g3.currentTime = m3, setTimeout(() => R2(), d3 * 1e3);
+    };
+    switch (M3) {
+      case "Image":
+        let m3 = q3(r3, `${N3},${I2}`, o3);
+        return import_react63.default.createElement(O3, n3({ as: "img", alt: a3, css: { width: N3, height: I2 }, key: c4, src: m3 }, W3));
+      case "Video":
+        return import_react63.default.createElement(O3, { as: "video", css: { width: N3, height: I2 }, disablePictureInPicture: true, key: c4, loop: true, muted: true, onPause: R2, ref: e4, src: c4 });
+      default:
+        return console.warn(`Resource type: ${M3} is not valid or not yet supported in Nectar.`), import_react63.default.createElement(import_react63.default.Fragment, null);
+    }
+  };
+  var V3 = Mt;
+  var Nt = (t4) => {
+    let { thumbnail: e4, region: r3 } = t4, o3 = s4(t4, ["thumbnail"]);
+    return import_react62.default.createElement(import_react62.default.Fragment, null, e4 && e4.map((a3) => import_react62.default.createElement(V3, n3({ contentResource: a3, key: a3.id, region: r3 }, o3))));
+  };
+  var It = Nt;
+
+  // src/components/Collection/Collection.tsx
+  var import_react65 = __toESM(require_react());
+
+  // src/components/Collection/Icon.tsx
+  var import_react64 = __toESM(require_react());
+  var SelectIcon = ({ direction, title }) => {
+    const CaretUp = () => {
+      return /* @__PURE__ */ import_react64.default.createElement("path", {
+        d: "M414 321.94L274.22 158.82a24 24 0 00-36.44 0L98 321.94c-13.34 15.57-2.28 39.62 18.22 39.62h279.6c20.5 0 31.56-24.05 18.18-39.62z"
+      });
+    };
+    const CaretDown = () => {
+      return /* @__PURE__ */ import_react64.default.createElement("path", {
+        d: "M98 190.06l139.78 163.12a24 24 0 0036.44 0L414 190.06c13.34-15.57 2.28-39.62-18.22-39.62h-279.6c-20.5 0-31.56 24.05-18.18 39.62z"
+      });
+    };
+    return /* @__PURE__ */ import_react64.default.createElement(CollectionIcon, {
+      xmlns: "http://www.w3.org/2000/svg",
+      focusable: "false",
+      viewBox: "0 0 512 512",
+      role: "img"
+    }, /* @__PURE__ */ import_react64.default.createElement("title", null, title), direction === "up" && /* @__PURE__ */ import_react64.default.createElement(CaretUp, null), direction === "down" && /* @__PURE__ */ import_react64.default.createElement(CaretDown, null));
+  };
+  var Icon_default = SelectIcon;
+
+  // src/components/Collection/Collection.tsx
+  var Collection = () => {
+    const dispatch = useViewerDispatch();
+    const viewerState = useViewerState();
+    const { activeManifest, collection, configOptions, vault } = viewerState;
+    const maxHeight = configOptions == null ? void 0 : configOptions.canvasHeight;
+    const handleValueChange = (manifestId) => {
+      dispatch({
+        type: "updateActiveManifest",
+        manifestId
+      });
+    };
+    return /* @__PURE__ */ import_react65.default.createElement(CollectionStyled, null, /* @__PURE__ */ import_react65.default.createElement($cc7e05a45900e73f$export$be92b6f5f03c0fe9, {
+      value: activeManifest,
+      onValueChange: handleValueChange
+    }, /* @__PURE__ */ import_react65.default.createElement(CollectionButton, null, /* @__PURE__ */ import_react65.default.createElement($cc7e05a45900e73f$export$4c8d1a57a761ef94, null), /* @__PURE__ */ import_react65.default.createElement($cc7e05a45900e73f$export$f04a61298a47a40f, null, /* @__PURE__ */ import_react65.default.createElement(Icon_default, {
+      direction: "down",
+      title: "select from collection"
+    }))), /* @__PURE__ */ import_react65.default.createElement(CollectionContent, {
+      css: { maxHeight: `${maxHeight} !important` }
+    }, /* @__PURE__ */ import_react65.default.createElement($cc7e05a45900e73f$export$2f60d3ec9ad468f2, null, /* @__PURE__ */ import_react65.default.createElement(Icon_default, {
+      direction: "up",
+      title: "scroll up for more"
+    })), /* @__PURE__ */ import_react65.default.createElement($cc7e05a45900e73f$export$d5c6c08dc2d3ca7, null, /* @__PURE__ */ import_react65.default.createElement($cc7e05a45900e73f$export$eb2fcfdbd7ba97d4, null, /* @__PURE__ */ import_react65.default.createElement(CollectionLabel, null, /* @__PURE__ */ import_react65.default.createElement(L3, {
+      label: collection.label
+    })), collection.items.map((item) => /* @__PURE__ */ import_react65.default.createElement(CollectionItem, {
+      value: item.id,
+      key: item.id
+    }, /* @__PURE__ */ import_react65.default.createElement(It, {
+      thumbnail: vault.get(item.thumbnail)
+    }), /* @__PURE__ */ import_react65.default.createElement($cc7e05a45900e73f$export$d6e5bf9c43ea9319, null, /* @__PURE__ */ import_react65.default.createElement(L3, {
+      label: item.label
+    })), /* @__PURE__ */ import_react65.default.createElement($cc7e05a45900e73f$export$c3468e2714d175fa, null))))), /* @__PURE__ */ import_react65.default.createElement($cc7e05a45900e73f$export$bf1aedc3039c8d63, null, /* @__PURE__ */ import_react65.default.createElement(Icon_default, {
+      direction: "down",
+      title: "scroll down for more"
+    })))));
+  };
+  var Collection_default = Collection;
+
   // src/components/Viewer/Header.tsx
   var ViewerHeader = ({ manifestId, manifestLabel }) => {
     const viewerState = useViewerState();
-    const { configOptions } = viewerState;
+    const { collection, configOptions } = viewerState;
     const { showTitle, showIIIFBadge } = configOptions;
     if (!showTitle && !showIIIFBadge)
-      return /* @__PURE__ */ import_react32.default.createElement(import_react32.default.Fragment, null);
-    return /* @__PURE__ */ import_react32.default.createElement(Header, {
+      return /* @__PURE__ */ import_react66.default.createElement(import_react66.default.Fragment, null);
+    return /* @__PURE__ */ import_react66.default.createElement(Header, {
       className: "clover-header"
-    }, showTitle && /* @__PURE__ */ import_react32.default.createElement("span", null, getLabel(manifestLabel, "en")), showIIIFBadge && /* @__PURE__ */ import_react32.default.createElement(Popover, null, /* @__PURE__ */ import_react32.default.createElement(IIIFBadgeButton, null, /* @__PURE__ */ import_react32.default.createElement(IIIFBadge_default, null)), /* @__PURE__ */ import_react32.default.createElement(IIIFBadgeContent, null, /* @__PURE__ */ import_react32.default.createElement("button", {
+    }, (collection == null ? void 0 : collection.items) ? /* @__PURE__ */ import_react66.default.createElement(Collection_default, null) : /* @__PURE__ */ import_react66.default.createElement(ManifestLabel, null, getLabel(manifestLabel, "en")), showIIIFBadge && /* @__PURE__ */ import_react66.default.createElement(Popover, null, /* @__PURE__ */ import_react66.default.createElement(IIIFBadgeButton, null, /* @__PURE__ */ import_react66.default.createElement(IIIFBadge_default, null)), /* @__PURE__ */ import_react66.default.createElement(IIIFBadgeContent, null, /* @__PURE__ */ import_react66.default.createElement("button", {
       onClick: (e4) => {
         e4.preventDefault();
         window.open(manifestId, "_blank");
       }
-    }, "View Manifest"), /* @__PURE__ */ import_react32.default.createElement(CopyText_default, {
+    }, "View Manifest"), /* @__PURE__ */ import_react66.default.createElement(CopyText_default, {
       textPrompt: "Copy Manifest URL",
       textToCopy: manifestId
     }))));
@@ -62158,37 +64448,37 @@ ${generateSegmentFilename(i3)}`);
   var Header_default = ViewerHeader;
 
   // src/components/Viewer/Content.tsx
-  var import_react56 = __toESM(require_react());
+  var import_react90 = __toESM(require_react());
 
   // src/components/Media/Media.tsx
-  var import_react42 = __toESM(require_react());
+  var import_react76 = __toESM(require_react());
 
   // node_modules/@radix-ui/react-radio-group/dist/index.module.js
-  var import_react38 = __toESM(require_react());
+  var import_react72 = __toESM(require_react());
 
   // node_modules/@radix-ui/react-label/dist/index.module.js
-  var import_react33 = __toESM(require_react());
-  function $parcel$export22(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  var import_react67 = __toESM(require_react());
+  function $parcel$export22(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $b73a6c6685e72184$exports = {};
   $parcel$export22($b73a6c6685e72184$exports, "Label", () => $b73a6c6685e72184$export$b04be29aa201d4f5);
-  $parcel$export22($b73a6c6685e72184$exports, "useLabelContext", () => $b73a6c6685e72184$export$feddbbf47baabdb9);
+  $parcel$export22($b73a6c6685e72184$exports, "useLabelContext", () => $b73a6c6685e72184$export$feddbbf47baabdb92);
   $parcel$export22($b73a6c6685e72184$exports, "Root", () => $b73a6c6685e72184$export$be92b6f5f03c0fe9);
-  var $b73a6c6685e72184$var$NAME = "Label";
-  var [$b73a6c6685e72184$var$LabelProvider, $b73a6c6685e72184$var$useLabelContextImpl] = $c512c27ab02ef895$export$fd42f52fd3ae1109($b73a6c6685e72184$var$NAME, {
+  var $b73a6c6685e72184$var$NAME2 = "Label";
+  var [$b73a6c6685e72184$var$LabelProvider2, $b73a6c6685e72184$var$useLabelContextImpl2] = $c512c27ab02ef895$export$fd42f52fd3ae1109($b73a6c6685e72184$var$NAME2, {
     id: void 0,
     controlRef: {
       current: null
     }
   });
-  var $b73a6c6685e72184$export$b04be29aa201d4f5 = /* @__PURE__ */ (0, import_react33.forwardRef)((props, forwardedRef) => {
+  var $b73a6c6685e72184$export$b04be29aa201d4f5 = /* @__PURE__ */ (0, import_react67.forwardRef)((props, forwardedRef) => {
     const { htmlFor, id: idProp, ...labelProps } = props;
-    const controlRef = (0, import_react33.useRef)(null);
-    const ref = (0, import_react33.useRef)(null);
+    const controlRef = (0, import_react67.useRef)(null);
+    const ref = (0, import_react67.useRef)(null);
     const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d05(forwardedRef, ref);
     const id = $1746a345f3d73bb7$export$f680877a34711e37(idProp);
-    (0, import_react33.useEffect)(() => {
+    (0, import_react67.useEffect)(() => {
       if (htmlFor) {
         const element = document.getElementById(htmlFor);
         const label = ref.current;
@@ -62214,10 +64504,10 @@ ${generateSegmentFilename(i3)}`);
       id,
       htmlFor
     ]);
-    return /* @__PURE__ */ (0, import_react33.createElement)($b73a6c6685e72184$var$LabelProvider, {
+    return /* @__PURE__ */ (0, import_react67.createElement)($b73a6c6685e72184$var$LabelProvider2, {
       id,
       controlRef
-    }, /* @__PURE__ */ (0, import_react33.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.span, _extends({
+    }, /* @__PURE__ */ (0, import_react67.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.span, _extends({
       role: "label",
       id
     }, labelProps, {
@@ -62242,10 +64532,10 @@ ${generateSegmentFilename(i3)}`);
       }
     })));
   });
-  var $b73a6c6685e72184$export$feddbbf47baabdb9 = (element) => {
-    const context = $b73a6c6685e72184$var$useLabelContextImpl("LabelConsumer");
+  var $b73a6c6685e72184$export$feddbbf47baabdb92 = (element) => {
+    const context = $b73a6c6685e72184$var$useLabelContextImpl2("LabelConsumer");
     const { controlRef } = context;
-    (0, import_react33.useEffect)(() => {
+    (0, import_react67.useEffect)(() => {
       if (element)
         controlRef.current = element;
     }, [
@@ -62257,16 +64547,16 @@ ${generateSegmentFilename(i3)}`);
   var $b73a6c6685e72184$export$be92b6f5f03c0fe9 = $b73a6c6685e72184$export$b04be29aa201d4f5;
 
   // node_modules/@radix-ui/react-roving-focus/dist/index.module.js
-  var import_react36 = __toESM(require_react());
+  var import_react70 = __toESM(require_react());
 
   // node_modules/@radix-ui/react-collection/dist/index.module.js
-  var import_react34 = __toESM(require_react());
-  function $parcel$export23(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  var import_react68 = __toESM(require_react());
+  function $parcel$export23(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $e02a7d9cb1dc128c$exports = {};
-  $parcel$export23($e02a7d9cb1dc128c$exports, "createCollection", () => $e02a7d9cb1dc128c$export$c74125a8e3af6bb2);
-  function $e02a7d9cb1dc128c$export$c74125a8e3af6bb2(name) {
+  $parcel$export23($e02a7d9cb1dc128c$exports, "createCollection", () => $e02a7d9cb1dc128c$export$c74125a8e3af6bb22);
+  function $e02a7d9cb1dc128c$export$c74125a8e3af6bb22(name) {
     const PROVIDER_NAME = name + "CollectionProvider";
     const [createCollectionContext, createCollectionScope] = $c512c27ab02ef895$export$50c7b4e9d9f19c1(PROVIDER_NAME);
     const [CollectionProviderImpl, useCollectionContext] = createCollectionContext(PROVIDER_NAME, {
@@ -62277,9 +64567,9 @@ ${generateSegmentFilename(i3)}`);
     });
     const CollectionProvider = (props) => {
       const { scope, children } = props;
-      const ref = import_react34.default.useRef(null);
-      const itemMap = import_react34.default.useRef(/* @__PURE__ */ new Map()).current;
-      return /* @__PURE__ */ import_react34.default.createElement(CollectionProviderImpl, {
+      const ref = import_react68.default.useRef(null);
+      const itemMap = import_react68.default.useRef(/* @__PURE__ */ new Map()).current;
+      return /* @__PURE__ */ import_react68.default.createElement(CollectionProviderImpl, {
         scope,
         itemMap,
         collectionRef: ref
@@ -62289,11 +64579,11 @@ ${generateSegmentFilename(i3)}`);
       displayName: PROVIDER_NAME
     });
     const COLLECTION_SLOT_NAME = name + "CollectionSlot";
-    const CollectionSlot = /* @__PURE__ */ import_react34.default.forwardRef((props, forwardedRef) => {
+    const CollectionSlot = /* @__PURE__ */ import_react68.default.forwardRef((props, forwardedRef) => {
       const { scope, children } = props;
       const context = useCollectionContext(COLLECTION_SLOT_NAME, scope);
       const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d05(forwardedRef, context.collectionRef);
-      return /* @__PURE__ */ import_react34.default.createElement($5e63c961fc1ce211$export$8c6ed5c666ac1360, {
+      return /* @__PURE__ */ import_react68.default.createElement($5e63c961fc1ce211$export$8c6ed5c666ac1360, {
         ref: composedRefs
       }, children);
     });
@@ -62302,19 +64592,19 @@ ${generateSegmentFilename(i3)}`);
     });
     const ITEM_SLOT_NAME = name + "CollectionItemSlot";
     const ITEM_DATA_ATTR = "data-radix-collection-item";
-    const CollectionItemSlot = /* @__PURE__ */ import_react34.default.forwardRef((props, forwardedRef) => {
+    const CollectionItemSlot = /* @__PURE__ */ import_react68.default.forwardRef((props, forwardedRef) => {
       const { scope, children, ...itemData } = props;
-      const ref = import_react34.default.useRef(null);
+      const ref = import_react68.default.useRef(null);
       const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d05(forwardedRef, ref);
       const context = useCollectionContext(ITEM_SLOT_NAME, scope);
-      import_react34.default.useEffect(() => {
+      import_react68.default.useEffect(() => {
         context.itemMap.set(ref, {
           ref,
           ...itemData
         });
         return () => void context.itemMap.delete(ref);
       });
-      return /* @__PURE__ */ import_react34.default.createElement($5e63c961fc1ce211$export$8c6ed5c666ac1360, {
+      return /* @__PURE__ */ import_react68.default.createElement($5e63c961fc1ce211$export$8c6ed5c666ac1360, {
         [ITEM_DATA_ATTR]: "",
         ref: composedRefs
       }, children);
@@ -62324,7 +64614,7 @@ ${generateSegmentFilename(i3)}`);
     });
     function useCollection(scope) {
       const context = useCollectionContext(name + "CollectionConsumer", scope);
-      const getItems = import_react34.default.useCallback(() => {
+      const getItems = import_react68.default.useCallback(() => {
         const collectionNode = context.collectionRef.current;
         if (!collectionNode)
           return [];
@@ -62350,30 +64640,30 @@ ${generateSegmentFilename(i3)}`);
   }
 
   // node_modules/@radix-ui/react-direction/dist/index.module.js
-  var import_react35 = __toESM(require_react());
-  function $parcel$export24(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  var import_react69 = __toESM(require_react());
+  function $parcel$export24(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $f631663db3294ace$exports = {};
   $parcel$export24($f631663db3294ace$exports, "DirectionProvider", () => $f631663db3294ace$export$c760c09fdd558351);
-  $parcel$export24($f631663db3294ace$exports, "useDirection", () => $f631663db3294ace$export$b39126d51d94e6f3);
+  $parcel$export24($f631663db3294ace$exports, "useDirection", () => $f631663db3294ace$export$b39126d51d94e6f32);
   $parcel$export24($f631663db3294ace$exports, "Provider", () => $f631663db3294ace$export$2881499e37b75b9a);
-  var $f631663db3294ace$var$DirectionContext = /* @__PURE__ */ (0, import_react35.createContext)(void 0);
+  var $f631663db3294ace$var$DirectionContext2 = /* @__PURE__ */ (0, import_react69.createContext)(void 0);
   var $f631663db3294ace$export$c760c09fdd558351 = (props) => {
     const { dir, children } = props;
-    return /* @__PURE__ */ (0, import_react35.createElement)($f631663db3294ace$var$DirectionContext.Provider, {
+    return /* @__PURE__ */ (0, import_react69.createElement)($f631663db3294ace$var$DirectionContext2.Provider, {
       value: dir
     }, children);
   };
-  function $f631663db3294ace$export$b39126d51d94e6f3(localDir) {
-    const globalDir = (0, import_react35.useContext)($f631663db3294ace$var$DirectionContext);
+  function $f631663db3294ace$export$b39126d51d94e6f32(localDir) {
+    const globalDir = (0, import_react69.useContext)($f631663db3294ace$var$DirectionContext2);
     return localDir || globalDir || "ltr";
   }
   var $f631663db3294ace$export$2881499e37b75b9a = $f631663db3294ace$export$c760c09fdd558351;
 
   // node_modules/@radix-ui/react-roving-focus/dist/index.module.js
-  function $parcel$export25(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export25(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $d7bdfb9eb0fdf311$exports = {};
   $parcel$export25($d7bdfb9eb0fdf311$exports, "createRovingFocusGroupScope", () => $d7bdfb9eb0fdf311$export$c7109489551a4f4);
@@ -62387,35 +64677,35 @@ ${generateSegmentFilename(i3)}`);
     cancelable: true
   };
   var $d7bdfb9eb0fdf311$var$GROUP_NAME = "RovingFocusGroup";
-  var [$d7bdfb9eb0fdf311$var$Collection, $d7bdfb9eb0fdf311$var$useCollection, $d7bdfb9eb0fdf311$var$createCollectionScope] = $e02a7d9cb1dc128c$export$c74125a8e3af6bb2($d7bdfb9eb0fdf311$var$GROUP_NAME);
+  var [$d7bdfb9eb0fdf311$var$Collection, $d7bdfb9eb0fdf311$var$useCollection, $d7bdfb9eb0fdf311$var$createCollectionScope] = $e02a7d9cb1dc128c$export$c74125a8e3af6bb22($d7bdfb9eb0fdf311$var$GROUP_NAME);
   var [$d7bdfb9eb0fdf311$var$createRovingFocusGroupContext, $d7bdfb9eb0fdf311$export$c7109489551a4f4] = $c512c27ab02ef895$export$50c7b4e9d9f19c1($d7bdfb9eb0fdf311$var$GROUP_NAME, [
     $d7bdfb9eb0fdf311$var$createCollectionScope
   ]);
   var [$d7bdfb9eb0fdf311$var$RovingFocusProvider, $d7bdfb9eb0fdf311$var$useRovingFocusContext] = $d7bdfb9eb0fdf311$var$createRovingFocusGroupContext($d7bdfb9eb0fdf311$var$GROUP_NAME);
-  var $d7bdfb9eb0fdf311$export$8699f7c8af148338 = /* @__PURE__ */ (0, import_react36.forwardRef)((props, forwardedRef) => {
-    return /* @__PURE__ */ (0, import_react36.createElement)($d7bdfb9eb0fdf311$var$Collection.Provider, {
+  var $d7bdfb9eb0fdf311$export$8699f7c8af148338 = /* @__PURE__ */ (0, import_react70.forwardRef)((props, forwardedRef) => {
+    return /* @__PURE__ */ (0, import_react70.createElement)($d7bdfb9eb0fdf311$var$Collection.Provider, {
       scope: props.__scopeRovingFocusGroup
-    }, /* @__PURE__ */ (0, import_react36.createElement)($d7bdfb9eb0fdf311$var$Collection.Slot, {
+    }, /* @__PURE__ */ (0, import_react70.createElement)($d7bdfb9eb0fdf311$var$Collection.Slot, {
       scope: props.__scopeRovingFocusGroup
-    }, /* @__PURE__ */ (0, import_react36.createElement)($d7bdfb9eb0fdf311$var$RovingFocusGroupImpl, _extends({}, props, {
+    }, /* @__PURE__ */ (0, import_react70.createElement)($d7bdfb9eb0fdf311$var$RovingFocusGroupImpl, _extends({}, props, {
       ref: forwardedRef
     }))));
   });
-  var $d7bdfb9eb0fdf311$var$RovingFocusGroupImpl = /* @__PURE__ */ (0, import_react36.forwardRef)((props, forwardedRef) => {
+  var $d7bdfb9eb0fdf311$var$RovingFocusGroupImpl = /* @__PURE__ */ (0, import_react70.forwardRef)((props, forwardedRef) => {
     const { __scopeRovingFocusGroup, orientation, loop = false, dir, currentTabStopId: currentTabStopIdProp, defaultCurrentTabStopId, onCurrentTabStopIdChange, onEntryFocus, ...groupProps } = props;
-    const ref = (0, import_react36.useRef)(null);
+    const ref = (0, import_react70.useRef)(null);
     const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d05(forwardedRef, ref);
-    const direction = $f631663db3294ace$export$b39126d51d94e6f3(dir);
+    const direction = $f631663db3294ace$export$b39126d51d94e6f32(dir);
     const [currentTabStopId = null, setCurrentTabStopId] = $71cd76cc60e0454e$export$6f32135080cb4c3({
       prop: currentTabStopIdProp,
       defaultProp: defaultCurrentTabStopId,
       onChange: onCurrentTabStopIdChange
     });
-    const [isTabbingBackOut, setIsTabbingBackOut] = (0, import_react36.useState)(false);
+    const [isTabbingBackOut, setIsTabbingBackOut] = (0, import_react70.useState)(false);
     const handleEntryFocus = $b1b2314f5f9a1d84$export$25bec8c6f54ee79a(onEntryFocus);
     const getItems = $d7bdfb9eb0fdf311$var$useCollection(__scopeRovingFocusGroup);
-    const isClickFocusRef = (0, import_react36.useRef)(false);
-    (0, import_react36.useEffect)(() => {
+    const isClickFocusRef = (0, import_react70.useRef)(false);
+    (0, import_react70.useEffect)(() => {
       const node = ref.current;
       if (node) {
         node.addEventListener($d7bdfb9eb0fdf311$var$ENTRY_FOCUS, handleEntryFocus);
@@ -62424,17 +64714,17 @@ ${generateSegmentFilename(i3)}`);
     }, [
       handleEntryFocus
     ]);
-    return /* @__PURE__ */ (0, import_react36.createElement)($d7bdfb9eb0fdf311$var$RovingFocusProvider, {
+    return /* @__PURE__ */ (0, import_react70.createElement)($d7bdfb9eb0fdf311$var$RovingFocusProvider, {
       scope: __scopeRovingFocusGroup,
       orientation,
       dir: direction,
       loop,
       currentTabStopId,
-      onItemFocus: (0, import_react36.useCallback)((tabStopId) => setCurrentTabStopId(tabStopId), [
+      onItemFocus: (0, import_react70.useCallback)((tabStopId) => setCurrentTabStopId(tabStopId), [
         setCurrentTabStopId
       ]),
-      onItemShiftTab: (0, import_react36.useCallback)(() => setIsTabbingBackOut(true), [])
-    }, /* @__PURE__ */ (0, import_react36.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, _extends({
+      onItemShiftTab: (0, import_react70.useCallback)(() => setIsTabbingBackOut(true), [])
+    }, /* @__PURE__ */ (0, import_react70.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, _extends({
       tabIndex: isTabbingBackOut ? -1 : 0,
       "data-orientation": orientation
     }, groupProps, {
@@ -62470,18 +64760,18 @@ ${generateSegmentFilename(i3)}`);
     })));
   });
   var $d7bdfb9eb0fdf311$var$ITEM_NAME = "RovingFocusGroupItem";
-  var $d7bdfb9eb0fdf311$export$ab9df7c53fe8454 = /* @__PURE__ */ (0, import_react36.forwardRef)((props, forwardedRef) => {
+  var $d7bdfb9eb0fdf311$export$ab9df7c53fe8454 = /* @__PURE__ */ (0, import_react70.forwardRef)((props, forwardedRef) => {
     const { __scopeRovingFocusGroup, focusable = true, active = false, ...itemProps } = props;
     const id = $1746a345f3d73bb7$export$f680877a34711e37();
     const context = $d7bdfb9eb0fdf311$var$useRovingFocusContext($d7bdfb9eb0fdf311$var$ITEM_NAME, __scopeRovingFocusGroup);
     const isCurrentTabStop = context.currentTabStopId === id;
     const getItems = $d7bdfb9eb0fdf311$var$useCollection(__scopeRovingFocusGroup);
-    return /* @__PURE__ */ (0, import_react36.createElement)($d7bdfb9eb0fdf311$var$Collection.ItemSlot, {
+    return /* @__PURE__ */ (0, import_react70.createElement)($d7bdfb9eb0fdf311$var$Collection.ItemSlot, {
       scope: __scopeRovingFocusGroup,
       id,
       focusable,
       active
-    }, /* @__PURE__ */ (0, import_react36.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.span, _extends({
+    }, /* @__PURE__ */ (0, import_react70.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.span, _extends({
       tabIndex: isCurrentTabStop ? 0 : -1,
       "data-orientation": context.orientation
     }, itemProps, {
@@ -62558,24 +64848,24 @@ ${generateSegmentFilename(i3)}`);
     }
   }
   function $d7bdfb9eb0fdf311$var$wrapArray(array, startIndex) {
-    return array.map((_2, index) => array[(startIndex + index) % array.length]);
+    return array.map((_3, index) => array[(startIndex + index) % array.length]);
   }
   var $d7bdfb9eb0fdf311$export$be92b6f5f03c0fe9 = $d7bdfb9eb0fdf311$export$8699f7c8af148338;
   var $d7bdfb9eb0fdf311$export$6d08773d2e66f8f2 = $d7bdfb9eb0fdf311$export$ab9df7c53fe8454;
 
   // node_modules/@radix-ui/react-use-previous/dist/index.module.js
-  var import_react37 = __toESM(require_react());
-  function $parcel$export26(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  var import_react71 = __toESM(require_react());
+  function $parcel$export26(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $010c2913dbd2fe3d$exports = {};
-  $parcel$export26($010c2913dbd2fe3d$exports, "usePrevious", () => $010c2913dbd2fe3d$export$5cae361ad82dce8b);
-  function $010c2913dbd2fe3d$export$5cae361ad82dce8b(value) {
-    const ref = (0, import_react37.useRef)({
+  $parcel$export26($010c2913dbd2fe3d$exports, "usePrevious", () => $010c2913dbd2fe3d$export$5cae361ad82dce8b2);
+  function $010c2913dbd2fe3d$export$5cae361ad82dce8b2(value) {
+    const ref = (0, import_react71.useRef)({
       value,
       previous: value
     });
-    return (0, import_react37.useMemo)(() => {
+    return (0, import_react71.useMemo)(() => {
       if (ref.current.value !== value) {
         ref.current.previous = ref.current.value;
         ref.current.value = value;
@@ -62587,8 +64877,8 @@ ${generateSegmentFilename(i3)}`);
   }
 
   // node_modules/@radix-ui/react-radio-group/dist/index.module.js
-  function $parcel$export27(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  function $parcel$export27(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $f99a8c78507165f7$exports = {};
   $parcel$export27($f99a8c78507165f7$exports, "createRadioGroupScope", () => $f99a8c78507165f7$export$c547093f11b76da2);
@@ -62601,19 +64891,19 @@ ${generateSegmentFilename(i3)}`);
   var $ce77a8961b41be9e$var$RADIO_NAME = "Radio";
   var [$ce77a8961b41be9e$var$createRadioContext, $ce77a8961b41be9e$export$67d2296460f1b002] = $c512c27ab02ef895$export$50c7b4e9d9f19c1($ce77a8961b41be9e$var$RADIO_NAME);
   var [$ce77a8961b41be9e$var$RadioProvider, $ce77a8961b41be9e$var$useRadioContext] = $ce77a8961b41be9e$var$createRadioContext($ce77a8961b41be9e$var$RADIO_NAME);
-  var $ce77a8961b41be9e$export$d7b12c4107be0d61 = /* @__PURE__ */ (0, import_react38.forwardRef)((props, forwardedRef) => {
+  var $ce77a8961b41be9e$export$d7b12c4107be0d61 = /* @__PURE__ */ (0, import_react72.forwardRef)((props, forwardedRef) => {
     const { __scopeRadio, "aria-labelledby": ariaLabelledby, name, checked = false, required, disabled, value = "on", onCheck, ...radioProps } = props;
-    const [button, setButton] = (0, import_react38.useState)(null);
+    const [button, setButton] = (0, import_react72.useState)(null);
     const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d05(forwardedRef, (node) => setButton(node));
-    const labelId = $b73a6c6685e72184$export$feddbbf47baabdb9(button);
+    const labelId = $b73a6c6685e72184$export$feddbbf47baabdb92(button);
     const labelledBy = ariaLabelledby || labelId;
-    const hasConsumerStoppedPropagationRef = (0, import_react38.useRef)(false);
+    const hasConsumerStoppedPropagationRef = (0, import_react72.useRef)(false);
     const isFormControl = button ? Boolean(button.closest("form")) : true;
-    return /* @__PURE__ */ (0, import_react38.createElement)($ce77a8961b41be9e$var$RadioProvider, {
+    return /* @__PURE__ */ (0, import_react72.createElement)($ce77a8961b41be9e$var$RadioProvider, {
       scope: __scopeRadio,
       checked,
       disabled
-    }, /* @__PURE__ */ (0, import_react38.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.button, _extends({
+    }, /* @__PURE__ */ (0, import_react72.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.button, _extends({
       type: "button",
       role: "radio",
       "aria-checked": checked,
@@ -62633,7 +64923,7 @@ ${generateSegmentFilename(i3)}`);
             event.stopPropagation();
         }
       })
-    })), isFormControl && /* @__PURE__ */ (0, import_react38.createElement)($ce77a8961b41be9e$var$BubbleInput, {
+    })), isFormControl && /* @__PURE__ */ (0, import_react72.createElement)($ce77a8961b41be9e$var$BubbleInput, {
       control: button,
       bubbles: !hasConsumerStoppedPropagationRef.current,
       name,
@@ -62647,12 +64937,12 @@ ${generateSegmentFilename(i3)}`);
     }));
   });
   var $ce77a8961b41be9e$var$INDICATOR_NAME = "RadioIndicator";
-  var $ce77a8961b41be9e$export$d35a9ffa9a04f9e7 = /* @__PURE__ */ (0, import_react38.forwardRef)((props, forwardedRef) => {
+  var $ce77a8961b41be9e$export$d35a9ffa9a04f9e7 = /* @__PURE__ */ (0, import_react72.forwardRef)((props, forwardedRef) => {
     const { __scopeRadio, forceMount, ...indicatorProps } = props;
     const context = $ce77a8961b41be9e$var$useRadioContext($ce77a8961b41be9e$var$INDICATOR_NAME, __scopeRadio);
-    return /* @__PURE__ */ (0, import_react38.createElement)($921a889cee6df7e8$export$99c2b779aa4e8b8b, {
+    return /* @__PURE__ */ (0, import_react72.createElement)($921a889cee6df7e8$export$99c2b779aa4e8b8b, {
       present: forceMount || context.checked
-    }, /* @__PURE__ */ (0, import_react38.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.span, _extends({
+    }, /* @__PURE__ */ (0, import_react72.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.span, _extends({
       "data-state": $ce77a8961b41be9e$var$getState(context.checked),
       "data-disabled": context.disabled ? "" : void 0
     }, indicatorProps, {
@@ -62661,10 +64951,10 @@ ${generateSegmentFilename(i3)}`);
   });
   var $ce77a8961b41be9e$var$BubbleInput = (props) => {
     const { control, checked, bubbles = true, ...inputProps } = props;
-    const ref = (0, import_react38.useRef)(null);
-    const prevChecked = $010c2913dbd2fe3d$export$5cae361ad82dce8b(checked);
+    const ref = (0, import_react72.useRef)(null);
+    const prevChecked = $010c2913dbd2fe3d$export$5cae361ad82dce8b2(checked);
     const controlSize = $db6c3485150b8e66$export$1ab7ae714698c4b8(control);
-    (0, import_react38.useEffect)(() => {
+    (0, import_react72.useEffect)(() => {
       const input = ref.current;
       const inputProto = window.HTMLInputElement.prototype;
       const descriptor = Object.getOwnPropertyDescriptor(inputProto, "checked");
@@ -62681,7 +64971,7 @@ ${generateSegmentFilename(i3)}`);
       checked,
       bubbles
     ]);
-    return /* @__PURE__ */ (0, import_react38.createElement)("input", _extends({
+    return /* @__PURE__ */ (0, import_react72.createElement)("input", _extends({
       type: "radio",
       "aria-hidden": true,
       defaultChecked: checked
@@ -62715,30 +65005,30 @@ ${generateSegmentFilename(i3)}`);
   var $f99a8c78507165f7$var$useRovingFocusGroupScope = $d7bdfb9eb0fdf311$export$c7109489551a4f4();
   var $f99a8c78507165f7$var$useRadioScope = $ce77a8961b41be9e$export$67d2296460f1b002();
   var [$f99a8c78507165f7$var$RadioGroupProvider, $f99a8c78507165f7$var$useRadioGroupContext] = $f99a8c78507165f7$var$createRadioGroupContet($f99a8c78507165f7$var$RADIO_GROUP_NAME);
-  var $f99a8c78507165f7$export$a98f0dcb43a68a25 = /* @__PURE__ */ (0, import_react38.forwardRef)((props, forwardedRef) => {
+  var $f99a8c78507165f7$export$a98f0dcb43a68a25 = /* @__PURE__ */ (0, import_react72.forwardRef)((props, forwardedRef) => {
     const { __scopeRadioGroup, name, "aria-labelledby": ariaLabelledby, defaultValue: defaultValue2, value: valueProp, required = false, orientation, dir, loop = true, onValueChange, ...groupProps } = props;
-    const labelId = $b73a6c6685e72184$export$feddbbf47baabdb9();
+    const labelId = $b73a6c6685e72184$export$feddbbf47baabdb92();
     const labelledBy = ariaLabelledby || labelId;
     const rovingFocusGroupScope = $f99a8c78507165f7$var$useRovingFocusGroupScope(__scopeRadioGroup);
-    const direction = $f631663db3294ace$export$b39126d51d94e6f3(dir);
+    const direction = $f631663db3294ace$export$b39126d51d94e6f32(dir);
     const [value, setValue] = $71cd76cc60e0454e$export$6f32135080cb4c3({
       prop: valueProp,
       defaultProp: defaultValue2,
       onChange: onValueChange
     });
-    return /* @__PURE__ */ (0, import_react38.createElement)($f99a8c78507165f7$var$RadioGroupProvider, {
+    return /* @__PURE__ */ (0, import_react72.createElement)($f99a8c78507165f7$var$RadioGroupProvider, {
       scope: __scopeRadioGroup,
       name,
       required,
       value,
       onValueChange: setValue
-    }, /* @__PURE__ */ (0, import_react38.createElement)($d7bdfb9eb0fdf311$export$be92b6f5f03c0fe9, _extends({
+    }, /* @__PURE__ */ (0, import_react72.createElement)($d7bdfb9eb0fdf311$export$be92b6f5f03c0fe9, _extends({
       asChild: true
     }, rovingFocusGroupScope, {
       orientation,
       dir: direction,
       loop
-    }), /* @__PURE__ */ (0, import_react38.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, _extends({
+    }), /* @__PURE__ */ (0, import_react72.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, _extends({
       role: "radiogroup",
       "aria-orientation": orientation,
       "aria-labelledby": labelledBy,
@@ -62748,16 +65038,16 @@ ${generateSegmentFilename(i3)}`);
     }))));
   });
   var $f99a8c78507165f7$var$ITEM_NAME = "RadioGroupItem";
-  var $f99a8c78507165f7$export$9f866c100ef519e4 = /* @__PURE__ */ (0, import_react38.forwardRef)((props, forwardedRef) => {
+  var $f99a8c78507165f7$export$9f866c100ef519e4 = /* @__PURE__ */ (0, import_react72.forwardRef)((props, forwardedRef) => {
     const { __scopeRadioGroup, disabled, ...itemProps } = props;
     const context = $f99a8c78507165f7$var$useRadioGroupContext($f99a8c78507165f7$var$ITEM_NAME, __scopeRadioGroup);
     const rovingFocusGroupScope = $f99a8c78507165f7$var$useRovingFocusGroupScope(__scopeRadioGroup);
     const radioScope = $f99a8c78507165f7$var$useRadioScope(__scopeRadioGroup);
-    const ref = (0, import_react38.useRef)(null);
+    const ref = (0, import_react72.useRef)(null);
     const composedRefs = $6ed0406888f73fc4$export$c7b2cbe3552a0d05(forwardedRef, ref);
     const checked = context.value === itemProps.value;
-    const isArrowKeyPressedRef = (0, import_react38.useRef)(false);
-    (0, import_react38.useEffect)(() => {
+    const isArrowKeyPressedRef = (0, import_react72.useRef)(false);
+    (0, import_react72.useEffect)(() => {
       const handleKeyDown = (event) => {
         if ($f99a8c78507165f7$var$ARROW_KEYS.includes(event.key))
           isArrowKeyPressedRef.current = true;
@@ -62770,12 +65060,12 @@ ${generateSegmentFilename(i3)}`);
         document.removeEventListener("keyup", handleKeyUp);
       };
     }, []);
-    return /* @__PURE__ */ (0, import_react38.createElement)($d7bdfb9eb0fdf311$export$6d08773d2e66f8f2, _extends({
+    return /* @__PURE__ */ (0, import_react72.createElement)($d7bdfb9eb0fdf311$export$6d08773d2e66f8f2, _extends({
       asChild: true
     }, rovingFocusGroupScope, {
       focusable: !disabled,
       active: checked
-    }), /* @__PURE__ */ (0, import_react38.createElement)($ce77a8961b41be9e$export$d7b12c4107be0d61, _extends({
+    }), /* @__PURE__ */ (0, import_react72.createElement)($ce77a8961b41be9e$export$d7b12c4107be0d61, _extends({
       disabled,
       required: context.required,
       checked
@@ -62794,10 +65084,10 @@ ${generateSegmentFilename(i3)}`);
       })
     })));
   });
-  var $f99a8c78507165f7$export$5fb54c671a65c88 = /* @__PURE__ */ (0, import_react38.forwardRef)((props, forwardedRef) => {
+  var $f99a8c78507165f7$export$5fb54c671a65c88 = /* @__PURE__ */ (0, import_react72.forwardRef)((props, forwardedRef) => {
     const { __scopeRadioGroup, ...indicatorProps } = props;
     const radioScope = $f99a8c78507165f7$var$useRadioScope(__scopeRadioGroup);
-    return /* @__PURE__ */ (0, import_react38.createElement)($ce77a8961b41be9e$export$d35a9ffa9a04f9e7, _extends({}, radioScope, indicatorProps, {
+    return /* @__PURE__ */ (0, import_react72.createElement)($ce77a8961b41be9e$export$d35a9ffa9a04f9e7, _extends({}, radioScope, indicatorProps, {
       ref: forwardedRef
     }));
   });
@@ -62817,7 +65107,7 @@ ${generateSegmentFilename(i3)}`);
   });
 
   // src/components/Media/Thumbnail.tsx
-  var import_react39 = __toESM(require_react());
+  var import_react73 = __toESM(require_react());
 
   // src/services/utils.ts
   var cleanTime = (standardNotation) => {
@@ -62962,13 +65252,13 @@ ${generateSegmentFilename(i3)}`);
   var IconPath = ({ type }) => {
     switch (type) {
       case "Sound":
-        return /* @__PURE__ */ import_react39.default.createElement(Icon.Audio, null);
+        return /* @__PURE__ */ import_react73.default.createElement(Icon.Audio, null);
       case "Image":
-        return /* @__PURE__ */ import_react39.default.createElement(Icon.Image, null);
+        return /* @__PURE__ */ import_react73.default.createElement(Icon.Image, null);
       case "Video":
-        return /* @__PURE__ */ import_react39.default.createElement(Icon.Video, null);
+        return /* @__PURE__ */ import_react73.default.createElement(Icon.Video, null);
       default:
-        return /* @__PURE__ */ import_react39.default.createElement(Icon.Image, null);
+        return /* @__PURE__ */ import_react73.default.createElement(Icon.Image, null);
     }
   };
   var Thumbnail = ({
@@ -62980,23 +65270,23 @@ ${generateSegmentFilename(i3)}`);
     handleChange
   }) => {
     const label = getLabel(canvas.label, "en");
-    return /* @__PURE__ */ import_react39.default.createElement(Item, {
+    return /* @__PURE__ */ import_react73.default.createElement(Item, {
       "aria-checked": isActive,
       "data-testid": "media-thumbnail",
       "data-canvas": canvasIndex,
       onClick: () => handleChange(canvas.id),
       value: canvas.id
-    }, /* @__PURE__ */ import_react39.default.createElement("figure", null, /* @__PURE__ */ import_react39.default.createElement("div", null, (thumbnail == null ? void 0 : thumbnail.id) && /* @__PURE__ */ import_react39.default.createElement("img", {
+    }, /* @__PURE__ */ import_react73.default.createElement("figure", null, /* @__PURE__ */ import_react73.default.createElement("div", null, (thumbnail == null ? void 0 : thumbnail.id) && /* @__PURE__ */ import_react73.default.createElement("img", {
       src: thumbnail.id,
       alt: label
-    }), /* @__PURE__ */ import_react39.default.createElement(Type, null, /* @__PURE__ */ import_react39.default.createElement(Tag, {
+    }), /* @__PURE__ */ import_react73.default.createElement(Type, null, /* @__PURE__ */ import_react73.default.createElement(Tag, {
       isIcon: true,
       "data-testid": "thumbnail-tag"
-    }, /* @__PURE__ */ import_react39.default.createElement(Spacer, null), /* @__PURE__ */ import_react39.default.createElement(Icon, {
+    }, /* @__PURE__ */ import_react73.default.createElement(Spacer, null), /* @__PURE__ */ import_react73.default.createElement(Icon, {
       "aria-label": type
-    }, /* @__PURE__ */ import_react39.default.createElement(IconPath, {
+    }, /* @__PURE__ */ import_react73.default.createElement(IconPath, {
       type
-    })), ["Video", "Sound"].includes(type) && /* @__PURE__ */ import_react39.default.createElement(Duration, null, convertTime(canvas.duration))))), /* @__PURE__ */ import_react39.default.createElement("figcaption", {
+    })), ["Video", "Sound"].includes(type) && /* @__PURE__ */ import_react73.default.createElement(Duration, null, convertTime(canvas.duration))))), /* @__PURE__ */ import_react73.default.createElement("figcaption", {
       "data-testid": "fig-caption"
     }, label)));
   };
@@ -63010,7 +65300,7 @@ ${generateSegmentFilename(i3)}`);
   };
 
   // src/components/Media/Controls.tsx
-  var import_react41 = __toESM(require_react());
+  var import_react75 = __toESM(require_react());
 
   // src/components/Media/Controls.styled.tsx
   var Form = styled("div", {
@@ -63107,9 +65397,9 @@ ${generateSegmentFilename(i3)}`);
   });
 
   // src/hooks/useKeyPress.ts
-  var import_react40 = __toESM(require_react());
+  var import_react74 = __toESM(require_react());
   var useKeyPress = (key, action) => {
-    (0, import_react40.useEffect)(() => {
+    (0, import_react74.useEffect)(() => {
       function onKeyup(e4) {
         if (e4.key === key)
           action();
@@ -63122,10 +65412,10 @@ ${generateSegmentFilename(i3)}`);
 
   // src/components/Media/Controls.tsx
   var PreviousIcon = () => {
-    return /* @__PURE__ */ import_react41.default.createElement("svg", {
+    return /* @__PURE__ */ import_react75.default.createElement("svg", {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 512 512"
-    }, /* @__PURE__ */ import_react41.default.createElement("title", null, "Arrow Back"), /* @__PURE__ */ import_react41.default.createElement("path", {
+    }, /* @__PURE__ */ import_react75.default.createElement("title", null, "Arrow Back"), /* @__PURE__ */ import_react75.default.createElement("path", {
       fill: "none",
       stroke: "currentColor",
       strokeLinecap: "round",
@@ -63136,10 +65426,10 @@ ${generateSegmentFilename(i3)}`);
     }));
   };
   var NextIcon = () => {
-    return /* @__PURE__ */ import_react41.default.createElement("svg", {
+    return /* @__PURE__ */ import_react75.default.createElement("svg", {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 512 512"
-    }, /* @__PURE__ */ import_react41.default.createElement("title", null, "Arrow Forward"), /* @__PURE__ */ import_react41.default.createElement("path", {
+    }, /* @__PURE__ */ import_react75.default.createElement("title", null, "Arrow Forward"), /* @__PURE__ */ import_react75.default.createElement("path", {
       fill: "none",
       stroke: "currentColor",
       strokeLinecap: "round",
@@ -63150,18 +65440,18 @@ ${generateSegmentFilename(i3)}`);
     }));
   };
   var CloseIcon = () => {
-    return /* @__PURE__ */ import_react41.default.createElement("svg", {
+    return /* @__PURE__ */ import_react75.default.createElement("svg", {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 512 512"
-    }, /* @__PURE__ */ import_react41.default.createElement("title", null, "Close"), /* @__PURE__ */ import_react41.default.createElement("path", {
+    }, /* @__PURE__ */ import_react75.default.createElement("title", null, "Close"), /* @__PURE__ */ import_react75.default.createElement("path", {
       d: "M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z"
     }));
   };
   var SearchIcon = () => {
-    return /* @__PURE__ */ import_react41.default.createElement("svg", {
+    return /* @__PURE__ */ import_react75.default.createElement("svg", {
       xmlns: "http://www.w3.org/2000/svg",
       viewBox: "0 0 512 512"
-    }, /* @__PURE__ */ import_react41.default.createElement("title", null, "Search"), /* @__PURE__ */ import_react41.default.createElement("path", {
+    }, /* @__PURE__ */ import_react75.default.createElement("title", null, "Search"), /* @__PURE__ */ import_react75.default.createElement("path", {
       d: "M456.69 421.39L362.6 327.3a173.81 173.81 0 0034.84-104.58C397.44 126.38 319.06 48 222.72 48S48 126.38 48 222.72s78.38 174.72 174.72 174.72A173.81 173.81 0 00327.3 362.6l94.09 94.09a25 25 0 0035.3-35.3zM97.92 222.72a124.8 124.8 0 11124.8 124.8 124.95 124.95 0 01-124.8-124.8z"
     }));
   };
@@ -63171,10 +65461,10 @@ ${generateSegmentFilename(i3)}`);
     activeIndex,
     canvasLength
   }) => {
-    const [toggleFilter, setToggleFilter] = (0, import_react41.useState)(false);
-    const [isNextDisabled, setIsNextDisabled] = (0, import_react41.useState)(false);
-    const [isPreviousDisabled, setIsPreviousDisabled] = (0, import_react41.useState)(false);
-    (0, import_react41.useEffect)(() => {
+    const [toggleFilter, setToggleFilter] = (0, import_react75.useState)(false);
+    const [isNextDisabled, setIsNextDisabled] = (0, import_react75.useState)(false);
+    const [isPreviousDisabled, setIsPreviousDisabled] = (0, import_react75.useState)(false);
+    (0, import_react75.useEffect)(() => {
       activeIndex === 0 ? setIsPreviousDisabled(true) : setIsPreviousDisabled(false);
       activeIndex === canvasLength - 1 ? setIsNextDisabled(true) : setIsNextDisabled(false);
     }, [activeIndex]);
@@ -63187,24 +65477,24 @@ ${generateSegmentFilename(i3)}`);
       handleFilter("");
     };
     const handleFilterChange = (event) => handleFilter(event.target.value);
-    return /* @__PURE__ */ import_react41.default.createElement(Wrapper2, {
+    return /* @__PURE__ */ import_react75.default.createElement(Wrapper2, {
       isToggle: toggleFilter
-    }, /* @__PURE__ */ import_react41.default.createElement(Form, null, toggleFilter && /* @__PURE__ */ import_react41.default.createElement(Input, {
+    }, /* @__PURE__ */ import_react75.default.createElement(Form, null, toggleFilter && /* @__PURE__ */ import_react75.default.createElement(Input, {
       autoFocus: true,
       onChange: handleFilterChange,
       placeholder: "Search"
-    }), !toggleFilter && /* @__PURE__ */ import_react41.default.createElement(Direction, null, /* @__PURE__ */ import_react41.default.createElement(Button2, {
+    }), !toggleFilter && /* @__PURE__ */ import_react75.default.createElement(Direction, null, /* @__PURE__ */ import_react75.default.createElement(Button2, {
       onClick: () => handleCanvasToggle(-1),
       disabled: isPreviousDisabled,
       type: "button"
-    }, /* @__PURE__ */ import_react41.default.createElement(PreviousIcon, null)), /* @__PURE__ */ import_react41.default.createElement("span", null, activeIndex + 1, " of ", canvasLength), /* @__PURE__ */ import_react41.default.createElement(Button2, {
+    }, /* @__PURE__ */ import_react75.default.createElement(PreviousIcon, null)), /* @__PURE__ */ import_react75.default.createElement("span", null, activeIndex + 1, " of ", canvasLength), /* @__PURE__ */ import_react75.default.createElement(Button2, {
       onClick: () => handleCanvasToggle(1),
       disabled: isNextDisabled,
       type: "button"
-    }, /* @__PURE__ */ import_react41.default.createElement(NextIcon, null))), /* @__PURE__ */ import_react41.default.createElement(Button2, {
+    }, /* @__PURE__ */ import_react75.default.createElement(NextIcon, null))), /* @__PURE__ */ import_react75.default.createElement(Button2, {
       onClick: handleFilterToggle,
       type: "button"
-    }, toggleFilter ? /* @__PURE__ */ import_react41.default.createElement(CloseIcon, null) : /* @__PURE__ */ import_react41.default.createElement(SearchIcon, null))));
+    }, toggleFilter ? /* @__PURE__ */ import_react75.default.createElement(CloseIcon, null) : /* @__PURE__ */ import_react75.default.createElement(SearchIcon, null))));
   };
   var Controls_default = Controls;
 
@@ -63213,10 +65503,10 @@ ${generateSegmentFilename(i3)}`);
     const dispatch = useViewerDispatch();
     const state = useViewerState();
     const { activeCanvas, vault } = state;
-    const [filter, setFilter] = (0, import_react42.useState)("");
-    const [mediaItems, setMediaItems] = (0, import_react42.useState)([]);
-    const [activeIndex, setActiveIndex] = (0, import_react42.useState)(0);
-    const scrollRef = import_react42.default.useRef(null);
+    const [filter, setFilter] = (0, import_react76.useState)("");
+    const [mediaItems, setMediaItems] = (0, import_react76.useState)([]);
+    const [activeIndex, setActiveIndex] = (0, import_react76.useState)(0);
+    const scrollRef = import_react76.default.useRef(null);
     const motivation = "painting";
     const paintingType = ["Image", "Sound", "Video"];
     const handleChange = (canvasId) => {
@@ -63226,13 +65516,13 @@ ${generateSegmentFilename(i3)}`);
           canvasId
         });
     };
-    (0, import_react42.useEffect)(() => {
+    (0, import_react76.useEffect)(() => {
       if (!mediaItems.length) {
         const entities = items.map((item) => getCanvasByCriteria(vault, item, motivation, paintingType)).filter((canvasEntity) => canvasEntity.annotations.length > 0);
         setMediaItems(entities);
       }
     }, []);
-    (0, import_react42.useEffect)(() => {
+    (0, import_react76.useEffect)(() => {
       mediaItems.forEach((item, index) => {
         if (item == null ? void 0 : item.canvas) {
           if (item.canvas.id === activeCanvas)
@@ -63240,7 +65530,7 @@ ${generateSegmentFilename(i3)}`);
         }
       });
     }, [activeCanvas]);
-    (0, import_react42.useEffect)(() => {
+    (0, import_react76.useEffect)(() => {
       const element = document.querySelector(`[data-canvas="${activeIndex}"]`);
       if (element instanceof HTMLElement && scrollRef.current) {
         const leftPos = element.offsetLeft - scrollRef.current.offsetWidth / 2 + element.offsetWidth / 2;
@@ -63253,12 +65543,12 @@ ${generateSegmentFilename(i3)}`);
       if (canvasEntity == null ? void 0 : canvasEntity.canvas)
         handleChange(canvasEntity.canvas.id);
     };
-    return /* @__PURE__ */ import_react42.default.createElement(import_react42.default.Fragment, null, /* @__PURE__ */ import_react42.default.createElement(Controls_default, {
+    return /* @__PURE__ */ import_react76.default.createElement(import_react76.default.Fragment, null, /* @__PURE__ */ import_react76.default.createElement(Controls_default, {
       handleFilter,
       handleCanvasToggle,
       activeIndex,
       canvasLength: mediaItems.length
-    }), /* @__PURE__ */ import_react42.default.createElement(Group, {
+    }), /* @__PURE__ */ import_react76.default.createElement(Group, {
       "aria-label": "select item",
       "data-testid": "media",
       ref: scrollRef
@@ -63271,7 +65561,7 @@ ${generateSegmentFilename(i3)}`);
       }
     }).map((item, index) => {
       var _a2, _b2;
-      return /* @__PURE__ */ import_react42.default.createElement(Thumbnail_default, {
+      return /* @__PURE__ */ import_react76.default.createElement(Thumbnail_default, {
         canvas: item.canvas,
         canvasIndex: index,
         handleChange,
@@ -63285,12 +65575,12 @@ ${generateSegmentFilename(i3)}`);
   var Media_default = Media;
 
   // src/components/Navigator/Navigator.tsx
-  var import_react48 = __toESM(require_react());
+  var import_react82 = __toESM(require_react());
 
   // node_modules/@radix-ui/react-tabs/dist/index.module.js
-  var import_react43 = __toESM(require_react());
-  function $parcel$export28(e4, n3, v3, s4) {
-    Object.defineProperty(e4, n3, { get: v3, set: s4, enumerable: true, configurable: true });
+  var import_react77 = __toESM(require_react());
+  function $parcel$export28(e4, n4, v5, s5) {
+    Object.defineProperty(e4, n4, { get: v5, set: s5, enumerable: true, configurable: true });
   }
   var $69cb30bb0017df05$exports = {};
   $parcel$export28($69cb30bb0017df05$exports, "createTabsScope", () => $69cb30bb0017df05$export$355f5bd209d7b13a);
@@ -63308,15 +65598,15 @@ ${generateSegmentFilename(i3)}`);
   ]);
   var $69cb30bb0017df05$var$useRovingFocusGroupScope = $d7bdfb9eb0fdf311$export$c7109489551a4f4();
   var [$69cb30bb0017df05$var$TabsProvider, $69cb30bb0017df05$var$useTabsContext] = $69cb30bb0017df05$var$createTabsContext($69cb30bb0017df05$var$TABS_NAME);
-  var $69cb30bb0017df05$export$b2539bed5023c21c = /* @__PURE__ */ (0, import_react43.forwardRef)((props, forwardedRef) => {
+  var $69cb30bb0017df05$export$b2539bed5023c21c = /* @__PURE__ */ (0, import_react77.forwardRef)((props, forwardedRef) => {
     const { __scopeTabs, value: valueProp, onValueChange, defaultValue: defaultValue2, orientation = "horizontal", dir, activationMode = "automatic", ...tabsProps } = props;
-    const direction = $f631663db3294ace$export$b39126d51d94e6f3(dir);
+    const direction = $f631663db3294ace$export$b39126d51d94e6f32(dir);
     const [value, setValue] = $71cd76cc60e0454e$export$6f32135080cb4c3({
       prop: valueProp,
       onChange: onValueChange,
       defaultProp: defaultValue2
     });
-    return /* @__PURE__ */ (0, import_react43.createElement)($69cb30bb0017df05$var$TabsProvider, {
+    return /* @__PURE__ */ (0, import_react77.createElement)($69cb30bb0017df05$var$TabsProvider, {
       scope: __scopeTabs,
       baseId: $1746a345f3d73bb7$export$f680877a34711e37(),
       value,
@@ -63324,7 +65614,7 @@ ${generateSegmentFilename(i3)}`);
       orientation,
       dir: direction,
       activationMode
-    }, /* @__PURE__ */ (0, import_react43.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, _extends({
+    }, /* @__PURE__ */ (0, import_react77.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, _extends({
       dir: direction,
       "data-orientation": orientation
     }, tabsProps, {
@@ -63332,17 +65622,17 @@ ${generateSegmentFilename(i3)}`);
     })));
   });
   var $69cb30bb0017df05$var$TAB_LIST_NAME = "TabsList";
-  var $69cb30bb0017df05$export$9712d22edc0d78c1 = /* @__PURE__ */ (0, import_react43.forwardRef)((props, forwardedRef) => {
+  var $69cb30bb0017df05$export$9712d22edc0d78c1 = /* @__PURE__ */ (0, import_react77.forwardRef)((props, forwardedRef) => {
     const { __scopeTabs, loop = true, ...listProps } = props;
     const context = $69cb30bb0017df05$var$useTabsContext($69cb30bb0017df05$var$TAB_LIST_NAME, __scopeTabs);
     const rovingFocusGroupScope = $69cb30bb0017df05$var$useRovingFocusGroupScope(__scopeTabs);
-    return /* @__PURE__ */ (0, import_react43.createElement)($d7bdfb9eb0fdf311$export$be92b6f5f03c0fe9, _extends({
+    return /* @__PURE__ */ (0, import_react77.createElement)($d7bdfb9eb0fdf311$export$be92b6f5f03c0fe9, _extends({
       asChild: true
     }, rovingFocusGroupScope, {
       orientation: context.orientation,
       dir: context.dir,
       loop
-    }), /* @__PURE__ */ (0, import_react43.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, _extends({
+    }), /* @__PURE__ */ (0, import_react77.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, _extends({
       role: "tablist",
       "aria-orientation": context.orientation
     }, listProps, {
@@ -63350,19 +65640,19 @@ ${generateSegmentFilename(i3)}`);
     })));
   });
   var $69cb30bb0017df05$var$TRIGGER_NAME = "TabsTrigger";
-  var $69cb30bb0017df05$export$8114b9fdfdf9f3ba = /* @__PURE__ */ (0, import_react43.forwardRef)((props, forwardedRef) => {
+  var $69cb30bb0017df05$export$8114b9fdfdf9f3ba = /* @__PURE__ */ (0, import_react77.forwardRef)((props, forwardedRef) => {
     const { __scopeTabs, value, disabled = false, ...triggerProps } = props;
     const context = $69cb30bb0017df05$var$useTabsContext($69cb30bb0017df05$var$TRIGGER_NAME, __scopeTabs);
     const rovingFocusGroupScope = $69cb30bb0017df05$var$useRovingFocusGroupScope(__scopeTabs);
     const triggerId = $69cb30bb0017df05$var$makeTriggerId(context.baseId, value);
     const contentId = $69cb30bb0017df05$var$makeContentId(context.baseId, value);
     const isSelected = value === context.value;
-    return /* @__PURE__ */ (0, import_react43.createElement)($d7bdfb9eb0fdf311$export$6d08773d2e66f8f2, _extends({
+    return /* @__PURE__ */ (0, import_react77.createElement)($d7bdfb9eb0fdf311$export$6d08773d2e66f8f2, _extends({
       asChild: true
     }, rovingFocusGroupScope, {
       focusable: !disabled,
       active: isSelected
-    }), /* @__PURE__ */ (0, import_react43.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.button, _extends({
+    }), /* @__PURE__ */ (0, import_react77.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.button, _extends({
       type: "button",
       role: "tab",
       "aria-selected": isSelected,
@@ -63394,13 +65684,13 @@ ${generateSegmentFilename(i3)}`);
     })));
   });
   var $69cb30bb0017df05$var$CONTENT_NAME = "TabsContent";
-  var $69cb30bb0017df05$export$bd905d70e8fd2ebb = /* @__PURE__ */ (0, import_react43.forwardRef)((props, forwardedRef) => {
+  var $69cb30bb0017df05$export$bd905d70e8fd2ebb = /* @__PURE__ */ (0, import_react77.forwardRef)((props, forwardedRef) => {
     const { __scopeTabs, value, children, ...contentProps } = props;
     const context = $69cb30bb0017df05$var$useTabsContext($69cb30bb0017df05$var$CONTENT_NAME, __scopeTabs);
     const triggerId = $69cb30bb0017df05$var$makeTriggerId(context.baseId, value);
     const contentId = $69cb30bb0017df05$var$makeContentId(context.baseId, value);
     const isSelected = value === context.value;
-    return /* @__PURE__ */ (0, import_react43.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, _extends({
+    return /* @__PURE__ */ (0, import_react77.createElement)($8927f6f2acc4f386$export$250ffa63cdc0d034.div, _extends({
       "data-state": isSelected ? "active" : "inactive",
       "data-orientation": context.orientation,
       role: "tabpanel",
@@ -63519,7 +65809,7 @@ ${generateSegmentFilename(i3)}`);
   });
 
   // src/components/Navigator/Resource.tsx
-  var import_react47 = __toESM(require_react());
+  var import_react81 = __toESM(require_react());
 
   // src/components/Navigator/Cue.styled.tsx
   var spin = keyframes({
@@ -63751,13 +66041,13 @@ ${generateSegmentFilename(i3)}`);
   var use_webvtt_default = useWebVtt;
 
   // src/components/Navigator/Menu.tsx
-  var import_react46 = __toESM(require_react());
+  var import_react80 = __toESM(require_react());
 
   // src/components/Navigator/Cue.tsx
-  var import_react45 = __toESM(require_react());
+  var import_react79 = __toESM(require_react());
 
   // src/context/current-time-context.tsx
-  var import_react44 = __toESM(require_react());
+  var import_react78 = __toESM(require_react());
   var defaultValue = {
     currentTime: 0,
     startTime: 0,
@@ -63766,32 +66056,32 @@ ${generateSegmentFilename(i3)}`);
     updateCurrentTime: () => {
     }
   };
-  var CurrentTimeContext = import_react44.default.createContext(defaultValue);
+  var CurrentTimeContext = import_react78.default.createContext(defaultValue);
   var CurrentTimeProvider = ({
     children
   }) => {
-    const [currentTime, setCurrentTime] = import_react44.default.useState(defaultValue.currentTime);
-    const [startTime, setStartTime] = import_react44.default.useState(0);
+    const [currentTime, setCurrentTime] = import_react78.default.useState(defaultValue.currentTime);
+    const [startTime, setStartTime] = import_react78.default.useState(0);
     const updateStartTime = (t4) => setStartTime(t4);
     const updateCurrentTime = (t4) => setCurrentTime(t4);
-    return /* @__PURE__ */ import_react44.default.createElement(CurrentTimeContext.Provider, {
+    return /* @__PURE__ */ import_react78.default.createElement(CurrentTimeContext.Provider, {
       value: { currentTime, startTime, updateStartTime, updateCurrentTime }
     }, children);
   };
 
   // src/components/Navigator/Cue.tsx
   var Cue = ({ label, start, end }) => {
-    const { currentTime, updateStartTime } = import_react45.default.useContext(CurrentTimeContext);
+    const { currentTime, updateStartTime } = import_react79.default.useContext(CurrentTimeContext);
     const isActive = start <= currentTime && currentTime < end;
     const handleClick = () => {
       updateStartTime(start);
     };
-    return /* @__PURE__ */ import_react45.default.createElement(Item2, {
+    return /* @__PURE__ */ import_react79.default.createElement(Item2, {
       "aria-checked": isActive,
       "data-testid": "navigator-cue",
       onClick: handleClick,
       value: label
-    }, label, /* @__PURE__ */ import_react45.default.createElement("strong", null, convertTime(start)));
+    }, label, /* @__PURE__ */ import_react79.default.createElement("strong", null, convertTime(start)));
   };
   var Cue_default = Cue;
 
@@ -63821,14 +66111,14 @@ ${generateSegmentFilename(i3)}`);
 
   // src/components/Navigator/Menu.tsx
   var Menu = ({ items }) => {
-    return /* @__PURE__ */ import_react46.default.createElement(MenuStyled, null, items.map(({ text, start, end, children: cueChildren, identifier }) => {
-      return /* @__PURE__ */ import_react46.default.createElement("li", {
+    return /* @__PURE__ */ import_react80.default.createElement(MenuStyled, null, items.map(({ text, start, end, children: cueChildren, identifier }) => {
+      return /* @__PURE__ */ import_react80.default.createElement("li", {
         key: identifier
-      }, /* @__PURE__ */ import_react46.default.createElement(Cue_default, {
+      }, /* @__PURE__ */ import_react80.default.createElement(Cue_default, {
         label: text,
         start,
         end
-      }), cueChildren && /* @__PURE__ */ import_react46.default.createElement(Menu, {
+      }), cueChildren && /* @__PURE__ */ import_react80.default.createElement(Menu, {
         items: cueChildren
       }));
     }));
@@ -63838,10 +66128,10 @@ ${generateSegmentFilename(i3)}`);
   // src/components/Navigator/Resource.tsx
   var import_node_webvtt = __toESM(require_node_webvtt());
   var Resource = ({ resource }) => {
-    const [cues, setCues] = import_react47.default.useState([]);
+    const [cues, setCues] = import_react81.default.useState([]);
     const { id, label } = resource;
     const { createNestedCues, orderCuesByTime } = use_webvtt_default();
-    (0, import_react47.useEffect)(() => {
+    (0, import_react81.useEffect)(() => {
       fetch(id, {
         headers: {
           "Content-Type": "text/plain",
@@ -63854,9 +66144,9 @@ ${generateSegmentFilename(i3)}`);
         setCues(nestedCues);
       }).catch((error) => console.error(id, error.toString()));
     }, [id]);
-    return /* @__PURE__ */ import_react47.default.createElement(Group2, {
+    return /* @__PURE__ */ import_react81.default.createElement(Group2, {
       "aria-label": `navigate ${getLabel(label, "en")}`
-    }, /* @__PURE__ */ import_react47.default.createElement(Menu_default, {
+    }, /* @__PURE__ */ import_react81.default.createElement(Menu_default, {
       items: cues
     }));
   };
@@ -63868,32 +66158,32 @@ ${generateSegmentFilename(i3)}`);
     defaultResource,
     resources
   }) => {
-    const [activeResource, setActiveResource] = (0, import_react48.useState)(defaultResource);
-    (0, import_react48.useEffect)(() => {
+    const [activeResource, setActiveResource] = (0, import_react82.useState)(defaultResource);
+    (0, import_react82.useEffect)(() => {
       setActiveResource(defaultResource);
     }, [activeCanvas, resources]);
     const handleValueChange = (value) => {
       setActiveResource(value);
     };
     if (!resources)
-      return /* @__PURE__ */ import_react48.default.createElement(import_react48.default.Fragment, null);
-    return /* @__PURE__ */ import_react48.default.createElement(Wrapper3, {
+      return /* @__PURE__ */ import_react82.default.createElement(import_react82.default.Fragment, null);
+    return /* @__PURE__ */ import_react82.default.createElement(Wrapper3, {
       "data-testid": "navigator",
       defaultValue: defaultResource,
       onValueChange: handleValueChange,
       orientation: "horizontal",
       value: activeResource
-    }, /* @__PURE__ */ import_react48.default.createElement(List, {
+    }, /* @__PURE__ */ import_react82.default.createElement(List, {
       "aria-label": "select chapter",
       "data-testid": "navigator-list"
-    }, resources.map(({ id, label }) => /* @__PURE__ */ import_react48.default.createElement(Trigger2, {
+    }, resources.map(({ id, label }) => /* @__PURE__ */ import_react82.default.createElement(Trigger2, {
       key: id,
       value: id
-    }, getLabel(label, "en")))), /* @__PURE__ */ import_react48.default.createElement(Scroll, null, resources.map((resource) => {
-      return /* @__PURE__ */ import_react48.default.createElement(Content3, {
+    }, getLabel(label, "en")))), /* @__PURE__ */ import_react82.default.createElement(Scroll, null, resources.map((resource) => {
+      return /* @__PURE__ */ import_react82.default.createElement(Content3, {
         key: resource.id,
         value: resource.id
-      }, /* @__PURE__ */ import_react48.default.createElement(Resource_default, {
+      }, /* @__PURE__ */ import_react82.default.createElement(Resource_default, {
         resource
       }));
     })));
@@ -63901,8 +66191,8 @@ ${generateSegmentFilename(i3)}`);
   var Navigator_default = Navigator;
 
   // src/components/Player/Player.tsx
-  var import_react51 = __toESM(require_react());
-  var import_hls = __toESM(require_hls2());
+  var import_react85 = __toESM(require_react());
+  var import_hls2 = __toESM(require_hls());
 
   // src/components/Player/Player.styled.tsx
   var PlayerWrapper = styled("div", {
@@ -63925,7 +66215,7 @@ ${generateSegmentFilename(i3)}`);
   });
 
   // src/components/Player/AudioVisualizer.tsx
-  var import_react49 = __toESM(require_react());
+  var import_react83 = __toESM(require_react());
 
   // src/components/Player/AudioVisualizer.styled.tsx
   var AudioVisualizerWrapper = styled("canvas", {
@@ -63935,9 +66225,9 @@ ${generateSegmentFilename(i3)}`);
   });
 
   // src/components/Player/AudioVisualizer.tsx
-  var AudioVisualizer = import_react49.default.forwardRef((_props, ref) => {
-    const canvasRef = import_react49.default.useRef(null);
-    import_react49.default.useEffect(() => {
+  var AudioVisualizer = import_react83.default.forwardRef((_props, ref) => {
+    const canvasRef = import_react83.default.useRef(null);
+    import_react83.default.useEffect(() => {
       if (!ref)
         return;
       ref.current.onplay = audioVisualizer;
@@ -63965,31 +66255,31 @@ ${generateSegmentFilename(i3)}`);
     function renderFrame(analyser, ctx, bufferLength, dataArray, width, height) {
       let barWidth = width / bufferLength * 2.6;
       let barHeight;
-      let x3 = 0;
+      let x4 = 0;
       analyser.getByteFrequencyData(dataArray);
       ctx.fillStyle = "#000000";
       ctx.fillRect(0, 0, width, height);
       for (let i3 = 0; i3 < bufferLength; i3++) {
         barHeight = dataArray[i3] * 2;
         ctx.fillStyle = `rgba(${78}, 42, 132, 1)`;
-        ctx.fillRect(x3, height - barHeight, barWidth, barHeight);
-        x3 += barWidth + 6;
+        ctx.fillRect(x4, height - barHeight, barWidth, barHeight);
+        x4 += barWidth + 6;
       }
     }
-    return /* @__PURE__ */ import_react49.default.createElement(AudioVisualizerWrapper, {
+    return /* @__PURE__ */ import_react83.default.createElement(AudioVisualizerWrapper, {
       ref: canvasRef
     });
   });
   var AudioVisualizer_default = AudioVisualizer;
 
   // src/components/Player/Track.tsx
-  var import_react50 = __toESM(require_react());
+  var import_react84 = __toESM(require_react());
   var Track = ({ resource, ignoreCaptionLabels }) => {
     const label = getLabel(resource.label, "en");
     const isIgnored = label.some((value) => ignoreCaptionLabels.includes(value));
     if (isIgnored)
       return null;
-    return /* @__PURE__ */ import_react50.default.createElement("track", {
+    return /* @__PURE__ */ import_react84.default.createElement("track", {
       key: resource.id,
       src: resource.id,
       label,
@@ -64002,31 +66292,31 @@ ${generateSegmentFilename(i3)}`);
   // src/components/Player/Player.tsx
   var Player = ({ painting, resources }) => {
     var _a2;
-    const playerRef = import_react51.default.useRef(null);
+    const playerRef = import_react85.default.useRef(null);
     const isAudio = (_a2 = painting == null ? void 0 : painting.format) == null ? void 0 : _a2.includes("audio/");
-    const { startTime, updateCurrentTime } = import_react51.default.useContext(CurrentTimeContext);
+    const { startTime, updateCurrentTime } = import_react85.default.useContext(CurrentTimeContext);
     const viewerState = useViewerState();
     const { activeCanvas, configOptions, vault } = viewerState;
     const activeCanvasObject = getCanvasByCriteria(vault, { id: activeCanvas, type: "Canvas" }, "painting", ["Image"]);
     const posterImage = getAccompanyingCanvasImage(activeCanvasObject.accompanyingCanvas);
-    import_react51.default.useEffect(() => {
+    import_react85.default.useEffect(() => {
       if (!painting.id || !playerRef.current)
         return;
       if (painting.id.split(".").pop() !== "m3u8")
         return;
-      const hls = new import_hls.default();
+      const hls = new import_hls2.default();
       hls.attachMedia(playerRef.current);
-      hls.on(import_hls.default.Events.MEDIA_ATTACHED, function() {
+      hls.on(import_hls2.default.Events.MEDIA_ATTACHED, function() {
         hls.loadSource(painting.id);
       });
-      hls.on(import_hls.default.Events.ERROR, function(event, data) {
+      hls.on(import_hls2.default.Events.ERROR, function(event, data) {
         if (data.fatal) {
           switch (data.type) {
-            case import_hls.default.ErrorTypes.NETWORK_ERROR:
+            case import_hls2.default.ErrorTypes.NETWORK_ERROR:
               console.error(`fatal ${event} network error encountered, try to recover`);
               hls.startLoad();
               break;
-            case import_hls.default.ErrorTypes.MEDIA_ERROR:
+            case import_hls2.default.ErrorTypes.MEDIA_ERROR:
               console.error(`fatal ${event} media error encountered, try to recover`);
               hls.recoverMediaError();
               break;
@@ -64044,7 +66334,7 @@ ${generateSegmentFilename(i3)}`);
         }
       };
     }, [painting.id]);
-    import_react51.default.useEffect(() => {
+    import_react85.default.useEffect(() => {
       let video = playerRef.current;
       if (video)
         video.currentTime = startTime;
@@ -64059,12 +66349,12 @@ ${generateSegmentFilename(i3)}`);
         };
       }
     };
-    return /* @__PURE__ */ import_react51.default.createElement(PlayerWrapper, {
+    return /* @__PURE__ */ import_react85.default.createElement(PlayerWrapper, {
       css: {
         backgroundColor: configOptions.canvasBackgroundColor,
         maxHeight: configOptions.canvasHeight
       }
-    }, /* @__PURE__ */ import_react51.default.createElement("video", {
+    }, /* @__PURE__ */ import_react85.default.createElement("video", {
       id: "clover-iiif-video",
       key: painting.id,
       ref: playerRef,
@@ -64074,24 +66364,24 @@ ${generateSegmentFilename(i3)}`);
       onPlay: handlePlay,
       crossOrigin: "anonymous",
       poster: posterImage
-    }, /* @__PURE__ */ import_react51.default.createElement("source", {
+    }, /* @__PURE__ */ import_react85.default.createElement("source", {
       src: painting.id,
       type: painting.format
-    }), resources.length > 0 && resources.map((resource) => /* @__PURE__ */ import_react51.default.createElement(Track_default, {
+    }), resources.length > 0 && resources.map((resource) => /* @__PURE__ */ import_react85.default.createElement(Track_default, {
       resource,
       ignoreCaptionLabels: configOptions.ignoreCaptionLabels,
       key: resource.id
-    })), "Sorry, your browser doesn't support embedded videos."), isAudio && /* @__PURE__ */ import_react51.default.createElement(AudioVisualizer_default, {
+    })), "Sorry, your browser doesn't support embedded videos."), isAudio && /* @__PURE__ */ import_react85.default.createElement(AudioVisualizer_default, {
       ref: playerRef
     }));
   };
   var Player_default = Player;
 
   // src/components/ImageViewer/ImageViewer.tsx
-  var import_react55 = __toESM(require_react());
+  var import_react89 = __toESM(require_react());
 
   // src/components/ImageViewer/OSD.tsx
-  var import_react54 = __toESM(require_react());
+  var import_react88 = __toESM(require_react());
   var import_openseadragon = __toESM(require_openseadragon());
 
   // src/components/ImageViewer/ImageViewer.styled.tsx
@@ -64133,10 +66423,10 @@ ${generateSegmentFilename(i3)}`);
   });
 
   // src/components/ImageViewer/Controls.tsx
-  var import_react53 = __toESM(require_react());
+  var import_react87 = __toESM(require_react());
 
   // src/components/ImageViewer/Button.tsx
-  var import_react52 = __toESM(require_react());
+  var import_react86 = __toESM(require_react());
 
   // src/components/ImageViewer/Button.styled.tsx
   var Item3 = styled("button", {
@@ -64180,17 +66470,17 @@ ${generateSegmentFilename(i3)}`);
 
   // src/components/ImageViewer/Button.tsx
   var Button3 = ({ id, label, children }) => {
-    return /* @__PURE__ */ import_react52.default.createElement(Item3, {
+    return /* @__PURE__ */ import_react86.default.createElement(Item3, {
       id,
       "data-testid": "openseadragon-button"
-    }, /* @__PURE__ */ import_react52.default.createElement("svg", {
+    }, /* @__PURE__ */ import_react86.default.createElement("svg", {
       xmlns: "http://www.w3.org/2000/svg",
       "aria-labelledby": `${id}-svg-title`,
       "data-testid": "openseadragon-button-svg",
       focusable: "false",
       viewBox: "0 0 512 512",
       role: "img"
-    }, /* @__PURE__ */ import_react52.default.createElement("title", {
+    }, /* @__PURE__ */ import_react86.default.createElement("title", {
       id: `${id}-svg-title`
     }, label), children));
   };
@@ -64207,7 +66497,7 @@ ${generateSegmentFilename(i3)}`);
   // src/components/ImageViewer/Controls.tsx
   var Controls2 = () => {
     const ZoomIn = () => {
-      return /* @__PURE__ */ import_react53.default.createElement("path", {
+      return /* @__PURE__ */ import_react87.default.createElement("path", {
         strokeLinecap: "round",
         strokeMiterlimit: "10",
         strokeWidth: "45",
@@ -64215,7 +66505,7 @@ ${generateSegmentFilename(i3)}`);
       });
     };
     const ZoomOut = () => {
-      return /* @__PURE__ */ import_react53.default.createElement("path", {
+      return /* @__PURE__ */ import_react87.default.createElement("path", {
         strokeLinecap: "round",
         strokeMiterlimit: "10",
         strokeWidth: "45",
@@ -64223,29 +66513,29 @@ ${generateSegmentFilename(i3)}`);
       });
     };
     const ZoomReset = () => {
-      return /* @__PURE__ */ import_react53.default.createElement(import_react53.default.Fragment, null, /* @__PURE__ */ import_react53.default.createElement("path", {
+      return /* @__PURE__ */ import_react87.default.createElement(import_react87.default.Fragment, null, /* @__PURE__ */ import_react87.default.createElement("path", {
         fill: "none",
         strokeLinecap: "round",
         strokeMiterlimit: "10",
         strokeWidth: "45",
         d: "M400 148l-21.12-24.57A191.43 191.43 0 00240 64C134 64 48 150 48 256s86 192 192 192a192.09 192.09 0 00181.07-128"
-      }), /* @__PURE__ */ import_react53.default.createElement("path", {
+      }), /* @__PURE__ */ import_react87.default.createElement("path", {
         d: "M464 97.42V208a16 16 0 01-16 16H337.42c-14.26 0-21.4-17.23-11.32-27.31L436.69 86.1C446.77 76 464 83.16 464 97.42z"
       }));
     };
-    return /* @__PURE__ */ import_react53.default.createElement(Wrapper5, {
+    return /* @__PURE__ */ import_react87.default.createElement(Wrapper5, {
       "data-testid": "openseadragon-controls",
       id: "openseadragon-controls"
-    }, /* @__PURE__ */ import_react53.default.createElement(Button_default, {
+    }, /* @__PURE__ */ import_react87.default.createElement(Button_default, {
       id: "zoomIn",
       label: "zoom in"
-    }, /* @__PURE__ */ import_react53.default.createElement(ZoomIn, null)), /* @__PURE__ */ import_react53.default.createElement(Button_default, {
+    }, /* @__PURE__ */ import_react87.default.createElement(ZoomIn, null)), /* @__PURE__ */ import_react87.default.createElement(Button_default, {
       id: "zoomOut",
       label: "zoom in"
-    }, /* @__PURE__ */ import_react53.default.createElement(ZoomOut, null)), /* @__PURE__ */ import_react53.default.createElement(Button_default, {
+    }, /* @__PURE__ */ import_react87.default.createElement(ZoomOut, null)), /* @__PURE__ */ import_react87.default.createElement(Button_default, {
       id: "zoomReset",
       label: "reset zoom"
-    }, /* @__PURE__ */ import_react53.default.createElement(ZoomReset, null)));
+    }, /* @__PURE__ */ import_react87.default.createElement(ZoomReset, null)));
   };
   var Controls_default2 = Controls2;
 
@@ -64269,7 +66559,7 @@ ${generateSegmentFilename(i3)}`);
 
   // src/components/ImageViewer/OSD.tsx
   var OSD = ({ uri, imageType }) => {
-    const [osdUri, setOsdUri] = (0, import_react54.useState)();
+    const [osdUri, setOsdUri] = (0, import_react88.useState)();
     const viewerState = useViewerState();
     const { configOptions } = viewerState;
     const instance = v4_default();
@@ -64290,11 +66580,11 @@ ${generateSegmentFilename(i3)}`);
         scrollToZoom: false
       }
     };
-    (0, import_react54.useEffect)(() => {
+    (0, import_react88.useEffect)(() => {
       if (uri !== osdUri)
         setOsdUri(uri);
     }, []);
-    (0, import_react54.useEffect)(() => {
+    (0, import_react88.useEffect)(() => {
       if (osdUri) {
         switch (imageType) {
           case "simpleImage":
@@ -64313,14 +66603,14 @@ ${generateSegmentFilename(i3)}`);
         }
       }
     }, [osdUri]);
-    return /* @__PURE__ */ import_react54.default.createElement(Wrapper4, {
+    return /* @__PURE__ */ import_react88.default.createElement(Wrapper4, {
       css: {
         backgroundColor: configOptions.canvasBackgroundColor,
         height: configOptions.canvasHeight
       }
-    }, /* @__PURE__ */ import_react54.default.createElement(Controls_default2, null), /* @__PURE__ */ import_react54.default.createElement(Navigator2, {
+    }, /* @__PURE__ */ import_react88.default.createElement(Controls_default2, null), /* @__PURE__ */ import_react88.default.createElement(Navigator2, {
       id: `openseadragon-navigator-${instance}`
-    }), /* @__PURE__ */ import_react54.default.createElement(Viewport, {
+    }), /* @__PURE__ */ import_react88.default.createElement(Viewport, {
       id: `openseadragon-viewport-${instance}`
     }));
   };
@@ -64328,9 +66618,9 @@ ${generateSegmentFilename(i3)}`);
 
   // src/components/ImageViewer/ImageViewer.tsx
   var ImageViewer = ({ body }) => {
-    const [imageType, setImageType] = (0, import_react55.useState)();
-    const [uri, setUri] = (0, import_react55.useState)();
-    (0, import_react55.useEffect)(() => {
+    const [imageType, setImageType] = (0, import_react89.useState)();
+    const [uri, setUri] = (0, import_react89.useState)();
+    (0, import_react89.useEffect)(() => {
       if (Array.isArray(body.service) && body.service.length > 0) {
         setImageType("tiledImage");
         setUri(getImageServiceURI(body.service));
@@ -64339,7 +66629,7 @@ ${generateSegmentFilename(i3)}`);
         setUri(body.id);
       }
     }, [body]);
-    return /* @__PURE__ */ import_react55.default.createElement(OSD_default, {
+    return /* @__PURE__ */ import_react89.default.createElement(OSD_default, {
       uri,
       key: uri,
       imageType
@@ -64357,24 +66647,24 @@ ${generateSegmentFilename(i3)}`);
     isNavigator,
     isNavigatorOpen
   }) => {
-    return /* @__PURE__ */ import_react56.default.createElement(Content, {
+    return /* @__PURE__ */ import_react90.default.createElement(Content, {
       className: "clover-content"
-    }, /* @__PURE__ */ import_react56.default.createElement(CurrentTimeProvider, null, /* @__PURE__ */ import_react56.default.createElement(Main, null, isMedia ? /* @__PURE__ */ import_react56.default.createElement(Player_default, {
+    }, /* @__PURE__ */ import_react90.default.createElement(CurrentTimeProvider, null, /* @__PURE__ */ import_react90.default.createElement(Main, null, isMedia ? /* @__PURE__ */ import_react90.default.createElement(Player_default, {
       painting,
       resources
-    }) : painting && /* @__PURE__ */ import_react56.default.createElement(ImageViewer_default, {
+    }) : painting && /* @__PURE__ */ import_react90.default.createElement(ImageViewer_default, {
       body: painting,
       key: activeCanvas
-    }), /* @__PURE__ */ import_react56.default.createElement(CollapsibleTrigger, {
+    }), /* @__PURE__ */ import_react90.default.createElement(CollapsibleTrigger, {
       "data-navigator": isNavigator
-    }, /* @__PURE__ */ import_react56.default.createElement(Button, {
+    }, /* @__PURE__ */ import_react90.default.createElement(Button, {
       as: "span"
-    }, isNavigatorOpen ? "View Media Items" : "View Navigator")), items.length > 1 && /* @__PURE__ */ import_react56.default.createElement(MediaWrapper, {
+    }, isNavigatorOpen ? "View Media Items" : "View Navigator")), items.length > 1 && /* @__PURE__ */ import_react90.default.createElement(MediaWrapper, {
       className: "clover-canvases"
-    }, /* @__PURE__ */ import_react56.default.createElement(Media_default, {
+    }, /* @__PURE__ */ import_react90.default.createElement(Media_default, {
       items,
       activeItem: 0
-    }))), isNavigator && /* @__PURE__ */ import_react56.default.createElement(Aside, null, /* @__PURE__ */ import_react56.default.createElement(CollapsibleContent, null, /* @__PURE__ */ import_react56.default.createElement(Navigator_default, {
+    }))), isNavigator && /* @__PURE__ */ import_react90.default.createElement(Aside, null, /* @__PURE__ */ import_react90.default.createElement(CollapsibleContent, null, /* @__PURE__ */ import_react90.default.createElement(Navigator_default, {
       activeCanvas,
       defaultResource: resources[0].id,
       resources
@@ -64383,7 +66673,7 @@ ${generateSegmentFilename(i3)}`);
   var Content_default = ViewerContent;
 
   // src/components/Viewer/ErrorFallback.tsx
-  var import_react57 = __toESM(require_react());
+  var import_react91 = __toESM(require_react());
 
   // src/components/Viewer/ErrorFallback.styled.tsx
   var ErrorFallbackStyled = styled("div", {
@@ -64403,11 +66693,11 @@ ${generateSegmentFilename(i3)}`);
   // src/components/Viewer/ErrorFallback.tsx
   var ErrorFallback = ({ error }) => {
     const { message } = error;
-    return /* @__PURE__ */ import_react57.default.createElement(ErrorFallbackStyled, {
+    return /* @__PURE__ */ import_react91.default.createElement(ErrorFallbackStyled, {
       role: "alert"
-    }, /* @__PURE__ */ import_react57.default.createElement(Headline, {
+    }, /* @__PURE__ */ import_react91.default.createElement(Headline, {
       "data-testid": "headline"
-    }, "Something went wrong"), message && /* @__PURE__ */ import_react57.default.createElement(ErrorBody, null, `Error message: ${message}`, " "));
+    }, "Something went wrong"), message && /* @__PURE__ */ import_react91.default.createElement(ErrorBody, null, `Error message: ${message}`, " "));
   };
   var ErrorFallback_default = ErrorFallback;
 
@@ -64416,28 +66706,28 @@ ${generateSegmentFilename(i3)}`);
   var Viewer = ({ manifest, theme: theme3 }) => {
     const viewerState = useViewerState();
     const { activeCanvas, vault } = viewerState;
-    const [isMedia, setIsMedia] = (0, import_react58.useState)(false);
-    const [isNavigator, setIsNavigator] = (0, import_react58.useState)(false);
-    const [isNavigatorOpen, setIsNavigatorOpen] = (0, import_react58.useState)(true);
-    const [painting, setPainting] = (0, import_react58.useState)(void 0);
-    const [resources, setResources] = (0, import_react58.useState)([]);
+    const [isMedia, setIsMedia] = (0, import_react92.useState)(false);
+    const [isNavigator, setIsNavigator] = (0, import_react92.useState)(false);
+    const [isNavigatorOpen, setIsNavigatorOpen] = (0, import_react92.useState)(true);
+    const [painting, setPainting] = (0, import_react92.useState)(void 0);
+    const [resources, setResources] = (0, import_react92.useState)([]);
     const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
     const isSmallViewport = useMediaQuery(media.sm);
-    (0, import_react58.useEffect)(() => {
+    (0, import_react92.useEffect)(() => {
       if (!isSmallViewport) {
         setIsNavigatorOpen(true);
         return;
       }
       setIsNavigatorOpen(false);
     }, [isSmallViewport]);
-    (0, import_react58.useEffect)(() => {
+    (0, import_react92.useEffect)(() => {
       if (!isSmallViewport) {
         setIsBodyLocked(false);
         return;
       }
       setIsBodyLocked(isNavigatorOpen);
     }, [isNavigatorOpen]);
-    (0, import_react58.useEffect)(() => {
+    (0, import_react92.useEffect)(() => {
       const painting2 = getPaintingResource(vault, activeCanvas);
       const resources2 = getSupplementingResources(vault, activeCanvas, "text/vtt");
       if (painting2) {
@@ -64447,20 +66737,20 @@ ${generateSegmentFilename(i3)}`);
       setResources(resources2);
       setIsNavigator(resources2.length !== 0);
     }, [activeCanvas]);
-    return /* @__PURE__ */ import_react58.default.createElement(import_react_error_boundary.ErrorBoundary, {
+    return /* @__PURE__ */ import_react92.default.createElement(import_react_error_boundary.ErrorBoundary, {
       FallbackComponent: ErrorFallback_default
-    }, /* @__PURE__ */ import_react58.default.createElement(Wrapper, {
+    }, /* @__PURE__ */ import_react92.default.createElement(Wrapper, {
       className: `${theme3} clover-iiif`,
       "data-body-locked": isBodyLocked,
       "data-navigator": isNavigator,
       "data-navigator-open": isNavigatorOpen
-    }, /* @__PURE__ */ import_react58.default.createElement($409067139f391064$export$be92b6f5f03c0fe9, {
+    }, /* @__PURE__ */ import_react92.default.createElement($409067139f391064$export$be92b6f5f03c0fe9, {
       open: isNavigatorOpen,
       onOpenChange: setIsNavigatorOpen
-    }, /* @__PURE__ */ import_react58.default.createElement(Header_default, {
+    }, /* @__PURE__ */ import_react92.default.createElement(Header_default, {
       manifestLabel: manifest.label,
       manifestId: manifest.id
-    }), /* @__PURE__ */ import_react58.default.createElement(Content_default, {
+    }), /* @__PURE__ */ import_react92.default.createElement(Content_default, {
       activeCanvas,
       painting,
       resources,
@@ -64474,13 +66764,15 @@ ${generateSegmentFilename(i3)}`);
 
   // src/index.tsx
   var App = ({
-    manifestId,
     canvasIdCallback = () => {
     },
     customTheme,
+    id,
+    manifestId,
     options
   }) => {
-    return /* @__PURE__ */ import_react59.default.createElement(ViewerProvider, null, /* @__PURE__ */ import_react59.default.createElement(RenderViewer, {
+    return /* @__PURE__ */ import_react93.default.createElement(ViewerProvider, null, /* @__PURE__ */ import_react93.default.createElement(RenderViewer, {
+      id,
       manifestId,
       canvasIdCallback,
       customTheme,
@@ -64488,61 +66780,96 @@ ${generateSegmentFilename(i3)}`);
     }));
   };
   var RenderViewer = ({
-    manifestId,
     canvasIdCallback,
     customTheme,
+    id,
+    manifestId,
     options
   }) => {
     const dispatch = useViewerDispatch();
     const store = useViewerState();
-    const { activeCanvas, isLoaded, vault } = store;
-    const [manifest, setManifest] = (0, import_react59.useState)();
+    const { activeCanvas, activeManifest, isLoaded, vault } = store;
+    const [iiifResource, setIiifResource] = (0, import_react93.useState)();
+    const [manifest, setManifest] = (0, import_react93.useState)();
     let theme3 = {};
     if (customTheme)
       theme3 = Q2("custom", customTheme);
-    (0, import_react59.useEffect)(() => {
+    (0, import_react93.useEffect)(() => {
       if (canvasIdCallback)
         canvasIdCallback(activeCanvas);
     }, [activeCanvas]);
-    (0, import_react59.useEffect)(() => {
+    (0, import_react93.useEffect)(() => {
+      if (activeManifest)
+        vault.loadManifest(activeManifest).then((data) => {
+          setManifest(data);
+          dispatch({
+            type: "updateActiveCanvas",
+            canvasId: data.items[0] && data.items[0].id
+          });
+        }).catch((error) => {
+          console.error(`Manifest failed to load: ${error}`);
+        }).finally(() => {
+          dispatch({
+            type: "updateIsLoaded",
+            isLoaded: true
+          });
+        });
+    }, [activeManifest]);
+    (0, import_react93.useEffect)(() => {
+      let resource = id;
+      if (manifestId)
+        resource = manifestId;
       dispatch({
         type: "updateConfigOptions",
         configOptions: options
       });
-      vault.loadManifest(manifestId).then((data) => {
-        setManifest(data);
-        dispatch({
-          type: "updateActiveCanvas",
-          canvasId: data.items[0] && data.items[0].id
-        });
+      vault.load(resource).then((data) => {
+        setIiifResource(data);
       }).catch((error) => {
-        console.error(`Manifest failed to load: ${error}`);
-      }).finally(() => {
-        dispatch({
-          type: "updateIsLoaded",
-          isLoaded: true
-        });
+        console.error(`The IIIF resource ${resource} failed to load: ${error}`);
       });
-    }, []);
+    }, [id, options]);
+    (0, import_react93.useEffect)(() => {
+      let manifests2 = [];
+      if ((iiifResource == null ? void 0 : iiifResource.type) === "Collection") {
+        dispatch({
+          type: "updateCollection",
+          collection: iiifResource
+        });
+        manifests2 = iiifResource.items.filter((item) => item.type === "Manifest").map((manifest2) => manifest2.id);
+        if (manifests2.length > 0) {
+          dispatch({
+            type: "updateActiveManifest",
+            manifestId: manifests2[0]
+          });
+        }
+      } else if ((iiifResource == null ? void 0 : iiifResource.type) === "Manifest") {
+        dispatch({
+          type: "updateActiveManifest",
+          manifestId: iiifResource.id
+        });
+      }
+    }, [iiifResource]);
     if (!isLoaded)
-      return /* @__PURE__ */ import_react59.default.createElement(import_react59.default.Fragment, null, "Loading");
+      return /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null, "Loading");
     if (!manifest || !manifest["items"]) {
       console.log(`The IIIF manifest ${manifestId} failed to load.`);
-      return /* @__PURE__ */ import_react59.default.createElement(import_react59.default.Fragment, null);
+      return /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null);
     }
     if (manifest["items"].length === 0) {
       console.log(`The IIIF manifest ${manifestId} does not contain canvases.`);
-      return /* @__PURE__ */ import_react59.default.createElement(import_react59.default.Fragment, null);
+      return /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null);
     }
-    return /* @__PURE__ */ import_react59.default.createElement(Viewer_default, {
+    return /* @__PURE__ */ import_react93.default.createElement(Viewer_default, {
       manifest,
-      theme: theme3
+      theme: theme3,
+      key: manifest.id
     });
   };
   var src_default = App;
 
   // src/dev/DynamicUrl.tsx
-  var import_react61 = __toESM(require_react());
+  var import_react95 = __toESM(require_react());
 
   // src/dev/DynamicUrl.styled.tsx
   var DynamicUrlStyled = styled("section", {
@@ -64633,8 +66960,8 @@ ${generateSegmentFilename(i3)}`);
       label: "Greenland Falcon"
     },
     {
-      url: "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json",
-      label: "Default"
+      url: "https://raw.githubusercontent.com/samvera-labs/bloom-iiif/main/public/fixtures/iiif/collection/masks-of-antonio-fava.json",
+      label: "Masks of Antonio Fava (Collection)"
     },
     {
       url: "https://iiif.stack.rdc.library.northwestern.edu/public/iiif3/72/34/b6/dd/-d/6a/2-/49/54/-8/fc/c-/6c/9f/2d/fb/88/34-manifest.json",
@@ -64655,10 +66982,6 @@ ${generateSegmentFilename(i3)}`);
     {
       url: "https://iiif.stack.rdc.library.northwestern.edu/public/ff/51/2f/7c/-b/df/8-/4a/b7/-9/74/f-/f4/36/f0/ed/13/5d-manifest.json",
       label: "Joan Baez"
-    },
-    {
-      url: "https://iiif.stack.rdc.library.northwestern.edu/public/a3/c6/40/28/-d/1d/c-/4e/97/-8/2b/b-/1e/23/af/95/f5/e3-manifest.json",
-      label: "Bravazzo"
     },
     {
       url: "https://figgy.princeton.edu/concern/scanned_resources/4ff986e6-4f71-4f7c-8ff9-0d0c33d96cf0/manifest",
@@ -64688,34 +67011,34 @@ ${generateSegmentFilename(i3)}`);
 
   // src/dev/DynamicUrl.tsx
   var DynamicUrl = ({ url, setUrl }) => {
-    const inputRef = (0, import_react61.useRef)(null);
+    const inputRef = (0, import_react95.useRef)(null);
     const handleSubmit = (e4) => {
       var _a2;
       e4.preventDefault();
       const target = e4.target;
       setUrl((_a2 = target.url) == null ? void 0 : _a2.value);
     };
-    (0, import_react61.useEffect)(() => {
+    (0, import_react95.useEffect)(() => {
       if (inputRef.current)
         inputRef.current.value = url;
     }, [url]);
-    return /* @__PURE__ */ import_react61.default.createElement(DynamicUrlStyled, null, /* @__PURE__ */ import_react61.default.createElement(ManualForm, {
+    return /* @__PURE__ */ import_react95.default.createElement(DynamicUrlStyled, null, /* @__PURE__ */ import_react95.default.createElement(ManualForm, {
       onSubmit: handleSubmit
-    }, /* @__PURE__ */ import_react61.default.createElement("label", {
+    }, /* @__PURE__ */ import_react95.default.createElement("label", {
       htmlFor: "manual-manifest"
-    }, "View a IIIF Manifest"), /* @__PURE__ */ import_react61.default.createElement("div", null, /* @__PURE__ */ import_react61.default.createElement("input", {
+    }, "View a IIIF Manifest"), /* @__PURE__ */ import_react95.default.createElement("div", null, /* @__PURE__ */ import_react95.default.createElement("input", {
       type: "text",
       name: "url",
       id: "manual-manifest",
       placeholder: "IIIF Manifest",
       ref: inputRef
-    }), /* @__PURE__ */ import_react61.default.createElement("button", {
+    }), /* @__PURE__ */ import_react95.default.createElement("button", {
       type: "submit"
-    }, "View"))), manifests.length > 0 && /* @__PURE__ */ import_react61.default.createElement(Curated, null, manifests.map((obj) => /* @__PURE__ */ import_react61.default.createElement(ButtonForm, {
+    }, "View"))), manifests.length > 0 && /* @__PURE__ */ import_react95.default.createElement(Curated, null, manifests.map((obj) => /* @__PURE__ */ import_react95.default.createElement(ButtonForm, {
       key: obj.label,
       onSubmit: handleSubmit,
       "data-active": url === obj.url ? true : false
-    }, /* @__PURE__ */ import_react61.default.createElement("button", {
+    }, /* @__PURE__ */ import_react95.default.createElement("button", {
       name: "url",
       value: obj.url
     }, obj.label)))));
@@ -64726,28 +67049,32 @@ ${generateSegmentFilename(i3)}`);
   var import_client = __toESM(require_client());
   var Wrapper6 = () => {
     const defaultUrl = manifests[0].url;
-    const [url, setUrl] = (0, import_react62.useState)(defaultUrl);
-    (0, import_react62.useEffect)(() => {
+    const [url, setUrl] = (0, import_react96.useState)(defaultUrl);
+    (0, import_react96.useEffect)(() => {
       const params = new URLSearchParams(window.location.search);
       const id = params.get("iiif-content");
       if (id)
         setUrl(id);
     }, []);
-    return /* @__PURE__ */ import_react62.default.createElement(import_react62.default.Fragment, null, /* @__PURE__ */ import_react62.default.createElement(src_default, {
-      manifestId: url,
+    const customTheme = {
+      fonts: { display: `"Calistoga", "Inter", Arial, sans-serif` }
+    };
+    return /* @__PURE__ */ import_react96.default.createElement(import_react96.default.Fragment, null, /* @__PURE__ */ import_react96.default.createElement(src_default, {
+      id: url,
       key: url,
+      customTheme,
       options: {
         canvasBackgroundColor: "#e6e8eb",
         canvasHeight: "61.8vh"
       }
-    }), /* @__PURE__ */ import_react62.default.createElement(DynamicUrl_default, {
+    }), /* @__PURE__ */ import_react96.default.createElement(DynamicUrl_default, {
       url,
       setUrl
     }));
   };
   var container = document.getElementById("root");
   var root = (0, import_client.createRoot)(container);
-  root.render(/* @__PURE__ */ import_react62.default.createElement(import_react62.StrictMode, null, /* @__PURE__ */ import_react62.default.createElement(Wrapper6, null)));
+  root.render(/* @__PURE__ */ import_react96.default.createElement(import_react96.StrictMode, null, /* @__PURE__ */ import_react96.default.createElement(Wrapper6, null)));
 })();
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.

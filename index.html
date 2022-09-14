@@ -49,28 +49,23 @@
 <pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF; font-style: italic">import</span><span style="color: #EEFFFF"> CloverIIIF </span><span style="color: #89DDFF; font-style: italic">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">@samvera/clover-iiif</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span></code></pre>
 <p>Mnimal usage providing the <code>&lt;CloverIIIF/&gt;</code> component with an external manifest.</p>
-<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> manifestId </span><span style="color: #89DDFF">=</span></span>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> id </span><span style="color: #89DDFF">=</span></span>
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">manifestId</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">manifestId</span><span style="color: #89DDFF">} /&gt;;</span></span>
+<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} /&gt;;</span></span>
 <span class="line"></span></code></pre>
 <p><a href="https://codesandbox.io/s/samvera-clover-iiif-i0huq">See Example</a></p>
 <hr>
 <h2 id="active-canvas">Active Canvas</h2>
 <p>Example on using <code>canvasIdCallback</code> to return to your consuming application the active canvas ID. This will return as a string.</p>
-<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> manifestId </span><span style="color: #89DDFF">=</span></span>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> id </span><span style="color: #89DDFF">=</span></span>
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
 <span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> handlCanvasIdCallback </span><span style="color: #89DDFF">=</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">(</span><span style="color: #EEFFFF">activeCanvasId</span><span style="color: #89DDFF">)</span><span style="color: #EEFFFF"> </span><span style="color: #C792EA">=&gt;</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
 <span class="line"><span style="color: #F07178">  </span><span style="color: #89DDFF; font-style: italic">if</span><span style="color: #F07178"> (</span><span style="color: #EEFFFF">activeCanvasId</span><span style="color: #F07178">) </span><span style="color: #EEFFFF">console</span><span style="color: #89DDFF">.</span><span style="color: #82AAFF">log</span><span style="color: #F07178">(</span><span style="color: #EEFFFF">activeCanvasId</span><span style="color: #F07178">)</span><span style="color: #89DDFF">;</span></span>
 <span class="line"><span style="color: #89DDFF">};</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> (</span></span>
-<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span></span>
-<span class="line"><span style="color: #89DDFF">    </span><span style="color: #C792EA">manifestId</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">manifestId</span><span style="color: #89DDFF">}</span></span>
-<span class="line"><span style="color: #89DDFF">    </span><span style="color: #C792EA">canvasIdCallback</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">handlCanvasIdCallback</span><span style="color: #89DDFF">}</span></span>
-<span class="line"><span style="color: #89DDFF">  /&gt;</span></span>
-<span class="line"><span style="color: #EEFFFF">)</span><span style="color: #89DDFF">;</span></span>
+<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} </span><span style="color: #C792EA">canvasIdCallback</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">handlCanvasIdCallback</span><span style="color: #89DDFF">} /&gt;;</span></span>
 <span class="line"></span></code></pre>
 <p><a href="https://codesandbox.io/s/samvera-clover-iiif-i0huq">See Example</a></p>
 <hr>
@@ -95,21 +90,21 @@
 <span class="line"></span></code></pre>
 <h4>Configuration Option Implementation</h4>
 <pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF; font-style: italic">export</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF; font-style: italic">default</span><span style="color: #EEFFFF"> </span><span style="color: #C792EA">function</span><span style="color: #EEFFFF"> </span><span style="color: #82AAFF">App</span><span style="color: #89DDFF">()</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
-<span class="line"><span style="color: #F07178">  </span><span style="color: #C792EA">const</span><span style="color: #F07178"> </span><span style="color: #EEFFFF">manifestId</span><span style="color: #F07178"> </span><span style="color: #89DDFF">=</span></span>
+<span class="line"><span style="color: #F07178">  </span><span style="color: #C792EA">const</span><span style="color: #F07178"> </span><span style="color: #EEFFFF">id</span><span style="color: #F07178"> </span><span style="color: #89DDFF">=</span></span>
 <span class="line"><span style="color: #F07178">    </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
 <span class="line"><span style="color: #F07178">  </span><span style="color: #C792EA">const</span><span style="color: #F07178"> </span><span style="color: #EEFFFF">options</span><span style="color: #F07178"> </span><span style="color: #89DDFF">=</span><span style="color: #F07178"> </span><span style="color: #89DDFF">{</span></span>
 <span class="line"><span style="color: #F07178">    ignoreCaptionLabels</span><span style="color: #89DDFF">:</span><span style="color: #F07178"> [</span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">Chapters</span><span style="color: #89DDFF">&quot;</span><span style="color: #F07178">]</span><span style="color: #89DDFF">,</span></span>
 <span class="line"><span style="color: #F07178">  </span><span style="color: #89DDFF">};</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #F07178">  </span><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #F07178"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">manifestId</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">manifestId</span><span style="color: #89DDFF">} </span><span style="color: #C792EA">options</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">options</span><span style="color: #89DDFF">} /&gt;;</span></span>
+<span class="line"><span style="color: #F07178">  </span><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #F07178"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} </span><span style="color: #C792EA">options</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">options</span><span style="color: #89DDFF">} /&gt;;</span></span>
 <span class="line"><span style="color: #89DDFF">}</span></span>
 <span class="line"></span></code></pre>
 <p><a href="https://codesandbox.io/s/hunhf">See Example</a></p>
 <hr>
 <h2 id="custom-theme">Custom Theme</h2>
 <p>You may choose to override the base theme by setting optional colors and fonts. Naming conventions for colors are limited to those shown in the config example below.</p>
-<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> manifestId </span><span style="color: #89DDFF">=</span></span>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> id </span><span style="color: #89DDFF">=</span></span>
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
 <span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> customTheme </span><span style="color: #89DDFF">=</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
@@ -144,7 +139,7 @@
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">},</span></span>
 <span class="line"><span style="color: #89DDFF">};</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">manifestId</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">manifestId</span><span style="color: #89DDFF">} </span><span style="color: #C792EA">customTheme</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">customTheme</span><span style="color: #89DDFF">} /&gt;;</span></span>
+<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} </span><span style="color: #C792EA">customTheme</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">customTheme</span><span style="color: #89DDFF">} /&gt;;</span></span>
 <span class="line"></span></code></pre>
 <p><a href="https://codesandbox.io/s/custom-theme-g6m5v">See Example</a></p>
 <hr>
@@ -160,9 +155,15 @@
 </thead>
 <tbody>
 <tr>
-<td><code>manifestId</code></td>
+<td><code>id</code></td>
 <td><code>string</code></td>
 <td>Yes</td>
+<td></td>
+</tr>
+<tr>
+<td><code>manifestId</code> <em>(deprecated)</em></td>
+<td><code>string</code></td>
+<td>No</td>
 <td></td>
 </tr>
 <tr>
@@ -250,11 +251,11 @@
 <span class="line"><span style="color: #89DDFF">}</span></span>
 <span class="line"><span style="color: #89DDFF">...</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">manifestId</span><span style="color: #89DDFF">={...} </span><span style="color: #C792EA">options</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">options</span><span style="color: #89DDFF">} /&gt;</span></span>
+<span class="line"><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={...} </span><span style="color: #C792EA">options</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">options</span><span style="color: #89DDFF">} /&gt;</span></span>
 <span class="line"></span></code></pre>
 <hr>
-<h2 id="manifest-requirements">Manifest Requirements</h2>
-<p>The manifest provided to <code>manifestId</code>:</p>
+<h2 id="manifest-requirements">IIIF Presentation API Requirements</h2>
+<p>The Manifest or Collection provided to <code>id</code>:</p>
 <ul>
 <li>MUST be a <a href="https://iiif.io/api/presentation/3.0/">IIIF Presentation API</a> valid manifest,</li>
 <li>MUST have at least one canvas with an annotation of the <strong>motivation</strong> of <code>painting</code> and content resource with the <strong>type</strong> of <code>Video</code>, <code>Sound</code>, or <code>Image</code></li>
