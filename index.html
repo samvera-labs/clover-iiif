@@ -47,18 +47,18 @@
 <hr>
 <h2 id="basic-usage">Basic Usage</h2>
 <p>Add the CloverIIIF component to your <code>jsx</code> or <code>tsx</code> code.</p>
-<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF; font-style: italic">import</span><span style="color: #EEFFFF"> CloverIIIF </span><span style="color: #89DDFF; font-style: italic">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">@samvera/clover-iiif</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF">import</span><span style="color: #EEFFFF"> CloverIIIF </span><span style="color: #89DDFF">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">@samvera/clover-iiif</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span></code></pre>
 <p>Minimal usage providing the <code>&lt;CloverIIIF/&gt;</code> component with an external manifest.</p>
 <pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> id </span><span style="color: #89DDFF">=</span></span>
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} /&gt;;</span></span>
+<span class="line"><span style="color: #89DDFF">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} /&gt;;</span></span>
 <span class="line"></span></code></pre>
 <p><a href="https://codesandbox.io/s/samvera-clover-iiif-i0huq">See Example</a></p>
 <h3>Usage with Next.js</h3>
 <p>Usage with Next.js requires a dynamic import using <code>next/dynamic</code>due to a depdency of OpenSeadragon.</p>
-<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF; font-style: italic">import</span><span style="color: #EEFFFF"> dynamic </span><span style="color: #89DDFF; font-style: italic">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">next/dynamic</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF">import</span><span style="color: #EEFFFF"> dynamic </span><span style="color: #89DDFF">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">next/dynamic</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
 <span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> CloverIIIF </span><span style="color: #89DDFF">=</span><span style="color: #EEFFFF"> </span><span style="color: #82AAFF">dynamic</span><span style="color: #EEFFFF">(</span><span style="color: #89DDFF">()</span><span style="color: #EEFFFF"> </span><span style="color: #C792EA">=&gt;</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">import</span><span style="color: #EEFFFF">(</span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">@samvera/clover-iiif</span><span style="color: #89DDFF">&quot;</span><span style="color: #EEFFFF">)</span><span style="color: #89DDFF">,</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">ssr</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #FF9CAC">false</span><span style="color: #89DDFF">,</span></span>
@@ -67,7 +67,7 @@
 <span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> id </span><span style="color: #89DDFF">=</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://digital.lib.utk.edu/assemble/manifest/heilman/1187</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
 <span class="line"></span>
-<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} /&gt;</span></span>
+<span class="line"><span style="color: #89DDFF">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} /&gt;</span></span>
 <span class="line"></span>
 <span class="line"></span></code></pre>
 <hr>
@@ -77,10 +77,10 @@
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
 <span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> handlCanvasIdCallback </span><span style="color: #89DDFF">=</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">(</span><span style="color: #EEFFFF">activeCanvasId</span><span style="color: #89DDFF">)</span><span style="color: #EEFFFF"> </span><span style="color: #C792EA">=&gt;</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
-<span class="line"><span style="color: #F07178">  </span><span style="color: #89DDFF; font-style: italic">if</span><span style="color: #F07178"> (</span><span style="color: #EEFFFF">activeCanvasId</span><span style="color: #F07178">) </span><span style="color: #EEFFFF">console</span><span style="color: #89DDFF">.</span><span style="color: #82AAFF">log</span><span style="color: #F07178">(</span><span style="color: #EEFFFF">activeCanvasId</span><span style="color: #F07178">)</span><span style="color: #89DDFF">;</span></span>
+<span class="line"><span style="color: #F07178">  </span><span style="color: #89DDFF">if</span><span style="color: #F07178"> (</span><span style="color: #EEFFFF">activeCanvasId</span><span style="color: #F07178">) </span><span style="color: #EEFFFF">console</span><span style="color: #89DDFF">.</span><span style="color: #82AAFF">log</span><span style="color: #F07178">(</span><span style="color: #EEFFFF">activeCanvasId</span><span style="color: #F07178">)</span><span style="color: #89DDFF">;</span></span>
 <span class="line"><span style="color: #89DDFF">};</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} </span><span style="color: #C792EA">canvasIdCallback</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">handlCanvasIdCallback</span><span style="color: #89DDFF">} /&gt;;</span></span>
+<span class="line"><span style="color: #89DDFF">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} </span><span style="color: #C792EA">canvasIdCallback</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">handlCanvasIdCallback</span><span style="color: #89DDFF">} /&gt;;</span></span>
 <span class="line"></span></code></pre>
 <p><a href="https://codesandbox.io/s/samvera-clover-iiif-i0huq">See Example</a></p>
 <hr>
@@ -104,7 +104,7 @@
 <span class="line"><span style="color: #89DDFF">}</span></span>
 <span class="line"></span></code></pre>
 <h4>Configuration Option Implementation</h4>
-<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF; font-style: italic">export</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF; font-style: italic">default</span><span style="color: #EEFFFF"> </span><span style="color: #C792EA">function</span><span style="color: #EEFFFF"> </span><span style="color: #82AAFF">App</span><span style="color: #89DDFF">()</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF">export</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">default</span><span style="color: #EEFFFF"> </span><span style="color: #C792EA">function</span><span style="color: #EEFFFF"> </span><span style="color: #82AAFF">App</span><span style="color: #89DDFF">()</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
 <span class="line"><span style="color: #F07178">  </span><span style="color: #C792EA">const</span><span style="color: #F07178"> </span><span style="color: #EEFFFF">id</span><span style="color: #F07178"> </span><span style="color: #89DDFF">=</span></span>
 <span class="line"><span style="color: #F07178">    </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
@@ -112,7 +112,7 @@
 <span class="line"><span style="color: #F07178">    ignoreCaptionLabels</span><span style="color: #89DDFF">:</span><span style="color: #F07178"> [</span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">Chapters</span><span style="color: #89DDFF">&quot;</span><span style="color: #F07178">]</span><span style="color: #89DDFF">,</span></span>
 <span class="line"><span style="color: #F07178">  </span><span style="color: #89DDFF">};</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #F07178">  </span><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #F07178"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} </span><span style="color: #C792EA">options</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">options</span><span style="color: #89DDFF">} /&gt;;</span></span>
+<span class="line"><span style="color: #F07178">  </span><span style="color: #89DDFF">return</span><span style="color: #F07178"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} </span><span style="color: #C792EA">options</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">options</span><span style="color: #89DDFF">} /&gt;;</span></span>
 <span class="line"><span style="color: #89DDFF">}</span></span>
 <span class="line"></span></code></pre>
 <p><a href="https://codesandbox.io/s/hunhf">See Example</a></p>
@@ -124,26 +124,26 @@
 <span class="line"></span>
 <span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> customTheme </span><span style="color: #89DDFF">=</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">colors</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
-<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #545454; font-style: italic">/**</span></span>
-<span class="line"><span style="color: #545454; font-style: italic">     * Black and dark grays in a light theme.</span></span>
-<span class="line"><span style="color: #545454; font-style: italic">     * All must contrast to 4.5 or greater with `secondary`.</span></span>
-<span class="line"><span style="color: #545454; font-style: italic">     */</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #545454">/**</span></span>
+<span class="line"><span style="color: #545454">     * Black and dark grays in a light theme.</span></span>
+<span class="line"><span style="color: #545454">     * All must contrast to 4.5 or greater with `secondary`.</span></span>
+<span class="line"><span style="color: #545454">     */</span></span>
 <span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">primary</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#37474F</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
 <span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">primaryMuted</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#546E7A</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
 <span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">primaryAlt</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#263238</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #545454; font-style: italic">/**</span></span>
-<span class="line"><span style="color: #545454; font-style: italic">     * Key brand color(s).</span></span>
-<span class="line"><span style="color: #545454; font-style: italic">     * `accent` must contrast to 4.5 or greater with `secondary`.</span></span>
-<span class="line"><span style="color: #545454; font-style: italic">     */</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #545454">/**</span></span>
+<span class="line"><span style="color: #545454">     * Key brand color(s).</span></span>
+<span class="line"><span style="color: #545454">     * `accent` must contrast to 4.5 or greater with `secondary`.</span></span>
+<span class="line"><span style="color: #545454">     */</span></span>
 <span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">accent</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#C62828</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
 <span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">accentMuted</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#E57373</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
 <span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">accentAlt</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#B71C1C</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #545454; font-style: italic">/**</span></span>
-<span class="line"><span style="color: #545454; font-style: italic">     * White and light grays in a light theme.</span></span>
-<span class="line"><span style="color: #545454; font-style: italic">     * All must must contrast to 4.5 or greater with `primary` and  `accent`.</span></span>
-<span class="line"><span style="color: #545454; font-style: italic">     */</span></span>
+<span class="line"><span style="color: #EEFFFF">    </span><span style="color: #545454">/**</span></span>
+<span class="line"><span style="color: #545454">     * White and light grays in a light theme.</span></span>
+<span class="line"><span style="color: #545454">     * All must must contrast to 4.5 or greater with `primary` and  `accent`.</span></span>
+<span class="line"><span style="color: #545454">     */</span></span>
 <span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">secondary</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#FFFFFF</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
 <span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">secondaryMuted</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#ECEFF1</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
 <span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">secondaryAlt</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#CFD8DC</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
@@ -154,7 +154,7 @@
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">},</span></span>
 <span class="line"><span style="color: #89DDFF">};</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} </span><span style="color: #C792EA">customTheme</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">customTheme</span><span style="color: #89DDFF">} /&gt;;</span></span>
+<span class="line"><span style="color: #89DDFF">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} </span><span style="color: #C792EA">customTheme</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">customTheme</span><span style="color: #89DDFF">} /&gt;;</span></span>
 <span class="line"></span></code></pre>
 <p><a href="https://codesandbox.io/s/custom-theme-g6m5v">See Example</a></p>
 <hr>
@@ -239,25 +239,25 @@
 </table>
 <p>Clover IIIF version 1.4.0, introduces an <code>options</code> prop, which will serve as a configuration object for common configuration options. Options <code>canvasBackgroundColor</code> and <code>canvasHeight</code> will apply to both <code>&lt;video&gt;</code> elements and the OpenseaDragon canvas.</p>
 <p>You can override the <a href="https://openseadragon.github.io/docs/OpenSeadragon.html#.Options">OpenSeadragon default options</a> set within Clover to adjust touch and mouse gesture settings and various other configurations.</p>
-<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF; font-style: italic">import</span><span style="color: #EEFFFF"> CloverIIIF </span><span style="color: #89DDFF; font-style: italic">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">@samvera/clover-iiif</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF">import</span><span style="color: #EEFFFF"> CloverIIIF </span><span style="color: #89DDFF">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">@samvera/clover-iiif</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
 <span class="line"><span style="color: #89DDFF">...</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #545454; font-style: italic">// Supported options</span></span>
+<span class="line"><span style="color: #545454">// Supported options</span></span>
 <span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> options </span><span style="color: #89DDFF">=</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
-<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454; font-style: italic">// Primary title (Manifest label) for top level canvas.  Defaults to true</span></span>
+<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454">// Primary title (Manifest label) for top level canvas.  Defaults to true</span></span>
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">showTitle</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #FF9CAC">false</span><span style="color: #89DDFF">,</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454; font-style: italic">// IIIF Badge and popover containing options.  Defaults to true</span></span>
+<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454">// IIIF Badge and popover containing options.  Defaults to true</span></span>
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">showIIIFBadge</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #FF9CAC">false</span><span style="color: #89DDFF">,</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454; font-style: italic">// Ignore supplementing canvases by label value that are not for captioning</span></span>
+<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454">// Ignore supplementing canvases by label value that are not for captioning</span></span>
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">ignoreCaptionLabels</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> [</span><span style="color: #89DDFF">&#39;</span><span style="color: #C3E88D">Chapters</span><span style="color: #89DDFF">&#39;</span><span style="color: #EEFFFF">]</span><span style="color: #89DDFF">,</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454; font-style: italic">// Override canvas background color, defaults to #1a1d1e</span></span>
+<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454">// Override canvas background color, defaults to #1a1d1e</span></span>
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">canvasBackgroundColor</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">#000</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">,</span></span>
 <span class="line"></span>
-<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454; font-style: italic">// Set canvas zooming onScoll (this defaults to false)</span></span>
+<span class="line"><span style="color: #89DDFF">  </span><span style="color: #545454">// Set canvas zooming onScoll (this defaults to false)</span></span>
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">openSeadragon</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
 <span class="line"><span style="color: #EEFFFF">    </span><span style="color: #F07178">gestureSettingsMouse</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
 <span class="line"><span style="color: #EEFFFF">      </span><span style="color: #F07178">scrollToZoom</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #FF9CAC">true</span><span style="color: #EEFFFF">;</span></span>

@@ -12,7 +12,7 @@
   var __propIsEnum = Object.prototype.propertyIsEnumerable;
   var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
   var __spreadValues = (a4, b5) => {
-    for (var prop in b5 || (b5 = {}))
+    for (var prop in b5 ||= {})
       if (__hasOwnProp.call(b5, prop))
         __defNormalProp(a4, prop, b5[prop]);
     if (__getOwnPropSymbols)
