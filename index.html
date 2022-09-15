@@ -49,13 +49,27 @@
 <p>Add the CloverIIIF component to your <code>jsx</code> or <code>tsx</code> code.</p>
 <pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF; font-style: italic">import</span><span style="color: #EEFFFF"> CloverIIIF </span><span style="color: #89DDFF; font-style: italic">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">@samvera/clover-iiif</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span></code></pre>
-<p>Mnimal usage providing the <code>&lt;CloverIIIF/&gt;</code> component with an external manifest.</p>
+<p>Minimal usage providing the <code>&lt;CloverIIIF/&gt;</code> component with an external manifest.</p>
 <pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> id </span><span style="color: #89DDFF">=</span></span>
 <span class="line"><span style="color: #EEFFFF">  </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
 <span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} /&gt;;</span></span>
 <span class="line"></span></code></pre>
 <p><a href="https://codesandbox.io/s/samvera-clover-iiif-i0huq">See Example</a></p>
+<h3>Usage with Next.js</h3>
+<p>Usage with Next.js requires a dynamic import using <code>next/dynamic</code>due to a depdency of OpenSeadragon.</p>
+<pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF; font-style: italic">import</span><span style="color: #EEFFFF"> dynamic </span><span style="color: #89DDFF; font-style: italic">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">next/dynamic</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> CloverIIIF </span><span style="color: #89DDFF">=</span><span style="color: #EEFFFF"> </span><span style="color: #82AAFF">dynamic</span><span style="color: #EEFFFF">(</span><span style="color: #89DDFF">()</span><span style="color: #EEFFFF"> </span><span style="color: #C792EA">=&gt;</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">import</span><span style="color: #EEFFFF">(</span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">@samvera/clover-iiif</span><span style="color: #89DDFF">&quot;</span><span style="color: #EEFFFF">)</span><span style="color: #89DDFF">,</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">{</span></span>
+<span class="line"><span style="color: #EEFFFF">  </span><span style="color: #F07178">ssr</span><span style="color: #89DDFF">:</span><span style="color: #EEFFFF"> </span><span style="color: #FF9CAC">false</span><span style="color: #89DDFF">,</span></span>
+<span class="line"><span style="color: #89DDFF">}</span><span style="color: #EEFFFF">)</span><span style="color: #89DDFF">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> id </span><span style="color: #89DDFF">=</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://digital.lib.utk.edu/assemble/manifest/heilman/1187</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color: #89DDFF; font-style: italic">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">collectionId</span><span style="color: #89DDFF">} /&gt;</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
 <hr>
 <h2 id="active-canvas">Active Canvas</h2>
 <p>Example on using <code>canvasIdCallback</code> to return to your consuming application the active canvas ID. This will return as a string.</p>
