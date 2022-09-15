@@ -56,7 +56,7 @@ Add the CloverIIIF component to your `jsx` or `tsx` code.
 import CloverIIIF from "@samvera/clover-iiif";
 ```
 
-Mnimal usage providing the `<CloverIIIF/>` component with an external manifest.
+Minimal usage providing the `<CloverIIIF/>` component with an external manifest.
 
 ```jsx
 const id =
@@ -66,6 +66,26 @@ return <CloverIIIF id={id} />;
 ```
 
 [See Example](https://codesandbox.io/s/samvera-clover-iiif-i0huq)
+
+
+<h3>Usage with Next.js</h3>
+
+Usage with Next.js requires a dynamic import using `next/dynamic`due to a depdency of OpenSeadragon.
+
+
+```jsx
+import dynamic from "next/dynamic";
+
+const CloverIIIF = dynamic(() => import("@samvera/clover-iiif"), {
+  ssr: false,
+});
+
+const id = "https://digital.lib.utk.edu/assemble/manifest/heilman/1187";
+
+
+return <CloverIIIF id={collectionId} />
+
+```
 
 ---
 
