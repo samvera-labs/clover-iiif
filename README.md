@@ -83,7 +83,7 @@ const CloverIIIF = dynamic(() => import("@samvera/clover-iiif"), {
 const id = "https://digital.lib.utk.edu/assemble/manifest/heilman/1187";
 
 
-return <CloverIIIF id={collectionId} />
+return <CloverIIIF id={id} />
 
 ```
 
