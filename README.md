@@ -1,9 +1,9 @@
-<!-- ![image](https://user-images.githubusercontent.com/7376450/154114970-a68a6b14-91b8-48ea-a76a-5d2cd2f342c7.png) -->
-<img src="https://user-images.githubusercontent.com/7376450/164540681-0504cae5-58e6-4172-969f-2b289f47b422.png" class="clover-screenshot" alt="Clover screenshot" />
+<!-- ![image](https://user-images.githubusercontent.com/7376450/190425863-89c42386-4e59-4a4f-b0bd-6bd5ee9dba5f.png) -->
+<img src="https://user-images.githubusercontent.com/7376450/190425863-89c42386-4e59-4a4f-b0bd-6bd5ee9dba5f.png" class="clover-screenshot" alt="Clover screenshot" />
 
 # Clover IIIF
 
-**A minimal IIIF viewer for Image, Audio, and Video canvases built with React.js**
+**A minimal IIIF viewer for Image, Audio, and Video manifests built with React.js**
 
 [**Demo**](https://samvera-labs.github.io/clover-iiif/) | [**Code**](https://github.com/samvera-labs/clover-iiif)
 
@@ -15,6 +15,7 @@ Clover IIIF is a UI component that renders a multicanvas IIIF item viewer for `V
 - _Video_ and _Sound_ are rendered within a HTML5 `<video>` element
 - _Image_ canvases are renderered with [OpenSeadragon](https://openseadragon.github.io/)
 - Supports HLS streaming for **.m3u8** extensions
+- Supports IIIF Collections and toggling between child Manifests
 
 ---
 
