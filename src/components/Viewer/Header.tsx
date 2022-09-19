@@ -6,12 +6,12 @@ import {
   ManifestLabel,
 } from "./Header.styled";
 import { InternationalString } from "@iiif/presentation-3";
-import { getLabel } from "hooks/use-iiif";
 import { Popover } from "@nulib/design-system";
 import IIIFBadge from "@/components/Viewer/IIIFBadge";
 import CopyText from "@/components/CopyText";
 import { useViewerState } from "@/context/viewer-context";
 import Collection from "@/components/Collection/Collection";
+import { Label } from "@samvera/nectar-iiif";
 
 interface Props {
   manifestId: string;
@@ -32,7 +32,7 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
         <Collection />
       ) : (
         <ManifestLabel>
-          {getLabel(manifestLabel as InternationalString, "en")}
+          <Label label={manifestLabel} />
         </ManifestLabel>
       )}
       {showIIIFBadge && (

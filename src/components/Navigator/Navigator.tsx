@@ -8,8 +8,8 @@ import {
   Wrapper,
 } from "@/components/Navigator/Navigator.styled";
 import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
-import { getLabel } from "@/hooks/use-iiif";
 import Resource from "@/components/Navigator/Resource";
+import { Label } from "@samvera/nectar-iiif";
 
 interface NavigatorProps {
   activeCanvas: string;
@@ -45,7 +45,7 @@ export const Navigator: React.FC<NavigatorProps> = ({
       <List aria-label="select chapter" data-testid="navigator-list">
         {resources.map(({ id, label }) => (
           <Trigger key={id} value={id as string}>
-            {getLabel(label as InternationalString, "en")}
+            <Label label={label} />
           </Trigger>
         ))}
       </List>
