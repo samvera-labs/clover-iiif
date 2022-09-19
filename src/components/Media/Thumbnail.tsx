@@ -1,10 +1,8 @@
 import React from "react";
-import { getLabel } from "@/hooks/use-iiif";
 import { convertTime } from "@/services/utils";
 import {
   CanvasNormalized,
   IIIFExternalWebResource,
-  InternationalString,
 } from "@iiif/presentation-3";
 import { Icon, Tag } from "@nulib/design-system";
 import {
@@ -13,6 +11,8 @@ import {
   Spacer,
   Type,
 } from "@/components/Media/Thumbnail.styled";
+import { Label } from "@samvera/nectar-iiif";
+import { getLabel } from "@/hooks/use-iiif";
 
 /**
  * Determine appropriate icon by resource type
@@ -54,8 +54,6 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   type,
   handleChange,
 }) => {
-  const label = getLabel(canvas.label as InternationalString, "en") as string;
-
   return (
     <Item
       aria-checked={isActive}
@@ -66,7 +64,12 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
     >
       <figure>
         <div>
-          {thumbnail?.id && <img src={thumbnail.id} alt={label} />}
+          {thumbnail?.id && (
+            <img
+              src={thumbnail.id}
+              alt={canvas?.label ? (getLabel(canvas.label) as string) : ""}
+            />
+          )}
 
           <Type>
             <Tag isIcon data-testid="thumbnail-tag">
@@ -80,7 +83,11 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
             </Tag>
           </Type>
         </div>
-        <figcaption data-testid="fig-caption">{label}</figcaption>
+        {canvas?.label && (
+          <figcaption data-testid="fig-caption">
+            <Label label={canvas.label} />
+          </figcaption>
+        )}
       </figure>
     </Item>
   );
