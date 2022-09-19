@@ -67510,7 +67510,9 @@ ${generateSegmentFilename(i4)}`);
       return /* @__PURE__ */ import_react76.default.createElement(import_react76.default.Fragment, null);
     return /* @__PURE__ */ import_react76.default.createElement(Header, {
       className: "clover-header"
-    }, (collection == null ? void 0 : collection.items) ? /* @__PURE__ */ import_react76.default.createElement(Collection_default, null) : /* @__PURE__ */ import_react76.default.createElement(ManifestLabel, null, getLabel(manifestLabel, "en")), showIIIFBadge && /* @__PURE__ */ import_react76.default.createElement(Popover, null, /* @__PURE__ */ import_react76.default.createElement(IIIFBadgeButton, null, /* @__PURE__ */ import_react76.default.createElement(IIIFBadge_default, null)), /* @__PURE__ */ import_react76.default.createElement(IIIFBadgeContent, null, /* @__PURE__ */ import_react76.default.createElement("button", {
+    }, (collection == null ? void 0 : collection.items) ? /* @__PURE__ */ import_react76.default.createElement(Collection_default, null) : /* @__PURE__ */ import_react76.default.createElement(ManifestLabel, null, /* @__PURE__ */ import_react76.default.createElement(L4, {
+      label: manifestLabel
+    })), showIIIFBadge && /* @__PURE__ */ import_react76.default.createElement(Popover, null, /* @__PURE__ */ import_react76.default.createElement(IIIFBadgeButton, null, /* @__PURE__ */ import_react76.default.createElement(IIIFBadge_default, null)), /* @__PURE__ */ import_react76.default.createElement(IIIFBadgeContent, null, /* @__PURE__ */ import_react76.default.createElement("button", {
       onClick: (e3) => {
         e3.preventDefault();
         window.open(manifestId, "_blank");
@@ -68170,7 +68172,6 @@ ${generateSegmentFilename(i4)}`);
     type,
     handleChange
   }) => {
-    const label = getLabel(canvas.label, "en");
     return /* @__PURE__ */ import_react81.default.createElement(Item, {
       "aria-checked": isActive,
       "data-testid": "media-thumbnail",
@@ -68179,7 +68180,7 @@ ${generateSegmentFilename(i4)}`);
       value: canvas.id
     }, /* @__PURE__ */ import_react81.default.createElement("figure", null, /* @__PURE__ */ import_react81.default.createElement("div", null, (thumbnail == null ? void 0 : thumbnail.id) && /* @__PURE__ */ import_react81.default.createElement("img", {
       src: thumbnail.id,
-      alt: label
+      alt: (canvas == null ? void 0 : canvas.label) ? getLabel(canvas.label) : ""
     }), /* @__PURE__ */ import_react81.default.createElement(Type, null, /* @__PURE__ */ import_react81.default.createElement(Tag, {
       isIcon: true,
       "data-testid": "thumbnail-tag"
@@ -68187,9 +68188,11 @@ ${generateSegmentFilename(i4)}`);
       "aria-label": type
     }, /* @__PURE__ */ import_react81.default.createElement(IconPath, {
       type
-    })), ["Video", "Sound"].includes(type) && /* @__PURE__ */ import_react81.default.createElement(Duration, null, convertTime(canvas.duration))))), /* @__PURE__ */ import_react81.default.createElement("figcaption", {
+    })), ["Video", "Sound"].includes(type) && /* @__PURE__ */ import_react81.default.createElement(Duration, null, convertTime(canvas.duration))))), (canvas == null ? void 0 : canvas.label) && /* @__PURE__ */ import_react81.default.createElement("figcaption", {
       "data-testid": "fig-caption"
-    }, label)));
+    }, /* @__PURE__ */ import_react81.default.createElement(L4, {
+      label: canvas.label
+    }))));
   };
   var Thumbnail_default = Thumbnail;
 
@@ -69085,7 +69088,9 @@ ${generateSegmentFilename(i4)}`);
     }, resources.map(({ id, label }) => /* @__PURE__ */ import_react90.default.createElement(Trigger2, {
       key: id,
       value: id
-    }, getLabel(label, "en")))), /* @__PURE__ */ import_react90.default.createElement(Scroll, null, resources.map((resource) => {
+    }, /* @__PURE__ */ import_react90.default.createElement(L4, {
+      label
+    })))), /* @__PURE__ */ import_react90.default.createElement(Scroll, null, resources.map((resource) => {
       return /* @__PURE__ */ import_react90.default.createElement(Content3, {
         key: resource.id,
         value: resource.id
