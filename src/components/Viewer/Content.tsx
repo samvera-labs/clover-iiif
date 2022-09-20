@@ -15,6 +15,7 @@ import {
 } from "@/components/Viewer/Viewer.styled";
 import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
 import { CurrentTimeProvider } from "@/context/current-time-context";
+import Information from "../Navigator/Information/Information";
 
 interface Props {
   activeCanvas: string;
@@ -47,7 +48,7 @@ const ViewerContent: React.FC<Props> = ({
           ) : (
             painting && <ImageViewer body={painting} key={activeCanvas} />
           )}
-          <CollapsibleTrigger data-navigator={isNavigator}>
+          <CollapsibleTrigger>
             <Button as="span">
               {isNavigatorOpen ? "View Media Items" : "View Navigator"}
             </Button>
@@ -58,17 +59,18 @@ const ViewerContent: React.FC<Props> = ({
             </MediaWrapper>
           )}
         </Main>
-        {isNavigator && (
-          <Aside>
-            <CollapsibleContent>
-              <Navigator
+        {/* {isNavigator && ( */}
+        <Aside>
+          <CollapsibleContent>
+            <Information />
+            {/* <Navigator
                 activeCanvas={activeCanvas}
                 defaultResource={resources[0].id as string}
                 resources={resources}
-              />
-            </CollapsibleContent>
-          </Aside>
-        )}
+              /> */}
+          </CollapsibleContent>
+        </Aside>
+        {/* )} */}
       </CurrentTimeProvider>
     </Content>
   );
