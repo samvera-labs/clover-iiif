@@ -3,8 +3,8 @@ import * as Switch from "@radix-ui/react-switch";
 
 const StyledSwitch = styled(Switch.Root, {
   all: "unset",
-  width: 42,
-  height: 25,
+  height: "2rem",
+  width: "3.236rem",
   backgroundColor: "$secondaryAlt",
   borderRadius: "9999px",
   position: "relative",
@@ -18,22 +18,23 @@ const StyledSwitch = styled(Switch.Root, {
 
   '&[data-state="checked"]': {
     backgroundColor: "$accent",
+    boxShadow: `inset 0 2px 10px #0005`,
   },
 });
 
 const StyledThumb = styled(Switch.Thumb, {
   display: "block",
-  width: 21,
-  height: 21,
+  height: "calc(2rem - 6px)",
+  width: "calc(2rem - 6px)",
   backgroundColor: "$secondary",
   borderRadius: "100%",
   boxShadow: `3px 3px 5px #0001`,
   transition: "transform 100ms",
-  transform: "translateX(2px)",
+  transform: "translateX(3px)",
   willChange: "transform",
 
   '&[data-state="checked"]': {
-    transform: "translateX(19px)",
+    transform: "translateX(calc(1.236rem + 3px))",
   },
 });
 
@@ -41,13 +42,12 @@ const StyledThumb = styled(Switch.Thumb, {
 const Flex = styled("div", { display: "flex" });
 
 const Label = styled("label", {
-  fontSize: "0.8333rem",
-  fontWeight: "700",
   fontFamily: "$sans",
   lineHeight: "1em",
   userSelect: "none",
   cursor: "pointer",
   color: "$primary",
+  opacity: "0.7",
 });
 
 export { StyledSwitch, StyledThumb, Flex, Label };
