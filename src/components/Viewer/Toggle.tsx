@@ -1,6 +1,12 @@
 import { useViewerDispatch } from "@/context/viewer-context";
 import React, { useEffect, useState } from "react";
-import { Flex, Label, StyledSwitch, StyledThumb } from "./Toggle.styled";
+import {
+  Label,
+  StyledSwitch,
+  StyledThumb,
+  StyledToggle,
+  Wrapper,
+} from "@/components/Viewer/Toggle.styled";
 
 const Toggle = () => {
   const dispatch: any = useViewerDispatch();
@@ -15,9 +21,12 @@ const Toggle = () => {
   }, [checked]);
 
   return (
-    <form>
-      <Flex css={{ alignItems: "center" }}>
-        <Label htmlFor="information-toggle" css={{ paddingRight: "1rem" }}>
+    <StyledToggle>
+      <Wrapper>
+        <Label
+          htmlFor="information-toggle"
+          css={checked ? { opacity: "1" } : {}}
+        >
           More Information
         </Label>
         <StyledSwitch
@@ -27,8 +36,8 @@ const Toggle = () => {
         >
           <StyledThumb />
         </StyledSwitch>
-      </Flex>
-    </form>
+      </Wrapper>
+    </StyledToggle>
   );
 };
 

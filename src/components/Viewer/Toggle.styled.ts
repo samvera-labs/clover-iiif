@@ -8,8 +8,7 @@ const StyledSwitch = styled(Switch.Root, {
   backgroundColor: "$secondaryAlt",
   borderRadius: "9999px",
   position: "relative",
-  boxShadow: `0 2px 10px #0001`,
-  WebkitTapHighlightColor: "rgba(0, 0, 0, 0)",
+  WebkitTapHighlightColor: "transparent",
   cursor: "pointer",
 
   "&:focus": {
@@ -28,7 +27,7 @@ const StyledThumb = styled(Switch.Thumb, {
   width: "calc(2rem - 6px)",
   backgroundColor: "$secondary",
   borderRadius: "100%",
-  boxShadow: `3px 3px 5px #0001`,
+  boxShadow: `2px 2px 5px #0001`,
   transition: "$all",
   transform: "translateX(3px)",
   willChange: "transform",
@@ -38,16 +37,22 @@ const StyledThumb = styled(Switch.Thumb, {
   },
 });
 
-// Your app...
-const Flex = styled("div", { display: "flex" });
+const Wrapper = styled("div", {
+  display: "flex",
+  alignItems: "center",
+});
 
 const Label = styled("label", {
   fontFamily: "$sans",
+  fontWeight: "700",
   lineHeight: "1em",
   userSelect: "none",
   cursor: "pointer",
   color: "$primary",
   opacity: "0.7",
+  paddingRight: "1rem",
 });
 
-export { StyledSwitch, StyledThumb, Flex, Label };
+const StyledToggle = styled("form", {});
+
+export { Label, StyledSwitch, StyledThumb, StyledToggle, Wrapper };
