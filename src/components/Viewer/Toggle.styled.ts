@@ -41,12 +41,13 @@ const StyledThumb = styled(Switch.Thumb, {
 const Flex = styled("div", { display: "flex" });
 
 const Label = styled("label", {
-  fontSize: "1rem",
+  fontSize: "0.8333rem",
+  fontWeight: "700",
   fontFamily: "$sans",
   lineHeight: "1em",
   userSelect: "none",
   cursor: "pointer",
-  color: "$primaryMuted",
+  color: "$primary",
 });
 
 export { StyledSwitch, StyledThumb, Flex, Label };

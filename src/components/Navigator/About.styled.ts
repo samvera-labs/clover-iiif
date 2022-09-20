@@ -1,12 +1,9 @@
 import { styled } from "@/stitches";
 
-const InformationContent = styled("div", {
-  boxShadow: "inset -5px 5px 5px #0001",
-  padding: "2rem",
+const AboutContent = styled("div", {
+  padding: " 0 1.618rem 2rem",
   display: "flex",
   flexDirection: "column",
-  width: "calc(100% - 4rem)",
-  height: "calc(100% - 4rem)",
   overflow: "scroll",
   position: "absolute",
   color: "$primary",
@@ -56,12 +53,11 @@ const InformationContent = styled("div", {
   },
 });
 
-const InformationStyled = styled("div", {
-  boxShadow: "-5px -5px 5px #0001",
+const AboutStyled = styled("div", {
   position: "relative",
   width: "100%",
   height: "100%",
   zIndex: "0",
 });
 
-export { InformationContent, InformationStyled };
+export { AboutContent, AboutStyled };

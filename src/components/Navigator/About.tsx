@@ -14,11 +14,11 @@ import {
 } from "@samvera/nectar-iiif";
 import { NectarExternalWebResource } from "@samvera/nectar-iiif/dist/types/nectar";
 import React, { useEffect, useState } from "react";
-import { InformationContent, InformationStyled } from "./Information.styled";
+import { AboutContent, AboutStyled } from "./About.styled";
 
 interface Props {}
 
-const Information: React.FC<Props> = () => {
+const About: React.FC<Props> = () => {
   const viewerState: any = useViewerState();
   const { activeManifest, vault } = viewerState;
 
@@ -32,8 +32,8 @@ const Information: React.FC<Props> = () => {
   if (!manifest) return <></>;
 
   return (
-    <InformationStyled>
-      <InformationContent>
+    <AboutStyled>
+      <AboutContent>
         {manifest.summary && <Summary summary={manifest.summary} as="p" />}
 
         {manifest.metadata && <Metadata metadata={manifest.metadata} />}
@@ -114,9 +114,9 @@ const Information: React.FC<Props> = () => {
             </span>
           </>
         )}
-      </InformationContent>
-    </InformationStyled>
+      </AboutContent>
+    </AboutStyled>
   );
 };
 
-export default Information;
+export default About;

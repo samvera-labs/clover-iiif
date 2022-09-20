@@ -15,13 +15,13 @@ import {
 } from "@/components/Viewer/Viewer.styled";
 import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
 import { CurrentTimeProvider } from "@/context/current-time-context";
-import Information from "../Navigator/Information/Information";
 
 interface Props {
   activeCanvas: string;
   painting: IIIFExternalWebResource;
   resources: LabeledResource[];
   items: Canvas[];
+  isInformation: boolean;
   isMedia: boolean;
   isNavigator: boolean;
   isNavigatorOpen: boolean;
@@ -32,9 +32,8 @@ const ViewerContent: React.FC<Props> = ({
   painting,
   resources,
   items,
+  isInformation,
   isMedia,
-  isNavigator,
-  isNavigatorOpen,
 }) => {
   return (
     <Content className="clover-content">
@@ -48,25 +47,21 @@ const ViewerContent: React.FC<Props> = ({
           ) : (
             painting && <ImageViewer body={painting} key={activeCanvas} />
           )}
-          {/* <CollapsibleTrigger>
+          <CollapsibleTrigger>
             <Button as="span">
-              {isNavigatorOpen ? "View Media Items" : "View Navigator"}
+              {isInformation ? "View Items" : "More Information"}
             </Button>
-          </CollapsibleTrigger> */}
+          </CollapsibleTrigger>
           {items.length > 1 && (
             <MediaWrapper className="clover-canvases">
               <Media items={items} activeItem={0} />
             </MediaWrapper>
           )}
         </Main>
-        {isNavigator && (
+        {isInformation && (
           <Aside>
             <CollapsibleContent>
-              <Navigator
-                activeCanvas={activeCanvas}
-                defaultResource={resources[0].id as string}
-                resources={resources}
-              />
+              <Navigator activeCanvas={activeCanvas} resources={resources} />
             </CollapsibleContent>
           </Aside>
         )}
