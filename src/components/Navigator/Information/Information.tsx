@@ -1,14 +1,20 @@
 import { useViewerState } from "@/context/viewer-context";
-import { ContentResource, ManifestNormalized } from "@iiif/presentation-3";
 import {
+  ContentResource,
+  InternationalString,
+  ManifestNormalized,
+} from "@iiif/presentation-3";
+import {
+  Label,
   Homepage,
   Metadata,
   RequiredStatement,
+  SeeAlso,
   Summary,
 } from "@samvera/nectar-iiif";
 import { NectarExternalWebResource } from "@samvera/nectar-iiif/dist/types/nectar";
 import React, { useEffect, useState } from "react";
-import { InformationStyled } from "./Information.styled";
+import { InformationContent, InformationStyled } from "./Information.styled";
 
 interface Props {}
 
@@ -27,19 +33,42 @@ const Information: React.FC<Props> = () => {
 
   return (
     <InformationStyled>
-      {manifest.summary && <Summary summary={manifest.summary} />}
-      {manifest.metadata && <Metadata metadata={manifest.metadata} />}
-      {manifest.requiredStatement && (
-        <RequiredStatement requiredStatement={manifest.requiredStatement} />
-      )}
-      {manifest.homepage && (
-        <Homepage
-          homepage={manifest.homepage as unknown as NectarExternalWebResource[]}
-        >
-          View Homepage
-        </Homepage>
-      )}
-      {manifest.rights && <span>{manifest.rights}</span>}
+      <InformationContent>
+        {manifest.summary && <Summary summary={manifest.summary} as="p" />}
+        {manifest.metadata && <Metadata metadata={manifest.metadata} />}
+        {manifest.requiredStatement && (
+          <RequiredStatement requiredStatement={manifest.requiredStatement} />
+        )}
+        {manifest.rights && (
+          <dl>
+            <dt>Rights</dt>
+            <dd>{manifest.rights}</dd>
+          </dl>
+        )}
+        {manifest.homepage?.length > 0 && (
+          <>
+            <span className="manifest-property-title">Homepage</span>
+            <Homepage
+              homepage={
+                manifest.homepage as unknown as NectarExternalWebResource[]
+              }
+            >
+              View <Label label={manifest.label as InternationalString} />
+            </Homepage>
+          </>
+        )}
+        {manifest.seeAlso?.length > 0 && (
+          <>
+            <span className="manifest-property-title">See Also</span>
+            <SeeAlso
+              seeAlso={
+                manifest.seeAlso as unknown as NectarExternalWebResource[]
+              }
+              as="ul"
+            />
+          </>
+        )}
+      </InformationContent>
     </InformationStyled>
   );
 };
