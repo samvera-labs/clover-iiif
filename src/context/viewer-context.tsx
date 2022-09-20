@@ -6,6 +6,7 @@ import { CollectionNormalized } from "@iiif/presentation-3";
 export type ConfigOptions = {
   showTitle?: boolean;
   showIIIFBadge?: boolean;
+  showInformation?: boolean;
   ignoreCaptionLabels?: string[];
   canvasBackgroundColor?: string;
   canvasHeight?: string;
@@ -15,6 +16,7 @@ export type ConfigOptions = {
 const defaultConfigOptions = {
   showTitle: true,
   showIIIFBadge: true,
+  showInformation: true,
   ignoreCaptionLabels: [],
   canvasBackgroundColor: "#e6e8eb",
   canvasHeight: "61.8vh",

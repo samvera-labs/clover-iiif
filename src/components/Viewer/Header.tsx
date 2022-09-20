@@ -1,4 +1,6 @@
 import React from "react";
+import * as Switch from "@radix-ui/react-switch";
+
 import {
   Header,
   IIIFBadgeButton,
@@ -12,6 +14,7 @@ import CopyText from "@/components/CopyText";
 import { useViewerState } from "@/context/viewer-context";
 import Collection from "@/components/Collection/Collection";
 import { Label } from "@samvera/nectar-iiif";
+import Toggle from "./Toggle";
 
 interface Props {
   manifestId: string;
@@ -35,6 +38,7 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
           <Label label={manifestLabel} />
         </ManifestLabel>
       )}
+      <Toggle />
       {showIIIFBadge && (
         <Popover>
           <IIIFBadgeButton>

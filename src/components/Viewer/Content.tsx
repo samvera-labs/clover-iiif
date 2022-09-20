@@ -48,29 +48,28 @@ const ViewerContent: React.FC<Props> = ({
           ) : (
             painting && <ImageViewer body={painting} key={activeCanvas} />
           )}
-          <CollapsibleTrigger>
+          {/* <CollapsibleTrigger>
             <Button as="span">
               {isNavigatorOpen ? "View Media Items" : "View Navigator"}
             </Button>
-          </CollapsibleTrigger>
+          </CollapsibleTrigger> */}
           {items.length > 1 && (
             <MediaWrapper className="clover-canvases">
               <Media items={items} activeItem={0} />
             </MediaWrapper>
           )}
         </Main>
-        {/* {isNavigator && ( */}
-        <Aside>
-          <CollapsibleContent>
-            <Information />
-            {/* <Navigator
+        {isNavigator && (
+          <Aside>
+            <CollapsibleContent>
+              <Navigator
                 activeCanvas={activeCanvas}
                 defaultResource={resources[0].id as string}
                 resources={resources}
-              /> */}
-          </CollapsibleContent>
-        </Aside>
-        {/* )} */}
+              />
+            </CollapsibleContent>
+          </Aside>
+        )}
       </CurrentTimeProvider>
     </Content>
   );
