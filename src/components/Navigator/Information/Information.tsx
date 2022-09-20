@@ -35,37 +35,83 @@ const Information: React.FC<Props> = () => {
     <InformationStyled>
       <InformationContent>
         {manifest.summary && <Summary summary={manifest.summary} as="p" />}
+
         {manifest.metadata && <Metadata metadata={manifest.metadata} />}
+
         {manifest.requiredStatement && (
           <RequiredStatement requiredStatement={manifest.requiredStatement} />
         )}
+
         {manifest.rights && (
-          <dl>
-            <dt>Rights</dt>
-            <dd>{manifest.rights}</dd>
-          </dl>
+          <>
+            <label
+              className="manifest-property-title"
+              htmlFor="iiif-manifest-rights"
+            >
+              Rights
+            </label>
+            <span>
+              <a
+                href={manifest.rights}
+                target="_blank"
+                id="iiif-manifest-rights"
+              >
+                {manifest.rights}
+              </a>
+            </span>
+          </>
         )}
+
         {manifest.homepage?.length > 0 && (
           <>
-            <span className="manifest-property-title">Homepage</span>
+            <label
+              className="manifest-property-title"
+              htmlFor="iiif-manifest-homepage"
+            >
+              Homepage
+            </label>
             <Homepage
               homepage={
                 manifest.homepage as unknown as NectarExternalWebResource[]
               }
+              id="iiif-manifest-homepage"
             >
               View <Label label={manifest.label as InternationalString} />
             </Homepage>
           </>
         )}
+
         {manifest.seeAlso?.length > 0 && (
           <>
-            <span className="manifest-property-title">See Also</span>
+            <label
+              className="manifest-property-title"
+              htmlFor="iiif-manifest-see-also"
+            >
+              See Also
+            </label>
             <SeeAlso
               seeAlso={
                 manifest.seeAlso as unknown as NectarExternalWebResource[]
               }
+              id="iiif-manifest-see-also"
               as="ul"
             />
+          </>
+        )}
+
+        {manifest.seeAlso?.length > 0 && (
+          <>
+            <label
+              className="manifest-property-title"
+              htmlFor="iiif-manifest-id"
+            >
+              IIIF Manifest
+            </label>
+            <span>
+              <a href={manifest.id} target="_blank" id="iiif-manifest-id">
+                {manifest.id}
+              </a>
+            </span>
           </>
         )}
       </InformationContent>
