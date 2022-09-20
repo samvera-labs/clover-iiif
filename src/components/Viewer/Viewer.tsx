@@ -31,7 +31,8 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
    * Viewer State
    */
   const viewerState: any = useViewerState();
-  const { activeCanvas, informationExpanded, vault } = viewerState;
+  const { activeCanvas, informationExpanded, vault, configOptions } =
+    viewerState;
 
   /**
    * Local state
@@ -85,8 +86,6 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
     setIsNavigator(resources.length !== 0);
   }, [activeCanvas]);
 
-  console.log(`informationExpanded`, informationExpanded);
-
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Wrapper
@@ -108,6 +107,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
             painting={painting as IIIFExternalWebResource}
             resources={resources}
             items={manifest.items}
+            isAbout={configOptions.renderAbout}
             isMedia={isMedia}
             isInformation={informationExpanded}
             isNavigator={isNavigator}

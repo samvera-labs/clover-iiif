@@ -25,7 +25,7 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
   const viewerState: any = useViewerState();
   const { collection, configOptions } = viewerState;
 
-  const { showTitle, showIIIFBadge } = configOptions;
+  const { showTitle, showIIIFBadge, showInformationToggle } = configOptions;
 
   if (!showTitle && !showIIIFBadge) return <></>;
 
@@ -38,7 +38,7 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
           <Label label={manifestLabel} />
         </ManifestLabel>
       )}
-      <Toggle />
+      {showInformationToggle && <Toggle />}
       {showIIIFBadge && (
         <Popover>
           <IIIFBadgeButton>

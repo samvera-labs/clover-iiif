@@ -31,8 +31,8 @@ export const Navigator: React.FC<NavigatorProps> = ({
   useEffect(() => {
     if (renderAbout) {
       setActiveResource("manifest-about");
-    } else {
-      if (resources) setActiveResource(resources[0].id);
+    } else if (resources && resources?.length > 0 && !renderAbout) {
+      setActiveResource(resources[0].id);
     }
   }, [activeCanvas, resources]);
 

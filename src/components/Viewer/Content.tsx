@@ -21,6 +21,7 @@ interface Props {
   painting: IIIFExternalWebResource;
   resources: LabeledResource[];
   items: Canvas[];
+  isAbout: boolean;
   isInformation: boolean;
   isMedia: boolean;
   isNavigator: boolean;
@@ -32,9 +33,12 @@ const ViewerContent: React.FC<Props> = ({
   painting,
   resources,
   items,
+  isAbout,
   isInformation,
+  isNavigator,
   isMedia,
 }) => {
+  console.log(isAbout);
   return (
     <Content className="clover-content">
       <CurrentTimeProvider>
@@ -58,7 +62,7 @@ const ViewerContent: React.FC<Props> = ({
             </MediaWrapper>
           )}
         </Main>
-        {isInformation && (
+        {isInformation && (isAbout || isNavigator) && (
           <Aside>
             <CollapsibleContent>
               <Navigator activeCanvas={activeCanvas} resources={resources} />

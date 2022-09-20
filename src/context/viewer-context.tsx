@@ -20,7 +20,7 @@ const defaultConfigOptions = {
   ignoreCaptionLabels: [],
   renderAbout: true,
   showIIIFBadge: true,
-  showInformation: true,
+  showInformationToggle: true,
   showTitle: true,
 };
 
