@@ -18,7 +18,7 @@ const StyledSwitch = styled(Switch.Root, {
 
   '&[data-state="checked"]': {
     backgroundColor: "$accent",
-    boxShadow: `inset 0 2px 10px #0005`,
+    boxShadow: `inset 2px 2px 5px #0003`,
   },
 });
 
@@ -29,7 +29,7 @@ const StyledThumb = styled(Switch.Thumb, {
   backgroundColor: "$secondary",
   borderRadius: "100%",
   boxShadow: `3px 3px 5px #0001`,
-  transition: "transform 100ms",
+  transition: "$all",
   transform: "translateX(3px)",
   willChange: "transform",
 
