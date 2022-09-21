@@ -3,7 +3,7 @@
 
 # Clover IIIF
 
-**A minimal IIIF viewer for Image, Audio, and Video manifests built with React.js**
+**A flexible IIIF Manifest viewer for Image, Audio, and Video canvases built with React.js**
 
 [**Demo**](https://samvera-labs.github.io/clover-iiif/) | [**Code**](https://github.com/samvera-labs/clover-iiif)
 
