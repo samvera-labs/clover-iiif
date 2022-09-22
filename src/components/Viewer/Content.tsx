@@ -36,9 +36,9 @@ const ViewerContent: React.FC<Props> = ({
   isAbout,
   isInformation,
   isNavigator,
+  isNavigatorOpen,
   isMedia,
 }) => {
-  console.log(isAbout);
   return (
     <Content className="clover-content">
       <CurrentTimeProvider>
@@ -53,7 +53,7 @@ const ViewerContent: React.FC<Props> = ({
           )}
           <CollapsibleTrigger>
             <Button as="span">
-              {isInformation ? "View Items" : "More Information"}
+              {isNavigatorOpen ? "View Items" : "More Information"}
             </Button>
           </CollapsibleTrigger>
           {items.length > 1 && (

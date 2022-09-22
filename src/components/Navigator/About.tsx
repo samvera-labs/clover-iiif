@@ -1,9 +1,5 @@
 import { useViewerState } from "@/context/viewer-context";
-import {
-  ContentResource,
-  InternationalString,
-  ManifestNormalized,
-} from "@iiif/presentation-3";
+import { InternationalString, ManifestNormalized } from "@iiif/presentation-3";
 import {
   Label,
   Homepage,
