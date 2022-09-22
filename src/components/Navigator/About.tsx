@@ -1,5 +1,9 @@
 import { useViewerState } from "@/context/viewer-context";
-import { InternationalString, ManifestNormalized } from "@iiif/presentation-3";
+import {
+  IIIFExternalWebResource,
+  InternationalString,
+  ManifestNormalized,
+} from "@iiif/presentation-3";
 import {
   Label,
   Homepage,
@@ -7,6 +11,7 @@ import {
   RequiredStatement,
   SeeAlso,
   Summary,
+  Thumbnail,
 } from "@samvera/nectar-iiif";
 import { NectarExternalWebResource } from "@samvera/nectar-iiif/dist/types/nectar";
 import React, { useEffect, useState } from "react";
@@ -20,9 +25,15 @@ const About: React.FC<Props> = () => {
 
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
+  const [thumbnail, setThumbnail] = useState<IIIFExternalWebResource[] | []>(
+    [],
+  );
+
   useEffect(() => {
     const data = vault.get(activeManifest);
     setManifest(data);
+
+    if (data.thumbnail?.length > 0) setThumbnail(vault.get(data.thumbnail));
   }, [activeManifest, vault]);
 
   if (!manifest) return <></>;
@@ -30,6 +41,13 @@ const About: React.FC<Props> = () => {
   return (
     <AboutStyled>
       <AboutContent>
+        {thumbnail?.length > 0 && (
+          <Thumbnail
+            altAsLabel={manifest.label as InternationalString}
+            thumbnail={thumbnail as unknown as IIIFExternalWebResource[]}
+          />
+        )}
+
         {manifest.summary && <Summary summary={manifest.summary} as="p" />}
 
         {manifest.metadata && <Metadata metadata={manifest.metadata} />}

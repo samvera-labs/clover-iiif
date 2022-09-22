@@ -12,6 +12,20 @@ const AboutContent = styled("div", {
   fontSize: "1rem",
   zIndex: "0",
 
+  img: {
+    maxWidth: "100px",
+    maxHeight: "100px",
+    objectFit: "contain",
+    color: "transparent",
+    margin: "0 0 1rem",
+    borderRadius: "3px",
+    backgroundColor: "$secondaryMuted",
+  },
+
+  video: {
+    display: "none",
+  },
+
   "a, a:visited": {
     color: "$accent",
   },
