@@ -28,12 +28,16 @@ const About: React.FC<Props> = () => {
   const [thumbnail, setThumbnail] = useState<IIIFExternalWebResource[] | []>(
     [],
   );
+  const [seeAlso, setSeeAlso] = useState<IIIFExternalWebResource[] | []>(
+    [],
+  );
 
   useEffect(() => {
     const data = vault.get(activeManifest);
     setManifest(data);
 
     if (data.thumbnail?.length > 0) setThumbnail(vault.get(data.thumbnail));
+    if (data.seeAlso?.length > 0) setSeeAlso(vault.get(data.seeAlso));
   }, [activeManifest, vault]);
 
   if (!manifest) return <></>;
@@ -95,7 +99,7 @@ const About: React.FC<Props> = () => {
           </>
         )}
 
-        {manifest.seeAlso?.length > 0 && (
+        {seeAlso?.length > 0 && (
           <>
             <label
               className="manifest-property-title"
@@ -105,7 +109,7 @@ const About: React.FC<Props> = () => {
             </label>
             <SeeAlso
               seeAlso={
-                manifest.seeAlso as unknown as NectarExternalWebResource[]
+                seeAlso as unknown as NectarExternalWebResource[]
               }
               id="iiif-manifest-see-also"
               as="ul"
