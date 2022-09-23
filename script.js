@@ -77424,18 +77424,23 @@ ${generateSegmentFilename(i4)}`);
 
   // src/components/Navigator/About.tsx
   var About = () => {
-    var _a2, _b2, _c2;
     const viewerState = useViewerState();
     const { activeManifest, vault } = viewerState;
     const [manifest, setManifest] = (0, import_react93.useState)();
+    const [homepage, setHomepage] = (0, import_react93.useState)([]);
+    const [seeAlso, setSeeAlso] = (0, import_react93.useState)([]);
     const [thumbnail, setThumbnail] = (0, import_react93.useState)(
       []
     );
     (0, import_react93.useEffect)(() => {
-      var _a3;
+      var _a2, _b2, _c2;
       const data = vault.get(activeManifest);
       setManifest(data);
-      if (((_a3 = data.thumbnail) == null ? void 0 : _a3.length) > 0)
+      if (((_a2 = data.homepage) == null ? void 0 : _a2.length) > 0)
+        setHomepage(vault.get(data.homepage));
+      if (((_b2 = data.seeAlso) == null ? void 0 : _b2.length) > 0)
+        setSeeAlso(vault.get(data.seeAlso));
+      if (((_c2 = data.thumbnail) == null ? void 0 : _c2.length) > 0)
         setThumbnail(vault.get(data.thumbnail));
     }, [activeManifest, vault]);
     if (!manifest)
@@ -77457,22 +77462,19 @@ ${generateSegmentFilename(i4)}`);
       href: manifest.rights,
       target: "_blank",
       id: "iiif-manifest-rights"
-    }, manifest.rights))), ((_a2 = manifest.homepage) == null ? void 0 : _a2.length) > 0 && /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null, /* @__PURE__ */ import_react93.default.createElement("label", {
+    }, manifest.rights))), (homepage == null ? void 0 : homepage.length) > 0 && /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null, /* @__PURE__ */ import_react93.default.createElement("label", {
       className: "manifest-property-title",
       htmlFor: "iiif-manifest-homepage"
     }, "Homepage"), /* @__PURE__ */ import_react93.default.createElement(Z3, {
-      homepage: manifest.homepage,
+      homepage,
       id: "iiif-manifest-homepage"
-    }, "View ", /* @__PURE__ */ import_react93.default.createElement(L4, {
-      label: manifest.label
-    }))), ((_b2 = manifest.seeAlso) == null ? void 0 : _b2.length) > 0 && /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null, /* @__PURE__ */ import_react93.default.createElement("label", {
+    })), (seeAlso == null ? void 0 : seeAlso.length) > 0 && /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null, /* @__PURE__ */ import_react93.default.createElement("label", {
       className: "manifest-property-title",
       htmlFor: "iiif-manifest-see-also"
     }, "See Also"), /* @__PURE__ */ import_react93.default.createElement(bt, {
-      seeAlso: manifest.seeAlso,
-      id: "iiif-manifest-see-also",
-      as: "ul"
-    })), ((_c2 = manifest.seeAlso) == null ? void 0 : _c2.length) > 0 && /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null, /* @__PURE__ */ import_react93.default.createElement("label", {
+      seeAlso,
+      id: "iiif-manifest-see-also"
+    })), manifest.id && /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null, /* @__PURE__ */ import_react93.default.createElement("label", {
       className: "manifest-property-title",
       htmlFor: "iiif-manifest-id"
     }, "IIIF Manifest"), /* @__PURE__ */ import_react93.default.createElement("span", null, /* @__PURE__ */ import_react93.default.createElement("a", {
