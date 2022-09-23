@@ -25,10 +25,9 @@ const About: React.FC<Props> = () => {
 
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
+  const [homepage, setHomepage] = useState<IIIFExternalWebResource[] | []>([]);
+  const [seeAlso, setSeeAlso] = useState<IIIFExternalWebResource[] | []>([]);
   const [thumbnail, setThumbnail] = useState<IIIFExternalWebResource[] | []>(
-    [],
-  );
-  const [seeAlso, setSeeAlso] = useState<IIIFExternalWebResource[] | []>(
     [],
   );
 
@@ -36,8 +35,9 @@ const About: React.FC<Props> = () => {
     const data = vault.get(activeManifest);
     setManifest(data);
 
-    if (data.thumbnail?.length > 0) setThumbnail(vault.get(data.thumbnail));
+    if (data.homepage?.length > 0) setHomepage(vault.get(data.homepage));
     if (data.seeAlso?.length > 0) setSeeAlso(vault.get(data.seeAlso));
+    if (data.thumbnail?.length > 0) setThumbnail(vault.get(data.thumbnail));
   }, [activeManifest, vault]);
 
   if (!manifest) return <></>;
@@ -80,7 +80,7 @@ const About: React.FC<Props> = () => {
           </>
         )}
 
-        {manifest.homepage?.length > 0 && (
+        {homepage?.length > 0 && (
           <>
             <label
               className="manifest-property-title"
@@ -89,13 +89,9 @@ const About: React.FC<Props> = () => {
               Homepage
             </label>
             <Homepage
-              homepage={
-                manifest.homepage as unknown as NectarExternalWebResource[]
-              }
+              homepage={homepage as unknown as NectarExternalWebResource[]}
               id="iiif-manifest-homepage"
-            >
-              View <Label label={manifest.label as InternationalString} />
-            </Homepage>
+            />
           </>
         )}
 
@@ -108,16 +104,13 @@ const About: React.FC<Props> = () => {
               See Also
             </label>
             <SeeAlso
-              seeAlso={
-                seeAlso as unknown as NectarExternalWebResource[]
-              }
+              seeAlso={seeAlso as unknown as NectarExternalWebResource[]}
               id="iiif-manifest-see-also"
-              as="ul"
             />
           </>
         )}
 
-        {manifest.seeAlso?.length > 0 && (
+        {manifest.id && (
           <>
             <label
               className="manifest-property-title"
