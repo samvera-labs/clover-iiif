@@ -68,9 +68,7 @@
 <span class="line"></span>
 <span class="line"><span style="color: #C792EA">const</span><span style="color: #EEFFFF"> id </span><span style="color: #89DDFF">=</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">https://digital.lib.utk.edu/assemble/manifest/heilman/1187</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
-<span class="line"></span>
-<span class="line"><span style="color: #89DDFF">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} /&gt;</span></span>
-<span class="line"></span>
+<span class="line"><span style="color: #89DDFF">return</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&lt;</span><span style="color: #FFCB6B">CloverIIIF</span><span style="color: #89DDFF"> </span><span style="color: #C792EA">id</span><span style="color: #89DDFF">={</span><span style="color: #EEFFFF">id</span><span style="color: #89DDFF">} /&gt;;</span></span>
 <span class="line"></span></code></pre>
 <hr>
 <h2 id="active-canvas">Active Canvas</h2>
@@ -202,24 +200,6 @@
 <td></td>
 </tr>
 <tr>
-<td><code>options.showTitle</code></td>
-<td><code>boolean</code></td>
-<td>No</td>
-<td>true</td>
-</tr>
-<tr>
-<td><code>options.showIIIFBadge</code></td>
-<td><code>boolean</code></td>
-<td>No</td>
-<td>true</td>
-</tr>
-<tr>
-<td><code>options.ignoreCaptionLabels</code></td>
-<td><code>string[]</code></td>
-<td>No</td>
-<td>[]</td>
-</tr>
-<tr>
 <td><code>options.canvasBackgroundColor</code></td>
 <td><code>string</code></td>
 <td>No</td>
@@ -232,14 +212,42 @@
 <td><code>500px</code></td>
 </tr>
 <tr>
-<td><code>options.openSeadragon</code></td>
-<td><code>Options</code></td>
+<td><code>options.ignoreCaptionLabels</code></td>
+<td><code>string[]</code></td>
 <td>No</td>
-<td></td>
+<td>[]</td>
+</tr>
+<tr>
+<td><code>options.renderAbout</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>options.showIIIFBadge</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>options.showInformationToggle</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>true</td>
+</tr>
+<tr>
+<td><code>options.showTitle</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>true</td>
 </tr>
 </tbody>
 </table>
-<p>Clover IIIF version 1.4.0, introduces an <code>options</code> prop, which will serve as a configuration object for common configuration options. Options <code>canvasBackgroundColor</code> and <code>canvasHeight</code> will apply to both <code>&lt;video&gt;</code> elements and the OpenseaDragon canvas.</p>
+<p>Clover can configured through an <code>options</code> prop, which will serve as a object for common options.</p>
+<ul>
+<li>Options <code>canvasBackgroundColor</code> and <code>canvasHeight</code> will apply to both <code>&lt;video&gt;</code> elements and the OpenseaDragon canvas.</li>
+<li>Options <code>renderAbout</code> and <code>showInformationToggle</code> relate to rendering Manifest content in an <code>&lt;aside&gt;</code> and providing user ability to close that panel.</li>
+</ul>
 <p>You can override the <a href="https://openseadragon.github.io/docs/OpenSeadragon.html#.Options">OpenSeadragon default options</a> set within Clover to adjust touch and mouse gesture settings and various other configurations.</p>
 <pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF">import</span><span style="color: #EEFFFF"> CloverIIIF </span><span style="color: #89DDFF">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">@samvera/clover-iiif</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
 <span class="line"></span>
