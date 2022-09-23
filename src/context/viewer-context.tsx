@@ -4,20 +4,24 @@ import { Vault } from "@iiif/vault";
 import { CollectionNormalized } from "@iiif/presentation-3";
 
 export type ConfigOptions = {
-  showTitle?: boolean;
-  showIIIFBadge?: boolean;
-  ignoreCaptionLabels?: string[];
   canvasBackgroundColor?: string;
   canvasHeight?: string;
+  ignoreCaptionLabels?: string[];
   openSeadragon?: Options;
+  renderAbout?: boolean;
+  showIIIFBadge?: boolean;
+  showInformationToggle?: boolean;
+  showTitle?: boolean;
 };
 
 const defaultConfigOptions = {
-  showTitle: true,
-  showIIIFBadge: true,
-  ignoreCaptionLabels: [],
   canvasBackgroundColor: "#e6e8eb",
   canvasHeight: "61.8vh",
+  ignoreCaptionLabels: [],
+  renderAbout: true,
+  showIIIFBadge: true,
+  showInformationToggle: true,
+  showTitle: true,
 };
 
 interface ViewerContextStore {
@@ -25,6 +29,7 @@ interface ViewerContextStore {
   activeManifest: string;
   collection?: CollectionNormalized | {};
   configOptions: ConfigOptions;
+  informationExpanded: boolean;
   isLoaded: boolean;
   vault: Vault;
 }
@@ -34,6 +39,7 @@ interface ViewerAction {
   canvasId: string;
   collection: CollectionNormalized;
   configOptions: ConfigOptions;
+  informationExpanded: boolean;
   isLoaded: boolean;
   manifestId: string;
 }
@@ -43,6 +49,7 @@ const defaultState: ViewerContextStore = {
   activeManifest: "",
   collection: {},
   configOptions: defaultConfigOptions,
+  informationExpanded: true,
   isLoaded: false,
   vault: new Vault(),
 };
@@ -83,6 +90,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
           ...defaultConfigOptions,
           ...action.configOptions,
         },
+      };
+    }
+    case "updateInformationExpanded": {
+      return {
+        ...state,
+        informationExpanded: action.informationExpanded,
       };
     }
     case "updateIsLoaded": {

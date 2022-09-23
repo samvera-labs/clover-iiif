@@ -35,7 +35,7 @@ const DynamicUrl: React.FC<DynamicUrlProps> = ({ url, setUrl }) => {
   return (
     <DynamicUrlStyled>
       <ManualForm onSubmit={handleSubmit}>
-        <label htmlFor="manual-manifest">View a IIIF Manifest</label>
+        <label htmlFor="manual-manifest">View a IIIF Manifest or Collection</label>
         <div>
           <input
             type="text"

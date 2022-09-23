@@ -64,6 +64,7 @@ const Aside = styled("aside", {
   flexGrow: "1",
   flexShrink: "0",
   width: "38.2%",
+  maxHeight: "100%",
 
   "@sm": {
     width: "100%",

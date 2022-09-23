@@ -21,6 +21,8 @@ interface Props {
   painting: IIIFExternalWebResource;
   resources: LabeledResource[];
   items: Canvas[];
+  isAbout: boolean;
+  isInformation: boolean;
   isMedia: boolean;
   isNavigator: boolean;
   isNavigatorOpen: boolean;
@@ -31,9 +33,11 @@ const ViewerContent: React.FC<Props> = ({
   painting,
   resources,
   items,
-  isMedia,
+  isAbout,
+  isInformation,
   isNavigator,
   isNavigatorOpen,
+  isMedia,
 }) => {
   return (
     <Content className="clover-content">
@@ -47,9 +51,9 @@ const ViewerContent: React.FC<Props> = ({
           ) : (
             painting && <ImageViewer body={painting} key={activeCanvas} />
           )}
-          <CollapsibleTrigger data-navigator={isNavigator}>
+          <CollapsibleTrigger>
             <Button as="span">
-              {isNavigatorOpen ? "View Media Items" : "View Navigator"}
+              {isNavigatorOpen ? "View Items" : "More Information"}
             </Button>
           </CollapsibleTrigger>
           {items.length > 1 && (
@@ -58,14 +62,10 @@ const ViewerContent: React.FC<Props> = ({
             </MediaWrapper>
           )}
         </Main>
-        {isNavigator && (
+        {isInformation && (isAbout || isNavigator) && (
           <Aside>
             <CollapsibleContent>
-              <Navigator
-                activeCanvas={activeCanvas}
-                defaultResource={resources[0].id as string}
-                resources={resources}
-              />
+              <Navigator activeCanvas={activeCanvas} resources={resources} />
             </CollapsibleContent>
           </Aside>
         )}

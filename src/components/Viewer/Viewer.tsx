@@ -31,7 +31,8 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
    * Viewer State
    */
   const viewerState: any = useViewerState();
-  const { activeCanvas, vault } = viewerState;
+  const { activeCanvas, informationExpanded, vault, configOptions } =
+    viewerState;
 
   /**
    * Local state
@@ -106,7 +107,9 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
             painting={painting as IIIFExternalWebResource}
             resources={resources}
             items={manifest.items}
+            isAbout={configOptions.renderAbout}
             isMedia={isMedia}
+            isInformation={informationExpanded}
             isNavigator={isNavigator}
             isNavigatorOpen={isNavigatorOpen}
           />
