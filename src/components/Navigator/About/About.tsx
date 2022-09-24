@@ -5,7 +5,6 @@ import {
   ManifestNormalized,
 } from "@iiif/presentation-3";
 import {
-  Homepage,
   Metadata,
   RequiredStatement,
   Summary,
@@ -17,7 +16,7 @@ import {
   AboutContent,
   AboutStyled,
 } from "@/components/Navigator/About/About.styled";
-import AboutSeeAlso from "@/components/Navigator/About/SeeAlso";
+import { Homepage, Rights, SeeAlso } from "@/components/Properties";
 
 const About: React.FC = () => {
   const viewerState: any = useViewerState();
@@ -25,11 +24,9 @@ const About: React.FC = () => {
 
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
-  const [homepage, setHomepage] = useState<IIIFExternalWebResource[] | []>([]);
-  const [seeAlso, setSeeAlso] = useState<IIIFExternalWebResource[] | []>([]);
-  const [thumbnail, setThumbnail] = useState<IIIFExternalWebResource[] | []>(
-    [],
-  );
+  const [homepage, setHomepage] = useState<IIIFExternalWebResource[]>([]);
+  const [seeAlso, setSeeAlso] = useState<IIIFExternalWebResource[]>([]);
+  const [thumbnail, setThumbnail] = useState<IIIFExternalWebResource[]>([]);
 
   useEffect(() => {
     const data = vault.get(activeManifest);
@@ -60,44 +57,11 @@ const About: React.FC = () => {
           <RequiredStatement requiredStatement={manifest.requiredStatement} />
         )}
 
-        {manifest.rights && (
-          <>
-            <label
-              className="manifest-property-title"
-              htmlFor="iiif-manifest-rights"
-            >
-              Rights
-            </label>
-            <span>
-              <a
-                href={manifest.rights}
-                target="_blank"
-                id="iiif-manifest-rights"
-              >
-                {manifest.rights}
-              </a>
-            </span>
-          </>
-        )}
-
-        {homepage?.length > 0 && (
-          <>
-            <label
-              className="manifest-property-title"
-              htmlFor="iiif-manifest-homepage"
-            >
-              Homepage
-            </label>
-            <Homepage
-              homepage={homepage as unknown as NectarExternalWebResource[]}
-              id="iiif-manifest-homepage"
-            />
-          </>
-        )}
-
-        <AboutSeeAlso
-          seeAlso={seeAlso as unknown as NectarExternalWebResource[]}
+        <Rights rights={manifest.rights} />
+        <Homepage
+          homepage={homepage as unknown as NectarExternalWebResource[]}
         />
+        <SeeAlso seeAlso={seeAlso as unknown as NectarExternalWebResource[]} />
 
         {manifest.id && (
           <>
