@@ -1,7 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { NectarExternalWebResource } from "@samvera/nectar-iiif/dist/types/nectar";
-import PropertiesSeeAlso from "@/components/Properties//SeeAlso";
+import PropertiesSeeAlso from "@/components/Properties/SeeAlso";
 
 const json: NectarExternalWebResource[] = [
   {
