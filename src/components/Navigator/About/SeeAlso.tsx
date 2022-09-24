@@ -3,23 +3,27 @@ import { SeeAlso } from "@samvera/nectar-iiif";
 import React from "react";
 
 interface AboutSeeAlsoProps {
+  parent?: "manifest" | "canvas";
   seeAlso: NectarExternalWebResource[];
 }
 
-const AboutSeeAlso: React.FC<AboutSeeAlsoProps> = ({ seeAlso }) => {
+const AboutSeeAlso: React.FC<AboutSeeAlsoProps> = ({
+  parent = "manifest",
+  seeAlso,
+}) => {
   if (seeAlso?.length === 0) return <></>;
 
   return (
     <>
       <label
         className="manifest-property-title"
-        htmlFor="iiif-manifest-see-also"
+        htmlFor={`iiif-${parent}-see-also`}
       >
         See Also
       </label>
       <SeeAlso
         seeAlso={seeAlso as unknown as NectarExternalWebResource[]}
-        id="iiif-manifest-see-also"
+        id={`iiif-${parent}-see-also`}
       />
     </>
   );
