@@ -8,7 +8,7 @@ const json = {
   ],
 };
 
-describe("IIIF seeAlso property component", () => {
+describe("IIIF summary property component", () => {
   it("renders", () => {
     render(<PropertiesSummary summary={json} />);
 

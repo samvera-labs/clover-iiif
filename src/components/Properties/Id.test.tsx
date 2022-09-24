@@ -5,7 +5,7 @@ import PropertiesId from "@/components/Properties/Id";
 const json = "https://manifests.collections.yale.edu/ycba/obj/21168";
 const htmlLabel = "IIIF Manifest";
 
-describe("IIIF seeAlso property component", () => {
+describe("IIIF id property component", () => {
   it("renders", () => {
     render(<PropertiesId id={json} htmlLabel={htmlLabel} />);
 

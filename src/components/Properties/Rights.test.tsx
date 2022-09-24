@@ -4,7 +4,7 @@ import PropertiesRights from "@/components/Properties/Rights";
 
 const json = "https://creativecommons.org/publicdomain/zero/1.0/";
 
-describe("IIIF seeAlso property component", () => {
+describe("IIIF rights property component", () => {
   it("renders", () => {
     render(<PropertiesRights rights={json} />);
 
