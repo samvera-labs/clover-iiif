@@ -4,19 +4,14 @@ import {
   InternationalString,
   ManifestNormalized,
 } from "@iiif/presentation-3";
-import {
-  Metadata,
-  RequiredStatement,
-  Summary,
-  Thumbnail,
-} from "@samvera/nectar-iiif";
+import { Metadata, RequiredStatement, Summary } from "@samvera/nectar-iiif";
 import { NectarExternalWebResource } from "@samvera/nectar-iiif/dist/types/nectar";
 import React, { useEffect, useState } from "react";
 import {
   AboutContent,
   AboutStyled,
 } from "@/components/Navigator/About/About.styled";
-import { Homepage, Rights, SeeAlso } from "@/components/Properties";
+import { Homepage, Rights, SeeAlso, Thumbnail } from "@/components/Properties";
 
 const About: React.FC = () => {
   const viewerState: any = useViewerState();
@@ -42,12 +37,7 @@ const About: React.FC = () => {
   return (
     <AboutStyled>
       <AboutContent>
-        {thumbnail?.length > 0 && (
-          <Thumbnail
-            altAsLabel={manifest.label as InternationalString}
-            thumbnail={thumbnail as unknown as IIIFExternalWebResource[]}
-          />
-        )}
+        <Thumbnail thumbnail={thumbnail} label={manifest.label} />
 
         {manifest.summary && <Summary summary={manifest.summary} as="p" />}
 
