@@ -1,17 +1,24 @@
-import { useViewerState } from "@/context/viewer-context";
-import {
-  IIIFExternalWebResource,
-  InternationalString,
-  ManifestNormalized,
-} from "@iiif/presentation-3";
-import { Metadata, RequiredStatement, Summary } from "@samvera/nectar-iiif";
-import { NectarExternalWebResource } from "@samvera/nectar-iiif/dist/types/nectar";
-import React, { useEffect, useState } from "react";
 import {
   AboutContent,
   AboutStyled,
 } from "@/components/Navigator/About/About.styled";
-import { Homepage, Rights, SeeAlso, Thumbnail } from "@/components/Properties";
+import {
+  Homepage,
+  Id,
+  Metadata,
+  RequiredStatement,
+  Rights,
+  SeeAlso,
+  Summary,
+  Thumbnail,
+} from "@/components/Properties";
+import {
+  IIIFExternalWebResource,
+  ManifestNormalized,
+} from "@iiif/presentation-3";
+import { NectarExternalWebResource } from "@samvera/nectar-iiif/dist/types/nectar";
+import React, { useEffect, useState } from "react";
+import { useViewerState } from "@/context/viewer-context";
 
 const About: React.FC = () => {
   const viewerState: any = useViewerState();
@@ -38,36 +45,15 @@ const About: React.FC = () => {
     <AboutStyled>
       <AboutContent>
         <Thumbnail thumbnail={thumbnail} label={manifest.label} />
-
-        {manifest.summary && <Summary summary={manifest.summary} as="p" />}
-
-        {manifest.metadata && <Metadata metadata={manifest.metadata} />}
-
-        {manifest.requiredStatement && (
-          <RequiredStatement requiredStatement={manifest.requiredStatement} />
-        )}
-
+        <Summary summary={manifest.summary} />
+        <Metadata metadata={manifest.metadata} />
+        <RequiredStatement requiredStatement={manifest.requiredStatement} />
         <Rights rights={manifest.rights} />
         <Homepage
           homepage={homepage as unknown as NectarExternalWebResource[]}
         />
         <SeeAlso seeAlso={seeAlso as unknown as NectarExternalWebResource[]} />
-
-        {manifest.id && (
-          <>
-            <label
-              className="manifest-property-title"
-              htmlFor="iiif-manifest-id"
-            >
-              IIIF Manifest
-            </label>
-            <span>
-              <a href={manifest.id} target="_blank" id="iiif-manifest-id">
-                {manifest.id}
-              </a>
-            </span>
-          </>
-        )}
+        <Id id={manifest.id} htmlLabel="IIIF Manifest" />
       </AboutContent>
     </AboutStyled>
   );
