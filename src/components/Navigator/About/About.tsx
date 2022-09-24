@@ -16,10 +16,9 @@ import {
 import { NectarExternalWebResource } from "@samvera/nectar-iiif/dist/types/nectar";
 import React, { useEffect, useState } from "react";
 import { AboutContent, AboutStyled } from "./About.styled";
+import AboutSeeAlso from "./SeeAlso";
 
-interface Props {}
-
-const About: React.FC<Props> = () => {
+const About: React.FC = () => {
   const viewerState: any = useViewerState();
   const { activeManifest, vault } = viewerState;
 
@@ -95,20 +94,7 @@ const About: React.FC<Props> = () => {
           </>
         )}
 
-        {seeAlso?.length > 0 && (
-          <>
-            <label
-              className="manifest-property-title"
-              htmlFor="iiif-manifest-see-also"
-            >
-              See Also
-            </label>
-            <SeeAlso
-              seeAlso={seeAlso as unknown as NectarExternalWebResource[]}
-              id="iiif-manifest-see-also"
-            />
-          </>
-        )}
+        <AboutSeeAlso seeAlso={seeAlso} />
 
         {manifest.id && (
           <>
