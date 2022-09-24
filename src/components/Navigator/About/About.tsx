@@ -5,18 +5,19 @@ import {
   ManifestNormalized,
 } from "@iiif/presentation-3";
 import {
-  Label,
   Homepage,
   Metadata,
   RequiredStatement,
-  SeeAlso,
   Summary,
   Thumbnail,
 } from "@samvera/nectar-iiif";
 import { NectarExternalWebResource } from "@samvera/nectar-iiif/dist/types/nectar";
 import React, { useEffect, useState } from "react";
-import { AboutContent, AboutStyled } from "./About.styled";
-import AboutSeeAlso from "./SeeAlso";
+import {
+  AboutContent,
+  AboutStyled,
+} from "@/components/Navigator/About/About.styled";
+import AboutSeeAlso from "@/components/Navigator/About/SeeAlso";
 
 const About: React.FC = () => {
   const viewerState: any = useViewerState();
@@ -94,7 +95,9 @@ const About: React.FC = () => {
           </>
         )}
 
-        <AboutSeeAlso seeAlso={seeAlso} />
+        <AboutSeeAlso
+          seeAlso={seeAlso as unknown as NectarExternalWebResource[]}
+        />
 
         {manifest.id && (
           <>
