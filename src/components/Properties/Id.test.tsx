@@ -1,6 +1,6 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import PropertiesId from "@/components/Properties/Id";
+import React from "react";
 
 const json = "https://manifests.collections.yale.edu/ycba/obj/21168";
 const htmlLabel = "IIIF Manifest";

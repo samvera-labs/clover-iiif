@@ -1,7 +1,7 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
-import PropertiesHomepage from "@/components/Properties/Homepage";
 import { NectarExternalWebResource } from "@samvera/nectar-iiif/dist/types/nectar";
+import PropertiesHomepage from "@/components/Properties/Homepage";
+import React from "react";
 
 const json: NectarExternalWebResource[] = [
   {

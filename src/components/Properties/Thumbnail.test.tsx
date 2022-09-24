@@ -1,7 +1,7 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
-import PropertiesThumbnail from "@/components/Properties/Thumbnail";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
+import PropertiesThumbnail from "@/components/Properties/Thumbnail";
+import React from "react";
 
 const json = [
   {

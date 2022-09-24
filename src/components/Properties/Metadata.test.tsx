@@ -1,6 +1,6 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import PropertiesMetadata from "@/components/Properties/Metadata";
+import React from "react";
 
 const json = [
   {

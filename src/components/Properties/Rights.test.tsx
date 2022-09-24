@@ -1,6 +1,6 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import PropertiesRights from "@/components/Properties/Rights";
+import React from "react";
 
 const json = "https://creativecommons.org/publicdomain/zero/1.0/";
 

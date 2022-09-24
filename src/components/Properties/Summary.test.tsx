@@ -1,6 +1,6 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import PropertiesSummary from "@/components/Properties/Summary";
+import React from "react";
 
 const json = {
   none: [

@@ -1,6 +1,6 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
-import PropertiesRequiredStatement from "@/components/Properties//RequiredStatement";
+import PropertiesRequiredStatement from "@/components/Properties/RequiredStatement";
+import React from "react";
 
 const json = {
   label: {
