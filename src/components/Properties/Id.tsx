@@ -13,14 +13,10 @@ const PropertiesId: React.FC<PropertiesIdProps> = ({
 }) => {
   return (
     <>
-      <label className="manifest-property-title" htmlFor={`iiif-${parent}-id`}>
-        {htmlLabel}
-      </label>
-      <span>
-        <a href={id} target="_blank" id={`iiif-${parent}-id`}>
-          {id}
-        </a>
-      </span>
+      <span className="manifest-property-title">{htmlLabel}</span>
+      <a href={id} target="_blank" id={`iiif-${parent}-id`}>
+        {id}
+      </a>
     </>
   );
 };
