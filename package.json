@@ -15,6 +15,7 @@
     "clean": "rimraf dist",
     "dev": "NODE_ENV=development node serve.js",
     "test": "jest --watch",
+    "test-ci": "jest",
     "prepublishOnly": "npm run build",
     "ts-lint": "tsc --noEmit --incremental --watch"
   },
