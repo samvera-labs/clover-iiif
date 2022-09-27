@@ -14,7 +14,6 @@ const IIIFBadgeContent = styled(Popover.Content, {
   fontSize: "0.8333rem",
   border: "none",
   boxShadow: "2px 2px 5px #0003",
-  marginRight: "1rem",
   zIndex: "2",
 
   button: {

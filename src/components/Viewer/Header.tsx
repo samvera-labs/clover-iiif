@@ -27,7 +27,13 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
 
   const { showTitle, showIIIFBadge, showInformationToggle } = configOptions;
 
-  if (!showTitle && !showIIIFBadge) return <></>;
+  if (
+    !collection?.items &&
+    !showTitle &&
+    !showIIIFBadge &&
+    !showInformationToggle
+  )
+    return <></>;
 
   return (
     <Header className="clover-header">
@@ -38,7 +44,6 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
           <Label label={manifestLabel} />
         </ManifestLabel>
       )}
-      {showInformationToggle && <Toggle />}
       {showIIIFBadge && (
         <Popover>
           <IIIFBadgeButton>
@@ -73,6 +78,7 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
           </IIIFBadgeContent>
         </Popover>
       )}
+      {showInformationToggle && <Toggle />}
     </Header>
   );
 };

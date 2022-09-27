@@ -16,7 +16,10 @@ const Wrapper = () => {
   }, []);
 
   const customTheme = {
-    fonts: { display: `"Calistoga", "Inter", Arial, sans-serif` },
+    fonts: {
+      display: `"Lora", "Inter", Arial, sans-serif`,
+      sans: `"Inter", Arial, sans-serif`,
+    },
   };
 
   return (
