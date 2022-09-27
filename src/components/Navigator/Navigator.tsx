@@ -10,7 +10,7 @@ import {
 import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
 import Resource from "@/components/Navigator/Resource";
 import { Label } from "@samvera/nectar-iiif";
-import Information from "./About";
+import Information from "@/components/Navigator/About/About";
 import { useViewerState } from "@/context/viewer-context";
 
 interface NavigatorProps {
