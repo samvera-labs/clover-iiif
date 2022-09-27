@@ -45,6 +45,16 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
             <IIIFBadge />
           </IIIFBadgeButton>
           <IIIFBadgeContent>
+            {collection?.items && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open(collection.id, "_blank");
+                }}
+              >
+                View Collection
+              </button>
+            )}
             <button
               onClick={(e) => {
                 e.preventDefault();
@@ -52,7 +62,13 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
               }}
             >
               View Manifest
-            </button>
+            </button>{" "}
+            {collection?.items && (
+              <CopyText
+                textPrompt="Copy Collection URL"
+                textToCopy={collection.id}
+              />
+            )}
             <CopyText textPrompt="Copy Manifest URL" textToCopy={manifestId} />
           </IIIFBadgeContent>
         </Popover>
