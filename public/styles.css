@@ -71,6 +71,11 @@ button * {
   font-family: "Lora", "Inter", Arial, sans-serif;
 }
 
+.documentation-wrapper img {
+  max-width: 100%;
+  margin-top: 1.618rem;
+}
+
 code {
   background-color: #151718 !important;
   padding: 0.25rem 0.618rem;
