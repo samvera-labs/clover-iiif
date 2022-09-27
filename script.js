@@ -75172,7 +75172,7 @@ ${generateSegmentFilename(i4)}`);
     fontSize: "0.8333rem",
     border: "none",
     boxShadow: "2px 2px 5px #0003",
-    zIndex: "1",
+    zIndex: "2",
     button: {
       display: "flex",
       textDecoration: "none",
@@ -75746,31 +75746,33 @@ ${generateSegmentFilename(i4)}`);
   });
   var StyledThumb = styled($6be4966fd9bbc698$export$6521433ed15a34db, {
     display: "block",
-    height: "calc(2rem - 6px)",
-    width: "calc(2rem - 6px)",
+    height: "calc(2rem - 12px)",
+    width: "calc(2rem - 12px)",
     backgroundColor: "$secondary",
     borderRadius: "100%",
     boxShadow: `2px 2px 5px #0001`,
     transition: "$all",
-    transform: "translateX(3px)",
+    transform: "translateX(6px)",
     willChange: "transform",
     '&[data-state="checked"]': {
-      transform: "translateX(calc(1.236rem + 3px))"
+      transform: "translateX(calc(1.236rem + 6px))"
     }
   });
   var Wrapper2 = styled("div", {
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    paddingLeft: "1.618rem"
   });
   var Label = styled("label", {
+    fontSize: "0.8333rem",
     fontFamily: "$sans",
-    fontWeight: "700",
+    fontWeight: "400",
     lineHeight: "1em",
     userSelect: "none",
     cursor: "pointer",
     color: "$primary",
     opacity: "0.7",
-    paddingRight: "1rem"
+    paddingRight: "0.618rem"
   });
   var StyledToggle = styled("form", {});
 
@@ -75800,21 +75802,29 @@ ${generateSegmentFilename(i4)}`);
     const viewerState = useViewerState();
     const { collection, configOptions } = viewerState;
     const { showTitle, showIIIFBadge, showInformationToggle } = configOptions;
-    if (!showTitle && !showIIIFBadge)
+    if (!(collection == null ? void 0 : collection.items) && !showTitle && !showIIIFBadge && !showInformationToggle)
       return /* @__PURE__ */ import_react79.default.createElement(import_react79.default.Fragment, null);
     return /* @__PURE__ */ import_react79.default.createElement(Header, {
       className: "clover-header"
     }, (collection == null ? void 0 : collection.items) ? /* @__PURE__ */ import_react79.default.createElement(Collection_default, null) : /* @__PURE__ */ import_react79.default.createElement(ManifestLabel, null, /* @__PURE__ */ import_react79.default.createElement(L4, {
       label: manifestLabel
-    })), showInformationToggle && /* @__PURE__ */ import_react79.default.createElement(Toggle_default, null), showIIIFBadge && /* @__PURE__ */ import_react79.default.createElement(Popover, null, /* @__PURE__ */ import_react79.default.createElement(IIIFBadgeButton, null, /* @__PURE__ */ import_react79.default.createElement(IIIFBadge_default, null)), /* @__PURE__ */ import_react79.default.createElement(IIIFBadgeContent, null, /* @__PURE__ */ import_react79.default.createElement("button", {
+    })), showIIIFBadge && /* @__PURE__ */ import_react79.default.createElement(Popover, null, /* @__PURE__ */ import_react79.default.createElement(IIIFBadgeButton, null, /* @__PURE__ */ import_react79.default.createElement(IIIFBadge_default, null)), /* @__PURE__ */ import_react79.default.createElement(IIIFBadgeContent, null, (collection == null ? void 0 : collection.items) && /* @__PURE__ */ import_react79.default.createElement("button", {
+      onClick: (e3) => {
+        e3.preventDefault();
+        window.open(collection.id, "_blank");
+      }
+    }, "View Collection"), /* @__PURE__ */ import_react79.default.createElement("button", {
       onClick: (e3) => {
         e3.preventDefault();
         window.open(manifestId, "_blank");
       }
-    }, "View Manifest"), /* @__PURE__ */ import_react79.default.createElement(CopyText_default, {
+    }, "View Manifest"), " ", (collection == null ? void 0 : collection.items) && /* @__PURE__ */ import_react79.default.createElement(CopyText_default, {
+      textPrompt: "Copy Collection URL",
+      textToCopy: collection.id
+    }), /* @__PURE__ */ import_react79.default.createElement(CopyText_default, {
       textPrompt: "Copy Manifest URL",
       textToCopy: manifestId
-    }))));
+    }))), showInformationToggle && /* @__PURE__ */ import_react79.default.createElement(Toggle_default, null));
   };
   var Header_default = ViewerHeader;
 
@@ -78538,7 +78548,10 @@ ${generateSegmentFilename(i4)}`);
         setUrl(id);
     }, []);
     const customTheme = {
-      fonts: { display: `"Calistoga", "Inter", Arial, sans-serif` }
+      fonts: {
+        display: `"Lora", "Inter", Arial, sans-serif`,
+        sans: `"Inter", Arial, sans-serif`
+      }
     };
     return /* @__PURE__ */ import_react116.default.createElement(import_react116.default.Fragment, null, /* @__PURE__ */ import_react116.default.createElement(src_default, {
       id: url,
