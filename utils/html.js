@@ -12,7 +12,7 @@ async function buildHTML(isStatic) {
     </head>
     <body>
       <header>
-        <a href="/" class="clover-title">
+        <a href="https://samvera-labs.github.io/clover-iiif/" class="clover-title">
           <h1>Clover IIIF<h1>
         </a>
         <a href="https://samvera-labs.github.io/clover-iiif/" class="clover-repository">

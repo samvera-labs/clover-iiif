@@ -30,7 +30,7 @@ const Wrapper = () => {
         customTheme={customTheme}
         options={{
           canvasBackgroundColor: "#e6e8eb",
-          canvasHeight: "61.8vh",
+          canvasHeight: "600px",
           renderAbout: true,
           showInformationToggle: true,
         }}
