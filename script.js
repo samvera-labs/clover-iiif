@@ -2467,9 +2467,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React38 = require_react();
+          var React46 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React38.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React46.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -3990,7 +3990,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React38.Children.forEach(props.children, function(child) {
+                  React46.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -12151,7 +12151,7 @@
             }
           }
           var fakeInternalInstance = {};
-          var emptyRefsObject = new React38.Component().refs;
+          var emptyRefsObject = new React46.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -65689,7 +65689,7 @@ ${generateSegmentFilename(i4)}`);
     "node_modules/react-error-boundary/dist/react-error-boundary.umd.js"(exports, module) {
       (function(global2, factory) {
         typeof exports === "object" && typeof module !== "undefined" ? factory(exports, require_react()) : typeof define === "function" && define.amd ? define(["exports", "react"], factory) : (global2 = typeof globalThis !== "undefined" ? globalThis : global2 || self, factory(global2.ReactErrorBoundary = {}, global2.React));
-      })(exports, function(exports2, React38) {
+      })(exports, function(exports2, React46) {
         "use strict";
         function _interopNamespace(e3) {
           if (e3 && e3.__esModule)
@@ -65711,7 +65711,7 @@ ${generateSegmentFilename(i4)}`);
           n5["default"] = e3;
           return Object.freeze(n5);
         }
-        var React__namespace = /* @__PURE__ */ _interopNamespace(React38);
+        var React__namespace = /* @__PURE__ */ _interopNamespace(React46);
         function _setPrototypeOf(o5, p6) {
           _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf2(o6, p7) {
             o6.__proto__ = p7;
@@ -65857,10 +65857,10 @@ ${generateSegmentFilename(i4)}`);
   });
 
   // src/dev.tsx
-  var import_react108 = __toESM(require_react());
+  var import_react116 = __toESM(require_react());
 
   // src/index.tsx
-  var import_react105 = __toESM(require_react());
+  var import_react113 = __toESM(require_react());
 
   // src/context/viewer-context.tsx
   var import_react = __toESM(require_react());
@@ -67828,7 +67828,7 @@ ${generateSegmentFilename(i4)}`);
   }
 
   // src/components/Viewer/Viewer.tsx
-  var import_react104 = __toESM(require_react());
+  var import_react112 = __toESM(require_react());
 
   // src/hooks/use-iiif/getAccompanyingCanvasImage.ts
   function getUrl(obj) {
@@ -75819,7 +75819,7 @@ ${generateSegmentFilename(i4)}`);
   var Header_default = ViewerHeader;
 
   // src/components/Viewer/Content.tsx
-  var import_react102 = __toESM(require_react());
+  var import_react110 = __toESM(require_react());
 
   // src/components/Media/Media.tsx
   var import_react87 = __toESM(require_react());
@@ -76777,7 +76777,7 @@ ${generateSegmentFilename(i4)}`);
   var Media_default = Media;
 
   // src/components/Navigator/Navigator.tsx
-  var import_react94 = __toESM(require_react());
+  var import_react102 = __toESM(require_react());
 
   // node_modules/@radix-ui/react-tabs/dist/index.module.js
   var import_react88 = __toESM(require_react());
@@ -77355,10 +77355,7 @@ ${generateSegmentFilename(i4)}`);
   };
   var Resource_default = Resource;
 
-  // src/components/Navigator/About.tsx
-  var import_react93 = __toESM(require_react());
-
-  // src/components/Navigator/About.styled.ts
+  // src/components/Navigator/About/About.styled.ts
   var AboutContent = styled("div", {
     padding: " 0 1.618rem 2rem",
     display: "flex",
@@ -77422,17 +77419,136 @@ ${generateSegmentFilename(i4)}`);
     zIndex: "0"
   });
 
-  // src/components/Navigator/About.tsx
+  // src/components/Properties/Homepage.tsx
+  var import_react93 = __toESM(require_react());
+  var PropertiesHomepage = ({
+    homepage
+  }) => {
+    if ((homepage == null ? void 0 : homepage.length) === 0)
+      return /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null);
+    return /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null, /* @__PURE__ */ import_react93.default.createElement("span", {
+      className: "manifest-property-title"
+    }, "Homepage"), /* @__PURE__ */ import_react93.default.createElement(Z3, {
+      homepage
+    }));
+  };
+  var Homepage_default = PropertiesHomepage;
+
+  // src/components/Properties/Id.tsx
+  var import_react94 = __toESM(require_react());
+  var PropertiesId = ({
+    id,
+    htmlLabel,
+    parent = "manifest"
+  }) => {
+    return /* @__PURE__ */ import_react94.default.createElement(import_react94.default.Fragment, null, /* @__PURE__ */ import_react94.default.createElement("span", {
+      className: "manifest-property-title"
+    }, htmlLabel), /* @__PURE__ */ import_react94.default.createElement("a", {
+      href: id,
+      target: "_blank",
+      id: `iiif-${parent}-id`
+    }, id));
+  };
+  var Id_default = PropertiesId;
+
+  // src/components/Properties/Metadata.tsx
+  var import_react95 = __toESM(require_react());
+  var PropertiesMetadata = ({
+    metadata,
+    parent = "manifest"
+  }) => {
+    if (!metadata)
+      return /* @__PURE__ */ import_react95.default.createElement(import_react95.default.Fragment, null);
+    return /* @__PURE__ */ import_react95.default.createElement(import_react95.default.Fragment, null, /* @__PURE__ */ import_react95.default.createElement(ut2, {
+      metadata,
+      id: `iiif-${parent}-metadata`
+    }));
+  };
+  var Metadata_default = PropertiesMetadata;
+
+  // src/components/Properties/RequiredStatement.tsx
+  var import_react96 = __toESM(require_react());
+  var PropertiesRequiredStatement = ({
+    requiredStatement,
+    parent = "manifest"
+  }) => {
+    if (!requiredStatement)
+      return /* @__PURE__ */ import_react96.default.createElement(import_react96.default.Fragment, null);
+    return /* @__PURE__ */ import_react96.default.createElement(import_react96.default.Fragment, null, /* @__PURE__ */ import_react96.default.createElement(pt2, {
+      requiredStatement,
+      id: `iiif-${parent}-required-statement`
+    }));
+  };
+  var RequiredStatement_default = PropertiesRequiredStatement;
+
+  // src/components/Properties/Rights.tsx
+  var import_react97 = __toESM(require_react());
+  var PropertiesRights = ({ rights }) => {
+    if (!rights)
+      return /* @__PURE__ */ import_react97.default.createElement(import_react97.default.Fragment, null);
+    return /* @__PURE__ */ import_react97.default.createElement(import_react97.default.Fragment, null, /* @__PURE__ */ import_react97.default.createElement("span", {
+      className: "manifest-property-title"
+    }, "Rights"), /* @__PURE__ */ import_react97.default.createElement("a", {
+      href: rights,
+      target: "_blank"
+    }, rights));
+  };
+  var Rights_default = PropertiesRights;
+
+  // src/components/Properties/SeeAlso.tsx
+  var import_react98 = __toESM(require_react());
+  var PropertiesSeeAlso = ({ seeAlso }) => {
+    if ((seeAlso == null ? void 0 : seeAlso.length) === 0)
+      return /* @__PURE__ */ import_react98.default.createElement(import_react98.default.Fragment, null);
+    return /* @__PURE__ */ import_react98.default.createElement(import_react98.default.Fragment, null, /* @__PURE__ */ import_react98.default.createElement("span", {
+      className: "manifest-property-title"
+    }, "See Also"), /* @__PURE__ */ import_react98.default.createElement(bt, {
+      seeAlso
+    }));
+  };
+  var SeeAlso_default = PropertiesSeeAlso;
+
+  // src/components/Properties/Summary.tsx
+  var import_react99 = __toESM(require_react());
+  var PropertiesSummary = ({
+    summary,
+    parent = "manifest"
+  }) => {
+    if (!summary)
+      return /* @__PURE__ */ import_react99.default.createElement(import_react99.default.Fragment, null);
+    return /* @__PURE__ */ import_react99.default.createElement(import_react99.default.Fragment, null, /* @__PURE__ */ import_react99.default.createElement(vt2, {
+      summary,
+      as: "p",
+      id: `iiif-${parent}-summary`
+    }));
+  };
+  var Summary_default = PropertiesSummary;
+
+  // src/components/Properties/Thumbnail.tsx
+  var import_react100 = __toESM(require_react());
+  var PropertiesThumbnail = ({
+    label,
+    thumbnail
+  }) => {
+    if ((thumbnail == null ? void 0 : thumbnail.length) === 0)
+      return /* @__PURE__ */ import_react100.default.createElement(import_react100.default.Fragment, null);
+    return /* @__PURE__ */ import_react100.default.createElement(import_react100.default.Fragment, null, /* @__PURE__ */ import_react100.default.createElement(It, {
+      altAsLabel: label ? label : { none: ["resource"] },
+      thumbnail
+    }));
+  };
+  var Thumbnail_default2 = PropertiesThumbnail;
+
+  // src/components/Navigator/About/About.tsx
+  var import_react101 = __toESM(require_react());
   var About = () => {
     const viewerState = useViewerState();
     const { activeManifest, vault } = viewerState;
-    const [manifest, setManifest] = (0, import_react93.useState)();
-    const [homepage, setHomepage] = (0, import_react93.useState)([]);
-    const [seeAlso, setSeeAlso] = (0, import_react93.useState)([]);
-    const [thumbnail, setThumbnail] = (0, import_react93.useState)(
-      []
-    );
-    (0, import_react93.useEffect)(() => {
+    const [manifest, setManifest] = (0, import_react101.useState)();
+    const [homepage, setHomepage] = (0, import_react101.useState)([]);
+    const [seeAlso, setSeeAlso] = (0, import_react101.useState)([]);
+    const [thumbnail, setThumbnail] = (0, import_react101.useState)([]);
+    (0, import_react101.useEffect)(() => {
       var _a2, _b2, _c2;
       const data = vault.get(activeManifest);
       setManifest(data);
@@ -77444,44 +77560,26 @@ ${generateSegmentFilename(i4)}`);
         setThumbnail(vault.get(data.thumbnail));
     }, [activeManifest, vault]);
     if (!manifest)
-      return /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null);
-    return /* @__PURE__ */ import_react93.default.createElement(AboutStyled, null, /* @__PURE__ */ import_react93.default.createElement(AboutContent, null, (thumbnail == null ? void 0 : thumbnail.length) > 0 && /* @__PURE__ */ import_react93.default.createElement(It, {
-      altAsLabel: manifest.label,
-      thumbnail
-    }), manifest.summary && /* @__PURE__ */ import_react93.default.createElement(vt2, {
-      summary: manifest.summary,
-      as: "p"
-    }), manifest.metadata && /* @__PURE__ */ import_react93.default.createElement(ut2, {
+      return /* @__PURE__ */ import_react101.default.createElement(import_react101.default.Fragment, null);
+    return /* @__PURE__ */ import_react101.default.createElement(AboutStyled, null, /* @__PURE__ */ import_react101.default.createElement(AboutContent, null, /* @__PURE__ */ import_react101.default.createElement(Thumbnail_default2, {
+      thumbnail,
+      label: manifest.label
+    }), /* @__PURE__ */ import_react101.default.createElement(Summary_default, {
+      summary: manifest.summary
+    }), /* @__PURE__ */ import_react101.default.createElement(Metadata_default, {
       metadata: manifest.metadata
-    }), manifest.requiredStatement && /* @__PURE__ */ import_react93.default.createElement(pt2, {
+    }), /* @__PURE__ */ import_react101.default.createElement(RequiredStatement_default, {
       requiredStatement: manifest.requiredStatement
-    }), manifest.rights && /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null, /* @__PURE__ */ import_react93.default.createElement("label", {
-      className: "manifest-property-title",
-      htmlFor: "iiif-manifest-rights"
-    }, "Rights"), /* @__PURE__ */ import_react93.default.createElement("span", null, /* @__PURE__ */ import_react93.default.createElement("a", {
-      href: manifest.rights,
-      target: "_blank",
-      id: "iiif-manifest-rights"
-    }, manifest.rights))), (homepage == null ? void 0 : homepage.length) > 0 && /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null, /* @__PURE__ */ import_react93.default.createElement("label", {
-      className: "manifest-property-title",
-      htmlFor: "iiif-manifest-homepage"
-    }, "Homepage"), /* @__PURE__ */ import_react93.default.createElement(Z3, {
-      homepage,
-      id: "iiif-manifest-homepage"
-    })), (seeAlso == null ? void 0 : seeAlso.length) > 0 && /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null, /* @__PURE__ */ import_react93.default.createElement("label", {
-      className: "manifest-property-title",
-      htmlFor: "iiif-manifest-see-also"
-    }, "See Also"), /* @__PURE__ */ import_react93.default.createElement(bt, {
-      seeAlso,
-      id: "iiif-manifest-see-also"
-    })), manifest.id && /* @__PURE__ */ import_react93.default.createElement(import_react93.default.Fragment, null, /* @__PURE__ */ import_react93.default.createElement("label", {
-      className: "manifest-property-title",
-      htmlFor: "iiif-manifest-id"
-    }, "IIIF Manifest"), /* @__PURE__ */ import_react93.default.createElement("span", null, /* @__PURE__ */ import_react93.default.createElement("a", {
-      href: manifest.id,
-      target: "_blank",
-      id: "iiif-manifest-id"
-    }, manifest.id)))));
+    }), /* @__PURE__ */ import_react101.default.createElement(Rights_default, {
+      rights: manifest.rights
+    }), /* @__PURE__ */ import_react101.default.createElement(Homepage_default, {
+      homepage
+    }), /* @__PURE__ */ import_react101.default.createElement(SeeAlso_default, {
+      seeAlso
+    }), /* @__PURE__ */ import_react101.default.createElement(Id_default, {
+      id: manifest.id,
+      htmlLabel: "IIIF Manifest"
+    })));
   };
   var About_default = About;
 
@@ -77493,8 +77591,8 @@ ${generateSegmentFilename(i4)}`);
     const viewerState = useViewerState();
     const { configOptions } = viewerState;
     const { renderAbout } = configOptions;
-    const [activeResource, setActiveResource] = (0, import_react94.useState)();
-    (0, import_react94.useEffect)(() => {
+    const [activeResource, setActiveResource] = (0, import_react102.useState)();
+    (0, import_react102.useEffect)(() => {
       if (renderAbout) {
         setActiveResource("manifest-about");
       } else if (resources && (resources == null ? void 0 : resources.length) > 0 && !renderAbout) {
@@ -77505,30 +77603,30 @@ ${generateSegmentFilename(i4)}`);
       setActiveResource(value);
     };
     if (!resources)
-      return /* @__PURE__ */ import_react94.default.createElement(import_react94.default.Fragment, null);
-    return /* @__PURE__ */ import_react94.default.createElement(Wrapper4, {
+      return /* @__PURE__ */ import_react102.default.createElement(import_react102.default.Fragment, null);
+    return /* @__PURE__ */ import_react102.default.createElement(Wrapper4, {
       "data-testid": "navigator",
       defaultValue: activeResource,
       onValueChange: handleValueChange,
       orientation: "horizontal",
       value: activeResource
-    }, /* @__PURE__ */ import_react94.default.createElement(List, {
+    }, /* @__PURE__ */ import_react102.default.createElement(List, {
       "aria-label": "select chapter",
       "data-testid": "navigator-list"
-    }, renderAbout && /* @__PURE__ */ import_react94.default.createElement(Trigger2, {
+    }, renderAbout && /* @__PURE__ */ import_react102.default.createElement(Trigger2, {
       value: "manifest-about"
-    }, "About"), resources && resources.map(({ id, label }) => /* @__PURE__ */ import_react94.default.createElement(Trigger2, {
+    }, "About"), resources && resources.map(({ id, label }) => /* @__PURE__ */ import_react102.default.createElement(Trigger2, {
       key: id,
       value: id
-    }, /* @__PURE__ */ import_react94.default.createElement(L4, {
+    }, /* @__PURE__ */ import_react102.default.createElement(L4, {
       label
-    })))), /* @__PURE__ */ import_react94.default.createElement(Scroll, null, renderAbout && /* @__PURE__ */ import_react94.default.createElement(Content3, {
+    })))), /* @__PURE__ */ import_react102.default.createElement(Scroll, null, renderAbout && /* @__PURE__ */ import_react102.default.createElement(Content3, {
       value: "manifest-about"
-    }, /* @__PURE__ */ import_react94.default.createElement(About_default, null)), resources && resources.map((resource) => {
-      return /* @__PURE__ */ import_react94.default.createElement(Content3, {
+    }, /* @__PURE__ */ import_react102.default.createElement(About_default, null)), resources && resources.map((resource) => {
+      return /* @__PURE__ */ import_react102.default.createElement(Content3, {
         key: resource.id,
         value: resource.id
-      }, /* @__PURE__ */ import_react94.default.createElement(Resource_default, {
+      }, /* @__PURE__ */ import_react102.default.createElement(Resource_default, {
         resource
       }));
     })));
@@ -77536,7 +77634,7 @@ ${generateSegmentFilename(i4)}`);
   var Navigator_default = Navigator;
 
   // src/components/Player/Player.tsx
-  var import_react97 = __toESM(require_react());
+  var import_react105 = __toESM(require_react());
   var import_hls2 = __toESM(require_hls());
 
   // src/components/Player/Player.styled.tsx
@@ -77560,7 +77658,7 @@ ${generateSegmentFilename(i4)}`);
   });
 
   // src/components/Player/AudioVisualizer.tsx
-  var import_react95 = __toESM(require_react());
+  var import_react103 = __toESM(require_react());
 
   // src/components/Player/AudioVisualizer.styled.tsx
   var AudioVisualizerWrapper = styled("canvas", {
@@ -77570,9 +77668,9 @@ ${generateSegmentFilename(i4)}`);
   });
 
   // src/components/Player/AudioVisualizer.tsx
-  var AudioVisualizer = import_react95.default.forwardRef((_props, ref) => {
-    const canvasRef = import_react95.default.useRef(null);
-    import_react95.default.useEffect(() => {
+  var AudioVisualizer = import_react103.default.forwardRef((_props, ref) => {
+    const canvasRef = import_react103.default.useRef(null);
+    import_react103.default.useEffect(() => {
       if (!ref)
         return;
       ref.current.onplay = audioVisualizer;
@@ -77618,14 +77716,14 @@ ${generateSegmentFilename(i4)}`);
         x6 += barWidth + 6;
       }
     }
-    return /* @__PURE__ */ import_react95.default.createElement(AudioVisualizerWrapper, {
+    return /* @__PURE__ */ import_react103.default.createElement(AudioVisualizerWrapper, {
       ref: canvasRef
     });
   });
   var AudioVisualizer_default = AudioVisualizer;
 
   // src/components/Player/Track.tsx
-  var import_react96 = __toESM(require_react());
+  var import_react104 = __toESM(require_react());
   var Track = ({ resource, ignoreCaptionLabels }) => {
     const label = getLabel(resource.label, "en");
     const isIgnored = label.some(
@@ -77633,7 +77731,7 @@ ${generateSegmentFilename(i4)}`);
     );
     if (isIgnored)
       return null;
-    return /* @__PURE__ */ import_react96.default.createElement("track", {
+    return /* @__PURE__ */ import_react104.default.createElement("track", {
       key: resource.id,
       src: resource.id,
       label,
@@ -77646,9 +77744,9 @@ ${generateSegmentFilename(i4)}`);
   // src/components/Player/Player.tsx
   var Player = ({ painting, resources }) => {
     var _a2;
-    const playerRef = import_react97.default.useRef(null);
+    const playerRef = import_react105.default.useRef(null);
     const isAudio = (_a2 = painting == null ? void 0 : painting.format) == null ? void 0 : _a2.includes("audio/");
-    const { startTime, updateCurrentTime } = import_react97.default.useContext(CurrentTimeContext);
+    const { startTime, updateCurrentTime } = import_react105.default.useContext(CurrentTimeContext);
     const viewerState = useViewerState();
     const { activeCanvas, configOptions, vault } = viewerState;
     const activeCanvasObject = getCanvasByCriteria(
@@ -77660,7 +77758,7 @@ ${generateSegmentFilename(i4)}`);
     const posterImage = getAccompanyingCanvasImage(
       activeCanvasObject.accompanyingCanvas
     );
-    import_react97.default.useEffect(() => {
+    import_react105.default.useEffect(() => {
       if (!painting.id || !playerRef.current)
         return;
       if (painting.id.split(".").pop() !== "m3u8")
@@ -77699,7 +77797,7 @@ ${generateSegmentFilename(i4)}`);
         }
       };
     }, [painting.id]);
-    import_react97.default.useEffect(() => {
+    import_react105.default.useEffect(() => {
       let video = playerRef.current;
       if (video)
         video.currentTime = startTime;
@@ -77714,12 +77812,12 @@ ${generateSegmentFilename(i4)}`);
         };
       }
     };
-    return /* @__PURE__ */ import_react97.default.createElement(PlayerWrapper, {
+    return /* @__PURE__ */ import_react105.default.createElement(PlayerWrapper, {
       css: {
         backgroundColor: configOptions.canvasBackgroundColor,
         maxHeight: configOptions.canvasHeight
       }
-    }, /* @__PURE__ */ import_react97.default.createElement("video", {
+    }, /* @__PURE__ */ import_react105.default.createElement("video", {
       id: "clover-iiif-video",
       key: painting.id,
       ref: playerRef,
@@ -77729,24 +77827,24 @@ ${generateSegmentFilename(i4)}`);
       onPlay: handlePlay,
       crossOrigin: "anonymous",
       poster: posterImage
-    }, /* @__PURE__ */ import_react97.default.createElement("source", {
+    }, /* @__PURE__ */ import_react105.default.createElement("source", {
       src: painting.id,
       type: painting.format
-    }), resources.length > 0 && resources.map((resource) => /* @__PURE__ */ import_react97.default.createElement(Track_default, {
+    }), resources.length > 0 && resources.map((resource) => /* @__PURE__ */ import_react105.default.createElement(Track_default, {
       resource,
       ignoreCaptionLabels: configOptions.ignoreCaptionLabels,
       key: resource.id
-    })), "Sorry, your browser doesn't support embedded videos."), isAudio && /* @__PURE__ */ import_react97.default.createElement(AudioVisualizer_default, {
+    })), "Sorry, your browser doesn't support embedded videos."), isAudio && /* @__PURE__ */ import_react105.default.createElement(AudioVisualizer_default, {
       ref: playerRef
     }));
   };
   var Player_default = Player;
 
   // src/components/ImageViewer/ImageViewer.tsx
-  var import_react101 = __toESM(require_react());
+  var import_react109 = __toESM(require_react());
 
   // src/components/ImageViewer/OSD.tsx
-  var import_react100 = __toESM(require_react());
+  var import_react108 = __toESM(require_react());
   var import_openseadragon = __toESM(require_openseadragon());
 
   // src/components/ImageViewer/ImageViewer.styled.tsx
@@ -77788,10 +77886,10 @@ ${generateSegmentFilename(i4)}`);
   });
 
   // src/components/ImageViewer/Controls.tsx
-  var import_react99 = __toESM(require_react());
+  var import_react107 = __toESM(require_react());
 
   // src/components/ImageViewer/Button.tsx
-  var import_react98 = __toESM(require_react());
+  var import_react106 = __toESM(require_react());
 
   // src/components/ImageViewer/Button.styled.tsx
   var Item3 = styled("button", {
@@ -77835,17 +77933,17 @@ ${generateSegmentFilename(i4)}`);
 
   // src/components/ImageViewer/Button.tsx
   var Button3 = ({ id, label, children }) => {
-    return /* @__PURE__ */ import_react98.default.createElement(Item3, {
+    return /* @__PURE__ */ import_react106.default.createElement(Item3, {
       id,
       "data-testid": "openseadragon-button"
-    }, /* @__PURE__ */ import_react98.default.createElement("svg", {
+    }, /* @__PURE__ */ import_react106.default.createElement("svg", {
       xmlns: "http://www.w3.org/2000/svg",
       "aria-labelledby": `${id}-svg-title`,
       "data-testid": "openseadragon-button-svg",
       focusable: "false",
       viewBox: "0 0 512 512",
       role: "img"
-    }, /* @__PURE__ */ import_react98.default.createElement("title", {
+    }, /* @__PURE__ */ import_react106.default.createElement("title", {
       id: `${id}-svg-title`
     }, label), children));
   };
@@ -77862,7 +77960,7 @@ ${generateSegmentFilename(i4)}`);
   // src/components/ImageViewer/Controls.tsx
   var Controls2 = () => {
     const ZoomIn = () => {
-      return /* @__PURE__ */ import_react99.default.createElement("path", {
+      return /* @__PURE__ */ import_react107.default.createElement("path", {
         strokeLinecap: "round",
         strokeMiterlimit: "10",
         strokeWidth: "45",
@@ -77870,7 +77968,7 @@ ${generateSegmentFilename(i4)}`);
       });
     };
     const ZoomOut = () => {
-      return /* @__PURE__ */ import_react99.default.createElement("path", {
+      return /* @__PURE__ */ import_react107.default.createElement("path", {
         strokeLinecap: "round",
         strokeMiterlimit: "10",
         strokeWidth: "45",
@@ -77878,29 +77976,29 @@ ${generateSegmentFilename(i4)}`);
       });
     };
     const ZoomReset = () => {
-      return /* @__PURE__ */ import_react99.default.createElement(import_react99.default.Fragment, null, /* @__PURE__ */ import_react99.default.createElement("path", {
+      return /* @__PURE__ */ import_react107.default.createElement(import_react107.default.Fragment, null, /* @__PURE__ */ import_react107.default.createElement("path", {
         fill: "none",
         strokeLinecap: "round",
         strokeMiterlimit: "10",
         strokeWidth: "45",
         d: "M400 148l-21.12-24.57A191.43 191.43 0 00240 64C134 64 48 150 48 256s86 192 192 192a192.09 192.09 0 00181.07-128"
-      }), /* @__PURE__ */ import_react99.default.createElement("path", {
+      }), /* @__PURE__ */ import_react107.default.createElement("path", {
         d: "M464 97.42V208a16 16 0 01-16 16H337.42c-14.26 0-21.4-17.23-11.32-27.31L436.69 86.1C446.77 76 464 83.16 464 97.42z"
       }));
     };
-    return /* @__PURE__ */ import_react99.default.createElement(Wrapper6, {
+    return /* @__PURE__ */ import_react107.default.createElement(Wrapper6, {
       "data-testid": "openseadragon-controls",
       id: "openseadragon-controls"
-    }, /* @__PURE__ */ import_react99.default.createElement(Button_default, {
+    }, /* @__PURE__ */ import_react107.default.createElement(Button_default, {
       id: "zoomIn",
       label: "zoom in"
-    }, /* @__PURE__ */ import_react99.default.createElement(ZoomIn, null)), /* @__PURE__ */ import_react99.default.createElement(Button_default, {
+    }, /* @__PURE__ */ import_react107.default.createElement(ZoomIn, null)), /* @__PURE__ */ import_react107.default.createElement(Button_default, {
       id: "zoomOut",
       label: "zoom in"
-    }, /* @__PURE__ */ import_react99.default.createElement(ZoomOut, null)), /* @__PURE__ */ import_react99.default.createElement(Button_default, {
+    }, /* @__PURE__ */ import_react107.default.createElement(ZoomOut, null)), /* @__PURE__ */ import_react107.default.createElement(Button_default, {
       id: "zoomReset",
       label: "reset zoom"
-    }, /* @__PURE__ */ import_react99.default.createElement(ZoomReset, null)));
+    }, /* @__PURE__ */ import_react107.default.createElement(ZoomReset, null)));
   };
   var Controls_default2 = Controls2;
 
@@ -77929,7 +78027,7 @@ ${generateSegmentFilename(i4)}`);
 
   // src/components/ImageViewer/OSD.tsx
   var OSD = ({ uri, imageType }) => {
-    const [osdUri, setOsdUri] = (0, import_react100.useState)();
+    const [osdUri, setOsdUri] = (0, import_react108.useState)();
     const viewerState = useViewerState();
     const { configOptions } = viewerState;
     const instance = v4_default();
@@ -77950,11 +78048,11 @@ ${generateSegmentFilename(i4)}`);
         scrollToZoom: false
       }
     };
-    (0, import_react100.useEffect)(() => {
+    (0, import_react108.useEffect)(() => {
       if (uri !== osdUri)
         setOsdUri(uri);
     }, []);
-    (0, import_react100.useEffect)(() => {
+    (0, import_react108.useEffect)(() => {
       if (osdUri) {
         switch (imageType) {
           case "simpleImage":
@@ -77977,14 +78075,14 @@ ${generateSegmentFilename(i4)}`);
         }
       }
     }, [osdUri]);
-    return /* @__PURE__ */ import_react100.default.createElement(Wrapper5, {
+    return /* @__PURE__ */ import_react108.default.createElement(Wrapper5, {
       css: {
         backgroundColor: configOptions.canvasBackgroundColor,
         height: configOptions.canvasHeight
       }
-    }, /* @__PURE__ */ import_react100.default.createElement(Controls_default2, null), /* @__PURE__ */ import_react100.default.createElement(Navigator2, {
+    }, /* @__PURE__ */ import_react108.default.createElement(Controls_default2, null), /* @__PURE__ */ import_react108.default.createElement(Navigator2, {
       id: `openseadragon-navigator-${instance}`
-    }), /* @__PURE__ */ import_react100.default.createElement(Viewport, {
+    }), /* @__PURE__ */ import_react108.default.createElement(Viewport, {
       id: `openseadragon-viewport-${instance}`
     }));
   };
@@ -77992,9 +78090,9 @@ ${generateSegmentFilename(i4)}`);
 
   // src/components/ImageViewer/ImageViewer.tsx
   var ImageViewer = ({ body }) => {
-    const [imageType, setImageType] = (0, import_react101.useState)();
-    const [uri, setUri] = (0, import_react101.useState)();
-    (0, import_react101.useEffect)(() => {
+    const [imageType, setImageType] = (0, import_react109.useState)();
+    const [uri, setUri] = (0, import_react109.useState)();
+    (0, import_react109.useEffect)(() => {
       if (Array.isArray(body.service) && body.service.length > 0) {
         setImageType("tiledImage");
         setUri(getImageServiceURI(body.service));
@@ -78003,7 +78101,7 @@ ${generateSegmentFilename(i4)}`);
         setUri(body.id);
       }
     }, [body]);
-    return /* @__PURE__ */ import_react101.default.createElement(OSD_default, {
+    return /* @__PURE__ */ import_react109.default.createElement(OSD_default, {
       uri,
       key: uri,
       imageType
@@ -78023,22 +78121,22 @@ ${generateSegmentFilename(i4)}`);
     isNavigatorOpen,
     isMedia
   }) => {
-    return /* @__PURE__ */ import_react102.default.createElement(Content, {
+    return /* @__PURE__ */ import_react110.default.createElement(Content, {
       className: "clover-content"
-    }, /* @__PURE__ */ import_react102.default.createElement(CurrentTimeProvider, null, /* @__PURE__ */ import_react102.default.createElement(Main, null, isMedia ? /* @__PURE__ */ import_react102.default.createElement(Player_default, {
+    }, /* @__PURE__ */ import_react110.default.createElement(CurrentTimeProvider, null, /* @__PURE__ */ import_react110.default.createElement(Main, null, isMedia ? /* @__PURE__ */ import_react110.default.createElement(Player_default, {
       painting,
       resources
-    }) : painting && /* @__PURE__ */ import_react102.default.createElement(ImageViewer_default, {
+    }) : painting && /* @__PURE__ */ import_react110.default.createElement(ImageViewer_default, {
       body: painting,
       key: activeCanvas
-    }), /* @__PURE__ */ import_react102.default.createElement(CollapsibleTrigger, null, /* @__PURE__ */ import_react102.default.createElement(Button, {
+    }), /* @__PURE__ */ import_react110.default.createElement(CollapsibleTrigger, null, /* @__PURE__ */ import_react110.default.createElement(Button, {
       as: "span"
-    }, isNavigatorOpen ? "View Items" : "More Information")), items.length > 1 && /* @__PURE__ */ import_react102.default.createElement(MediaWrapper, {
+    }, isNavigatorOpen ? "View Items" : "More Information")), items.length > 1 && /* @__PURE__ */ import_react110.default.createElement(MediaWrapper, {
       className: "clover-canvases"
-    }, /* @__PURE__ */ import_react102.default.createElement(Media_default, {
+    }, /* @__PURE__ */ import_react110.default.createElement(Media_default, {
       items,
       activeItem: 0
-    }))), isInformation && (isAbout || isNavigator) && /* @__PURE__ */ import_react102.default.createElement(Aside, null, /* @__PURE__ */ import_react102.default.createElement(CollapsibleContent, null, /* @__PURE__ */ import_react102.default.createElement(Navigator_default, {
+    }))), isInformation && (isAbout || isNavigator) && /* @__PURE__ */ import_react110.default.createElement(Aside, null, /* @__PURE__ */ import_react110.default.createElement(CollapsibleContent, null, /* @__PURE__ */ import_react110.default.createElement(Navigator_default, {
       activeCanvas,
       resources
     })))));
@@ -78046,7 +78144,7 @@ ${generateSegmentFilename(i4)}`);
   var Content_default = ViewerContent;
 
   // src/components/Viewer/ErrorFallback.tsx
-  var import_react103 = __toESM(require_react());
+  var import_react111 = __toESM(require_react());
 
   // src/components/Viewer/ErrorFallback.styled.tsx
   var ErrorFallbackStyled = styled("div", {
@@ -78066,11 +78164,11 @@ ${generateSegmentFilename(i4)}`);
   // src/components/Viewer/ErrorFallback.tsx
   var ErrorFallback = ({ error }) => {
     const { message } = error;
-    return /* @__PURE__ */ import_react103.default.createElement(ErrorFallbackStyled, {
+    return /* @__PURE__ */ import_react111.default.createElement(ErrorFallbackStyled, {
       role: "alert"
-    }, /* @__PURE__ */ import_react103.default.createElement(Headline, {
+    }, /* @__PURE__ */ import_react111.default.createElement(Headline, {
       "data-testid": "headline"
-    }, "Something went wrong"), message && /* @__PURE__ */ import_react103.default.createElement(ErrorBody, null, `Error message: ${message}`, " "));
+    }, "Something went wrong"), message && /* @__PURE__ */ import_react111.default.createElement(ErrorBody, null, `Error message: ${message}`, " "));
   };
   var ErrorFallback_default = ErrorFallback;
 
@@ -78079,30 +78177,30 @@ ${generateSegmentFilename(i4)}`);
   var Viewer = ({ manifest, theme: theme3 }) => {
     const viewerState = useViewerState();
     const { activeCanvas, informationExpanded, vault, configOptions } = viewerState;
-    const [isMedia, setIsMedia] = (0, import_react104.useState)(false);
-    const [isNavigator, setIsNavigator] = (0, import_react104.useState)(false);
-    const [isNavigatorOpen, setIsNavigatorOpen] = (0, import_react104.useState)(true);
-    const [painting, setPainting] = (0, import_react104.useState)(
+    const [isMedia, setIsMedia] = (0, import_react112.useState)(false);
+    const [isNavigator, setIsNavigator] = (0, import_react112.useState)(false);
+    const [isNavigatorOpen, setIsNavigatorOpen] = (0, import_react112.useState)(true);
+    const [painting, setPainting] = (0, import_react112.useState)(
       void 0
     );
-    const [resources, setResources] = (0, import_react104.useState)([]);
+    const [resources, setResources] = (0, import_react112.useState)([]);
     const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
     const isSmallViewport = useMediaQuery(media.sm);
-    (0, import_react104.useEffect)(() => {
+    (0, import_react112.useEffect)(() => {
       if (!isSmallViewport) {
         setIsNavigatorOpen(true);
         return;
       }
       setIsNavigatorOpen(false);
     }, [isSmallViewport]);
-    (0, import_react104.useEffect)(() => {
+    (0, import_react112.useEffect)(() => {
       if (!isSmallViewport) {
         setIsBodyLocked(false);
         return;
       }
       setIsBodyLocked(isNavigatorOpen);
     }, [isNavigatorOpen]);
-    (0, import_react104.useEffect)(() => {
+    (0, import_react112.useEffect)(() => {
       const painting2 = getPaintingResource(vault, activeCanvas);
       const resources2 = getSupplementingResources(
         vault,
@@ -78118,20 +78216,20 @@ ${generateSegmentFilename(i4)}`);
       setResources(resources2);
       setIsNavigator(resources2.length !== 0);
     }, [activeCanvas]);
-    return /* @__PURE__ */ import_react104.default.createElement(import_react_error_boundary.ErrorBoundary, {
+    return /* @__PURE__ */ import_react112.default.createElement(import_react_error_boundary.ErrorBoundary, {
       FallbackComponent: ErrorFallback_default
-    }, /* @__PURE__ */ import_react104.default.createElement(Wrapper, {
+    }, /* @__PURE__ */ import_react112.default.createElement(Wrapper, {
       className: `${theme3} clover-iiif`,
       "data-body-locked": isBodyLocked,
       "data-navigator": isNavigator,
       "data-navigator-open": isNavigatorOpen
-    }, /* @__PURE__ */ import_react104.default.createElement($409067139f391064$export$be92b6f5f03c0fe9, {
+    }, /* @__PURE__ */ import_react112.default.createElement($409067139f391064$export$be92b6f5f03c0fe9, {
       open: isNavigatorOpen,
       onOpenChange: setIsNavigatorOpen
-    }, /* @__PURE__ */ import_react104.default.createElement(Header_default, {
+    }, /* @__PURE__ */ import_react112.default.createElement(Header_default, {
       manifestLabel: manifest.label,
       manifestId: manifest.id
-    }), /* @__PURE__ */ import_react104.default.createElement(Content_default, {
+    }), /* @__PURE__ */ import_react112.default.createElement(Content_default, {
       activeCanvas,
       painting,
       resources,
@@ -78154,7 +78252,7 @@ ${generateSegmentFilename(i4)}`);
     manifestId,
     options
   }) => {
-    return /* @__PURE__ */ import_react105.default.createElement(ViewerProvider, null, /* @__PURE__ */ import_react105.default.createElement(RenderViewer, {
+    return /* @__PURE__ */ import_react113.default.createElement(ViewerProvider, null, /* @__PURE__ */ import_react113.default.createElement(RenderViewer, {
       id,
       manifestId,
       canvasIdCallback,
@@ -78172,16 +78270,16 @@ ${generateSegmentFilename(i4)}`);
     const dispatch = useViewerDispatch();
     const store = useViewerState();
     const { activeCanvas, activeManifest, isLoaded, vault } = store;
-    const [iiifResource, setIiifResource] = (0, import_react105.useState)();
-    const [manifest, setManifest] = (0, import_react105.useState)();
+    const [iiifResource, setIiifResource] = (0, import_react113.useState)();
+    const [manifest, setManifest] = (0, import_react113.useState)();
     let theme3 = {};
     if (customTheme)
       theme3 = Q2("custom", customTheme);
-    (0, import_react105.useEffect)(() => {
+    (0, import_react113.useEffect)(() => {
       if (canvasIdCallback)
         canvasIdCallback(activeCanvas);
     }, [activeCanvas]);
-    (0, import_react105.useEffect)(() => {
+    (0, import_react113.useEffect)(() => {
       if (activeManifest)
         vault.loadManifest(activeManifest).then((data) => {
           setManifest(data);
@@ -78198,7 +78296,7 @@ ${generateSegmentFilename(i4)}`);
           });
         });
     }, [activeManifest]);
-    (0, import_react105.useEffect)(() => {
+    (0, import_react113.useEffect)(() => {
       let resource = id;
       if (manifestId)
         resource = manifestId;
@@ -78212,7 +78310,7 @@ ${generateSegmentFilename(i4)}`);
         console.error(`The IIIF resource ${resource} failed to load: ${error}`);
       });
     }, [id, options]);
-    (0, import_react105.useEffect)(() => {
+    (0, import_react113.useEffect)(() => {
       let manifests2 = [];
       if ((iiifResource == null ? void 0 : iiifResource.type) === "Collection") {
         dispatch({
@@ -78234,16 +78332,16 @@ ${generateSegmentFilename(i4)}`);
       }
     }, [iiifResource]);
     if (!isLoaded)
-      return /* @__PURE__ */ import_react105.default.createElement(import_react105.default.Fragment, null, "Loading");
+      return /* @__PURE__ */ import_react113.default.createElement(import_react113.default.Fragment, null, "Loading");
     if (!manifest || !manifest["items"]) {
       console.log(`The IIIF manifest ${manifestId} failed to load.`);
-      return /* @__PURE__ */ import_react105.default.createElement(import_react105.default.Fragment, null);
+      return /* @__PURE__ */ import_react113.default.createElement(import_react113.default.Fragment, null);
     }
     if (manifest["items"].length === 0) {
       console.log(`The IIIF manifest ${manifestId} does not contain canvases.`);
-      return /* @__PURE__ */ import_react105.default.createElement(import_react105.default.Fragment, null);
+      return /* @__PURE__ */ import_react113.default.createElement(import_react113.default.Fragment, null);
     }
-    return /* @__PURE__ */ import_react105.default.createElement(Viewer_default, {
+    return /* @__PURE__ */ import_react113.default.createElement(Viewer_default, {
       manifest,
       theme: theme3,
       key: manifest.id
@@ -78252,7 +78350,7 @@ ${generateSegmentFilename(i4)}`);
   var src_default = App;
 
   // src/dev/DynamicUrl.tsx
-  var import_react107 = __toESM(require_react());
+  var import_react115 = __toESM(require_react());
 
   // src/dev/DynamicUrl.styled.tsx
   var DynamicUrlStyled = styled("section", {
@@ -78394,34 +78492,34 @@ ${generateSegmentFilename(i4)}`);
 
   // src/dev/DynamicUrl.tsx
   var DynamicUrl = ({ url, setUrl }) => {
-    const inputRef = (0, import_react107.useRef)(null);
+    const inputRef = (0, import_react115.useRef)(null);
     const handleSubmit = (e3) => {
       var _a2;
       e3.preventDefault();
       const target = e3.target;
       setUrl((_a2 = target.url) == null ? void 0 : _a2.value);
     };
-    (0, import_react107.useEffect)(() => {
+    (0, import_react115.useEffect)(() => {
       if (inputRef.current)
         inputRef.current.value = url;
     }, [url]);
-    return /* @__PURE__ */ import_react107.default.createElement(DynamicUrlStyled, null, /* @__PURE__ */ import_react107.default.createElement(ManualForm, {
+    return /* @__PURE__ */ import_react115.default.createElement(DynamicUrlStyled, null, /* @__PURE__ */ import_react115.default.createElement(ManualForm, {
       onSubmit: handleSubmit
-    }, /* @__PURE__ */ import_react107.default.createElement("label", {
+    }, /* @__PURE__ */ import_react115.default.createElement("label", {
       htmlFor: "manual-manifest"
-    }, "View a IIIF Manifest or Collection"), /* @__PURE__ */ import_react107.default.createElement("div", null, /* @__PURE__ */ import_react107.default.createElement("input", {
+    }, "View a IIIF Manifest or Collection"), /* @__PURE__ */ import_react115.default.createElement("div", null, /* @__PURE__ */ import_react115.default.createElement("input", {
       type: "text",
       name: "url",
       id: "manual-manifest",
       placeholder: "IIIF Manifest",
       ref: inputRef
-    }), /* @__PURE__ */ import_react107.default.createElement("button", {
+    }), /* @__PURE__ */ import_react115.default.createElement("button", {
       type: "submit"
-    }, "View"))), manifests.length > 0 && /* @__PURE__ */ import_react107.default.createElement(Curated, null, manifests.map((obj) => /* @__PURE__ */ import_react107.default.createElement(ButtonForm, {
+    }, "View"))), manifests.length > 0 && /* @__PURE__ */ import_react115.default.createElement(Curated, null, manifests.map((obj) => /* @__PURE__ */ import_react115.default.createElement(ButtonForm, {
       key: obj.label,
       onSubmit: handleSubmit,
       "data-active": url === obj.url ? true : false
-    }, /* @__PURE__ */ import_react107.default.createElement("button", {
+    }, /* @__PURE__ */ import_react115.default.createElement("button", {
       name: "url",
       value: obj.url
     }, obj.label)))));
@@ -78432,8 +78530,8 @@ ${generateSegmentFilename(i4)}`);
   var import_client = __toESM(require_client());
   var Wrapper7 = () => {
     const defaultUrl = manifests[0].url;
-    const [url, setUrl] = (0, import_react108.useState)(defaultUrl);
-    (0, import_react108.useEffect)(() => {
+    const [url, setUrl] = (0, import_react116.useState)(defaultUrl);
+    (0, import_react116.useEffect)(() => {
       const params = new URLSearchParams(window.location.search);
       const id = params.get("iiif-content");
       if (id)
@@ -78442,7 +78540,7 @@ ${generateSegmentFilename(i4)}`);
     const customTheme = {
       fonts: { display: `"Calistoga", "Inter", Arial, sans-serif` }
     };
-    return /* @__PURE__ */ import_react108.default.createElement(import_react108.default.Fragment, null, /* @__PURE__ */ import_react108.default.createElement(src_default, {
+    return /* @__PURE__ */ import_react116.default.createElement(import_react116.default.Fragment, null, /* @__PURE__ */ import_react116.default.createElement(src_default, {
       id: url,
       key: url,
       customTheme,
@@ -78452,7 +78550,7 @@ ${generateSegmentFilename(i4)}`);
         renderAbout: true,
         showInformationToggle: true
       }
-    }), /* @__PURE__ */ import_react108.default.createElement(DynamicUrl_default, {
+    }), /* @__PURE__ */ import_react116.default.createElement(DynamicUrl_default, {
       url,
       setUrl
     }));
@@ -78460,7 +78558,7 @@ ${generateSegmentFilename(i4)}`);
   var container = document.getElementById("root");
   var root = (0, import_client.createRoot)(container);
   root.render(
-    /* @__PURE__ */ import_react108.default.createElement(import_react108.StrictMode, null, /* @__PURE__ */ import_react108.default.createElement(Wrapper7, null))
+    /* @__PURE__ */ import_react116.default.createElement(import_react116.StrictMode, null, /* @__PURE__ */ import_react116.default.createElement(Wrapper7, null))
   );
 })();
 /*!
