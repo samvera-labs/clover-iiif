@@ -1,5 +1,5 @@
 import { Options } from "openseadragon";
-import React from "react";
+import React, { useReducer } from "react";
 import { Vault } from "@iiif/vault";
 import { CollectionNormalized } from "@iiif/presentation-3";
 
@@ -119,7 +119,7 @@ const ViewerProvider: React.FC<ViewerProviderProps> = ({
   initialState = defaultState,
   children,
 }) => {
-  const [state, dispatch] = React.useReducer<
+  const [state, dispatch] = useReducer<
     React.Reducer<ViewerContextStore, ViewerAction>
   >(viewerReducer, initialState);
 

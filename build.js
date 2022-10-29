@@ -7,20 +7,11 @@ const { build } = require("esbuild");
  */
 const { dependencies } = require("./package.json");
 
-/**
- * Selectively bundle `@iiif/*` packages in Clover IIIF and exclude
- * as externals for compatibility with create-react-app and webpack 4
- */
-const packagesToBundle = ["@iiif/presentation-3", "@iiif/vault"];
-const externals = Object.keys(dependencies).filter(
-  (dep) => !packagesToBundle.includes(dep),
-);
-
 const entryFile = "src/index.tsx";
 const shared = {
   bundle: true,
   entryPoints: [entryFile],
-  external: externals,
+  external: Object.keys(dependencies),
   logLevel: "info",
   minify: true,
   sourcemap: true,
