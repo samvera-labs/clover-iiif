@@ -73,7 +73,7 @@ return <CloverIIIF id={id} />;
 
 <h3>Usage with Next.js</h3>
 
-Usage with Next.js requires a dynamic import using `next/dynamic`due to a depdency of OpenSeadragon.
+Usage with Next.js requires a [dynamic import](https://nextjs.org/docs/advanced-features/dynamic-import) using `next/dynamic` due to a dependency of OpenSeadragon.
 
 ```jsx
 import dynamic from "next/dynamic";
