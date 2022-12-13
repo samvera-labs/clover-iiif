@@ -18,6 +18,7 @@ const defaultConfigOptions = {
   canvasBackgroundColor: "#e6e8eb",
   canvasHeight: "61.8vh",
   ignoreCaptionLabels: [],
+  openSeadragon: {},
   renderAbout: true,
   showIIIFBadge: true,
   showInformationToggle: true,
