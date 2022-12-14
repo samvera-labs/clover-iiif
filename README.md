@@ -200,20 +200,21 @@ return <CloverIIIF id={id} customTheme={customTheme} />;
 
 <h2 id="reference">Reference</h2>
 
-| Prop                            | Type       | Required | Default   |
-| ------------------------------- | ---------- | -------- | --------- |
-| `id`                            | `string`   | Yes      |           |
-| `manifestId` _(deprecated)_     | `string`   | No       |           |
-| `canvasIdCallback`              | `function` | No       |           |
-| `customTheme`                   | `object`   | No       |           |
-| `options`                       | `object`   | No       |           |
-| `options.canvasBackgroundColor` | `string`   | No       | `#1a1d1e` |
-| `options.canvasHeight`          | `string`   | No       | `500px`   |
-| `options.ignoreCaptionLabels`   | `string[]` | No       | []        |
-| `options.renderAbout`           | `boolean`  | No       | true      |
-| `options.showIIIFBadge`         | `boolean`  | No       | true      |
-| `options.showInformationToggle` | `boolean`  | No       | true      |
-| `options.showTitle`             | `boolean`  | No       | true      |
+| Prop                            | Type                    | Required | Default   |
+| ------------------------------- | ----------------------- | -------- | --------- |
+| `id`                            | `string`                | Yes      |           |
+| `manifestId` _(deprecated)_     | `string`                | No       |           |
+| `canvasIdCallback`              | `function`              | No       |           |
+| `customTheme`                   | `object`                | No       |           |
+| `options`                       | `object`                | No       |           |
+| `options.canvasBackgroundColor` | `string`                | No       | `#1a1d1e` |
+| `options.canvasHeight`          | `string`                | No       | `500px`   |
+| `options.ignoreCaptionLabels`   | `string[]`              | No       | []        |
+| `options.openSeadragon`         | `OpenSeadragon.Options` | No       |           |
+| `options.renderAbout`           | `boolean`               | No       | true      |
+| `options.showIIIFBadge`         | `boolean`               | No       | true      |
+| `options.showInformationToggle` | `boolean`               | No       | true      |
+| `options.showTitle`             | `boolean`               | No       | true      |
 
 Clover can configured through an `options` prop, which will serve as a object for common options.
 

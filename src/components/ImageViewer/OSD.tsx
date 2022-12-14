@@ -40,6 +40,7 @@ const OSD: React.FC<OSDProps> = ({ uri, imageType }) => {
       pinchToZoom: true,
       scrollToZoom: false,
     },
+    ...configOptions.openSeadragon,
   };
 
   useEffect(() => {
