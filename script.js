@@ -67317,6 +67317,7 @@ ${generateSegmentFilename(i5)}`);
     canvasBackgroundColor: "#e6e8eb",
     canvasHeight: "61.8vh",
     ignoreCaptionLabels: [],
+    openSeadragon: {},
     renderAbout: true,
     showIIIFBadge: true,
     showInformationToggle: true,
@@ -77942,7 +77943,7 @@ ${generateSegmentFilename(i5)}`);
     const viewerState = useViewerState();
     const { configOptions } = viewerState;
     const instance = v4_default();
-    const config2 = {
+    const config2 = __spreadValues({
       id: `openseadragon-viewport-${instance}`,
       loadTilesWithAjax: true,
       homeButton: "zoomReset",
@@ -77958,7 +77959,7 @@ ${generateSegmentFilename(i5)}`);
         pinchToZoom: true,
         scrollToZoom: false
       }
-    };
+    }, configOptions.openSeadragon);
     (0, import_react109.useEffect)(() => {
       if (uri !== osdUri)
         setOsdUri(uri);
