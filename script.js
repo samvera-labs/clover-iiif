@@ -78202,10 +78202,10 @@ ${generateSegmentFilename(i5)}`);
         resolve(parseXHRResult(xhr));
       };
       xhr.onerror = () => {
-        resolve(errorResponse(xhr, "Failed to make request."));
+        reject(errorResponse(xhr, `Failed to make request.`));
       };
       xhr.ontimeout = () => {
-        resolve(errorResponse(xhr, "Request took longer than expected."));
+        reject(errorResponse(xhr, `Request took longer than expected.`));
       };
       xhr.send();
     });
