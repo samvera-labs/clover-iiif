@@ -1,7 +1,7 @@
 import { Options } from "openseadragon";
 import React, { useReducer } from "react";
-import { Vault } from "@iiif/vault";
 import { CollectionNormalized } from "@iiif/presentation-3";
+import { Vault } from "@iiif/vault";
 
 export type ConfigOptions = {
   canvasBackgroundColor?: string;
@@ -12,6 +12,7 @@ export type ConfigOptions = {
   showIIIFBadge?: boolean;
   showInformationToggle?: boolean;
   showTitle?: boolean;
+  withCredentials?: boolean;
 };
 
 const defaultConfigOptions = {
@@ -23,6 +24,7 @@ const defaultConfigOptions = {
   showIIIFBadge: true,
   showInformationToggle: true,
   showTitle: true,
+  withCredentials: false,
 };
 
 interface ViewerContextStore {
@@ -43,9 +45,10 @@ interface ViewerAction {
   informationExpanded: boolean;
   isLoaded: boolean;
   manifestId: string;
+  vault: Vault;
 }
 
-const defaultState: ViewerContextStore = {
+export const defaultState: ViewerContextStore = {
   activeCanvas: "",
   activeManifest: "",
   collection: {},

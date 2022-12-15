@@ -215,11 +215,13 @@ return <CloverIIIF id={id} customTheme={customTheme} />;
 | `options.showIIIFBadge`         | `boolean`               | No       | true      |
 | `options.showInformationToggle` | `boolean`               | No       | true      |
 | `options.showTitle`             | `boolean`               | No       | true      |
+| `options.withCredentials`       | `boolean`               | No       | false     |
 
 Clover can configured through an `options` prop, which will serve as a object for common options.
 
 - Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
 - Options `renderAbout` and `showInformationToggle` relate to rendering Manifest content in an `<aside>` and providing user ability to close that panel.
+- The Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
 
 You can override the [OpenSeadragon default options](https://openseadragon.github.io/docs/OpenSeadragon.html#.Options) set within Clover to adjust touch and mouse gesture settings and various other configurations.
 

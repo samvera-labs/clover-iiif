@@ -41,6 +41,7 @@ const OSD: React.FC<OSDProps> = ({ uri, imageType }) => {
       scrollToZoom: false,
     },
     ...configOptions.openSeadragon,
+    ajaxWithCredentials: configOptions.withCredentials,
   };
 
   useEffect(() => {
