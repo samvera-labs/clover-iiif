@@ -5,9 +5,12 @@ import {
   ViewerProvider,
   useViewerState,
   useViewerDispatch,
+  defaultState,
 } from "@/context/viewer-context";
+import { Vault } from "@iiif/vault";
 import Viewer from "@/components/Viewer/Viewer";
 import { createTheme } from "@stitches/react";
+import { getRequest } from "@/services/xhr";
 
 interface Props {
   canvasIdCallback?: (arg0: string) => void;
@@ -25,7 +28,17 @@ const App: React.FC<Props> = ({
   options,
 }) => {
   return (
-    <ViewerProvider>
+    <ViewerProvider
+      initialState={{
+        ...defaultState,
+        vault: new Vault({
+          customFetcher: (url: string) =>
+            getRequest(url, {
+              withCredentials: options?.withCredentials as boolean,
+            }).then((response) => JSON.parse(response.data)),
+        }),
+      }}
+    >
       <RenderViewer
         id={id}
         manifestId={manifestId}

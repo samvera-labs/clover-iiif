@@ -33,6 +33,7 @@ const Wrapper = () => {
           canvasHeight: "600px",
           renderAbout: true,
           showInformationToggle: true,
+          withCredentials: false,
         }}
       />
       <DynamicUrl url={url} setUrl={setUrl} />
