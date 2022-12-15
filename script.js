@@ -50869,7 +50869,7 @@ and ensure you are accounting for this risk.
                 this.callbacks = null;
                 this.stats = void 0;
                 this.loader = null;
-                this.fetchSetup = config2.fetchSetup || getRequest;
+                this.fetchSetup = config2.fetchSetup || getRequest2;
                 this.controller = new self.AbortController();
                 this.stats = new _loader_load_stats__WEBPACK_IMPORTED_MODULE_1__["LoadStats"]();
               }
@@ -51008,7 +51008,7 @@ and ensure you are accounting for this risk.
               }
               return initParams;
             }
-            function getRequest(context, initParams) {
+            function getRequest2(context, initParams) {
               return new self.Request(context.url, initParams);
             }
             var FetchError = /* @__PURE__ */ function(_Error) {
@@ -67321,7 +67321,8 @@ ${generateSegmentFilename(i5)}`);
     renderAbout: true,
     showIIIFBadge: true,
     showInformationToggle: true,
-    showTitle: true
+    showTitle: true,
+    withCredentials: false
   };
   var defaultState = {
     activeCanvas: "",
@@ -77943,7 +77944,7 @@ ${generateSegmentFilename(i5)}`);
     const viewerState = useViewerState();
     const { configOptions } = viewerState;
     const instance = v4_default();
-    const config2 = __spreadValues({
+    const config2 = __spreadProps(__spreadValues({
       id: `openseadragon-viewport-${instance}`,
       loadTilesWithAjax: true,
       homeButton: "zoomReset",
@@ -77959,7 +77960,9 @@ ${generateSegmentFilename(i5)}`);
         pinchToZoom: true,
         scrollToZoom: false
       }
-    }, configOptions.openSeadragon);
+    }, configOptions.openSeadragon), {
+      ajaxWithCredentials: configOptions.withCredentials
+    });
     (0, import_react109.useEffect)(() => {
       if (uri !== osdUri)
         setOsdUri(uri);
@@ -78155,6 +78158,59 @@ ${generateSegmentFilename(i5)}`);
   };
   var Viewer_default = Viewer;
 
+  // src/services/xhr.ts
+  var DEFAULT_REQUEST_OPTIONS = {
+    ignoreCache: false,
+    headers: {
+      Accept: "application/json, text/javascript, text/plain"
+    },
+    timeout: 5e3,
+    withCredentials: false
+  };
+  function parseXHRResult(xhr) {
+    return {
+      ok: xhr.status >= 200 && xhr.status < 300,
+      status: xhr.status,
+      statusText: xhr.statusText,
+      headers: xhr.getAllResponseHeaders(),
+      data: xhr.responseText,
+      json: () => JSON.parse(xhr.responseText)
+    };
+  }
+  function errorResponse(xhr, message = null) {
+    return {
+      ok: false,
+      status: xhr.status,
+      statusText: xhr.statusText,
+      headers: xhr.getAllResponseHeaders(),
+      data: message || xhr.statusText,
+      json: () => JSON.parse(message || xhr.statusText)
+    };
+  }
+  function getRequest(url, options = DEFAULT_REQUEST_OPTIONS) {
+    const headers = options.headers || DEFAULT_REQUEST_OPTIONS.headers;
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("get", url);
+      xhr.withCredentials = options.withCredentials;
+      if (headers) {
+        Object.keys(headers).forEach(
+          (key) => xhr.setRequestHeader(key, headers[key])
+        );
+      }
+      xhr.onload = () => {
+        resolve(parseXHRResult(xhr));
+      };
+      xhr.onerror = () => {
+        resolve(errorResponse(xhr, "Failed to make request."));
+      };
+      xhr.ontimeout = () => {
+        resolve(errorResponse(xhr, "Request took longer than expected."));
+      };
+      xhr.send();
+    });
+  }
+
   // src/index.tsx
   var App = ({
     canvasIdCallback = () => {
@@ -78164,7 +78220,15 @@ ${generateSegmentFilename(i5)}`);
     manifestId,
     options
   }) => {
-    return /* @__PURE__ */ import_react114.default.createElement(ViewerProvider, null, /* @__PURE__ */ import_react114.default.createElement(RenderViewer, {
+    return /* @__PURE__ */ import_react114.default.createElement(ViewerProvider, {
+      initialState: __spreadProps(__spreadValues({}, defaultState), {
+        vault: new Vault({
+          customFetcher: (url) => getRequest(url, {
+            withCredentials: options == null ? void 0 : options.withCredentials
+          }).then((response) => JSON.parse(response.data))
+        })
+      })
+    }, /* @__PURE__ */ import_react114.default.createElement(RenderViewer, {
       id,
       manifestId,
       canvasIdCallback,
@@ -78463,7 +78527,8 @@ ${generateSegmentFilename(i5)}`);
         canvasBackgroundColor: "#e6e8eb",
         canvasHeight: "600px",
         renderAbout: true,
-        showInformationToggle: true
+        showInformationToggle: true,
+        withCredentials: false
       }
     }), /* @__PURE__ */ import_react117.default.createElement(DynamicUrl_default, {
       url,

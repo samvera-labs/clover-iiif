@@ -258,12 +258,19 @@
 <td>No</td>
 <td>true</td>
 </tr>
+<tr>
+<td><code>options.withCredentials</code></td>
+<td><code>boolean</code></td>
+<td>No</td>
+<td>false</td>
+</tr>
 </tbody>
 </table>
 <p>Clover can configured through an <code>options</code> prop, which will serve as a object for common options.</p>
 <ul>
 <li>Options <code>canvasBackgroundColor</code> and <code>canvasHeight</code> will apply to both <code>&lt;video&gt;</code> elements and the OpenseaDragon canvas.</li>
 <li>Options <code>renderAbout</code> and <code>showInformationToggle</code> relate to rendering Manifest content in an <code>&lt;aside&gt;</code> and providing user ability to close that panel.</li>
+<li>The Option <code>withCredentials</code> being set as <code>true</code> will inform IIIF resource requests to be made <a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials">using credentials</a> such as cookies, authorization headers or TLS client certificates.</li>
 </ul>
 <p>You can override the <a href="https://openseadragon.github.io/docs/OpenSeadragon.html#.Options">OpenSeadragon default options</a> set within Clover to adjust touch and mouse gesture settings and various other configurations.</p>
 <pre class="shiki" style="background-color: #212121"><code><span class="line"><span style="color: #89DDFF">import</span><span style="color: #EEFFFF"> CloverIIIF </span><span style="color: #89DDFF">from</span><span style="color: #EEFFFF"> </span><span style="color: #89DDFF">&quot;</span><span style="color: #C3E88D">@samvera/clover-iiif</span><span style="color: #89DDFF">&quot;</span><span style="color: #89DDFF">;</span></span>
