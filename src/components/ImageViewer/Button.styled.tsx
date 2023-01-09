@@ -33,10 +33,28 @@ const Item = styled("button", {
     backgroundColor: "$accent",
   },
 
-  "&#zoomReset": {
+  "&#rotateRight": {
     "&:hover, &:focus": {
       svg: {
         rotate: "45deg",
+      },
+    },
+  },
+
+  "&#rotateLeft": {
+    transform: "scaleX(-1)",
+
+    "&:hover, &:focus": {
+      svg: {
+        rotate: "45deg",
+      },
+    },
+  },
+
+  "&#reset": {
+    "&:hover, &:focus": {
+      svg: {
+        rotate: "-15deg",
       },
     },
   },
