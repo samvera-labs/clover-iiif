@@ -5,6 +5,7 @@ const Wrapper = styled("div", {
   zIndex: "1",
   top: "1rem",
   right: "1rem",
+  display: "flex",
 });
 
 export { Wrapper };

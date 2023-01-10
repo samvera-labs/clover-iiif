@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import OpenSeadragon from "openseadragon";
+import OpenSeadragon, { Options } from "openseadragon";
 import {
   Navigator,
   Viewport,
@@ -24,14 +24,20 @@ const OSD: React.FC<OSDProps> = ({ uri, imageType }) => {
 
   const instance = uuidv4();
 
-  const config = {
+  const config: Options = {
     id: `openseadragon-viewport-${instance}`,
     loadTilesWithAjax: true,
-    homeButton: "zoomReset",
-    showFullPageControl: false,
+    fullPageButton: "fullPage",
+    homeButton: "reset",
+    rotateLeftButton: "rotateLeft",
+    rotateRightButton: "rotateRight",
     zoomInButton: "zoomIn",
     zoomOutButton: "zoomOut",
     showNavigator: true,
+    showFullPageControl: true,
+    showHomeControl: true,
+    showRotationControl: true,
+    showZoomControl: true,
     navigatorBorderColor: "transparent",
     navigatorId: `openseadragon-navigator-${instance}`,
     gestureSettingsMouse: {
@@ -79,7 +85,7 @@ const OSD: React.FC<OSDProps> = ({ uri, imageType }) => {
         height: configOptions.canvasHeight,
       }}
     >
-      <Controls />
+      <Controls options={config} />
       <Navigator id={`openseadragon-navigator-${instance}`} />
       <Viewport id={`openseadragon-viewport-${instance}`} />
     </Wrapper>
