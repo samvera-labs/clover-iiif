@@ -46,7 +46,9 @@ const Collection: React.FC = () => {
               </CollectionLabel>
               {collection.items.map((item: CollectionItems) => (
                 <CollectionItem value={item.id} key={item.id}>
-                  <Thumbnail thumbnail={vault.get(item.thumbnail)} />
+                  {item?.thumbnail && (
+                    <Thumbnail thumbnail={vault.get(item?.thumbnail)} />
+                  )}
                   <Select.ItemText>
                     <Label label={item.label} />
                   </Select.ItemText>
