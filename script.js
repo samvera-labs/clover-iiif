@@ -75435,8 +75435,8 @@ ${generateSegmentFilename(i5)}`);
     })), collection.items.map((item) => /* @__PURE__ */ import_react76.default.createElement(CollectionItem, {
       value: item.id,
       key: item.id
-    }, /* @__PURE__ */ import_react76.default.createElement(zt, {
-      thumbnail: vault.get(item.thumbnail)
+    }, (item == null ? void 0 : item.thumbnail) && /* @__PURE__ */ import_react76.default.createElement(zt, {
+      thumbnail: vault.get(item == null ? void 0 : item.thumbnail)
     }), /* @__PURE__ */ import_react76.default.createElement($cc7e05a45900e73f$export$d6e5bf9c43ea9319, null, /* @__PURE__ */ import_react76.default.createElement(R4, {
       label: item.label
     })), /* @__PURE__ */ import_react76.default.createElement($cc7e05a45900e73f$export$c3468e2714d175fa, null))))), /* @__PURE__ */ import_react76.default.createElement($cc7e05a45900e73f$export$bf1aedc3039c8d63, null, /* @__PURE__ */ import_react76.default.createElement(Icon_default, {
