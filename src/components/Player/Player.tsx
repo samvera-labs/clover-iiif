@@ -1,5 +1,5 @@
 import React from "react";
-import Hls from "hls.js";
+import Hls, { HlsConfig } from "hls.js";
 import { PlayerWrapper } from "@/components/Player/Player.styled";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
@@ -59,8 +59,17 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
      */
     if (painting.id.split(".").pop() !== "m3u8") return;
 
+    // Construct HLS.js config
+    const config = {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // @ts-ignore
+      xhrSetup: function (xhr, url) {
+        xhr.withCredentials = configOptions.withCredentials;
+      },
+    } as HlsConfig;
+
     // Bind hls.js package to our <video /> element and then load the media source
-    const hls = new Hls();
+    const hls = new Hls(config);
     hls.attachMedia(playerRef.current);
     hls.on(Hls.Events.MEDIA_ATTACHED, function () {
       hls.loadSource(painting.id as string);
