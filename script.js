@@ -77676,7 +77676,12 @@ ${generateSegmentFilename(i5)}`);
         return;
       if (painting.id.split(".").pop() !== "m3u8")
         return;
-      const hls = new import_hls2.default();
+      const config2 = {
+        xhrSetup: function(xhr, url) {
+          xhr.withCredentials = configOptions.withCredentials;
+        }
+      };
+      const hls = new import_hls2.default(config2);
       hls.attachMedia(playerRef.current);
       hls.on(import_hls2.default.Events.MEDIA_ATTACHED, function() {
         hls.loadSource(painting.id);
