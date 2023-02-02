@@ -59,9 +59,12 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
      */
     if (painting.id.split(".").pop() !== "m3u8") return;
 
+    // Construct HLS.js config
     const config = {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // @ts-ignore
       xhrSetup: function (xhr, url) {
-        xhr.withCredentials = configOptions.withCredentials; // do send cookies
+        xhr.withCredentials = configOptions.withCredentials;
       },
     } as HlsConfig;
 
