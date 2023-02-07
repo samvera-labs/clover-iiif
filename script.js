@@ -78097,7 +78097,7 @@ ${generateSegmentFilename(i5)}`);
     }) : painting && /* @__PURE__ */ import_react111.default.createElement(ImageViewer_default, {
       body: painting,
       key: activeCanvas
-    }), /* @__PURE__ */ import_react111.default.createElement(CollapsibleTrigger, null, /* @__PURE__ */ import_react111.default.createElement(Button, {
+    }), isNavigator && /* @__PURE__ */ import_react111.default.createElement(CollapsibleTrigger, null, /* @__PURE__ */ import_react111.default.createElement(Button, {
       as: "span"
     }, isNavigatorOpen ? "View Items" : "More Information")), items.length > 1 && /* @__PURE__ */ import_react111.default.createElement(MediaWrapper, {
       className: "clover-canvases"
@@ -78470,52 +78470,32 @@ ${generateSegmentFilename(i5)}`);
       label: "Greenland Falcon"
     },
     {
-      url: "https://raw.githubusercontent.com/samvera-labs/bloom-iiif/main/public/fixtures/iiif/collection/masks-of-antonio-fava.json",
-      label: "Masks of Antonio Fava (Collection)"
+      url: "https://api.dc.library.northwestern.edu/api/v2/works/df34cea4-47e7-4f41-9a27-26cc671feabe?as=iiif",
+      label: "Charles Gates Dawes Films"
     },
     {
-      url: "https://iiif.stack.rdc.library.northwestern.edu/public/iiif3/72/34/b6/dd/-d/6a/2-/49/54/-8/fc/c-/6c/9f/2d/fb/88/34-manifest.json",
-      label: "The Takeover"
-    },
-    {
-      url: "https://iiif.stack.rdc.library.northwestern.edu/public/iiif3/66/8a/2a/ea/-4/33/3-/4a/5e/-b/52/3-/41/ac/98/bd/15/b7-manifest.json",
-      label: "Highlight Reel, 1935"
-    },
-    {
-      url: "https://iiif.stack.rdc.library.northwestern.edu/public/iiif3/24/68/7f/7d/-1/59/5-/4f/56/-8/3b/2-/5f/93/36/72/86/b3-manifest.json",
-      label: "Syracuse, 1984"
-    },
-    {
-      url: "https://iiif.stack.rdc.library.northwestern.edu/public/iiif3/00/26/de/66/-6/b5/c-/47/da/-8/ee/2-/70/4b/68/0b/2c/81-manifest.json",
-      label: "Piano Trio"
-    },
-    {
-      url: "https://iiif.stack.rdc.library.northwestern.edu/public/ff/51/2f/7c/-b/df/8-/4a/b7/-9/74/f-/f4/36/f0/ed/13/5d-manifest.json",
-      label: "Joan Baez"
-    },
-    {
-      url: "https://figgy.princeton.edu/concern/scanned_resources/4ff986e6-4f71-4f7c-8ff9-0d0c33d96cf0/manifest",
-      label: "Parrots and Toucans"
+      url: "https://api.dc.library.northwestern.edu/api/v2/collections/59ec43f9-a96c-4314-9b44-9923790b371c?as=iiif&size=100",
+      label: "Arabic Manuscripts (Collection)"
     },
     {
       url: "https://api.artic.edu/api/v1/artworks/25865/manifest.json",
       label: "The Herring Net"
     },
     {
-      url: "https://iiif.harvardartmuseums.org/manifests/object/304096",
-      label: "Basin"
+      url: "https://digital.lib.utk.edu/assemble/manifest/rftaart/76",
+      label: "A Dog Left Behind"
     },
     {
-      url: "https://digital.lib.utk.edu/assemble/manifest/rfta/8",
-      label: "Rising from the Ashes"
+      url: "https://iiif.harvardartmuseums.org/manifests/object/304096",
+      label: "Basin"
     },
     {
       url: "https://figgy.princeton.edu/concern/scanned_resources/ace2909a-8966-43f9-b547-084aeaaea13d/manifest",
       label: "Selma to Montgomery"
     },
     {
-      url: "https://view.nls.uk/manifest/7446/74465058/manifest.json",
-      label: "Scotia depicta"
+      url: "https://view.nls.uk/manifest/7549/75496599/manifest.json",
+      label: "Edinburgh characters"
     }
   ];
 
@@ -78579,9 +78559,10 @@ ${generateSegmentFilename(i5)}`);
       options: {
         canvasBackgroundColor: "#e6e8eb",
         canvasHeight: "600px",
-        renderAbout: true,
-        showInformationToggle: true,
-        withCredentials: false
+        renderAbout: false,
+        showIIIFBadge: false,
+        showInformationToggle: false,
+        showTitle: false
       }
     }), /* @__PURE__ */ import_react117.default.createElement(DynamicUrl_default, {
       url,
