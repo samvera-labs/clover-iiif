@@ -51,11 +51,13 @@ const ViewerContent: React.FC<Props> = ({
           ) : (
             painting && <ImageViewer body={painting} key={activeCanvas} />
           )}
-          <CollapsibleTrigger>
-            <Button as="span">
-              {isNavigatorOpen ? "View Items" : "More Information"}
-            </Button>
-          </CollapsibleTrigger>
+          {isNavigator && (
+            <CollapsibleTrigger>
+              <Button as="span">
+                {isNavigatorOpen ? "View Items" : "More Information"}
+              </Button>
+            </CollapsibleTrigger>
+          )}
           {items.length > 1 && (
             <MediaWrapper className="clover-canvases">
               <Media items={items} activeItem={0} />
