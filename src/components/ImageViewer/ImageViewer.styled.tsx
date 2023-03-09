@@ -20,6 +20,11 @@ const Navigator = styled("div", {
     width: "123px",
     height: "76px",
   },
+
+  "@xs": {
+    width: "100px",
+    height: "61.8px",
+  },
 });
 
 const Viewport = styled("div", {
