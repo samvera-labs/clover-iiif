@@ -85,6 +85,7 @@ const Item = styled(RadioGroup.Item, {
       display: "-webkit-box",
       overflow: "hidden",
       MozBoxOrient: "vertical",
+      WebkitBoxOrient: "vertical",
       WebkitLineClamp: "5",
 
       "@sm": {
