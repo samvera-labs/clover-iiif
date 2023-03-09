@@ -13,10 +13,23 @@ const Item = styled("button", {
   color: "white",
   cursor: "pointer",
   marginLeft: "0.618rem",
-  backgroundColor: "#000D",
-  filter: "drop-shadow(5px 5px 5px #0006)",
+  backgroundColor: "$primary",
+  filter: "drop-shadow(2px 2px 5px #0003)",
   transition: "$all",
   boxSizing: "content-box !important",
+
+  "&:first-child": {
+    marginLeft: "0",
+  },
+
+  "@xs": {
+    marginBottom: "0.618rem",
+    marginLeft: "0",
+
+    "&:last-child": {
+      marginBottom: "0",
+    },
+  },
 
   svg: {
     height: "60%",
