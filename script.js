@@ -76312,6 +76312,7 @@ ${generateSegmentFilename(i5)}`);
         display: "-webkit-box",
         overflow: "hidden",
         MozBoxOrient: "vertical",
+        WebkitBoxOrient: "vertical",
         WebkitLineClamp: "5",
         "@sm": {
           fontSize: "0.8333rem"
