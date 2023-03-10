@@ -40,8 +40,6 @@ const Media: React.FC<MediaProps> = ({ items }) => {
       });
   };
 
-  console.log("mediaItems", mediaItems);
-
   useEffect(() => {
     if (!mediaItems.length) {
       const entities: CanvasEntity[] = items

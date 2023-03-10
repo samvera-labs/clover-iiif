@@ -3,8 +3,9 @@ import Player from "@/components/Player/Player";
 import ImageViewer from "@/components/ImageViewer/ImageViewer";
 import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
+import PaintingPlaceholder from "./Placeholder";
+import { PaintingStyled, Toggle } from "./Painting.styled";
 import { useViewerState } from "@/context/viewer-context";
-import { getThumbnail } from "@/hooks/use-iiif";
 
 interface PaintingProps {
   painting: IIIFExternalWebResource;
@@ -21,43 +22,20 @@ const Painting: React.FC<PaintingProps> = ({
 }) => {
   const [isInteractive, setIsInteractive] = React.useState(false);
   const { configOptions, vault } = useViewerState();
-  const size = configOptions.canvasHeight;
-
-  const normalizedCanvas = vault.get(activeCanvas);
-  console.log("normalizedCanvas", normalizedCanvas);
-  const thumbnail = getThumbnail(
-    vault,
-    {
-      accompanyingCanvas: undefined,
-      annotationPage: {},
-      annotations: [],
-      canvas: normalizedCanvas,
-    },
-    size,
-    size,
-  );
-  console.log("isInteractive", isInteractive);
 
   return (
-    <div>
+    <PaintingStyled css={{ maxHeight: configOptions.canvasHeight }}>
+      <Toggle onClick={() => setIsInteractive(!isInteractive)}>
+        {isInteractive ? "Close" : "Open"}
+      </Toggle>
       {!isInteractive && (
-        <button onClick={() => setIsInteractive(true)}>
-          <img src={thumbnail.id} alt="Something" height={size} width={size} />
-        </button>
+        <PaintingPlaceholder
+          activeCanvas={activeCanvas}
+          setIsInteractive={setIsInteractive}
+        />
       )}
       {isInteractive && (
-        <div style={{ position: "relative" }}>
-          <button
-            onClick={() => setIsInteractive(false)}
-            style={{
-              position: "absolute",
-              right: "0",
-              bottom: "0",
-              zIndex: 100,
-            }}
-          >
-            Toggle
-          </button>
+        <div>
           {isMedia ? (
             <Player
               painting={painting as IIIFExternalWebResource}
@@ -68,7 +46,7 @@ const Painting: React.FC<PaintingProps> = ({
           )}
         </div>
       )}
-    </div>
+    </PaintingStyled>
   );
 };
 
