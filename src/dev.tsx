@@ -31,10 +31,10 @@ const Wrapper = () => {
         options={{
           canvasBackgroundColor: "#e6e8eb",
           canvasHeight: "600px",
-          renderAbout: false,
+          renderAbout: true,
           showIIIFBadge: false,
-          showInformationToggle: false,
-          showTitle: false,
+          showInformationToggle: true,
+          showTitle: true,
         }}
       />
       <DynamicUrl url={url} setUrl={setUrl} />

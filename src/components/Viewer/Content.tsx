@@ -1,8 +1,6 @@
 import React from "react";
 import Media from "@/components/Media/Media";
 import Navigator from "@/components/Navigator/Navigator";
-import Player from "@/components/Player/Player";
-import ImageViewer from "@/components/ImageViewer/ImageViewer";
 import { Button } from "@nulib/design-system";
 import { Canvas, IIIFExternalWebResource } from "@iiif/presentation-3";
 import {
@@ -15,6 +13,7 @@ import {
 } from "@/components/Viewer/Viewer.styled";
 import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
 import { CurrentTimeProvider } from "@/context/current-time-context";
+import Painting from "../Painting/Painting";
 
 interface Props {
   activeCanvas: string;
@@ -43,14 +42,13 @@ const ViewerContent: React.FC<Props> = ({
     <Content className="clover-content">
       <CurrentTimeProvider>
         <Main>
-          {isMedia ? (
-            <Player
-              painting={painting as IIIFExternalWebResource}
-              resources={resources}
-            />
-          ) : (
-            painting && <ImageViewer body={painting} key={activeCanvas} />
-          )}
+          <Painting
+            activeCanvas={activeCanvas}
+            isMedia={isMedia}
+            painting={painting}
+            resources={resources}
+          />
+
           {isNavigator && (
             <CollapsibleTrigger>
               <Button as="span">
