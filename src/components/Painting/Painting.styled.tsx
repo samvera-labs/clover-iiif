@@ -1,9 +1,6 @@
 import { styled } from "@/stitches";
 import { Item as ButtonStyled } from "@/components/ImageViewer/Button.styled";
-
-const PaintingStyled = styled("div", {
-  position: "relative",
-});
+import { PlaceholderStyled } from "./Placeholder.styled";
 
 const Toggle = styled(ButtonStyled, {
   position: "absolute",
@@ -11,12 +8,41 @@ const Toggle = styled(ButtonStyled, {
   top: "1rem",
   left: "1rem",
   zIndex: 100,
-  cursor: "pointer",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   textAlign: "center",
   padding: "0 1rem",
+  transition: "$all",
+
+  variants: {
+    isInteractive: {
+      true: {
+        cursor: "pointer",
+      },
+      false: {
+        cursor: "zoom-in",
+      },
+    },
+  },
+});
+
+const PaintingStyled = styled("div", {
+  position: "relative",
+
+  "&:hover": {
+    [`${Toggle}`]: {
+      backgroundColor: "$accent",
+    },
+
+    [`${PlaceholderStyled}`]: {
+      backgroundColor: "$secondaryAlt",
+
+      img: {
+        filter: "brightness(0.8)",
+      },
+    },
+  },
 });
 
 export { PaintingStyled, Toggle };

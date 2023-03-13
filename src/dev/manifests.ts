@@ -3,6 +3,11 @@ export const manifests = [
     url: "https://iiif.io/api/cookbook/recipe/0013-placeholderCanvas/manifest.json",
     label: "0013-placeholderCanvas",
   },
+
+  {
+    url: "http://127.0.0.1:8080/fixtures/iiif/manifests/placeholderCanvas.json",
+    label: "NUL placeholderCanvas",
+  },
   {
     url: "https://manifests.collections.yale.edu/ycba/obj/21168",
     label: "Greenland Falcon",
