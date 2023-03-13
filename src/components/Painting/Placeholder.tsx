@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useViewerState } from "@/context/viewer-context";
-import { getThumbnail } from "@/hooks/use-iiif";
+import { getPaintingResource, getThumbnail } from "@/hooks/use-iiif";
 import { PlaceholderStyled } from "./Placeholder.styled";
 
 interface Props {
@@ -12,29 +12,21 @@ const PaintingPlaceholder: React.FC<Props> = ({
   activeCanvas,
   setIsInteractive,
 }) => {
-  const { configOptions, vault } = useViewerState();
+  const { vault } = useViewerState();
   const normalizedCanvas = vault.get(activeCanvas);
-  const size = configOptions.canvasHeight;
 
-  const thumbnail = getThumbnail(
+  const placeholder = getPaintingResource(
     vault,
-    {
-      accompanyingCanvas: undefined,
-      annotationPage: {},
-      annotations: [],
-      canvas: normalizedCanvas,
-    },
-    size,
-    size,
+    normalizedCanvas?.placeholderCanvas?.id,
   );
 
   return (
     <PlaceholderStyled onClick={() => setIsInteractive(true)}>
       <img
-        src={thumbnail?.id || ""}
+        src={placeholder?.id || ""}
         alt="Something"
-        height={size}
-        width={size}
+        height={placeholder?.height}
+        width={placeholder?.width}
       />
     </PlaceholderStyled>
   );
