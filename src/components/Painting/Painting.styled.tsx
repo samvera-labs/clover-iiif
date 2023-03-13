@@ -19,6 +19,11 @@ const Toggle = styled(ButtonStyled, {
     isInteractive: {
       true: {
         cursor: "pointer",
+        opacity: "0.85",
+
+        "&:hover": {
+          opacity: "1",
+        },
       },
       false: {
         cursor: "zoom-in",
