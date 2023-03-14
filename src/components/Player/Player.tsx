@@ -142,6 +142,9 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
         onPlay={handlePlay}
         crossOrigin="anonymous"
         poster={posterImage}
+        style={{
+          maxHeight: configOptions.canvasHeight,
+        }}
       >
         <source src={painting.id} type={painting.format} />
         {resources.length > 0 &&
