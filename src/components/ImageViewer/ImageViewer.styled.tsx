@@ -3,8 +3,8 @@ import { styled } from "@/stitches";
 const Navigator = styled("div", {
   position: "absolute !important",
   zIndex: "1",
-  bottom: "1rem",
-  right: "1rem",
+  top: "1rem",
+  left: "1rem",
   width: "161.8px",
   height: "100px",
   backgroundColor: "#000D",
