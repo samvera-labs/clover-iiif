@@ -11,11 +11,8 @@ export const PlayerWrapper = styled("div", {
 
   video: {
     backgroundColor: "transparent",
-    display: "flex",
-    position: "relative",
     objectFit: "contain",
     width: "100%",
     height: "100%",
-    zIndex: "1",
   },
 });

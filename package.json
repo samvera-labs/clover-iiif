@@ -62,6 +62,7 @@
   },
   "dependencies": {
     "@iiif/vault": "^0.9.19",
+    "@iiif/vault-helpers": "^0.9.11",
     "@nulib/design-system": "^1.6.0",
     "@radix-ui/react-collapsible": "^1.0.1",
     "@radix-ui/react-radio-group": "^1.1.0",

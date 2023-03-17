@@ -1,11 +1,15 @@
 export const manifests = [
   {
-    url: "https://manifests.collections.yale.edu/ycba/obj/21168",
-    label: "Greenland Falcon",
+    url: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif",
+    label: 'Zagna "lunga"',
   },
   {
     url: "https://api.dc.library.northwestern.edu/api/v2/works/df34cea4-47e7-4f41-9a27-26cc671feabe?as=iiif",
     label: "Charles Gates Dawes Films",
+  },
+  {
+    url: "https://manifests.collections.yale.edu/ycba/obj/21168",
+    label: "Greenland Falcon",
   },
   {
     url: "https://api.dc.library.northwestern.edu/api/v2/collections/59ec43f9-a96c-4314-9b44-9923790b371c?as=iiif&size=100",
@@ -24,11 +28,11 @@ export const manifests = [
     label: "Basin",
   },
   {
-    url: "https://figgy.princeton.edu/concern/scanned_resources/ace2909a-8966-43f9-b547-084aeaaea13d/manifest",
-    label: "Selma to Montgomery",
-  },
-  {
     url: "https://view.nls.uk/manifest/7549/75496599/manifest.json",
     label: "Edinburgh characters",
+  },
+  {
+    url: "https://media.getty.edu/iiif/manifest/98d11f7b-c499-4a0b-a7d8-a624b18b9074",
+    label: "Laocöon",
   },
 ];

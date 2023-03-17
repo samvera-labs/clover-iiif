@@ -17,9 +17,14 @@ import {
 interface PlayerProps {
   painting: IIIFExternalWebResource;
   resources: LabeledResource[];
+  hasPlaceholder: string | undefined;
 }
 
-const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
+const Player: React.FC<PlayerProps> = ({
+  painting,
+  resources,
+  hasPlaceholder,
+}) => {
   const playerRef = React.useRef(null);
   const isAudio = painting?.format?.includes("audio/");
 
@@ -112,9 +117,9 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
   React.useEffect(() => {
     let video: any = playerRef.current;
     if (video) video.currentTime = startTime;
-
     if (startTime !== 0) video.play();
-  }, [startTime]);
+    if (hasPlaceholder) video.play();
+  }, [startTime, hasPlaceholder]);
 
   const handlePlay = () => {
     let video: any = playerRef.current;
@@ -142,6 +147,9 @@ const Player: React.FC<PlayerProps> = ({ painting, resources }) => {
         onPlay={handlePlay}
         crossOrigin="anonymous"
         poster={posterImage}
+        style={{
+          maxHeight: configOptions.canvasHeight,
+        }}
       >
         <source src={painting.id} type={painting.format} />
         {resources.length > 0 &&
