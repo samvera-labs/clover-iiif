@@ -67,7 +67,7 @@ const Controls = ({ options }: { options: Options }) => {
           <Button id="zoomIn" label="zoom in">
             <ZoomIn />
           </Button>
-          <Button id="zoomOut" label="zoom in">
+          <Button id="zoomOut" label="zoom out">
             <ZoomOut />
           </Button>
         </>

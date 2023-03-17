@@ -44,7 +44,7 @@ const OSD: React.FC<OSDProps> = ({ uri, imageType }) => {
       clickToZoom: true,
       dblClickToZoom: true,
       pinchToZoom: true,
-      scrollToZoom: false,
+      scrollToZoom: true,
     },
     ...configOptions.openSeadragon,
     ajaxWithCredentials: configOptions.withCredentials,
