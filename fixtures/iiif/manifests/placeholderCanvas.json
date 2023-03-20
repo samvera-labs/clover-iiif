@@ -1,6 +1,6 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
-  "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/placeholderCanvas.json",
+  "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/placeholderCanvas.json",
   "type": "Manifest",
   "label": {
     "none": ["Nez Percé Matron"]
