@@ -30,6 +30,7 @@ describe("ImageViewer component", () => {
           width: 3780,
           height: 4440,
         }}
+        hasPlaceholder={false}
       />,
     );
   });

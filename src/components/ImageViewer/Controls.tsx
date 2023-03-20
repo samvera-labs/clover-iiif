@@ -59,9 +59,19 @@ const Rotate = () => {
   );
 };
 
-const Controls = ({ options }: { options: Options }) => {
+const Controls = ({
+  hasPlaceholder,
+  options,
+}: {
+  hasPlaceholder: boolean;
+  options: Options;
+}) => {
   return (
-    <Wrapper data-testid="openseadragon-controls" id="openseadragon-controls">
+    <Wrapper
+      data-testid="openseadragon-controls"
+      hasPlaceholder={hasPlaceholder}
+      id="openseadragon-controls"
+    >
       {options.showZoomControl && (
         <>
           <Button id="zoomIn" label="zoom in">

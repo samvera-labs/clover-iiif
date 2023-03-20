@@ -15,9 +15,10 @@ export type osdImageTypes = "tiledImage" | "simpleImage" | undefined;
 interface OSDProps {
   uri: string | undefined;
   imageType: osdImageTypes;
+  hasPlaceholder: boolean;
 }
 
-const OSD: React.FC<OSDProps> = ({ uri, imageType }) => {
+const OSD: React.FC<OSDProps> = ({ uri, imageType, hasPlaceholder }) => {
   const [osdUri, setOsdUri] = useState<string>();
   const viewerState: any = useViewerState();
   const { configOptions } = viewerState;
@@ -85,7 +86,7 @@ const OSD: React.FC<OSDProps> = ({ uri, imageType }) => {
         height: configOptions.canvasHeight,
       }}
     >
-      <Controls options={config} />
+      <Controls options={config} hasPlaceholder={hasPlaceholder} />
       <Navigator id={`openseadragon-navigator-${instance}`} />
       <Viewport id={`openseadragon-viewport-${instance}`} />
     </Wrapper>

@@ -17,7 +17,7 @@ import {
 interface PlayerProps {
   painting: IIIFExternalWebResource;
   resources: LabeledResource[];
-  hasPlaceholder: string | undefined;
+  hasPlaceholder: boolean;
 }
 
 const Player: React.FC<PlayerProps> = ({

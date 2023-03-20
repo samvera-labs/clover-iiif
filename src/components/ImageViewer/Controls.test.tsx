@@ -4,7 +4,7 @@ import Controls from "@/components/ImageViewer/Controls";
 
 describe("Controls component", () => {
   it("renders", () => {
-    render(<Controls options={{}} />);
+    render(<Controls options={{}} hasPlaceholder={false} />);
     const controls = screen.getByTestId("openseadragon-controls");
     expect(controls);
   });

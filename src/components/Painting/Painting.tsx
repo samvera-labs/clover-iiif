@@ -60,6 +60,7 @@ const Painting: React.FC<PaintingProps> = ({
   const normalizedCanvas: CanvasNormalized = vault.get(activeCanvas);
 
   const placeholderCanvas = normalizedCanvas?.placeholderCanvas?.id;
+  const hasPlaceholder = Boolean(placeholderCanvas);
   const showPlaceholder = placeholderCanvas && !isInteractive;
 
   const handleToggle = () => setIsInteractive(!isInteractive);
@@ -94,10 +95,16 @@ const Painting: React.FC<PaintingProps> = ({
             <Player
               painting={painting as IIIFExternalWebResource}
               resources={resources}
-              hasPlaceholder={placeholderCanvas}
+              hasPlaceholder={hasPlaceholder}
             />
           ) : (
-            painting && <ImageViewer body={painting} key={activeCanvas} />
+            painting && (
+              <ImageViewer
+                body={painting}
+                hasPlaceholder={hasPlaceholder}
+                key={activeCanvas}
+              />
+            )
           )}
         </div>
       )}

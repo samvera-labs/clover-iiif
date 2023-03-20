@@ -33,7 +33,7 @@ xdescribe("Player component", () => {
   it("renders", () => {
     render(
       <Player
-        hasPlaceholder={undefined}
+        hasPlaceholder={false}
         painting={mockPainting}
         resources={mockResources}
       />,
