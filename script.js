@@ -81720,13 +81720,28 @@ ${generateSegmentFilename(i5)}`);
     position: "absolute",
     zIndex: "1",
     top: "1rem",
-    right: "3.618rem",
     display: "flex",
     "@xs": {
       flexDirection: "column",
-      zIndex: "2",
-      top: "3.618rem",
-      right: "1rem"
+      zIndex: "2"
+    },
+    variants: {
+      hasPlaceholder: {
+        true: {
+          right: "3.618rem",
+          "@xs": {
+            top: "3.618rem",
+            right: "1rem"
+          }
+        },
+        false: {
+          right: "1rem",
+          "@xs": {
+            top: "1rem",
+            right: "1rem"
+          }
+        }
+      }
     }
   });
 
@@ -81781,8 +81796,22 @@ ${generateSegmentFilename(i5)}`);
       }
     ), /* @__PURE__ */ import_react110.default.createElement("path", { d: "M464 97.42V208a16 16 0 01-16 16H337.42c-14.26 0-21.4-17.23-11.32-27.31L436.69 86.1C446.77 76 464 83.16 464 97.42z" }));
   };
-  var Controls2 = ({ options }) => {
-    return /* @__PURE__ */ import_react110.default.createElement(Wrapper6, { "data-testid": "openseadragon-controls", id: "openseadragon-controls" }, options.showZoomControl && /* @__PURE__ */ import_react110.default.createElement(import_react110.default.Fragment, null, /* @__PURE__ */ import_react110.default.createElement(Button_default, { id: "zoomIn", label: "zoom in" }, /* @__PURE__ */ import_react110.default.createElement(ZoomIn, null)), /* @__PURE__ */ import_react110.default.createElement(Button_default, { id: "zoomOut", label: "zoom out" }, /* @__PURE__ */ import_react110.default.createElement(ZoomOut, null))), options.showFullPageControl && /* @__PURE__ */ import_react110.default.createElement(Button_default, { id: "fullPage", label: "full page" }, /* @__PURE__ */ import_react110.default.createElement(ZoomFullScreen, null)), options.showRotationControl && /* @__PURE__ */ import_react110.default.createElement(import_react110.default.Fragment, null, /* @__PURE__ */ import_react110.default.createElement(Button_default, { id: "rotateRight", label: "rotate right" }, /* @__PURE__ */ import_react110.default.createElement(Rotate, null)), /* @__PURE__ */ import_react110.default.createElement(Button_default, { id: "rotateLeft", label: "rotate left" }, /* @__PURE__ */ import_react110.default.createElement(Rotate, null))), options.showHomeControl && /* @__PURE__ */ import_react110.default.createElement(Button_default, { id: "reset", label: "reset" }, /* @__PURE__ */ import_react110.default.createElement(Reset, null)));
+  var Controls2 = ({
+    hasPlaceholder,
+    options
+  }) => {
+    return /* @__PURE__ */ import_react110.default.createElement(
+      Wrapper6,
+      {
+        "data-testid": "openseadragon-controls",
+        hasPlaceholder,
+        id: "openseadragon-controls"
+      },
+      options.showZoomControl && /* @__PURE__ */ import_react110.default.createElement(import_react110.default.Fragment, null, /* @__PURE__ */ import_react110.default.createElement(Button_default, { id: "zoomIn", label: "zoom in" }, /* @__PURE__ */ import_react110.default.createElement(ZoomIn, null)), /* @__PURE__ */ import_react110.default.createElement(Button_default, { id: "zoomOut", label: "zoom out" }, /* @__PURE__ */ import_react110.default.createElement(ZoomOut, null))),
+      options.showFullPageControl && /* @__PURE__ */ import_react110.default.createElement(Button_default, { id: "fullPage", label: "full page" }, /* @__PURE__ */ import_react110.default.createElement(ZoomFullScreen, null)),
+      options.showRotationControl && /* @__PURE__ */ import_react110.default.createElement(import_react110.default.Fragment, null, /* @__PURE__ */ import_react110.default.createElement(Button_default, { id: "rotateRight", label: "rotate right" }, /* @__PURE__ */ import_react110.default.createElement(Rotate, null)), /* @__PURE__ */ import_react110.default.createElement(Button_default, { id: "rotateLeft", label: "rotate left" }, /* @__PURE__ */ import_react110.default.createElement(Rotate, null))),
+      options.showHomeControl && /* @__PURE__ */ import_react110.default.createElement(Button_default, { id: "reset", label: "reset" }, /* @__PURE__ */ import_react110.default.createElement(Reset, null))
+    );
   };
   var Controls_default2 = Controls2;
 
@@ -81810,7 +81839,7 @@ ${generateSegmentFilename(i5)}`);
   };
 
   // src/components/ImageViewer/OSD.tsx
-  var OSD = ({ uri, imageType }) => {
+  var OSD = ({ uri, imageType, hasPlaceholder }) => {
     const [osdUri, setOsdUri] = (0, import_react111.useState)();
     const viewerState = useViewerState();
     const { configOptions } = viewerState;
@@ -81875,7 +81904,7 @@ ${generateSegmentFilename(i5)}`);
           height: configOptions.canvasHeight
         }
       },
-      /* @__PURE__ */ import_react111.default.createElement(Controls_default2, { options: config2 }),
+      /* @__PURE__ */ import_react111.default.createElement(Controls_default2, { options: config2, hasPlaceholder }),
       /* @__PURE__ */ import_react111.default.createElement(Navigator2, { id: `openseadragon-navigator-${instance}` }),
       /* @__PURE__ */ import_react111.default.createElement(Viewport, { id: `openseadragon-viewport-${instance}` })
     );
@@ -81883,7 +81912,7 @@ ${generateSegmentFilename(i5)}`);
   var OSD_default = OSD;
 
   // src/components/ImageViewer/ImageViewer.tsx
-  var ImageViewer = ({ body }) => {
+  var ImageViewer = ({ body, hasPlaceholder }) => {
     const [imageType, setImageType] = (0, import_react112.useState)();
     const [uri, setUri] = (0, import_react112.useState)();
     (0, import_react112.useEffect)(() => {
@@ -81895,7 +81924,15 @@ ${generateSegmentFilename(i5)}`);
         setUri(body.id);
       }
     }, [body]);
-    return /* @__PURE__ */ import_react112.default.createElement(OSD_default, { uri, key: uri, imageType });
+    return /* @__PURE__ */ import_react112.default.createElement(
+      OSD_default,
+      {
+        uri,
+        key: uri,
+        imageType,
+        hasPlaceholder
+      }
+    );
   };
   var ImageViewer_default = ImageViewer;
 
@@ -82074,6 +82111,7 @@ ${generateSegmentFilename(i5)}`);
     const { configOptions, vault } = useViewerState();
     const normalizedCanvas = vault.get(activeCanvas);
     const placeholderCanvas = (_a2 = normalizedCanvas == null ? void 0 : normalizedCanvas.placeholderCanvas) == null ? void 0 : _a2.id;
+    const hasPlaceholder = Boolean(placeholderCanvas);
     const showPlaceholder = placeholderCanvas && !isInteractive;
     const handleToggle = () => setIsInteractive(!isInteractive);
     return /* @__PURE__ */ import_react115.default.createElement(
@@ -82106,9 +82144,16 @@ ${generateSegmentFilename(i5)}`);
         {
           painting,
           resources,
-          hasPlaceholder: placeholderCanvas
+          hasPlaceholder
         }
-      ) : painting && /* @__PURE__ */ import_react115.default.createElement(ImageViewer_default, { body: painting, key: activeCanvas }))
+      ) : painting && /* @__PURE__ */ import_react115.default.createElement(
+        ImageViewer_default,
+        {
+          body: painting,
+          hasPlaceholder,
+          key: activeCanvas
+        }
+      ))
     );
   };
   var Painting_default = Painting;
