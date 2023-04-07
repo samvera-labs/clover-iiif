@@ -14,5 +14,7 @@ export const PlayerWrapper = styled("div", {
     objectFit: "contain",
     width: "100%",
     height: "100%",
+    position: "relative",
+    zIndex: "1",
   },
 });
