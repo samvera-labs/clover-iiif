@@ -81366,7 +81366,9 @@ ${generateSegmentFilename(i5)}`);
       backgroundColor: "transparent",
       objectFit: "contain",
       width: "100%",
-      height: "100%"
+      height: "100%",
+      position: "relative",
+      zIndex: "1"
     }
   });
 
@@ -81377,7 +81379,8 @@ ${generateSegmentFilename(i5)}`);
   var AudioVisualizerWrapper = styled("canvas", {
     position: "absolute",
     width: "100%",
-    height: "100%"
+    height: "100%",
+    zIndex: "0"
   });
 
   // src/components/Player/AudioVisualizer.tsx
