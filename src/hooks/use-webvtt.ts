@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 export interface NodeWebVttCue {
@@ -6,6 +7,7 @@ export interface NodeWebVttCue {
   end: number;
   text: string;
   styles?: string;
+  children?: Array<NodeWebVttCue>;
 }
 export interface NodeWebVttCueNested extends NodeWebVttCue {
   children?: Array<NodeWebVttCueNested>;
@@ -15,66 +17,48 @@ const useWebVtt = () => {
   function addIdentifiersToParsedCues(
     cues: Array<NodeWebVttCue>,
   ): Array<NodeWebVttCue> {
-    const newCues = cues.map((cue) => {
+    return cues.map((cue) => {
       const identifier = cue.identifier || uuidv4();
       return { ...cue, identifier };
     });
-    return newCues;
   }
 
+  /**
+   * This function takes an array of NodeWebVttCue items as input, where each item
+   * is an object with properties identifier, start, end, text, and styles. It
+   * iterates through the array of items and uses a stack to keep track of nested
+   * items. It compares the current item's start with the end of the items in the
+   * stack. If the current item's start is smaller than the end of the top item
+   * in the stack, it is considered a child of the top item and added to its
+   * children property. If the current item's start is greater than the end
+   * of the top item in the stack, it is considered a top-level item and added to
+   * the nestedItems array. The resulting nestedItems array contains the items
+   * organized into nested structures based on their start and end values.
+   */
   function createNestedCues(flat: Array<NodeWebVttCue>): Array<NodeWebVttCue> {
-    // Add identifier values to any cues which don't have them
-    const idCues = addIdentifiersToParsedCues(flat);
+    const nestedItems = [];
+    const stack = [];
 
-    function getNestedChildren(
-      arr: Array<NodeWebVttCueNested>,
-      parent: string | null | undefined,
-    ) {
-      const out: Array<NodeWebVttCueNested> = [];
+    const cues = addIdentifiersToParsedCues(flat);
 
-      arr.forEach((item) => {
-        // Grab parent cues if they exist
-        const currentItemParents = arr.filter((arrItem) => {
-          return (
-            item.start >= arrItem.start &&
-            item.end <= arrItem.end &&
-            item.identifier !== arrItem.identifier
-          );
-        });
+    for (const item of cues) {
+      while (stack.length > 0 && stack[stack.length - 1].end <= item.start) {
+        stack.pop();
+      }
 
-        // An item in the flat list could have multiple parents,
-        // so lets find the most specific parent.  Let's sort the parents
-        // by smallest window of time between "start" and "end"
-        // values.  Then we pick the first element, which could be "undefined"
-        // for root level cues.
-        const currentItemParent = currentItemParents.sort((a, b) => {
-          const aDuration = a.end - a.start;
-          const bDuration = b.end - b.start;
-          if (aDuration === bDuration) return 0;
-          return aDuration < bDuration ? -1 : 1;
-        })[0];
-
-        // Is the current item's parent same as target parent?
-        if (
-          (!currentItemParent && !parent) ||
-          currentItemParent?.identifier === parent
-        ) {
-          // Find children of the current item
-          const children = getNestedChildren(arr, item.identifier);
-
-          if (children.length) {
-            item.children = children;
-          }
-
-          out.push(item);
+      if (stack.length > 0) {
+        if (!stack[stack.length - 1].children) {
+          stack[stack.length - 1].children = [];
         }
-      });
-
-      return out;
+        stack[stack.length - 1].children?.push(item);
+        stack.push(item);
+      } else {
+        nestedItems.push(item);
+        stack.push(item);
+      }
     }
 
-    const nestedCues = getNestedChildren(idCues, null);
-    return nestedCues;
+    return nestedItems;
   }
 
   /**

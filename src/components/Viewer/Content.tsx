@@ -12,7 +12,6 @@ import {
   Aside,
 } from "@/components/Viewer/Viewer.styled";
 import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
-import { CurrentTimeProvider } from "@/context/current-time-context";
 import Painting from "../Painting/Painting";
 
 interface Props {
@@ -40,36 +39,34 @@ const ViewerContent: React.FC<Props> = ({
 }) => {
   return (
     <Content className="clover-content">
-      <CurrentTimeProvider>
-        <Main>
-          <Painting
-            activeCanvas={activeCanvas}
-            isMedia={isMedia}
-            painting={painting}
-            resources={resources}
-          />
+      <Main>
+        <Painting
+          activeCanvas={activeCanvas}
+          isMedia={isMedia}
+          painting={painting}
+          resources={resources}
+        />
 
-          {isNavigator && (
-            <CollapsibleTrigger>
-              <Button as="span">
-                {isNavigatorOpen ? "View Items" : "More Information"}
-              </Button>
-            </CollapsibleTrigger>
-          )}
-          {items.length > 1 && (
-            <MediaWrapper className="clover-canvases">
-              <Media items={items} activeItem={0} />
-            </MediaWrapper>
-          )}
-        </Main>
-        {isInformation && (isAbout || isNavigator) && (
-          <Aside>
-            <CollapsibleContent>
-              <Navigator activeCanvas={activeCanvas} resources={resources} />
-            </CollapsibleContent>
-          </Aside>
+        {isNavigator && (
+          <CollapsibleTrigger>
+            <Button as="span">
+              {isNavigatorOpen ? "View Items" : "More Information"}
+            </Button>
+          </CollapsibleTrigger>
         )}
-      </CurrentTimeProvider>
+        {items.length > 1 && (
+          <MediaWrapper className="clover-canvases">
+            <Media items={items} activeItem={0} />
+          </MediaWrapper>
+        )}
+      </Main>
+      {isInformation && (isAbout || isNavigator) && (
+        <Aside>
+          <CollapsibleContent>
+            <Navigator activeCanvas={activeCanvas} resources={resources} />
+          </CollapsibleContent>
+        </Aside>
+      )}
     </Content>
   );
 };

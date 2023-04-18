@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Item } from "@/components/Navigator/Cue.styled";
 import { convertTime } from "@/services/utils";
-import { CurrentTimeContext } from "@/context/current-time-context";
 
 interface Props {
   label: string;
@@ -10,11 +9,27 @@ interface Props {
 }
 
 const Cue: React.FC<Props> = ({ label, start, end }) => {
-  const { currentTime, updateStartTime } = React.useContext(CurrentTimeContext);
-  const isActive: boolean = start <= currentTime && currentTime < end;
+  const [isActive, updateIsActive] = useState(false);
+
+  const video = document.getElementById(
+    "clover-iiif-video",
+  ) as HTMLVideoElement;
+
+  useEffect(() => {
+    video?.addEventListener("timeupdate", () => {
+      const { currentTime } = video;
+      updateIsActive(start <= currentTime && currentTime < end);
+    });
+
+    return () => document.removeEventListener("timeupdate", () => {});
+  }, [video]);
 
   const handleClick = () => {
-    updateStartTime(start);
+    if (video) {
+      video.pause();
+      video.currentTime = start;
+      video.play();
+    }
   };
 
   return (
