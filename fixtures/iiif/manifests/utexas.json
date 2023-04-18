@@ -1,217 +1,16 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
   "type": "Manifest",
-  "id": "https://curio.lib.utexas.edu/assets/DAMS/utlarch/utlarch_2859d905-c01c-4433-af72-7d602a012aac/manifests/3/utlarch_2859d905-c01c-4433-af72-7d602a012aac.json",
+  "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/utexas.json",
   "label": {
     "en": "David Pugh, FAICP Interview, January 6, 2015"
   },
-  "metadata": [
-    {
-      "label": {
-        "none": ["Creator/Contributor"]
-      },
-      "value": {
-        "en": [
-          "Gattis, Dave (Interviewer)| Pugh, David, 1942-2017 (Interviewee)"
-        ]
-      }
-    },
-    {
-      "label": {
-        "none": ["Date Created/Date Issued"]
-      },
-      "value": {
-        "en": ["2015-01-06"]
-      }
-    },
-    {
-      "label": {
-        "none": ["Owning Repository"]
-      },
-      "value": {
-        "en": [
-          "Alexander Architectural Archives, University of Texas Libraries, The University of Texas at Austin"
-        ]
-      }
-    },
-    {
-      "label": {
-        "none": ["Source Collection Name"]
-      },
-      "value": {
-        "en": [
-          "American Planning Association, Texas Chapter: The History of Planning in Texas Project Records"
-        ]
-      }
-    },
-    {
-      "label": {
-        "none": ["Type"]
-      },
-      "value": {
-        "en": ["moving images| moving image| interviews"]
-      }
-    },
-    {
-      "label": {
-        "none": ["Form/Medium"]
-      },
-      "value": {
-        "en": ["moving images"]
-      }
-    },
-    {
-      "label": {
-        "none": ["Genre"]
-      },
-      "value": {
-        "en": ["interviews"]
-      }
-    },
-    {
-      "label": {
-        "none": ["Language"]
-      },
-      "value": {
-        "en": ["English"]
-      }
-    },
-    {
-      "label": {
-        "none": ["Topic"]
-      },
-      "value": {
-        "en": [
-          "City planning| City planning and redevelopment law.| City planning--Study and teaching.| Trade and professional organizations"
-        ]
-      }
-    },
-    {
-      "label": {
-        "none": ["Place Name"]
-      },
-      "value": {
-        "en": [
-          "Wayne (Mich.)| Bryan (Tex.)| Del City (Okla.)| Raleigh (N.C.)| Southport (N.C.)| Edgecombe County (N.C.)| Buncombe County (N.C.)| Kansas City (Kan.)| Springfield (Mo.)"
-        ]
-      }
-    },
-    {
-      "label": {
-        "none": ["Identifier - UTL DAMS PID"]
-      },
-      "value": {
-        "en": ["utlarch:2859d905-c01c-4433-af72-7d602a012aac"]
-      }
-    },
-    {
-      "label": {
-        "none": ["Primary Title"]
-      },
-      "value": {
-        "en": ["David Pugh, FAICP Interview, January 6, 2015"]
-      }
-    },
-    {
-      "label": {
-        "none": ["Description"]
-      },
-      "value": {
-        "en": [
-          "Oral history interview with former Texas A&M University professor David Pugh, FAICP, conducted by Dave Gattis. Topics covered include Pugh's childhood and education at the University of Oklahoma, his move to the legal profession, his career as an instructor in planning at Texas A&M University, his time as president of the American Planning Association's Texas chapter, and his opinions on the role of education in the planning profession and the future of city planning."
-        ]
-      }
-    },
-    {
-      "label": {
-        "none": ["License"]
-      },
-      "value": {
-        "en": ["http://rightsstatements.org/vocab/InC/1.0/"]
-      }
-    },
-    {
-      "label": {
-        "none": ["Identifier - PID"]
-      },
-      "value": {
-        "none": ["utlarch:2859d905-c01c-4433-af72-7d602a012aac"]
-      }
-    },
-    {
-      "label": {
-        "none": ["Thumbnail URI"]
-      },
-      "value": {
-        "none": [
-          "https://curio.lib.utexas.edu/assets/DAMS/utlarch/utlarch_2859d905-c01c-4433-af72-7d602a012aac/TN/utlarch_2859d905-c01c-4433-af72-7d602a012aac.jpg"
-        ]
-      }
-    },
-    {
-      "label": {
-        "none": ["IIIF Image"]
-      },
-      "value": {
-        "none": [
-          "https://streaming.lib.utexas.edu/iiif/_definst_/iiif/mp4:DAMS/utlarch/utlarch_2859d905-c01c-4433-af72-7d602a012aac/MP4/utlarch_2859d905-c01c-4433-af72-7d602a012aac.mp4/playlist.m3u8"
-        ]
-      }
-    },
-    {
-      "label": {
-        "none": ["IIIF Resource"]
-      },
-      "value": {
-        "none": [
-          "https://streaming.lib.utexas.edu/iiif/_definst_/iiif/mp4:DAMS/utlarch/utlarch_2859d905-c01c-4433-af72-7d602a012aac/MP4/utlarch_2859d905-c01c-4433-af72-7d602a012aac.mp4/playlist.m3u8"
-        ]
-      }
-    },
-    {
-      "label": {
-        "none": ["Date Added"]
-      },
-      "value": {
-        "none": ["2022-01-24"]
-      }
-    },
-    {
-      "label": {
-        "none": ["Manifest URI"]
-      },
-      "value": {
-        "none": [
-          "https://curio.lib.utexas.edu/assets/DAMS/utlarch/utlarch_2859d905-c01c-4433-af72-7d602a012aac/manifests/3/utlarch_2859d905-c01c-4433-af72-7d602a012aac.json"
-        ]
-      }
-    }
-  ],
-  "summary": {
-    "en": "Oral history interview with former Texas A&M University professor David Pugh, FAICP, conducted by Dave Gattis. Topics covered include Pugh's childhood and education at the University of Oklahoma, his move to the legal profession, his career as an instructor in planning at Texas A&M University, his time as president of the American Planning Association's Texas chapter, and his opinions on the role of education in the planning profession and the future of city planning."
-  },
-  "thumbnail": [
-    {
-      "id": "https://curio.lib.utexas.edu/assets/DAMS/utlarch/utlarch_2859d905-c01c-4433-af72-7d602a012aac/TN/utlarch_2859d905-c01c-4433-af72-7d602a012aac.jpg",
-      "type": "Image",
-      "format": "image/jpeg"
-    }
-  ],
-  "rights": "h",
-  "seeAlso": [
-    {
-      "id": "https://curio.lib.utexas.edu/assets/DAMS/utlarch/utlarch_2859d905-c01c-4433-af72-7d602a012aac/CAPTIONS/utlarch_2859d905-c01c-4433-af72-7d602a012aac.vtt",
-      "type": "Text",
-      "format": "application/webvtt",
-      "label": "subtitles"
-    }
-  ],
   "items": [
     {
       "id": "https://curio.lib.utexas.edu/annotation/curio.lib.utexas.edu/assets/DAMS/utlarch/utlarch_2859d905-c01c-4433-af72-7d602a012aac/manifests/3/utlarch_2859d905-c01c-4433-af72-7d602a012aac/canvas",
       "type": "Canvas",
-      "height": "720 pixels",
-      "width": "1280 pixels",
+      "height": 720,
+      "width": 1280,
       "duration": 5412,
       "items": [
         {
@@ -225,12 +24,12 @@
               "body": {
                 "id": "https://streaming.lib.utexas.edu/iiif/_definst_/iiif/mp4:DAMS/utlarch/utlarch_2859d905-c01c-4433-af72-7d602a012aac/MP4/utlarch_2859d905-c01c-4433-af72-7d602a012aac.mp4/playlist.m3u8",
                 "type": "Video",
-                "height": "720 pixels",
-                "width": "1280 pixels",
+                "height": 720,
+                "width": 1280,
                 "duration": 5412,
                 "format": "video/mp4"
               },
-              "target": "https://curio.lib.utexas.edu/annotation/curio.lib.utexas.edu/assets/DAMS/utlarch/utlarch_2859d905-c01c-4433-af72-7d602a012aac/manifests/3/utlarch_2859d905-c01c-4433-af72-7d602a012aac/canvas/page"
+              "target": "https://curio.lib.utexas.edu/annotation/curio.lib.utexas.edu/assets/DAMS/utlarch/utlarch_2859d905-c01c-4433-af72-7d602a012aac/manifests/3/utlarch_2859d905-c01c-4433-af72-7d602a012aac/canvas"
             }
           ]
         }
