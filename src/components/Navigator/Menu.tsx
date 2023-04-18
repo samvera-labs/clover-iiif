@@ -6,20 +6,19 @@ import { MenuStyled } from "@/components/Navigator/Menu.styled";
 interface MenuProps {
   items: Array<NodeWebVttCueNested>;
 }
-
 const Menu: React.FC<MenuProps> = ({ items }) => {
   return (
     <MenuStyled>
-      {items.map(({ text, start, end, children: cueChildren, identifier }) => {
+      {items.map((item) => {
+        const { text, start, end, children, identifier } = item;
         return (
           <li key={identifier}>
             <Cue label={text} start={start} end={end} />
-            {cueChildren && <Menu items={cueChildren} />}
+            {children && <Menu items={children} />}
           </li>
         );
       })}
     </MenuStyled>
   );
 };
-
 export default Menu;

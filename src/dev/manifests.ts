@@ -1,5 +1,13 @@
 export const manifests = [
   {
+    url: "http://127.0.0.1:8080/fixtures/iiif/manifests/nested-chapters.json",
+    label: "nested vtt (overlapping cues)",
+  },
+  {
+    url: "http://127.0.0.1:8080/fixtures/iiif/manifests/utexas.json",
+    label: "utexas (long vtt)",
+  },
+  {
     url: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif",
     label: 'Zagna "lunga"',
   },

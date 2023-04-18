@@ -1,10 +1,9 @@
-import React from "react";
+import React, { MutableRefObject, useEffect } from "react";
 import Hls, { HlsConfig } from "hls.js";
 import { PlayerWrapper } from "@/components/Player/Player.styled";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import { LabeledResource } from "@/hooks/use-iiif/getSupplementingResources";
 import AudioVisualizer from "@/components/Player/AudioVisualizer";
-import { CurrentTimeContext } from "@/context/current-time-context";
 import { useViewerState } from "@/context/viewer-context";
 import Track from "@/components/Player/Track";
 import {
@@ -25,10 +24,8 @@ const Player: React.FC<PlayerProps> = ({
   resources,
   hasPlaceholder,
 }) => {
-  const playerRef = React.useRef(null);
+  const playerRef = React.useRef<HTMLVideoElement>(null);
   const isAudio = painting?.format?.includes("audio/");
-
-  const { startTime, updateCurrentTime } = React.useContext(CurrentTimeContext);
 
   const viewerState: any = useViewerState();
   const { activeCanvas, configOptions, vault } = viewerState;
@@ -106,29 +103,21 @@ const Player: React.FC<PlayerProps> = ({
     });
 
     return () => {
-      if (hls) {
+      if (hls && playerRef.current) {
+        const video: HTMLVideoElement = playerRef.current;
         hls.detachMedia();
         hls.destroy();
-        updateCurrentTime(0);
+        video.currentTime = 0;
       }
     };
   }, [painting.id]);
 
-  React.useEffect(() => {
-    let video: any = playerRef.current;
-    if (video) video.currentTime = startTime;
-    if (startTime !== 0) video.play();
-    if (hasPlaceholder) video.play();
-  }, [startTime, hasPlaceholder]);
-
-  const handlePlay = () => {
-    let video: any = playerRef.current;
-    if (video) {
-      video.ontimeupdate = (event: any) => {
-        updateCurrentTime(event.target.currentTime);
-      };
+  useEffect(() => {
+    if (playerRef.current && hasPlaceholder) {
+      playerRef.current.currentTime = 0;
+      playerRef.current.play();
     }
-  };
+  }, [hasPlaceholder]);
 
   return (
     <PlayerWrapper
@@ -144,7 +133,6 @@ const Player: React.FC<PlayerProps> = ({
         controls
         height={painting.height}
         width={painting.width}
-        onPlay={handlePlay}
         crossOrigin="anonymous"
         poster={posterImage}
         style={{

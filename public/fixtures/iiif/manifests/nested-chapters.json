@@ -1,6 +1,6 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
-  "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample.json",
+  "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/nested-chapters.json",
   "type": "Manifest",
   "label": {
     "en": ["Assorted canvases for testing samvera-labs/clover-iiif"]
