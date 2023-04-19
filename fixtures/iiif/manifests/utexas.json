@@ -1,7 +1,7 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
   "type": "Manifest",
-  "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/utexas.json",
+  "id": "https://samvera-labs.github.io/clover-iiif/fixtures/iiif/manifests/utexas.json",
   "label": {
     "en": "David Pugh, FAICP Interview, January 6, 2015"
   },
