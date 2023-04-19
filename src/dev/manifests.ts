@@ -28,6 +28,10 @@ export const manifests = [
     label: "Basin",
   },
   {
+    url: "https://api.artic.edu/api/v1/artworks/25865/manifest.json",
+    label: "David Pugh (Interview, WebVTT Transcript)",
+  },
+  {
     url: "https://view.nls.uk/manifest/7549/75496599/manifest.json",
     label: "Edinburgh characters",
   },
