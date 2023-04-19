@@ -82546,7 +82546,7 @@ ${generateSegmentFilename(i5)}`);
       label: "Basin"
     },
     {
-      url: "https://api.artic.edu/api/v1/artworks/25865/manifest.json",
+      url: "https://samvera-labs.github.io/clover-iiif/fixtures/iiif/manifests/utexas.json",
       label: "David Pugh (Interview, WebVTT Transcript)"
     },
     {
