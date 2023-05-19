@@ -1,6 +1,6 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
-  "id": "https://iiif.io/api/cookbook/recipe/0014-accompanyingcanvas/manifest.json",
+  "id": "http://127.0.0.1:8080/fixtures/iiif/manifests/accompanying-canvas.json",
   "type": "Manifest",
   "label": {
     "en": ["Partial audio recording of Gustav Mahler's _Symphony No. 3_"]
@@ -65,7 +65,7 @@
                 "duration": 1985.024,
                 "format": "video/mp4"
               },
-              "target": "https://iiif.io/api/cookbook/recipe/0014-accompanyingcanvas/canvas/page/p1"
+              "target": "https://iiif.io/api/cookbook/recipe/0014-accompanyingcanvas/canvas/p1"
             }
           ]
         }

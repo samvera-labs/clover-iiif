@@ -61,7 +61,7 @@ const Painting: React.FC<PaintingProps> = ({
 
   const placeholderCanvas = normalizedCanvas?.placeholderCanvas?.id;
   const hasPlaceholder = Boolean(placeholderCanvas);
-  const showPlaceholder = placeholderCanvas && !isInteractive;
+  const showPlaceholder = placeholderCanvas && !isInteractive && !isMedia;
 
   const handleToggle = () => setIsInteractive(!isInteractive);
 
@@ -72,7 +72,7 @@ const Painting: React.FC<PaintingProps> = ({
         backgroundColor: configOptions.canvasBackgroundColor,
       }}
     >
-      {placeholderCanvas && (
+      {placeholderCanvas && !isMedia && (
         <Toggle
           handleToggle={handleToggle}
           isInteractive={isInteractive}
@@ -80,7 +80,7 @@ const Painting: React.FC<PaintingProps> = ({
         />
       )}
 
-      {showPlaceholder && (
+      {showPlaceholder && !isMedia && (
         <PaintingPlaceholder
           isMedia={isMedia}
           label={normalizedCanvas?.label}
@@ -95,7 +95,6 @@ const Painting: React.FC<PaintingProps> = ({
             <Player
               painting={painting as IIIFExternalWebResource}
               resources={resources}
-              hasPlaceholder={hasPlaceholder}
             />
           ) : (
             painting && (
