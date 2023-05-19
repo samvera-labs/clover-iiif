@@ -70811,28 +70811,6 @@ ${generateSegmentFilename(i5)}`);
   // src/components/Viewer/Viewer.tsx
   var import_react117 = __toESM(require_react());
 
-  // src/hooks/use-iiif/getAccompanyingCanvasImage.ts
-  function getUrl(obj) {
-    if (!obj.service) {
-      return obj.id;
-    }
-    return `${obj.service[0].id}/full/,${obj.height || 500}/0/default.jpg`;
-  }
-  var getAccompanyingCanvasImage = (accompanyingCanvas) => {
-    if (!accompanyingCanvas)
-      return;
-    try {
-      const thumbnail = accompanyingCanvas.thumbnail;
-      if (thumbnail && thumbnail.length > 0) {
-        return getUrl(thumbnail[0]);
-      }
-      return getUrl(accompanyingCanvas.items[0].items[0].body);
-    } catch (e3) {
-      console.error("Error retrieving accompanying canvas image", e3);
-      return;
-    }
-  };
-
   // src/hooks/use-iiif/getCanvasByCriteria.ts
   var getCanvasByCriteria = (vault, item, motivation, paintingType) => {
     var _a2, _b2;
@@ -81437,26 +81415,15 @@ ${generateSegmentFilename(i5)}`);
   var Track_default = Track;
 
   // src/components/Player/Player.tsx
-  var Player = ({
-    painting,
-    resources,
-    hasPlaceholder
-  }) => {
+  var Player = ({ resources, painting }) => {
     var _a2;
+    const [currentTime, setCurrentTime] = import_react107.default.useState(0);
+    const [poster, setPoster] = import_react107.default.useState();
     const playerRef = import_react107.default.useRef(null);
     const isAudio = (_a2 = painting == null ? void 0 : painting.format) == null ? void 0 : _a2.includes("audio/");
     const viewerState = useViewerState();
     const { activeCanvas, configOptions, vault } = viewerState;
-    const activeCanvasObject = getCanvasByCriteria(
-      vault,
-      { id: activeCanvas, type: "Canvas" },
-      "painting",
-      ["Image"]
-    );
-    const posterImage = getAccompanyingCanvasImage(
-      activeCanvasObject.accompanyingCanvas
-    );
-    import_react107.default.useEffect(() => {
+    (0, import_react107.useEffect)(() => {
       if (!painting.id || !playerRef.current)
         return;
       if (painting.id.split(".").pop() !== "m3u8")
@@ -81502,11 +81469,31 @@ ${generateSegmentFilename(i5)}`);
       };
     }, [painting.id]);
     (0, import_react107.useEffect)(() => {
-      if (playerRef.current && hasPlaceholder) {
-        playerRef.current.currentTime = 0;
-        playerRef.current.play();
+      var _a3, _b2, _c2, _d;
+      const canvas = vault.get(activeCanvas);
+      const accompanyingCanvas = ((_a3 = canvas.accompanyingCanvas) == null ? void 0 : _a3.id) ? getPaintingResource(vault, (_b2 = canvas.accompanyingCanvas) == null ? void 0 : _b2.id) : null;
+      const placeholderCanvas = ((_c2 = canvas.placeholderCanvas) == null ? void 0 : _c2.id) ? getPaintingResource(vault, (_d = canvas.placeholderCanvas) == null ? void 0 : _d.id) : null;
+      const conflictingCanvas = !!(accompanyingCanvas && placeholderCanvas);
+      if (conflictingCanvas) {
+        currentTime === 0 ? setPoster(placeholderCanvas.id) : setPoster(accompanyingCanvas.id);
+      } else {
+        if (accompanyingCanvas)
+          setPoster(accompanyingCanvas.id);
+        if (placeholderCanvas)
+          setPoster(placeholderCanvas.id);
       }
-    }, [hasPlaceholder]);
+    }, [activeCanvas, currentTime]);
+    (0, import_react107.useEffect)(() => {
+      if (playerRef == null ? void 0 : playerRef.current) {
+        const video = playerRef.current;
+        video == null ? void 0 : video.addEventListener(
+          "timeupdate",
+          () => setCurrentTime(video.currentTime)
+        );
+        return () => document.removeEventListener("timeupdate", () => {
+        });
+      }
+    }, [playerRef == null ? void 0 : playerRef.current]);
     return /* @__PURE__ */ import_react107.default.createElement(
       PlayerWrapper,
       {
@@ -81525,7 +81512,7 @@ ${generateSegmentFilename(i5)}`);
           height: painting.height,
           width: painting.width,
           crossOrigin: "anonymous",
-          poster: posterImage,
+          poster,
           style: {
             maxHeight: configOptions.canvasHeight
           }
@@ -82081,7 +82068,7 @@ ${generateSegmentFilename(i5)}`);
     const normalizedCanvas = vault.get(activeCanvas);
     const placeholderCanvas = (_a2 = normalizedCanvas == null ? void 0 : normalizedCanvas.placeholderCanvas) == null ? void 0 : _a2.id;
     const hasPlaceholder = Boolean(placeholderCanvas);
-    const showPlaceholder = placeholderCanvas && !isInteractive;
+    const showPlaceholder = placeholderCanvas && !isInteractive && !isMedia;
     const handleToggle = () => setIsInteractive(!isInteractive);
     return /* @__PURE__ */ import_react114.default.createElement(
       PaintingStyled,
@@ -82091,7 +82078,7 @@ ${generateSegmentFilename(i5)}`);
           backgroundColor: configOptions.canvasBackgroundColor
         }
       },
-      placeholderCanvas && /* @__PURE__ */ import_react114.default.createElement(
+      placeholderCanvas && !isMedia && /* @__PURE__ */ import_react114.default.createElement(
         Toggle_default2,
         {
           handleToggle,
@@ -82099,7 +82086,7 @@ ${generateSegmentFilename(i5)}`);
           isMedia
         }
       ),
-      showPlaceholder && /* @__PURE__ */ import_react114.default.createElement(
+      showPlaceholder && !isMedia && /* @__PURE__ */ import_react114.default.createElement(
         Placeholder_default,
         {
           isMedia,
@@ -82112,8 +82099,7 @@ ${generateSegmentFilename(i5)}`);
         Player_default,
         {
           painting,
-          resources,
-          hasPlaceholder
+          resources
         }
       ) : painting && /* @__PURE__ */ import_react114.default.createElement(
         ImageViewer_default,
@@ -82517,6 +82503,18 @@ ${generateSegmentFilename(i5)}`);
 
   // src/dev/manifests.ts
   var manifests = [
+    {
+      url: "http://127.0.0.1:8080/fixtures/iiif/manifests/accompanying-placeholder-canvas.json",
+      label: "accompanying/placeholder canvas"
+    },
+    {
+      url: "http://127.0.0.1:8080/fixtures/iiif/manifests/accompanying-canvas.json",
+      label: "accompanyingCanvas"
+    },
+    {
+      url: "https://iiif.io/api/cookbook/recipe/0013-placeholderCanvas/manifest.json",
+      label: "placeholderCanvas"
+    },
     {
       url: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif",
       label: 'Zagna "lunga"'
