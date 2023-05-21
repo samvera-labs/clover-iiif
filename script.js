@@ -82504,18 +82504,6 @@ ${generateSegmentFilename(i5)}`);
   // src/dev/manifests.ts
   var manifests = [
     {
-      url: "http://127.0.0.1:8080/fixtures/iiif/manifests/accompanying-placeholder-canvas.json",
-      label: "accompanying/placeholder canvas"
-    },
-    {
-      url: "http://127.0.0.1:8080/fixtures/iiif/manifests/accompanying-canvas.json",
-      label: "accompanyingCanvas"
-    },
-    {
-      url: "https://iiif.io/api/cookbook/recipe/0013-placeholderCanvas/manifest.json",
-      label: "placeholderCanvas"
-    },
-    {
       url: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif",
       label: 'Zagna "lunga"'
     },
