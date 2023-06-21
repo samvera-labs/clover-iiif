@@ -16,6 +16,7 @@ Clover IIIF is a UI component that renders a multicanvas IIIF item viewer for `V
 - _Image_ canvases are renderered with [OpenSeadragon](https://openseadragon.github.io/)
 - Supports HLS streaming for **.m3u8** extensions
 - Supports IIIF Collections and toggling between child Manifests
+- Supports `placeholderCanvas` for _Image_ canvases.
 
 <img src="https://user-images.githubusercontent.com/7376450/191546194-a84cee9f-ad54-4729-a6a6-81b88ac3c0e4.png" alt="Clover video-support" />
 
