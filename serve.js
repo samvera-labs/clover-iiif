@@ -43,7 +43,7 @@ const { buildHTML } = require("./utils/html.js");
       interval: 0, // No delay
     })
     // Rebuilds esbuild (incrementally -- see `build.incremental`).
-    .on("all", () => {
+    .on("change", () => {
       builder.rebuild();
     });
 
