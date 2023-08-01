@@ -1,0 +1,47 @@
+---
+title: Slider
+---
+
+import Slider from "src/components/Slider";
+import IIIFBadge from "docs/components/IIIFBadge";
+import { Tabs, Tab } from "nextra/components";
+import { Steps } from "nextra/components";
+
+import "swiper/css";
+import "swiper/css/lazy";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+# Slider
+
+UI component that renders a IIIF viewer for a Collection URI.
+
+<IIIFBadge href="https://iiif.io/api/presentation/3.0/#21-defined-types" />
+
+<Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif" />
+
+## Installation
+
+```jsx
+import { Slider } from "@samvera/clover-iiif";
+
+import "swiper/css";
+import "swiper/css/lazy";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+```
+
+## Basic Usage
+
+In this example we are rendering a slider for a IIIF Collection URI. The only required prop is the `collectionId` prop, which is the URI of the IIIF Collection.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx
+    <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif" />
+    ```
+  </Tab>
+  <Tab>
+    <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif" />
+  </Tab>
+</Tabs>

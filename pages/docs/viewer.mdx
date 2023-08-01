@@ -1,0 +1,271 @@
+---
+title: Viewer
+---
+
+import Viewer from "docs/components/DynamicImports/Viewer";
+import IIIFBadge from "docs/components/IIIFBadge";
+import { Bleed } from "nextra-theme-docs";
+import { Tabs, Tab } from "nextra/components";
+import { Steps } from "nextra/components";
+
+# Viewer
+
+A UI component that renders a multicanvas IIIF item viewer with pan-zoom support for `Image` via [OpenSeadragon](https://openseadragon.github.io/) and `Video` and `Sound` content resources using the [HTML video element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video).
+
+<IIIFBadge
+  href="https://iiif.io/api/presentation/3.0/#21-defined-types"
+  text={["Manifest", "Collection"]}
+/>
+
+---
+
+<Viewer
+  id="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif"
+  options={{
+    renderAbout: false,
+    showTitle: false,
+    showInformationToggle: false,
+    showIIIFBadge: false,
+  }}
+/>
+
+## Features
+
+Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Manifest or Collection and the component:
+
+- Renders a multi-canvas _Video_, _Sound_, and _Image_ viewer
+- Renders thumbnails as navigation between canvases
+- Renders annotations with the [motivation](https://iiif.io/api/presentation/3.0/#values-for-motivation) of `supplementing` with a content resource having the format of `text/vtt` for _Video_ and _Sound_
+- _Video_ and _Sound_ are rendered within a HTML5 `<video>` element
+- _Image_ canvases are renderered with [OpenSeadragon](https://openseadragon.github.io/)
+- Supports HLS streaming for Video and Audio canvases
+- Supports IIIF Collections and toggling between child Manifests
+- Supports `placeholderCanvas` for _Image_ canvases.
+
+## Installation
+
+<Tabs items={["npm", "yarn"]}>
+  {/* prettier-ignore */}
+  <Tab>
+    ```shell
+      npm install @samvera/clover-iiif
+    ```
+  </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    ```shell
+      yarn add @samvera/clover-iiif
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+### React
+
+Add the CloverIIIF component to your `jsx` or `tsx` code.
+
+```jsx
+import CloverIIIF from "@samvera/clover-iiif";
+```
+
+Render `Viewer` with a IIIF Manifest or Collection URI. The only required prop is the `id` prop, which is the URI of the IIIF Manifest or Collection.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx
+    <Viewer id="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif" />
+    ```
+  </Tab>
+  <Tab>
+    <Viewer />
+  </Tab>
+</Tabs>
+
+### Vanilla JavaScript
+
+The Viewer can also be implemented in Vanilla Javascript by use of a web component. This web component example sources a registered `<clover-viewer>` web component.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```html
+    <html>
+      <head>
+        <title>Clover IIIF - Web Component</title>
+        <meta charset="UTF-8" />
+      </head>
+      <body>
+        <script src="https://www.unpkg.com/@mathewjordan/clover-iiif-proto/dist/web-components/index.umd.js"></script>
+
+        <clover-viewer
+          id="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif"
+        />
+      </body>
+    </html>
+    ```
+
+  </Tab>
+  <Tab>
+    <Viewer />
+  </Tab>
+</Tabs>
+
+### Next.js
+
+Implementation with Next.js requires a [dynamic import](https://nextjs.org/docs/advanced-features/dynamic-import) utilizing `next/dynamic`. This is due to Next's node compilation method creating issue with an `OpenSeadragon` (a dependency of Clover IIIF) assumption of a browser `document` object.
+
+```jsx
+import dynamic from "next/dynamic";
+
+const CloverIIIF = dynamic(() => import("@samvera/clover-iiif"), {
+  ssr: false,
+});
+
+const id =
+  "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif";
+
+return <Viewer id={id} />;
+```
+
+## API Reference
+
+Clover can configured through an `options` prop, which will serve as a object for common options.
+
+| Prop                            | Type                    | Required | Default   |
+| ------------------------------- | ----------------------- | -------- | --------- |
+| `id`                            | `string`                | Yes      |           |
+| `manifestId` _(deprecated)_     | `string`                | No       |           |
+| `canvasIdCallback`              | `function`              | No       |           |
+| `customTheme`                   | `object`                | No       |           |
+| `options`                       | `object`                | No       |           |
+| `options.canvasBackgroundColor` | `string`                | No       | `#1a1d1e` |
+| `options.canvasHeight`          | `string`                | No       | `500px`   |
+| `options.ignoreCaptionLabels`   | `string[]`              | No       | []        |
+| `options.openSeadragon`         | `OpenSeadragon.Options` | No       |           |
+| `options.renderAbout`           | `boolean`               | No       | true      |
+| `options.showIIIFBadge`         | `boolean`               | No       | true      |
+| `options.showInformationToggle` | `boolean`               | No       | true      |
+| `options.showTitle`             | `boolean`               | No       | true      |
+| `options.withCredentials`       | `boolean`               | No       | false     |
+
+- Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
+- Options `renderAbout` and `showInformationToggle` relate to rendering Manifest content in an `<aside>` and providing user the choice to close that panel.
+- Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
+- Option `options.openSeadragon` will grant you ability to override the [OpenSeadragon default options](https://openseadragon.github.io/docs/OpenSeadragon.html#.Options) set within the Clover IIIF Viewer to adjust touch and mouse gesture settings and various other configurations.
+
+### Basic Configuration
+
+Example customization of various `options`.
+
+```jsx
+const options = {
+  // Primary title (Manifest label) for top level canvas.  Defaults to true
+  showTitle: false,
+
+  // IIIF Badge and popover containing options.  Defaults to true
+  showIIIFBadge: false,
+
+  // Ignore supplementing canvases by label value that are not for captioning
+  ignoreCaptionLabels: ['Chapters'],
+
+  // Override canvas background color, defaults to #1a1d1e
+  canvasBackgroundColor: "#000",
+
+  // Set canvas zooming onScoll (this defaults to false)
+  openSeadragon: {
+    gestureSettingsMouse: {
+      scrollToZoom: true;
+    }
+  }
+}
+
+<Viewer
+  id="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif"
+  options={options}
+/>
+```
+
+### Active Canvas
+
+Example on using `canvasIdCallback` to return to your consuming application the active canvas ID. This will return as a string.
+
+```jsx
+const id =
+  "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif";
+
+const handlCanvasIdCallback = (activeCanvasId) => {
+  if (activeCanvasId) console.log(activeCanvasId);
+};
+
+return <Viewer id={id} canvasIdCallback={handlCanvasIdCallback} />;
+```
+
+[See Example](https://codesandbox.io/s/samvera-clover-iiif-i0huq)
+
+---
+
+### Captions
+
+WebVTT content resources are the source for both content mapped closed captioning `<track/>` elements in the HTML 5 video player and to the navigator panel adjacent to it. You may ignore these resources as tracks if they are not intended for closed captioning or subtitling by string values matching the label of the content resource. This is a manual option within the viewer as there is no defined way for a manifest to prescribe motivation for these resources beyond `supplementing`.
+
+```jsx
+export default function App() {
+  const id =
+    "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json";
+
+  const options = {
+    ignoreCaptionLabels: ["Chapters"],
+  };
+
+  return <Viewer id={id} options={options} />;
+}
+```
+
+[See Example](https://codesandbox.io/s/hunhf)
+
+---
+
+### Custome Theme
+
+You may choose to override the base theme by setting optional colors and fonts. Naming conventions for colors are limited to those shown in the config example below.
+
+```jsx
+const id =
+  "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif";
+
+const customTheme = {
+  colors: {
+    /**
+     * Black and dark grays in a light theme.
+     * All must contrast to 4.5 or greater with `secondary`.
+     */
+    primary: "#37474F",
+    primaryMuted: "#546E7A",
+    primaryAlt: "#263238",
+
+    /**
+     * Key brand color(s).
+     * `accent` must contrast to 4.5 or greater with `secondary`.
+     */
+    accent: "#C62828",
+    accentMuted: "#E57373",
+    accentAlt: "#B71C1C",
+
+    /**
+     * White and light grays in a light theme.
+     * All must must contrast to 4.5 or greater with `primary` and  `accent`.
+     */
+    secondary: "#FFFFFF",
+    secondaryMuted: "#ECEFF1",
+    secondaryAlt: "#CFD8DC",
+  },
+  fonts: {
+    sans: "'Helvetica Neue', sans-serif",
+    display: "Optima, Georgia, Arial, sans-serif",
+  },
+};
+
+return <Viewer id={id} customTheme={customTheme} />;
+```
+
+[See Example](https://codesandbox.io/s/custom-theme-g6m5v)

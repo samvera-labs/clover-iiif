@@ -1,0 +1,289 @@
+import HomepageHeader from "docs/components/HomepageHeader";
+import Splash, { StyledGrid } from "docs/components/Splash/Splash";
+import SplashElement from "docs/components/Splash/Element";
+import Viewer from "docs/components/DynamicImports/Viewer";
+import Slider from "src/components/Slider";
+import * as IIIF from "src/components/Primitives";
+
+import "swiper/css";
+import "swiper/css/lazy";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+<HomepageHeader />
+<Splash>
+  <SplashElement
+    css={{ height: "61.8vh" }}
+    text="Viewer"
+    component={
+      <Viewer
+        id="https://api.dc.library.northwestern.edu/api/v2/works/9f9a7032-717f-4446-a0c3-193404a4c090?as=iiif"
+        options={{
+          showTitle: false,
+          showInformationToggle: false,
+          showIIIFBadge: false,
+          canvasBackgroundColor: "transparent"
+        }}
+      />
+    }
+    href="docs/viewer"
+  >
+    ```jsx
+    <Viewer iiifContent="https://api.dc.library.northwestern.edu/api/v2/works/9f9a7032-717f-4446-a0c3-193404a4c090?as=iiif" />
+    ```
+  </SplashElement>
+  <SplashElement
+    text="Slider"
+    css={{ height: "38.2vh" }}
+    component={
+      <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/bd90de9e-8e1e-43c4-8009-dd13a916a2ac?as=iiif" />
+    }
+    href="docs/slider"
+  >
+    ```jsx
+    <Slider iiifContent="https://api.dc.library.northwestern.edu/api/v2/collections/bd90de9e-8e1e-43c4-8009-dd13a916a2ac?as=iiif" />
+    ```
+  </SplashElement>
+  <StyledGrid>
+    <div>
+      <SplashElement
+        text="Label"
+        css={{ height: "14.6vh" }}
+        component={<IIIF.Label label={{
+          "none": [
+            "Deering Library, Northwestern University, Evanston, Ill."
+          ]
+        }} />}
+        href="docs/label"
+      >
+        ```jsx
+        <IIIF.Label label={manifest.label} />
+        ```
+      </SplashElement>
+      <SplashElement
+        text="Summary"
+        css={{ height: "14.6vh" }}
+        component={
+          <IIIF.Summary
+            summary={{
+              "none": [
+                "Postcard from 1937, sourced from University Archives, showcases the architectural beauty of Deering Library. Located in Evanston, Illinois, on Northwestern University's vibrant campus, this historic edifice is a testament to the rich academic heritage of the region. An emblem of Illinois history, free of copyright."
+              ]
+            }}
+          />
+        }
+        href="docs/summary"
+      >
+        ```jsx
+        <IIIF.Summary summary={manifest.summary} />
+        ```
+      </SplashElement>
+      <SplashElement
+        text="Metadata"
+        css={{ height: "24.6vh" }}
+        component={
+          <IIIF.Metadata
+            metadata={[
+              {
+                "label": {
+                  "none": [
+                    "Date"
+                  ]
+                },
+                "value": {
+                  "none": [
+                    "1937"
+                  ]
+                }
+              },
+              {
+                "label": {
+                  "none": [
+                    "Department"
+                  ]
+                },
+                "value": {
+                  "none": [
+                    "University Archives"
+                  ]
+                }
+              },
+              {
+                "label": {
+                  "none": [
+                    "Genre"
+                  ]
+                },
+                "value": {
+                  "none": [
+                    "postcards"
+                  ]
+                }
+              },
+              {
+                "label": {
+                  "none": [
+                    "Language"
+                  ]
+                },
+                "value": {
+                  "none": [
+                    "English"
+                  ]
+                }
+              },
+              {
+                "label": {
+                  "none": [
+                    "Rights Statement"
+                  ]
+                },
+                "value": {
+                  "none": [
+                    "No Copyright - United States"
+                  ]
+                }
+              },
+            ]}
+          />
+        }
+        href="docs/metadata"
+      >
+        ```jsx
+        <IIIF.Metadata metadata={manifest.metadata} />
+        ```
+      </SplashElement>
+      <SplashElement
+        text="RequiredStatement"
+        css={{ height: "14.6vh" }}
+        component={
+          <IIIF.RequiredStatement
+            requiredStatement={{
+              label: {
+                none: ["Attribution"],
+              },
+              value: {
+                none: [
+                  "Courtesy of Northwestern University Libraries",
+                  "The images on this web site are from material in the collections of the Charles Deering McCormick Library of Special Collections of Northwestern University Libraries, are provided for use by its students, faculty and staff, and by other researchers visiting this site, for research consultation and scholarly purposes only. Further distribution and/or any commercial use of the images from this site is not permitted.",
+                ],
+              },
+            }}
+          />
+        }
+        href="docs/requiredStatement"
+      >
+        ```jsx
+        <IIIF.RequiredStatement requiredStatement={manifest.requiredStatement} />
+        ``` 
+      </SplashElement>
+    </div>
+    <aside>
+      <SplashElement
+        text="Thumbnail"
+        css={{ height: "24.6vh" }}
+        component={
+          <IIIF.Thumbnail
+            thumbnail={[
+              {
+                "id": "https://api.dc.library.northwestern.edu/api/v2/works/9f9a7032-717f-4446-a0c3-193404a4c090/thumbnail",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 300,
+                "width": 300
+              }
+            ]}
+          />
+        }
+        href="docs/thumbnail"
+      >
+        ```jsx
+        <IIIF.Thumbnail thumbnail={manifest.thumbnail} />
+        ```
+      </SplashElement>
+      <SplashElement
+        text="PartOf"
+        css={{ height: "14.6vh" }}
+        component={
+          <IIIF.PartOf
+            className="clover-link"
+            partOf={[
+              {
+                "id": "https://api.dc.library.northwestern.edu/api/v2/collections/bd90de9e-8e1e-43c4-8009-dd13a916a2ac?as=iiif",
+                "type": "Collection",
+                "label": {
+                  "none": [
+                    "University Archives Postcards"
+                  ]
+                },
+                "summary": {
+                  "none": [
+                    "Postcards with views of Evanston."
+                  ]
+                }
+              }
+            ]}
+          />
+        }
+        href="docs/partOf"
+      >
+        ```jsx
+        <IIIF.PartOf partOf={manifest.partOf} />
+        ```
+      </SplashElement>
+      <SplashElement
+        text="SeeAlso"
+        css={{ height: "14.6vh" }}
+        component={
+          <IIIF.SeeAlso
+            className="clover-link"
+            seeAlso={[
+              {
+                "id": "https://api.dc.library.northwestern.edu/api/v2/works/9f9a7032-717f-4446-a0c3-193404a4c090",
+                "type": "Dataset",
+                "format": "application/json",
+                "label": {
+                  "none": [
+                    "Northwestern University Libraries Digital Collections API"
+                  ]
+                }
+              }
+            ]}
+          />
+        }
+        href="docs/seeAlso"
+      >
+        ```jsx
+        <IIIF.SeeAlso seeAlso={manifest.seeAlso} />
+        ```
+      </SplashElement>
+      <SplashElement
+        text="Homepage"
+        css={{ height: "14.6vh" }}
+        component={
+          <IIIF.Homepage
+            className="clover-link"
+            homepage={[
+              {
+                "id": "https://dc.library.northwestern.edu/items/9f9a7032-717f-4446-a0c3-193404a4c090",
+                "type": "Text",
+                "format": "text/html",
+                "label": {
+                  "none": [
+                    "Homepage at Northwestern University Libraries Digital Collections"
+                  ]
+                }
+              }
+            ]}
+          />
+        }
+        href="docs/homepage"
+      >
+        ```jsx
+        <IIIF.Homepage homepage={manifest.homepage} />
+        ```
+      </SplashElement>
+    </aside>
+
+  </StyledGrid>
+</Splash>

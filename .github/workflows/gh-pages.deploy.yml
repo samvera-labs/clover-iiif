@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy Documentation
 
 on:
   push:
@@ -9,27 +9,31 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      NEXT_PUBLIC_BASE_PATH: /clover-iiif
-
-    strategy:
-      matrix:
-        node-version: [14.x]
+      NEXT_PUBLIC_BASE_PATH: /clover-iiif-proto
 
     steps:
-      - name: Get files
-        uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install packages
+          node-version: 18.x
+
+      - name: Install
         run: npm ci
-      - name: Export static files
-        run: npm run build:static
-      - name: Add .nojekyll file
-        run: touch ./static/.nojekyll
+
+      - name: Build
+        run: npm run build:docs
+
+      - name: Bypass Jekyll
+        run: touch ./out/.nojekyll
+
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.1
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: static
+          folder: out

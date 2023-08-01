@@ -1,5 +1,6 @@
-import { getAccompanyingCanvasImage } from "@/hooks/use-iiif";
-import { manifest } from "@/mocks/iiif/audio-accompanying-canvas";
+import { getAccompanyingCanvasImage } from "src/hooks/use-iiif";
+import { manifest } from "src/mocks/iiif/audio-accompanying-canvas";
+import { vi } from "vitest";
 
 describe("getAccompanyingCanvasImage hook", () => {
   it("returns a url string if passed valid items", () => {
@@ -10,7 +11,7 @@ describe("getAccompanyingCanvasImage hook", () => {
   });
 
   it("returns undefined if there are any errors", () => {
-    console.error = jest.fn();
+    console.error = vi.fn();
     const result = getAccompanyingCanvasImage({ foo: "bar" });
     expect(console.error).toHaveBeenCalled();
     expect(result).toBeUndefined();

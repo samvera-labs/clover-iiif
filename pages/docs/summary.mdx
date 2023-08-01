@@ -1,0 +1,34 @@
+---
+title: Summary
+---
+
+import IIIFBadge from "docs/components/IIIFBadge";
+import * as IIIF from "src/components/Primitives";
+
+# Summary
+
+The Summary component is used to display a short description of the resource. It is a wrapper around the [IIIF Presentation API 3.0 summary property](https://iiif.io/api/presentation/3.0/#summary). The summary property is a multi-lingual field that can be used to provide a short description of the resource. It is recommended that the summary be less than 250 characters. The summary property is intended to be displayed to the user when the resource is being selected from a list of search results or resources.
+
+<IIIFBadge href="https://iiif.io/api/presentation/3.0/#summary" />
+
+```jsx
+import { Primitives as IIIF } from "@samvera/clover-iiif";
+
+<IIIF.Summary
+  summary={{
+    none: [
+      "written, illustrated, and published by Edward S. Curtis ; edited by Frederick Webb Hodge ; foreword by Theodore Roosevelt ; field research conducted under the patronage of J. Pierpont Morgan. ; Original photogravures produced in Boston by John Andrew & Son in 1914.",
+    ],
+  }}
+/>;
+```
+
+## Component
+
+<IIIF.Summary
+  summary={{
+    none: [
+      "written, illustrated, and published by Edward S. Curtis ; edited by Frederick Webb Hodge ; foreword by Theodore Roosevelt ; field research conducted under the patronage of J. Pierpont Morgan. ; Original photogravures produced in Boston by John Andrew & Son in 1914.",
+    ],
+  }}
+/>

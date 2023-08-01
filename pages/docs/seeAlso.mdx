@@ -1,0 +1,44 @@
+---
+title: SeeAlso
+---
+
+import IIIFBadge from "docs/components/IIIFBadge";
+import * as IIIF from "src/components/Primitives";
+
+# SeeAlso
+
+The SeeAlso component is used to display a list of related resources. A machine-readable resource such as an XML or RDF description that is related to the current resource that has the seeAlso property. The resource may be of any media type, and contain any type of data.
+
+<IIIFBadge href="https://iiif.io/api/presentation/3.0/#seealso" />
+
+```jsx
+import { Primitives as IIIF } from "@samvera/clover-iiif";
+
+<IIIF.SeeAlso
+  seeAlso={[
+    {
+      id: "https://api.dc.library.northwestern.edu/api/v2/works/0488dfa4-6e40-4484-9f19-18f54b35a019",
+      type: "Dataset",
+      format: "application/json",
+      label: {
+        none: ["Northwestern University Libraries Digital Collections API"],
+      },
+    },
+  ]}
+/>;
+```
+
+## Component
+
+<IIIF.SeeAlso
+  seeAlso={[
+    {
+      id: "https://api.dc.library.northwestern.edu/api/v2/works/0488dfa4-6e40-4484-9f19-18f54b35a019",
+      type: "Dataset",
+      format: "application/json",
+      label: {
+        none: ["Northwestern University Libraries Digital Collections API"],
+      },
+    },
+  ]}
+/>

@@ -1,0 +1,33 @@
+import Viewer from "docs/components/DynamicImports/Viewer";
+import CustomManifest from "docs/components/CustomManifest/CustomManifest";
+import { Bleed } from "nextra-theme-docs";
+import { Tabs, Tab } from "nextra/components";
+
+<CustomManifest />
+
+## Viewer
+
+<Tabs items={["Example", "Code"]}>
+  <Tab>
+    <Viewer
+      options={{
+        renderAbout: true,
+        showTitle: true,
+        showInformationToggle: true,
+        showIIIFBadge: true,
+      }}
+    />
+  </Tab>
+  <Tab>
+    ```jsx
+    <Viewer
+      options={{
+        renderAbout: true,
+        showTitle: true,
+        showInformationToggle: true,
+        showIIIFBadge: true,
+      }}
+    />
+    ```
+  </Tab>
+</Tabs>

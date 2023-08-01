@@ -1,0 +1,46 @@
+---
+title: RequiredStatement
+---
+
+import IIIFBadge from "docs/components/IIIFBadge";
+import * as IIIF from "src/components/Primitives";
+
+# RequiredStatement
+
+The RequiredStatement component renders the required statement for a IIIF resource. The required statement is a human readable label and value pair that describes the rights status of the resource.
+
+<IIIFBadge href="https://iiif.io/api/presentation/3.0/#requiredstatement" />
+
+```jsx
+import { Primitives as IIIF } from "@samvera/clover-iiif";
+
+<IIIF.RequiredStatement
+  requiredStatement={{
+    label: {
+      none: ["Attribution"],
+    },
+    value: {
+      none: [
+        "Courtesy of Northwestern University Libraries",
+        "The images on this web site are from material in the collections of the Charles Deering McCormick Library of Special Collections of Northwestern University Libraries, are provided for use by its students, faculty and staff, and by other researchers visiting this site, for research consultation and scholarly purposes only. Further distribution and/or any commercial use of the images from this site is not permitted.",
+      ],
+    },
+  }}
+/>;
+```
+
+## Component
+
+<IIIF.RequiredStatement
+  requiredStatement={{
+    label: {
+      none: ["Attribution"],
+    },
+    value: {
+      none: [
+        "Courtesy of Northwestern University Libraries",
+        "The images on this web site are from material in the collections of the Charles Deering McCormick Library of Special Collections of Northwestern University Libraries, are provided for use by its students, faculty and staff, and by other researchers visiting this site, for research consultation and scholarly purposes only. Further distribution and/or any commercial use of the images from this site is not permitted.",
+      ],
+    },
+  }}
+/>

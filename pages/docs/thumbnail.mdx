@@ -1,0 +1,101 @@
+---
+title: Thumbnail
+---
+
+import IIIFBadge from "docs/components/IIIFBadge";
+import * as IIIF from "src/components/Primitives";
+import { Tabs, Tab } from "nextra/components";
+import {
+  RenderedHTML,
+  ThumbnailVideoExample,
+  ThumbnailImageExample,
+} from "docs/components/Examples/Thumbnail";
+
+export function DynamicCode({ children, lang }) {
+  return (
+    <pre lang={lang}>
+      <code lang={lang}>{children}</code>
+    </pre>
+  );
+}
+
+# Thumbnail
+
+The Thumbnail component is used to display a thumbnail image for a work.
+
+<IIIFBadge href="https://iiif.io/api/presentation/3.0/#thumbnail" />
+
+## React Usage
+
+```jsx
+import { Primitives as IIIF } from "@samvera/clover-iiif";
+
+const CustomThumbnail = ({ thumbnail }) => {
+  return <IIIF.Thumbnail label={thumbnail} />;
+};
+
+export default CustomThumbnail;
+```
+
+## Example
+
+Default usage of Thumbnail component.
+
+<Tabs items={["Code", "Example", "Rendered HTML"]}>
+  <Tab>
+    ```jsx
+    <IIIF.Thumbnail
+      thumbnail={[
+        {
+          id: "https://api.dc.library.northwestern.edu/api/v2/works/0488dfa4-6e40-4484-9f19-18f54b35a019/thumbnail",
+          type: "Image",
+          format: "image/jpeg",
+          height: 300,
+          width: 300,
+        },
+      ]}
+    />
+    ```
+  </Tab>
+  <Tab>
+    <ThumbnailImageExample />
+  </Tab>
+  <Tab>
+    <DynamicCode lang="html">
+      <RenderedHTML>
+        <ThumbnailImageExample />
+      </RenderedHTML>
+    </DynamicCode>
+  </Tab>
+</Tabs>
+
+### Video Thumbnail
+
+<Tabs items={["Code", "Example", "Rendered HTML"]}>
+  <Tab>
+    ```jsx
+    <IIIF.Thumbnail
+      thumbnail={[
+        {
+          id: "https://meadow-streaming.rdc.library.northwestern.edu/31/ea/94/58/-6/f1/4-/45/48/-9/30/b-/62/c3/db/19/2e/b6/1949_NU-Rosebowl-vs-Cal.m3u8#t=500,530",
+          type: "Video",
+          format: "video/mp4",
+          width: 300,
+          height: 300,
+          duration: 30,
+        },
+      ]}
+    />
+    ```
+  </Tab>
+  <Tab>
+    <ThumbnailVideoExample />
+  </Tab>
+  <Tab>
+    <DynamicCode lang="html">
+      <RenderedHTML>
+        <ThumbnailVideoExample />
+      </RenderedHTML>
+    </DynamicCode>
+  </Tab>
+</Tabs>

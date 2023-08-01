@@ -1,0 +1,46 @@
+---
+title: PartOf
+---
+
+import IIIFBadge from "docs/components/IIIFBadge";
+import * as IIIF from "src/components/Primitives";
+
+# PartOf
+
+A containing resource that includes the resource that has the partOf property.
+
+<IIIFBadge href="https://iiif.io/api/presentation/3.0/#partof" />
+
+```jsx
+import { Primitives as IIIF } from "@samvera/clover-iiif";
+
+<IIIF.PartOf
+  partOf={[
+    {
+      id: "https://digital.lib.utk.edu/assemble/collection/collections/rftaart",
+      type: "Collection",
+      label: { none: ["Parent Collection"] },
+    },
+    {
+      id: "https://digital.lib.utk.edu/assemble/collection/collections/rftacuratedart",
+      type: "Collection",
+    },
+  ]}
+/>;
+```
+
+## Component
+
+<IIIF.PartOf
+  partOf={[
+    {
+      id: "https://digital.lib.utk.edu/assemble/collection/collections/rftaart",
+      type: "Collection",
+      label: { none: ["Parent Collection"] },
+    },
+    {
+      id: "https://digital.lib.utk.edu/assemble/collection/collections/rftacuratedart",
+      type: "Collection",
+    },
+  ]}
+/>

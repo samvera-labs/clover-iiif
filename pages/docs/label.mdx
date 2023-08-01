@@ -1,0 +1,72 @@
+---
+title: Label
+---
+
+import IIIFBadge from "docs/components/IIIFBadge";
+import * as IIIF from "src/components/Primitives";
+import { Tabs, Tab } from "nextra/components";
+import { RenderedHTML, LabelExample } from "docs/components/Examples/Label";
+
+export function DynamicCode({ children, lang }) {
+  return (
+    <pre lang={lang}>
+      <code lang={lang}>{children}</code>
+    </pre>
+  );
+}
+
+# Label
+
+The `Label` component is used to display the label of a resource. It is used in the following contexts: Manifest, Canvas, Range, Annotation, AnnotationPage, Collection, and Manifest. It is a string or an object with language keys and string values.
+
+<IIIFBadge href="https://iiif.io/api/presentation/3.0/#label" />
+
+## React Usage
+
+```jsx
+import { Primitives as IIIF } from "@samvera/clover-iiif";
+
+const CustomLabel = ({ label }) => {
+  return <IIIF.Label label={label} />;
+};
+
+export default CustomLabel;
+```
+
+## Example
+
+Default usage of label component.
+
+<Tabs items={["Code", "Example", "Rendered HTML"]}>
+  <Tab>
+    ```jsx
+    <IIIF.Label label={{ none: ["Crossing the Pend d'Oreille - Kalispel"] }} />
+    ```
+  </Tab>
+  <Tab>
+    <LabelExample />
+  </Tab>
+  <Tab>
+    <DynamicCode lang="html">
+      <RenderedHTML />
+    </DynamicCode>
+  </Tab>
+</Tabs>
+
+### Styling
+
+<Tabs items={["Code", "Example", "Rendered HTML"]}>
+  <Tab>
+    ```jsx
+    <IIIF.Label label={{ none: ["Crossing the Pend d'Oreille - Kalispel"] }} />
+    ```
+  </Tab>
+  <Tab>
+    <LabelExample />
+  </Tab>
+  <Tab>
+    <DynamicCode lang="html">
+      <RenderedHTML />
+    </DynamicCode>
+  </Tab>
+</Tabs>

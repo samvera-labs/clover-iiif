@@ -1,0 +1,22 @@
+import Slider from "src/components/Slider";
+import { Bleed } from "nextra-theme-docs";
+import { Tabs, Tab } from "nextra/components";
+
+import "swiper/css";
+import "swiper/css/lazy";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+## Slider
+
+<Tabs items={["Example", "Code"]}>
+  <Tab>
+    <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif" />
+  </Tab>
+  <Tab>
+    ```jsx
+    <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif" />
+    ```
+
+  </Tab>
+</Tabs>

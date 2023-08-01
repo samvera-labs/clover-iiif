@@ -1,0 +1,24 @@
+{
+  "index": {
+    "type": "page",
+    "title": "Clover IIIF",
+    "display": "hidden",
+    "theme": {
+      "layout": "raw"
+    }
+  },
+  "docs": {
+    "title": "Documentation",
+    "type": "page"
+  },
+  "about": {
+    "title": "About",
+    "type": "page"
+  },
+  "contact": {
+    "title": "IIIF Presentation API ↗",
+    "type": "page",
+    "href": "https://iiif.io/api/presentation",
+    "newWindow": true
+  }
+}

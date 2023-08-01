@@ -1,0 +1,40 @@
+---
+title: Homepage
+---
+
+import IIIFBadge from "docs/components/IIIFBadge";
+import * as IIIF from "src/components/Primitives";
+
+# Homepage
+
+A web page that is about the object represented by the resource that has the homepage property.
+
+<IIIFBadge href="https://iiif.io/api/presentation/3.0/#homepage" />
+
+```jsx
+import { Primitives as IIIF } from "@samvera/clover-iiif";
+
+<IIIF.Homepage
+  homepage={[
+    {
+      id: "https://en.wikipedia.org/wiki/Western_honey_bee",
+      type: "Text",
+      label: { none: ["Apis mellifera"], en: ["Western honey bee"] },
+      format: "text/html",
+    },
+  ]}
+/>;
+```
+
+## Component
+
+<IIIF.Homepage
+  homepage={[
+    {
+      id: "https://en.wikipedia.org/wiki/Western_honey_bee",
+      type: "Text",
+      label: { none: ["Apis mellifera"], en: ["Western honey bee"] },
+      format: "text/html",
+    },
+  ]}
+/>
