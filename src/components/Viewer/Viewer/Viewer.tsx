@@ -1,25 +1,27 @@
-import React, { useEffect, useState } from "react";
+import * as Collapsible from "@radix-ui/react-collapsible";
+
 import {
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
 } from "@iiif/presentation-3";
+import React, { useEffect, useState } from "react";
 import {
   getPaintingResource,
   getSupplementingResources,
 } from "src/hooks/use-iiif";
-import { useViewerState } from "src/context/viewer-context";
-import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
-import { useMediaQuery } from "src/hooks/useMediaQuery";
-import { useBodyLocked } from "src/hooks/useBodyLocked";
-import { media } from "src/styles/stitches.config";
-import * as Collapsible from "@radix-ui/react-collapsible";
-import ViewerHeader from "src/components/Viewer/Viewer/Header";
-import ViewerContent from "src/components/Viewer/Viewer/Content";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
-import { IIIFExternalWebResource } from "@iiif/presentation-3";
-import ErrorFallback from "src/components/Viewer/Viewer/ErrorFallback";
+
 import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallback from "src/components/Viewer/Viewer/ErrorFallback";
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
+import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
+import ViewerContent from "src/components/Viewer/Viewer/Content";
+import ViewerHeader from "src/components/Viewer/Viewer/Header";
+import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
+import { media } from "src/styles/stitches.config";
+import { useBodyLocked } from "src/hooks/useBodyLocked";
+import { useMediaQuery } from "src/hooks/useMediaQuery";
+import { useViewerState } from "src/context/viewer-context";
 
 interface ViewerProps {
   manifest: ManifestNormalized;

@@ -1,19 +1,10 @@
-import { enableFetchMocks } from "jest-fetch-mock";
+import ImageViewer from "src/components/Viewer/ImageViewer/ImageViewer";
 import React from "react";
 import { render } from "@testing-library/react";
-import ImageViewer from "src/components/Viewer/ImageViewer/ImageViewer";
 import { tileSourceResponse } from "src/lib/iiif-test-fixtures";
 
-enableFetchMocks();
-
 describe("ImageViewer component", () => {
-  beforeEach(() => {
-    fetchMock.resetMocks();
-  });
-
   it("renders", () => {
-    fetchMock.mockResponseOnce(JSON.stringify(tileSourceResponse));
-
     render(
       <ImageViewer
         body={{

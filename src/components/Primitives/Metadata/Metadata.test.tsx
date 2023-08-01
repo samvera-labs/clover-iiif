@@ -1,6 +1,7 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
+
 import Metadata from "src/components/Primitives/Metadata/Metadata";
+import React from "react";
 
 const metadata = [
   {

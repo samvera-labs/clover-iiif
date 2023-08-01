@@ -1,18 +1,19 @@
-import React from "react";
-import Media from "src/components/Viewer/Media/Media";
-import Navigator from "src/components/Viewer/Navigator/Navigator";
-import { Button } from "@nulib/design-system";
-import { Canvas, IIIFExternalWebResource } from "@iiif/presentation-3";
 import {
+  Aside,
+  CollapsibleContent,
+  CollapsibleTrigger,
   Content,
   Main,
-  CollapsibleTrigger,
-  CollapsibleContent,
   MediaWrapper,
-  Aside,
 } from "src/components/Viewer/Viewer/Viewer.styled";
+import { Canvas, IIIFExternalWebResource } from "@iiif/presentation-3";
+
+import { Button } from "@nulib/design-system";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
+import Media from "src/components/Viewer/Media/Media";
+import Navigator from "src/components/Viewer/Navigator/Navigator";
 import Painting from "../Painting/Painting";
+import React from "react";
 
 interface Props {
   activeCanvas: string;
