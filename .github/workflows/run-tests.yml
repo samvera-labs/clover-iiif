@@ -1,0 +1,36 @@
+name: Run Tests
+
+on:
+  pull_request:
+    branches: [suite]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      NEXT_PUBLIC_BASE_PATH: /clover-iiif-proto
+
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+
+      - name: Get files
+        uses: actions/checkout@v3
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: "lts/*"
+          cache: "pnpm"
+
+      - name: Install packages
+        run: pnpm install
+
+      - name: Run tests
+        run: pnpm test

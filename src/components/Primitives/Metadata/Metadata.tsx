@@ -1,5 +1,6 @@
 import MetadataItem from "src/components/Primitives/Metadata/Item";
 import { PrimitivesMetadata } from "src/types/primitives";
+import { PrimitivesProvider } from "src/context/primitives-context";
 import React from "react";
 import { getRealPropertyValue } from "src/lib/utils";
 import { parseCustomContent } from "src/lib/custom";
@@ -27,7 +28,11 @@ const Metadata: React.FC<PrimitivesMetadata> = (props) => {
   let attributes = sanitizeAttributes(props, remove);
 
   return (
-    <>
+    <PrimitivesProvider
+      {...(typeof delimiter === "string"
+        ? { initialState: { delimiter: delimiter as string } }
+        : undefined)}
+    >
       {metadata.length > 0 && (
         <StyledMetadata as={as} {...attributes}>
           {metadata.map((item, index) => {
@@ -46,7 +51,7 @@ const Metadata: React.FC<PrimitivesMetadata> = (props) => {
           })}
         </StyledMetadata>
       )}
-    </>
+    </PrimitivesProvider>
   );
 };
 

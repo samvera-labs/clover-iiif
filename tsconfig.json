@@ -24,7 +24,8 @@
     "skipLibCheck": true,
     "strict": false,
     "strictNullChecks": true,
-    "target": "esnext"
+    "target": "esnext",
+    "types": ["vitest/globals"]
   },
   "paths": {
     "docs/*": ["docs/*"],

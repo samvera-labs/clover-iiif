@@ -1,13 +1,14 @@
-import React from "react";
-import Player from "src/components/Viewer/Player/Player";
-import ImageViewer from "src/components/Viewer/ImageViewer/ImageViewer";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import {
   CanvasNormalized,
   IIIFExternalWebResource,
 } from "@iiif/presentation-3";
+
+import ImageViewer from "src/components/Viewer/ImageViewer/ImageViewer";
+import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import PaintingPlaceholder from "./Placeholder";
 import { PaintingStyled } from "./Painting.styled";
+import Player from "src/components/Viewer/Player/Player";
+import React from "react";
 import Toggle from "./Toggle";
 import { useViewerState } from "src/context/viewer-context";
 

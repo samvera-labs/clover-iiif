@@ -1,6 +1,8 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
+
 import Item from "src/components/Primitives/Metadata/Item";
+import { PrimitivesProvider } from "src/context/primitives-context";
+import React from "react";
 import { customValueContent } from "src/fixtures/custom";
 
 const htmlWithinMetadataItem = {
@@ -39,7 +41,7 @@ const itemForCustomValue = {
 
 describe("metadata primitive (item)", () => {
   function withProvider(Component: React.ReactNode) {
-    return <>{Component}</>;
+    return <PrimitivesProvider>{Component}</PrimitivesProvider>;
   }
   /**
    * test rendering of html in metadata value
