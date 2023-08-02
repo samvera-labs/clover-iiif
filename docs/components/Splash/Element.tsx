@@ -97,7 +97,7 @@ const HighlightCode = styled("span", {
 
 const Title = styled("span", {
   lineHeight: "1",
-  fontSize: "1.15rem",
+  fontSize: "1.25rem",
   fontWeight: "800",
   letterSpacing: "-0.02em",
   display: "flex",
@@ -161,10 +161,11 @@ const StyledSplashElement = styled("button", {
     opacity: "1",
 
     [`${Title}`]: {
-      color: "#fff",
+      color: "transparent",
       background:
         "linear-gradient(130deg, hsl(var(--nextra-primary-hue), 100%, 45%) 0%, hsl(calc(var(--nextra-primary-hue) + 50deg), 100%, 38.2%) 100%)",
       paddingBottom: "1.5rem",
+      backgroundClip: "text",
 
       "&::after": {
         opacity: "1",
@@ -180,7 +181,6 @@ const StyledSplashElement = styled("button", {
     },
 
     [`${Preview}`]: {
-      opacity: "1",
       marginTop: "4.25rem",
     },
   },
