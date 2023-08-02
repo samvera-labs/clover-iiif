@@ -38,8 +38,6 @@ const SplashElement: React.FC<SplashElemenProps> = ({
   );
 };
 
-const gradientMask = ["rgba(0, 0, 0, 0.2) 0", "rgba(0, 0, 0, 1) 5rem"];
-
 const Preview = styled("div", {
   lineHeight: "1",
   position: "absolute",
@@ -47,10 +45,9 @@ const Preview = styled("div", {
   height: "100%",
   zIndex: "0",
   transition: "all 200ms ease-in-out",
-  margin: "6rem 0 0",
+  margin: "5.75rem 0 0",
   padding: "1.5rem ",
   background: "hsla(var(--nextra-primary-hue), 100%, 100%, 1%)",
-  maskImage: `linear-gradient(0deg, ${gradientMask.join(", ")})`,
 
   "p, span, dl": {
     lineHeight: "1.35",
@@ -74,6 +71,7 @@ const Preview = styled("div", {
   ".clover-link": {
     textDecoration: "underline",
     color: "hsl(var(--nextra-primary-hue) 100% 45%)",
+    lineHeight: "1.35",
   },
 });
 
@@ -99,7 +97,7 @@ const HighlightCode = styled("span", {
 
 const Title = styled("span", {
   lineHeight: "1",
-  fontSize: "1.25rem",
+  fontSize: "1.15rem",
   fontWeight: "800",
   letterSpacing: "-0.02em",
   display: "flex",
@@ -110,8 +108,7 @@ const Title = styled("span", {
   transition: "all 100ms ease-in-out",
 
   "&::after": {
-    fontWeight: "500",
-    fontSize: "1rem",
+    fontWeight: "400",
     display: "inline-flex",
     content: "→",
     opacity: "0",
@@ -127,7 +124,10 @@ const Inner = styled("div", {
   boxShadow: "1px 1px 5px #0001",
   position: "relative",
   width: "100%",
+  background: "hsla(var(--nextra-primary-hue), 100%, 100%, 3%)",
 });
+
+const gradientMask = ["rgba(0, 0, 0, 0) 3px", "rgba(0, 0, 0, 1) 5rem"];
 
 const StyledSplashElement = styled("button", {
   display: "flex",
@@ -143,6 +143,7 @@ const StyledSplashElement = styled("button", {
   boxShadow: "2px 5px 14.6px #0001",
   minHeight: "165px",
   cursor: "pointer",
+  maskImage: `linear-gradient(0deg, ${gradientMask.join(", ")})`,
 
   "&::after": {
     content: "",
@@ -150,7 +151,6 @@ const StyledSplashElement = styled("button", {
     position: "absolute",
     width: "100%",
     height: "100%",
-    background: "transparent",
   },
 
   "@md": {
@@ -159,15 +159,12 @@ const StyledSplashElement = styled("button", {
 
   "&:hover, &:focus": {
     opacity: "1",
-    boxShadow:
-      "-15px 0 30px -15px hsla(var(--nextra-primary-hue), 100%, 45%, 20%), 0 0 30px -15px hsla(235, 100%, 38.2%, 38.2%), 15px 0 30px -15px hsla(calc(var(--nextra-primary-hue) + 10deg), 100%, 85%, 25%)",
 
     [`${Title}`]: {
-      color: "transparent",
+      color: "#fff",
       background:
         "linear-gradient(130deg, hsl(var(--nextra-primary-hue), 100%, 45%) 0%, hsl(calc(var(--nextra-primary-hue) + 50deg), 100%, 38.2%) 100%)",
       paddingBottom: "1.5rem",
-      backgroundClip: "text",
 
       "&::after": {
         opacity: "1",
@@ -177,8 +174,6 @@ const StyledSplashElement = styled("button", {
     },
 
     [`${Inner}`]: {
-      backgroundColor: "",
-
       [`${HighlightCode}`]: {
         opacity: "0",
       },
@@ -186,7 +181,7 @@ const StyledSplashElement = styled("button", {
 
     [`${Preview}`]: {
       opacity: "1",
-      marginTop: "4rem",
+      marginTop: "4.25rem",
     },
   },
 });

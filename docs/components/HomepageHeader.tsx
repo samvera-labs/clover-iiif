@@ -35,9 +35,9 @@ const Headline = styled("h1", {
 });
 
 const Subtitle = styled("p", {
-  fontSize: "1.3rem",
+  fontSize: "1.47rem",
   lineHeight: "1.6",
-  opacity: "0.8",
+  opacity: "0.7",
   marginBottom: "2rem",
 });
 

@@ -17,7 +17,8 @@ const CallToAction: React.FC<CallToActionProps> = ({ href, text }) => {
 
 const StyledCallToAction = styled(Link, {
   display: "inline-flex",
-  fontSize: "1.3rem",
+  fontSize: "1.47rem",
+  fontWeight: "400",
   lineHeight: "1.6",
   borderRadius: "6px",
   color: "#fff",
