@@ -3,7 +3,7 @@ import { styled } from "src/styles/stitches.config";
 
 const Splash = ({ children }: { children: ReactNode | ReactNode[] }) => {
   return (
-    <StyledSplashWrapper>
+    <StyledSplashWrapper className="nx-bg-gray-100 nx-pb-[env(safe-area-inset-bottom)] dark:nx-bg-neutral-900 print:nx-bg-transparent">
       <StyledSplash>{children}</StyledSplash>
     </StyledSplashWrapper>
   );
@@ -12,6 +12,11 @@ const Splash = ({ children }: { children: ReactNode | ReactNode[] }) => {
 export const StyledGrid = styled("div", {
   display: "flex",
   gap: "2rem",
+
+  "@md": {
+    flexDirection: "column",
+    gap: "0",
+  },
 
   "> div": {
     flexShrink: "0",
@@ -22,6 +27,12 @@ export const StyledGrid = styled("div", {
     flexShrink: "1",
     flexGrow: "0",
     width: "38.2%",
+
+    "@md": {
+      flexShrink: "0",
+      flexGrow: "1",
+      width: "100%",
+    },
   },
 });
 
@@ -29,7 +40,6 @@ export const StyledSplashWrapper = styled("div", {
   display: "flex",
   flexDirection: "row",
   justifyContent: "center",
-  background: "linear-gradient(0deg, #0001 61.8%, transparent)",
 });
 
 export const StyledSplash = styled("div", {
@@ -38,6 +48,18 @@ export const StyledSplash = styled("div", {
   padding: "1rem",
   flexShrink: "0",
   flexGrow: "0",
+
+  "@lg": {
+    padding: "1rem 4rem",
+  },
+
+  "@md": {
+    padding: "0 3rem 3rem",
+  },
+
+  "@sm": {
+    padding: "0 1rem 3rem",
+  },
 });
 
 export default Splash;

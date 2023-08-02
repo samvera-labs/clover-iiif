@@ -1,9 +1,9 @@
-import React from "react";
 import { DocsThemeConfig } from "nextra-theme-docs";
 import Logo from "./docs/components/Logo";
+import React from "react";
 import { useConfig } from "nextra-theme-docs";
-import { useRouter } from "next/router";
 import { useMemo } from "react";
+import { useRouter } from "next/router";
 
 const siteTitle = "Clover IIIF";
 const siteDescription = "Showcase IIIF Manifests as interopable web content.";
