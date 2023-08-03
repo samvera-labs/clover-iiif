@@ -19,9 +19,30 @@ export function DynamicCode({ children, lang }) {
 
 The `Label` component is used to display the label of a resource. It is used in the following contexts: Manifest, Canvas, Range, Annotation, AnnotationPage, Collection, and Manifest. It is a string or an object with language keys and string values.
 
-<IIIFBadge href="https://iiif.io/api/presentation/3.0/#label" />
+<IIIFBadge
+  href="https://iiif.io/api/presentation/3.0/#label"
+  text={["label"]}
+/>
 
-## React Usage
+<Tabs items={["Code", "Example", "HTML"]}>
+  <Tab>
+    ```jsx
+    <IIIF.Label label={{ none: ["Crossing the Pend d'Oreille - Kalispel"] }} />
+    ```
+  </Tab>
+  <Tab>
+    <IIIF.Label label={{ none: ["Crossing the Pend d'Oreille - Kalispel"] }} />
+  </Tab>
+  <Tab>
+    ```html
+    <span class="c-PJLV">Crossing the Pend d'Oreille - Kalispel</span>
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+### React
 
 ```jsx
 import { Primitives as IIIF } from "@samvera/clover-iiif";
@@ -33,40 +54,103 @@ const CustomLabel = ({ label }) => {
 export default CustomLabel;
 ```
 
-## Example
+## API Reference
 
-Default usage of label component.
+| Prop        | Type                                                                  | Default | Required |
+| ----------- | --------------------------------------------------------------------- | ------- | -------- |
+| `as`        | ` span`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `p`, `label`, `dt`, `dd` | `span`  | --       |
+| `label`     | [label](https://iiif.io/api/presentation/3.0/#label)                  | --      | **Yes**  |
+| `className` | `string`, `undefined`                                                 | --      | --       |
+| `style`     | `CSSProperties`, `undefined`                                          | --      | --       |
+| `lang`      | `string`, `undefined`                                                 | --      | --       |
+| `title`     | `string`, `undefined`                                                 | --      | --       |
+| `data-*`    | `string`, `undefined`                                                 | --      | --       |
+| `aria-*`    | `AriaAttributes`, `undefined`                                         | --      | --       |
 
-<Tabs items={["Code", "Example", "Rendered HTML"]}>
+### Custom Element
+
+The `Label` component can be rendered as ` span`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `p`, `label`, `dt`, or `dd`. The default is `span`.
+
+<Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.Label label={{ none: ["Crossing the Pend d'Oreille - Kalispel"] }} />
+    <IIIF.Label
+      label={{ none: ["Self-Portrait Dedicated to Paul Gauguin"] }}
+      as="h3"
+    />
     ```
   </Tab>
   <Tab>
-    <LabelExample />
+    <IIIF.Label
+      label={{ none: ["Self-Portrait Dedicated to Paul Gauguin"] }}
+      as="h3"
+    />
   </Tab>
   <Tab>
-    <DynamicCode lang="html">
-      <RenderedHTML />
-    </DynamicCode>
+    ```html
+    <h3 class="c-PJLV">Self-Portrait Dedicated to Paul Gauguin</h1>
+    ```
   </Tab>
 </Tabs>
 
-### Styling
+### HTML Attributes
 
-<Tabs items={["Code", "Example", "Rendered HTML"]}>
+`Label`, like all Clover IIIF primitives accept common HTMLElement attributes. Use the JSX style `className` prop to add custom classes. The same attribute methodology can be used for `id`, `style`, `title`, `data-*`, and `aria-*` props.
+
+<Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.Label label={{ none: ["Crossing the Pend d'Oreille - Kalispel"] }} />
+    <IIIF.Label
+      label={{ none: ["Self-Portrait Dedicated to Paul Gauguin"] }}
+      className="custom-label-class"
+    />
     ```
   </Tab>
   <Tab>
-    <LabelExample />
+    <IIIF.Label
+      label={{ none: ["Self-Portrait Dedicated to Paul Gauguin"] }}
+      className="custom-label-class"
+    />
   </Tab>
   <Tab>
-    <DynamicCode lang="html">
-      <RenderedHTML />
-    </DynamicCode>
+    ```html
+    <span class="c-PJLV custom-label-class" id="custom-label-id">
+      Self-Portrait Dedicated to Paul Gauguin
+    </span>
+    ```
+  </Tab>
+</Tabs>
+
+### Language
+
+Additional to being rendered to the DOM like other HTML attributes, the value of `lang` will couple with [InternationalString](https://github.com/IIIF-Commons/presentation-3-types/blob/main/iiif/descriptive.d.ts#L6-L8) props to output the denoted `label`, `value`, `summary` entries. If `lang` is undefined, entries will default to the first entry in the array index.
+
+<Tabs items={["Code", "Example", "HTML"]}>
+  <Tab>
+    ```jsx
+    <IIIF.Label
+      label={{
+        en: ["Notes from staging and environment meetings"],
+        fr: ["Notes des réunions de mise en scène et d'environnement"],
+      }}
+      lang="fr"
+    />
+    ```
+  </Tab>
+  <Tab>
+    <IIIF.Label
+      label={{
+        en: ["Notes from staging and environment meetings"],
+        fr: ["Notes des réunions de mise en scène et d'environnement"],
+      }}
+      lang="fr"
+    />
+  </Tab>
+  <Tab>
+    ```html
+    <span lang="fr" class="c-PJLV">
+      Notes des réunions de mise en scène et d'environnement
+    </span>
+    ```
   </Tab>
 </Tabs>
