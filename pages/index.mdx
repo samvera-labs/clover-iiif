@@ -17,7 +17,7 @@ import "swiper/css/pagination";
     text="Viewer"
     component={
       <Viewer
-        id="https://api.dc.library.northwestern.edu/api/v2/works/9f9a7032-717f-4446-a0c3-193404a4c090?as=iiif"
+        id="https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif"
         options={{
           showTitle: false,
           showInformationToggle: false,
@@ -29,19 +29,19 @@ import "swiper/css/pagination";
     href="docs/viewer"
   >
     ```jsx
-    <Viewer iiifContent="https://api.dc.library.northwestern.edu/api/v2/works/9f9a7032-717f-4446-a0c3-193404a4c090?as=iiif" />
+    <Viewer iiifContent="https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif" />
     ```
   </SplashElement>
   <SplashElement
     text="Slider"
     css={{ height: "38.2vh" }}
     component={
-      <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/bd90de9e-8e1e-43c4-8009-dd13a916a2ac?as=iiif" />
+      <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif" />
     }
     href="docs/slider"
   >
     ```jsx
-    <Slider iiifContent="https://api.dc.library.northwestern.edu/api/v2/collections/bd90de9e-8e1e-43c4-8009-dd13a916a2ac?as=iiif" />
+    <Slider iiifContent="https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif" />
     ```
   </SplashElement>
   <StyledGrid>
@@ -51,7 +51,7 @@ import "swiper/css/pagination";
         css={{ height: "14.6vh" }}
         component={<IIIF.Label label={{
           "none": [
-            "Deering Library, Northwestern University, Evanston, Ill."
+            "Zagna \"lunga\""
           ]
         }} />}
         href="docs/label"
@@ -67,7 +67,7 @@ import "swiper/css/pagination";
           <IIIF.Summary
             summary={{
               "none": [
-                "Postcard from 1937, sourced from University Archives, showcases the architectural beauty of Deering Library. Located in Evanston, Illinois, on Northwestern University's vibrant campus, this historic edifice is a testament to the rich academic heritage of the region. An emblem of Illinois history, free of copyright."
+                "In early zannesque comedy, all the female characters were comic, grotesque, and played by men. Zagna, the feminine counterpart to Zanni, is the formal, comic-grotesque exaggeration of the woman. The actors wore female clothing over an exaggerated female body, an effect achieved with the addition of excessive, carnivalesque accessories.  The Zagna mask, similar if not identical to the male mask, was worn with a scarf to cover the head."
               ]
             }}
           />
@@ -87,12 +87,36 @@ import "swiper/css/pagination";
               {
                 "label": {
                   "none": [
+                    "Alternate Title"
+                  ]
+                },
+                "value": {
+                  "none": [
+                    "Fava"
+                  ]
+                }
+              },
+              {
+                "label": {
+                  "none": [
+                    "Creator"
+                  ]
+                },
+                "value": {
+                  "none": [
+                    "Fava, Antonio, 1949-"
+                  ]
+                }
+              },
+              {
+                "label": {
+                  "none": [
                     "Date"
                   ]
                 },
                 "value": {
                   "none": [
-                    "1937"
+                    "2012"
                   ]
                 }
               },
@@ -104,7 +128,19 @@ import "swiper/css/pagination";
                 },
                 "value": {
                   "none": [
-                    "University Archives"
+                    "Charles Deering McCormick Library of Special Collections"
+                  ]
+                }
+              },
+              {
+                "label": {
+                  "none": [
+                    "Dimensions"
+                  ]
+                },
+                "value": {
+                  "none": [
+                    "14 x 14 x 18 cm"
                   ]
                 }
               },
@@ -116,34 +152,10 @@ import "swiper/css/pagination";
                 },
                 "value": {
                   "none": [
-                    "postcards"
+                    "comic masks"
                   ]
                 }
-              },
-              {
-                "label": {
-                  "none": [
-                    "Language"
-                  ]
-                },
-                "value": {
-                  "none": [
-                    "English"
-                  ]
-                }
-              },
-              {
-                "label": {
-                  "none": [
-                    "Rights Statement"
-                  ]
-                },
-                "value": {
-                  "none": [
-                    "No Copyright - United States"
-                  ]
-                }
-              },
+              }
             ]}
           />
         }
@@ -186,7 +198,7 @@ import "swiper/css/pagination";
           <IIIF.Thumbnail
             thumbnail={[
               {
-                "id": "https://api.dc.library.northwestern.edu/api/v2/works/9f9a7032-717f-4446-a0c3-193404a4c090/thumbnail",
+                "id": "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275/thumbnail",
                 "type": "Image",
                 "format": "image/jpeg",
                 "height": 300,
@@ -209,16 +221,16 @@ import "swiper/css/pagination";
             className="clover-link"
             partOf={[
               {
-                "id": "https://api.dc.library.northwestern.edu/api/v2/collections/bd90de9e-8e1e-43c4-8009-dd13a916a2ac?as=iiif",
+                "id": "https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif",
                 "type": "Collection",
                 "label": {
                   "none": [
-                    "University Archives Postcards"
+                    "Commedia dell'Arte: The Masks of Antonio Fava"
                   ]
                 },
                 "summary": {
                   "none": [
-                    "Postcards with views of Evanston."
+                    "The Commedia dell'Arte, the famous improvisational theatre style born in Renaissance Italy, remains a major influence in today's theatre. Antonio Fava is an actor, comedian, author, director, musician, mask maker and Internationally renowned Maestro of Commedia dell'Arte.  The masks in this collection are all stored in the Charles Deering McCormick Library of Special Collections. Fava's book The Comic Mask in the Commedia dell'Arte is published by Northwestern University Press."
                   ]
                 }
               }
@@ -239,7 +251,7 @@ import "swiper/css/pagination";
             className="clover-link"
             seeAlso={[
               {
-                "id": "https://api.dc.library.northwestern.edu/api/v2/works/9f9a7032-717f-4446-a0c3-193404a4c090",
+                "id": "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275",
                 "type": "Dataset",
                 "format": "application/json",
                 "label": {
@@ -265,7 +277,7 @@ import "swiper/css/pagination";
             className="clover-link"
             homepage={[
               {
-                "id": "https://dc.library.northwestern.edu/items/9f9a7032-717f-4446-a0c3-193404a4c090",
+                "id": "https://dc.library.northwestern.edu/items/71153379-4283-43be-8b0f-4e7e3bfda275",
                 "type": "Text",
                 "format": "text/html",
                 "label": {
