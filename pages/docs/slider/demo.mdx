@@ -1,4 +1,5 @@
-import Slider from "src/components/Slider";
+import Slider from "docs/components/DynamicImports/Slider";
+import CustomManifest from "docs/components/CustomManifest/CustomManifest";
 import { Bleed } from "nextra-theme-docs";
 import { Tabs, Tab } from "nextra/components";
 
@@ -7,16 +8,8 @@ import "swiper/css/lazy";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
+<CustomManifest />
+
 ## Slider
 
-<Tabs items={["Example", "Code"]}>
-  <Tab>
-    <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif" />
-  </Tab>
-  <Tab>
-    ```jsx
-    <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif" />
-    ```
-
-  </Tab>
-</Tabs>
+<Slider iiifContent="https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif" />
