@@ -1,4 +1,5 @@
 import * as AspectRatio from "@radix-ui/react-aspect-ratio";
+
 import React from "react";
 import { styled } from "src/styles/stitches.config";
 
@@ -8,7 +9,7 @@ interface PlaceholderProps {
 
 const Placeholder: React.FC<PlaceholderProps> = ({ backgroundImage }) => {
   return (
-    <StyledPlaceholder>
+    <StyledPlaceholder data-testid="slider-item-placeholder">
       <BackgroundImage
         ratio={1 / 1}
         css={{

@@ -25,8 +25,6 @@ const Item: React.FC<ItemProps> = ({ handleItemInteraction, index, item }) => {
   const [status, setStatus] = useState<number>(200);
   const [thumbnail, setThumbnail] = useState<IIIFExternalWebResource[]>([]);
 
-  //console.log("placeholder", placeholder);
-
   useEffect(() => {
     if (item?.thumbnail && item?.thumbnail?.length > 0) {
       getResponseStatus(item, credentials).then((status) => {
@@ -68,7 +66,7 @@ const Item: React.FC<ItemProps> = ({ handleItemInteraction, index, item }) => {
         onMouseEnter={onFocus}
         onMouseLeave={onBlur}
       >
-        {placeholder && <Placeholder backgroundImage={placeholder} />}
+        {placeholder && <Placeholder backgroundImage={""} />}
         <Figure
           data-testid="slider-item-figure"
           index={index}

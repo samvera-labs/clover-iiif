@@ -1,14 +1,15 @@
+import { A11y, Navigation } from "swiper";
+import { Collection, CollectionItems, Manifest } from "@iiif/presentation-3";
 import React, { useRef } from "react";
-import { CollectionItems, Collection, Manifest } from "@iiif/presentation-3";
-import { SwiperBreakpoints } from "src/types/slider";
+import { SliderItem, SwiperBreakpoints } from "src/types/slider";
+import { Swiper, SwiperSlide } from "swiper/react";
+
 import Item from "./Item";
 import { ItemsStyled } from "src/components/Slider/Items/Items.styled";
-import { Navigation, A11y } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 interface ItemsProps {
   breakpoints?: SwiperBreakpoints;
-  handleItemInteraction?: (item: Collection | Manifest) => void;
+  handleItemInteraction?: (item: SliderItem) => void;
   instance: number;
   items: CollectionItems[];
 }
@@ -75,7 +76,7 @@ const Items: React.FC<ItemsProps> = ({
             <Item
               handleItemInteraction={handleItemInteraction}
               index={index}
-              item={item as Collection | Manifest}
+              item={item as SliderItem}
             />
           </SwiperSlide>
         ))}

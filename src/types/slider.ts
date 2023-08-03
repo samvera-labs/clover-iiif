@@ -9,7 +9,7 @@ export interface ConfigOptions {
 
 export type CustomHomepage = Array<
   Omit<Collection["homepage"], "label"> & {
-    label: {
+    label?: {
       none: string[];
     };
   }
