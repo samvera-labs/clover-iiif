@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
 import { ContentResource, InternationalString } from "@iiif/presentation-3";
+import { ControlStyled, Icon } from "./Control.styled";
 import { HeaderContent, HeaderControls, HeaderStyled } from "./Header.styled";
 import { Homepage, Label, Summary } from "src/components/Primitives";
+import React, { useEffect, useState } from "react";
+
 import { NextIcon } from "src/components/Slider/Icons/NextIcon";
 import { PreviousIcon } from "src/components/Slider/Icons/PrevIcon";
-import { ControlStyled, Icon } from "./Control.styled";
 import ViewAll from "./ViewAll";
 
 interface HeaderProps {
-  homepage: ContentResource[];
+  homepage?: ContentResource[];
   instance: number;
   label: InternationalString;
   summary: InternationalString;
@@ -23,46 +24,63 @@ const Header: React.FC<HeaderProps> = ({
   const [hasHomepage, setHasHomepage] = useState<boolean>(false);
 
   useEffect(() => {
-    if (homepage?.length > 0) setHasHomepage(true);
+    if (homepage && homepage?.length > 0) setHasHomepage(true);
   }, [homepage]);
 
   return (
-    <HeaderStyled>
+    <HeaderStyled data-testid="slider-header">
       <HeaderContent>
         {hasHomepage ? (
-          // @ts-ignore
-          <Homepage homepage={homepage} className="bloom-header-homepage">
-            <Label label={label} as="span" className="bloom-header-label" />
+          <Homepage
+            // @ts-ignore
+            homepage={homepage}
+            className="clover-slider-header-homepage"
+          >
+            <Label
+              label={label}
+              as="span"
+              className="clover-slider-header-label"
+            />
           </Homepage>
         ) : (
-          <Label label={label} as="span" className="bloom-header-label" />
+          <Label
+            label={label}
+            as="span"
+            className="clover-slider-header-label"
+          />
         )}
 
         {summary && (
           <Summary
             summary={summary}
             as="span"
-            className="bloom-header-summary"
+            className="clover-slider-header-summary"
           />
         )}
       </HeaderContent>
       <HeaderControls>
         <ControlStyled
-          className={`bloom-previous-${instance}`}
+          className={`clover-slider-previous-${instance}`}
           aria-label="previous"
         >
           <Icon>
             <PreviousIcon />
           </Icon>
         </ControlStyled>
-        <ControlStyled className={`bloom-next-${instance}`} aria-label="next">
+        <ControlStyled
+          className={`clover-slider-next-${instance}`}
+          aria-label="next"
+        >
           <Icon>
             <NextIcon />
           </Icon>
         </ControlStyled>
         {hasHomepage && (
-          // @ts-ignore
-          <Homepage homepage={homepage} className="bloom-header-view-all">
+          <Homepage
+            // @ts-ignore
+            homepage={homepage}
+            className="clover-slider-header-view-all"
+          >
             <ViewAll />
           </Homepage>
         )}

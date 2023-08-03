@@ -60,8 +60,8 @@ const Items: React.FC<ItemsProps> = ({
         spaceBetween={31}
         modules={[Navigation, A11y]}
         navigation={{
-          nextEl: `.bloom-next-${instance}`,
-          prevEl: `.bloom-previous-${instance}`,
+          nextEl: `.clover-slider-next-${instance}`,
+          prevEl: `.clover-slider-previous-${instance}`,
         }}
         slidesPerView={2}
         slidesPerGroup={2}
