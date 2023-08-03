@@ -14,13 +14,52 @@ import "swiper/css/pagination";
 
 # Slider
 
-UI component that renders a IIIF viewer for a Collection URI.
+A UI component that renders an item carousel for the contents of a IIIF Collection using [swiper.js](https://swiperjs.com/).
 
-<IIIFBadge href="https://iiif.io/api/presentation/3.0/#21-defined-types" />
+<IIIFBadge
+  href="https://iiif.io/api/presentation/3.0/#21-defined-types"
+  text={["Collection"]}
+/>
 
-<Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif" />
+---
+
+<Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif" />
+
+## Features
+
+Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Collection and the component:
+
+- Renders a carousel style components
+- Renders `label`, `summary` for the referenced Collection
+- Transcribes `homepage` as a **View All** button referenced Collection
+- Renders items as a "slide" for each Manifest or Collection item
+- Renders `label`, `summary` for each item "slide"
+- Transcribes `homepage` as an `<a>` wrapping each item "slide"
+- Supports custom breakpoints to display customized slide counts
+- Supports callback `onItemInteraction` to override default "slide" behavior
 
 ## Installation
+
+<Tabs items={["npm", "yarn"]}>
+  {/* prettier-ignore */}
+  <Tab>
+    ```shell
+      npm install @samvera/clover-iiif
+    ```
+  </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    ```shell
+      yarn add @samvera/clover-iiif
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+### React
+
+Add the `Slider` component to your `jsx` or `tsx` code. Slider does require you to load [swiper.js](https://swiperjs.com/) styling to the side. These stylesheets are not compiled with the @samvera/clover-iiif package, however are bundled as a dependency when installing Clover IIIF.
 
 ```jsx
 import { Slider } from "@samvera/clover-iiif";
@@ -31,17 +70,263 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 ```
 
-## Basic Usage
-
-In this example we are rendering a slider for a IIIF Collection URI. The only required prop is the `collectionId` prop, which is the URI of the IIIF Collection.
+Render the slider with IIIF Collection URI. The only required prop is the `collectionId` prop, which is the URI of the IIIF Collection.
 
 <Tabs items={["Code", "Preview"]}>
   <Tab>
     ```jsx
-    <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif" />
+    <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif" />
     ```
   </Tab>
   <Tab>
-    <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif" />
+    <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif" />
   </Tab>
 </Tabs>
+
+### Next.js
+
+Usage with Next.js requires a dynamic import using `next/dynamic`
+
+```jsx
+import dynamic from "next/dynamic";
+
+import "swiper/css";
+import "swiper/css/lazy";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+const { Slider } = dynamic(() => import("@samvera/clover-iiif"), {
+  ssr: false,
+});
+
+return <Slider collectionId={collectionId} />;
+```
+
+## API Reference
+
+`Viewer` can configured through an `options` prop, which will serve as a object for common options.
+
+| Prop                  | Type                             | Required | Default |
+| --------------------- | -------------------------------- | -------- | ------- |
+| `collectionId`        | `string`                         | Yes      |         |
+| `onItemInteraction`   | `function`                       | No       |         |
+| `options.breakpoints` | `SwiperProps["breakpoints"]`     | No       |         |
+| `options.credentials` | `omit`, `same-origin`, `include` | No       | `omit`  |
+
+### Custom Breakpoints
+
+Bloom uses default values per <a href="https://swiperjs.com/swiper-api#param-breakpoints" target="_blank">Swiper's `breakpoints` API </a>. You may customize your own by passing in a `breakpoints` object, ie:
+
+```tsx
+const MyCustomSlider = ({ collectionId }) => {
+  const customBreakpoints = {
+    320: {
+      slidesPerView: 2,
+      spaceBetween: 20,
+    },
+    480: {
+      slidesPerView: 3,
+      spaceBetween: 30,
+    },
+    640: {
+      slidesPerView: 4,
+      spaceBetween: 40,
+    },
+  };
+
+  return (
+    <Slider
+      collectionId={collectionId}
+      options={{
+        breakpoints: customBreakpoints,
+      }}
+    />
+  );
+};
+```
+
+### Custom Interactions
+
+The default behavior for a click (or press) event on each of the individual items is to route to the `href` value set by the IIIF Presentation 3.0 API `homepage[0].id` for each `item` entry.
+
+You can optionally set an event handler for the `onItemInteraction` value as a callback for a custom action. The full `item` object will be passed back to the consuming application.
+
+```tsx
+const MyCustomSlider = ({ collectionId }) => {
+  const handleItemInteraction = (item: Manifest | Collection) => {
+    // do something with `item`
+    console.log(item);
+  };
+
+  return (
+    <Slider
+      collectionId={collectionId}
+      onItemInteraction={handleItemInteraction}
+    />
+  );
+};
+```
+
+The returned value of `item` provides the entire object for your custom interaction.
+
+```json
+{
+  "id": "https://api.dc.library.northwestern.edu/api/v2/works/2de0355c-8e48-4478-93af-8cbd1437bd16?as=iiif",
+  "type": "Manifest",
+  "homepage": [
+    {
+      "id": "https://dc.library.northwestern.edu/items/2de0355c-8e48-4478-93af-8cbd1437bd16",
+      "type": "Text",
+      "format": "text/html",
+      "label": {
+        "none": ["Pulcinella \"tiepolano\""]
+      }
+    }
+  ],
+  "label": {
+    "none": ["Pulcinella \"tiepolano\""]
+  },
+  "summary": {
+    "none": ["Image"]
+  },
+  "thumbnail": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/2de0355c-8e48-4478-93af-8cbd1437bd16/thumbnail",
+      "format": "image/jpeg",
+      "type": "Image",
+      "width": 400,
+      "height": 400
+    }
+  ]
+}
+```
+
+## Collection Anatomy
+
+Bloom accepts both Presentation API 2.x and Presentation API 3.0 Collections.
+
+[See Example Collection](https://github.com/samvera-labs/bloom-iiif/blob/main/public/fixtures/iiif/collection/masks-of-antonio-fava.json)
+
+### Header
+
+#### Text
+
+The [top-level Collection **label** and **summary**](https://github.com/samvera-labs/bloom-iiif/blob/main/public/fixtures/iiif/collection/masks-of-antonio-fava.json#L5-L12) (if existing) data is mapped to a Header sub-component
+
+```json
+"label": {
+  "none": ["Commedia dell'Arte: The Masks of Antonio Fava"]
+}
+```
+
+```json
+"summary": {
+  "none": [
+    "The Commedia dell'Arte, the famous improvisational theatre style born in Renaissance Italy, remains a major influence in today's theatre. Antonio Fava is an actor, comedian, author, director, musician, mask maker and Internationally renowned Maestro of Commedia dell'Arte."
+  ]
+}
+```
+
+#### Link
+
+The [top-level Collection **homepage**](https://github.com/samvera-labs/bloom-iiif/blob/main/public/fixtures/iiif/collection/masks-of-antonio-fava.json#L13-L20) represents the `href` attribute wrapping an HTML `<a>` element on the Header **label**
+
+```json
+"homepage": [
+  {
+    "id": "https://dc.library.northwestern.edu/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd",
+    "type": "Text",
+    "label": { "none": ["Commedia dell'Arte: The Masks of Antonio Fava"] },
+    "format": "text/html"
+  }
+]
+```
+
+### Items
+
+The [**items** array](https://github.com/samvera-labs/bloom-iiif/blob/main/public/fixtures/iiif/collection/masks-of-antonio-fava.json#L21-L292) is mapped to the slider/carousel with each item rendering as an HTML `<figure>`
+
+```json
+"items": [
+  {
+    "id": "https://iiif.stack.rdc.library.northwestern.edu/public/72/98/fd/ce/-a/dc/1-/45/01/-9/e1/4-/9e/8b/d9/85/e1/49-manifest.json",
+    "type": "Manifest",
+    "label": { "none": ["Pantalone classico"] },
+    "summary": { "none": ["Image"] },
+    "thumbnail": [
+      {
+        "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/180682c9-dfaf-4881-b7b6-1f2f21092d4f/full/200,/0/default.jpg",
+        "type": "Image",
+        "format": "image/jpeg",
+        "service": [
+          {
+            "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/180682c9-dfaf-4881-b7b6-1f2f21092d4f",
+            "profile": "http://iiif.io/api/image/2/level2.json",
+            "type": "ImageService2"
+          }
+        ],
+        "width": 200,
+        "height": 200
+      }
+    ],
+    "homepage": [
+      {
+        "id": "https://dc.library.northwestern.edu/items/7298fdce-adc1-4501-9e14-9e8bd985e149",
+        "type": "Text",
+        "label": { "none": ["Pantalone classico"] },
+        "format": "text/html"
+      }
+    ]
+  }
+]
+```
+
+#### Text
+
+For each item, the [**label** and **summary**](https://github.com/samvera-labs/bloom-iiif/blob/main/public/fixtures/iiif/collection/masks-of-antonio-fava.json#L25-L26) (if existing) data are mapped to a `<figcaption>`
+
+```json
+"label": { "none": ["Pantalone classico"] }
+```
+
+```json
+"summary": { "none": ["Image"] }
+```
+
+#### Image
+
+For each item, the [**thumbnail**](https://github.com/samvera-labs/bloom-iiif/blob/main/public/fixtures/iiif/collection/masks-of-antonio-fava.json#L27-L42) is rendered as an `<img />` element within the `<figure>`
+
+```json
+"thumbnail": [
+  {
+    "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/180682c9-dfaf-4881-b7b6-1f2f21092d4f/full/200,/0/default.jpg",
+    "type": "Image",
+    "format": "image/jpeg",
+    "service": [
+      {
+        "id": "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/180682c9-dfaf-4881-b7b6-1f2f21092d4f",
+        "profile": "http://iiif.io/api/image/2/level2.json",
+        "type": "ImageService2"
+      }
+    ],
+    "width": 200,
+    "height": 200
+  }
+]
+```
+
+#### Link
+
+The [**homepage**](https://github.com/samvera-labs/bloom-iiif/blob/main/public/fixtures/iiif/collection/masks-of-antonio-fava.json#L43-L50) for each item represents the `href` attribute of the HTML `<a>` element wrapping `<figure>`
+
+```json
+"homepage": [
+  {
+    "id": "https://dc.library.northwestern.edu/items/7298fdce-adc1-4501-9e14-9e8bd985e149",
+    "type": "Text",
+    "label": { "none": ["Pantalone classico"] },
+    "format": "text/html"
+  }
+]
+```

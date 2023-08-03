@@ -63,10 +63,10 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Manifes
 
 ### React
 
-Add the CloverIIIF component to your `jsx` or `tsx` code.
+Add the `Viewer` component to your `jsx` or `tsx` code.
 
 ```jsx
-import CloverIIIF from "@samvera/clover-iiif";
+import { Viewer } from "@samvera/clover-iiif";
 ```
 
 Render `Viewer` with a IIIF Manifest or Collection URI. The only required prop is the `id` prop, which is the URI of the IIIF Manifest or Collection.
@@ -129,7 +129,7 @@ return <Viewer id={id} />;
 
 ## API Reference
 
-Clover can configured through an `options` prop, which will serve as a object for common options.
+`Viewer` can configured through an `options` prop, which will serve as a object for common options.
 
 | Prop                            | Type                    | Required | Default   |
 | ------------------------------- | ----------------------- | -------- | --------- |
