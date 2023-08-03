@@ -1,4 +1,5 @@
 import * as AspectRatio from "@radix-ui/react-aspect-ratio";
+
 import {
   Description,
   FigureStyled,
@@ -7,9 +8,10 @@ import {
   Width,
 } from "./Figure.styled";
 import React, { useRef } from "react";
+
 import { InternationalString } from "@iiif/presentation-3";
-import { Thumbnail } from "src/components/Primitives";
 import StatusIcon from "./StatusIcon";
+import { Thumbnail } from "src/components/Primitives";
 
 interface FigureProps {
   label: InternationalString;
@@ -35,7 +37,11 @@ const Figure: React.FC<FigureProps> = ({
         <Width ref={widthRef} />
         <Placeholder>
           {status !== 200 && <StatusIcon status={status} />}
-          <Thumbnail altAsLabel={label} thumbnail={thumbnail} />
+          <Thumbnail
+            altAsLabel={label}
+            thumbnail={thumbnail}
+            data-testid="figure-thumbnail"
+          />
         </Placeholder>
       </AspectRatio.Root>
       <figcaption>
