@@ -1,5 +1,5 @@
-import React from "react";
 import { ConfigOptions } from "src/types/slider";
+import React from "react";
 
 interface CollectionContextStore {
   isLoaded: boolean;
@@ -14,7 +14,6 @@ interface CollectionAction {
 export const defaultState: CollectionContextStore = {
   isLoaded: false,
   options: {
-    enablePreview: false,
     credentials: "omit",
   },
 };

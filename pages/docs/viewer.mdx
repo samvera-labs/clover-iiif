@@ -20,7 +20,7 @@ A UI component that renders a multicanvas IIIF item viewer with pan-zoom support
 ---
 
 <Viewer
-  id="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif"
+  iiifContent="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif"
   options={{
     renderAbout: false,
     showTitle: false,
@@ -63,22 +63,22 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Manifes
 
 ### React
 
-Add the CloverIIIF component to your `jsx` or `tsx` code.
+Add the `Viewer` component to your `jsx` or `tsx` code.
 
 ```jsx
-import CloverIIIF from "@samvera/clover-iiif";
+import { Viewer } from "@samvera/clover-iiif";
 ```
 
-Render `Viewer` with a IIIF Manifest or Collection URI. The only required prop is the `id` prop, which is the URI of the IIIF Manifest or Collection.
+Render `Viewer` with a IIIF Manifest or Collection URI. The only required prop is the `iiifContent`, which is the URI of the IIIF Manifest or Collection.
 
 <Tabs items={["Code", "Preview"]}>
   <Tab>
     ```jsx
-    <Viewer id="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif" />
+    <Viewer iiifContent="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif" />
     ```
   </Tab>
   <Tab>
-    <Viewer />
+    <Viewer iiifContent="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif" />
   </Tab>
 </Tabs>
 
@@ -117,23 +117,29 @@ Implementation with Next.js requires a [dynamic import](https://nextjs.org/docs/
 ```jsx
 import dynamic from "next/dynamic";
 
-const CloverIIIF = dynamic(() => import("@samvera/clover-iiif"), {
-  ssr: false,
-});
+const Viewer = dynamic(
+  () => import("@samvera/clover-iiif").then((Clover) => Clover.Viewer),
+  {
+    ssr: false,
+  }
+);
 
-const id =
-  "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif";
+const MyCustomViewer = () => {
+  const iiifContent =
+    "https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif";
 
-return <Viewer id={id} />;
+  return <Viewer iiifContent={iiifContent} />;
+};
 ```
 
 ## API Reference
 
-Clover can configured through an `options` prop, which will serve as a object for common options.
+`Viewer` can configured through an `options` prop, which will serve as a object for common options.
 
 | Prop                            | Type                    | Required | Default   |
 | ------------------------------- | ----------------------- | -------- | --------- |
-| `id`                            | `string`                | Yes      |           |
+| `iiifContent`                   | `string`                | Yes      |           |
+| `id` _(deprecated)_             | `string`                | No       |           |
 | `manifestId` _(deprecated)_     | `string`                | No       |           |
 | `canvasIdCallback`              | `function`              | No       |           |
 | `customTheme`                   | `object`                | No       |           |
@@ -180,7 +186,7 @@ const options = {
 }
 
 <Viewer
-  id="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif"
+  iiifContent="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif"
   options={options}
 />
 ```
@@ -190,17 +196,17 @@ const options = {
 Example on using `canvasIdCallback` to return to your consuming application the active canvas ID. This will return as a string.
 
 ```jsx
-const id =
+const iiifContent =
   "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif";
 
 const handlCanvasIdCallback = (activeCanvasId) => {
   if (activeCanvasId) console.log(activeCanvasId);
 };
 
-return <Viewer id={id} canvasIdCallback={handlCanvasIdCallback} />;
+return (
+  <Viewer iiifContent={iiifContent} canvasIdCallback={handlCanvasIdCallback} />
+);
 ```
-
-[See Example](https://codesandbox.io/s/samvera-clover-iiif-i0huq)
 
 ---
 
@@ -210,18 +216,16 @@ WebVTT content resources are the source for both content mapped closed captionin
 
 ```jsx
 export default function App() {
-  const id =
+  const iiifContent =
     "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/captions.json";
 
   const options = {
     ignoreCaptionLabels: ["Chapters"],
   };
 
-  return <Viewer id={id} options={options} />;
+  return <Viewer iiifContent={iiifContent} options={options} />;
 }
 ```
-
-[See Example](https://codesandbox.io/s/hunhf)
 
 ---
 
@@ -230,7 +234,7 @@ export default function App() {
 You may choose to override the base theme by setting optional colors and fonts. Naming conventions for colors are limited to those shown in the config example below.
 
 ```jsx
-const id =
+const iiifContent =
   "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif";
 
 const customTheme = {
@@ -265,7 +269,5 @@ const customTheme = {
   },
 };
 
-return <Viewer id={id} customTheme={customTheme} />;
+return <Viewer iiifContent={iiifContent} customTheme={customTheme} />;
 ```
-
-[See Example](https://codesandbox.io/s/custom-theme-g6m5v)

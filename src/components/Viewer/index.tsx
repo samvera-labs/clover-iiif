@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
 import { CollectionNormalized, ManifestNormalized } from "@iiif/presentation-3";
+import React, { useEffect, useState } from "react";
 import {
   ViewerConfigOptions,
   ViewerProvider,
-  useViewerState,
-  useViewerDispatch,
   defaultState,
+  useViewerDispatch,
+  useViewerState,
 } from "src/context/viewer-context";
+
 import { Vault } from "@iiif/vault";
 import Viewer from "src/components/Viewer/Viewer/Viewer";
 import { createTheme } from "@stitches/react";
@@ -15,7 +16,8 @@ import { getRequest } from "src/lib/xhr";
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
   customTheme?: any;
-  id: string;
+  iiifContent: string;
+  id?: string;
   manifestId?: string;
   options?: ViewerConfigOptions;
 }
@@ -23,10 +25,21 @@ export interface CloverViewerProps {
 const CloverViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback = () => {},
   customTheme,
+  iiifContent,
   id,
   manifestId,
   options,
 }) => {
+  /**
+   * Legacy `id` and `manifestId` prop support.
+   * If an id is passed, use that as the iiifResource. Otherwise,
+   * use the manifestId. If neither are passed, use the iiifContent
+   * prop.
+   */
+  let iiifResource = iiifContent;
+  if (id) iiifResource = id;
+  if (manifestId) iiifResource = manifestId;
+
   return (
     <ViewerProvider
       initialState={{
@@ -40,8 +53,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
       }}
     >
       <RenderViewer
-        id={id}
-        manifestId={manifestId}
+        iiifContent={iiifResource}
         canvasIdCallback={canvasIdCallback}
         customTheme={customTheme}
         options={options}
@@ -53,8 +65,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
 const RenderViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback,
   customTheme,
-  id,
-  manifestId,
+  iiifContent,
   options,
 }) => {
   const dispatch: any = useViewerDispatch();
@@ -107,27 +118,22 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   }, [activeManifest]);
 
   useEffect(() => {
-    let resource = id;
-
-    /**
-     * set resource as manifestIf if it exists
-     */
-    if (manifestId) resource = manifestId;
-
     dispatch({
       type: "updateConfigOptions",
       configOptions: options,
     });
 
     vault
-      .load(resource)
+      .load(iiifContent)
       .then((data: any) => {
         setIiifResource(data);
       })
       .catch((error: any) => {
-        console.error(`The IIIF resource ${resource} failed to load: ${error}`);
+        console.error(
+          `The IIIF resource ${iiifContent} failed to load: ${error}`
+        );
       });
-  }, [id, options]);
+  }, [iiifContent, options]);
 
   useEffect(() => {
     let manifests: string[] = [];
@@ -172,7 +178,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    */
 
   if (!manifest || !manifest["items"]) {
-    console.log(`The IIIF manifest ${manifestId} failed to load.`);
+    console.log(`The IIIF manifest ${iiifContent} failed to load.`);
     return <></>;
   }
 
@@ -183,7 +189,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * repository administration views.
    */
   if (manifest["items"].length === 0) {
-    console.log(`The IIIF manifest ${manifestId} does not contain canvases.`);
+    console.log(`The IIIF manifest ${iiifContent} does not contain canvases.`);
     return <></>;
   }
 
