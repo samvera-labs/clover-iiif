@@ -7,6 +7,8 @@ out
 public/script.js
 public/script.js.map
 public/index.html
+coverage/
+html/
 
 # OS
 .DS_Store
