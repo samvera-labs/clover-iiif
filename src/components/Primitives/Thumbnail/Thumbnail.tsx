@@ -1,10 +1,11 @@
-import React from "react";
 import {
   PrimitivesExternalWebResource,
   PrimitivesThumbnail,
 } from "src/types/primitives";
-import { sanitizeAttributes } from "src/lib/html-element";
+
 import ContentResource from "src/components/Primitives/ContentResource/ContentResource";
+import React from "react";
+import { sanitizeAttributes } from "src/lib/html-element";
 
 const Thumbnail: React.FC<PrimitivesThumbnail> = (props) => {
   const { thumbnail, region } = props;

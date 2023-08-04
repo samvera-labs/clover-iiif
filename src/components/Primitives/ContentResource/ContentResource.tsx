@@ -1,10 +1,11 @@
 import React, { useEffect, useRef } from "react";
-import { styled } from "src/styles/stitches.config";
+
 import Hls from "hls.js";
-import { useGetImageResource } from "src/hooks/useGetImageResource";
-import { sanitizeAttributes } from "src/lib/html-element";
-import { getLabelAsString } from "src/lib/label-helpers";
 import { PrimitivesContentResource } from "src/types/primitives";
+import { getLabelAsString } from "src/lib/label-helpers";
+import { sanitizeAttributes } from "src/lib/html-element";
+import { styled } from "src/styles/stitches.config";
+import { useGetImageResource } from "src/hooks/useGetImageResource";
 
 const StyledResource = styled("img", { objectFit: "cover" });
 
@@ -117,6 +118,7 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
         `${width},${height}`,
         region
       );
+
       return (
         <StyledResource
           as="img"

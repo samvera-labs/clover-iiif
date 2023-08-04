@@ -1,20 +1,17 @@
 import { Anchor, ItemStyled } from "./Item.styled";
-import {
-  Collection,
-  IIIFExternalWebResource,
-  Manifest,
-} from "@iiif/presentation-3";
 import React, { MouseEvent, useEffect, useState } from "react";
+
 import Figure from "src/components/Slider/Figure/Figure";
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import Placeholder from "./Placeholder";
-import { getCanvasResource } from "src/lib/iiif";
+import { SliderItem } from "src/types/slider";
+import { getResponseStatus } from "src/lib/get-response-status";
 import { useCollectionState } from "src/context/slider-context";
-import { upgrade } from "@iiif/parser/upgrader";
 
 interface ItemProps {
-  handleItemInteraction?: (item: Collection | Manifest) => void;
+  handleItemInteraction?: (item: SliderItem) => void;
   index: number;
-  item: Collection | Manifest;
+  item: SliderItem;
 }
 
 const Item: React.FC<ItemProps> = ({ handleItemInteraction, index, item }) => {
@@ -29,28 +26,10 @@ const Item: React.FC<ItemProps> = ({ handleItemInteraction, index, item }) => {
   const [thumbnail, setThumbnail] = useState<IIIFExternalWebResource[]>([]);
 
   useEffect(() => {
-    if (item && item?.thumbnail && item.thumbnail?.length > 0) {
-      fetch(item?.id)
-        .then((response) => response.json())
-        .then(upgrade)
-        .then((manifest: any) => {
-          if (manifest?.type === "Manifest") {
-            const id = getCanvasResource(manifest?.items[0]);
-            if (id) {
-              fetch(id, {
-                method: "GET",
-                headers: {
-                  accept: "image/*",
-                },
-                credentials: credentials,
-              })
-                .then((response) => {
-                  setStatus(response.status);
-                })
-                .catch((error) => setStatus(error.status));
-            }
-          }
-        });
+    if (item?.thumbnail && item?.thumbnail?.length > 0) {
+      getResponseStatus(item, credentials).then((status) => {
+        setStatus(status);
+      });
 
       const { thumbnail } = item;
       setPlaceholder(thumbnail[0].id);
@@ -76,8 +55,9 @@ const Item: React.FC<ItemProps> = ({ handleItemInteraction, index, item }) => {
   };
 
   return (
-    <ItemStyled>
+    <ItemStyled data-testid="slider-item">
       <Anchor
+        data-testid="slider-item-anchor"
         href={href}
         onClick={handleAnchorClick}
         tabIndex={0}
@@ -86,8 +66,9 @@ const Item: React.FC<ItemProps> = ({ handleItemInteraction, index, item }) => {
         onMouseEnter={onFocus}
         onMouseLeave={onBlur}
       >
-        {placeholder && <Placeholder backgroundImage={placeholder} />}
+        {placeholder && <Placeholder backgroundImage={""} />}
         <Figure
+          data-testid="slider-item-figure"
           index={index}
           isFocused={isFocused}
           key={item.id}

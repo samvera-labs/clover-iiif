@@ -32,17 +32,17 @@ const HeaderStyled = styled("div", {
     flexDirection: "column",
   },
 
-  ".bloom-header-homepage": {
+  ".clover-slider-header-homepage": {
     color: "$accent",
     textDecoration: "none",
   },
 
-  ".bloom-header-label": {
+  ".clover-slider-header-label": {
     fontSize: "1.25rem",
     fontWeight: "400",
   },
 
-  ".bloom-header-summary": {
+  ".clover-slider-header-summary": {
     fontSize: "$4",
     marginTop: "$2",
   },

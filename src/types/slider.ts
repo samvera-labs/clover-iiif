@@ -1,9 +1,23 @@
+import { Collection, Manifest } from "@iiif/presentation-3";
+
 import { SwiperProps } from "swiper/react";
 
 export interface ConfigOptions {
   breakpoints?: SwiperBreakpoints;
   credentials?: FetchCredentials;
 }
+
+export type CustomHomepage = Array<
+  Omit<Collection["homepage"], "label"> & {
+    label?: {
+      none: string[];
+    };
+  }
+>;
+
+export type SliderItem = Omit<Collection | Manifest, "items"> & {
+  homepage: CustomHomepage;
+};
 
 export type SwiperBreakpoints = SwiperProps["breakpoints"];
 

@@ -29,7 +29,7 @@ export interface PrimitivesExternalWebResource {
   id: string;
   type: "Dataset" | "Image" | "Video" | "Sound" | "Text";
   format?: string;
-  label: InternationalString;
+  label?: InternationalString;
   language?: string | string[];
   duration?: number;
   width?: number;
