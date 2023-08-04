@@ -5,15 +5,6 @@ title: Label
 import IIIFBadge from "docs/components/IIIFBadge";
 import * as IIIF from "src/components/Primitives";
 import { Tabs, Tab } from "nextra/components";
-import { RenderedHTML, LabelExample } from "docs/components/Examples/Label";
-
-export function DynamicCode({ children, lang }) {
-  return (
-    <pre lang={lang}>
-      <code lang={lang}>{children}</code>
-    </pre>
-  );
-}
 
 # Label
 
@@ -56,16 +47,16 @@ export default CustomLabel;
 
 ## API Reference
 
-| Prop        | Type                                                                  | Default | Required |
-| ----------- | --------------------------------------------------------------------- | ------- | -------- |
-| `as`        | ` span`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `p`, `label`, `dt`, `dd` | `span`  | --       |
-| `label`     | [label](https://iiif.io/api/presentation/3.0/#label)                  | --      | **Yes**  |
-| `className` | `string`, `undefined`                                                 | --      | --       |
-| `style`     | `CSSProperties`, `undefined`                                          | --      | --       |
-| `lang`      | `string`, `undefined`                                                 | --      | --       |
-| `title`     | `string`, `undefined`                                                 | --      | --       |
-| `data-*`    | `string`, `undefined`                                                 | --      | --       |
-| `aria-*`    | `AriaAttributes`, `undefined`                                         | --      | --       |
+| Prop        | Type                                                                 | Default | Required |
+| ----------- | -------------------------------------------------------------------- | ------- | -------- |
+| `as`        | `span`, `h1`, `h2`, `h3`, `h4`, `h5`, `h6`, `p`, `label`, `dt`, `dd` | `span`  | --       |
+| `label`     | [label](https://iiif.io/api/presentation/3.0/#label)                 | --      | **Yes**  |
+| `className` | `string`, `undefined`                                                | --      | --       |
+| `style`     | `CSSProperties`, `undefined`                                         | --      | --       |
+| `lang`      | `string`, `undefined`                                                | --      | --       |
+| `title`     | `string`, `undefined`                                                | --      | --       |
+| `data-*`    | `string`, `undefined`                                                | --      | --       |
+| `aria-*`    | `AriaAttributes`, `undefined`                                        | --      | --       |
 
 ### Custom Element
 

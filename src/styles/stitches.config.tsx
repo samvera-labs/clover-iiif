@@ -42,6 +42,8 @@ export const media = {
   xl: "(min-width: calc(90rem + 1px))",
 };
 
+export type { VariantProps } from "@stitches/react";
+
 export const { styled, css, keyframes, createTheme } = createStitches({
   theme,
   media,

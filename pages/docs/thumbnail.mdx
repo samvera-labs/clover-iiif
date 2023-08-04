@@ -5,27 +5,58 @@ title: Thumbnail
 import IIIFBadge from "docs/components/IIIFBadge";
 import * as IIIF from "src/components/Primitives";
 import { Tabs, Tab } from "nextra/components";
-import {
-  RenderedHTML,
-  ThumbnailVideoExample,
-  ThumbnailImageExample,
-} from "docs/components/Examples/Thumbnail";
-
-export function DynamicCode({ children, lang }) {
-  return (
-    <pre lang={lang}>
-      <code lang={lang}>{children}</code>
-    </pre>
-  );
-}
 
 # Thumbnail
 
-The Thumbnail component is used to display a thumbnail image for a work.
+The Thumbnail component is used to display a thumbnail for a IIIF resource. This generally is an `Image`, however, could be a short `Video` or `Sound` clip.
 
-<IIIFBadge href="https://iiif.io/api/presentation/3.0/#thumbnail" />
+<IIIFBadge
+  href="https://iiif.io/api/presentation/3.0/#thumbnail"
+  text={["thumbnail"]}
+/>
 
-## React Usage
+<Tabs items={["Code", "Example", "HTML"]}>
+  <Tab>
+    ```jsx
+    <IIIF.Thumbnail
+      thumbnail={[
+        {
+          id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275/thumbnail",
+          type: "Image",
+          format: "image/jpeg",
+          height: 200,
+          width: 200,
+        },
+      ]}
+    />
+    ```
+  </Tab>
+  <Tab>
+    <IIIF.Thumbnail
+      thumbnail={[
+        {
+          id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275/thumbnail",
+          type: "Image",
+          format: "image/jpeg",
+          height: 200,
+          width: 200,
+        },
+      ]}
+    />
+  </Tab>
+  <Tab>
+    ```html
+    <img
+      src="https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275/thumbnail"
+      class="c-eCSSFU c-eCSSFU-ieexNaM-css"
+    />
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+### React
 
 ```jsx
 import { Primitives as IIIF } from "@samvera/clover-iiif";
@@ -37,49 +68,34 @@ const CustomThumbnail = ({ thumbnail }) => {
 export default CustomThumbnail;
 ```
 
-## Example
+## API Reference
 
-Default usage of Thumbnail component.
+Thumbnails are rendered to a relative HTML `<img>` or `<video>` element depenpdent on the type of the resource in the `thumbnail` entry. Currently, only type **Image** and **Video** are supported.
 
-<Tabs items={["Code", "Example", "Rendered HTML"]}>
-  <Tab>
-    ```jsx
-    <IIIF.Thumbnail
-      thumbnail={[
-        {
-          id: "https://api.dc.library.northwestern.edu/api/v2/works/0488dfa4-6e40-4484-9f19-18f54b35a019/thumbnail",
-          type: "Image",
-          format: "image/jpeg",
-          height: 300,
-          width: 300,
-        },
-      ]}
-    />
-    ```
-  </Tab>
-  <Tab>
-    <ThumbnailImageExample />
-  </Tab>
-  <Tab>
-    <DynamicCode lang="html">
-      <RenderedHTML>
-        <ThumbnailImageExample />
-      </RenderedHTML>
-    </DynamicCode>
-  </Tab>
-</Tabs>
+| Prop        | Type                                                         | Default | Required |
+| ----------- | ------------------------------------------------------------ | ------- | -------- |
+| `as`        | `img`, `video`                                               | `img`   | --       |
+| `thumbnail` | [thumbnail](https://iiif.io/api/presentation/3.0/#thumbnail) | --      | **Yes**  |
+| `className` | `string`, `undefined`                                        | --      | --       |
+| `style`     | `CSSProperties`, `undefined`                                 | --      | --       |
+| `lang`      | `string`, `undefined`                                        | --      | --       |
+| `title`     | `string`, `undefined`                                        | --      | --       |
+| `data-*`    | `string`, `undefined`                                        | --      | --       |
+| `aria-*`    | `AriaAttributes`, `undefined`                                | --      | --       |
 
 ### Video Thumbnail
 
-<Tabs items={["Code", "Example", "Rendered HTML"]}>
+Using the `Thumbnail` component, you can render a video thumbnail. This is useful for displaying a short clip of a video resource. To do so, a [W3C media fragment](https://www.w3.org/TR/media-frags/#valid-uri-temporal) using temporal dimension should be appended to the `id` of the external Video resource, ex: `#t=200,230`. Additionally, a `duration` property should be used to account for time in seconds.
+
+<Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
     <IIIF.Thumbnail
       thumbnail={[
         {
-          id: "https://meadow-streaming.rdc.library.northwestern.edu/31/ea/94/58/-6/f1/4-/45/48/-9/30/b-/62/c3/db/19/2e/b6/1949_NU-Rosebowl-vs-Cal.m3u8#t=500,530",
+          id: "https://meadow-streaming.rdc.library.northwestern.edu/5a/cc/f7/5f/-a/56/1-/4b/3c/-9/b4/5-/7d/cc/f7/03/90/e3/74-110-2.m3u8#t=200,230",
           type: "Video",
-          format: "video/mp4",
+          format: "application/x-mpegurl",
           width: 300,
           height: 300,
           duration: 30,
@@ -89,13 +105,28 @@ Default usage of Thumbnail component.
     ```
   </Tab>
   <Tab>
-    <ThumbnailVideoExample />
+    <IIIF.Thumbnail
+      thumbnail={[
+        {
+          id: "https://meadow-streaming.rdc.library.northwestern.edu/5a/cc/f7/5f/-a/56/1-/4b/3c/-9/b4/5-/7d/cc/f7/03/90/e3/74-110-2.m3u8#t=200,230",
+          type: "Video",
+          format: "application/x-mpegurl",
+          width: 300,
+          height: 300,
+          duration: 30,
+        },
+      ]}
+    />
   </Tab>
   <Tab>
-    <DynamicCode lang="html">
-      <RenderedHTML>
-        <ThumbnailVideoExample />
-      </RenderedHTML>
-    </DynamicCode>
+    ```html
+    <video
+      disablepictureinpicture=""
+      loop=""
+      src="blob:https://samvera-labs.github.io/clover-iiif/07f97274-b45a-4bb9-af32-b921cac6868c"
+      class="c-eCSSFU c-eCSSFU-ieBvefY-css"
+      autoplay=""
+    ></video>
+    ```
   </Tab>
 </Tabs>

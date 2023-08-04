@@ -14,7 +14,7 @@ const HomepageHeader: React.FC = () => {
           Extensible IIIF front-end toolkit and Manifest viewer. Accessible.
           Composable. Open Source.
         </Subtitle>
-        <CallToAction href="/docs" text="Read the Docs" />
+        <CallToAction href="/docs" text="Get Started" />
       </StyledHomepageHeader>
       <Gradient className="nx-bg-gray-100 nx-pb-[env(safe-area-inset-bottom)] dark:nx-bg-neutral-900 print:nx-bg-transparent" />
     </Wrapper>
