@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 // todo: set this as a constant somewhere?
 const defaultIiifContent =
-  "https://api.dc.library.northwestern.edu/api/v2/works/ad25d4af-8a12-4d8f-a557-79aea012e081?as=iiif";
+  "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif";
 
 const Viewer = dynamic(() => import("src").then((Clover) => Clover.Viewer), {
   ssr: false,

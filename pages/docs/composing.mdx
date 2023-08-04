@@ -1,0 +1,170 @@
+---
+title: Getting Started
+---
+
+import { Steps } from "nextra/components";
+
+# Composing
+
+Clover IIIF is designed to allow for rapid creation of web content translated from IIIF resources. The following is quick step-by-step guide to get you up and running with **Clover IIIF**.
+
+## Creating a Work page
+
+In this tutorial, we will install **Clover IIIF** and compose a "Work" page representing a IIIF Manifest for [Northwestern Football vs. Illinois, 1950](https://dc.library.northwestern.edu/items/0902aed4-0eb0-4ab4-a151-c925493be04e).
+
+<Steps>
+
+### Install package
+
+Add the following dependency to your project:
+
+```bash
+npm install @samvera/clover-iiif
+```
+
+### Create file
+
+Create a file called `Work.jsx` in your project and add the following:
+
+### Define component
+
+Import `React` and the **Clover IIIF** components. Define and export a functional component named `Work` that renders an empty `<article>` element.
+
+```jsx
+import React from "react";
+import { Primitives as IIIF, Slider, Viewer } from "@samvera/clover-iiif";
+
+const Work = () => {
+  return <article></article>;
+};
+
+export default Work;
+```
+
+### Add Viewer
+
+As an initial step, define a constant `manifestId` that points to the IIIF Manifest for [Northwestern Football vs. Illinois, 1950](https://dc.library.northwestern.edu/items/0902aed4-0eb0-4ab4-a151-c925493be04e). Then, add a `<Viewer>` component to the `Work` component that renders the IIIF Manifest. If your react application is running in your browser, you should see the Clover IIIF viewer.
+
+```jsx
+import React from "react";
+import { Primitives as IIIF, Slider, Viewer } from "@samvera/clover-iiif";
+
+const Work = () => {
+  const manifestId =
+    "https://api.dc.library.northwestern.edu/api/v2/works/0902aed4-0eb0-4ab4-a151-c925493be04e?as=iiif";
+
+  return (
+    <article>
+      <Viewer iiifContent={manifestId} />
+    </article>
+  );
+};
+
+export default Work;
+```
+
+### Add Manifest Content
+
+Next, we add the IIIF Primitives components to the `Work` component to render the IIIF Manifest content.
+
+This requires fetching the IIIF Manifest and passing it to the components. The following code snippet demonstrates how to fetch the IIIF Manifest in a useEffect hook, set the manifest in state, and pass the manifest properties to the IIIF Primitives components.
+
+```jsx
+import React, { useEffect, useState } from "react";
+import { Primitives as IIIF, Slider, Viewer } from "@samvera/clover-iiif";
+
+const Work = () => {
+  const [manifest, setManifest] = useState();
+
+  const manifestId =
+    "https://api.dc.library.northwestern.edu/api/v2/works/0902aed4-0eb0-4ab4-a151-c925493be04e?as=iiif";
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(manifestId);
+      const json = await response.json();
+      setManifest(json);
+    })();
+  }, [manifestId]);
+
+  if (!manifest) return <></>;
+
+  return (
+    <article>
+      <Viewer iiifContent={manifestId} />
+      <div>
+        <IIIF.Label label={manifest.label} as="h1" />
+        <IIIF.Summary summary={manifest.summary} as="p" />
+        <IIIF.Metadata metadata={manifest.metadata} />
+        <IIIF.RequiredStatement
+          requiredStatement={manifest.requiredStatement}
+        />
+        <IIIF.PartOf partOf={manifest.partOf} />
+        <IIIF.SeeAlso seeAlso={manifest.seeAlso} />
+        <IIIF.Homepage homepage={manifest.homepage} />
+      </div>
+    </article>
+  );
+};
+
+export default Work;
+```
+
+### Add Slider
+
+Finally, we add the `Slider` component to render the IIIF Collection that this Manifest is part of. We also need to import the `swiper` CSS files for baseline styling.
+
+```jsx
+import React, { useEffect, useState } from "react";
+import { Primitives as IIIF, Slider, Viewer } from "@samvera/clover-iiif";
+
+import "swiper/css";
+import "swiper/css/lazy";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+const Work = () => {
+  const [manifest, setManifest] = useState();
+
+  const manifestId =
+    "https://api.dc.library.northwestern.edu/api/v2/works/0902aed4-0eb0-4ab4-a151-c925493be04e?as=iiif";
+
+  const collectionId = manifest?.partOf[0].id;
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(manifestId);
+      const json = await response.json();
+      setManifest(json);
+    })();
+  }, [manifestId]);
+
+  if (!manifest) return <></>;
+
+  return (
+    <article>
+      <Viewer iiifContent={manifestId} />
+      <div>
+        <IIIF.Label label={manifest.label} as="h1" />
+        <IIIF.Summary summary={manifest.summary} as="p" />
+        <IIIF.Metadata metadata={manifest.metadata} />
+        <IIIF.RequiredStatement
+          requiredStatement={manifest.requiredStatement}
+        />
+        <IIIF.PartOf partOf={manifest.partOf} />
+        <IIIF.SeeAlso seeAlso={manifest.seeAlso} />
+        <IIIF.Homepage homepage={manifest.homepage} />
+      </div>
+      <Slider collectionId={collectionId} />
+    </article>
+  );
+};
+
+export default Work;
+```
+
+</Steps>
+
+## Summary
+
+In this tutorial, we installed **Clover IIIF** and composed an unstyled "Work" page representing a IIIF Manifest for [Northwestern Football vs. Illinois, 1950](https://dc.library.northwestern.edu/items/0902aed4-0eb0-4ab4-a151-c925493be04e). The `Viewer` and `Slider` components are designed to work with IIIF Presentation API 2.x and 3.0. The Primitives components, e.g., `Label`, `Metadata`, are designed to work with IIIF Presentation API 3.0.

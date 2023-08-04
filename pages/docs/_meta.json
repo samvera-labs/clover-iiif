@@ -1,7 +1,6 @@
 {
-  "index": "Introduction",
-  "installation": "Installation",
-  "styling": "Styling",
+  "index": "Overview",
+  "composing": "Composing",
   "--components": {
     "type": "separator",
     "title": "IIIF Components"
