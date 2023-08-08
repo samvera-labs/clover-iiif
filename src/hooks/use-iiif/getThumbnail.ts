@@ -1,5 +1,5 @@
-import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import { CanvasEntity } from "src/hooks/use-iiif/getCanvasByCriteria";
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
 
 export const getThumbnail = (
   vault: any,
@@ -25,7 +25,7 @@ export const getThumbnail = (
 
   if (entity.annotations[0]) {
     /*
-     * 2. Check if painting annotation has an explicitly assigned IIIF thumbnail.
+     * 3. Check if painting annotation has an explicitly assigned IIIF thumbnail.
      */
     if (entity.annotations[0].thumbnail)
       if (entity.annotations[0].thumbnail.length > 0) {
@@ -36,7 +36,7 @@ export const getThumbnail = (
       }
 
     /*
-     * 3. Check if painting annotation is of type Image.
+     * 4. Check if painting annotation is of type Image.
      */
     if (!entity.annotations[0].body) return;
     const annotationBody = entity.annotations[0]
@@ -46,7 +46,7 @@ export const getThumbnail = (
   }
 
   /*
-   * 4. Validate candidates and make selection.
+   * 5. Validate candidates and make selection.
    */
   if (candidates.length === 0) return;
 
@@ -59,10 +59,9 @@ export const getThumbnail = (
   };
 
   /*
-   * 5. Return (for time being crudely) constructed image object.
+   * 6. Return (for time being crudely) constructed image object.
    */
   const thumbnailContent = selectedCandidate;
-  //console.log("thumbnailContent", thumbnailContent);
 
   return thumbnailContent;
 };

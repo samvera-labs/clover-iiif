@@ -1,114 +1,59 @@
-import { CanvasEntity } from "src/hooks/use-iiif/getCanvasByCriteria";
+import { CanvasEntity, getCanvasByCriteria } from "./getCanvasByCriteria";
+import { Vault } from "@iiif/vault";
+import { getThumbnail } from "./getThumbnail";
+import { manifest } from "src/fixtures/use-iiif/get-thumbnail";
+import { type Canvas } from "@iiif/presentation-3";
 
-//TODO: Figure out how to mock Vault()
-// const vault = new Vault();
-// vault.loadManifest("../../../public/fixtures/iiif/manifests/sample.json");
+describe("getThumbnail()", () => {
+  const vault = new Vault();
 
-const sampleCanvasEntity: CanvasEntity = {
-  canvas: {
-    id: "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample/canvas/3",
-    type: "Canvas",
-    label: {
-      en: ["Image canvas #2"],
-    },
-    behavior: [],
-    motivation: null,
-    thumbnail: [
-      {
-        id: "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/a555b137-2a90-4b51-90c8-cc9aa61ed2d6/full/!300,300/0/default.jpg",
-        type: "ContentResource",
-      },
-    ],
-    posterCanvas: null,
-    accompanyingCanvas: null,
-    placeholderCanvas: null,
-    summary: null,
-    requiredStatement: null,
-    metadata: [],
-    rights: null,
-    navDate: null,
-    provider: [],
-    items: [
-      {
-        id: "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample/canvas/3/annotation_page/1",
-        type: "AnnotationPage",
-      },
-    ],
-    annotations: [],
-    seeAlso: [],
-    homepage: [],
-    logo: [],
-    partOf: [],
-    rendering: [],
-    service: [],
-    duration: 0,
-    height: 480,
-    width: 720,
-  },
-  annotationPage: {
-    id: "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample/canvas/3/annotation_page/1",
-    type: "AnnotationPage",
-    behavior: [],
-    motivation: null,
-    label: null,
-    thumbnail: [],
-    summary: null,
-    requiredStatement: null,
-    metadata: [],
-    rights: null,
-    provider: [],
-    items: [
-      {
-        id: "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample/canvas/3/annotation_page/1/annotation/1",
-        type: "Annotation",
-      },
-    ],
-    seeAlso: [],
-    homepage: [],
-    logo: [],
-    rendering: [],
-    service: [],
-  },
-  annotations: [
-    {
-      id: "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample/canvas/3/annotation_page/1/annotation/1",
-      type: "Annotation",
-      motivation: ["painting"],
-      target:
-        "https://raw.githubusercontent.com/samvera-labs/clover-iiif/main/public/fixtures/iiif/manifests/sample/canvas/3",
-      body: [
-        {
-          id: "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/a555b137-2a90-4b51-90c8-cc9aa61ed2d6/full/600,/0/default.jpg",
-          type: "Image",
-          format: "image/jpeg",
-          service: [
-            {
-              id: "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/a555b137-2a90-4b51-90c8-cc9aa61ed2d6",
-              profile: "http://iiif.io/api/image/2/level2.json",
-              type: "ImageService2",
-            },
-          ],
-          height: 2197,
-          width: 4155,
-        },
-      ],
-    },
-  ],
-  accompanyingCanvas: undefined,
-};
+  beforeAll(async () => {
+    await vault.loadManifest("", manifest);
+  });
 
-//TODO: Fix test
-// test("Test return of thumbnail as a IIIFExternalWebResource.", () => {
-//   const thumbnailOnCanvas = getThumbnail(vault, sampleCanvasEntity, 200, 200);
-//   expect(thumbnailOnCanvas).toStrictEqual({
-//     format: undefined,
-//     height: 200,
-//     id: "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/bca5b88d-7433-4710-96db-e38f1a24e9ae/full/!300,300/0/default.jpg",
-//     type: "ContentResource",
-//     width: 200,
-//   });
-// });
+  test("returns expected thumbnail content from canvas", async () => {
+    const entity: CanvasEntity = getCanvasByCriteria(
+      vault,
+      manifest.items[0] as Canvas,
+      "painting",
+      ["Image"]
+    );
 
-it("doesnt complain", () => {
-  expect(true).toBeTruthy();
+    const smallThumb = getThumbnail(vault, entity, 640, 537);
+    expect(smallThumb).toEqual({
+      id: "https://iiif.dc.library.northwestern.edu/iiif/2/44d0ad4d-6a0d-4632-82a3-b6ab8fd4e5b7/full/!300,300/0/default.jpg",
+      format: "image/jpeg",
+      type: "Image",
+      width: 640,
+      height: 537,
+    });
+
+    const bigThumb = getThumbnail(vault, entity, 9000, 6000);
+    expect(bigThumb).toEqual({
+      id: "https://iiif.dc.library.northwestern.edu/iiif/2/44d0ad4d-6a0d-4632-82a3-b6ab8fd4e5b7/full/!300,300/0/default.jpg",
+      type: "Image",
+      format: "image/jpeg",
+      height: 6000,
+      width: 9000,
+    });
+  });
+
+  // TODO: Why can't it find the thumbnail?
+  test.skip("returns an annotation thumbnail", async () => {
+    const entity: CanvasEntity = getCanvasByCriteria(
+      vault,
+      manifest.items[1] as Canvas,
+      "painting",
+      ["Image"]
+    );
+
+    const thumb = getThumbnail(vault, entity, 640, 537);
+    expect(thumb).toEqual({
+      id: "https://iiif.dc.library.northwestern.edu/iiif/2/44d0ad4d-6a0d-4632-82a3-b6ab8fd4e5b7/full/!300,300/0/default.jpg",
+      format: "image/jpeg",
+      type: "Image",
+      width: 640,
+      height: 537,
+    });
+  });
 });
