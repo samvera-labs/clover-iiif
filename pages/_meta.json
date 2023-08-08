@@ -11,10 +11,6 @@
     "title": "Documentation",
     "type": "page"
   },
-  "about": {
-    "title": "About",
-    "type": "page"
-  },
   "contact": {
     "title": "IIIF Presentation API ↗",
     "type": "page",

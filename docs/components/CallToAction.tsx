@@ -1,15 +1,24 @@
+import { VariantProps, styled } from "src/styles/stitches.config";
+
 import Link from "next/link";
 import React from "react";
-import { styled } from "src/styles/stitches.config";
+
+type StyledCallToActionVariants = VariantProps<typeof StyledCallToAction>;
 
 interface CallToActionProps {
   href: string;
   text: string;
 }
 
-const CallToAction: React.FC<CallToActionProps> = ({ href, text }) => {
+const CallToAction: React.FC<
+  CallToActionProps & StyledCallToActionVariants
+> = ({ href, size, text }) => {
   return (
-    <StyledCallToAction href={href} className="nx-bg-primary-400/10">
+    <StyledCallToAction
+      className="nx-bg-primary-400/10"
+      href={href}
+      size={size}
+    >
       {text} <span>→</span>
     </StyledCallToAction>
   );
@@ -34,6 +43,15 @@ const StyledCallToAction = styled(Link, {
   "&:hover, &:focus": {
     boxShadow:
       "-15px 0 30px -15px hsla(var(--nextra-primary-hue), 100%, 45%, 100%), 0 0 30px -15px hsla(235, 100%, 38.2%, 38.2%), 15px 0 30px -15px hsla(calc(var(--nextra-primary-hue) + 10deg), 100%, 85%, 25%)",
+  },
+
+  variants: {
+    size: {
+      small: {
+        fontSize: "1rem",
+        padding: "0.25rem .75rem",
+      },
+    },
   },
 
   span: {
