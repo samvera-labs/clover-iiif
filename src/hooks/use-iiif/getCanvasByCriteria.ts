@@ -19,7 +19,7 @@ export const getCanvasByCriteria = (
   vault: any,
   item: Canvas,
   motivation: string,
-  paintingType: Array<ExternalResourceTypes>,
+  paintingType: Array<ExternalResourceTypes>
 ): CanvasEntity => {
   const entity: CanvasEntity = {
     canvas: undefined,
@@ -34,12 +34,10 @@ export const getCanvasByCriteria = (
       if (!annotation.body || !annotation.motivation) {
         console.error(
           `Invalid annotation after Hyperion parsing: missing either 'body' or 'motivation'`,
-          annotation,
+          annotation
         );
         return;
       }
-
-      if (!annotation.body) return;
 
       let annotationBody = annotation.body as
         | ContentResource
@@ -58,7 +56,7 @@ export const getCanvasByCriteria = (
             paintingType.includes(resource.type)
           )
             annotation.body = resource;
-          return annotation;
+          return !!annotation;
         case "supplementing":
           return;
         default: {

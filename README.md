@@ -34,7 +34,7 @@ npm run test
 
 ```shell
 # Run coverage report on the tests
-npm run test --coverage
+npm run coverage
 ```
 
 The coverage report uses [Vitest UI](https://vitest.dev/guide/ui.html). It will output a coverage report in the terminal, and open a nicer looking HTML coverage report as well.
