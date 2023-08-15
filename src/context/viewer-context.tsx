@@ -1,13 +1,13 @@
-import { Options } from "openseadragon";
+import { Options as OpenSeadragonOptions } from "openseadragon";
 import React, { useReducer } from "react";
 import { CollectionNormalized } from "@iiif/presentation-3";
 import { Vault } from "@iiif/vault";
 
-export type ConfigOptions = {
+export type ViewerConfigOptions = {
   canvasBackgroundColor?: string;
   canvasHeight?: string;
   ignoreCaptionLabels?: string[];
-  openSeadragon?: Options;
+  openSeadragon?: OpenSeadragonOptions;
   renderAbout?: boolean;
   showIIIFBadge?: boolean;
   showInformationToggle?: boolean;
@@ -31,7 +31,7 @@ interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
   collection?: CollectionNormalized | {};
-  configOptions: ConfigOptions;
+  configOptions: ViewerConfigOptions;
   informationExpanded: boolean;
   isLoaded: boolean;
   vault: Vault;
@@ -41,7 +41,7 @@ interface ViewerAction {
   type: string;
   canvasId: string;
   collection: CollectionNormalized;
-  configOptions: ConfigOptions;
+  configOptions: ViewerConfigOptions;
   informationExpanded: boolean;
   isLoaded: boolean;
   manifestId: string;

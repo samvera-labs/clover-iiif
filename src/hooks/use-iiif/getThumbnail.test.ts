@@ -1,4 +1,4 @@
-import { CanvasEntity } from "@/hooks/use-iiif/getCanvasByCriteria";
+import { CanvasEntity } from "src/hooks/use-iiif/getCanvasByCriteria";
 
 //TODO: Figure out how to mock Vault()
 // const vault = new Vault();

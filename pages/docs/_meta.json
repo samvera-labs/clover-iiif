@@ -1,0 +1,22 @@
+{
+  "index": "Overview",
+  "composing": "Composing",
+  "--components": {
+    "type": "separator",
+    "title": "IIIF Components"
+  },
+  "viewer": "Viewer",
+  "slider": "Slider",
+  "--primitives": {
+    "type": "separator",
+    "title": "IIIF Primitives"
+  },
+  "homepage": "Homepage",
+  "label": "Label",
+  "metadata": "Metadata",
+  "partOf": "PartOf",
+  "requiredStatement": "RequiredStatement",
+  "seeAlso": "SeeAlso",
+  "summary": "Summary",
+  "thumbnail": "Thumbnail"
+}

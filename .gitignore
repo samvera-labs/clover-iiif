@@ -1,10 +1,14 @@
 # dev
+.build
+.next
 dist
 node_modules
+out
 public/script.js
 public/script.js.map
 public/index.html
-static
+coverage/
+html/
 
 # OS
 .DS_Store

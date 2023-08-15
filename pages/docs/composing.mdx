@@ -1,0 +1,207 @@
+---
+title: Getting Started
+---
+
+import { Steps } from "nextra/components";
+import { Callout } from "nextra/components";
+import CallToAction from "docs/components/CallToAction";
+
+# Composing
+
+Clover IIIF is designed to allow for rapid creation of web content translated from IIIF resources. The following is quick step-by-step guide to get you up and running with **Clover IIIF**.
+
+## Creating a Work page
+
+In this tutorial, we will install **Clover IIIF** and compose a "Work" page representing a IIIF Manifest for [Northwestern Football vs. Illinois, 1950](https://dc.library.northwestern.edu/items/0902aed4-0eb0-4ab4-a151-c925493be04e).
+
+<Steps>
+
+### Install package
+
+Add the following dependency to your project:
+
+```bash
+npm install @samvera/clover-iiif
+```
+
+### Create file
+
+Create a file called `Work.jsx` in your project and add the following:
+
+### Define component
+
+Import `React`. Define and export a functional component named `Work` that renders an empty `<article>` element.
+
+```jsx
+import React from "react";
+
+const Work = () => {
+  return <article></article>;
+};
+
+export default Work;
+```
+
+### Add Viewer
+
+As an initial step, define a constant `manifestId` that points to the IIIF Manifest for [Northwestern Football vs. Illinois, 1950](https://dc.library.northwestern.edu/items/0902aed4-0eb0-4ab4-a151-c925493be04e). Then, add a `<Viewer>` component to the `Work` component that renders the IIIF Manifest. If your react application is running in your browser, you should see the Clover IIIF viewer.
+
+<br />
+<CallToAction href="/docs/viewer" text="Viewer Docs" size="small" />
+
+```jsx
+import React from "react";
+import Viewer from "@samvera/clover-iiif/viewer";
+
+const Work = () => {
+  const manifestId =
+    "https://api.dc.library.northwestern.edu/api/v2/works/0902aed4-0eb0-4ab4-a151-c925493be04e?as=iiif";
+
+  return (
+    <article>
+      <Viewer iiifContent={manifestId} />
+    </article>
+  );
+};
+
+export default Work;
+```
+
+### Add Manifest Content
+
+Next, we add the IIIF Primitives components to the `Work` component to render the IIIF Manifest content.
+
+This requires fetching the IIIF Manifest and passing it to the components. The following code snippet demonstrates how to fetch the IIIF Manifest in a useEffect hook, set the manifest in state, and pass the manifest properties to the IIIF Primitives components.
+
+<Callout>
+  While the **Viewer** and **Slider** components are designed for both the IIIF
+  Presentation API 2.x and 3.0, the Primitives components, e.g., **Label**,
+  **Summary**, **Metadata**, are limited to the IIIF Presentation API 3.0. If
+  this is an issue, you can use
+  [`@iiif/parser`](https://github.com/IIIF-Commons/parser#2-3-converter) for
+  conversion.
+</Callout>
+
+```jsx
+import React, { useEffect, useState } from "react";
+import Viewer from "@samvera/clover-iiif/viewer";
+import {
+  Homepage,
+  Label,
+  Metadata,
+  PartOf,
+  RequiredStatement,
+  SeeAlso,
+  Summary,
+} from "@samvera/clover-iiif/primitives";
+
+const Work = () => {
+  const [manifest, setManifest] = useState();
+
+  const manifestId =
+    "https://api.dc.library.northwestern.edu/api/v2/works/0902aed4-0eb0-4ab4-a151-c925493be04e?as=iiif";
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(manifestId);
+      const json = await response.json();
+      setManifest(json);
+    })();
+  }, [manifestId]);
+
+  if (!manifest) return <></>;
+
+  return (
+    <article>
+      <Viewer iiifContent={manifestId} />
+      <div>
+        <Label label={manifest.label} as="h1" />
+        <Summary summary={manifest.summary} as="p" />
+        <Metadata metadata={manifest.metadata} />
+        <RequiredStatement requiredStatement={manifest.requiredStatement} />
+        <PartOf partOf={manifest.partOf} />
+        <SeeAlso seeAlso={manifest.seeAlso} />
+        <Homepage homepage={manifest.homepage} />
+      </div>
+    </article>
+  );
+};
+
+export default Work;
+```
+
+### Add Slider
+
+Finally, we add the `Slider` component to render the IIIF Collection that this Manifest is part of. We also need to import the `swiper` CSS files for baseline styling.
+
+<br />
+<CallToAction href="/docs/slider" text="Slider Docs" size="small" />
+
+```jsx
+import React, { useEffect, useState } from "react";
+import Viewer from "@samvera/clover-iiif/viewer";
+import {
+  Homepage,
+  Label,
+  Metadata,
+  PartOf,
+  RequiredStatement,
+  SeeAlso,
+  Thumbnail,
+} from "@samvera/clover-iiif/primitives";
+import Slider from "@samvera/clover-iiif/slider";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+const Work = () => {
+  const [manifest, setManifest] = useState();
+
+  const manifestId =
+    "https://api.dc.library.northwestern.edu/api/v2/works/0902aed4-0eb0-4ab4-a151-c925493be04e?as=iiif";
+
+  const collectionId = manifest?.partOf[0].id;
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(manifestId);
+      const json = await response.json();
+      setManifest(json);
+    })();
+  }, [manifestId]);
+
+  if (!manifest) return <></>;
+
+  return (
+    <article>
+      <Viewer iiifContent={manifestId} />
+      <div>
+        <Label label={manifest.label} as="h1" />
+        <Summary summary={manifest.summary} as="p" />
+        <Metadata metadata={manifest.metadata} />
+        <RequiredStatement requiredStatement={manifest.requiredStatement} />
+        <PartOf partOf={manifest.partOf} />
+        <SeeAlso seeAlso={manifest.seeAlso} />
+        <Homepage homepage={manifest.homepage} />
+      </div>
+      <Slider iiifContent={collectionId} />
+    </article>
+  );
+};
+
+export default Work;
+```
+
+</Steps>
+
+## Summary
+
+In this tutorial, we installed **Clover IIIF** and composed an unstyled "Work" page representing a IIIF Manifest. The completed code covered in these steps is available in a [CodeSandbox](https://codesandbox.io/s/clover-iiif-composing-qk73w9?file=/src/Work.jsx).
+
+<br />
+<CallToAction
+  href="https://codesandbox.io/s/clover-iiif-composing-qk73w9?file=/src/Work.jsx"
+  text="Experiment with the CodeSandbox"
+  size="small"
+/>
