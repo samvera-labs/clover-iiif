@@ -13,7 +13,7 @@ const config: DocsThemeConfig = {
   nextThemes: {
     defaultTheme: "system",
   },
-  docsRepositoryBase: "https://github.com/mathewjordan/clover-iiif-proto/docs",
+  docsRepositoryBase: "https://github.com/samvera-labs/clover-iiif",
   footer: {
     text: "Extensible IIIF front-end toolkit and Manifest viewer. Accessible. Composable. Open Source.",
   },

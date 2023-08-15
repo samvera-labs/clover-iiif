@@ -9,25 +9,28 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      NEXT_PUBLIC_BASE_PATH: /clover-iiif-proto
+      NEXT_PUBLIC_BASE_PATH: /clover-iiif
 
     steps:
-      - name: Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
-
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
 
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
+          cache: "pnpm"
 
       - name: Install
-        run: npm ci
+        run: pnpm install
 
       - name: Build
-        run: npm run build:docs
+        run: pnpm run build:docs
 
       - name: Bypass Jekyll
         run: touch ./out/.nojekyll

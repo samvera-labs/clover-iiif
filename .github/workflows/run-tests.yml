@@ -2,14 +2,14 @@ name: Run Tests
 
 on:
   pull_request:
-    branches: [suite]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     env:
-      NEXT_PUBLIC_BASE_PATH: /clover-iiif-proto
+      NEXT_PUBLIC_BASE_PATH: /clover-iiif
 
     steps:
       - name: Cancel Previous Runs

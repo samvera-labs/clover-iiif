@@ -9,7 +9,7 @@ module.exports = (phase) => {
   const isDev = phase === PHASE_DEVELOPMENT_SERVER;
 
   return withNextra({
-    basePath: isDev ? "" : "/clover-iiif-proto",
+    basePath: isDev ? "" : "/clover-iiif",
     images: {
       unoptimized: true,
     },
