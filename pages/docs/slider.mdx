@@ -8,7 +8,6 @@ import { Tabs, Tab } from "nextra/components";
 import { Steps } from "nextra/components";
 
 import "swiper/css";
-import "swiper/css/lazy";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
@@ -40,7 +39,7 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Collect
 
 ## Installation
 
-<Tabs items={["npm", "yarn"]}>
+<Tabs items={["npm", "yarn", "pnpm"]}>
   {/* prettier-ignore */}
   <Tab>
     ```shell
@@ -53,6 +52,12 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Collect
       yarn add @samvera/clover-iiif
     ```
   </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    ```shell
+      pnpm install @samvera/clover-iiif
+    ```
+  </Tab>
 </Tabs>
 
 ## Usage
@@ -62,10 +67,9 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Collect
 Add the `Slider` component to your `jsx` or `tsx` code. Slider does require you to load [swiper.js](https://swiperjs.com/) styling to the side. These stylesheets are not compiled with the @samvera/clover-iiif package, however are bundled as a dependency when installing Clover IIIF.
 
 ```jsx
-import { Slider } from "@samvera/clover-iiif";
+import Slider from "@samvera/clover-iiif/slider";
 
 import "swiper/css";
-import "swiper/css/lazy";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 ```
@@ -82,33 +86,6 @@ Render the slider with IIIF Collection URI. The only required prop is the `iiifC
     <Slider iiifContent="https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif" />
   </Tab>
 </Tabs>
-
-### Next.js
-
-Usage with Next.js requires a dynamic import using `next/dynamic`
-
-```jsx
-import dynamic from "next/dynamic";
-
-import "swiper/css";
-import "swiper/css/lazy";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-
-const Slider = dynamic(
-  () => import("@samvera/clover-iiif").then((Clover) => Clover.Slider),
-  {
-    ssr: false,
-  }
-);
-
-const MyCustomSlider = () => {
-  const iiifContent =
-    "https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif";
-
-  return <Slider iiifContent={iiifContent} />;
-};
-```
 
 ## API Reference
 

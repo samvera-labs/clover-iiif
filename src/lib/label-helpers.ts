@@ -1,7 +1,7 @@
 import { InternationalString } from "@iiif/presentation-3";
 
 export const getLabelEntries = (
-  label: InternationalString,
+  label?: InternationalString,
   lang: string = "none"
 ) => {
   /*
@@ -33,7 +33,7 @@ export const getLabelEntries = (
 };
 
 export const getLabelAsString = (
-  label: InternationalString,
+  label: InternationalString | undefined,
   lang: string = "none",
   delimiter: string = ", "
 ) => {

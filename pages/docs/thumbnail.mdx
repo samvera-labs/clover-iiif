@@ -3,7 +3,7 @@ title: Thumbnail
 ---
 
 import IIIFBadge from "docs/components/IIIFBadge";
-import * as IIIF from "src/components/Primitives";
+import { Thumbnail } from "src/components/Primitives";
 import { Tabs, Tab } from "nextra/components";
 
 # Thumbnail
@@ -18,7 +18,7 @@ The Thumbnail component is used to display a thumbnail for a IIIF resource. This
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.Thumbnail
+    <Thumbnail
       thumbnail={[
         {
           id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275/thumbnail",
@@ -32,7 +32,7 @@ The Thumbnail component is used to display a thumbnail for a IIIF resource. This
     ```
   </Tab>
   <Tab>
-    <IIIF.Thumbnail
+    <Thumbnail
       thumbnail={[
         {
           id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275/thumbnail",
@@ -59,10 +59,10 @@ The Thumbnail component is used to display a thumbnail for a IIIF resource. This
 ### React
 
 ```jsx
-import { Primitives as IIIF } from "@samvera/clover-iiif";
+import { Thumbnail } from "@samvera/clover-iiif/primitives";
 
 const CustomThumbnail = ({ thumbnail }) => {
-  return <IIIF.Thumbnail label={thumbnail} />;
+  return <Thumbnail label={thumbnail} />;
 };
 
 export default CustomThumbnail;
@@ -90,7 +90,7 @@ Using the `Thumbnail` component, you can render a video thumbnail. This is usefu
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.Thumbnail
+    <Thumbnail
       thumbnail={[
         {
           id: "https://meadow-streaming.rdc.library.northwestern.edu/5a/cc/f7/5f/-a/56/1-/4b/3c/-9/b4/5-/7d/cc/f7/03/90/e3/74-110-2.m3u8#t=200,230",
@@ -105,7 +105,7 @@ Using the `Thumbnail` component, you can render a video thumbnail. This is usefu
     ```
   </Tab>
   <Tab>
-    <IIIF.Thumbnail
+    <Thumbnail
       thumbnail={[
         {
           id: "https://meadow-streaming.rdc.library.northwestern.edu/5a/cc/f7/5f/-a/56/1-/4b/3c/-9/b4/5-/7d/cc/f7/03/90/e3/74-110-2.m3u8#t=200,230",

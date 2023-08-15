@@ -3,7 +3,7 @@ title: RequiredStatement
 ---
 
 import IIIFBadge from "docs/components/IIIFBadge";
-import * as IIIF from "src/components/Primitives";
+import { RequiredStatement } from "src/components/Primitives";
 import { Tabs, Tab } from "nextra/components";
 
 # RequiredStatement
@@ -18,7 +18,7 @@ The RequiredStatement component renders the required statement for a IIIF resour
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.RequiredStatement
+    <RequiredStatement
       requiredStatement={{
         label: {
           none: ["Attribution"],
@@ -34,7 +34,7 @@ The RequiredStatement component renders the required statement for a IIIF resour
     ```
   </Tab>
   <Tab>
-    <IIIF.RequiredStatement
+    <RequiredStatement
       requiredStatement={{
         label: {
           none: ["Attribution"],
@@ -73,10 +73,10 @@ The RequiredStatement component renders the required statement for a IIIF resour
 ### React
 
 ```jsx
-import { Primitives as IIIF } from "@samvera/clover-iiif";
+import { RequiredStatement } from "@samvera/clover-iiif/primitives";
 
 const CustomRequiredStatement = ({ requiredStatement }) => {
-  return <IIIF.RequiredStatement requiredStatement={requiredStatement} />;
+  return <RequiredStatement requiredStatement={requiredStatement} />;
 };
 
 export default CustomRequiredStatement;
@@ -103,7 +103,7 @@ export default CustomRequiredStatement;
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.RequiredStatement
+    <RequiredStatement
       requiredStatement={{
         label: {
           en: ["Rights"],
@@ -120,7 +120,7 @@ export default CustomRequiredStatement;
 
   </Tab>
   <Tab>
-    <IIIF.RequiredStatement
+    <RequiredStatement
       requiredStatement={{
         label: {
           en: ["Rights"],
@@ -164,7 +164,7 @@ Additional to being rendered to the DOM like other attributes, the value of [`la
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.RequiredStatement
+    <RequiredStatement
       requiredStatement={{
         label: {
           en: ["Attribution"],
@@ -180,7 +180,7 @@ Additional to being rendered to the DOM like other attributes, the value of [`la
     ```
   </Tab>
   <Tab>
-    <IIIF.RequiredStatement
+    <RequiredStatement
       requiredStatement={{
         label: {
           en: ["Attribution"],
@@ -215,7 +215,7 @@ Additional to being rendered to the DOM like other attributes, the value of [`la
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.RequiredStatement
+    <RequiredStatement
       requiredStatement={{
         label: {
           none: ["Attribution"],
@@ -232,7 +232,7 @@ Additional to being rendered to the DOM like other attributes, the value of [`la
     ```
   </Tab>
   <Tab>
-    <IIIF.RequiredStatement
+    <RequiredStatement
       requiredStatement={{
         label: {
           none: ["Attribution"],

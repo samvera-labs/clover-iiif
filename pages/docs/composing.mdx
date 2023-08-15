@@ -30,11 +30,10 @@ Create a file called `Work.jsx` in your project and add the following:
 
 ### Define component
 
-Import `React` and the **Clover IIIF** components. Define and export a functional component named `Work` that renders an empty `<article>` element.
+Import `React`. Define and export a functional component named `Work` that renders an empty `<article>` element.
 
 ```jsx
 import React from "react";
-import { Primitives as IIIF, Slider, Viewer } from "@samvera/clover-iiif";
 
 const Work = () => {
   return <article></article>;
@@ -52,7 +51,7 @@ As an initial step, define a constant `manifestId` that points to the IIIF Manif
 
 ```jsx
 import React from "react";
-import { Primitives as IIIF, Slider, Viewer } from "@samvera/clover-iiif";
+import Viewer from "@samvera/clover-iiif/viewer";
 
 const Work = () => {
   const manifestId =
@@ -85,7 +84,16 @@ This requires fetching the IIIF Manifest and passing it to the components. The f
 
 ```jsx
 import React, { useEffect, useState } from "react";
-import { Primitives as IIIF, Slider, Viewer } from "@samvera/clover-iiif";
+import Viewer from "@samvera/clover-iiif/viewer";
+import {
+  Homepage,
+  Label,
+  Metadata,
+  PartOf,
+  RequiredStatement,
+  SeeAlso,
+  Summary,
+} from "@samvera/clover-iiif/primitives";
 
 const Work = () => {
   const [manifest, setManifest] = useState();
@@ -107,15 +115,13 @@ const Work = () => {
     <article>
       <Viewer iiifContent={manifestId} />
       <div>
-        <IIIF.Label label={manifest.label} as="h1" />
-        <IIIF.Summary summary={manifest.summary} as="p" />
-        <IIIF.Metadata metadata={manifest.metadata} />
-        <IIIF.RequiredStatement
-          requiredStatement={manifest.requiredStatement}
-        />
-        <IIIF.PartOf partOf={manifest.partOf} />
-        <IIIF.SeeAlso seeAlso={manifest.seeAlso} />
-        <IIIF.Homepage homepage={manifest.homepage} />
+        <Label label={manifest.label} as="h1" />
+        <Summary summary={manifest.summary} as="p" />
+        <Metadata metadata={manifest.metadata} />
+        <RequiredStatement requiredStatement={manifest.requiredStatement} />
+        <PartOf partOf={manifest.partOf} />
+        <SeeAlso seeAlso={manifest.seeAlso} />
+        <Homepage homepage={manifest.homepage} />
       </div>
     </article>
   );
@@ -133,10 +139,19 @@ Finally, we add the `Slider` component to render the IIIF Collection that this M
 
 ```jsx
 import React, { useEffect, useState } from "react";
-import { Primitives as IIIF, Slider, Viewer } from "@samvera/clover-iiif";
+import Viewer from "@samvera/clover-iiif/viewer";
+import {
+  Homepage,
+  Label,
+  Metadata,
+  PartOf,
+  RequiredStatement,
+  SeeAlso,
+  Thumbnail,
+} from "@samvera/clover-iiif/primitives";
+import Slider from "@samvera/clover-iiif/slider";
 
 import "swiper/css";
-import "swiper/css/lazy";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
@@ -162,15 +177,13 @@ const Work = () => {
     <article>
       <Viewer iiifContent={manifestId} />
       <div>
-        <IIIF.Label label={manifest.label} as="h1" />
-        <IIIF.Summary summary={manifest.summary} as="p" />
-        <IIIF.Metadata metadata={manifest.metadata} />
-        <IIIF.RequiredStatement
-          requiredStatement={manifest.requiredStatement}
-        />
-        <IIIF.PartOf partOf={manifest.partOf} />
-        <IIIF.SeeAlso seeAlso={manifest.seeAlso} />
-        <IIIF.Homepage homepage={manifest.homepage} />
+        <Label label={manifest.label} as="h1" />
+        <Summary summary={manifest.summary} as="p" />
+        <Metadata metadata={manifest.metadata} />
+        <RequiredStatement requiredStatement={manifest.requiredStatement} />
+        <PartOf partOf={manifest.partOf} />
+        <SeeAlso seeAlso={manifest.seeAlso} />
+        <Homepage homepage={manifest.homepage} />
       </div>
       <Slider iiifContent={collectionId} />
     </article>

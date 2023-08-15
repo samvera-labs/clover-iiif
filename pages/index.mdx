@@ -3,12 +3,23 @@ import Splash, { StyledGrid } from "docs/components/Splash/Splash";
 import SplashElement from "docs/components/Splash/Element";
 import Viewer from "docs/components/DynamicImports/Viewer";
 import Slider from "src/components/Slider";
-import * as IIIF from "src/components/Primitives";
+import {
+  Homepage,
+  Label,
+  Metadata,
+  PartOf,
+  RequiredStatement,
+  SeeAlso,
+  Summary,
+  Thumbnail,
+} from "src/components/primitives";
+import Redirect from "docs/components/Redirect";
 
 import "swiper/css";
-import "swiper/css/lazy";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+
+<Redirect />
 
 <HomepageHeader />
 <Splash>
@@ -49,7 +60,7 @@ import "swiper/css/pagination";
       <SplashElement
         text="Label"
         css={{ height: "14.6vh" }}
-        component={<IIIF.Label label={{
+        component={<Label label={{
           "none": [
             "Zagna \"lunga\""
           ]
@@ -57,14 +68,14 @@ import "swiper/css/pagination";
         href="docs/label"
       >
         ```jsx
-        <IIIF.Label label={manifest.label} />
+        <Label label={manifest.label} />
         ```
       </SplashElement>
       <SplashElement
         text="Summary"
         css={{ height: "14.6vh" }}
         component={
-          <IIIF.Summary
+          <Summary
             summary={{
               "none": [
                 "In early zannesque comedy, all the female characters were comic, grotesque, and played by men. Zagna, the feminine counterpart to Zanni, is the formal, comic-grotesque exaggeration of the woman. The actors wore female clothing over an exaggerated female body, an effect achieved with the addition of excessive, carnivalesque accessories.  The Zagna mask, similar if not identical to the male mask, was worn with a scarf to cover the head."
@@ -75,14 +86,14 @@ import "swiper/css/pagination";
         href="docs/summary"
       >
         ```jsx
-        <IIIF.Summary summary={manifest.summary} />
+        <Summary summary={manifest.summary} />
         ```
       </SplashElement>
       <SplashElement
         text="Metadata"
         css={{ height: "24.6vh" }}
         component={
-          <IIIF.Metadata
+          <Metadata
             metadata={[
               {
                 "label": {
@@ -162,14 +173,14 @@ import "swiper/css/pagination";
         href="docs/metadata"
       >
         ```jsx
-        <IIIF.Metadata metadata={manifest.metadata} />
+        <Metadata metadata={manifest.metadata} />
         ```
       </SplashElement>
       <SplashElement
         text="RequiredStatement"
         css={{ height: "14.6vh" }}
         component={
-          <IIIF.RequiredStatement
+          <RequiredStatement
             requiredStatement={{
               label: {
                 none: ["Attribution"],
@@ -186,8 +197,8 @@ import "swiper/css/pagination";
         href="docs/requiredStatement"
       >
         ```jsx
-        <IIIF.RequiredStatement requiredStatement={manifest.requiredStatement} />
-        ``` 
+        <RequiredStatement requiredStatement={manifest.requiredStatement} />
+        ```
       </SplashElement>
     </div>
     <aside>
@@ -195,7 +206,7 @@ import "swiper/css/pagination";
         text="Thumbnail"
         css={{ height: "24.6vh" }}
         component={
-          <IIIF.Thumbnail
+          <Thumbnail
             thumbnail={[
               {
                 "id": "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275/thumbnail",
@@ -210,14 +221,14 @@ import "swiper/css/pagination";
         href="docs/thumbnail"
       >
         ```jsx
-        <IIIF.Thumbnail thumbnail={manifest.thumbnail} />
+        <Thumbnail thumbnail={manifest.thumbnail} />
         ```
       </SplashElement>
       <SplashElement
         text="PartOf"
         css={{ height: "14.6vh" }}
         component={
-          <IIIF.PartOf
+          <PartOf
             className="clover-link"
             partOf={[
               {
@@ -240,14 +251,14 @@ import "swiper/css/pagination";
         href="docs/partOf"
       >
         ```jsx
-        <IIIF.PartOf partOf={manifest.partOf} />
+        <PartOf partOf={manifest.partOf} />
         ```
       </SplashElement>
       <SplashElement
         text="SeeAlso"
         css={{ height: "14.6vh" }}
         component={
-          <IIIF.SeeAlso
+          <SeeAlso
             className="clover-link"
             seeAlso={[
               {
@@ -266,14 +277,14 @@ import "swiper/css/pagination";
         href="docs/seeAlso"
       >
         ```jsx
-        <IIIF.SeeAlso seeAlso={manifest.seeAlso} />
+        <SeeAlso seeAlso={manifest.seeAlso} />
         ```
       </SplashElement>
       <SplashElement
         text="Homepage"
         css={{ height: "14.6vh" }}
         component={
-          <IIIF.Homepage
+          <Homepage
             className="clover-link"
             homepage={[
               {
@@ -292,7 +303,7 @@ import "swiper/css/pagination";
         href="docs/homepage"
       >
         ```jsx
-        <IIIF.Homepage homepage={manifest.homepage} />
+        <Homepage homepage={manifest.homepage} />
         ```
       </SplashElement>
     </aside>

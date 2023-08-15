@@ -1,19 +1,17 @@
 import {
-  Collection,
   CollectionItems,
   CollectionNormalized,
   ContentResource,
   InternationalString,
-  Manifest,
 } from "@iiif/presentation-3";
 import {
   CollectionProvider,
   defaultState,
   useCollectionState,
 } from "src/context/slider-context";
+import { type ConfigOptions, type SliderItem } from "src/types/slider";
 import React, { useEffect, useState } from "react";
 
-import { ConfigOptions } from "src/types/slider";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/Slider/ErrorFallback/ErrorFallback";
 import Header from "src/components/Slider/Header/Header";
@@ -24,7 +22,7 @@ import { upgrade } from "@iiif/parser/upgrader";
 export interface CloverSliderProps {
   collectionId?: string;
   iiifContent: string;
-  onItemInteraction?: (item: Manifest | Collection) => void;
+  onItemInteraction?: (item: SliderItem) => void;
   options?: ConfigOptions;
 }
 

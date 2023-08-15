@@ -1,22 +1,12 @@
 import tsconfigPaths from "vite-tsconfig-paths";
 import pkg from "../package.json" assert { type: "json" };
 
-export function defineConfig(options) {
+export function defineConfig(options, key) {
   return {
     build: {
-      outDir: `dist`,
+      outDir: `dist/${key}`,
       sourcemap: true,
-      lib: {
-        name: "index",
-        entry: "./src/index.tsx",
-        formats: ["es", "cjs"],
-        fileName: (format) => {
-          if (format === "es") {
-            return `index.mjs`;
-          }
-          return `index.js`;
-        },
-      },
+      lib: { ...options.lib },
       minify: "esbuild",
       rollupOptions: {
         external: [...Object.keys(pkg.dependencies || {})],

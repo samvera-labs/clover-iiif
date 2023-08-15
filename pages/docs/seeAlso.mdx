@@ -3,7 +3,7 @@ title: SeeAlso
 ---
 
 import IIIFBadge from "docs/components/IIIFBadge";
-import * as IIIF from "src/components/Primitives";
+import { SeeAlso } from "src/components/Primitives";
 import { Tabs, Tab } from "nextra/components";
 
 # SeeAlso
@@ -18,7 +18,7 @@ The SeeAlso component is used to display a list of related resources. A machine-
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.SeeAlso
+    <SeeAlso
       seeAlso={[
         {
           id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275",
@@ -33,7 +33,7 @@ The SeeAlso component is used to display a list of related resources. A machine-
     ```
   </Tab>
   <Tab>
-    <IIIF.SeeAlso
+    <SeeAlso
       seeAlso={[
         {
           id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275",
@@ -64,10 +64,10 @@ The SeeAlso component is used to display a list of related resources. A machine-
 ### React
 
 ```jsx
-import { Primitives as IIIF } from "@samvera/clover-iiif";
+import { SeeAlso } from "@samvera/clover-iiif/primitives";
 
 const CustomSeeAlso = ({ seeAlso }) => {
-  return <IIIF.SeeAlso seeAlso={seeAlso} />;
+  return <SeeAlso seeAlso={seeAlso} />;
 };
 
 export default CustomSeeAlso;
@@ -93,7 +93,7 @@ The `SeeAlso` component can be rendered as either `ol` or `ul` elements. The def
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.SeeAlso
+    <SeeAlso
       seeAlso={[
         {
           id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275",
@@ -109,7 +109,7 @@ The `SeeAlso` component can be rendered as either `ol` or `ul` elements. The def
     ```
   </Tab>
   <Tab>
-    <IIIF.SeeAlso
+    <SeeAlso
       seeAlso={[
         {
           id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275",

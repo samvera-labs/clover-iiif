@@ -3,7 +3,7 @@ title: Metadata
 ---
 
 import IIIFBadge from "docs/components/IIIFBadge";
-import * as IIIF from "src/components/Primitives";
+import { Metadata } from "src/components/Primitives";
 import { Tabs, Tab } from "nextra/components";
 import {
   RenderedHTML,
@@ -60,7 +60,7 @@ An ordered list of descriptions to be displayed to the user when they interact w
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.Metadata
+    <Metadata
       metadata={[
         {
           label: {
@@ -83,7 +83,7 @@ An ordered list of descriptions to be displayed to the user when they interact w
     ```
   </Tab>
   <Tab>
-    <IIIF.Metadata
+    <Metadata
       metadata={[
         {
           label: {
@@ -125,10 +125,10 @@ An ordered list of descriptions to be displayed to the user when they interact w
 ### React
 
 ```jsx
-import { Primitives as IIIF } from "@samvera/clover-iiif";
+import { Metadata } from "@samvera/clover-iiif/primitives";
 
 const CustomMetadata = ({ metadata }) => {
-  return <IIIF.Metadata metadata={metadata} />;
+  return <Metadata metadata={metadata} />;
 };
 
 export default CustomMetadata;
@@ -156,7 +156,7 @@ export default CustomMetadata;
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.Metadata
+    <Metadata
       metadata={[
         {
           label: {
@@ -180,7 +180,7 @@ export default CustomMetadata;
     ```
   </Tab>
   <Tab>
-    <IIIF.Metadata
+    <Metadata
       metadata={[
         {
           label: {
@@ -225,7 +225,7 @@ Additional to being rendered to the DOM like other attributes, the value of [`la
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.Metadata
+    <Metadata
       metadata={[
         {
           label: {
@@ -253,7 +253,7 @@ Additional to being rendered to the DOM like other attributes, the value of [`la
     ```
   </Tab>
   <Tab>
-    <IIIF.Metadata
+    <Metadata
       metadata={[
         {
           label: {
@@ -342,7 +342,7 @@ return <Metadata metadata={metadata} customValueContent={customValueContent} />;
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.Metadata
+    <Metadata
       metadata={[
         {
           label: {
@@ -363,7 +363,7 @@ return <Metadata metadata={metadata} customValueContent={customValueContent} />;
     ```
   </Tab>
   <Tab>
-    <IIIF.Metadata
+    <Metadata
       metadata={[
         {
           label: {

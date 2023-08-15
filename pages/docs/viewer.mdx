@@ -44,7 +44,7 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Manifes
 
 ## Installation
 
-<Tabs items={["npm", "yarn"]}>
+<Tabs items={["npm", "yarn", "pnpm"]}>
   {/* prettier-ignore */}
   <Tab>
     ```shell
@@ -57,6 +57,12 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Manifes
       yarn add @samvera/clover-iiif
     ```
   </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    ```shell
+      pnpm install @samvera/clover-iiif
+    ```
+  </Tab>
 </Tabs>
 
 ## Usage
@@ -66,7 +72,7 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Manifes
 Add the `Viewer` component to your `jsx` or `tsx` code.
 
 ```jsx
-import { Viewer } from "@samvera/clover-iiif";
+import Viewer from "@samvera/clover-iiif/viewer";
 ```
 
 Render `Viewer` with a IIIF Manifest or Collection URI. The only required prop is the `iiifContent`, which is the URI of the IIIF Manifest or Collection.
@@ -95,7 +101,7 @@ The Viewer can also be implemented in Vanilla Javascript by use of a web compone
         <meta charset="UTF-8" />
       </head>
       <body>
-        <script src="https://www.unpkg.com/@mathewjordan/clover-iiif-proto/dist/web-components/index.umd.js"></script>
+        <script src="https://www.unpkg.com/@samvera/clover-iiif@latest/dist/web-components/index.umd.js"></script>
 
         <clover-viewer
           id="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif"

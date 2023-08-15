@@ -1,7 +1,7 @@
 import { CollectionNormalized, ManifestNormalized } from "@iiif/presentation-3";
 import React, { useEffect, useState } from "react";
 import {
-  ViewerConfigOptions,
+  type ViewerConfigOptions,
   ViewerProvider,
   defaultState,
   useViewerDispatch,

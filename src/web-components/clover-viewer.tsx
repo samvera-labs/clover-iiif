@@ -26,6 +26,7 @@ function CloverViewerWebComponent(
     }
   }, []);
 
+  // @ts-ignore
   return <Viewer id={id} />;
 }
 

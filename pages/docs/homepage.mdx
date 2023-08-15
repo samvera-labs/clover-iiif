@@ -3,7 +3,7 @@ title: Homepage
 ---
 
 import IIIFBadge from "docs/components/IIIFBadge";
-import * as IIIF from "src/components/Primitives";
+import { Homepage } from "src/components/Primitives";
 import { Tabs, Tab } from "nextra/components";
 
 # Homepage
@@ -18,7 +18,7 @@ A web page that is about the object represented by the resource that has the hom
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.Homepage
+    <Homepage
       homepage={[
         {
           id: "https://dc.library.northwestern.edu/items/71153379-4283-43be-8b0f-4e7e3bfda275",
@@ -35,7 +35,7 @@ A web page that is about the object represented by the resource that has the hom
     ```
   </Tab>
   <Tab>
-    <IIIF.Homepage
+    <Homepage
       homepage={[
         {
           id: "https://dc.library.northwestern.edu/items/71153379-4283-43be-8b0f-4e7e3bfda275",
@@ -67,10 +67,10 @@ A web page that is about the object represented by the resource that has the hom
 ### React
 
 ```jsx
-import { Primitives as IIIF } from "@samvera/clover-iiif";
+import { Homepage } from "@samvera/clover-iiif/primitives";
 
 const CustomHomepage = ({ homepage }) => {
-  return <IIIF.Homepage homepage={homepage} />;
+  return <Homepage homepage={homepage} />;
 };
 
 export default CustomHomepage;
@@ -82,10 +82,10 @@ If using Next.js, you will want to render your `Homepage` component as a Next.js
 
 ```jsx
 import Link from "next/link";
-import { Primitives as IIIF } from "@samvera/clover-iiif";
+import { Primitives as IIIF } from "@samvera/clover-iiif/primitives";
 
 const CustomHomepage = ({ homepage }) => {
-  return <IIIF.Homepage homepage={homepage} as={Link} />;
+  return <Homepage homepage={homepage} as={Link} />;
 };
 
 export default CustomHomepage;
@@ -113,7 +113,7 @@ In the following example, an `onClick()` function will display an with the `data
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.Homepage
+    <Homepage
       homepage={[
         {
           id: "https://dc.library.northwestern.edu/items/71153379-4283-43be-8b0f-4e7e3bfda275",
@@ -136,7 +136,7 @@ In the following example, an `onClick()` function will display an with the `data
     ```
   </Tab>
   <Tab>
-    <IIIF.Homepage
+    <Homepage
       homepage={[
         {
           id: "https://dc.library.northwestern.edu/items/71153379-4283-43be-8b0f-4e7e3bfda275",
@@ -177,7 +177,7 @@ The `Homepage` component can also be used to wrap React children. An `aria-label
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.Homepage
+    <Homepage
       homepage={[
         {
           id: "https://dc.library.northwestern.edu/items/71153379-4283-43be-8b0f-4e7e3bfda275",
@@ -192,11 +192,11 @@ The `Homepage` component can also be used to wrap React children. An `aria-label
       ]}
     >
       <span>View Homepage</span>
-    </IIIF.Homepage>
+    </Homepage>
     ```
   </Tab>
   <Tab>
-    <IIIF.Homepage
+    <Homepage
       homepage={[
         {
           id: "https://dc.library.northwestern.edu/items/71153379-4283-43be-8b0f-4e7e3bfda275",
@@ -211,7 +211,7 @@ The `Homepage` component can also be used to wrap React children. An `aria-label
       ]}
     >
       <span>View Homepage</span>
-    </IIIF.Homepage>
+    </Homepage>
   </Tab>
   <Tab>
     ```html

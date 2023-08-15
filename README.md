@@ -39,6 +39,10 @@ npm run test --coverage
 
 The coverage report uses [Vitest UI](https://vitest.dev/guide/ui.html). It will output a coverage report in the terminal, and open a nicer looking HTML coverage report as well.
 
+## Releases
+
+The Clover Suite is transitioning to it's next major release `v2`. Experiment with the Release Candidate by installing `npm install @samvera/clover-iiif@next`. View the source code on the `/suite` branch.
+
 ## License
 
 This project is available under the [MIT License](https://github.com/samvera-labs/clover-iiif/blob/main/LICENSE).

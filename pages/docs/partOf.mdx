@@ -3,7 +3,7 @@ title: PartOf
 ---
 
 import IIIFBadge from "docs/components/IIIFBadge";
-import * as IIIF from "src/components/Primitives";
+import { PartOf } from "src/components/Primitives";
 import { Tabs, Tab } from "nextra/components";
 
 # PartOf
@@ -18,7 +18,7 @@ A containing resource that includes the resource that has the partOf property.
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.PartOf
+    <PartOf
       partOf={[
         {
           id: "https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif",
@@ -37,7 +37,7 @@ A containing resource that includes the resource that has the partOf property.
     ```
   </Tab>
   <Tab>
-    <IIIF.PartOf
+    <PartOf
       partOf={[
         {
           id: "https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif",
@@ -72,10 +72,10 @@ A containing resource that includes the resource that has the partOf property.
 ### React
 
 ```jsx
-import { Primitives as IIIF } from "@samvera/clover-iiif";
+import { PartOf } from "@samvera/clover-iiif/primitives";
 
 const CustomPartOf = ({ partOf }) => {
-  return <IIIF.PartOf partOf={partOf} />;
+  return <PartOf partOf={partOf} />;
 };
 
 export default CustomPartOf;
@@ -101,7 +101,7 @@ The `PartOf` component can be rendered as either `ol` or `ul` elements. The defa
 <Tabs items={["Code", "Example", "HTML"]}>
   <Tab>
     ```jsx
-    <IIIF.PartOf
+    <PartOf
       partOf={[
         {
           id: "https://digital.lib.utk.edu/assemble/collection/collections/rfta",
@@ -123,7 +123,7 @@ The `PartOf` component can be rendered as either `ol` or `ul` elements. The defa
     ```
   </Tab>
   <Tab>
-    <IIIF.PartOf
+    <PartOf
       partOf={[
         {
           id: "https://digital.lib.utk.edu/assemble/collection/collections/rfta",
