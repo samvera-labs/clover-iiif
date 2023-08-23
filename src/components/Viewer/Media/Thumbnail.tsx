@@ -1,17 +1,18 @@
-import React from "react";
-import { convertTime } from "src/lib/utils";
 import {
   CanvasNormalized,
   IIIFExternalWebResource,
 } from "@iiif/presentation-3";
-import { Icon, Tag } from "@nulib/design-system";
 import {
   Duration,
   Item,
   Spacer,
   Type,
 } from "src/components/Viewer/Media/Thumbnail.styled";
+import { Icon, Tag } from "src/components/internal";
+
 import { Label } from "src/components/Primitives";
+import React from "react";
+import { convertTime } from "src/lib/utils";
 import { getLabel } from "src/hooks/use-iiif";
 
 /**

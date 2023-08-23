@@ -1,4 +1,3 @@
-import React from "react";
 import * as Switch from "@radix-ui/react-switch";
 
 import {
@@ -7,14 +6,16 @@ import {
   IIIFBadgeContent,
   ManifestLabel,
 } from "./Header.styled";
-import { InternationalString } from "@iiif/presentation-3";
-import { Popover } from "@nulib/design-system";
-import IIIFBadge from "src/components/Viewer/Viewer/IIIFBadge";
-import CopyText from "src/components/Viewer/CopyText";
-import { useViewerState } from "src/context/viewer-context";
+
 import Collection from "src/components/Viewer/Collection/Collection";
+import CopyText from "src/components/Viewer/CopyText";
+import IIIFBadge from "src/components/Viewer/Viewer/IIIFBadge";
+import { InternationalString } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
+import { Popover } from "src/components/internal";
+import React from "react";
 import Toggle from "./Toggle";
+import { useViewerState } from "src/context/viewer-context";
 
 interface Props {
   manifestId: string;

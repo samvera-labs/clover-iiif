@@ -1,6 +1,7 @@
 import * as RadioGroup from "@radix-ui/react-radio-group";
+
+import { Tag } from "src/components/internal";
 import { styled } from "src/styles/stitches.config";
-import { Tag } from "@nulib/design-system";
 
 const Type = styled("span", {
   display: "flex",
