@@ -1,6 +1,6 @@
-import { styled } from "src/styles/stitches.config";
-import { Popover } from "@nulib/design-system";
 import { CollectionStyled } from "src/components/Viewer/Collection/Collection.styled";
+import { Popover } from "src/components/internal";
+import { styled } from "src/styles/stitches.config";
 
 const IIIFBadgeButton = styled(Popover.Trigger, {
   width: "30px",

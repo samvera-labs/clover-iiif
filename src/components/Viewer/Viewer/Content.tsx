@@ -8,7 +8,6 @@ import {
 } from "src/components/Viewer/Viewer/Viewer.styled";
 import { Canvas, IIIFExternalWebResource } from "@iiif/presentation-3";
 
-import { Button } from "@nulib/design-system";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import Media from "src/components/Viewer/Media/Media";
 import Navigator from "src/components/Viewer/Navigator/Navigator";
@@ -50,9 +49,7 @@ const ViewerContent: React.FC<Props> = ({
 
         {isNavigator && (
           <CollapsibleTrigger>
-            <Button as="span">
-              {isNavigatorOpen ? "View Items" : "More Information"}
-            </Button>
+            <span>{isNavigatorOpen ? "View Items" : "More Information"}</span>
           </CollapsibleTrigger>
         )}
         {items.length > 1 && (

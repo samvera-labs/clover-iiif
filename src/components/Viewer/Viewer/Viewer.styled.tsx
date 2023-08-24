@@ -1,5 +1,6 @@
-import { styled } from "src/styles/stitches.config";
 import * as Collapsible from "@radix-ui/react-collapsible";
+
+import { styled } from "src/styles/stitches.config";
 
 const MediaWrapper = styled("div", {
   position: "relative",
@@ -36,7 +37,6 @@ const CollapsibleTrigger = styled(Collapsible.Trigger, {
   padding: "0",
   transition: "$all",
   opacity: "1",
-  marginTop: "0",
 
   "&[data-navigator='false']": {
     opacity: "0",
@@ -47,9 +47,12 @@ const CollapsibleTrigger = styled(Collapsible.Trigger, {
     display: "flex",
 
     "> span": {
+      border: "1px solid",
       display: "flex",
       flexGrow: "1",
-      margin: "1rem 1rem 0",
+      justifyContent: "center",
+      margin: "1rem 0",
+      padding: "0.5rem",
     },
   },
 });

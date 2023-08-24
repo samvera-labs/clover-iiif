@@ -41,7 +41,13 @@ The coverage report uses [Vitest UI](https://vitest.dev/guide/ui.html). It will 
 
 ## Releases
 
-The Clover Suite is transitioning to it's next major release `v2`. Experiment with the Release Candidate by installing `npm install @samvera/clover-iiif@next`. View the source code on the `/suite` branch.
+### Major
+
+The Clover Suite has released it's next major release `v2`. To install the latest stable version, `npm install @samvera/clover-iiif@latest`
+
+### Release candidates
+
+Experiment with the Release Candidate by installing `npm install @samvera/clover-iiif@next`
 
 ## License
 
