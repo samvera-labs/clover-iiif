@@ -25,7 +25,7 @@ export const Item = styled(RadioGroup.Item, {
   fontFamily: "inherit",
   lineHeight: "1.25em",
   fontSize: "1rem",
-  color: "$primaryMuted",
+  color: "inherit",
   border: "none",
   background: "none",
 

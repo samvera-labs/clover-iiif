@@ -142,23 +142,24 @@ const MyCustomViewer = () => {
 
 `Viewer` can configured through an `options` prop, which will serve as a object for common options.
 
-| Prop                            | Type                    | Required | Default   |
-| ------------------------------- | ----------------------- | -------- | --------- |
-| `iiifContent`                   | `string`                | Yes      |           |
-| `id` _(deprecated)_             | `string`                | No       |           |
-| `manifestId` _(deprecated)_     | `string`                | No       |           |
-| `canvasIdCallback`              | `function`              | No       |           |
-| `customTheme`                   | `object`                | No       |           |
-| `options`                       | `object`                | No       |           |
-| `options.canvasBackgroundColor` | `string`                | No       | `#1a1d1e` |
-| `options.canvasHeight`          | `string`                | No       | `500px`   |
-| `options.ignoreCaptionLabels`   | `string[]`              | No       | []        |
-| `options.openSeadragon`         | `OpenSeadragon.Options` | No       |           |
-| `options.renderAbout`           | `boolean`               | No       | true      |
-| `options.showIIIFBadge`         | `boolean`               | No       | true      |
-| `options.showInformationToggle` | `boolean`               | No       | true      |
-| `options.showTitle`             | `boolean`               | No       | true      |
-| `options.withCredentials`       | `boolean`               | No       | false     |
+| Prop                            | Type                    | Required | Default                                  |
+| ------------------------------- | ----------------------- | -------- | ---------------------------------------- |
+| `iiifContent`                   | `string`                | Yes      |                                          |
+| `id` _(deprecated)_             | `string`                | No       |                                          |
+| `manifestId` _(deprecated)_     | `string`                | No       |                                          |
+| `canvasIdCallback`              | `function`              | No       |                                          |
+| `customTheme`                   | `object`                | No       |                                          |
+| `options`                       | `object`                | No       |                                          |
+| `options.canvasBackgroundColor` | `string`                | No       | `#1a1d1e`                                |
+| `options.canvasHeight`          | `string`                | No       | `500px`                                  |
+| `options.ignoreCaptionLabels`   | `string[]`              | No       | []                                       |
+| `options.openSeadragon`         | `OpenSeadragon.Options` | No       |                                          |
+| `options.renderAbout`           | `boolean`               | No       | true                                     |
+| `options.requestHeaders`        | `IncomingHttpHeaders`   | No       | `{ "Content-Type": "application/json" }` |
+| `options.showIIIFBadge`         | `boolean`               | No       | true                                     |
+| `options.showInformationToggle` | `boolean`               | No       | true                                     |
+| `options.showTitle`             | `boolean`               | No       | true                                     |
+| `options.withCredentials`       | `boolean`               | No       | false                                    |
 
 - Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
 - Options `renderAbout` and `showInformationToggle` relate to rendering Manifest content in an `<aside>` and providing user the choice to close that panel.
@@ -276,4 +277,29 @@ const customTheme = {
 };
 
 return <Viewer iiifContent={iiifContent} customTheme={customTheme} />;
+```
+
+---
+
+### Request Headers
+
+In some cases, a client may need to request Manifest or Collection resources with custom request headers, ex: `Authorization`. This can be done by passing a `requestHeaders` object to the `options` prop. This object will be passed to the request call made by the Viewer. Accepted **header** keys are defined in the [IncomingHttpHeaders](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/node/http.d.ts) interface.
+
+```jsx
+const iiifContent =
+  "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif";
+
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
+
+return (
+  <Viewer
+    iiifContent={iiifContent}
+    options={{
+      requestHeaders: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }}
+  />
+);
 ```
