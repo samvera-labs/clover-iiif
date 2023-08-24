@@ -1,4 +1,5 @@
 import * as Tabs from "@radix-ui/react-tabs";
+
 import { styled } from "src/styles/stitches.config";
 
 const Wrapper = styled(Tabs.Root, {
@@ -35,7 +36,6 @@ const Trigger = styled(Tabs.Trigger, {
   padding: "0.5rem 1rem",
   background: "none",
   backgroundColor: "transparent",
-  color: "$primaryMuted",
   border: "none",
   fontSize: "1rem",
   marginRight: "1rem",
@@ -49,15 +49,10 @@ const Trigger = styled(Tabs.Trigger, {
     width: "0",
     height: "4px",
     content: "",
-    backgroundColor: "$primaryMuted",
     position: "absolute",
     bottom: "-4px",
     left: "0",
     transition: "$all",
-  },
-
-  "&:hover": {
-    color: "$primary",
   },
 
   "&[data-state='active']": {

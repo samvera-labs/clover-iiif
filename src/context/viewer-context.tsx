@@ -1,6 +1,8 @@
-import { Options as OpenSeadragonOptions } from "openseadragon";
 import React, { useReducer } from "react";
+
 import { CollectionNormalized } from "@iiif/presentation-3";
+import { IncomingHttpHeaders } from "http";
+import { Options as OpenSeadragonOptions } from "openseadragon";
 import { Vault } from "@iiif/vault";
 
 export type ViewerConfigOptions = {
@@ -13,10 +15,11 @@ export type ViewerConfigOptions = {
   showInformationToggle?: boolean;
   showTitle?: boolean;
   withCredentials?: boolean;
+  requestHeaders?: IncomingHttpHeaders;
 };
 
 const defaultConfigOptions = {
-  canvasBackgroundColor: "#e6e8eb",
+  canvasBackgroundColor: "#6662",
   canvasHeight: "61.8vh",
   ignoreCaptionLabels: [],
   openSeadragon: {},
@@ -25,6 +28,7 @@ const defaultConfigOptions = {
   showInformationToggle: true,
   showTitle: true,
   withCredentials: false,
+  requestHeaders: { "Content-Type": "application/json" },
 };
 
 interface ViewerContextStore {

@@ -48,6 +48,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
           customFetcher: (url: string) =>
             getRequest(url, {
               withCredentials: options?.withCredentials as boolean,
+              headers: options?.requestHeaders,
             }).then((response) => JSON.parse(response.data)),
         }),
       }}

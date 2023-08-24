@@ -1,6 +1,6 @@
-import { styled } from "src/styles/stitches.config";
-import { ToggleStyled } from "src/components/Viewer/Painting/Toggle.styled";
 import { PlaceholderStyled } from "./Placeholder.styled";
+import { ToggleStyled } from "src/components/Viewer/Painting/Toggle.styled";
+import { styled } from "src/styles/stitches.config";
 
 const PaintingStyled = styled("div", {
   position: "relative",
@@ -12,7 +12,7 @@ const PaintingStyled = styled("div", {
     },
 
     [`${PlaceholderStyled}`]: {
-      backgroundColor: "$secondaryAlt",
+      backgroundColor: "#6662",
 
       img: {
         filter: "brightness(0.85)",
