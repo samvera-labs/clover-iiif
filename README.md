@@ -30,24 +30,14 @@ Clover IIIF utilizes [vitest](https://vitest.dev/) for unit testing.
 ```shell
 # Run tests
 npm run test
-```
 
-```shell
-# Run coverage report on the tests
+# View coverage report
 npm run test --coverage
 ```
 
-The coverage report uses [Vitest UI](https://vitest.dev/guide/ui.html). It will output a coverage report in the terminal, and open a nicer looking HTML coverage report as well.
-
 ## Releases
 
-### Major
-
-The Clover Suite has released it's next major release `v2`. To install the latest stable version, `npm install @samvera/clover-iiif@latest`
-
-### Release candidates
-
-Experiment with the Release Candidate by installing `npm install @samvera/clover-iiif@next`
+The Clover Suite recently released `v2`. The biggest change from v1.x.x to v2. is that Clover is now more than just a Viewer component. You can still use the Viewer component as you may have previously by following the [Installation and Usage instructions](https://samvera-labs.github.io/clover-iiif/docs/viewer).
 
 ## License
 
