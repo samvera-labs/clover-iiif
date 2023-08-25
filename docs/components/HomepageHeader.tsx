@@ -8,7 +8,7 @@ const HomepageHeader: React.FC = () => {
       <StyledHomepageHeader>
         <Headline>
           Showcase IIIF Manifests <br />
-          as interopable web content.
+          as interoperable web content.
         </Headline>
         <Subtitle>
           Extensible IIIF front-end toolkit and Manifest viewer. Accessible.
