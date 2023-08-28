@@ -6,7 +6,7 @@ import { useMemo } from "react";
 import { useRouter } from "next/router";
 
 const siteTitle = "Clover IIIF";
-const siteDescription = "Showcase IIIF Manifests as interopable web content.";
+const siteDescription = "Showcase IIIF Manifests as interoperable web content.";
 
 const config: DocsThemeConfig = {
   darkMode: true,
