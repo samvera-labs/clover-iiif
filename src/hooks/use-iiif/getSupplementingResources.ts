@@ -21,7 +21,7 @@ export interface LabeledResource {
 export const getSupplementingResources = (
   vault: any,
   activeCanvas: string,
-  format: string,
+  format: string
 ): Array<LabeledResource> => {
   const canvas: CanvasNormalized = vault.get({
     id: activeCanvas,

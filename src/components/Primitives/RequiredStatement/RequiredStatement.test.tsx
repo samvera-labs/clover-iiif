@@ -1,5 +1,6 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
+
+import React from "react";
 import RequiredStatement from "src/components/Primitives/RequiredStatement/RequiredStatement";
 
 const htmlWithinRequiredStatement = {
@@ -83,5 +84,21 @@ describe("summary primitive", () => {
     );
     const el = getByText("the color of honey");
     expect(el).toContainHTML("the color of honey");
+  });
+
+  test("renders custom delimiter", () => {
+    render(
+      <RequiredStatement
+        requiredStatement={{
+          label: { none: ["Ima Label"] },
+          value: {
+            none: [`foo`, `bar`, `baz`],
+          },
+        }}
+        customValueDelimiter="!"
+      />
+    );
+    const el = screen.getByText("foo!bar!baz");
+    expect(el).toHaveTextContent("foo!bar!baz");
   });
 });

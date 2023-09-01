@@ -1,7 +1,7 @@
 import { ConfigOptions } from "src/types/slider";
 import React from "react";
 
-interface CollectionContextStore {
+export interface CollectionContextStore {
   isLoaded: boolean;
   options: ConfigOptions;
 }
@@ -67,7 +67,9 @@ const CollectionProvider: React.FC<CollectionProviderProps> = ({
 function useCollectionState() {
   const context = React.useContext(CollectionStateContext);
   if (context === undefined) {
-    throw new Error("useViewerState must be used within a ViewerProvider");
+    throw new Error(
+      "useCollectionState must be used within a CollectionProvider"
+    );
   }
   return context;
 }
@@ -75,7 +77,9 @@ function useCollectionState() {
 function useCollectionDispatch() {
   const context = React.useContext(CollectionDispatchContext);
   if (context === undefined) {
-    throw new Error("useViewerDispatch must be used within a ViewerProvider");
+    throw new Error(
+      "useCollectionDispatch must be used within a CollectionProvider"
+    );
   }
   return context;
 }
