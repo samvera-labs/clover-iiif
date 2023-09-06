@@ -22,10 +22,10 @@ A UI component that renders a multicanvas IIIF item viewer with pan-zoom support
 <Viewer
   iiifContent="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif"
   options={{
-    renderAbout: false,
-    showTitle: false,
-    showInformationToggle: false,
     showIIIFBadge: false,
+    informationPanel: {
+      open: false,
+    },
   }}
 />
 
@@ -158,8 +158,6 @@ const MyCustomViewer = () => {
 | `options.showIIIFBadge`         | `boolean`                                                                   | No       | true                                     |
 | `options.showTitle`             | `boolean`                                                                   | No       | true                                     |
 | `options.withCredentials`       | `boolean`                                                                   | No       | false                                    |
-
-### Notes
 
 - Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
 - Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
