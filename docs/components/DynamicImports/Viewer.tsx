@@ -1,4 +1,6 @@
+import { ViewerConfigOptions } from "src/context/viewer-context";
 import dynamic from "next/dynamic";
+import { isDark } from "docs/lib/theme";
 import { useRouter } from "next/router";
 
 // todo: set this as a constant somewhere?
@@ -14,15 +16,21 @@ const CloverViewer = ({
   options,
 }: {
   iiifContent: string;
-  options?: any;
+  options?: ViewerConfigOptions;
 }) => {
   const router = useRouter();
   const iiifResource = router.query["iiif-content"]
     ? (router.query["iiif-content"] as string)
     : iiifContent;
 
+  const background = isDark() ? "rgb(17, 17, 17)" : "#fff";
+
   return (
-    <Viewer iiifContent={iiifResource} options={options} key={iiifContent} />
+    <Viewer
+      iiifContent={iiifResource}
+      options={{ ...options, background }}
+      key={iiifContent}
+    />
   );
 };
 

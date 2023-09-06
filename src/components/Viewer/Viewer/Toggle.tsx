@@ -1,42 +1,37 @@
-import { useViewerDispatch } from "src/context/viewer-context";
-import React, { useEffect, useState } from "react";
 import {
   Label,
   StyledSwitch,
   StyledThumb,
   StyledToggle,
-  Wrapper,
 } from "src/components/Viewer/Viewer/Toggle.styled";
+import React, { useEffect, useState } from "react";
+import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
 const Toggle = () => {
+  const { configOptions } = useViewerState();
   const dispatch: any = useViewerDispatch();
 
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(configOptions?.informationPanel?.open);
 
   useEffect(() => {
     dispatch({
-      type: "updateInformationExpanded",
-      informationExpanded: checked,
+      type: "updateInformationOpen",
+      informationOpen: checked,
     });
   }, [checked]);
 
   return (
     <StyledToggle>
-      <Wrapper>
-        <Label
-          htmlFor="information-toggle"
-          css={checked ? { opacity: "1" } : {}}
-        >
-          More Information
-        </Label>
-        <StyledSwitch
-          checked={checked}
-          onCheckedChange={() => setChecked(!checked)}
-          id="information-toggle"
-        >
-          <StyledThumb />
-        </StyledSwitch>
-      </Wrapper>
+      <Label htmlFor="information-toggle" css={checked ? { opacity: "1" } : {}}>
+        More Information
+      </Label>
+      <StyledSwitch
+        checked={checked}
+        onCheckedChange={() => setChecked(!checked)}
+        id="information-toggle"
+      >
+        <StyledThumb />
+      </StyledSwitch>
     </StyledToggle>
   );
 };

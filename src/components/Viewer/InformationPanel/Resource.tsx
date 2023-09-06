@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo } from "react";
-import { getLabel } from "src/hooks/use-iiif";
-import { InternationalString } from "@iiif/presentation-3";
-import { Group } from "src/components/Viewer/Navigator/Cue.styled";
 import useWebVtt, {
   NodeWebVttCue,
   NodeWebVttCueNested,
 } from "src/hooks/use-webvtt";
-import Menu from "src/components/Viewer/Navigator/Menu";
 
+import { Group } from "src/components/Viewer/InformationPanel/Cue.styled";
+import { InternationalString } from "@iiif/presentation-3";
+import Menu from "src/components/Viewer/InformationPanel/Menu";
+import { getLabel } from "src/hooks/use-iiif";
 // @ts-ignore
 import { parse } from "node-webvtt";
 

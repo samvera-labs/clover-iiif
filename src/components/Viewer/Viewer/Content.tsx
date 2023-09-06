@@ -8,22 +8,19 @@ import {
 } from "src/components/Viewer/Viewer/Viewer.styled";
 import { Canvas, IIIFExternalWebResource } from "@iiif/presentation-3";
 
+import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import Media from "src/components/Viewer/Media/Media";
-import Navigator from "src/components/Viewer/Navigator/Navigator";
 import Painting from "../Painting/Painting";
 import React from "react";
+import { useViewerState } from "src/context/viewer-context";
 
 interface Props {
   activeCanvas: string;
   painting: IIIFExternalWebResource;
   resources: LabeledResource[];
   items: Canvas[];
-  isAbout: boolean;
-  isInformation: boolean;
-  isMedia: boolean;
-  isNavigator: boolean;
-  isNavigatorOpen: boolean;
+  isAudioVideo: boolean;
 }
 
 const ViewerContent: React.FC<Props> = ({
@@ -31,37 +28,49 @@ const ViewerContent: React.FC<Props> = ({
   painting,
   resources,
   items,
-  isAbout,
-  isInformation,
-  isNavigator,
-  isNavigatorOpen,
-  isMedia,
+  isAudioVideo,
 }) => {
+  const { informationOpen, configOptions } = useViewerState();
+  const { informationPanel } = configOptions;
+
+  /**
+   * The information panel should be rendered if toggled true and if
+   * there is content (About or Supplementing Resources) to display.
+   */
+
+  const isAside =
+    informationPanel?.renderAbout ||
+    (informationPanel?.renderSupplementing && resources.length > 0);
+
   return (
     <Content className="clover-content">
       <Main>
         <Painting
           activeCanvas={activeCanvas}
-          isMedia={isMedia}
+          isMedia={isAudioVideo}
           painting={painting}
           resources={resources}
         />
 
-        {isNavigator && (
+        {isAside && (
           <CollapsibleTrigger>
-            <span>{isNavigatorOpen ? "View Items" : "More Information"}</span>
+            <span>{informationOpen ? "View Items" : "More Information"}</span>
           </CollapsibleTrigger>
         )}
+
         {items.length > 1 && (
           <MediaWrapper className="clover-canvases">
             <Media items={items} activeItem={0} />
           </MediaWrapper>
         )}
       </Main>
-      {isInformation && (isAbout || isNavigator) && (
+      {informationOpen && isAside && (
         <Aside>
           <CollapsibleContent>
-            <Navigator activeCanvas={activeCanvas} resources={resources} />
+            <InformationPanel
+              activeCanvas={activeCanvas}
+              resources={resources}
+            />
           </CollapsibleContent>
         </Aside>
       )}

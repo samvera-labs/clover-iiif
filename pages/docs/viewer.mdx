@@ -142,29 +142,48 @@ const MyCustomViewer = () => {
 
 `Viewer` can configured through an `options` prop, which will serve as a object for common options.
 
-| Prop                            | Type                    | Required | Default                                  |
-| ------------------------------- | ----------------------- | -------- | ---------------------------------------- |
-| `iiifContent`                   | `string`                | Yes      |                                          |
-| `id` _(deprecated)_             | `string`                | No       |                                          |
-| `manifestId` _(deprecated)_     | `string`                | No       |                                          |
-| `canvasIdCallback`              | `function`              | No       |                                          |
-| `customTheme`                   | `object`                | No       |                                          |
-| `options`                       | `object`                | No       |                                          |
-| `options.canvasBackgroundColor` | `string`                | No       | `#1a1d1e`                                |
-| `options.canvasHeight`          | `string`                | No       | `500px`                                  |
-| `options.ignoreCaptionLabels`   | `string[]`              | No       | []                                       |
-| `options.openSeadragon`         | `OpenSeadragon.Options` | No       |                                          |
-| `options.renderAbout`           | `boolean`               | No       | true                                     |
-| `options.requestHeaders`        | `IncomingHttpHeaders`   | No       | `{ "Content-Type": "application/json" }` |
-| `options.showIIIFBadge`         | `boolean`               | No       | true                                     |
-| `options.showInformationToggle` | `boolean`               | No       | true                                     |
-| `options.showTitle`             | `boolean`               | No       | true                                     |
-| `options.withCredentials`       | `boolean`               | No       | false                                    |
+| Prop                            | Type                                                                        | Required | Default                                  |
+| ------------------------------- | --------------------------------------------------------------------------- | -------- | ---------------------------------------- |
+| `iiifContent`                   | `string`                                                                    | Yes      |                                          |
+| `canvasIdCallback`              | `function`                                                                  | No       |                                          |
+| `customTheme`                   | `object`                                                                    | No       |                                          |
+| `options`                       | `object`                                                                    | No       |                                          |
+| `options.background`            | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background) | No       | `transparent`                            |
+| `options.canvasBackgroundColor` | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background) | No       | `#1a1d1e`                                |
+| `options.canvasHeight`          | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/height)     | No       | `500px`                                  |
+| `options.ignoreCaptionLabels`   | `string[]`                                                                  | No       | []                                       |
+| `options.openSeadragon`         | `OpenSeadragon.Options`                                                     | No       |                                          |
+| `options.informationPanel`      | [See Information Panel](#information-panel)                                 | No       |                                          |
+| `options.requestHeaders`        | `IncomingHttpHeaders`                                                       | No       | `{ "Content-Type": "application/json" }` |
+| `options.showIIIFBadge`         | `boolean`                                                                   | No       | true                                     |
+| `options.showTitle`             | `boolean`                                                                   | No       | true                                     |
+| `options.withCredentials`       | `boolean`                                                                   | No       | false                                    |
+
+### Notes
 
 - Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
-- Options `renderAbout` and `showInformationToggle` relate to rendering Manifest content in an `<aside>` and providing user the choice to close that panel.
 - Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
 - Option `options.openSeadragon` will grant you ability to override the [OpenSeadragon default options](https://openseadragon.github.io/docs/OpenSeadragon.html#.Options) set within the Clover IIIF Viewer to adjust touch and mouse gesture settings and various other configurations.
+
+### Information Panel
+
+The information panel is a collapsible panel that displays information about the current Manifest and renders supplementing resources for the active canvas. It is rendered by default, but can be configured to be hidden or to render only certain tabs.
+
+| Prop                                           | Type      | Required | Default |
+| ---------------------------------------------- | --------- | -------- | ------- |
+| `options.informationPanel.open`                | `boolean` | No       | true    |
+| `options.informationPanel.renderAbout`         | `boolean` | No       | true    |
+| `options.informationPanel.renderSupplementing` | `boolean` | No       | true    |
+| `options.informationPanel.renderToggle`        | `boolean` | No       | true    |
+
+### Deprecated Options
+
+| Prop                            | In Favor Of                             | Deprecated |
+| ------------------------------- | --------------------------------------- | ---------- |
+| `id`                            | `iiifContent`                           | `v2.0.0`   |
+| `manifestId`                    | `iiifContent`                           | `v2.0.0`   |
+| `options.renderAbout`           | `options.informationPanel.renderAbout`  | `v2.0.3`   |
+| `options.showInformationToggle` | `options.informationPanel.renderToggle` | `v2.0.3`   |
 
 ### Basic Configuration
 

@@ -1,7 +1,7 @@
 import {
   AboutContent,
   AboutStyled,
-} from "src/components/Viewer/Navigator/About/About.styled";
+} from "src/components/Viewer/InformationPanel/About/About.styled";
 import {
   Homepage,
   Id,
@@ -16,8 +16,9 @@ import {
   IIIFExternalWebResource,
   ManifestNormalized,
 } from "@iiif/presentation-3";
-import { PrimitivesExternalWebResource } from "src/types/primitives";
 import React, { useEffect, useState } from "react";
+
+import { PrimitivesExternalWebResource } from "src/types/primitives";
 import { useViewerState } from "src/context/viewer-context";
 
 const About: React.FC = () => {

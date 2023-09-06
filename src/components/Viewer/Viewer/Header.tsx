@@ -1,7 +1,6 @@
-import * as Switch from "@radix-ui/react-switch";
-
 import {
   Header,
+  HeaderOptions,
   IIIFBadgeButton,
   IIIFBadgeContent,
   ManifestLabel,
@@ -15,6 +14,9 @@ import { Label } from "src/components/Primitives";
 import { Popover } from "src/components/internal";
 import React from "react";
 import Toggle from "./Toggle";
+import { config } from "process";
+import { media } from "src/styles/stitches.config";
+import { useMediaQuery } from "src/hooks/useMediaQuery";
 import { useViewerState } from "src/context/viewer-context";
 
 interface Props {
@@ -26,60 +28,65 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
   const viewerState: any = useViewerState();
   const { collection, configOptions } = viewerState;
 
-  const { showTitle, showIIIFBadge, showInformationToggle } = configOptions;
+  const { showTitle, showIIIFBadge, informationPanel } = configOptions;
 
-  if (
-    !collection?.items &&
-    !showTitle &&
-    !showIIIFBadge &&
-    !showInformationToggle
-  )
-    return <></>;
+  /**
+   * Determine if header options should be rendered.
+   */
+  const hasOptions = showIIIFBadge || informationPanel?.renderToggle;
+  const isSmallViewport = useMediaQuery(media.sm);
 
   return (
     <Header className="clover-header">
       {collection?.items ? (
         <Collection />
       ) : (
-        <ManifestLabel>
-          <Label label={manifestLabel} />
+        <ManifestLabel className={!showTitle ? "visually-hidden" : ""}>
+          {showTitle && <Label label={manifestLabel} />}
         </ManifestLabel>
       )}
-      {showIIIFBadge && (
-        <Popover>
-          <IIIFBadgeButton>
-            <IIIFBadge />
-          </IIIFBadgeButton>
-          <IIIFBadgeContent>
-            {collection?.items && (
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.open(collection.id, "_blank");
-                }}
-              >
-                View Collection
-              </button>
-            )}
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                window.open(manifestId, "_blank");
-              }}
-            >
-              View Manifest
-            </button>{" "}
-            {collection?.items && (
-              <CopyText
-                textPrompt="Copy Collection URL"
-                textToCopy={collection.id}
-              />
-            )}
-            <CopyText textPrompt="Copy Manifest URL" textToCopy={manifestId} />
-          </IIIFBadgeContent>
-        </Popover>
+      {hasOptions && (
+        <HeaderOptions>
+          {showIIIFBadge && (
+            <Popover>
+              <IIIFBadgeButton>
+                <IIIFBadge />
+              </IIIFBadgeButton>
+              <IIIFBadgeContent>
+                {collection?.items && (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open(collection.id, "_blank");
+                    }}
+                  >
+                    View Collection
+                  </button>
+                )}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.open(manifestId, "_blank");
+                  }}
+                >
+                  View Manifest
+                </button>{" "}
+                {collection?.items && (
+                  <CopyText
+                    textPrompt="Copy Collection URL"
+                    textToCopy={collection.id}
+                  />
+                )}
+                <CopyText
+                  textPrompt="Copy Manifest URL"
+                  textToCopy={manifestId}
+                />
+              </IIIFBadgeContent>
+            </Popover>
+          )}
+          {informationPanel.renderToggle && !isSmallViewport && <Toggle />}
+        </HeaderOptions>
       )}
-      {showInformationToggle && <Toggle />}
     </Header>
   );
 };

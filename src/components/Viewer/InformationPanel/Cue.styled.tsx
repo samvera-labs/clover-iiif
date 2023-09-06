@@ -92,8 +92,7 @@ export const Item = styled(RadioGroup.Item, {
   },
 
   "&[aria-checked='true']": {
-    color: "$primary",
-    backgroundColor: "$secondaryMuted",
+    backgroundColor: "#6663",
 
     "&::before": {
       content: "",

@@ -40,10 +40,32 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
   if (id) iiifResource = id;
   if (manifestId) iiifResource = manifestId;
 
+  function deepMerge(target, source) {
+    if (typeof target !== "object" || target === null) {
+      return source;
+    }
+
+    for (const key in source) {
+      if (
+        typeof source[key] === "object" &&
+        source[key] !== null &&
+        !Array.isArray(source[key])
+      ) {
+        if (!target[key]) target[key] = {};
+        target[key] = deepMerge(target[key], source[key]);
+      } else {
+        target[key] = source[key];
+      }
+    }
+
+    return target;
+  }
+
   return (
     <ViewerProvider
       initialState={{
         ...defaultState,
+        informationOpen: Boolean(options?.informationPanel?.open),
         vault: new Vault({
           customFetcher: (url: string) =>
             getRequest(url, {

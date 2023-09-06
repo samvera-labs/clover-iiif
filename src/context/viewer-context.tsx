@@ -4,31 +4,42 @@ import { CollectionNormalized } from "@iiif/presentation-3";
 import { IncomingHttpHeaders } from "http";
 import { Options as OpenSeadragonOptions } from "openseadragon";
 import { Vault } from "@iiif/vault";
+import { deepMerge } from "src/lib/utils";
 
 export type ViewerConfigOptions = {
+  background?: string;
   canvasBackgroundColor?: string;
   canvasHeight?: string;
   ignoreCaptionLabels?: string[];
+  informationPanel?: {
+    open?: boolean;
+    renderAbout?: boolean;
+    renderSupplementing?: boolean;
+    renderToggle?: boolean;
+  };
   openSeadragon?: OpenSeadragonOptions;
-  renderAbout?: boolean;
+  requestHeaders?: IncomingHttpHeaders;
   showIIIFBadge?: boolean;
-  showInformationToggle?: boolean;
   showTitle?: boolean;
   withCredentials?: boolean;
-  requestHeaders?: IncomingHttpHeaders;
 };
 
 const defaultConfigOptions = {
+  background: "transparent",
   canvasBackgroundColor: "#6662",
   canvasHeight: "61.8vh",
   ignoreCaptionLabels: [],
+  informationPanel: {
+    open: true,
+    renderAbout: true,
+    renderSupplementing: true,
+    renderToggle: true,
+  },
   openSeadragon: {},
-  renderAbout: true,
+  requestHeaders: { "Content-Type": "application/json" },
   showIIIFBadge: true,
-  showInformationToggle: true,
   showTitle: true,
   withCredentials: false,
-  requestHeaders: { "Content-Type": "application/json" },
 };
 
 interface ViewerContextStore {
@@ -36,7 +47,7 @@ interface ViewerContextStore {
   activeManifest: string;
   collection?: CollectionNormalized | {};
   configOptions: ViewerConfigOptions;
-  informationExpanded: boolean;
+  informationOpen: boolean;
   isLoaded: boolean;
   vault: Vault;
 }
@@ -46,7 +57,7 @@ interface ViewerAction {
   canvasId: string;
   collection: CollectionNormalized;
   configOptions: ViewerConfigOptions;
-  informationExpanded: boolean;
+  informationOpen: boolean;
   isLoaded: boolean;
   manifestId: string;
   vault: Vault;
@@ -57,7 +68,7 @@ export const defaultState: ViewerContextStore = {
   activeManifest: "",
   collection: {},
   configOptions: defaultConfigOptions,
-  informationExpanded: true,
+  informationOpen: defaultConfigOptions?.informationPanel?.open,
   isLoaded: false,
   vault: new Vault(),
 };
@@ -94,16 +105,13 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
     case "updateConfigOptions": {
       return {
         ...state,
-        configOptions: {
-          ...defaultConfigOptions,
-          ...action.configOptions,
-        },
+        configOptions: deepMerge(state.configOptions, action.configOptions),
       };
     }
-    case "updateInformationExpanded": {
+    case "updateInformationOpen": {
       return {
         ...state,
-        informationExpanded: action.informationExpanded,
+        informationOpen: action.informationOpen,
       };
     }
     case "updateIsLoaded": {

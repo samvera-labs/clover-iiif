@@ -35,8 +35,8 @@ describe("Viewer Context", () => {
         });
 
         dispatch({
-          type: "updateInformationExpanded",
-          informationExpanded: true,
+          type: "updateInformationOpen",
+          informationOpen: true,
         });
 
         dispatch({
@@ -88,7 +88,7 @@ describe("Viewer Context", () => {
     );
     expect(elObj.configOptions.canvasIndex).toEqual(0);
     expect(elObj.configOptions.canvasNavigationId).toEqual("canvas-nav");
-    expect(elObj.informationExpanded).toEqual(true);
+    expect(elObj.informationOpen).toEqual(true);
     expect(elObj.isLoaded).toEqual(false);
   });
 

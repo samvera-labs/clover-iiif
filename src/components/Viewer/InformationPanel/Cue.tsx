@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Item } from "src/components/Viewer/Navigator/Cue.styled";
+
+import { Item } from "src/components/Viewer/InformationPanel/Cue.styled";
 import { convertTime } from "src/lib/utils";
 
 interface Props {
@@ -35,7 +36,7 @@ const Cue: React.FC<Props> = ({ label, start, end }) => {
   return (
     <Item
       aria-checked={isActive}
-      data-testid="navigator-cue"
+      data-testid="information-panel-cue"
       onClick={handleClick}
       value={label}
     >
