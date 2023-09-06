@@ -22,6 +22,7 @@ const PropertiesThumbnail: React.FC<PropertiesThumbnailProps> = ({
       <Thumbnail
         altAsLabel={label ? label : { none: ["resource"] }}
         thumbnail={thumbnail}
+        style={{ backgroundColor: "#6663", objectFit: "cover" }}
       />
     </>
   );

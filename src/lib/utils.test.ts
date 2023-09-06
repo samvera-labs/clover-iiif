@@ -1,4 +1,4 @@
-import { cleanTime, convertTime } from "src/lib/utils";
+import { cleanTime, convertTime, deepMerge } from "src/lib/utils";
 
 test("Test output a 'cleaned time' when given international standard time notation.", () => {
   const hours1 = cleanTime("11:15:55.784");
@@ -30,4 +30,36 @@ test("Test output a 'converted time' when given seconds as integer.", () => {
   expect(seconds1).toBe("0:55");
   const seconds2 = convertTime(5);
   expect(seconds2).toBe("0:05");
+});
+
+// test deepMerge
+test("Test result of deepMerge()", () => {
+  const target = {
+    showTitle: true,
+    showIIIFBadge: true,
+    informationPanel: {
+      open: true,
+      renderAbout: true,
+      renderToggle: true,
+    },
+  };
+
+  const source = {
+    showIIIFBadge: false,
+    informationPanel: {
+      renderToggle: false,
+    },
+  };
+
+  const result = deepMerge(target, source);
+
+  expect(result).toEqual({
+    showTitle: true,
+    showIIIFBadge: false,
+    informationPanel: {
+      open: true,
+      renderAbout: true,
+      renderToggle: false,
+    },
+  });
 });

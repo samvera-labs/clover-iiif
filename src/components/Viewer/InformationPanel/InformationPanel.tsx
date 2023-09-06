@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { InternationalString } from "@iiif/presentation-3";
 import {
   Content,
   List,
   Scroll,
   Trigger,
   Wrapper,
-} from "src/components/Viewer/Navigator/Navigator.styled";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
-import Resource from "src/components/Viewer/Navigator/Resource";
+} from "src/components/Viewer/InformationPanel/InformationPanel.styled";
+import React, { useEffect, useState } from "react";
+
+import Information from "src/components/Viewer/InformationPanel/About/About";
 import { Label } from "src/components/Primitives";
-import Information from "src/components/Viewer/Navigator/About/About";
+import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
+import Resource from "src/components/Viewer/InformationPanel/Resource";
 import { useViewerState } from "src/context/viewer-context";
 
 interface NavigatorProps {
@@ -18,15 +18,19 @@ interface NavigatorProps {
   resources?: Array<LabeledResource>;
 }
 
-export const Navigator: React.FC<NavigatorProps> = ({
+export const InformationPanel: React.FC<NavigatorProps> = ({
   activeCanvas,
   resources,
 }) => {
   const viewerState: any = useViewerState();
   const { configOptions } = viewerState;
-  const { renderAbout } = configOptions;
+  const { informationPanel } = configOptions;
 
   const [activeResource, setActiveResource] = useState<string>();
+
+  const renderAbout =
+    informationPanel?.renderAbout || configOptions?.renderAbout;
+  const renderSupplementing = informationPanel?.renderSupplementing;
 
   useEffect(() => {
     if (renderAbout) {
@@ -44,15 +48,16 @@ export const Navigator: React.FC<NavigatorProps> = ({
 
   return (
     <Wrapper
-      data-testid="navigator"
+      data-testid="information-panel"
       defaultValue={activeResource}
       onValueChange={handleValueChange}
       orientation="horizontal"
       value={activeResource}
     >
-      <List aria-label="select chapter" data-testid="navigator-list">
+      <List aria-label="select chapter" data-testid="information-panel-list">
         {renderAbout && <Trigger value="manifest-about">About</Trigger>}
-        {resources &&
+        {renderSupplementing &&
+          resources &&
           resources.map(({ id, label }) => (
             <Trigger key={id} value={id as string}>
               <Label label={label} />
@@ -65,7 +70,8 @@ export const Navigator: React.FC<NavigatorProps> = ({
             <Information />
           </Content>
         )}
-        {resources &&
+        {renderSupplementing &&
+          resources &&
           resources.map((resource) => {
             return (
               <Content key={resource.id} value={resource.id as string}>
@@ -78,4 +84,4 @@ export const Navigator: React.FC<NavigatorProps> = ({
   );
 };
 
-export default Navigator;
+export default InformationPanel;

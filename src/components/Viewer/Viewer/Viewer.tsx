@@ -10,6 +10,7 @@ import {
   getPaintingResource,
   getSupplementingResources,
 } from "src/hooks/use-iiif";
+import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/Viewer/Viewer/ErrorFallback";
@@ -21,7 +22,6 @@ import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
 import { media } from "src/styles/stitches.config";
 import { useBodyLocked } from "src/hooks/useBodyLocked";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
-import { useViewerState } from "src/context/viewer-context";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
@@ -33,32 +33,33 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
    * Viewer State
    */
   const viewerState: any = useViewerState();
-  const { activeCanvas, informationExpanded, vault, configOptions } =
-    viewerState;
+  const viewerDispatch: any = useViewerDispatch();
+  const { activeCanvas, informationOpen, vault, configOptions } = viewerState;
 
   /**
    * Local state
    */
-  const [isMedia, setIsMedia] = useState(false);
-  const [isNavigator, setIsNavigator] = useState<boolean>(false);
-  const [isNavigatorOpen, setIsNavigatorOpen] = useState<boolean>(true);
+
+  const [isInformationPanel, setIsInformationPanel] = useState<boolean>(false);
+  const [isAudioVideo, setIsAudioVideo] = useState(false);
   const [painting, setPainting] = useState<IIIFExternalWebResource | undefined>(
     undefined
   );
   const [resources, setResources] = useState<LabeledResource[]>([]);
 
-  /**
-   * Hooks
-   */
   const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
   const isSmallViewport = useMediaQuery(media.sm);
 
+  const setInformationOpen = (open: boolean) => {
+    viewerDispatch({
+      type: "updateInformationOpen",
+      informationOpen: open,
+    });
+  };
+
   useEffect(() => {
-    if (!isSmallViewport) {
-      setIsNavigatorOpen(true);
-      return;
-    }
-    setIsNavigatorOpen(false);
+    if (configOptions?.informationPanel.open)
+      setInformationOpen(!isSmallViewport);
   }, [isSmallViewport]);
 
   useEffect(() => {
@@ -66,8 +67,8 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
       setIsBodyLocked(false);
       return;
     }
-    setIsBodyLocked(isNavigatorOpen);
-  }, [isNavigatorOpen]);
+    setIsBodyLocked(informationOpen);
+  }, [informationOpen]);
 
   useEffect(() => {
     const painting = getPaintingResource(vault, activeCanvas);
@@ -77,7 +78,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
       "text/vtt"
     );
     if (painting) {
-      setIsMedia(
+      setIsAudioVideo(
         ["Sound", "Video"].indexOf(painting.type as ExternalResourceTypes) > -1
           ? true
           : false
@@ -85,20 +86,21 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
       setPainting({ ...painting });
     }
     setResources(resources);
-    setIsNavigator(resources.length !== 0);
+    setIsInformationPanel(resources.length !== 0);
   }, [activeCanvas]);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Wrapper
         className={`${theme} clover-iiif`}
+        css={{ background: configOptions?.background }}
         data-body-locked={isBodyLocked}
-        data-navigator={isNavigator}
-        data-navigator-open={isNavigatorOpen}
+        data-information-panel={isInformationPanel}
+        data-information-panel-open={informationOpen}
       >
         <Collapsible.Root
-          open={isNavigatorOpen}
-          onOpenChange={setIsNavigatorOpen}
+          open={informationOpen}
+          onOpenChange={setInformationOpen}
         >
           <ViewerHeader
             manifestLabel={manifest.label as InternationalString}
@@ -109,11 +111,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
             painting={painting as IIIFExternalWebResource}
             resources={resources}
             items={manifest.items}
-            isAbout={configOptions.renderAbout}
-            isMedia={isMedia}
-            isInformation={informationExpanded}
-            isNavigator={isNavigator}
-            isNavigatorOpen={isNavigatorOpen}
+            isAudioVideo={isAudioVideo}
           />
         </Collapsible.Root>
       </Wrapper>

@@ -13,4 +13,13 @@ A UI component that renders a multicanvas IIIF item viewer with pan-zoom support
 
 ---
 
-<Viewer />
+<Viewer
+  options={{
+    canvasHeight: "640px",
+    openSeadragon: {
+      gestureSettingsMouse: {
+        scrollToZoom: false,
+      },
+    },
+  }}
+/>

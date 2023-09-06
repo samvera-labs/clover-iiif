@@ -23,7 +23,7 @@ const List = styled(Tabs.List, {
   display: "flex",
   flexGrow: "0",
   margin: "0 1.618rem",
-  borderBottom: "4px solid $secondaryAlt",
+  borderBottom: "4px solid #6663",
 
   "@sm": {
     margin: "0 1rem",
@@ -36,13 +36,15 @@ const Trigger = styled(Tabs.Trigger, {
   padding: "0.5rem 1rem",
   background: "none",
   backgroundColor: "transparent",
+  fontFamily: "inherit",
   border: "none",
+  opacity: "0.7",
   fontSize: "1rem",
   marginRight: "1rem",
   lineHeight: "1rem",
   whiteSpace: "nowrap",
   cursor: "pointer",
-  fontWeight: 700,
+  fontWeight: 400,
   transition: "$all",
 
   "&::after": {
@@ -56,7 +58,8 @@ const Trigger = styled(Tabs.Trigger, {
   },
 
   "&[data-state='active']": {
-    color: "$accent",
+    opacity: "1",
+    fontWeight: 700,
 
     "&::after": {
       width: "100%",
@@ -76,7 +79,7 @@ const Content = styled(Tabs.Content, {
   "&[data-state='active']": {
     width: "100%",
     height: "calc(100% - 2rem)",
-    padding: "1rem 0",
+    padding: "1.618rem 0",
   },
 });
 

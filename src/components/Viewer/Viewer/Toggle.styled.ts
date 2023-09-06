@@ -1,11 +1,12 @@
-import { styled } from "src/styles/stitches.config";
 import * as Switch from "@radix-ui/react-switch";
+
+import { styled } from "src/styles/stitches.config";
 
 const StyledSwitch = styled(Switch.Root, {
   all: "unset",
   height: "2rem",
   width: "3.236rem",
-  backgroundColor: "$secondaryAlt",
+  backgroundColor: "#6663",
   borderRadius: "9999px",
   position: "relative",
   WebkitTapHighlightColor: "transparent",
@@ -37,12 +38,6 @@ const StyledThumb = styled(Switch.Thumb, {
   },
 });
 
-const Wrapper = styled("div", {
-  display: "flex",
-  alignItems: "center",
-  paddingLeft: "1.618rem",
-});
-
 const Label = styled("label", {
   fontSize: "0.8333rem",
   fontWeight: "400",
@@ -52,6 +47,12 @@ const Label = styled("label", {
   paddingRight: "0.618rem",
 });
 
-const StyledToggle = styled("form", {});
+const StyledToggle = styled("form", {
+  display: "flex",
+  flexShrink: "0",
+  flexGrow: "1",
+  alignItems: "center",
+  marginLeft: "1.618rem",
+});
 
-export { Label, StyledSwitch, StyledThumb, StyledToggle, Wrapper };
+export { Label, StyledSwitch, StyledThumb, StyledToggle };

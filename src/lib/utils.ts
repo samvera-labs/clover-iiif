@@ -30,6 +30,27 @@ export const convertTimeToSeconds = (standardNotation: string) => {
   return seconds;
 };
 
+export const deepMerge = (target, source) => {
+  if (typeof target !== "object" || target === null) {
+    return source;
+  }
+
+  for (const key in source) {
+    if (
+      typeof source[key] === "object" &&
+      source[key] !== null &&
+      !Array.isArray(source[key])
+    ) {
+      if (!target[key]) target[key] = {};
+      target[key] = deepMerge(target[key], source[key]);
+    } else {
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+};
+
 export const getRealPropertyValue = (
   obj: { [key: string]: any },
   property: string

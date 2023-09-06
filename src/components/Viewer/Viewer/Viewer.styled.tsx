@@ -31,14 +31,15 @@ const Main = styled("div", {
 
 const CollapsibleTrigger = styled(Collapsible.Trigger, {
   display: "none",
-  background: "transparent",
   border: "none",
-  margin: "0",
   padding: "0",
   transition: "$all",
   opacity: "1",
+  background: "#6663",
+  margin: "1rem 0",
+  borderRadius: "6px",
 
-  "&[data-navigator='false']": {
+  "&[data-information-panel='false']": {
     opacity: "0",
     marginTop: "-59px",
   },
@@ -47,12 +48,12 @@ const CollapsibleTrigger = styled(Collapsible.Trigger, {
     display: "flex",
 
     "> span": {
-      border: "1px solid",
       display: "flex",
       flexGrow: "1",
+      fontSize: "0.8333em",
       justifyContent: "center",
-      margin: "1rem 0",
       padding: "0.5rem",
+      fontFamily: "inherit",
     },
   },
 });
@@ -101,7 +102,7 @@ const Wrapper = styled("div", {
     padding: "0",
   },
 
-  "&[data-navigator-open='true']": {
+  "&[data-information-panel-open='true']": {
     "@sm": {
       position: "fixed",
       height: "100%",
@@ -112,6 +113,10 @@ const Wrapper = styled("div", {
 
       [`& ${MediaWrapper}`]: {
         display: "none",
+      },
+
+      [`& ${CollapsibleTrigger}`]: {
+        margin: "1rem",
       },
 
       [`& ${CollapsibleContent}`]: {
