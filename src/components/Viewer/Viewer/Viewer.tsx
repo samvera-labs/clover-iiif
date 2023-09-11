@@ -19,6 +19,8 @@ import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
 import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
+import { imaBlue } from "src/components/Viewer/Viewer/vanilla-extract2.css";
+import { imaRed } from "src/components/Viewer/Viewer/vanilla-extract.css";
 import { media } from "src/styles/stitches.config";
 import { useBodyLocked } from "src/hooks/useBodyLocked";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
@@ -106,6 +108,8 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
             manifestLabel={manifest.label as InternationalString}
             manifestId={manifest.id}
           />
+          <div className={imaRed}>Testing a vanilla extract style</div>
+          <div className={imaBlue}>Testing another style</div>
           <ViewerContent
             activeCanvas={activeCanvas}
             painting={painting as IIIFExternalWebResource}

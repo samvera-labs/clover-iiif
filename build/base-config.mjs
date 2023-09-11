@@ -1,5 +1,6 @@
 import tsconfigPaths from "vite-tsconfig-paths";
 import pkg from "../package.json" assert { type: "json" };
+import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 
 export function defineConfig(options, key) {
   return {
@@ -21,7 +22,7 @@ export function defineConfig(options, key) {
         treeshake: true,
       },
     },
-    plugins: [tsconfigPaths()],
+    plugins: [tsconfigPaths(), vanillaExtractPlugin()],
     test: {
       include: ["./src/**/*.{test,tests,spec}.{js,mjs,cjs,ts,tsx,mts,cts}"],
       environment: "jsdom",

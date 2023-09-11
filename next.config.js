@@ -5,14 +5,19 @@ const withNextra = require("nextra")({
   themeConfig: "./theme.config.tsx",
 });
 
+const { createVanillaExtractPlugin } = require("@vanilla-extract/next-plugin");
+const withVanillaExtract = createVanillaExtractPlugin();
+
 module.exports = (phase) => {
   const isDev = phase === PHASE_DEVELOPMENT_SERVER;
 
-  return withNextra({
-    basePath: isDev ? "" : "/clover-iiif",
-    images: {
-      unoptimized: true,
-    },
-    output: "export",
-  });
+  return withVanillaExtract(
+    withNextra({
+      basePath: isDev ? "" : "/clover-iiif",
+      images: {
+        unoptimized: true,
+      },
+      output: "export",
+    })
+  );
 };

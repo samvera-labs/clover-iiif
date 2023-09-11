@@ -27,6 +27,10 @@
       "import": "./dist/viewer/index.mjs",
       "require": "./dist/viewer/index.umd.js",
       "types": "./dist/viewer/index.d.ts"
+    },
+    "./viewer/style.css": {
+      "import": "./dist/viewer/style.css",
+      "require": "./dist/viewer/style.css"
     }
   },
   "types": "./dist/index.d.ts",
@@ -83,6 +87,9 @@
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@types/testing-library__jest-dom": "^5.14.9",
+    "@vanilla-extract/css": "^1.13.0",
+    "@vanilla-extract/next-plugin": "^2.3.0",
+    "@vanilla-extract/vite-plugin": "^3.9.0",
     "@vitejs/plugin-react": "^4.0.4",
     "@vitest/coverage-v8": "^0.34.2",
     "@vitest/ui": "^0.34.2",
