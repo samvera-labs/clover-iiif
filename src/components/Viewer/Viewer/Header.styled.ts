@@ -59,6 +59,7 @@ const Header = styled("header", {
   backgroundColor: "transparent !important",
   justifyContent: "space-between",
   alignItems: "flex-start",
+  width: "100%",
 
   [`> ${CollectionStyled}`]: {
     flexGrow: "1",
@@ -74,9 +75,10 @@ const Header = styled("header", {
 const HeaderOptions = styled("div", {
   display: "flex",
   alignItems: "flex-end",
+  justifyContent: "flex-end",
   padding: "1rem",
   flexShrink: "0",
-  flexGrow: "0",
+  flexGrow: "1",
 });
 
 export {

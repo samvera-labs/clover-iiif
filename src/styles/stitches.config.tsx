@@ -16,9 +16,9 @@ export const theme = {
      * Key brand color(s).
      * Must contrast to 4.5 or greater with `secondary`.
      */
-    accent: `hsl(${hue} 100% 45%)`,
+    accent: `hsl(${hue} 100% 38.2%)`,
     accentMuted: `hsl(${hue} 80% 61.8%)`,
-    accentAlt: `hsl(${hue} 80% 38.2%)`,
+    accentAlt: `hsl(${hue} 80% 30%)`,
 
     /*
      * White and light grays in a light theme.

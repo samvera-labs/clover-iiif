@@ -1,23 +1,24 @@
+import { Homepage } from "src/components/Primitives";
 import React from "react";
 import { styled } from "src/styles/stitches.config";
 
-const ViewAllStyled = styled("span", {
+const ViewAllStyled = styled(Homepage, {
   display: "flex",
-  background: "none",
+  backgroundColor: "$accent",
+  color: "$secondary",
   height: "2rem !important",
   padding: "0 $3",
   margin: "0 0 0 $3",
   borderRadius: "2rem",
-  backgroundColor: "$accent",
-  color: "$secondary",
   cursor: "pointer",
   boxSizing: "content-box !important",
   transition: "$all",
   justifyContent: "center",
   alignItems: "center",
-  fontSize: "0.8333rem",
   lineBreak: "none",
   whiteSpace: "nowrap",
+  textDecoration: "none !important",
+  fontSize: "0.8333rem",
 
   [`&:hover`]: {
     backgroundColor: "$accentAlt",
@@ -29,8 +30,8 @@ const ViewAllStyled = styled("span", {
   },
 });
 
-const ViewAll = () => {
-  return <ViewAllStyled>View All</ViewAllStyled>;
+const ViewAll = (props) => {
+  return <ViewAllStyled {...props}>View All</ViewAllStyled>;
 };
 
 export default ViewAll;

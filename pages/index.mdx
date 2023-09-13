@@ -24,16 +24,16 @@ import "swiper/css/pagination";
 <HomepageHeader />
 <Splash>
   <SplashElement
-    css={{ height: "61.8vh" }}
+    css={{ height: "820px" }}
     text="Viewer"
     component={
       <Viewer
         iiifContent="https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif"
         options={{
-          showTitle: false,
-          showInformationToggle: false,
-          showIIIFBadge: false,
-          canvasBackgroundColor: "transparent"
+          canvasHeight: "600px",
+          informationPanel: {
+            open: true,
+          }
         }}
       />
     }
@@ -45,7 +45,7 @@ import "swiper/css/pagination";
   </SplashElement>
   <SplashElement
     text="Slider"
-    css={{ height: "38.2vh" }}
+    css={{ height: "600px" }}
     component={
       <Slider collectionId="https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif" />
     }
