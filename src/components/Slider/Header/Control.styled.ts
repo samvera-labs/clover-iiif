@@ -38,12 +38,12 @@ const ControlStyled = styled("button", {
 
   [`&:disabled`]: {
     [`> ${Icon}`]: {
-      backgroundColor: "$secondaryAlt",
+      backgroundColor: "#6663",
       boxShadow: "none",
 
       svg: {
-        fill: "$secondaryMuted",
-        stroke: "$secondaryMuted",
+        fill: "$secondary",
+        stroke: "$secondary",
         filter: "unset",
       },
     },

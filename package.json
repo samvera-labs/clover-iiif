@@ -36,6 +36,7 @@
     "clean": "rimraf dist",
     "coverage": "vitest --ui --coverage",
     "dev": "next dev",
+    "dev:vite": "vite",
     "prepublishOnly": "npm run build",
     "start": "next start",
     "test": "vitest",

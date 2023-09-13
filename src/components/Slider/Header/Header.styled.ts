@@ -33,7 +33,6 @@ const HeaderStyled = styled("div", {
   },
 
   ".clover-slider-header-homepage": {
-    color: "$accent",
     textDecoration: "none",
   },
 

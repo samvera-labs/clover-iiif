@@ -29,6 +29,8 @@ const Toggle = () => {
         checked={checked}
         onCheckedChange={() => setChecked(!checked)}
         id="information-toggle"
+        aria-label="information panel toggle"
+        name="toggled?"
       >
         <StyledThumb />
       </StyledSwitch>

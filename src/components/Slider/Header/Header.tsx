@@ -76,13 +76,10 @@ const Header: React.FC<HeaderProps> = ({
           </Icon>
         </ControlStyled>
         {hasHomepage && (
-          <Homepage
-            // @ts-ignore
+          <ViewAll
             homepage={homepage}
             className="clover-slider-header-view-all"
-          >
-            <ViewAll />
-          </Homepage>
+          />
         )}
       </HeaderControls>
     </HeaderStyled>
