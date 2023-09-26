@@ -10,6 +10,7 @@ import { Canvas, IIIFExternalWebResource } from "@iiif/presentation-3";
 
 import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
+import { LabeledClip } from "src/hooks/use-iiif/getSupplementingClips";
 import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React from "react";
@@ -19,6 +20,7 @@ interface Props {
   activeCanvas: string;
   painting: IIIFExternalWebResource;
   resources: LabeledResource[];
+  clips: LabeledClip[];
   items: Canvas[];
   isAudioVideo: boolean;
 }
@@ -27,6 +29,7 @@ const ViewerContent: React.FC<Props> = ({
   activeCanvas,
   painting,
   resources,
+  clips,
   items,
   isAudioVideo,
 }) => {
@@ -40,7 +43,9 @@ const ViewerContent: React.FC<Props> = ({
 
   const isAside =
     informationPanel?.renderAbout ||
-    (informationPanel?.renderSupplementing && resources.length > 0);
+    (informationPanel?.renderSupplementing && resources.length > 0) ||
+    (informationPanel?.renderClips && clips.length > 0);
+;
 
   return (
     <Content className="clover-content">
@@ -70,6 +75,7 @@ const ViewerContent: React.FC<Props> = ({
             <InformationPanel
               activeCanvas={activeCanvas}
               resources={resources}
+              clips={clips}
             />
           </CollapsibleContent>
         </Aside>

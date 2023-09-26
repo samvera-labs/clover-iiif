@@ -15,6 +15,7 @@ export type ViewerConfigOptions = {
     open?: boolean;
     renderAbout?: boolean;
     renderSupplementing?: boolean;
+    renderClips?: boolean;
     renderToggle?: boolean;
   };
   openSeadragon?: OpenSeadragonOptions;
@@ -33,6 +34,7 @@ const defaultConfigOptions = {
     open: true,
     renderAbout: true,
     renderSupplementing: true,
+    renderClips: true,
     renderToggle: true,
   },
   openSeadragon: {},

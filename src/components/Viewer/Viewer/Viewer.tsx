@@ -9,6 +9,7 @@ import React, { useEffect, useState } from "react";
 import {
   getPaintingResource,
   getSupplementingResources,
+  getSupplementingClips
 } from "src/hooks/use-iiif";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
@@ -16,6 +17,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/Viewer/Viewer/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
+import { LabeledClip } from "src/hooks/use-iiif/getSupplementingClips";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
 import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
@@ -46,6 +48,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
     undefined
   );
   const [resources, setResources] = useState<LabeledResource[]>([]);
+  const [clips, setClips] = useState<LabeledClip[]>([]);
 
   const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
   const isSmallViewport = useMediaQuery(media.sm);
@@ -77,6 +80,12 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
       activeCanvas,
       "text/vtt"
     );
+    const clips = getSupplementingClips(
+      vault,
+      activeCanvas,
+      "application/json"
+    );
+
     if (painting) {
       setIsAudioVideo(
         ["Sound", "Video"].indexOf(painting.type as ExternalResourceTypes) > -1
@@ -86,6 +95,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
       setPainting({ ...painting });
     }
     setResources(resources);
+    setClips(clips);
     setIsInformationPanel(resources.length !== 0);
   }, [activeCanvas]);
 
@@ -110,6 +120,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
             activeCanvas={activeCanvas}
             painting={painting as IIIFExternalWebResource}
             resources={resources}
+            clips={clips}
             items={manifest.items}
             isAudioVideo={isAudioVideo}
           />
