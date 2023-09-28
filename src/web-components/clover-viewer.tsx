@@ -13,7 +13,7 @@ interface CloverViewerWCProps {
 }
 
 function CloverViewerWebComponent(
-  props: CloverViewerWCProps & CloverViewerAttributes
+  props: CloverViewerWCProps & CloverViewerAttributes,
 ) {
   const webComponent = useRef<HTMLElement>();
   const { id } = props;

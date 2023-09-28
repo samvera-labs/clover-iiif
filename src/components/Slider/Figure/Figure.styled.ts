@@ -1,4 +1,5 @@
-import { Label, Summary, Thumbnail } from "src/components/Primitives";
+import { Label, Summary } from "src/components/Primitives";
+
 import { styled } from "src/styles/stitches.config";
 
 const Width = styled("div", {

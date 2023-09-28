@@ -32,16 +32,16 @@ describe("getCanvasByCriteria", () => {
       vault,
       fnArguments.item,
       fnArguments.motivation,
-      fnArguments.paintingType
+      fnArguments.paintingType,
     );
 
     expect(result.canvas?.id).toEqual(
-      "https://api.dc.library.northwestern.edu/api/v2/works/ad25d4af-8a12-4d8f-a557-79aea012e081?as=iiif/canvas/access/0/placeholder"
+      "https://api.dc.library.northwestern.edu/api/v2/works/ad25d4af-8a12-4d8f-a557-79aea012e081?as=iiif/canvas/access/0/placeholder",
     );
     expect(result.canvas?.type).toEqual("Canvas");
     expect(result.canvas?.items).toHaveLength(1);
     expect(result.annotationPage?.id).toEqual(
-      "https://api.dc.library.northwestern.edu/api/v2/works/ad25d4af-8a12-4d8f-a557-79aea012e081?as=iiif/canvas/access/0/placeholder/annotation-page/0"
+      "https://api.dc.library.northwestern.edu/api/v2/works/ad25d4af-8a12-4d8f-a557-79aea012e081?as=iiif/canvas/access/0/placeholder/annotation-page/0",
     );
     expect(result.accompanyingCanvas).toBeUndefined();
   });
@@ -57,7 +57,7 @@ describe("getCanvasByCriteria", () => {
         type: "Canvas",
       },
       fnArguments.motivation,
-      fnArguments.paintingType
+      fnArguments.paintingType,
     );
     expect(result.annotations).toHaveLength(0);
   });
@@ -73,11 +73,11 @@ describe("getCanvasByCriteria", () => {
         type: "Canvas",
       },
       fnArguments.motivation,
-      fnArguments.paintingType
+      fnArguments.paintingType,
     );
 
     expect(result.accompanyingCanvas?.id).toEqual(
-      "https://api.dc.library.northwestern.edu/api/v2/works/ad25d4af-8a12-4d8f-a557-79aea012e081?as=iiif/canvas/access/0/accompany"
+      "https://api.dc.library.northwestern.edu/api/v2/works/ad25d4af-8a12-4d8f-a557-79aea012e081?as=iiif/canvas/access/0/accompany",
     );
   });
 });

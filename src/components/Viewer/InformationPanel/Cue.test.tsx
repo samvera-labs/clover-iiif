@@ -9,7 +9,7 @@ describe("Information panel cue component", () => {
     render(
       <Group>
         <Cue label="Text" start={107} end={150} />
-      </Group>
+      </Group>,
     );
     const cue = screen.getByTestId("information-panel-cue");
     expect(cue);

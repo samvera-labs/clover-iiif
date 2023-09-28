@@ -13,7 +13,7 @@ describe("getPaintingResource()", () => {
 
     const result = getPaintingResource(
       vault,
-      "https://test.org/works/ad25d4af-8a12-4d8f-a557-79aea012e081?as=iiif/canvas/access/0"
+      "https://test.org/works/ad25d4af-8a12-4d8f-a557-79aea012e081?as=iiif/canvas/access/0",
     );
     const expected = {
       format: "image/tiff",
@@ -39,7 +39,7 @@ describe("getPaintingResource()", () => {
 
     const result = getPaintingResource(
       vault,
-      "https://api.dc.library.northwestern.edu/api/v2/works/57446da0-dc8b-4be6-998d-efb67c71f654?as=iiif/canvas/access/0"
+      "https://api.dc.library.northwestern.edu/api/v2/works/57446da0-dc8b-4be6-998d-efb67c71f654?as=iiif/canvas/access/0",
     );
     expect(result).toBeUndefined();
   });

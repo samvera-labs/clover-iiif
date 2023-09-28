@@ -13,7 +13,7 @@ const Cue: React.FC<Props> = ({ label, start, end }) => {
   const [isActive, updateIsActive] = useState(false);
 
   const video = document.getElementById(
-    "clover-iiif-video"
+    "clover-iiif-video",
   ) as HTMLVideoElement;
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const Cue: React.FC<Props> = ({ label, start, end }) => {
     });
 
     return () => document.removeEventListener("timeupdate", () => {});
-  }, [video]);
+  }, [end, start, video]);
 
   const handleClick = () => {
     if (video) {

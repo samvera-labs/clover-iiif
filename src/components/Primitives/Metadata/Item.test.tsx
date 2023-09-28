@@ -48,7 +48,7 @@ describe("metadata primitive (item)", () => {
    */
   it("Test rendering of html in metadata value", async () => {
     const { getByRole } = render(
-      withProvider(<Item item={htmlWithinMetadataItem} />)
+      withProvider(<Item item={htmlWithinMetadataItem} />),
     );
     const el = getByRole("link");
     expect(el.getAttribute("href")).toBe("https://en.wikipedia.org/wiki/Honey");
@@ -60,7 +60,7 @@ describe("metadata primitive (item)", () => {
    */
   it("Test that strong does not render in metadata value", async () => {
     const { getByRole } = render(
-      withProvider(<Item item={strongWithinMetadataItem} />)
+      withProvider(<Item item={strongWithinMetadataItem} />),
     );
     const el = getByRole("link");
     expect(el.getAttribute("href")).toBe("https://en.wikipedia.org/wiki/Honey");
@@ -85,12 +85,12 @@ describe("metadata primitive (item)", () => {
         <Item
           item={itemForCustomValue}
           customValueContent={customValueContent[1].Content}
-        />
-      )
+        />,
+      ),
     );
     const el = screen.queryByRole("link");
     expect(el).toContainHTML(
-      '<a href="https://example.org/?subject=Honey">Honey</a>'
+      "<a href='https://example.org/?subject=Honey'>Honey</a>",
     );
   });
 });

@@ -18,7 +18,7 @@ describe("Viewer Context", () => {
     render(
       <ViewerProvider>
         <ChildComponent />
-      </ViewerProvider>
+      </ViewerProvider>,
     );
     expect(screen.getByText(JSON.stringify(defaultState))).toBeInTheDocument();
   });
@@ -75,7 +75,7 @@ describe("Viewer Context", () => {
     render(
       <ViewerProvider>
         <ChildComponent />
-      </ViewerProvider>
+      </ViewerProvider>,
     );
 
     const el = screen.getByTestId("el").textContent;
@@ -84,7 +84,7 @@ describe("Viewer Context", () => {
     expect(elObj.activeCanvas).toEqual("https://example.com/iiif/canvas/1");
     expect(elObj.activeManifest).toEqual("https://example.com/iiif/manifest/1");
     expect(elObj.collection.id).toEqual(
-      "https://example.com/iiif/collection/1"
+      "https://example.com/iiif/collection/1",
     );
     expect(elObj.configOptions.canvasIndex).toEqual(0);
     expect(elObj.configOptions.canvasNavigationId).toEqual("canvas-nav");
@@ -109,7 +109,7 @@ describe("Viewer Context", () => {
       render(
         <ViewerProvider>
           <ChildComponent />
-        </ViewerProvider>
+        </ViewerProvider>,
       );
     }).toThrowError("Unhandled action type: invalid");
   });

@@ -16,13 +16,13 @@ describe("metadata (CustomValue)", () => {
           value={value}
           customValueContent={<CustomValueSubject />}
         />
-      </PrimitivesProvider>
+      </PrimitivesProvider>,
     );
 
     const links = getAllByRole("link");
     links.forEach((element, i) => {
       expect(element.getAttribute("href")).toBe(
-        `https://example.org/?subject=${value.none[i]}`
+        `https://example.org/?subject=${value.none[i]}`,
       );
       expect(element).toHaveTextContent(value.none[i]);
     });

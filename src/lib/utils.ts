@@ -1,11 +1,11 @@
 export const cleanTime = (standardNotation: string) => {
-  var array = standardNotation.toString().split(":");
-  var hours: number = Math.ceil(parseInt(array[0]));
-  var minutes: number = Math.ceil(parseInt(array[1]));
-  var seconds: string = zeroPad(Math.ceil(parseInt(array[2])), 2);
+  const array = standardNotation.toString().split(":");
+  const hours: number = Math.ceil(parseInt(array[0]));
+  const minutes: number = Math.ceil(parseInt(array[1]));
+  const seconds: string = zeroPad(Math.ceil(parseInt(array[2])), 2);
 
   // Insure time with Hours is formatted as "HH:MM:SS"
-  let formattedMinutes =
+  const formattedMinutes =
     hours !== 0 && minutes < 10 ? (minutes + "").padStart(2, "0") : minutes;
 
   let time: string = `${formattedMinutes}:${seconds}`;
@@ -25,8 +25,8 @@ export const convertTime = (duration: number) => {
 };
 
 export const convertTimeToSeconds = (standardNotation: string) => {
-  var hms: Array<string> = standardNotation.split(":");
-  var seconds: number = +hms[0] * 60 * 60 + +hms[1] * 60 + +hms[2];
+  const hms: Array<string> = standardNotation.split(":");
+  const seconds: number = +hms[0] * 60 * 60 + +hms[1] * 60 + +hms[2];
   return seconds;
 };
 
@@ -53,7 +53,7 @@ export const deepMerge = (target, source) => {
 
 export const getRealPropertyValue = (
   obj: { [key: string]: any },
-  property: string
+  property: string,
 ) => {
   const value = Object.hasOwn(obj, property)
     ? obj[property].toString()

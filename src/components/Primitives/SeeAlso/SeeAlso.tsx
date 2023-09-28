@@ -22,7 +22,7 @@ const SeeAlso: React.FC<PrimitivesSeeAlso> = (props) => {
         seeAlso.map((resource) => {
           const label = getLabelAsString(
             resource.label,
-            attributes.lang
+            attributes.lang,
           ) as string;
           return (
             <StyledSeeAlso key={resource.id}>

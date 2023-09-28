@@ -40,27 +40,6 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
   if (id) iiifResource = id;
   if (manifestId) iiifResource = manifestId;
 
-  function deepMerge(target, source) {
-    if (typeof target !== "object" || target === null) {
-      return source;
-    }
-
-    for (const key in source) {
-      if (
-        typeof source[key] === "object" &&
-        source[key] !== null &&
-        !Array.isArray(source[key])
-      ) {
-        if (!target[key]) target[key] = {};
-        target[key] = deepMerge(target[key], source[key]);
-      } else {
-        target[key] = source[key];
-      }
-    }
-
-    return target;
-  }
-
   return (
     <ViewerProvider
       initialState={{
@@ -116,20 +95,20 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    */
   useEffect(() => {
     if (canvasIdCallback) canvasIdCallback(activeCanvas);
-  }, [activeCanvas]);
+  }, [activeCanvas, canvasIdCallback]);
 
   useEffect(() => {
     if (activeManifest)
       vault
         .loadManifest(activeManifest)
-        .then((data: any) => {
+        .then((data: ManifestNormalized) => {
           setManifest(data);
           dispatch({
             type: "updateActiveCanvas",
             canvasId: data.items[0] && data.items[0].id,
           });
         })
-        .catch((error: any) => {
+        .catch((error: Error) => {
           console.error(`Manifest failed to load: ${error}`);
         })
         .finally(() => {
@@ -138,7 +117,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
             isLoaded: true,
           });
         });
-  }, [activeManifest]);
+  }, [activeManifest, dispatch, vault]);
 
   useEffect(() => {
     dispatch({
@@ -148,15 +127,15 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
 
     vault
       .load(iiifContent)
-      .then((data: any) => {
+      .then((data: CollectionNormalized | ManifestNormalized) => {
         setIiifResource(data);
       })
-      .catch((error: any) => {
+      .catch((error: Error) => {
         console.error(
-          `The IIIF resource ${iiifContent} failed to load: ${error}`
+          `The IIIF resource ${iiifContent} failed to load: ${error}`,
         );
       });
-  }, [iiifContent, options]);
+  }, [dispatch, iiifContent, options, vault]);
 
   useEffect(() => {
     let manifests: string[] = [];
@@ -183,7 +162,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
         manifestId: iiifResource.id,
       });
     }
-  }, [iiifResource]);
+  }, [dispatch, iiifResource]);
 
   /**
    * Render loading component while manifest is fetched and

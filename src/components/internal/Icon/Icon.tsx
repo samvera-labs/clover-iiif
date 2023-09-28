@@ -23,7 +23,7 @@ type IconShape = {
   children: React.ReactNode | React.ReactNode[];
 };
 interface IconComposition {
-  Add: React.FC<any>;
+  Add: React.FC;
   Audio: React.FC;
   Close: React.FC;
   Image: React.FC;

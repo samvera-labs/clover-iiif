@@ -6,12 +6,12 @@ import {
   Wrapper,
 } from "src/components/Viewer/InformationPanel/InformationPanel.styled";
 import React, { useEffect, useState } from "react";
+import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import Information from "src/components/Viewer/InformationPanel/About/About";
 import { Label } from "src/components/Primitives";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import Resource from "src/components/Viewer/InformationPanel/Resource";
-import { useViewerState } from "src/context/viewer-context";
 
 interface NavigatorProps {
   activeCanvas: string;
@@ -22,14 +22,15 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   activeCanvas,
   resources,
 }) => {
-  const viewerState: any = useViewerState();
+  const viewerState: ViewerContextStore = useViewerState();
   const { configOptions } = viewerState;
   const { informationPanel } = configOptions;
 
   const [activeResource, setActiveResource] = useState<string>();
 
   const renderAbout =
-    informationPanel?.renderAbout || configOptions?.renderAbout;
+    informationPanel?.renderAbout ||
+    configOptions?.informationPanel?.renderAbout;
   const renderSupplementing = informationPanel?.renderSupplementing;
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     } else if (resources && resources?.length > 0 && !renderAbout) {
       setActiveResource(resources[0].id);
     }
-  }, [activeCanvas, resources]);
+  }, [activeCanvas, renderAbout, resources]);
 
   const handleValueChange = (value: string) => {
     setActiveResource(value);

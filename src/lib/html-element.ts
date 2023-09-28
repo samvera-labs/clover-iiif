@@ -6,10 +6,10 @@ function createMarkup(html: string) {
 
 function sanitizeAttributes(props: any, remove: string[]) {
   const entries = Object.keys(props).filter((key) =>
-    !remove.includes(key) ? key : null
+    !remove.includes(key) ? key : null,
   );
 
-  let attributes: any = new Object();
+  const attributes = new Object();
   entries.forEach((key) => {
     attributes[key] = props[key];
   });

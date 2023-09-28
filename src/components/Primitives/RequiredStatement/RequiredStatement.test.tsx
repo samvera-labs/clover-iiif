@@ -43,7 +43,7 @@ describe("summary primitive", () => {
    */
   it("Test rendering of html in RequiredStatement", async () => {
     const { getByRole } = render(
-      <RequiredStatement requiredStatement={htmlWithinRequiredStatement} />
+      <RequiredStatement requiredStatement={htmlWithinRequiredStatement} />,
     );
     const el = getByRole("link");
     expect(el.getAttribute("href")).toBe("https://en.wikipedia.org/wiki/Honey");
@@ -54,8 +54,10 @@ describe("summary primitive", () => {
    * tests rendering of html in RequiredStatement Label
    */
   it("Test rendering of html in RequiredStatement Label", async () => {
-    const { getByRole } = render(
-      <RequiredStatement requiredStatement={htmlWithinRequiredStatementLabel} />
+    render(
+      <RequiredStatement
+        requiredStatement={htmlWithinRequiredStatementLabel}
+      />,
     );
     const el = screen.queryByText("Type");
     expect(el).toBeNull;
@@ -66,7 +68,7 @@ describe("summary primitive", () => {
    */
   it("Tests that strong does not render in RequiredStatement", async () => {
     const { getByRole } = render(
-      <RequiredStatement requiredStatement={strongWithinRequiredStatement} />
+      <RequiredStatement requiredStatement={strongWithinRequiredStatement} />,
     );
     const el = getByRole("link");
     expect(el.getAttribute("href")).toBe("https://en.wikipedia.org/wiki/Honey");
@@ -80,7 +82,7 @@ describe("summary primitive", () => {
     const { getByText } = render(
       <RequiredStatement
         requiredStatement={disallowedHtmlWithinRequiredStatement}
-      />
+      />,
     );
     const el = getByText("the color of honey");
     expect(el).toContainHTML("the color of honey");
@@ -96,7 +98,7 @@ describe("summary primitive", () => {
           },
         }}
         customValueDelimiter="!"
-      />
+      />,
     );
     const el = screen.getByText("foo!bar!baz");
     expect(el).toHaveTextContent("foo!bar!baz");

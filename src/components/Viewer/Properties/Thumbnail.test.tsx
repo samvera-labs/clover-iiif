@@ -33,7 +33,7 @@ describe("IIIF thumbnail property component", () => {
     const image = screen.getByRole("img");
     expect(image.getAttribute("alt")).toBe(label.none.join());
     expect(image.getAttribute("src")).toBe(
-      "https://media.collections.yale.edu/thumbnail/ycba/a1333c03-be5b-4f5b-a897-7e15e3d17b29/full/480,391/0/default.jpg"
+      "https://media.collections.yale.edu/thumbnail/ycba/a1333c03-be5b-4f5b-a897-7e15e3d17b29/full/480,391/0/default.jpg",
     );
   });
 });

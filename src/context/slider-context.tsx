@@ -25,7 +25,7 @@ const CollectionDispatchContext =
 
 function collectionReducer(
   state: CollectionContextStore,
-  action: CollectionAction
+  action: CollectionAction,
 ) {
   switch (action.type) {
     case "updateIsLoaded": {
@@ -68,7 +68,7 @@ function useCollectionState() {
   const context = React.useContext(CollectionStateContext);
   if (context === undefined) {
     throw new Error(
-      "useCollectionState must be used within a CollectionProvider"
+      "useCollectionState must be used within a CollectionProvider",
     );
   }
   return context;
@@ -78,7 +78,7 @@ function useCollectionDispatch() {
   const context = React.useContext(CollectionDispatchContext);
   if (context === undefined) {
     throw new Error(
-      "useCollectionDispatch must be used within a CollectionProvider"
+      "useCollectionDispatch must be used within a CollectionProvider",
     );
   }
   return context;

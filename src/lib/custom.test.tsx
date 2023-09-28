@@ -16,7 +16,7 @@ describe("parseCustomContent", () => {
     const { getByRole } = render(customValueElement as ReactElement);
     const el = getByRole("link");
     expect(el).toContainHTML(
-      '<a href="https://example.org/?subject=undefined" />'
+      '<a href="https://example.org/?subject=undefined" />',
     );
   });
 });

@@ -12,7 +12,7 @@ import { upgrade } from "@iiif/parser/upgrader";
 6. The function getResponseStatus returns the status of the canvas, which should be 200. */
 export async function getResponseStatus(
   item: Manifest | Collection,
-  credentials: any
+  credentials: any,
 ): Promise<number> {
   if (!item) return Promise.resolve(200);
 

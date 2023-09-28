@@ -1,7 +1,7 @@
-import React from "react";
-import { render } from "@testing-library/react";
 import Homepage from "src/components/Primitives/Homepage/Homepage";
 import { PrimitivesExternalWebResource } from "src/types/primitives";
+import React from "react";
+import { render } from "@testing-library/react";
 
 const homepage: PrimitivesExternalWebResource[] = [
   {
@@ -15,7 +15,7 @@ const homepage: PrimitivesExternalWebResource[] = [
 describe("homepage primitive", () => {
   it("Renders 3.0 homepage as div wrapping resources", async () => {
     const { getByTestId } = render(
-      <Homepage data-testid="Primitives-homepage" homepage={homepage} />
+      <Homepage data-testid="Primitives-homepage" homepage={homepage} />,
     );
     const el = getByTestId("Primitives-homepage");
     expect(el.tagName).toBe("A");
@@ -28,7 +28,7 @@ describe("homepage primitive", () => {
         data-testid="Primitives-homepage"
         homepage={homepage}
         lang="en"
-      />
+      />,
     );
     const el = getByTestId("Primitives-homepage");
     expect(el.tagName).toBe("A");
@@ -38,8 +38,8 @@ describe("homepage primitive", () => {
   it("Renders 3.0 homepage with aria label on anchor wrapping child text content", async () => {
     const { getByTestId } = render(
       <Homepage data-testid="Primitives-homepage" homepage={homepage}>
-        sweet child o' mine
-      </Homepage>
+        sweet child o&apos; mine
+      </Homepage>,
     );
     const el = getByTestId("Primitives-homepage");
     expect(el.tagName).toBe("A");

@@ -2,7 +2,7 @@ import { InternationalString } from "@iiif/presentation-3";
 
 export const getLabelEntries = (
   label?: InternationalString,
-  lang: string = "none"
+  lang: string = "none",
 ) => {
   /*
    * If no label exists, return an empty string.
@@ -35,7 +35,7 @@ export const getLabelEntries = (
 export const getLabelAsString = (
   label: InternationalString | undefined,
   lang: string = "none",
-  delimiter: string = ", "
+  delimiter: string = ", ",
 ) => {
   const entries = getLabelEntries(label, lang);
   return Array.isArray(entries) ? entries.join(`${delimiter}`) : entries;

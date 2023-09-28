@@ -4,7 +4,7 @@ import { getLabelAsString } from "./label-helpers";
 
 export function parseCustomContent(
   label: InternationalString,
-  valueArray: PrimitivesCustomValueContent[]
+  valueArray: PrimitivesCustomValueContent[],
 ) {
   const customContent = valueArray
     .filter((entry) => {

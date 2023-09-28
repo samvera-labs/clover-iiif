@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { Group } from "src/components/Viewer/Media/Media.styled";
-import { CanvasEntity } from "src/hooks/use-iiif/getCanvasByCriteria";
-import {
-  getCanvasByCriteria,
-  getLabel,
-  getThumbnail,
-} from "src/hooks/use-iiif";
 import {
   Canvas,
   CanvasNormalized,
   ExternalResourceTypes,
 } from "@iiif/presentation-3";
-import { useViewerState, useViewerDispatch } from "src/context/viewer-context";
+import React, { useEffect, useState } from "react";
+import {
+  ViewerContextStore,
+  useViewerDispatch,
+  useViewerState,
+} from "src/context/viewer-context";
+import {
+  getCanvasByCriteria,
+  getLabel,
+  getThumbnail,
+} from "src/hooks/use-iiif";
+
+import { CanvasEntity } from "src/hooks/use-iiif/getCanvasByCriteria";
+import Controls from "src/components/Viewer/Media/Controls";
+import { Group } from "src/components/Viewer/Media/Media.styled";
 import Thumbnail from "src/components/Viewer/Media/Thumbnail";
 import { getResourceType } from "src/hooks/use-iiif/getResourceType";
-import Controls from "src/components/Viewer/Media/Controls";
 
 interface MediaProps {
   items: Canvas[];
@@ -23,18 +28,16 @@ interface MediaProps {
 
 const Media: React.FC<MediaProps> = ({ items }) => {
   const dispatch: any = useViewerDispatch();
-  const state: any = useViewerState();
+  const state: ViewerContextStore = useViewerState();
   const { activeCanvas, vault } = state;
 
-  const [filter, setFilter] = useState<String>("");
+  const [filter, setFilter] = useState<string>("");
   const [mediaItems, setMediaItems] = useState<Array<CanvasEntity>>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
   const motivation = "painting";
-  // TODO: Type this as an enum
-  const paintingType: ExternalResourceTypes[] = ["Image", "Sound", "Video"];
 
   const handleChange = (canvasId: string) => {
     if (activeCanvas !== canvasId)
@@ -46,25 +49,26 @@ const Media: React.FC<MediaProps> = ({ items }) => {
 
   useEffect(() => {
     if (!mediaItems.length) {
+      const paintingType: ExternalResourceTypes[] = ["Image", "Sound", "Video"];
       const entities: CanvasEntity[] = items
         .map((item) =>
-          getCanvasByCriteria(vault, item, motivation, paintingType)
+          getCanvasByCriteria(vault, item, motivation, paintingType),
         )
         .filter((canvasEntity) => canvasEntity.annotations.length > 0);
       setMediaItems(entities);
     }
-  }, []);
+  }, [items, mediaItems.length, vault]);
 
   useEffect(() => {
     mediaItems.forEach((item, index) => {
       if (item?.canvas)
         if (item.canvas.id === activeCanvas) setActiveIndex(index);
     });
-  }, [activeCanvas]);
+  }, [activeCanvas, mediaItems]);
 
   useEffect(() => {
     const element = document.querySelector<HTMLElement>(
-      `[data-canvas="${activeIndex}"]`
+      `[data-canvas="${activeIndex}"]`,
     ) as Element;
 
     if (element instanceof HTMLElement && scrollRef.current) {
@@ -76,7 +80,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
     }
   }, [activeIndex]);
 
-  const handleFilter = (value: String) => setFilter(value);
+  const handleFilter = (value: string) => setFilter(value);
 
   const handleCanvasToggle = (step: -1 | 1) => {
     const canvasEntity = mediaItems[activeIndex + step];

@@ -1,6 +1,6 @@
-import React from "react";
 import { InternationalString } from "@iiif/presentation-3";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
+import React from "react";
 import { getLabel } from "src/hooks/use-iiif";
 
 export interface TrackProps {
@@ -9,11 +9,11 @@ export interface TrackProps {
 }
 
 const Track: React.FC<TrackProps> = ({ resource, ignoreCaptionLabels }) => {
-  const label = getLabel(resource.label as InternationalString, "en") as any;
+  const label = getLabel(resource.label as InternationalString, "en");
 
-  const isIgnored = label.some((value: string) =>
-    ignoreCaptionLabels.includes(value)
-  );
+  const isIgnored =
+    Array.isArray(label) &&
+    label.some((value: string) => ignoreCaptionLabels.includes(value));
 
   if (isIgnored) return null;
 
@@ -21,7 +21,7 @@ const Track: React.FC<TrackProps> = ({ resource, ignoreCaptionLabels }) => {
     <track
       key={resource.id}
       src={resource.id as string}
-      label={label}
+      label={Array.isArray(label) ? label[0] : label}
       srcLang="en"
       data-testid="player-track"
     />

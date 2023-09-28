@@ -25,7 +25,7 @@ describe("Slider Context", () => {
     render(
       <CollectionProvider initialState={initialState}>
         <ChildComponent />
-      </CollectionProvider>
+      </CollectionProvider>,
     );
     expect(screen.getByText(JSON.stringify(initialState))).toBeInTheDocument();
   });
@@ -36,11 +36,12 @@ describe("Slider Context", () => {
       const dispatch: any = useCollectionDispatch();
 
       React.useEffect(() => {
+        if (!dispatch) return;
         dispatch({
           type: "updateIsLoaded",
           isLoaded: false,
         });
-      }, []);
+      }, [dispatch]);
 
       return <div>{JSON.stringify(state)}</div>;
     }
@@ -55,13 +56,13 @@ describe("Slider Context", () => {
     render(
       <CollectionProvider initialState={initialState}>
         <ChildComponent />
-      </CollectionProvider>
+      </CollectionProvider>,
     );
 
     expect(
       screen.getByText(
-        `{"isLoaded":false,"options":{"credentials":"same-origin"}}`
-      )
+        `{"isLoaded":false,"options":{"credentials":"same-origin"}}`,
+      ),
     ).toBeInTheDocument();
   });
 
@@ -83,7 +84,7 @@ describe("Slider Context", () => {
       render(
         <CollectionProvider>
           <ChildComponent />
-        </CollectionProvider>
+        </CollectionProvider>,
       );
     }).toThrowError("Unhandled action type: foo");
   });

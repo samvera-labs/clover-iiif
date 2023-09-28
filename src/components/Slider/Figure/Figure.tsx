@@ -17,7 +17,7 @@ interface FigureProps {
   label: InternationalString;
   status: number;
   summary?: InternationalString;
-  thumbnail: any;
+  thumbnail: Array<any>;
   index: number;
   isFocused: boolean;
 }

@@ -21,7 +21,7 @@ const Homepage: React.FC<PrimitivesHomepage> = (props) => {
         homepage.map((resource) => {
           const label = getLabelAsString(
             resource.label,
-            attributes.lang
+            attributes.lang,
           ) as string;
           return (
             <StyledHomepage

@@ -16,7 +16,7 @@ describe("getThumbnail()", () => {
       vault,
       manifest.items[0] as Canvas,
       "painting",
-      ["Image"]
+      ["Image"],
     );
 
     const smallThumb = getThumbnail(vault, entity, 640, 537);
@@ -44,7 +44,7 @@ describe("getThumbnail()", () => {
       vault,
       manifest.items[1] as Canvas,
       "painting",
-      ["Image"]
+      ["Image"],
     );
 
     const thumb = getThumbnail(vault, entity, 640, 537);

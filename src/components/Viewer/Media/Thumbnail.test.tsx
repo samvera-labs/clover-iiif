@@ -66,7 +66,7 @@ describe("Thumbnail component", () => {
       render(
         <Group>
           <Thumbnail {...props} />
-        </Group>
+        </Group>,
       );
     });
 
@@ -78,7 +78,7 @@ describe("Thumbnail component", () => {
 
     it("renders the proper label", () => {
       expect(screen.getByTestId("fig-caption")).toHaveTextContent(
-        "Big Buck Bunny"
+        "Big Buck Bunny",
       );
     });
 
@@ -98,7 +98,7 @@ describe("Thumbnail component", () => {
       render(
         <Group>
           <Thumbnail {...newProps} />
-        </Group>
+        </Group>,
       );
       const tag = screen.getByTestId("thumbnail-tag");
       expect(within(tag).getByText("0:00"));
@@ -109,7 +109,7 @@ describe("Thumbnail component", () => {
       render(
         <Group>
           <Thumbnail {...newProps} />
-        </Group>
+        </Group>,
       );
       const tag = screen.getByTestId("thumbnail-tag");
       expect(within(tag).getByText("0:00"));

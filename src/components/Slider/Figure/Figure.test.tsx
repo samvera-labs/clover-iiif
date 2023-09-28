@@ -29,7 +29,7 @@ describe("Figure component", () => {
     render(<Figure {...figure} />);
     expect(screen.getByRole("figure")).toHaveTextContent(figure.label.none[0]);
     expect(screen.getByRole("figure")).toHaveTextContent(
-      figure.summary.none[0]
+      figure.summary.none[0],
     );
 
     // No status icon expected for regular 200 response

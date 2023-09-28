@@ -1,5 +1,7 @@
-import React from "react";
+/* eslint-disable react/display-name */
+
 import { AudioVisualizerWrapper } from "src/components/Viewer/Player/AudioVisualizer.styled";
+import React from "react";
 
 const AudioVisualizer = React.forwardRef((_props, ref: any) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -14,7 +16,7 @@ const AudioVisualizer = React.forwardRef((_props, ref: any) => {
     const video = ref.current;
     const context = new AudioContext();
     const src = context.createMediaElementSource(video);
-    let analyser = context.createAnalyser();
+    const analyser = context.createAnalyser();
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -37,7 +39,7 @@ const AudioVisualizer = React.forwardRef((_props, ref: any) => {
         bufferLength,
         dataArray,
         canvas.width,
-        canvas.height
+        canvas.height,
       );
     }, 20);
   }
@@ -48,9 +50,9 @@ const AudioVisualizer = React.forwardRef((_props, ref: any) => {
     bufferLength: number,
     dataArray: Uint8Array,
     width: number,
-    height: number
+    height: number,
   ) {
-    let barWidth = (width / bufferLength) * 2.6;
+    const barWidth = (width / bufferLength) * 2.6;
     let barHeight;
     let x = 0;
 

@@ -37,7 +37,7 @@ describe("Player component", () => {
       <Track
         resource={mockResourceChapters}
         ignoreCaptionLabels={["Chapters"]}
-      />
+      />,
     );
 
     const el = await screen.queryByTestId("player-track");

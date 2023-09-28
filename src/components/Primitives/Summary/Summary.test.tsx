@@ -44,7 +44,7 @@ describe("summary primitive", () => {
    */
   it("Test sanitization of html in summary", async () => {
     const { getByText } = render(
-      <Summary summary={disallowedHtmlWithinLabel} />
+      <Summary summary={disallowedHtmlWithinLabel} />,
     );
     const el = getByText("the color of honey");
     expect(el).toContainHTML("the color of honey");
