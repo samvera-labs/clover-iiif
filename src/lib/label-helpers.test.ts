@@ -21,7 +21,7 @@ describe("getLabelAsString()", () => {
     expect(noneFallback).toBe("Flora");
 
     const nonValid = getLabelAsString(
-      nonValidLabel as unknown as InternationalString
+      nonValidLabel as unknown as InternationalString,
     );
     expect(nonValid).toBe("Raspberry");
   });
@@ -42,7 +42,7 @@ describe("getLabelEntries()", () => {
     expect(noneFallback).toStrictEqual(["Flora"]);
 
     const nonValid = getLabelEntries(
-      nonValidLabel as unknown as InternationalString
+      nonValidLabel as unknown as InternationalString,
     );
     expect(nonValid).toStrictEqual(["Raspberry"]);
   });

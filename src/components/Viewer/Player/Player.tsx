@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import {
+  CanvasNormalized,
+  IIIFExternalWebResource,
+} from "@iiif/presentation-3";
 import Hls, { HlsConfig } from "hls.js";
-import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
-import { IIIFExternalWebResource } from "@iiif/presentation-3";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
+import React, { useEffect } from "react";
+import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
+
 import AudioVisualizer from "src/components/Viewer/Player/AudioVisualizer";
-import { useViewerState } from "src/context/viewer-context";
+import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
+import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
 import Track from "src/components/Viewer/Player/Track";
 import { getPaintingResource } from "src/hooks/use-iiif";
 
@@ -21,7 +25,7 @@ const Player: React.FC<PlayerProps> = ({ resources, painting }) => {
   const playerRef = React.useRef<HTMLVideoElement>(null);
   const isAudio = painting?.format?.includes("audio/");
 
-  const viewerState: any = useViewerState();
+  const viewerState: ViewerContextStore = useViewerState();
   const { activeCanvas, configOptions, vault } = viewerState;
 
   /**
@@ -44,9 +48,8 @@ const Player: React.FC<PlayerProps> = ({ resources, painting }) => {
     // Construct HLS.js config
     const config = {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      // @ts-ignore
       xhrSetup: function (xhr, url) {
-        xhr.withCredentials = configOptions.withCredentials;
+        xhr.withCredentials = !!configOptions.withCredentials;
       },
     } as HlsConfig;
 
@@ -64,13 +67,13 @@ const Player: React.FC<PlayerProps> = ({ resources, painting }) => {
           case Hls.ErrorTypes.NETWORK_ERROR:
             // try to recover network error
             console.error(
-              `fatal ${event} network error encountered, try to recover`
+              `fatal ${event} network error encountered, try to recover`,
             );
             hls.startLoad();
             break;
           case Hls.ErrorTypes.MEDIA_ERROR:
             console.error(
-              `fatal ${event} media error encountered, try to recover`
+              `fatal ${event} media error encountered, try to recover`,
             );
             hls.recoverMediaError();
             break;
@@ -90,10 +93,10 @@ const Player: React.FC<PlayerProps> = ({ resources, painting }) => {
         video.currentTime = 0;
       }
     };
-  }, [painting.id]);
+  }, [configOptions.withCredentials, painting.id]);
 
   useEffect(() => {
-    const canvas = vault.get(activeCanvas);
+    const canvas: CanvasNormalized = vault.get(activeCanvas);
     const accompanyingCanvas = canvas.accompanyingCanvas?.id
       ? getPaintingResource(vault, canvas.accompanyingCanvas?.id)
       : null;
@@ -112,18 +115,18 @@ const Player: React.FC<PlayerProps> = ({ resources, painting }) => {
       if (accompanyingCanvas) setPoster(accompanyingCanvas.id);
       if (placeholderCanvas) setPoster(placeholderCanvas.id);
     }
-  }, [activeCanvas, currentTime]);
+  }, [activeCanvas, currentTime, vault]);
 
   useEffect(() => {
     if (playerRef?.current) {
       const video: HTMLVideoElement = playerRef.current;
       video?.addEventListener("timeupdate", () =>
-        setCurrentTime(video.currentTime)
+        setCurrentTime(video.currentTime),
       );
 
       return () => document.removeEventListener("timeupdate", () => {});
     }
-  }, [playerRef?.current]);
+  }, []);
 
   return (
     <PlayerWrapper
@@ -150,11 +153,11 @@ const Player: React.FC<PlayerProps> = ({ resources, painting }) => {
           resources.map((resource) => (
             <Track
               resource={resource}
-              ignoreCaptionLabels={configOptions.ignoreCaptionLabels}
+              ignoreCaptionLabels={configOptions.ignoreCaptionLabels || []}
               key={resource.id}
             />
           ))}
-        Sorry, your browser doesn't support embedded videos.
+        Sorry, your browser doesn&apos;t support embedded videos.
       </video>
 
       {isAudio && <AudioVisualizer ref={playerRef} />}

@@ -1,9 +1,9 @@
 import { A11y, Navigation } from "swiper";
-import { Collection, CollectionItems, Manifest } from "@iiif/presentation-3";
 import React, { useRef } from "react";
 import { SliderItem, SwiperBreakpoints } from "src/types/slider";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import { CollectionItems } from "@iiif/presentation-3";
 import Item from "./Item";
 import { ItemsStyled } from "src/components/Slider/Items/Items.styled";
 
@@ -53,6 +53,7 @@ const Items: React.FC<ItemsProps> = ({
   return (
     <ItemsStyled ref={itemsRef}>
       <Swiper
+        // @ts-ignore
         a11y={{
           prevSlideMessage: "previous item",
           nextSlideMessage: "next item",

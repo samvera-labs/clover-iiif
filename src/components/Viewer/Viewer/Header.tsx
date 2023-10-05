@@ -5,6 +5,7 @@ import {
   IIIFBadgeContent,
   ManifestLabel,
 } from "./Header.styled";
+import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import Collection from "src/components/Viewer/Collection/Collection";
 import CopyText from "src/components/Viewer/CopyText";
@@ -14,10 +15,8 @@ import { Label } from "src/components/Primitives";
 import { Popover } from "src/components/internal";
 import React from "react";
 import Toggle from "./Toggle";
-import { config } from "process";
 import { media } from "src/styles/stitches.config";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
-import { useViewerState } from "src/context/viewer-context";
 
 interface Props {
   manifestId: string;
@@ -25,7 +24,7 @@ interface Props {
 }
 
 const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
-  const viewerState: any = useViewerState();
+  const viewerState: ViewerContextStore = useViewerState();
   const { collection, configOptions } = viewerState;
 
   const { showTitle, showIIIFBadge, informationPanel } = configOptions;
@@ -84,7 +83,7 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
               </IIIFBadgeContent>
             </Popover>
           )}
-          {informationPanel.renderToggle && !isSmallViewport && <Toggle />}
+          {informationPanel?.renderToggle && !isSmallViewport && <Toggle />}
         </HeaderOptions>
       )}
     </Header>

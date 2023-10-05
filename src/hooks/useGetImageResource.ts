@@ -3,7 +3,7 @@ import { IIIFExternalWebResource, ImageService } from "@iiif/presentation-3";
 export const useGetImageResource = (
   resource: IIIFExternalWebResource,
   size: string = "200,",
-  region: string = "full"
+  region: string = "full",
 ) => {
   /**
    * defenseively ensure resource is not an array

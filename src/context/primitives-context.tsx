@@ -22,7 +22,7 @@ const usePrimitivesContext = () => {
   const context = useContext(PrimitivesContext);
   if (context === undefined) {
     throw new Error(
-      "usePrimitivesContext must be used with a PrimitivesProvider"
+      "usePrimitivesContext must be used with a PrimitivesProvider",
     );
   }
   return context;
@@ -43,7 +43,7 @@ const PrimitivesProvider: React.FC<ProviderProps> = ({
 
 const getRealPropertyValue = (
   obj: { [key: string]: any },
-  property: string
+  property: string,
 ) => {
   const value = Object.hasOwn(obj, property)
     ? obj[property].toString()

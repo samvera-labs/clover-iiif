@@ -42,17 +42,17 @@ const defaultConfigOptions = {
   withCredentials: false,
 };
 
-interface ViewerContextStore {
+export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
-  collection?: CollectionNormalized | {};
+  collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
   informationOpen: boolean;
   isLoaded: boolean;
   vault: Vault;
 }
 
-interface ViewerAction {
+export interface ViewerAction {
   type: string;
   canvasId: string;
   collection: CollectionNormalized;

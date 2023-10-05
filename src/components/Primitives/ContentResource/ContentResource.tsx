@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
 import Hls from "hls.js";
 import { PrimitivesContentResource } from "src/types/primitives";
@@ -22,14 +22,7 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
   const remove = ["contentResource", "altAsLabel"];
   const attributes = sanitizeAttributes(props, remove);
 
-  const {
-    type,
-    id,
-    width = 200,
-    height = 200,
-    format,
-    duration,
-  } = contentResource;
+  const { type, id, width = 200, height = 200, duration } = contentResource;
 
   useEffect(() => {
     /**
@@ -62,13 +55,13 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
           case Hls.ErrorTypes.NETWORK_ERROR:
             // try to recover network error
             console.error(
-              `fatal ${event} network error encountered, try to recover`
+              `fatal ${event} network error encountered, try to recover`,
             );
             hls.startLoad();
             break;
           case Hls.ErrorTypes.MEDIA_ERROR:
             console.error(
-              `fatal ${event} media error encountered, try to recover`
+              `fatal ${event} media error encountered, try to recover`,
             );
             hls.recoverMediaError();
             break;
@@ -86,11 +79,9 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
         hls.destroy();
       }
     };
-  }, []);
+  }, [id, type]);
 
-  useEffect(() => playLoop(), []);
-
-  const playLoop = () => {
+  const playLoop = useCallback(() => {
     if (!mediaRef.current) return;
 
     let startTime = 0;
@@ -109,23 +100,25 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
     media.currentTime = startTime;
 
     setTimeout(() => playLoop(), loopTime * 1000);
-  };
+  }, [duration, id]);
+
+  useEffect(() => playLoop(), [playLoop]);
+
+  const imgSrc = useGetImageResource(
+    contentResource,
+    `${width},${height}`,
+    region,
+  );
 
   switch (type) {
     case "Image":
-      const src = useGetImageResource(
-        contentResource,
-        `${width},${height}`,
-        region
-      );
-
       return (
         <StyledResource
           as="img"
           alt={alt}
           css={{ width: width, height: height }}
           key={id}
-          src={src}
+          src={imgSrc}
           {...attributes}
         />
       );
@@ -147,7 +140,7 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
 
     default:
       console.warn(
-        `Resource type: ${type} is not valid or not yet supported in Primitives.`
+        `Resource type: ${type} is not valid or not yet supported in Primitives.`,
       );
       return <></>;
   }

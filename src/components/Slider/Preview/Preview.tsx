@@ -1,11 +1,9 @@
-// @ts-nocheck
+import * as AspectRatio from "@radix-ui/react-aspect-ratio";
+
+import { Controls, Label, Overlay, PreviewStyled } from "./Preview.styled";
+import React, { useEffect, useState } from "react";
 
 import { Manifest } from "@iiif/presentation-3";
-import Figure from "src/components/Slider/Figure/Figure";
-import { useGetLabel } from "src/hooks/useGetLabel";
-import React, { useEffect, useRef, useState } from "react";
-import { Controls, Label, Overlay, PreviewStyled } from "./Preview.styled";
-import * as AspectRatio from "@radix-ui/react-aspect-ratio";
 import { NextIcon } from "src/components/Slider/Icons/NextIcon";
 import { PreviousIcon } from "src/components/Slider/Icons/PrevIcon";
 
@@ -33,7 +31,7 @@ const Preview: React.FC<PreviewProps> = ({
   useEffect(() => {
     canvasCurrent <= 1 ? setHasPrev(false) : setHasPrev(true);
     canvasCurrent >= canvasCount ? setHasNext(false) : setHasNext(true);
-  }, [activeCanvas, manifest]);
+  }, [activeCanvas, canvasCount, canvasCurrent, manifest]);
 
   return (
     <PreviewStyled isFocused={isFocused}>
@@ -42,12 +40,20 @@ const Preview: React.FC<PreviewProps> = ({
           <Overlay>
             <Controls onClick={(e) => e.preventDefault()}>
               <button
+                // @ts-ignore
                 onClick={() => handleActiveCanvas(-1)}
                 disabled={!hasPrev}
               >
                 <PreviousIcon />
               </button>
-              <button onClick={() => handleActiveCanvas(1)} disabled={!hasNext}>
+
+              <button
+                onClick={
+                  // @ts-ignore
+                  () => handleActiveCanvas(1)
+                }
+                disabled={!hasNext}
+              >
                 <NextIcon />
               </button>
             </Controls>

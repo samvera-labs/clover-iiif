@@ -25,8 +25,8 @@ export const getInfoResponse = (id: string) =>
       console.error(
         `The IIIF tilesource ${id.replace(
           /\/$/,
-          ""
-        )}/info.json failed to load: ${error}`
+          "",
+        )}/info.json failed to load: ${error}`,
       );
     });
 

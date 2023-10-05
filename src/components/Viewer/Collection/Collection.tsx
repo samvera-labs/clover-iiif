@@ -1,4 +1,5 @@
 import * as Select from "@radix-ui/react-select";
+
 import {
   CollectionButton,
   CollectionContent,
@@ -8,9 +9,10 @@ import {
 } from "src/components/Viewer/Collection/Collection.styled";
 import { Label, Thumbnail } from "src/components/Primitives";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
-import React from "react";
+
 import { CollectionItems } from "@iiif/presentation-3";
 import Icon from "src/components/Viewer/Collection/Icon";
+import React from "react";
 
 const Collection: React.FC = () => {
   const dispatch: any = useViewerDispatch();

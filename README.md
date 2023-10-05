@@ -36,6 +36,24 @@ npm run test
 npm run coverage
 ````
 
+### Code Quality
+
+Clover IIIF utilizes [ESLint](https://eslint.org/) and [Prettier](https://prettier.io/) for code quality. Files will be automatically formatted and "fixed" to Prettier and ESLint's configurations when making a `commit` as part of `lint-staged` config. The following commands are also directly available:
+
+```shell
+# Run ESLint
+npm run lint
+
+# Run Prettier check
+npm run prettier
+
+# Run Prettier fix
+npm run prettier:fix
+
+# Run TypeScript checks
+npm run typecheck
+```
+
 ## Releases
 
 The Clover Suite recently released `v2`. The biggest change from v1.x.x to v2. is that Clover is now more than just a Viewer component. You can still use the Viewer component as you may have previously by following the [Installation and Usage instructions](https://samvera-labs.github.io/clover-iiif/docs/viewer).

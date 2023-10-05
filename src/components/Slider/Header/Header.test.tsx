@@ -27,7 +27,7 @@ describe("Header component", () => {
     // Navigation controls
     navControlLabels.forEach((label) => {
       expect(
-        screen.getByLabelText(label, { selector: "button" })
+        screen.getByLabelText(label, { selector: "button" }),
       ).toBeInTheDocument();
     });
   });
@@ -40,7 +40,7 @@ describe("Header component", () => {
     render(<Header {...headerWithHomepage} />);
 
     expect(
-      screen.getByRole("link", { name: /edward s. curtis/i })
+      screen.getByRole("link", { name: /edward s. curtis/i }),
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /view all/i })).toBeInTheDocument();
   });

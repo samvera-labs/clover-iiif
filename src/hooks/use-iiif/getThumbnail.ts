@@ -5,12 +5,12 @@ export const getThumbnail = (
   vault: any,
   entity: CanvasEntity,
   width: number,
-  height: number
+  height: number,
 ) => {
   /*
    * 1. Initiate empty candidates array.
    */
-  let candidates: Array<IIIFExternalWebResource> = [];
+  const candidates: Array<IIIFExternalWebResource> = [];
 
   /*
    * 2. Check if canvas has an explicitly assigned IIIF thumbnail.
@@ -18,7 +18,7 @@ export const getThumbnail = (
   if (entity.canvas)
     if (entity.canvas.thumbnail.length > 0) {
       const canvasThumbnail: IIIFExternalWebResource = vault.get(
-        entity.canvas.thumbnail[0]
+        entity.canvas.thumbnail[0],
       );
       candidates.push(canvasThumbnail);
     }
@@ -30,7 +30,7 @@ export const getThumbnail = (
     if (entity.annotations[0].thumbnail)
       if (entity.annotations[0].thumbnail.length > 0) {
         const annotationThumbnail: IIIFExternalWebResource = vault.get(
-          entity.annotations[0].thumbnail[0]
+          entity.annotations[0].thumbnail[0],
         );
         candidates.push(annotationThumbnail);
       }

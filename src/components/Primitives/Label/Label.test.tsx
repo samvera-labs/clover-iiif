@@ -18,7 +18,7 @@ describe("label primitive", () => {
    */
   it("Renders 3.0 label as an h1", async () => {
     const { getByRole } = render(
-      <Label label={internationalizedLabel} as="h1" />
+      <Label label={internationalizedLabel} as="h1" />,
     );
     const el = getByRole("heading", { level: 1 });
     expect(el).toBeInTheDocument();
@@ -26,14 +26,14 @@ describe("label primitive", () => {
   });
   it("Renders 3.0 label as French value", async () => {
     const { getByText } = render(
-      <Label label={internationalizedLabel} as="h1" lang="fr" />
+      <Label label={internationalizedLabel} as="h1" lang="fr" />,
     );
     const el = getByText("la couleur du miel");
     expect(el).toBeInTheDocument();
   });
   it("Renders 3.0 label as English value", async () => {
     const { getByText } = render(
-      <Label label={internationalizedLabel} lang="en" />
+      <Label label={internationalizedLabel} lang="en" />,
     );
     const el = getByText("the colour of honey");
     expect(el).toBeInTheDocument();
@@ -54,7 +54,7 @@ describe("label primitive", () => {
    */
   it("Renders 3.0 label if set lang code does not exist", async () => {
     const { getByRole } = render(
-      <Label label={multipleValueLabel} as="h5" lang="ja" />
+      <Label label={multipleValueLabel} as="h5" lang="ja" />,
     );
     const el = getByRole("heading", { level: 5 });
     expect(el).toBeInTheDocument();

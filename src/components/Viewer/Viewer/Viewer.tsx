@@ -5,12 +5,16 @@ import {
   InternationalString,
   ManifestNormalized,
 } from "@iiif/presentation-3";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  ViewerContextStore,
+  useViewerDispatch,
+  useViewerState,
+} from "src/context/viewer-context";
 import {
   getPaintingResource,
   getSupplementingResources,
 } from "src/hooks/use-iiif";
-import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/Viewer/Viewer/ErrorFallback";
@@ -25,14 +29,14 @@ import { useMediaQuery } from "src/hooks/useMediaQuery";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
-  theme?: any;
+  theme?: unknown;
 }
 
 const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   /**
    * Viewer State
    */
-  const viewerState: any = useViewerState();
+  const viewerState: ViewerContextStore = useViewerState();
   const viewerDispatch: any = useViewerDispatch();
   const { activeCanvas, informationOpen, vault, configOptions } = viewerState;
 
@@ -43,24 +47,32 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   const [isInformationPanel, setIsInformationPanel] = useState<boolean>(false);
   const [isAudioVideo, setIsAudioVideo] = useState(false);
   const [painting, setPainting] = useState<IIIFExternalWebResource | undefined>(
-    undefined
+    undefined,
   );
   const [resources, setResources] = useState<LabeledResource[]>([]);
 
   const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
   const isSmallViewport = useMediaQuery(media.sm);
 
-  const setInformationOpen = (open: boolean) => {
-    viewerDispatch({
-      type: "updateInformationOpen",
-      informationOpen: open,
-    });
-  };
+  const setInformationOpen = useCallback(
+    (open: boolean) => {
+      viewerDispatch({
+        type: "updateInformationOpen",
+        informationOpen: open,
+      });
+    },
+    [viewerDispatch],
+  );
 
   useEffect(() => {
-    if (configOptions?.informationPanel.open)
+    if (configOptions?.informationPanel?.open) {
       setInformationOpen(!isSmallViewport);
-  }, [isSmallViewport]);
+    }
+  }, [
+    isSmallViewport,
+    configOptions?.informationPanel?.open,
+    setInformationOpen,
+  ]);
 
   useEffect(() => {
     if (!isSmallViewport) {
@@ -68,26 +80,26 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
       return;
     }
     setIsBodyLocked(informationOpen);
-  }, [informationOpen]);
+  }, [informationOpen, isSmallViewport, setIsBodyLocked]);
 
   useEffect(() => {
     const painting = getPaintingResource(vault, activeCanvas);
     const resources = getSupplementingResources(
       vault,
       activeCanvas,
-      "text/vtt"
+      "text/vtt",
     );
     if (painting) {
       setIsAudioVideo(
         ["Sound", "Video"].indexOf(painting.type as ExternalResourceTypes) > -1
           ? true
-          : false
+          : false,
       );
       setPainting({ ...painting });
     }
     setResources(resources);
     setIsInformationPanel(resources.length !== 0);
-  }, [activeCanvas]);
+  }, [activeCanvas, vault]);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>

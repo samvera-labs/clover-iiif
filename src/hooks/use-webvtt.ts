@@ -16,7 +16,7 @@ export interface NodeWebVttCueNested extends NodeWebVttCue {
 
 const useWebVtt = () => {
   function addIdentifiersToParsedCues(
-    cues: Array<NodeWebVttCue>
+    cues: Array<NodeWebVttCue>,
   ): Array<NodeWebVttCue> {
     return cues.map((cue) => {
       const identifier = cue.identifier || uuidv4();
@@ -70,10 +70,11 @@ const useWebVtt = () => {
    */
   function isChild(
     cue: NodeWebVttCue,
-    cues: Array<NodeWebVttCue> = []
+    cues: Array<NodeWebVttCue> = [],
   ): boolean {
     return cues.some(
-      (currentCue) => cue.start >= currentCue.start && cue.end <= currentCue.end
+      (currentCue) =>
+        cue.start >= currentCue.start && cue.end <= currentCue.end,
     );
   }
 
@@ -83,7 +84,7 @@ const useWebVtt = () => {
    * @returns Array
    */
   function orderCuesByTime(
-    cues: Array<NodeWebVttCue> = []
+    cues: Array<NodeWebVttCue> = [],
   ): Array<NodeWebVttCue> {
     return cues.sort((cue1, cue2) => cue1.start - cue2.start);
   }

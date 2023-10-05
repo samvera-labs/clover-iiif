@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   Button,
   Direction,
@@ -6,11 +5,13 @@ import {
   Input,
   Wrapper,
 } from "src/components/Viewer/Media/Controls.styled";
+import React, { useEffect, useState } from "react";
+
 import useKeyPress from "src/hooks/useKeyPress";
 
 interface Props {
   handleCanvasToggle: (arg0: -1 | 1) => void;
-  handleFilter: (arg0: String) => void;
+  handleFilter: (arg0: string) => void;
   activeIndex: number;
   canvasLength: number;
 }
@@ -83,7 +84,7 @@ const Controls: React.FC<Props> = ({
     activeIndex === canvasLength - 1
       ? setIsNextDisabled(true)
       : setIsNextDisabled(false);
-  }, [activeIndex]);
+  }, [activeIndex, canvasLength]);
 
   /**
    * dismiss filtering if Escape key is pressed

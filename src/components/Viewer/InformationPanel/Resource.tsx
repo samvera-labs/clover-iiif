@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import useWebVtt, {
   NodeWebVttCue,
   NodeWebVttCueNested,
@@ -6,14 +6,15 @@ import useWebVtt, {
 
 import { Group } from "src/components/Viewer/InformationPanel/Cue.styled";
 import { InternationalString } from "@iiif/presentation-3";
+import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import Menu from "src/components/Viewer/InformationPanel/Menu";
 import { getLabel } from "src/hooks/use-iiif";
-// @ts-ignore
 import { parse } from "node-webvtt";
 
 interface Resource {
-  resource: any;
+  resource: LabeledResource;
 }
+
 const Resource: React.FC<Resource> = ({ resource }) => {
   const [cues, setCues] = React.useState<Array<NodeWebVttCueNested>>([]);
   const { id, label } = resource;
@@ -35,7 +36,7 @@ const Resource: React.FC<Resource> = ({ resource }) => {
           setCues(nestedCues);
         })
         .catch((error) => console.error(id, error.toString()));
-  }, [id]);
+  }, [createNestedCues, id, orderCuesByTime]);
 
   return (
     <Group

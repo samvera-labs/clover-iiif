@@ -19,7 +19,7 @@ describe("SliderItem", () => {
     expect(el).toBeInTheDocument();
     expect(screen.getByRole("link")).toHaveAttribute(
       "href",
-      sliderItem.homepage[0].id
+      sliderItem.homepage[0].id,
     );
     expect(screen.getByRole("figure")).toBeInTheDocument();
   });
@@ -31,7 +31,7 @@ describe("SliderItem", () => {
         handleItemInteraction={mockHandleItemInteraction}
         index={0}
         item={sliderItem}
-      />
+      />,
     );
     const el = await screen.findByTestId("slider-item-anchor");
 

@@ -17,12 +17,12 @@ import {
   ManifestNormalized,
 } from "@iiif/presentation-3";
 import React, { useEffect, useState } from "react";
+import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import { PrimitivesExternalWebResource } from "src/types/primitives";
-import { useViewerState } from "src/context/viewer-context";
 
 const About: React.FC = () => {
-  const viewerState: any = useViewerState();
+  const viewerState: ViewerContextStore = useViewerState();
   const { activeManifest, vault } = viewerState;
 
   const [manifest, setManifest] = useState<ManifestNormalized>();
@@ -32,7 +32,7 @@ const About: React.FC = () => {
   const [thumbnail, setThumbnail] = useState<IIIFExternalWebResource[]>([]);
 
   useEffect(() => {
-    const data = vault.get(activeManifest);
+    const data: ManifestNormalized = vault.get(activeManifest);
     setManifest(data);
 
     if (data.homepage?.length > 0) setHomepage(vault.get(data.homepage));

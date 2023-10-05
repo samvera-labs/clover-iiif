@@ -59,7 +59,7 @@ const RenderSlider: React.FC<CloverSliderProps> = ({
       .then((data: any) => setCollection(data))
       .catch((error: any) => {
         console.error(
-          `The IIIF Collection ${iiifResource} failed to load: ${error}`
+          `The IIIF Collection ${iiifResource} failed to load: ${error}`,
         );
       });
   }, [iiifResource]);

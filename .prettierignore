@@ -1,0 +1,16 @@
+# dev
+.build
+.next
+build
+pnpm-lock.yaml
+dist
+node_modules
+out
+public/script.js
+public/script.js.map
+public/index.html
+coverage/
+html/
+
+# OS
+.DS_Store

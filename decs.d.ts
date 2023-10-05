@@ -2,3 +2,5 @@
 
 // Example:
 // declare module "@iiif/parser/upgrader";
+
+declare module "node-webvtt";

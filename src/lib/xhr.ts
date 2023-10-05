@@ -38,7 +38,7 @@ function parseXHRResult(xhr: XMLHttpRequest): RequestResult {
 
 function errorResponse(
   xhr: XMLHttpRequest,
-  message: string | null = null
+  message: string | null = null,
 ): RequestResult {
   return {
     ok: false,
@@ -52,7 +52,7 @@ function errorResponse(
 
 export function getRequest(
   url: string,
-  options: RequestOptions = DEFAULT_REQUEST_OPTIONS
+  options: RequestOptions = DEFAULT_REQUEST_OPTIONS,
 ) {
   const headers = options.headers || DEFAULT_REQUEST_OPTIONS.headers;
 
@@ -63,7 +63,7 @@ export function getRequest(
 
     if (headers) {
       Object.keys(headers).forEach((key) =>
-        xhr.setRequestHeader(key, headers[key])
+        xhr.setRequestHeader(key, headers[key]),
       );
     }
 

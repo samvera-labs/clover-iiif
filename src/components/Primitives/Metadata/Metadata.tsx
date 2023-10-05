@@ -25,7 +25,7 @@ const Metadata: React.FC<PrimitivesMetadata> = (props) => {
     "customValueDelimiter",
     "metadata",
   ];
-  let attributes = sanitizeAttributes(props, remove);
+  const attributes = sanitizeAttributes(props, remove);
 
   return (
     <PrimitivesProvider

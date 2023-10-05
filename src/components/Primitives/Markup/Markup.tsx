@@ -22,10 +22,10 @@ const Markup: React.FC<PrimitivesMarkup> = (props) => {
    * Create attributes and remove React props
    */
   const remove = ["as", "markup"];
-  let attributes = sanitizeAttributes(props, remove);
+  const attributes = sanitizeAttributes(props, remove);
 
   const html = createMarkup(
-    getLabelAsString(markup, attributes.lang as string, delimiter) as string
+    getLabelAsString(markup, attributes.lang as string, delimiter) as string,
   );
 
   return (

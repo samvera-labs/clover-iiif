@@ -32,9 +32,9 @@ const config: DocsThemeConfig = {
       () =>
         new URL(
           route.endsWith("/") ? route : `${route}/`,
-          "https://samvera-labs.github.io/clover-iiif/"
+          "https://samvera-labs.github.io/clover-iiif/",
         ).href,
-      [route]
+      [route],
     );
 
     return {

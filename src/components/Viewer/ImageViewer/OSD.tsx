@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
-import OpenSeadragon, { Options } from "openseadragon";
 import {
   Navigator,
   Viewport,
   Wrapper,
 } from "src/components/Viewer/ImageViewer/ImageViewer.styled";
+import OpenSeadragon, { Options } from "openseadragon";
+import React, { useEffect, useState } from "react";
+import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
+
 import Controls from "src/components/Viewer/ImageViewer/Controls";
 import { getInfoResponse } from "src/lib/iiif";
 import { v4 as uuidv4 } from "uuid";
-import { useViewerState } from "src/context/viewer-context";
 
 export type osdImageTypes = "tiledImage" | "simpleImage" | undefined;
 
@@ -20,7 +21,7 @@ interface OSDProps {
 
 const OSD: React.FC<OSDProps> = ({ uri, imageType, hasPlaceholder }) => {
   const [osdUri, setOsdUri] = useState<string>();
-  const viewerState: any = useViewerState();
+  const viewerState: ViewerContextStore = useViewerState();
   const { configOptions } = viewerState;
 
   const instance = uuidv4();
@@ -53,7 +54,7 @@ const OSD: React.FC<OSDProps> = ({ uri, imageType, hasPlaceholder }) => {
 
   useEffect(() => {
     if (uri !== osdUri) setOsdUri(uri);
-  }, []);
+  }, [osdUri, uri]);
 
   useEffect(() => {
     if (osdUri) {
@@ -67,12 +68,12 @@ const OSD: React.FC<OSDProps> = ({ uri, imageType, hasPlaceholder }) => {
           getInfoResponse(osdUri).then((tileSource) =>
             OpenSeadragon(config).addTiledImage({
               tileSource: tileSource,
-            })
+            }),
           );
           break;
         default:
           console.warn(
-            `Unable to render ${osdUri} in OpenSeadragon as type: "${imageType}"`
+            `Unable to render ${osdUri} in OpenSeadragon as type: "${imageType}"`,
           );
           break;
       }

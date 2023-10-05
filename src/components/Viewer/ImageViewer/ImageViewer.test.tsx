@@ -1,7 +1,6 @@
 import ImageViewer from "src/components/Viewer/ImageViewer/ImageViewer";
 import React from "react";
 import { render } from "@testing-library/react";
-import { tileSourceResponse } from "src/lib/iiif-test-fixtures";
 
 describe("ImageViewer component", () => {
   it("renders", () => {
@@ -22,7 +21,7 @@ describe("ImageViewer component", () => {
           height: 4440,
         }}
         hasPlaceholder={false}
-      />
+      />,
     );
   });
 });

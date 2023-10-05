@@ -37,7 +37,7 @@ const Item: React.FC<ItemProps> = ({ handleItemInteraction, index, item }) => {
     }
     if (item?.homepage && item.homepage?.length > 0)
       setHref(item.homepage[0].id);
-  }, []);
+  }, [credentials, item]);
 
   const onFocus = () => setIsFocused(true);
   const onBlur = () => setIsFocused(false);

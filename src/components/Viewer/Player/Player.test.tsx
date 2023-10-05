@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, it } from "vitest";
 
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";

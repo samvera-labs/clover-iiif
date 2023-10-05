@@ -2,7 +2,7 @@ import { InternationalString } from "@iiif/presentation-3";
 
 export const useGetLabel = (
   label: InternationalString,
-  language: string = "en"
+  language: string = "en",
 ) => {
   /*
    * If no label exists, return an empty string.

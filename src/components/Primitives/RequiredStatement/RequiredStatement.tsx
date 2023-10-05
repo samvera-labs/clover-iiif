@@ -19,7 +19,7 @@ const RequiredStatement: React.FC<PrimitivesRequiredStatement> = (props) => {
    * Create attributes and remove React props
    */
   const remove = ["as", "customValueDelimiter", "requiredStatement"];
-  let attributes = sanitizeAttributes(props, remove);
+  const attributes = sanitizeAttributes(props, remove);
 
   return (
     <PrimitivesProvider
