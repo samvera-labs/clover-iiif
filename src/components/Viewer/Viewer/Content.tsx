@@ -17,7 +17,7 @@ import { useViewerState } from "src/context/viewer-context";
 
 interface Props {
   activeCanvas: string;
-  painting: IIIFExternalWebResource;
+  painting: IIIFExternalWebResource[];
   resources: LabeledResource[];
   items: Canvas[];
   isAudioVideo: boolean;

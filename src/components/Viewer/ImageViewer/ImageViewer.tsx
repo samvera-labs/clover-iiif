@@ -1,34 +1,37 @@
 import OSD, { osdImageTypes } from "src/components/Viewer/ImageViewer/OSD";
 import React, { useEffect, useState } from "react";
 
-import { IIIFExternalWebResource } from "@iiif/presentation-3";
+import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { getImageServiceURI } from "src/lib/iiif";
 
 interface ImageViewerProps {
-  body: IIIFExternalWebResource;
+  painting: LabeledIIIFExternalWebResource;
   hasPlaceholder: boolean;
 }
 
-const ImageViewer: React.FC<ImageViewerProps> = ({ body, hasPlaceholder }) => {
+const ImageViewer: React.FC<ImageViewerProps> = ({
+  painting,
+  hasPlaceholder,
+}) => {
   const [imageType, setImageType] = useState<osdImageTypes>();
   const [uri, setUri] = useState<string | undefined>();
 
   useEffect(() => {
-    if (Array.isArray(body.service) && body.service.length > 0) {
+    if (Array.isArray(painting?.service) && painting?.service.length > 0) {
       setImageType("tiledImage");
-      setUri(getImageServiceURI(body.service));
+      setUri(getImageServiceURI(painting?.service));
     } else {
       setImageType("simpleImage");
-      setUri(body.id);
+      setUri(painting?.id);
     }
-  }, [body]);
+  }, [painting]);
 
   return (
     <OSD
       uri={uri}
       key={uri}
-      imageType={imageType}
       hasPlaceholder={hasPlaceholder}
+      imageType={imageType}
     />
   );
 };

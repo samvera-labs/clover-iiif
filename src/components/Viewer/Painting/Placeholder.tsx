@@ -1,8 +1,9 @@
+import { getLabel, getPaintingResource } from "src/hooks/use-iiif";
+
+import { InternationalString } from "@iiif/presentation-3";
+import { PlaceholderStyled } from "./Placeholder.styled";
 import React from "react";
 import { useViewerState } from "src/context/viewer-context";
-import { getLabel, getPaintingResource } from "src/hooks/use-iiif";
-import { PlaceholderStyled } from "./Placeholder.styled";
-import { InternationalString } from "@iiif/presentation-3";
 
 interface Props {
   isMedia: boolean;
@@ -18,7 +19,10 @@ const PaintingPlaceholder: React.FC<Props> = ({
   setIsInteractive,
 }) => {
   const { vault } = useViewerState();
-  const placeholder = getPaintingResource(vault, placeholderCanvas);
+
+  const painting = getPaintingResource(vault, placeholderCanvas);
+
+  const placeholder = painting ? painting[0] : undefined;
   const labelAsArray = label
     ? (getLabel(label) as string[])
     : ["placeholder image"];

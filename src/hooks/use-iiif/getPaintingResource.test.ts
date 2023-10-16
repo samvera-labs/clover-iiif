@@ -15,21 +15,23 @@ describe("getPaintingResource()", () => {
       vault,
       "https://test.org/works/ad25d4af-8a12-4d8f-a557-79aea012e081?as=iiif/canvas/access/0",
     );
-    const expected = {
-      format: "image/tiff",
-      height: 2580,
-      id: "https://iiif.dc.library.northwestern.edu/iiif/2/4eb5a0d0-1908-42a8-a5f2-1ce88e25928c/full/600,/0/default.jpg",
-      service: [
-        {
-          "@id":
-            "https://iiif.dc.library.northwestern.edu/iiif/2/4eb5a0d0-1908-42a8-a5f2-1ce88e25928c",
-          "@type": "ImageService2",
-          profile: "http://iiif.io/api/image/2/level2.json",
-        },
-      ],
-      type: "Image",
-      width: 3072,
-    };
+    const expected = [
+      {
+        format: "image/tiff",
+        height: 2580,
+        id: "https://iiif.dc.library.northwestern.edu/iiif/2/4eb5a0d0-1908-42a8-a5f2-1ce88e25928c/full/600,/0/default.jpg",
+        service: [
+          {
+            "@id":
+              "https://iiif.dc.library.northwestern.edu/iiif/2/4eb5a0d0-1908-42a8-a5f2-1ce88e25928c",
+            "@type": "ImageService2",
+            profile: "http://iiif.io/api/image/2/level2.json",
+          },
+        ],
+        type: "Image",
+        width: 3072,
+      },
+    ];
     expect(result).toEqual(expected);
   });
 

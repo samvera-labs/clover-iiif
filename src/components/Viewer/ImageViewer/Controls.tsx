@@ -1,6 +1,6 @@
-import React from "react";
 import Button from "src/components/Viewer/ImageViewer/Button";
 import { Options } from "openseadragon";
+import React from "react";
 import { Wrapper } from "src/components/Viewer/ImageViewer/Controls.styled";
 
 const ZoomIn = () => {

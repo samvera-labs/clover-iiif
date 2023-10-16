@@ -1,12 +1,10 @@
-import {
-  CanvasNormalized,
-  IIIFExternalWebResource,
-} from "@iiif/presentation-3";
 import Hls, { HlsConfig } from "hls.js";
 import React, { useEffect } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import AudioVisualizer from "src/components/Viewer/Player/AudioVisualizer";
+import { CanvasNormalized } from "@iiif/presentation-3";
+import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
 import Track from "src/components/Viewer/Player/Track";
@@ -15,11 +13,12 @@ import { getPaintingResource } from "src/hooks/use-iiif";
 // Set referrer header as a NU domain: ie. meadow.rdc-staging.library.northwestern.edu
 
 interface PlayerProps {
-  painting: IIIFExternalWebResource;
+  allSources: LabeledIIIFExternalWebResource[];
+  painting: LabeledIIIFExternalWebResource;
   resources: LabeledResource[];
 }
 
-const Player: React.FC<PlayerProps> = ({ resources, painting }) => {
+const Player: React.FC<PlayerProps> = ({ allSources, resources, painting }) => {
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [poster, setPoster] = React.useState<string | undefined>();
   const playerRef = React.useRef<HTMLVideoElement>(null);
@@ -38,6 +37,12 @@ const Player: React.FC<PlayerProps> = ({ resources, painting }) => {
      * we have a reffed <video> for attaching HLS
      */
     if (!painting.id || !playerRef.current) return;
+
+    if (playerRef?.current) {
+      const video: HTMLVideoElement = playerRef.current;
+      video.src = painting.id as string;
+      video.load();
+    }
 
     /**
      * Eject HLS attachment if file extension from
@@ -109,11 +114,11 @@ const Player: React.FC<PlayerProps> = ({ resources, painting }) => {
 
     if (conflictingCanvas) {
       currentTime === 0
-        ? setPoster(placeholderCanvas.id)
-        : setPoster(accompanyingCanvas.id);
+        ? setPoster(placeholderCanvas[0].id)
+        : setPoster(accompanyingCanvas[0].id);
     } else {
-      if (accompanyingCanvas) setPoster(accompanyingCanvas.id);
-      if (placeholderCanvas) setPoster(placeholderCanvas.id);
+      if (accompanyingCanvas) setPoster(accompanyingCanvas[0].id);
+      if (placeholderCanvas) setPoster(placeholderCanvas[0].id);
     }
   }, [activeCanvas, currentTime, vault]);
 
@@ -133,6 +138,7 @@ const Player: React.FC<PlayerProps> = ({ resources, painting }) => {
       css={{
         backgroundColor: configOptions.canvasBackgroundColor,
         maxHeight: configOptions.canvasHeight,
+        position: "relative",
       }}
     >
       <video
@@ -146,9 +152,13 @@ const Player: React.FC<PlayerProps> = ({ resources, painting }) => {
         poster={poster}
         style={{
           maxHeight: configOptions.canvasHeight,
+          position: "relative",
+          zIndex: "0",
         }}
       >
-        <source src={painting.id} type={painting.format} />
+        {allSources.map((painting) => (
+          <source src={painting.id} type={painting.format} key={painting.id} />
+        ))}
         {resources.length > 0 &&
           resources.map((resource) => (
             <Track
