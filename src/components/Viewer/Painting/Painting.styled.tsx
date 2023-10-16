@@ -5,6 +5,9 @@ import { styled } from "src/styles/stitches.config";
 const PaintingStyled = styled("div", {
   position: "relative",
   zIndex: "0",
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
 
   "&:hover": {
     [`${ToggleStyled}`]: {
@@ -21,4 +24,6 @@ const PaintingStyled = styled("div", {
   },
 });
 
-export { PaintingStyled, ToggleStyled };
+const PaintingCanvas = styled("div", {});
+
+export { PaintingCanvas, PaintingStyled, ToggleStyled };

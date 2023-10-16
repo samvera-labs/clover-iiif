@@ -1,7 +1,8 @@
 import * as Select from "@radix-ui/react-select";
+
 import { styled } from "src/styles/stitches.config";
 
-const CollectionIcon = styled("svg", {
+const StyledSelectIcon = styled("svg", {
   height: "19px",
   color: "$accent",
   fill: "$accent",
@@ -10,28 +11,28 @@ const CollectionIcon = styled("svg", {
   margin: "0.25rem 0.85rem",
 });
 
-const CollectionButton = styled(Select.Trigger, {
+const StyledSelectButton = styled(Select.Trigger, {
   fontSize: "1.25rem",
   fontWeight: "400",
   fontFamily: "inherit",
   alignSelf: "flex-start",
   flexGrow: "1",
-  backgroundColor: "$secondary",
   cursor: "pointer",
   transition: "$all",
-  border: "1px solid $secondaryMuted",
+  border: "1px solid #6663",
   boxShadow: "2px 2px 5px #0001",
   borderRadius: "3px",
   display: "flex",
   alignItems: "center",
   paddingLeft: "0.5rem",
+  width: "100%",
 
   "@sm": {
     fontSize: "1rem",
   },
 });
 
-const CollectionContent = styled(Select.Content, {
+const StyledSelectContent = styled(Select.Content, {
   borderRadius: "3px",
   boxShadow: "3px 3px 8px #0003",
   backgroundColor: "$secondary",
@@ -44,7 +45,7 @@ const CollectionContent = styled(Select.Content, {
   maxWidth: "90vw",
 });
 
-const CollectionItem = styled(Select.Item, {
+const StyledSelectItem = styled(Select.Item, {
   display: "flex",
   alignItems: "center",
   fontFamily: "inherit",
@@ -79,7 +80,7 @@ const CollectionItem = styled(Select.Item, {
   },
 });
 
-const CollectionLabel = styled(Select.Label, {
+const StyledSelectLabel = styled(Select.Label, {
   color: "$primaryMuted",
   fontFamily: "inherit",
   fontSize: "0.85rem",
@@ -94,16 +95,17 @@ const CollectionLabel = styled(Select.Label, {
   backgroundColor: "$secondaryMuted",
 });
 
-const CollectionStyled = styled("div", {
+const StyledSelect = styled(Select.Root, {
   position: "relative",
   zIndex: "5",
+  width: "100%",
 });
 
 export {
-  CollectionButton,
-  CollectionContent,
-  CollectionItem,
-  CollectionLabel,
-  CollectionIcon,
-  CollectionStyled,
+  StyledSelectButton,
+  StyledSelectContent,
+  StyledSelectItem,
+  StyledSelectLabel,
+  StyledSelectIcon,
+  StyledSelect,
 };

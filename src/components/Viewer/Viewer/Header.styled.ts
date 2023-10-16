@@ -1,5 +1,5 @@
-import { CollectionStyled } from "src/components/Viewer/Collection/Collection.styled";
 import { Popover } from "src/components/internal";
+import { StyledSelect } from "src/components/internal/Select/Select.styled";
 import { styled } from "src/styles/stitches.config";
 
 const IIIFBadgeButton = styled(Popover.Trigger, {
@@ -61,7 +61,7 @@ const Header = styled("header", {
   alignItems: "flex-start",
   width: "100%",
 
-  [`> ${CollectionStyled}`]: {
+  [`> ${StyledSelect}`]: {
     flexGrow: "1",
     flexShrink: "0",
   },

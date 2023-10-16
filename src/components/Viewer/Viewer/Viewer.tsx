@@ -46,9 +46,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
 
   const [isInformationPanel, setIsInformationPanel] = useState<boolean>(false);
   const [isAudioVideo, setIsAudioVideo] = useState(false);
-  const [painting, setPainting] = useState<IIIFExternalWebResource | undefined>(
-    undefined,
-  );
+  const [painting, setPainting] = useState<IIIFExternalWebResource[]>([]);
   const [resources, setResources] = useState<LabeledResource[]>([]);
 
   const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
@@ -91,11 +89,12 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
     );
     if (painting) {
       setIsAudioVideo(
-        ["Sound", "Video"].indexOf(painting.type as ExternalResourceTypes) > -1
+        ["Sound", "Video"].indexOf(painting[0].type as ExternalResourceTypes) >
+          -1
           ? true
           : false,
       );
-      setPainting({ ...painting });
+      setPainting(painting);
     }
     setResources(resources);
     setIsInformationPanel(resources.length !== 0);
@@ -120,7 +119,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
           />
           <ViewerContent
             activeCanvas={activeCanvas}
-            painting={painting as IIIFExternalWebResource}
+            painting={painting}
             resources={resources}
             items={manifest.items}
             isAudioVideo={isAudioVideo}

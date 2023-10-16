@@ -6,7 +6,7 @@ describe("ImageViewer component", () => {
   it("renders", () => {
     render(
       <ImageViewer
-        body={{
+        painting={{
           id: "https://iiif.stack.rdc.library.northwestern.edu/iiif/2/180682c9-dfaf-4881-b7b6-1f2f21092d4f/full/600,/0/default.jpg",
           type: "Image",
           format: "image/jpeg",

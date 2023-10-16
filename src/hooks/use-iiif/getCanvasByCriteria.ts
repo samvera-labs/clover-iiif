@@ -45,7 +45,10 @@ export const getCanvasByCriteria = (
 
       if (Array.isArray(annotationBody)) annotationBody = annotationBody[0];
 
+      // console.log("annotationBody", annotationBody);
+
       const resource: IIIFExternalWebResource = vault.get(annotationBody.id);
+
       if (!resource) return;
       switch (motivation) {
         case "painting":
@@ -75,10 +78,52 @@ export const getCanvasByCriteria = (
       : undefined;
   }
 
-  if (entity.annotationPage)
-    entity.annotations = vault
+  /**
+   * get all annotations on an annotation page resource
+   * and add them to the annotations array on the canvas entity
+   */
+  if (entity.annotationPage) {
+    /**
+     * get all initial annotation page resources
+     */
+    const annotationPageResources = vault
       .get(entity.annotationPage.items)
-      .filter(filterAnnotations);
+      .map((item) => {
+        return {
+          body: vault.get(item.body[0].id),
+          motivation: item.motivation,
+          type: "Annotation",
+        };
+      });
+
+    const annotations: Annotation[] = [];
+    annotationPageResources.forEach((annotation) => {
+      /**
+       * determine if type is a choice of multiple annotations
+       * if so, add each annotation to the annotations array
+       */
+      if (annotation.body.type === "Choice") {
+        annotation.body.items.forEach((item) =>
+          annotations.push({
+            ...annotation,
+            id: item.id,
+            body: vault.get(item.id),
+          }),
+        );
+
+        /**
+         * if not, add the single annotation to the annotations array
+         */
+      } else {
+        annotations.push(annotation);
+      }
+    });
+
+    /**
+     * filter annotations and scrub invalid annotations
+     */
+    entity.annotations = annotations.filter(filterAnnotations);
+  }
 
   return entity;
 };

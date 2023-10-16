@@ -8,7 +8,6 @@ const PlaceholderStyled = styled("button", {
   height: "100%",
   margin: "0",
   padding: "0",
-  display: "flex",
   transition: "$all",
 
   "& img": {
