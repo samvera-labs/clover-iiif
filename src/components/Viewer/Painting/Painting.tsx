@@ -41,6 +41,13 @@ const Painting: React.FC<PaintingProps> = ({
     setAnnotationIndex(index);
   };
 
+  const customDisplay = customDisplays.find(
+    (display) => display.target === activeCanvas,
+  );
+
+  const CustomComponent =
+    customDisplay?.component as unknown as React.ElementType;
+
   return (
     <PaintingStyled>
       <PaintingCanvas
@@ -64,26 +71,31 @@ const Painting: React.FC<PaintingProps> = ({
             setIsInteractive={setIsInteractive}
           />
         )}
-        {!showPlaceholder && (
-          <div>
-            {customDisplays.length > 0 ? (
-              <>Foo</>
-            ) : isMedia ? (
-              <Player
-                allSources={painting}
+
+        {/* Standard Viewer displays */}
+        {!showPlaceholder &&
+          !customDisplay &&
+          (isMedia ? (
+            <Player
+              allSources={painting}
+              painting={painting[annotationIndex]}
+              resources={resources}
+            />
+          ) : (
+            painting && (
+              <ImageViewer
                 painting={painting[annotationIndex]}
-                resources={resources}
+                hasPlaceholder={hasPlaceholder}
+                key={activeCanvas}
               />
-            ) : (
-              painting && (
-                <ImageViewer
-                  painting={painting[annotationIndex]}
-                  hasPlaceholder={hasPlaceholder}
-                  key={activeCanvas}
-                />
-              )
-            )}
-          </div>
+            )
+          ))}
+
+        {/* Custom display */}
+        {!showPlaceholder && CustomComponent && (
+          <>
+            <CustomComponent id={customDisplay?.target} />
+          </>
         )}
       </PaintingCanvas>
       {hasChoice && (
