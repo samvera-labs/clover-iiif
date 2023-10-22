@@ -6,6 +6,7 @@ import {
   defaultState,
   useViewerDispatch,
   useViewerState,
+  CustomDisplay,
 } from "src/context/viewer-context";
 
 import { Vault } from "@iiif/vault";
@@ -15,6 +16,7 @@ import { getRequest } from "src/lib/xhr";
 
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
+  customDisplays?: Array<CustomDisplay>;
   customTheme?: any;
   iiifContent: string;
   id?: string;
@@ -24,6 +26,7 @@ export interface CloverViewerProps {
 
 const CloverViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback = () => {},
+  customDisplays = [],
   customTheme,
   iiifContent,
   id,
@@ -44,6 +47,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
     <ViewerProvider
       initialState={{
         ...defaultState,
+        customDisplays,
         informationOpen: Boolean(options?.informationPanel?.open),
         vault: new Vault({
           customFetcher: (url: string) =>

@@ -1,4 +1,7 @@
-import { ViewerConfigOptions } from "src/context/viewer-context";
+import {
+  type CustomDisplay,
+  ViewerConfigOptions,
+} from "src/context/viewer-context";
 import dynamic from "next/dynamic";
 import { isDark } from "docs/lib/theme";
 import { useRouter } from "next/router";
@@ -14,9 +17,11 @@ const Viewer = dynamic(() => import("src/components/Viewer"), {
 const CloverViewer = ({
   iiifContent = defaultIiifContent,
   options,
+  customDisplays,
 }: {
   iiifContent: string;
   options?: ViewerConfigOptions;
+  customDisplays?: Array<CustomDisplay>;
 }) => {
   const router = useRouter();
   const iiifResource = router.query["iiif-content"]
@@ -30,6 +35,7 @@ const CloverViewer = ({
       iiifContent={iiifResource}
       options={{ ...options, background }}
       key={iiifContent}
+      {...(customDisplays && { customDisplays })}
     />
   );
 };
