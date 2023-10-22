@@ -42,11 +42,17 @@ const defaultConfigOptions = {
   withCredentials: false,
 };
 
+export type CustomDisplay = {
+  component: React.JSX.Element;
+  target: string;
+};
+
 export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
+  customDisplays: Array<CustomDisplay>;
   informationOpen: boolean;
   isLoaded: boolean;
   vault: Vault;
@@ -68,6 +74,7 @@ export const defaultState: ViewerContextStore = {
   activeManifest: "",
   collection: {},
   configOptions: defaultConfigOptions,
+  customDisplays: [],
   informationOpen: defaultConfigOptions?.informationPanel?.open,
   isLoaded: false,
   vault: new Vault(),

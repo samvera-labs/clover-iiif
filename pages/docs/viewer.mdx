@@ -320,3 +320,32 @@ return (
   />
 );
 ```
+
+---
+
+### Custom displays
+
+If a user wishes to extend the Viewer's default displays (OpenSeadragon for images and HTML Video Player for audio/video), they can inform the Viewer of their own "Custom Display" React component. For example, to display PDFs, one might use the [react-pdf](https://www.npmjs.com/package/react-pdf) library. The Viewer will pass the following props to the Custom Display component:
+
+```jsx
+const iiifContent =
+  "https://my-iiif-endpoint.org/pdf-resources/abc123";
+
+const MyCustomPDFDisplay = () => {
+  return (
+    <div>
+      <p>My Custom PDF Display</p>
+    </div>
+  );
+};
+
+return (
+  <Viewer
+    iiifContent={iiifContent}
+    customDisplays=[{
+      target="application/pdf",
+      component: MyCustomPDFDisplay
+    }]
+  />
+);
+```

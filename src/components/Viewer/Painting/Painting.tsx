@@ -26,7 +26,7 @@ const Painting: React.FC<PaintingProps> = ({
 }) => {
   const [annotationIndex, setAnnotationIndex] = React.useState<number>(0);
   const [isInteractive, setIsInteractive] = React.useState(false);
-  const { configOptions, vault } = useViewerState();
+  const { configOptions, customDisplays, vault } = useViewerState();
   const normalizedCanvas: CanvasNormalized = vault.get(activeCanvas);
 
   const placeholderCanvas = normalizedCanvas?.placeholderCanvas?.id;
@@ -36,7 +36,7 @@ const Painting: React.FC<PaintingProps> = ({
 
   const handleToggle = () => setIsInteractive(!isInteractive);
 
-  const handleCoiceChange = (value) => {
+  const handleChoiceChange = (value) => {
     const index = painting.findIndex((resource) => resource.id === value);
     setAnnotationIndex(index);
   };
@@ -66,7 +66,9 @@ const Painting: React.FC<PaintingProps> = ({
         )}
         {!showPlaceholder && (
           <div>
-            {isMedia ? (
+            {customDisplays.length > 0 ? (
+              <>Foo</>
+            ) : isMedia ? (
               <Player
                 allSources={painting}
                 painting={painting[annotationIndex]}
@@ -87,7 +89,7 @@ const Painting: React.FC<PaintingProps> = ({
       {hasChoice && (
         <Select
           value={painting[annotationIndex]?.id}
-          onValueChange={handleCoiceChange}
+          onValueChange={handleChoiceChange}
           maxHeight={"200px"}
         >
           {painting?.map((resource) => (

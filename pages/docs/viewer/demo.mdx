@@ -3,6 +3,7 @@ import CustomManifest from "docs/components/CustomManifest/CustomManifest";
 import { Bleed } from "nextra-theme-docs";
 import { Tabs, Tab } from "nextra/components";
 import CallToAction from "docs/components/CallToAction";
+import PDFViewer from "docs/components/CustomDisplays/PDFViewer";
 
 ## Viewer
 
@@ -16,6 +17,7 @@ A UI component that renders a multicanvas IIIF item viewer with pan-zoom support
 ---
 
 <Viewer
+  iiifContent="http://localhost:3000/manifest/custom-displays/pdf.json"
   options={{
     canvasHeight: "640px",
     openSeadragon: {
@@ -24,4 +26,5 @@ A UI component that renders a multicanvas IIIF item viewer with pan-zoom support
       },
     },
   }}
+  customDisplays={[{ target: "application/pdf", component: <PDFViewer /> }]}
 />
