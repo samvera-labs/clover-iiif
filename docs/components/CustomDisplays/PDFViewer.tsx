@@ -7,10 +7,10 @@
  */
 
 import {
-  Annotation,
-  AnnotationPage,
-  CanvasNormalized,
-  ManifestNormalized,
+  type Annotation,
+  type AnnotationPage,
+  type CanvasNormalized,
+  type ManifestNormalized,
 } from "@iiif/presentation-3";
 
 import { Vault } from "@iiif/vault";

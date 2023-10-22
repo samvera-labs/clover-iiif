@@ -43,7 +43,7 @@ const defaultConfigOptions = {
 };
 
 export type CustomDisplay = {
-  component: React.JSX.Element;
+  component: React.ElementType;
   target: string;
 };
 
