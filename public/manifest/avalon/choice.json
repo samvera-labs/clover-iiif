@@ -1,24 +1,24 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
-  "id": "https://samvera-labs.github.io/clover-iiif/manifest/avalon/transcript-annotation.json",
+  "id": "https://samvera-labs.github.io/clover-iiif/manifest/avalon/choice.json",
   "type": "Manifest",
   "label": {
     "none": ["Manifest with choice painting annotations"]
   },
   "items": [
     {
-      "id": "https://samvera-labs.github.io/clover-iiif/manifest/avalon/transcript-annotation/canvas/1",
+      "id": "https://samvera-labs.github.io/clover-iiif/manifest/avalon/choice/canvas/1",
       "type": "Canvas",
       "height": 360,
       "width": 480,
       "duration": 572.034,
       "items": [
         {
-          "id": "https://samvera-labs.github.io/clover-iiif/manifest/avalon/transcript-annotation/canvas/1/page/1",
+          "id": "https://samvera-labs.github.io/clover-iiif/manifest/avalon/choice/canvas/1/page/1",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http://localhost:3000/manifest/avalon/transcript-annotation/canvas/1/page/1/annotation/1",
+              "id": "https://samvera-labs.github.io/clover-iiif/manifest/avalon/choice/canvas/1/page/1/annotation/1",
               "type": "Annotation",
               "motivation": "painting",
               "body": [
@@ -59,7 +59,7 @@
                       }
                     },
                     {
-                      "id": "https://samvera-labs.github.io/clover-iiif/edia/video/dickson_greeting.ogv.240p.webm",
+                      "id": "https://samvera-labs.github.io/clover-iiif/media/video/dickson_greeting.ogv.240p.webm",
                       "type": "Video",
                       "format": "video/webm",
                       "label": {
@@ -69,7 +69,7 @@
                   ]
                 }
               ],
-              "target": "https://samvera-labs.github.io/clover-iiif/manifest/avalon/transcript-annotation/canvas/1"
+              "target": "https://samvera-labs.github.io/clover-iiif/manifest/avalon/choice/canvas/1"
             }
           ]
         }
