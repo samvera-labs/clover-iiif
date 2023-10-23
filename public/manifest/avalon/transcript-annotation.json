@@ -1,20 +1,20 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
-  "id": "http://localhost:3000/manifest/avalon/transcript-annotation.json",
+  "id": "https://samvera-labs.github.io/clover-iiif/manifest/avalon/transcript-annotation.json",
   "type": "Manifest",
   "label": {
     "none": ["Manifest with choice painting annotations"]
   },
   "items": [
     {
-      "id": "http://localhost:3000/manifest/avalon/transcript-annotation/canvas/1",
+      "id": "https://samvera-labs.github.io/clover-iiif/manifest/avalon/transcript-annotation/canvas/1",
       "type": "Canvas",
       "height": 360,
       "width": 480,
       "duration": 572.034,
       "items": [
         {
-          "id": "http://localhost:3000/manifest/avalon/transcript-annotation/canvas/1/page/1",
+          "id": "https://samvera-labs.github.io/clover-iiif/manifest/avalon/transcript-annotation/canvas/1/page/1",
           "type": "AnnotationPage",
           "items": [
             {
@@ -27,7 +27,7 @@
                   "choiceHint": "user",
                   "items": [
                     {
-                      "id": "http://localhost:3000/media/video/dickson_greeting.ogv.120p.vp9.webm",
+                      "id": "https://samvera-labs.github.io/clover-iiif/media/video/dickson_greeting.ogv.120p.vp9.webm",
                       "type": "Video",
                       "format": "video/webm",
                       "label": {
@@ -35,7 +35,7 @@
                       }
                     },
                     {
-                      "id": "http://localhost:3000/media/video/dickson_greeting.ogv.180p.vp9.webm",
+                      "id": "https://samvera-labs.github.io/clover-iiif/media/video/dickson_greeting.ogv.180p.vp9.webm",
                       "type": "Video",
                       "format": "video/webm",
                       "label": {
@@ -43,7 +43,7 @@
                       }
                     },
                     {
-                      "id": "http://localhost:3000/media/video/dickson_greeting.ogv.240p.vp9.webm",
+                      "id": "https://samvera-labs.github.io/clover-iiif/media/video/dickson_greeting.ogv.240p.vp9.webm",
                       "type": "Video",
                       "format": "video/webm",
                       "label": {
@@ -51,7 +51,7 @@
                       }
                     },
                     {
-                      "id": "http://localhost:3000/media/video/dickson_greeting.ogv.160p.webm",
+                      "id": "https://samvera-labs.github.io/clover-iiif/media/video/dickson_greeting.ogv.160p.webm",
                       "type": "Video",
                       "format": "video/webm",
                       "label": {
@@ -59,7 +59,7 @@
                       }
                     },
                     {
-                      "id": "http://localhost:3000/media/video/dickson_greeting.ogv.240p.webm",
+                      "id": "https://samvera-labs.github.io/clover-iiif/edia/video/dickson_greeting.ogv.240p.webm",
                       "type": "Video",
                       "format": "video/webm",
                       "label": {
@@ -69,7 +69,7 @@
                   ]
                 }
               ],
-              "target": "http://localhost:3000/manifest/avalon/transcript-annotation/canvas/1"
+              "target": "https://samvera-labs.github.io/clover-iiif/manifest/avalon/transcript-annotation/canvas/1"
             }
           ]
         }
