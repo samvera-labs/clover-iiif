@@ -27,6 +27,7 @@ const Painting: React.FC<PaintingProps> = ({
   const [annotationIndex, setAnnotationIndex] = React.useState<number>(0);
   const [isInteractive, setIsInteractive] = React.useState(false);
   const { configOptions, customDisplays, vault } = useViewerState();
+
   const normalizedCanvas: CanvasNormalized = vault.get(activeCanvas);
 
   const placeholderCanvas = normalizedCanvas?.placeholderCanvas?.id;

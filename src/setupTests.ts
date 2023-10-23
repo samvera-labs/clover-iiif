@@ -10,6 +10,11 @@ import matchers from "@testing-library/jest-dom/matchers";
 // extends Vitest's expect method with methods from react-testing-library
 expect.extend(matchers);
 
+// Mock canvas
+HTMLCanvasElement.prototype.getContext = () => {
+  return {} as any;
+};
+
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
   cleanup();
