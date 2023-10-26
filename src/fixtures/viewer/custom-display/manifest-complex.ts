@@ -12,6 +12,7 @@ export const canvasWithPDFs = {
   ],
   id: "http://localhost:3000/manifest/custom-displays/pdf.json",
   items: [
+    // Canvas with PDF annotation file
     {
       height: 5792,
       id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif/canvas/access/0",
@@ -79,6 +80,7 @@ export const canvasWithPDFs = {
       type: "Canvas",
       width: 1192,
     },
+    // Canvas with standard image with placeholder
     {
       height: 5792,
       id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif/canvas/access/1",
@@ -171,6 +173,7 @@ export const canvasWithPDFs = {
       type: "Canvas",
       width: 8688,
     },
+    // Canvas with standard image without placeholder
     {
       height: 5792,
       id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif/canvas/access/2",
@@ -198,6 +201,55 @@ export const canvasWithPDFs = {
               motivation: "painting",
               target:
                 "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif/canvas/access/2",
+              type: "Annotation",
+            },
+          ],
+          type: "AnnotationPage",
+        },
+      ],
+      label: {
+        none: ["Left"],
+      },
+      thumbnail: [
+        {
+          format: "image/jpeg",
+          height: 300,
+          id: "https://iiif.dc.library.northwestern.edu/iiif/2/dae0cccd-bf8a-4a82-8017-3a4150f60fc7/full/!300,300/0/default.jpg",
+          service: [
+            {
+              "@id":
+                "https://iiif.dc.library.northwestern.edu/iiif/2/dae0cccd-bf8a-4a82-8017-3a4150f60fc7",
+              "@type": "ImageService2",
+              profile: "http://iiif.io/api/image/2/level2.json",
+            },
+          ],
+          type: "Image",
+          width: 300,
+        },
+      ],
+      type: "Canvas",
+      width: 8688,
+    },
+    // Canvas with video annotation file
+    {
+      height: 5792,
+      id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif/canvas/access/3",
+      items: [
+        {
+          id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif/canvas/access/3/annotation-page",
+          items: [
+            {
+              body: {
+                format: "video/ogg",
+                height: 5792,
+                id: "https://iiif.dc.library.northwestern.edu/iiif/2/dae0cccd-bf8a-4a82-8017-3a4150f60fc7/video.ogg",
+                type: "Video",
+                width: 8688,
+              },
+              id: "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif/canvas/access/3/annotation/0",
+              motivation: "painting",
+              target:
+                "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif/canvas/access/3",
               type: "Annotation",
             },
           ],
@@ -271,77 +323,6 @@ export const canvasWithPDFs = {
       },
       value: {
         none: ["Charles Deering McCormick Library of Special Collections"],
-      },
-    },
-    {
-      label: {
-        none: ["Dimensions"],
-      },
-      value: {
-        none: ["14 x 14 x 18 cm"],
-      },
-    },
-    {
-      label: {
-        none: ["Genre"],
-      },
-      value: {
-        none: ["comic masks"],
-      },
-    },
-    {
-      label: {
-        none: ["Last Modified"],
-      },
-      value: {
-        none: ["2021-06-10T16:43:09.761465Z"],
-      },
-    },
-    {
-      label: {
-        none: ["Location"],
-      },
-      value: {
-        none: ["Reggio Emilia"],
-      },
-    },
-    {
-      label: {
-        none: ["Materials"],
-      },
-      value: {
-        none: ["1 mask : brown leather, elastic, fiber"],
-      },
-    },
-    {
-      label: {
-        none: ["Related URL"],
-      },
-      value: {
-        none: [
-          "<span><a href=https://libguides.northwestern.edu/c.php?g=575014&p=3965340>Research Guide</a></span>",
-        ],
-      },
-    },
-    {
-      label: {
-        none: ["Rights Statement"],
-      },
-      value: {
-        none: ["In Copyright"],
-      },
-    },
-    {
-      label: {
-        none: ["Subject"],
-      },
-      value: {
-        none: [
-          "Masks",
-          "Commedia dell'arte",
-          "Italian drama (Comedy)",
-          "Zanni (Fictitious character)",
-        ],
       },
     },
   ],
