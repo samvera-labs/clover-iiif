@@ -30,7 +30,7 @@ const Collection: React.FC = () => {
           <SelectOption
             value={item.id}
             key={item.id}
-            thumbnail={vault.get(item?.thumbnail)}
+            thumbnail={item?.thumbnail ? vault.get(item?.thumbnail) : undefined}
             label={item.label}
           />
         ))}
