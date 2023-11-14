@@ -25,7 +25,7 @@ export async function getResponseStatus(
 
         if (id) {
           return fetch(id, {
-            method: "GET",
+            method: "HEAD",
             headers: {
               accept: "image/*",
             },
