@@ -10,12 +10,10 @@ import {
 import React, { useRef } from "react";
 
 import { InternationalString } from "@iiif/presentation-3";
-import StatusIcon from "./StatusIcon";
 import { Thumbnail } from "src/components/Primitives";
 
 interface FigureProps {
   label: InternationalString;
-  status: number;
   summary?: InternationalString;
   thumbnail: Array<any>;
   index: number;
@@ -25,7 +23,6 @@ interface FigureProps {
 const Figure: React.FC<FigureProps> = ({
   isFocused,
   label,
-  status,
   summary,
   thumbnail,
 }) => {
@@ -36,7 +33,6 @@ const Figure: React.FC<FigureProps> = ({
       <AspectRatio.Root ratio={1 / 1}>
         <Width ref={widthRef} />
         <Placeholder>
-          {status !== 200 && <StatusIcon status={status} />}
           <Thumbnail
             altAsLabel={label}
             thumbnail={thumbnail}
