@@ -116,6 +116,7 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
         <StyledResource
           as="img"
           alt={alt}
+          crossOrigin="anonymous"
           css={{ width: width, height: height }}
           key={id}
           src={imgSrc}
@@ -127,6 +128,7 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
       return (
         <StyledResource
           as="video"
+          crossOrigin="anonymous"
           css={{ width: width, height: height }}
           disablePictureInPicture
           key={id}
