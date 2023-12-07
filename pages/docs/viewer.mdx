@@ -334,6 +334,7 @@ import AnotherCustomDisplay from './AnotherCustomDisplay';
 type CustomDisplay = {
   component: React.ElementType;
   target: string;
+  options?: { [k: string]: string|number };
 };
 
 <Viewer
@@ -343,7 +344,8 @@ type CustomDisplay = {
       component: MyCustomDisplay
     }, {
       target="https://uri-for-a-canvas-id/access/1",
-      component: AnotherCustomDisplay
+      component: AnotherCustomDisplay,
+      options: {background: '#ccc'}
     }]
   />
 ```

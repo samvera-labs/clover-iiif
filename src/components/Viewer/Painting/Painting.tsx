@@ -95,7 +95,11 @@ const Painting: React.FC<PaintingProps> = ({
         {/* Custom display */}
         {!showPlaceholder && CustomComponent && (
           <>
-            <CustomComponent id={customDisplay?.target} />
+            <CustomComponent
+              id={customDisplay?.target}
+              painting={painting[annotationIndex]}
+              options={customDisplay?.options}
+            />
           </>
         )}
       </PaintingCanvas>

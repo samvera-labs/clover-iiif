@@ -20,7 +20,13 @@ import { useState } from "react";
 // into Clover Viewer
 const url = "http://localhost:3000/manifest/custom-displays/pdf.json";
 
-const PDFViewer = ({ id }: { id: string }) => {
+const PDFViewer = ({
+  id,
+  options,
+}: {
+  id: string;
+  options: { [k: string]: string | number };
+}) => {
   const [pdfSrc, setPdfSrc] = useState();
   const vault = new Vault();
 
@@ -37,10 +43,9 @@ const PDFViewer = ({ id }: { id: string }) => {
   });
 
   if (!pdfSrc) return null;
-
   return (
-    <div style={{ background: "hotpink", padding: "2rem" }}>
-      <iframe src={pdfSrc} width="100%" height="600" />
+    <div style={{ background: options?.background, padding: options?.padding }}>
+      <iframe src={pdfSrc} width={options?.width} height={options?.height} />
     </div>
   );
 };

@@ -45,6 +45,7 @@ const defaultConfigOptions = {
 export type CustomDisplay = {
   component: React.ElementType;
   target: string;
+  options?: { [k: string]: string | number };
 };
 
 export interface ViewerContextStore {
