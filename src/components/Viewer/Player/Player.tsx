@@ -153,7 +153,7 @@ const Player: React.FC<PlayerProps> = ({ allSources, resources, painting }) => {
         style={{
           maxHeight: configOptions.canvasHeight,
           position: "relative",
-          zIndex: "0",
+          zIndex: "1",
         }}
       >
         {allSources.map((painting) => (

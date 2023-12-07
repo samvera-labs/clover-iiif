@@ -1,76 +1,85 @@
 /* eslint-disable react/display-name */
 
+import React, { useCallback } from "react";
+
 import { AudioVisualizerWrapper } from "src/components/Viewer/Player/AudioVisualizer.styled";
-import React from "react";
 
-const AudioVisualizer = React.forwardRef((_props, ref: any) => {
-  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+const AudioVisualizer = React.forwardRef(
+  (_props, ref: React.RefObject<HTMLVideoElement>) => {
+    const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
-  React.useEffect(() => {
-    if (!ref) return;
-    // Add a callback fn to the `<video>` onplay event
-    ref.current.onplay = audioVisualizer;
-  }, [ref]);
+    const audioVisualizer = useCallback(() => {
+      // Block re-initialization if audio is already playing
+      if (ref.current?.currentTime && ref.current?.currentTime > 0) return;
 
-  function audioVisualizer() {
-    const video = ref.current;
-    const context = new AudioContext();
-    const src = context.createMediaElementSource(video);
-    const analyser = context.createAnalyser();
+      const video = ref.current;
+      if (!video) return;
 
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    canvas.width = video.offsetWidth;
-    canvas.height = video.offsetHeight;
-    const ctx = canvas.getContext("2d");
+      const context = new AudioContext();
+      const src = context.createMediaElementSource(video);
+      const analyser = context.createAnalyser();
 
-    src.connect(analyser);
-    analyser.connect(context.destination);
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      canvas.width = video.offsetWidth;
+      canvas.height = video.offsetHeight;
+      const ctx = canvas.getContext("2d");
 
-    analyser.fftSize = 256;
+      src.connect(analyser);
+      analyser.connect(context.destination);
 
-    const bufferLength = analyser.frequencyBinCount;
-    const dataArray = new Uint8Array(bufferLength);
+      analyser.fftSize = 256;
 
-    setInterval(function () {
-      renderFrame(
-        analyser,
-        ctx,
-        bufferLength,
-        dataArray,
-        canvas.width,
-        canvas.height,
-      );
-    }, 20);
-  }
+      const bufferLength = analyser.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
 
-  function renderFrame(
-    analyser: any,
-    ctx: any,
-    bufferLength: number,
-    dataArray: Uint8Array,
-    width: number,
-    height: number,
-  ) {
-    const barWidth = (width / bufferLength) * 2.6;
-    let barHeight;
-    let x = 0;
+      setInterval(function () {
+        renderFrame(
+          analyser,
+          ctx,
+          bufferLength,
+          dataArray,
+          canvas.width,
+          canvas.height,
+        );
+      }, 20);
+    }, [ref]);
 
-    analyser.getByteFrequencyData(dataArray);
+    React.useEffect(() => {
+      if (!ref || !ref.current) return;
+      // Add a callback fn to the `<video>` onplay event
 
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, width, height);
+      ref.current.onplay = audioVisualizer;
+    }, [audioVisualizer, ref]);
 
-    for (let i = 0; i < bufferLength; i++) {
-      barHeight = dataArray[i] * 2;
-      ctx.fillStyle = `rgba(${78}, 42, 132, 1)`;
-      ctx.fillRect(x, height - barHeight, barWidth, barHeight);
+    function renderFrame(
+      analyser: any,
+      ctx: any,
+      bufferLength: number,
+      dataArray: Uint8Array,
+      width: number,
+      height: number,
+    ) {
+      const barWidth = (width / bufferLength) * 2.6;
+      let barHeight: number;
+      let x = 0;
 
-      x += barWidth + 6;
+      analyser.getByteFrequencyData(dataArray);
+
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(0, 0, width, height);
+
+      for (let i = 0; i < bufferLength; i++) {
+        barHeight = dataArray[i] * 2;
+        ctx.fillStyle = `rgba(${78}, 42, 132, 1)`;
+        ctx.fillRect(x, height - barHeight, barWidth, barHeight);
+
+        x += barWidth + 6;
+      }
     }
-  }
 
-  return <AudioVisualizerWrapper ref={canvasRef} />;
-});
+    return <AudioVisualizerWrapper ref={canvasRef} />;
+  },
+);
 
 export default AudioVisualizer;
