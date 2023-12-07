@@ -21,6 +21,12 @@ interface Props {
   resources: LabeledResource[];
   items: Canvas[];
   isAudioVideo: boolean;
+  osdViewerCallback?: (
+    viewer: any,
+    OpenSeadragon: any,
+    vault: any,
+    activeCanvas: any,
+  ) => void;
 }
 
 const ViewerContent: React.FC<Props> = ({
@@ -29,6 +35,7 @@ const ViewerContent: React.FC<Props> = ({
   resources,
   items,
   isAudioVideo,
+  osdViewerCallback,
 }) => {
   const { informationOpen, configOptions } = useViewerState();
   const { informationPanel } = configOptions;
@@ -53,6 +60,7 @@ const ViewerContent: React.FC<Props> = ({
           isMedia={isAudioVideo}
           painting={painting}
           resources={resources}
+          osdViewerCallback={osdViewerCallback}
         />
 
         {isAside && (
