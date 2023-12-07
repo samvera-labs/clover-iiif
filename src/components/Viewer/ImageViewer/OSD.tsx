@@ -17,13 +17,24 @@ interface OSDProps {
   uri: string | undefined;
   hasPlaceholder: boolean;
   imageType: osdImageTypes;
+  osdViewerCallback?: (
+    viewer: any,
+    OpenSeadragon: any,
+    vault: any,
+    activeCanvas: any,
+  ) => void;
 }
 
-const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
+const OSD: React.FC<OSDProps> = ({
+  uri,
+  hasPlaceholder,
+  imageType,
+  osdViewerCallback,
+}) => {
   const [osdUri, setOsdUri] = useState<string>();
   const [osdInstance, setOsdInstance] = useState<string>();
   const viewerState: ViewerContextStore = useViewerState();
-  const { configOptions } = viewerState;
+  const { configOptions, vault, activeCanvas } = viewerState;
 
   const config: Options = {
     id: `openseadragon-viewport-${osdInstance}`,
@@ -62,16 +73,24 @@ const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
     if (osdUri) {
       switch (imageType) {
         case "simpleImage":
-          OpenSeadragon(config).addSimpleImage({
+          const viewer = OpenSeadragon(config);
+          viewer.addSimpleImage({
             url: osdUri,
           });
+          if (osdViewerCallback) {
+            osdViewerCallback(viewer, OpenSeadragon, vault, activeCanvas);
+          }
           break;
         case "tiledImage":
-          getInfoResponse(osdUri).then((tileSource) =>
-            OpenSeadragon(config).addTiledImage({
+          getInfoResponse(osdUri).then((tileSource) => {
+            const viewer = OpenSeadragon(config);
+            viewer.addTiledImage({
               tileSource: tileSource,
-            }),
-          );
+            });
+            if (osdViewerCallback) {
+              osdViewerCallback(viewer, OpenSeadragon, vault, activeCanvas);
+            }
+          });
           break;
         default:
           console.warn(

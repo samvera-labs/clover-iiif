@@ -18,10 +18,17 @@ const CloverViewer = ({
   iiifContent = defaultIiifContent,
   options,
   customDisplays,
+  osdViewerCallback,
 }: {
   iiifContent: string;
   options?: ViewerConfigOptions;
   customDisplays?: Array<CustomDisplay>;
+  osdViewerCallback?: (
+    viewer: any,
+    OpenSeadragon: any,
+    vault: any,
+    activeCanvas: any,
+  ) => void;
 }) => {
   const router = useRouter();
   const iiifResource = router.query["iiif-content"]
@@ -32,6 +39,7 @@ const CloverViewer = ({
 
   return (
     <Viewer
+      osdViewerCallback={osdViewerCallback}
       iiifContent={iiifResource}
       options={{ ...options, background }}
       key={iiifContent}

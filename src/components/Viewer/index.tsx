@@ -16,6 +16,12 @@ import { getRequest } from "src/lib/xhr";
 
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
+  osdViewerCallback?: (
+    viewer: any,
+    OpenSeadragon: any,
+    vault: any,
+    activeCanvas: any,
+  ) => void;
   customDisplays?: Array<CustomDisplay>;
   customTheme?: any;
   iiifContent: string;
@@ -26,6 +32,7 @@ export interface CloverViewerProps {
 
 const CloverViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback = () => {},
+  osdViewerCallback,
   customDisplays = [],
   customTheme,
   iiifContent,
@@ -61,6 +68,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
       <RenderViewer
         iiifContent={iiifResource}
         canvasIdCallback={canvasIdCallback}
+        osdViewerCallback={osdViewerCallback}
         customTheme={customTheme}
         options={options}
       />
@@ -70,6 +78,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
 
 const RenderViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback,
+  osdViewerCallback,
   customTheme,
   iiifContent,
   options,
@@ -205,7 +214,14 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * will will set the activeCanvas to the first index and render the
    * <Viewer/> component.
    */
-  return <Viewer manifest={manifest} theme={theme} key={manifest.id} />;
+  return (
+    <Viewer
+      manifest={manifest}
+      theme={theme}
+      key={manifest.id}
+      osdViewerCallback={osdViewerCallback}
+    />
+  );
 };
 
 export default CloverViewer;
