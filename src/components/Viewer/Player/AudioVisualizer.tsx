@@ -78,7 +78,7 @@ const AudioVisualizer = React.forwardRef(
       }
     }
 
-    return <AudioVisualizerWrapper ref={canvasRef} />;
+    return <AudioVisualizerWrapper ref={canvasRef} role="presentation" />;
   },
 );
 
