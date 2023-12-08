@@ -22,7 +22,7 @@ const Player: React.FC<PlayerProps> = ({ allSources, resources, painting }) => {
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [poster, setPoster] = React.useState<string | undefined>();
   const playerRef = React.useRef<HTMLVideoElement>(null);
-  const isAudio = painting?.format?.includes("audio/");
+  const isAudio = painting?.type === "Sound";
 
   const viewerState: ViewerContextStore = useViewerState();
   const { activeCanvas, configOptions, vault } = viewerState;
