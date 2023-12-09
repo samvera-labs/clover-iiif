@@ -14,6 +14,9 @@ import {
 import Controls from "src/components/Viewer/ImageViewer/Controls";
 import { getInfoResponse } from "src/lib/iiif";
 import { v4 as uuidv4 } from "uuid";
+import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
+import { addOverlaysToViewer } from "src/lib/annotation-overlays";
+import { type CanvasNormalized } from "@iiif/presentation-3";
 
 export type osdImageTypes = "tiledImage" | "simpleImage" | undefined;
 
@@ -21,14 +24,24 @@ interface OSDProps {
   uri: string | undefined;
   hasPlaceholder: boolean;
   imageType: osdImageTypes;
+  annotationResources: LabeledAnnotationedResource[];
 }
 
-const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
+const OSD: React.FC<OSDProps> = ({
+  uri,
+  hasPlaceholder,
+  imageType,
+  annotationResources,
+}) => {
   const [osdUri, setOsdUri] = useState<string>();
   const [osdInstance, setOsdInstance] = useState<string>();
   const viewerState: ViewerContextStore = useViewerState();
-  const { configOptions } = viewerState;
+  const { configOptions, vault, activeCanvas } = viewerState;
   const dispatch: any = useViewerDispatch();
+  const canvas: CanvasNormalized = vault.get({
+    id: activeCanvas,
+    type: "Canvas",
+  });
 
   const config: Options = {
     id: `openseadragon-viewport-${osdInstance}`,
@@ -75,6 +88,14 @@ const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
             type: "updateOpenSeadragonViewer",
             openSeadragonViewer: viewer,
           });
+          if (configOptions.annotationOverlays?.renderOverlays) {
+            addOverlaysToViewer(
+              viewer,
+              canvas,
+              configOptions,
+              annotationResources,
+            );
+          }
           break;
         case "tiledImage":
           getInfoResponse(osdUri).then((tileSource) => {
@@ -86,6 +107,14 @@ const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
               type: "updateOpenSeadragonViewer",
               openSeadragonViewer: viewer,
             });
+            if (configOptions.annotationOverlays?.renderOverlays) {
+              addOverlaysToViewer(
+                viewer,
+                canvas,
+                configOptions,
+                annotationResources,
+              );
+            }
           });
           break;
         default:

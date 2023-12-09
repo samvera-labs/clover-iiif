@@ -7,6 +7,14 @@ import { Vault } from "@iiif/vault";
 import { deepMerge } from "src/lib/utils";
 
 export type ViewerConfigOptions = {
+  annotationOverlays?: {
+    backgroundColor?: string;
+    borderColor?: string;
+    borderType?: string;
+    borderWidth?: string;
+    opacity?: string;
+    renderOverlays?: boolean;
+  };
   background?: string;
   canvasBackgroundColor?: string;
   canvasHeight?: string;
@@ -26,6 +34,14 @@ export type ViewerConfigOptions = {
 };
 
 const defaultConfigOptions = {
+  annotationOverlays: {
+    backgroundColor: "#ff6666",
+    borderColor: "#990000",
+    borderType: "solid",
+    borderWidth: "1px",
+    opacity: "0.5",
+    renderOverlays: true,
+  },
   background: "transparent",
   canvasBackgroundColor: "#6662",
   canvasHeight: "61.8vh",

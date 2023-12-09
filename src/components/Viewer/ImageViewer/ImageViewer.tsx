@@ -3,15 +3,18 @@ import React, { useEffect, useState } from "react";
 
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { getImageServiceURI } from "src/lib/iiif";
+import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 
 interface ImageViewerProps {
   painting: LabeledIIIFExternalWebResource;
   hasPlaceholder: boolean;
+  annotationResources: LabeledAnnotationedResource[];
 }
 
 const ImageViewer: React.FC<ImageViewerProps> = ({
   painting,
   hasPlaceholder,
+  annotationResources,
 }) => {
   const [imageType, setImageType] = useState<osdImageTypes>();
   const [uri, setUri] = useState<string | undefined>();
@@ -32,6 +35,7 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
       key={uri}
       hasPlaceholder={hasPlaceholder}
       imageType={imageType}
+      annotationResources={annotationResources}
     />
   );
 };
