@@ -13,7 +13,7 @@ export type LabeledAnnotationedResource = {
   id: string;
   label: InternationalString;
   motivation: string | string[] | undefined;
-  items: { [k: string]: string | object }[];
+  items: { [k: string]: string | { [k: string]: any } }[];
 };
 
 export const getAnnotationResources = (
