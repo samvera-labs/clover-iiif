@@ -5,7 +5,11 @@ import {
 } from "src/components/Viewer/ImageViewer/ImageViewer.styled";
 import OpenSeadragon, { Options } from "openseadragon";
 import React, { useEffect, useState } from "react";
-import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
+import {
+  ViewerContextStore,
+  useViewerState,
+  useViewerDispatch,
+} from "src/context/viewer-context";
 
 import Controls from "src/components/Viewer/ImageViewer/Controls";
 import { getInfoResponse } from "src/lib/iiif";
@@ -35,6 +39,7 @@ const OSD: React.FC<OSDProps> = ({
   const [osdInstance, setOsdInstance] = useState<string>();
   const viewerState: ViewerContextStore = useViewerState();
   const { configOptions, vault, activeCanvas } = viewerState;
+  const dispatch: any = useViewerDispatch();
 
   const config: Options = {
     id: `openseadragon-viewport-${osdInstance}`,
@@ -77,6 +82,10 @@ const OSD: React.FC<OSDProps> = ({
           viewer.addSimpleImage({
             url: osdUri,
           });
+          dispatch({
+            type: "updateOpenSeadragonViewer",
+            openSeadragonViewer: viewer,
+          });
           if (osdViewerCallback) {
             osdViewerCallback(viewer, OpenSeadragon, vault, activeCanvas);
           }
@@ -86,6 +95,10 @@ const OSD: React.FC<OSDProps> = ({
             const viewer = OpenSeadragon(config);
             viewer.addTiledImage({
               tileSource: tileSource,
+            });
+            dispatch({
+              type: "updateOpenSeadragonViewer",
+              openSeadragonViewer: viewer,
             });
             if (osdViewerCallback) {
               osdViewerCallback(viewer, OpenSeadragon, vault, activeCanvas);
