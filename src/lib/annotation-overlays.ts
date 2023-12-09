@@ -24,6 +24,17 @@ export function addOverlaysToViewer(
       configOptions,
     );
   });
+
+  formatPointSelectors(resources).forEach((point) => {
+    addRectangularOverlay(
+      viewer,
+      point[0] * scale,
+      point[1] * scale,
+      (canvas.width / 50) * scale,
+      (canvas.width / 50) * scale,
+      configOptions,
+    );
+  });
 }
 
 function addRectangularOverlay(
@@ -67,4 +78,23 @@ export function formatXywhCoordinates(
   });
 
   return coordinates;
+}
+
+export function formatPointSelectors(
+  resources: LabeledAnnotationedResource[],
+): number[][] {
+  const points: number[][] = [];
+  resources.forEach((resource) => {
+    resource.items.forEach((item) => {
+      if (
+        typeof item.target === "object" &&
+        item.target.selector?.type === "PointSelector"
+      ) {
+        const x = item.target.selector?.x;
+        const y = item.target.selector?.y;
+        points.push([x, y]);
+      }
+    });
+  });
+  return points;
 }
