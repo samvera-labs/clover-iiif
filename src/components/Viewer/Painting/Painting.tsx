@@ -16,12 +16,6 @@ interface PaintingProps {
   resources: LabeledResource[];
   activeCanvas: string;
   isMedia: boolean;
-  osdViewerCallback?: (
-    viewer: any,
-    OpenSeadragon: any,
-    vault: any,
-    activeCanvas: any,
-  ) => void;
 }
 
 const Painting: React.FC<PaintingProps> = ({
@@ -29,7 +23,6 @@ const Painting: React.FC<PaintingProps> = ({
   isMedia,
   painting,
   resources,
-  osdViewerCallback,
 }) => {
   const [annotationIndex, setAnnotationIndex] = React.useState<number>(0);
   const [isInteractive, setIsInteractive] = React.useState(false);
@@ -109,7 +102,6 @@ const Painting: React.FC<PaintingProps> = ({
                 painting={painting[annotationIndex]}
                 hasPlaceholder={hasPlaceholder}
                 key={activeCanvas}
-                osdViewerCallback={osdViewerCallback}
               />
             )
           ))}

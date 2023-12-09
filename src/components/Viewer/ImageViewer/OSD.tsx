@@ -21,24 +21,13 @@ interface OSDProps {
   uri: string | undefined;
   hasPlaceholder: boolean;
   imageType: osdImageTypes;
-  osdViewerCallback?: (
-    viewer: any,
-    OpenSeadragon: any,
-    vault: any,
-    activeCanvas: any,
-  ) => void;
 }
 
-const OSD: React.FC<OSDProps> = ({
-  uri,
-  hasPlaceholder,
-  imageType,
-  osdViewerCallback,
-}) => {
+const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
   const [osdUri, setOsdUri] = useState<string>();
   const [osdInstance, setOsdInstance] = useState<string>();
   const viewerState: ViewerContextStore = useViewerState();
-  const { configOptions, vault, activeCanvas } = viewerState;
+  const { configOptions } = viewerState;
   const dispatch: any = useViewerDispatch();
 
   const config: Options = {
@@ -86,9 +75,6 @@ const OSD: React.FC<OSDProps> = ({
             type: "updateOpenSeadragonViewer",
             openSeadragonViewer: viewer,
           });
-          if (osdViewerCallback) {
-            osdViewerCallback(viewer, OpenSeadragon, vault, activeCanvas);
-          }
           break;
         case "tiledImage":
           getInfoResponse(osdUri).then((tileSource) => {
@@ -100,9 +86,6 @@ const OSD: React.FC<OSDProps> = ({
               type: "updateOpenSeadragonViewer",
               openSeadragonViewer: viewer,
             });
-            if (osdViewerCallback) {
-              osdViewerCallback(viewer, OpenSeadragon, vault, activeCanvas);
-            }
           });
           break;
         default:

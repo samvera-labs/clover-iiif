@@ -32,19 +32,9 @@ import { useMediaQuery } from "src/hooks/useMediaQuery";
 interface ViewerProps {
   manifest: ManifestNormalized;
   theme?: unknown;
-  osdViewerCallback?: (
-    viewer: any,
-    OpenSeadragon: any,
-    vault: any,
-    activeCanvas: any,
-  ) => void;
 }
 
-const Viewer: React.FC<ViewerProps> = ({
-  manifest,
-  theme,
-  osdViewerCallback,
-}) => {
+const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   /**
    * Viewer State
    */
@@ -143,7 +133,6 @@ const Viewer: React.FC<ViewerProps> = ({
             annotationResources={annotationResources}
             items={manifest.items}
             isAudioVideo={isAudioVideo}
-            osdViewerCallback={osdViewerCallback}
           />
         </Collapsible.Root>
       </Wrapper>
