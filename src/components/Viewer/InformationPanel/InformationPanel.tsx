@@ -11,16 +11,20 @@ import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 import Information from "src/components/Viewer/InformationPanel/About/About";
 import { Label } from "src/components/Primitives";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
+import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 import Resource from "src/components/Viewer/InformationPanel/Resource";
+import AnnotationResource from "src/components/Viewer/InformationPanel/AnnotationResource";
 
 interface NavigatorProps {
   activeCanvas: string;
   resources?: Array<LabeledResource>;
+  annotationResources?: LabeledAnnotationedResource[];
 }
 
 export const InformationPanel: React.FC<NavigatorProps> = ({
   activeCanvas,
   resources,
+  annotationResources,
 }) => {
   const viewerState: ViewerContextStore = useViewerState();
   const { configOptions } = viewerState;
@@ -32,14 +36,21 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     informationPanel?.renderAbout ||
     configOptions?.informationPanel?.renderAbout;
   const renderSupplementing = informationPanel?.renderSupplementing;
+  const renderAnnotation = informationPanel?.renderAnnotation;
 
   useEffect(() => {
     if (renderAbout) {
       setActiveResource("manifest-about");
     } else if (resources && resources?.length > 0 && !renderAbout) {
       setActiveResource(resources[0].id);
+    } else if (
+      annotationResources &&
+      annotationResources?.length > 0 &&
+      !renderAbout
+    ) {
+      setActiveResource(annotationResources[0].id);
     }
-  }, [activeCanvas, renderAbout, resources]);
+  }, [activeCanvas, renderAbout, resources, annotationResources]);
 
   const handleValueChange = (value: string) => {
     setActiveResource(value);
@@ -65,6 +76,14 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
               <Label label={label} />
             </Trigger>
           ))}
+
+        {renderAnnotation &&
+          annotationResources &&
+          annotationResources.map((resource, i) => (
+            <Trigger key={i} value={resource.id}>
+              <Label label={resource.label} />
+            </Trigger>
+          ))}
       </List>
       <Scroll>
         {renderAbout && (
@@ -78,6 +97,15 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             return (
               <Content key={resource.id} value={resource.id as string}>
                 <Resource resource={resource} />
+              </Content>
+            );
+          })}
+        {renderAnnotation &&
+          annotationResources &&
+          annotationResources.map((resource) => {
+            return (
+              <Content key={resource.id} value={resource.id}>
+                <AnnotationResource resource={resource} />
               </Content>
             );
           })}
