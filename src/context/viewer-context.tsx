@@ -16,6 +16,7 @@ export type ViewerConfigOptions = {
     renderAbout?: boolean;
     renderSupplementing?: boolean;
     renderToggle?: boolean;
+    renderAnnotation?: boolean;
   };
   openSeadragon?: OpenSeadragonOptions;
   requestHeaders?: IncomingHttpHeaders;
@@ -34,6 +35,7 @@ const defaultConfigOptions = {
     renderAbout: true,
     renderSupplementing: true,
     renderToggle: true,
+    renderAnnotation: true,
   },
   openSeadragon: {},
   requestHeaders: { "Content-Type": "application/json" },

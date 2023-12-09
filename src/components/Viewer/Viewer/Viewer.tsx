@@ -14,12 +14,14 @@ import {
 import {
   getPaintingResource,
   getSupplementingResources,
+  getAnnotationResources,
 } from "src/hooks/use-iiif";
 
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/Viewer/Viewer/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
+import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
 import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
@@ -58,6 +60,9 @@ const Viewer: React.FC<ViewerProps> = ({
   const [isAudioVideo, setIsAudioVideo] = useState(false);
   const [painting, setPainting] = useState<IIIFExternalWebResource[]>([]);
   const [resources, setResources] = useState<LabeledResource[]>([]);
+  const [annotationResources, setAnnotationResources] = useState<
+    LabeledAnnotationedResource[]
+  >([]);
 
   const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
   const isSmallViewport = useMediaQuery(media.sm);
@@ -97,6 +102,7 @@ const Viewer: React.FC<ViewerProps> = ({
       activeCanvas,
       "text/vtt",
     );
+    const annotationResources = getAnnotationResources(vault, activeCanvas);
     if (painting) {
       setIsAudioVideo(
         ["Sound", "Video"].indexOf(painting[0].type as ExternalResourceTypes) >
@@ -107,7 +113,10 @@ const Viewer: React.FC<ViewerProps> = ({
       setPainting(painting);
     }
     setResources(resources);
-    setIsInformationPanel(resources.length !== 0);
+    setAnnotationResources(annotationResources);
+    setIsInformationPanel(
+      resources.length !== 0 || annotationResources.length !== 0,
+    );
   }, [activeCanvas, vault]);
 
   return (
@@ -131,6 +140,7 @@ const Viewer: React.FC<ViewerProps> = ({
             activeCanvas={activeCanvas}
             painting={painting}
             resources={resources}
+            annotationResources={annotationResources}
             items={manifest.items}
             isAudioVideo={isAudioVideo}
             osdViewerCallback={osdViewerCallback}

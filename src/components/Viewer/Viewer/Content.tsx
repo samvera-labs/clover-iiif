@@ -10,6 +10,7 @@ import { Canvas, IIIFExternalWebResource } from "@iiif/presentation-3";
 
 import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
+import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React from "react";
@@ -19,6 +20,7 @@ interface Props {
   activeCanvas: string;
   painting: IIIFExternalWebResource[];
   resources: LabeledResource[];
+  annotationResources: LabeledAnnotationedResource[];
   items: Canvas[];
   isAudioVideo: boolean;
   osdViewerCallback?: (
@@ -33,6 +35,7 @@ const ViewerContent: React.FC<Props> = ({
   activeCanvas,
   painting,
   resources,
+  annotationResources,
   items,
   isAudioVideo,
   osdViewerCallback,
@@ -47,7 +50,8 @@ const ViewerContent: React.FC<Props> = ({
 
   const isAside =
     informationPanel?.renderAbout ||
-    (informationPanel?.renderSupplementing && resources.length > 0);
+    (informationPanel?.renderSupplementing && resources.length > 0) ||
+    (informationPanel?.renderAnnotation && annotationResources.length > 0);
 
   return (
     <Content
@@ -81,6 +85,7 @@ const ViewerContent: React.FC<Props> = ({
             <InformationPanel
               activeCanvas={activeCanvas}
               resources={resources}
+              annotationResources={annotationResources}
             />
           </CollapsibleContent>
         </Aside>
