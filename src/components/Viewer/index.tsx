@@ -1,5 +1,6 @@
 import { CollectionNormalized, ManifestNormalized } from "@iiif/presentation-3";
 import React, { useEffect, useState } from "react";
+import OpenSeadragon from "openseadragon";
 import {
   type ViewerConfigOptions,
   ViewerProvider,
@@ -90,7 +91,8 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * the normalized manifest available from @iiif/vault.
    */
   const store = useViewerState();
-  const { activeCanvas, activeManifest, isLoaded, vault } = store;
+  const { activeCanvas, activeManifest, isLoaded, vault, openSeadragonViewer } =
+    store;
   const [iiifResource, setIiifResource] = useState<
     CollectionNormalized | ManifestNormalized
   >();
@@ -109,6 +111,17 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   useEffect(() => {
     if (canvasIdCallback) canvasIdCallback(activeCanvas);
   }, [activeCanvas, canvasIdCallback]);
+
+  useEffect(() => {
+    if (osdViewerCallback && openSeadragonViewer) {
+      osdViewerCallback(
+        openSeadragonViewer,
+        OpenSeadragon,
+        vault,
+        activeCanvas,
+      );
+    }
+  }, [openSeadragonViewer, vault, activeCanvas, osdViewerCallback]);
 
   useEffect(() => {
     if (activeManifest)
@@ -214,14 +227,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * will will set the activeCanvas to the first index and render the
    * <Viewer/> component.
    */
-  return (
-    <Viewer
-      manifest={manifest}
-      theme={theme}
-      key={manifest.id}
-      osdViewerCallback={osdViewerCallback}
-    />
-  );
+  return <Viewer manifest={manifest} theme={theme} key={manifest.id} />;
 };
 
 export default CloverViewer;

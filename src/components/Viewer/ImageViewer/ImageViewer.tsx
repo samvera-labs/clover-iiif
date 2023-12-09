@@ -7,18 +7,11 @@ import { getImageServiceURI } from "src/lib/iiif";
 interface ImageViewerProps {
   painting: LabeledIIIFExternalWebResource;
   hasPlaceholder: boolean;
-  osdViewerCallback?: (
-    viewer: any,
-    OpenSeadragon: any,
-    vault: any,
-    activeCanvas: any,
-  ) => void;
 }
 
 const ImageViewer: React.FC<ImageViewerProps> = ({
   painting,
   hasPlaceholder,
-  osdViewerCallback,
 }) => {
   const [imageType, setImageType] = useState<osdImageTypes>();
   const [uri, setUri] = useState<string | undefined>();
@@ -39,7 +32,6 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
       key={uri}
       hasPlaceholder={hasPlaceholder}
       imageType={imageType}
-      osdViewerCallback={osdViewerCallback}
     />
   );
 };
