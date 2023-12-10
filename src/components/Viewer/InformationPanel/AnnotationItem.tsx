@@ -61,7 +61,11 @@ export const AnnotationItem: React.FC<Props> = ({ item }) => {
   }
 
   function renderItemBody(body, target, i = 0) {
-    if (body.value) {
+    if (body.format === "text/html") {
+      return (
+        <div key={i} dangerouslySetInnerHTML={{ __html: body.value }}></div>
+      );
+    } else if (body.value) {
       return (
         <div key={i} data-target={target}>
           {body.value}
