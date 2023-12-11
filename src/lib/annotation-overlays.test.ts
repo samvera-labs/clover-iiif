@@ -1,12 +1,15 @@
-import {
-  formatXywhCoordinates,
-  formatPointSelectors,
-} from "./annotation-overlays";
+import { addOverlaysToViewer } from "./annotation-overlays";
 import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { type CanvasNormalized } from "@iiif/presentation-3";
 
-describe("formatXywhCoordinates method", () => {
-  it("takes the xywh data from target string and returns and array of numbers", () => {
-    const annotations: LabeledAnnotationedResource[] = [
+describe("addOverlaysToViewer", () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  function createAnnotations(target1): LabeledAnnotationedResource[] {
+    return [
       {
         id: "Search results",
         label: {
@@ -15,275 +18,152 @@ describe("formatXywhCoordinates method", () => {
         motivation: "highlighting",
         items: [
           {
-            target: "https://example.com/1#xywh=100,101,102,103",
+            target: target1,
             id: "1",
             type: "TextualBody",
             format: "text/plain",
             language: "en",
             value: "cat",
           },
-          {
-            target: "https://example.com/2#xywh=200,201,202,203",
-            id: "2",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "Cat,",
-          },
         ],
       },
     ];
+  }
+  const viewer = {
+    addOverlay: () => {},
+    svgOverlay: () => {
+      return {
+        node: () => {
+          return { append: () => {} };
+        },
+      };
+    },
+  } as any;
+  const canvas = { width: 10 } as CanvasNormalized;
+  const configOptions = {
+    annotationOverlays: {
+      backgroundColor: "#ff6666",
+      borderColor: "#990000",
+      borderType: "solid",
+      borderWidth: "1px",
+      opacity: "0.5",
+      renderOverlays: true,
+    },
+  };
 
-    const results = formatXywhCoordinates(annotations);
+  function createDiv() {
+    const div = document.createElement("div");
+    const { backgroundColor, opacity, borderType, borderColor, borderWidth } =
+      configOptions.annotationOverlays;
 
-    expect(results).toStrictEqual([
-      [100, 101, 102, 103],
-      [200, 201, 202, 203],
+    div.style.backgroundColor = backgroundColor as string;
+    div.style.opacity = opacity as string;
+    div.style.border = `${borderType} ${borderWidth} ${borderColor}`;
+    div.setAttribute("class", "annotation-overlay");
+
+    return div;
+  }
+
+  it("adds a rectangle overlay when target string has #xywh=", () => {
+    const spy = vi.spyOn(viewer, "addOverlay");
+    const target1 = "https://example.com/1#xywh=100,101,102,103";
+    const annotations = createAnnotations(target1);
+
+    addOverlaysToViewer(viewer, canvas, configOptions, annotations);
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy.mock.calls[0]).toEqual([
+      createDiv(),
+      {
+        degrees: 0,
+        height: 10.3,
+        width: 10.200000000000001,
+        x: 10,
+        y: 10.100000000000001,
+      },
     ]);
   });
 
-  it("ignores target strings without xywh", () => {
-    const annotations: LabeledAnnotationedResource[] = [
-      {
-        id: "Search results",
-        label: {
-          en: ["Search results"],
-        },
-        motivation: "highlighting",
-        items: [
-          {
-            target: "https://example.com/1#xywh=100,101,102,103",
-            id: "1",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "cat",
-          },
-          {
-            target: "https://example.com/2",
-            id: "2",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "Cat,",
-          },
-        ],
-      },
-    ];
+  it("does not add overlay when target string does not have #xywh=", () => {
+    const spy = vi.spyOn(viewer, "addOverlay");
+    const target1 = "https://example.com/1";
+    const annotations = createAnnotations(target1);
 
-    const results = formatXywhCoordinates(annotations);
+    addOverlaysToViewer(viewer, canvas, configOptions, annotations);
 
-    expect(results).toStrictEqual([[100, 101, 102, 103]]);
+    expect(spy).toHaveBeenCalledTimes(0);
   });
 
-  it("ignores target when it is an object", () => {
-    const annotations: LabeledAnnotationedResource[] = [
-      {
-        id: "Search results",
-        label: {
-          en: ["Search results"],
-        },
-        motivation: "highlighting",
-        items: [
-          {
-            target: "https://example.com/1#xywh=100,101,102,103",
-            id: "1",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "cat",
-          },
-          {
-            target: {
-              type: "SpecificResource",
-              source: "https://example.com/canvas.json",
-              selector: {
-                type: "PointSelector",
-                x: 200,
-                y: 201,
-              },
-            },
-            id: "2",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "Cat,",
-          },
-        ],
+  it("adds a circle overlay when target is PointSelector", () => {
+    const mockDataTable = {
+      node: vi.fn().mockReturnThis(),
+      append: vi.fn().mockReturnThis(),
+    };
+    vi.spyOn(viewer, "svgOverlay").mockImplementationOnce(() => mockDataTable);
+    const target1 = {
+      type: "SpecificResource",
+      source:
+        "https://iiif.io/api/cookbook/recipe/0135-annotating-point-in-canvas/canvas.json",
+      selector: {
+        type: "PointSelector",
+        x: 100,
+        y: 101,
       },
-    ];
+    };
+    const annotations = createAnnotations(target1);
+    const newElement = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "circle",
+    );
+    newElement.setAttribute("cx", "100");
+    newElement.setAttribute("cy", "101");
+    newElement.setAttribute("r", "20");
+    newElement.setAttribute("transform", "scale(0.1)");
+    newElement.setAttribute(
+      "style",
+      "stroke: #990000; stroke-width: 1px; fill: #ff6666; fill-opacity: 0.5;",
+    );
 
-    const results = formatXywhCoordinates(annotations);
+    addOverlaysToViewer(viewer, canvas, configOptions, annotations);
 
-    expect(results).toStrictEqual([[100, 101, 102, 103]]);
+    expect(mockDataTable.append).toHaveBeenCalledTimes(1);
+    expect(mockDataTable.append.mock.calls).toEqual([[newElement]]);
   });
 
-  it("returns empty array if no target strings have xywh", () => {
-    const annotations: LabeledAnnotationedResource[] = [
-      {
-        id: "Search results",
-        label: {
-          en: ["Search results"],
-        },
-        motivation: "highlighting",
-        items: [
-          {
-            target: "https://example.com/1",
-            id: "1",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "cat",
-          },
-          {
-            target: "https://example.com/2",
-            id: "2",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "Cat,",
-          },
-        ],
+  it("adds a SVG overlay when target is SvgSelector", () => {
+    const mockDataTable = {
+      node: vi.fn().mockReturnThis(),
+      append: vi.fn().mockReturnThis(),
+    };
+    vi.spyOn(viewer, "svgOverlay").mockImplementationOnce(() => mockDataTable);
+    const target1 = {
+      type: "SpecificResource",
+      source:
+        "https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/canvas/p1",
+      selector: {
+        type: "SvgSelector",
+        value:
+          "<svg xmlns='http://www.w3.org/2000/svg'><rect x='10' y='11' width='12' height='13'/></svg>",
       },
-    ];
+    };
+    const annotations = createAnnotations(target1);
+    const newElement = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "rect",
+    );
+    newElement.setAttribute("x", "10");
+    newElement.setAttribute("y", "11");
+    newElement.setAttribute("width", "12");
+    newElement.setAttribute("height", "13");
+    newElement.setAttribute("transform", "scale(0.1)");
+    newElement.setAttribute(
+      "style",
+      "stroke: #990000; stroke-width: 1px; fill: #ff6666; fill-opacity: 0.5;",
+    );
 
-    const results = formatXywhCoordinates(annotations);
+    addOverlaysToViewer(viewer, canvas, configOptions, annotations);
 
-    expect(results).toStrictEqual([]);
-  });
-});
-
-describe("formatPointSelectors method", () => {
-  it("takes the PointSelectors data from target and returns and array of numbers", () => {
-    const annotations: LabeledAnnotationedResource[] = [
-      {
-        id: "Search results",
-        label: {
-          en: ["Search results"],
-        },
-        motivation: "highlighting",
-        items: [
-          {
-            target: {
-              type: "SpecificResource",
-              source:
-                "https://iiif.io/api/cookbook/recipe/0135-annotating-point-in-canvas/canvas.json",
-              selector: {
-                type: "PointSelector",
-                x: 100,
-                y: 101,
-              },
-            },
-            id: "1",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "cat",
-          },
-          {
-            target: {
-              type: "SpecificResource",
-              source:
-                "https://iiif.io/api/cookbook/recipe/0135-annotating-point-in-canvas/canvas.json",
-              selector: {
-                type: "PointSelector",
-                x: 200,
-                y: 201,
-              },
-            },
-            id: "2",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "Cat,",
-          },
-        ],
-      },
-    ];
-
-    const results = formatPointSelectors(annotations);
-
-    expect(results).toStrictEqual([
-      [100, 101],
-      [200, 201],
-    ]);
-  });
-
-  it("ignores string targets", () => {
-    const annotations: LabeledAnnotationedResource[] = [
-      {
-        id: "Search results",
-        label: {
-          en: ["Search results"],
-        },
-        motivation: "highlighting",
-        items: [
-          {
-            target: {
-              type: "SpecificResource",
-              source:
-                "https://iiif.io/api/cookbook/recipe/0135-annotating-point-in-canvas/canvas.json",
-              selector: {
-                type: "PointSelector",
-                x: 100,
-                y: 101,
-              },
-            },
-            id: "1",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "cat",
-          },
-          {
-            target: "https://example.com/2#xywh=200,201,202,203",
-
-            id: "2",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "Cat,",
-          },
-        ],
-      },
-    ];
-
-    const results = formatPointSelectors(annotations);
-
-    expect(results).toStrictEqual([[100, 101]]);
-  });
-
-  it("returns empty array if no target are PointSelectors", () => {
-    const annotations: LabeledAnnotationedResource[] = [
-      {
-        id: "Search results",
-        label: {
-          en: ["Search results"],
-        },
-        motivation: "highlighting",
-        items: [
-          {
-            target: "https://example.com/1#xywh=100,101,102,103",
-            id: "1",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "cat",
-          },
-          {
-            target: "https://example.com/2#xywh=200,201,202,203",
-            id: "2",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "Cat,",
-          },
-        ],
-      },
-    ];
-
-    const results = formatPointSelectors(annotations);
-
-    expect(results).toStrictEqual([]);
+    expect(mockDataTable.append).toHaveBeenCalledTimes(1);
+    expect(mockDataTable.append.mock.calls).toEqual([[newElement]]);
   });
 });

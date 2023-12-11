@@ -9,11 +9,15 @@ import {
   InternationalString,
 } from "@iiif/presentation-3";
 
+export type FormattedAnnotationItem = {
+  [k: string]: any;
+};
+
 export type LabeledAnnotationedResource = {
   id: string;
   label: InternationalString;
   motivation: string | string[] | undefined;
-  items: { [k: string]: string | { [k: string]: any } }[];
+  items: FormattedAnnotationItem[];
 };
 
 export const getAnnotationResources = (
