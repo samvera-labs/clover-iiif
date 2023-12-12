@@ -14,6 +14,7 @@ export type ViewerConfigOptions = {
     borderWidth?: string;
     opacity?: string;
     renderOverlays?: boolean;
+    zoomLevel?: number;
   };
   background?: string;
   canvasBackgroundColor?: string;
@@ -41,6 +42,7 @@ const defaultConfigOptions = {
     borderWidth: "1px",
     opacity: "0.5",
     renderOverlays: true,
+    zoomLevel: 2,
   },
   background: "transparent",
   canvasBackgroundColor: "#6662",
