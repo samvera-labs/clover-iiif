@@ -21,13 +21,12 @@ interface OSDProps {
 
 const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
   const [osdUri, setOsdUri] = useState<string>();
+  const [osdInstance, setOsdInstance] = useState<string>();
   const viewerState: ViewerContextStore = useViewerState();
   const { configOptions } = viewerState;
 
-  const instance = uuidv4();
-
   const config: Options = {
-    id: `openseadragon-viewport-${instance}`,
+    id: `openseadragon-viewport-${osdInstance}`,
     loadTilesWithAjax: true,
     fullPageButton: "fullPage",
     homeButton: "reset",
@@ -41,7 +40,7 @@ const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
     showRotationControl: true,
     showZoomControl: true,
     navigatorBorderColor: "transparent",
-    navigatorId: `openseadragon-navigator-${instance}`,
+    navigatorId: `openseadragon-navigator-${osdInstance}`,
     gestureSettingsMouse: {
       clickToZoom: true,
       dblClickToZoom: true,
@@ -53,7 +52,10 @@ const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
   };
 
   useEffect(() => {
-    if (uri !== osdUri) setOsdUri(uri);
+    if (uri !== osdUri) {
+      setOsdUri(uri);
+      setOsdInstance(uuidv4());
+    }
   }, [osdUri, uri]);
 
   useEffect(() => {
@@ -80,6 +82,8 @@ const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
     }
   }, [osdUri]);
 
+  if (!osdInstance) return null;
+
   return (
     <Wrapper
       css={{
@@ -88,8 +92,8 @@ const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
       }}
     >
       <Controls hasPlaceholder={hasPlaceholder} options={config} />
-      <Navigator id={`openseadragon-navigator-${instance}`} />
-      <Viewport id={`openseadragon-viewport-${instance}`} />
+      <Navigator id={`openseadragon-navigator-${osdInstance}`} />
+      <Viewport id={`openseadragon-viewport-${osdInstance}`} />
     </Wrapper>
   );
 };
