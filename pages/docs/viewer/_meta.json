@@ -5,5 +5,12 @@
       "sidebar": false,
       "layout": "full"
     }
+  },
+  "annotations": {
+    "title": "Annotations",
+    "theme": {
+      "sidebar": false,
+      "layout": "full"
+    }
   }
 }
