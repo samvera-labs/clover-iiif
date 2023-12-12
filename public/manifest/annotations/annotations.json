@@ -1,0 +1,89 @@
+{
+  "@context": ["http://iiif.io/api/presentation/3/context.json"],
+  "id": "http://localhost:3000/manifest/newspaper/annotation_demo.json",
+  "type": "Collection",
+  "label": {
+    "en": ["Annotation examples"]
+  },
+  "items": [
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/manifest.json",
+      "type": "Manifest",
+      "label": {
+        "en": ["1. Simplest annotation"]
+      }
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0019-html-in-annotations/manifest.json",
+      "type": "Manifest",
+      "label": {
+        "en": ["2. HTML in Annotations"]
+      }
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0021-tagging/manifest.json",
+      "type": "Manifest",
+      "label": {
+        "en": ["3. Simple Annotation - Tagging"]
+      }
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/manifest.json",
+      "type": "Manifest",
+      "label": {
+        "en": ["4. Annotation with a Non-Rectangular Polygon"]
+      }
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0258-tagging-external-resource/manifest.json",
+      "type": "Manifest",
+      "label": {
+        "en": ["5. Tagging with an External Resource"]
+      }
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0326-annotating-image-layer/manifest.json",
+      "type": "Manifest",
+      "label": {
+        "en": ["6. Annotate a specific images or layers"]
+      }
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0135-annotating-point-in-canvas/manifest.json",
+      "type": "Manifest",
+      "label": {
+        "en": ["7. Annotating a specific point of an image"]
+      }
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0139-geolocate-canvas-fragment/manifest.json",
+      "type": "Manifest",
+      "label": {
+        "en": ["8. Geographic coordinates"]
+      }
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/manifest.json",
+      "type": "Manifest",
+      "label": {
+        "en": ["9. Embedded or Referenced Annotations"]
+      }
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0306-linking-annotations-to-manifests/manifest.json",
+      "type": "Manifest",
+      "label": {
+        "en": [
+          "10. Linking external Annotations targeting a Canvas to a Manifest"
+        ]
+      }
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0377-image-in-annotation/manifest.json",
+      "type": "Manifest",
+      "label": {
+        "en": ["11. Image in annotations"]
+      }
+    }
+  ]
+}
