@@ -10,26 +10,12 @@ type Props = {
 
 export const AnnotationItem: React.FC<Props> = ({ item }) => {
   const viewerState: ViewerContextStore = useViewerState();
-  const { openSeadragonViewer, vault, activeCanvas } = viewerState;
+  const { openSeadragonViewer, vault, activeCanvas, configOptions } =
+    viewerState;
   const canvas: CanvasNormalized = vault.get({
     id: activeCanvas,
     type: "Canvas",
   });
-
-  function createBoundingBox(
-    x: number,
-    y: number,
-    w: number,
-    h: number,
-    scale: number,
-  ) {
-    return new OpenSeadragon.Rect(
-      x * scale - (w / 2) * scale,
-      y * scale - (h / 2) * scale,
-      w * scale + w * scale,
-      h * scale + h * scale,
-    );
-  }
 
   function addBBoxOverlay(viewer, bbox) {
     const div = document.createElement("div");
@@ -38,8 +24,10 @@ export const AnnotationItem: React.FC<Props> = ({ item }) => {
   }
 
   function handleClick(e) {
-    const target = JSON.parse(e.target.dataset.target);
     if (!openSeadragonViewer) return;
+
+    const target = JSON.parse(e.target.dataset.target);
+    const zoomLevel = configOptions.annotationOverlays?.zoomLevel || 1;
 
     if (typeof target === "string") {
       if (!target.includes("#xywh=")) return;
@@ -48,7 +36,12 @@ export const AnnotationItem: React.FC<Props> = ({ item }) => {
       if (parts && parts[1]) {
         const [x, y, w, h] = parts[1].split(",").map((value) => Number(value));
         const scale = 1 / canvas.width;
-        const rect = createBoundingBox(x, y, w, h, scale);
+        const rect = new OpenSeadragon.Rect(
+          x * scale - ((w * scale) / 2) * (zoomLevel - 1),
+          y * scale - ((h * scale) / 2) * (zoomLevel - 1),
+          w * scale * zoomLevel,
+          h * scale * zoomLevel,
+        );
 
         openSeadragonViewer.viewport.fitBounds(rect);
       }
@@ -57,9 +50,14 @@ export const AnnotationItem: React.FC<Props> = ({ item }) => {
         const scale = 1 / canvas.width;
         const x = target.selector.x;
         const y = target.selector.y;
-        const w = 200;
-        const h = 200;
-        const rect = createBoundingBox(x, y, w, h, scale);
+        const w = 40;
+        const h = 40;
+        const rect = new OpenSeadragon.Rect(
+          x * scale - (w / 2) * scale * zoomLevel,
+          y * scale - (h / 2) * scale * zoomLevel,
+          w * scale * zoomLevel,
+          h * scale * zoomLevel,
+        );
 
         openSeadragonViewer.viewport.fitBounds(rect);
       } else if (target.selector?.type === "SvgSelector") {
