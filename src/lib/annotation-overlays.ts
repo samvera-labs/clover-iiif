@@ -1,7 +1,7 @@
 import { type CanvasNormalized } from "@iiif/presentation-3";
 import OpenSeadragon from "openseadragon";
 import { type ViewerConfigOptions } from "src/context/viewer-context";
-import "src/lib/seadragon-svg";
+import { OsdSvgOverlay } from "src/lib/seadragon-svg";
 
 import {
   type LabeledAnnotationedResource,
@@ -143,8 +143,9 @@ function svg_processChild(
     svg_handleTextNode(child);
   } else {
     const newElement = svg_handleElementNode(child, configOptions, scale);
-    viewer.svgOverlay().node().append(newElement);
-    viewer.svgOverlay()._svg?.setAttribute("class", "annotation-overlay");
+    const overlay = OsdSvgOverlay(viewer);
+    overlay.node().append(newElement);
+    overlay._svg?.setAttribute("class", "annotation-overlay");
 
     child.childNodes.forEach((child) => {
       svg_processChild(viewer, child, configOptions, scale);
