@@ -44,7 +44,7 @@ const ViewerContent: React.FC<Props> = ({
   const isAside =
     informationPanel?.renderAbout ||
     (informationPanel?.renderSupplementing && resources.length > 0) ||
-    (informationPanel?.renderAnnotation && annotationResources.length > 0);
+    informationPanel?.renderAnnotation;
 
   return (
     <Content
