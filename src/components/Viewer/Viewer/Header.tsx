@@ -36,12 +36,12 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
   const isSmallViewport = useMediaQuery(media.sm);
 
   return (
-    <Header className="clover-header">
+    <Header className="clover-viewer-header">
       {collection?.items ? (
         <Collection />
       ) : (
         <ManifestLabel className={!showTitle ? "visually-hidden" : ""}>
-          {showTitle && <Label label={manifestLabel} />}
+          {showTitle && <Label label={manifestLabel} className="label" />}
         </ManifestLabel>
       )}
       {hasOptions && (

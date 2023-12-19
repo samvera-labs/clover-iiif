@@ -141,6 +141,7 @@ const Player: React.FC<PlayerProps> = ({ allSources, resources, painting }) => {
         position: "relative",
       }}
       data-testid="player-wrapper"
+      className="clover-viewer-player-wrapper"
     >
       <video
         id="clover-iiif-video"

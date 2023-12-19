@@ -103,7 +103,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Wrapper
-        className={`${theme} clover-iiif`}
+        className={`${theme} clover-viewer`}
         css={{ background: configOptions?.background }}
         data-body-locked={isBodyLocked}
         data-information-panel={isInformationPanel}

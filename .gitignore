@@ -1,6 +1,7 @@
 # dev
 .build
 .next
+.vscode/
 dist
 node_modules
 out

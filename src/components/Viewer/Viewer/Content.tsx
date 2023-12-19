@@ -43,7 +43,10 @@ const ViewerContent: React.FC<Props> = ({
     (informationPanel?.renderSupplementing && resources.length > 0);
 
   return (
-    <Content className="clover-content">
+    <Content
+      className="clover-viewer-content"
+      data-testid="clover-viewer-content"
+    >
       <Main>
         <Painting
           activeCanvas={activeCanvas}
@@ -59,7 +62,7 @@ const ViewerContent: React.FC<Props> = ({
         )}
 
         {items.length > 1 && (
-          <MediaWrapper className="clover-canvases">
+          <MediaWrapper className="clover-viewer-media-wrapper">
             <Media items={items} activeItem={0} />
           </MediaWrapper>
         )}

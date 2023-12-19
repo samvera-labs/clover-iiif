@@ -42,7 +42,7 @@ const Painting: React.FC<PaintingProps> = ({
   };
 
   return (
-    <PaintingStyled>
+    <PaintingStyled className="clover-viewer-painting">
       <PaintingCanvas
         style={{
           backgroundColor: configOptions.canvasBackgroundColor,
