@@ -38,35 +38,35 @@ export const getAnnotationResources = (
 
   const filteredAnnotations = annotations.filter((annotation) => {
     if (!annotation.body) return;
-    if (!annotation.motivation?.includes("supplementing")) {
-      const annotationBody = annotation.body as
-        | ContentResource
-        | ContentResource[];
+    if (annotation.motivation?.includes("supplementing")) return;
 
-      if (Array.isArray(annotationBody)) {
-        if (annotationBody.length === 1) {
-          const resource: IIIFExternalWebResource = vault.get(
-            annotationBody[0].id,
-          );
+    const annotationBody = annotation.body as
+      | ContentResource
+      | ContentResource[];
 
-          annotation.body = resource;
-        } else {
-          const bodies: IIIFExternalWebResource[] = [];
-          annotationBody.forEach((body) => {
-            const resource: IIIFExternalWebResource = vault.get(body.id);
-            bodies.push(resource);
-          });
-
-          annotation.body = bodies;
-        }
-      } else {
-        const resource: IIIFExternalWebResource = vault.get(annotationBody.id);
+    if (Array.isArray(annotationBody)) {
+      if (annotationBody.length === 1) {
+        const resource: IIIFExternalWebResource = vault.get(
+          annotationBody[0].id,
+        );
 
         annotation.body = resource;
-      }
+      } else {
+        const bodies: IIIFExternalWebResource[] = [];
+        annotationBody.forEach((body) => {
+          const resource: IIIFExternalWebResource = vault.get(body.id);
+          bodies.push(resource);
+        });
 
-      return annotation;
+        annotation.body = bodies;
+      }
+    } else {
+      const resource: IIIFExternalWebResource = vault.get(annotationBody.id);
+
+      annotation.body = resource;
     }
+
+    return annotation;
   });
 
   type GroupedResource = {
