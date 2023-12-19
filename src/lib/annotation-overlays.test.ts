@@ -1,7 +1,11 @@
 import { addOverlaysToViewer } from "./annotation-overlays";
 import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi, Mock } from "vitest";
 import { type CanvasNormalized } from "@iiif/presentation-3";
+
+import { OsdSvgOverlay } from "src/lib/seadragon-svg";
+vi.mock("src/lib/seadragon-svg");
+const mockedOsdSvgOverlay = OsdSvgOverlay as Mock;
 
 describe("addOverlaysToViewer", () => {
   afterEach(() => {
@@ -29,6 +33,7 @@ describe("addOverlaysToViewer", () => {
       },
     ];
   }
+
   const viewer = {
     addOverlay: () => {},
     svgOverlay: () => {
@@ -94,12 +99,13 @@ describe("addOverlaysToViewer", () => {
     expect(spy).toHaveBeenCalledTimes(0);
   });
 
-  it("adds a circle overlay when target is PointSelector", () => {
+  it("adds a circle overlay when target is PointSelector", async () => {
     const mockDataTable = {
       node: vi.fn().mockReturnThis(),
       append: vi.fn().mockReturnThis(),
     };
-    vi.spyOn(viewer, "svgOverlay").mockImplementationOnce(() => mockDataTable);
+    mockedOsdSvgOverlay.mockReturnValueOnce(mockDataTable);
+
     const target1 = {
       type: "SpecificResource",
       source:
@@ -126,6 +132,7 @@ describe("addOverlaysToViewer", () => {
 
     addOverlaysToViewer(viewer, canvas, configOptions, annotations);
 
+    expect(mockedOsdSvgOverlay).toHaveBeenCalledTimes(1);
     expect(mockDataTable.append).toHaveBeenCalledTimes(1);
     expect(mockDataTable.append.mock.calls).toEqual([[newElement]]);
   });
@@ -135,7 +142,7 @@ describe("addOverlaysToViewer", () => {
       node: vi.fn().mockReturnThis(),
       append: vi.fn().mockReturnThis(),
     };
-    vi.spyOn(viewer, "svgOverlay").mockImplementationOnce(() => mockDataTable);
+    mockedOsdSvgOverlay.mockReturnValueOnce(mockDataTable);
     const target1 = {
       type: "SpecificResource",
       source:
@@ -163,6 +170,7 @@ describe("addOverlaysToViewer", () => {
 
     addOverlaysToViewer(viewer, canvas, configOptions, annotations);
 
+    expect(mockedOsdSvgOverlay).toHaveBeenCalledTimes(1);
     expect(mockDataTable.append).toHaveBeenCalledTimes(1);
     expect(mockDataTable.append.mock.calls).toEqual([[newElement]]);
   });
