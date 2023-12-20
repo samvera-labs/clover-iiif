@@ -28,7 +28,11 @@ const PaintingPlaceholder: React.FC<Props> = ({
     : ["placeholder image"];
 
   return (
-    <PlaceholderStyled onClick={() => setIsInteractive(true)} isMedia={isMedia}>
+    <PlaceholderStyled
+      onClick={() => setIsInteractive(true)}
+      isMedia={isMedia}
+      className="clover-viewer-placeholder"
+    >
       <img
         src={placeholder?.id || ""}
         alt={labelAsArray.join()}

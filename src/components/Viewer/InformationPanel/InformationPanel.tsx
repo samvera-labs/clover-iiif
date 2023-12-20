@@ -54,6 +54,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       onValueChange={handleValueChange}
       orientation="horizontal"
       value={activeResource}
+      className="clover-viewer-information-panel"
     >
       <List aria-label="select chapter" data-testid="information-panel-list">
         {renderAbout && <Trigger value="manifest-about">About</Trigger>}

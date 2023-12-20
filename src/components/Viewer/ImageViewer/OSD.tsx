@@ -90,6 +90,8 @@ const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
         backgroundColor: configOptions.canvasBackgroundColor,
         height: configOptions.canvasHeight,
       }}
+      className="clover-viewer-osd-wrapper"
+      data-testid="clover-viewer-osd-wrapper"
     >
       <Controls hasPlaceholder={hasPlaceholder} options={config} />
       <Navigator id={`openseadragon-navigator-${osdInstance}`} />

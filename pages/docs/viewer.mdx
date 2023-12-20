@@ -296,6 +296,19 @@ const customTheme = {
 return <Viewer iiifContent={iiifContent} customTheme={customTheme} />;
 ```
 
+#### CSS Classes
+
+Additional CSS classes are made available on structural HTML elements in the Viewer, which may be referenced in a client's own CSS files/style definitions to further customize the Viewer's appearance. You may inspect the DOM to see classes applied to each element, but in general it follows a pattern similar to:
+
+```html
+<div class="clover-viewer">
+  <header class="clover-viewer-header" />
+  <div class="clover-viewer-content">
+    <div class="clover-viewer-painting">...</div>
+  </div>
+</div>
+```
+
 ---
 
 ### Request Headers
