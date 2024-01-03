@@ -1,8 +1,11 @@
 import { ViewerProvider, defaultState } from "src/context/viewer-context";
 import { render, screen } from "@testing-library/react";
 
+import ImageViewer from "../ImageViewer/ImageViewer";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import Painting from "./Painting";
+import Placeholder from "src/components/Viewer/Painting/Placeholder";
+import Player from "src/components/Viewer/Player/Player";
 import React from "react";
 import { Vault } from "@iiif/vault";
 import { canvasWithPDFs } from "src/fixtures/viewer/custom-display/manifest-complex";
@@ -46,26 +49,18 @@ const defaultProps = {
 };
 
 // Mock child components
-vi.mock("src/components/Viewer/Player/Player", () => ({
-  default: () => {
-    return <div data-testid="mock-player">Player</div>;
-  },
-}));
-vi.mock("src/components/Viewer/ImageViewer/ImageViewer", () => ({
-  default: () => {
-    return <div data-testid="mock-image-viewer">ImageViewer</div>;
-  },
-}));
-vi.mock("src/components/Viewer/Painting/Placeholder", () => ({
-  default: () => {
-    return <div data-testid="painting-placeholder">Placeholder</div>;
-  },
-}));
-vi.mock("src/components/Viewer/Painting/Toggle", () => ({
-  default: () => {
-    return <div data-testid="placeholder-toggle">Placeholder</div>;
-  },
-}));
+vi.mock("src/components/Viewer/Player/Player");
+vi.mocked(Player).mockReturnValue(<div data-testid="mock-player">Player</div>);
+
+vi.mock("src/components/Viewer/ImageViewer/ImageViewer");
+vi.mocked(ImageViewer).mockReturnValue(
+  <div data-testid="mock-image-viewer">ImageViewer</div>,
+);
+
+vi.mock("src/components/Viewer/Painting/Placeholder");
+vi.mocked(Placeholder).mockReturnValue(
+  <div data-testid="painting-placeholder">Placeholder</div>,
+);
 
 describe("Painting component", () => {
   const vault = new Vault();
@@ -83,8 +78,9 @@ describe("Painting component", () => {
         <Painting {...defaultProps} />
       </ViewerProvider>,
     );
-    expect(screen.getByTestId("placeholder-toggle"));
-    expect(screen.getByTestId("painting-placeholder"));
+
+    expect(screen.getByTestId("placeholder-toggle")).toBeInTheDocument();
+    expect(screen.getByTestId("painting-placeholder")).toBeInTheDocument();
   });
 
   it("Bypasses the Placeholder toggle and image items as expected", async () => {
@@ -130,6 +126,7 @@ describe("Painting component", () => {
       </ViewerProvider>,
     );
 
+    screen.debug();
     expect(screen.queryByTestId("placeholder-toggle")).toBeNull();
     expect(screen.getByTestId("mock-player")).toBeInTheDocument();
     expect(screen.queryByTestId("mock-image-viewer")).not.toBeInTheDocument();
@@ -283,7 +280,6 @@ describe("Painting Custom Display component", () => {
       </ViewerProvider>,
     );
 
-    screen.debug();
     expect(screen.getByTestId("custom-display")).toBeInTheDocument();
     expect(screen.queryByTestId("mock-image-viewer")).toBeNull();
 
