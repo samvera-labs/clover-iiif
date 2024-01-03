@@ -26,7 +26,8 @@ const Painting: React.FC<PaintingProps> = ({
 }) => {
   const [annotationIndex, setAnnotationIndex] = React.useState<number>(0);
   const [isInteractive, setIsInteractive] = React.useState(false);
-  const { configOptions, vault } = useViewerState();
+  const { configOptions, customDisplays, vault } = useViewerState();
+
   const normalizedCanvas: CanvasNormalized = vault.get(activeCanvas);
 
   const placeholderCanvas = normalizedCanvas?.placeholderCanvas?.id;
@@ -36,10 +37,31 @@ const Painting: React.FC<PaintingProps> = ({
 
   const handleToggle = () => setIsInteractive(!isInteractive);
 
-  const handleCoiceChange = (value) => {
+  const handleChoiceChange = (value) => {
     const index = painting.findIndex((resource) => resource.id === value);
     setAnnotationIndex(index);
   };
+
+  /**
+   * Determine whether a custom display should be used for the current canvas.
+   */
+  const customDisplay = customDisplays.find((customDisplay) => {
+    let match = false;
+    const { canvasId, paintingFormat } = customDisplay.target;
+
+    if (Array.isArray(canvasId) && canvasId.length > 0) {
+      match = canvasId.includes(activeCanvas);
+    }
+
+    if (Array.isArray(paintingFormat) && paintingFormat.length > 0) {
+      const format = painting[annotationIndex]?.format || "";
+      match = Boolean(format && paintingFormat.includes(format));
+    }
+    return match;
+  });
+
+  const CustomComponent = customDisplay?.display
+    ?.component as unknown as React.ElementType;
 
   return (
     <PaintingStyled className="clover-viewer-painting">
@@ -64,30 +86,40 @@ const Painting: React.FC<PaintingProps> = ({
             setIsInteractive={setIsInteractive}
           />
         )}
-        {!showPlaceholder && (
-          <div>
-            {isMedia ? (
-              <Player
-                allSources={painting}
+
+        {/* Standard Viewer displays */}
+        {!showPlaceholder &&
+          !customDisplay &&
+          (isMedia ? (
+            <Player
+              allSources={painting}
+              painting={painting[annotationIndex]}
+              resources={resources}
+            />
+          ) : (
+            painting && (
+              <ImageViewer
                 painting={painting[annotationIndex]}
-                resources={resources}
+                hasPlaceholder={hasPlaceholder}
+                key={activeCanvas}
               />
-            ) : (
-              painting && (
-                <ImageViewer
-                  painting={painting[annotationIndex]}
-                  hasPlaceholder={hasPlaceholder}
-                  key={activeCanvas}
-                />
-              )
-            )}
-          </div>
+            )
+          ))}
+
+        {/* Custom display */}
+        {!showPlaceholder && CustomComponent && (
+          <CustomComponent
+            id={activeCanvas}
+            annotationBody={painting[annotationIndex]}
+            {...customDisplay?.display.componentProps}
+          />
         )}
       </PaintingCanvas>
+
       {hasChoice && (
         <Select
           value={painting[annotationIndex]?.id}
-          onValueChange={handleCoiceChange}
+          onValueChange={handleChoiceChange}
           maxHeight={"200px"}
         >
           {painting?.map((resource) => (

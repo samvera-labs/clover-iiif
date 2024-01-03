@@ -146,6 +146,7 @@ const MyCustomViewer = () => {
 | ------------------------------- | --------------------------------------------------------------------------- | -------- | ---------------------------------------- |
 | `iiifContent`                   | `string`                                                                    | Yes      |                                          |
 | `canvasIdCallback`              | `function`                                                                  | No       |                                          |
+| `customDisplays`                | [See Custom Displays](#custom-displays)                                     | No       |                                          |
 | `customTheme`                   | `object`                                                                    | No       |                                          |
 | `options`                       | `object`                                                                    | No       |                                          |
 | `options.background`            | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background) | No       | `transparent`                            |
@@ -173,6 +174,19 @@ The information panel is a collapsible panel that displays information about the
 | `options.informationPanel.renderAbout`         | `boolean` | No       | true    |
 | `options.informationPanel.renderSupplementing` | `boolean` | No       | true    |
 | `options.informationPanel.renderToggle`        | `boolean` | No       | true    |
+
+### Custom Displays
+
+Clients may wish to use their own display components (for example a PDF Viewer, or an audio player, etc). To configure custom displays, use the `customDisplays` prop, which is an array of objects defining `display` and `target` properties. [See an example implementation](#custom-canvas-displays)
+
+`display.component` is a custom React component, and `display.componentProps` are pass-through props which `Viewer` will attach to your Custom Display component. The `target` object provides two methods of matching a Canvas to a Custom Display: `target.canvasId` which is a manifest's canvas `id`. Or by `target.paintingFormat` (ie. `application/pdf`) which is the `body.type` in a canvas's `Annotation` of type "painting".
+
+| Prop                                    | Type         | Required | Default |
+| --------------------------------------- | ------------ | -------- | ------- |
+| `customDisplays.display.component`      | `React.Node` | No       |         |
+| `customDisplays.display.componentProps` | `object`     | No       |         |
+| `customDisplays.target.canvasId`        | `string[]`   | No       |         |
+| `customDisplays.target.paintingFormat`  | `string[]`   | No       |         |
 
 ### Deprecated Options
 
@@ -333,3 +347,81 @@ return (
   />
 );
 ```
+
+---
+
+### Custom canvas displays
+
+Clients may wish to use their own display components instead of Clover Viewer's default displays ([OpenSeadragon](https://openseadragon.github.io/) for images and [HTML Video Player](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video) for audio/video). The `Viewer` component allows a client to target individual `canvas` items in a IIIF Manifest by either direct reference to a canvas `id` or `format` (ie. `video/ogg`). See the Type Definition below for `CustomDisplay`, and an example implementation.
+
+```tsx {16, 29-46}
+import AnotherCustomDisplay from './AnotherCustomDisplay';
+
+type CustomDisplay = {
+  display: {
+    component: React.ElementType;
+    componentProps: { // Any custom props you want to pass to your component
+      [key: string]: any;
+    }
+  };
+  target: {
+    canvasId: string[];
+    paintingFormat: string[]; // "application/pdf" or "application/epub+zip"
+  };
+};
+
+function MyCustomDisplay({ id, annotationBody, ...restProps }: CustomDisplay) {
+  return (
+    <div>
+      <h1>My Custom Display</h1>
+      <p>Canvas ID: {id}</p>
+      <p>Annotation Body: {JSON.stringify(annotationBody)}</p>
+      <p>Custom props: {JSON.stringify(restProps)}</p>
+      ...your display here
+    </div>
+  );
+}
+
+<Viewer
+    iiifContent={iiifContent}
+    customDisplays=[{
+      display: {
+        component: MyCustomDisplay,
+        componentProps: {
+          foo: "bar"
+        }
+      },
+      target: {
+        canvasId: ["https://uri-for-a-canvas-id/access/0", "https://uri-for-a-canvas-id/access/1"],
+      }
+    }, {
+      display: {
+        component: AnotherCustomDisplay
+      },
+      target: {
+        paintingFormat: ["application/pdf", "image/gif"],
+      },
+    }]
+  />
+```
+
+The `Viewer` component will pass the following props to your custom display component:
+
+- `id`: The canvas `id` for the resource being rendered. This may be helpful if you wanted to use the canvas `id` to fetch additional data from your application's API.
+- `annotationBody`: The `body` value for a canvas `Annotation` item with `motivation` "painting".
+
+```json {5-10}
+{
+  "id": "https://uri-for-a-canvas-id/access/0",
+  "type": "Annotation",
+  "motivation": "painting",
+  "body": {
+    "format": "application/pdf",
+    "height": 1686,
+    "id": "http://localhost:3000/media/pdf/file-sample_150kB.pdf",
+    "width": 1192
+  }
+}
+```
+
+[See a complete recipe for a PDF Viewer](https://github.com/samvera-labs/clover-iiif/blob/4230-custom-display-poc/docs/components/CustomDisplays/PDFViewer.tsx) using custom canvas displays.
