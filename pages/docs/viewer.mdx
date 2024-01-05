@@ -355,14 +355,15 @@ return (
 Clients may wish to use their own display components instead of Clover Viewer's default displays ([OpenSeadragon](https://openseadragon.github.io/) for images and [HTML Video Player](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video) for audio/video). The `Viewer` component allows a client to target individual `canvas` items in a IIIF Manifest by either direct reference to a canvas `id` or `format` (ie. `video/ogg`). See the Type Definition below for `CustomDisplay`, and an example implementation.
 
 ```tsx {16, 29-46}
-import AnotherCustomDisplay from './AnotherCustomDisplay';
+import AnotherCustomDisplay from "./AnotherCustomDisplay";
 
 type CustomDisplay = {
   display: {
     component: React.ElementType;
-    componentProps: { // Any custom props you want to pass to your component
+    componentProps: {
+      // Any custom props you want to pass to your component
       [key: string]: any;
-    }
+    };
   };
   target: {
     canvasId: string[];
@@ -375,34 +376,42 @@ function MyCustomDisplay({ id, annotationBody, ...restProps }: CustomDisplay) {
     <div>
       <h1>My Custom Display</h1>
       <p>Canvas ID: {id}</p>
-      <p>Annotation Body: {JSON.stringify(annotationBody)}</p>
-      <p>Custom props: {JSON.stringify(restProps)}</p>
+      <p>Annotation Body:</p>
+      <pre>{JSON.stringify(annotationBody)}</pre>
+      <p>Custom props:</p>
+      <pre>{JSON.stringify(restProps)}</pre>
       ...your display here
     </div>
   );
 }
 
 <Viewer
-    iiifContent={iiifContent}
-    customDisplays=[{
+  iiifContent={iiifContent}
+  customDisplays={[
+    {
       display: {
         component: MyCustomDisplay,
         componentProps: {
-          foo: "bar"
-        }
+          foo: "bar",
+        },
       },
       target: {
-        canvasId: ["https://uri-for-a-canvas-id/access/0", "https://uri-for-a-canvas-id/access/1"],
-      }
-    }, {
+        canvasId: [
+          "https://uri-for-a-canvas-id/access/0",
+          "https://uri-for-a-canvas-id/access/1",
+        ],
+      },
+    },
+    {
       display: {
-        component: AnotherCustomDisplay
+        component: AnotherCustomDisplay,
       },
       target: {
         paintingFormat: ["application/pdf", "image/gif"],
       },
-    }]
-  />
+    },
+  ]}
+/>;
 ```
 
 The `Viewer` component will pass the following props to your custom display component:
@@ -424,4 +433,4 @@ The `Viewer` component will pass the following props to your custom display comp
 }
 ```
 
-[See a complete recipe for a PDF Viewer](https://github.com/samvera-labs/clover-iiif/blob/4230-custom-display-poc/docs/components/CustomDisplays/PDFViewer.tsx) using custom canvas displays.
+[See a complete recipe for a PDF Viewer](https://github.com/samvera-labs/clover-iiif/blob/main/docs/components/CustomDisplays/PDFViewer.tsx) using custom canvas displays.

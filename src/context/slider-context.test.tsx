@@ -75,7 +75,7 @@ describe("Slider Context", () => {
           type: "foo",
           isLoaded: "bar",
         });
-      }, []);
+      }, [dispatch]);
 
       return <div></div>;
     }

@@ -1,30 +1,21 @@
 import { render, screen } from "@testing-library/react";
 
+import InformationPanel from "../InformationPanel/InformationPanel";
+import Painting from "src/components/Viewer/Painting/Painting";
 import React from "react";
-import ViewerContent from "./Content";
+import ViewerContent from "src/components/Viewer/Viewer/Content";
 
-vi.mock("../Painting/Painting", () => ({
-  default: () => {
-    return <div data-testid="mock-painting">Painting</div>;
-  },
-}));
-vi.mock("src/components/Viewer/InformationPanel/InformationPanel", () => ({
-  default: () => {
-    return <div data-testid="mock-information-panel">Information Panel</div>;
-  },
-}));
-vi.mock("@radix-ui/react-collapsible", () => ({
-  Content: () => {
-    return (
-      <div data-testid="mock-collapsible-content">Collapsible Content</div>
-    );
-  },
-  Trigger: () => {
-    return (
-      <div data-testid="mock-collapsible-trigger">Collapsible Trigger</div>
-    );
-  },
-}));
+vi.mock("@radix-ui/react-collapsible");
+
+vi.mock("src/components/Viewer/Painting/Painting");
+vi.mocked(Painting).mockReturnValue(
+  <div data-testid="mock-painting">Painting</div>,
+);
+
+vi.mock("src/components/Viewer/InformationPanel/InformationPanel");
+vi.mocked(InformationPanel).mockReturnValue(
+  <div data-testid="mock-information-panel">Information Panel</div>,
+);
 
 const props = {
   activeCanvas: "foobar",

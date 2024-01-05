@@ -2,7 +2,7 @@ import { build } from "vite";
 import { defineConfig } from "./base-config.mjs";
 import { execa } from "execa";
 import fs from "fs";
-import path from "path";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 const buildOptions = {
   primitives: {
@@ -68,6 +68,8 @@ const buildOptions = {
     "--no-check",
   ]);
 
+
+
   // build sub packages
   for (const [key, value] of Object.entries(buildOptions)) {
     // Build packages
@@ -100,7 +102,7 @@ const buildOptions = {
         entry: "src/web-components/index.ts",
         formats: ["umd"],
         name: "CloverIIIFWC",
-        fileName: (format) => {
+        fileName: () => {
           return `index.umd.js`;
         },
       },
@@ -116,5 +118,6 @@ const buildOptions = {
       },
     },
     define: { "process.env.NODE_ENV": '"production"' },
+    plugins: [tsconfigPaths()]
   });
 })();

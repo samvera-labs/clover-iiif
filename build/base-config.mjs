@@ -22,11 +22,5 @@ export function defineConfig(options, key) {
       },
     },
     plugins: [tsconfigPaths()],
-    test: {
-      include: ["./src/**/*.{test,tests,spec}.{js,mjs,cjs,ts,tsx,mts,cts}"],
-      environment: "jsdom",
-      globals: true,
-      setupFiles: "./src/tests.ts",
-    },
   };
 }
