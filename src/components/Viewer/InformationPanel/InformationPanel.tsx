@@ -8,44 +8,46 @@ import {
 import React, { useEffect, useState } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
+import AnnotationPage from "src/components/Viewer/InformationPanel/Annotation/Page";
+import { AnnotationResources } from "src/types/annotations";
 import Information from "src/components/Viewer/InformationPanel/About/About";
+import { InternationalString } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
-import Resource from "src/components/Viewer/InformationPanel/Resource";
 
 interface NavigatorProps {
   activeCanvas: string;
-  resources?: Array<LabeledResource>;
+  annotationResources?: AnnotationResources;
 }
 
 export const InformationPanel: React.FC<NavigatorProps> = ({
   activeCanvas,
-  resources,
+  annotationResources,
 }) => {
   const viewerState: ViewerContextStore = useViewerState();
-  const { configOptions } = viewerState;
-  const { informationPanel } = configOptions;
+  const {
+    configOptions: { informationPanel },
+  } = viewerState;
 
   const [activeResource, setActiveResource] = useState<string>();
 
-  const renderAbout =
-    informationPanel?.renderAbout ||
-    configOptions?.informationPanel?.renderAbout;
-  const renderSupplementing = informationPanel?.renderSupplementing;
+  const renderAbout = informationPanel?.renderAbout;
+  const renderAnnotation = informationPanel?.renderAnnotation;
 
   useEffect(() => {
     if (renderAbout) {
       setActiveResource("manifest-about");
-    } else if (resources && resources?.length > 0 && !renderAbout) {
-      setActiveResource(resources[0].id);
+    } else if (
+      annotationResources &&
+      annotationResources?.length > 0 &&
+      !renderAbout
+    ) {
+      setActiveResource(annotationResources[0].id);
     }
-  }, [activeCanvas, renderAbout, resources]);
+  }, [activeCanvas, renderAbout, annotationResources]);
 
   const handleValueChange = (value: string) => {
     setActiveResource(value);
   };
-
-  if (!resources) return <></>;
 
   return (
     <Wrapper
@@ -58,11 +60,12 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     >
       <List aria-label="select chapter" data-testid="information-panel-list">
         {renderAbout && <Trigger value="manifest-about">About</Trigger>}
-        {renderSupplementing &&
-          resources &&
-          resources.map(({ id, label }) => (
-            <Trigger key={id} value={id as string}>
-              <Label label={label} />
+
+        {renderAnnotation &&
+          annotationResources &&
+          annotationResources.map((resource, i) => (
+            <Trigger key={i} value={resource.id}>
+              <Label label={resource.label as InternationalString} />
             </Trigger>
           ))}
       </List>
@@ -72,12 +75,13 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             <Information />
           </Content>
         )}
-        {renderSupplementing &&
-          resources &&
-          resources.map((resource) => {
+
+        {renderAnnotation &&
+          annotationResources &&
+          annotationResources.map((annotationPage) => {
             return (
-              <Content key={resource.id} value={resource.id as string}>
-                <Resource resource={resource} />
+              <Content key={annotationPage.id} value={annotationPage.id}>
+                <AnnotationPage annotationPage={annotationPage} />
               </Content>
             );
           })}

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 
-import Cue from "src/components/Viewer/InformationPanel/Cue";
-import { Group } from "src/components/Viewer/InformationPanel/Cue.styled";
+import Cue from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue";
+import { Group } from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue.styled";
 import React from "react";
 
 describe("Information panel cue component", () => {

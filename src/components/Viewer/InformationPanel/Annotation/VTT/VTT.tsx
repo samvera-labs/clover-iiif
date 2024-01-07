@@ -4,25 +4,28 @@ import useWebVtt, {
   NodeWebVttCueNested,
 } from "src/hooks/use-webvtt";
 
-import { Group } from "src/components/Viewer/InformationPanel/Cue.styled";
+import { Group } from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue.styled";
 import { InternationalString } from "@iiif/presentation-3";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import Menu from "src/components/Viewer/InformationPanel/Menu";
 import { getLabel } from "src/hooks/use-iiif";
 import { parse } from "node-webvtt";
 
-interface Resource {
-  resource: LabeledResource;
-}
+type AnnotationItemVTTProps = {
+  label: InternationalString | undefined;
+  vttUri: string;
+};
 
-const Resource: React.FC<Resource> = ({ resource }) => {
+const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
+  label,
+  vttUri,
+}) => {
   const [cues, setCues] = React.useState<Array<NodeWebVttCueNested>>([]);
-  const { id, label } = resource;
   const { createNestedCues, orderCuesByTime } = useWebVtt();
+  const [isNetworkError, setIsNetworkError] = React.useState<Error>();
 
   useEffect(() => {
-    if (id)
-      fetch(id, {
+    if (vttUri)
+      fetch(vttUri, {
         headers: {
           "Content-Type": "text/plain",
           Accept: "application/json",
@@ -35,16 +38,25 @@ const Resource: React.FC<Resource> = ({ resource }) => {
           const nestedCues = createNestedCues(orderedCues);
           setCues(nestedCues);
         })
-        .catch((error) => console.error(id, error.toString()));
-  }, [id]);
+        .catch((error) => {
+          console.error(vttUri, error.toString());
+          setIsNetworkError(error);
+        });
+  }, [vttUri]); // NOTE: Do not include createNestedCues and orderCuesByTime in the dependency array as it will cause an infinite loop
 
   return (
     <Group
+      data-testid="annotation-item-vtt"
       aria-label={`navigate ${getLabel(label as InternationalString, "en")}`}
     >
+      {isNetworkError && (
+        <div data-testid="error-message">
+          Network Error: {isNetworkError.toString()}
+        </div>
+      )}
       <Menu items={cues} />
     </Group>
   );
 };
 
-export default Resource;
+export default AnnotationItemVTT;

@@ -1,11 +1,11 @@
+import { AnnotationNormalized, CanvasNormalized } from "@iiif/presentation-3";
 import Hls, { HlsConfig } from "hls.js";
 import React, { useEffect } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
+import { AnnotationResources } from "src/types/annotations";
 import AudioVisualizer from "src/components/Viewer/Player/AudioVisualizer";
-import { CanvasNormalized } from "@iiif/presentation-3";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
 import Track from "src/components/Viewer/Player/Track";
 import { getPaintingResource } from "src/hooks/use-iiif";
@@ -14,11 +14,15 @@ import { getPaintingResource } from "src/hooks/use-iiif";
 
 interface PlayerProps {
   allSources: LabeledIIIFExternalWebResource[];
+  annotationResources: AnnotationResources;
   painting: LabeledIIIFExternalWebResource;
-  resources: LabeledResource[];
 }
 
-const Player: React.FC<PlayerProps> = ({ allSources, resources, painting }) => {
+const Player: React.FC<PlayerProps> = ({
+  allSources,
+  annotationResources,
+  painting,
+}) => {
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [poster, setPoster] = React.useState<string | undefined>();
   const playerRef = React.useRef<HTMLVideoElement>(null);
@@ -161,14 +165,33 @@ const Player: React.FC<PlayerProps> = ({ allSources, resources, painting }) => {
         {allSources.map((painting) => (
           <source src={painting.id} type={painting.format} key={painting.id} />
         ))}
-        {resources.length > 0 &&
-          resources.map((resource) => (
-            <Track
-              resource={resource}
-              ignoreCaptionLabels={configOptions.ignoreCaptionLabels || []}
-              key={resource.id}
-            />
-          ))}
+        {annotationResources?.length > 0 &&
+          annotationResources.map((annotationPage) => {
+            const annotationBodies: LabeledIIIFExternalWebResource[] = [];
+
+            annotationPage.items.forEach((annotation) => {
+              const annotationNormalized = vault.get(
+                annotation.id,
+              ) as AnnotationNormalized;
+
+              annotationNormalized.body.forEach((body) => {
+                const annotationBody = vault.get(
+                  body.id,
+                ) as LabeledIIIFExternalWebResource;
+                annotationBodies.push(annotationBody);
+              });
+            });
+
+            return annotationBodies.map((body) => {
+              return (
+                <Track
+                  resource={body}
+                  ignoreCaptionLabels={configOptions.ignoreCaptionLabels || []}
+                  key={body.id}
+                />
+              );
+            });
+          })}
         Sorry, your browser doesn&apos;t support embedded videos.
       </video>
 

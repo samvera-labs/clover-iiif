@@ -1,8 +1,8 @@
 import { describe, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 
+import { AnnotationResources } from "src/types/annotations";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import Player from "src/components/Viewer/Player/Player";
 import React from "react";
 import { Vault } from "@iiif/vault";
@@ -45,12 +45,12 @@ describe("Player component", () => {
       duration: 268.776,
     };
 
-    const resources = [];
+    const annotationResources = [];
 
     const props = {
       allSources: allSources as LabeledIIIFExternalWebResource[],
       painting: painting as LabeledIIIFExternalWebResource,
-      resources: resources as LabeledResource[],
+      annotationResources: annotationResources as AnnotationResources,
     };
 
     const vault = new Vault();
@@ -69,6 +69,7 @@ describe("Player component", () => {
           informationOpen: false,
           isLoaded: false,
           vault,
+          openSeadragonViewer: null,
         }}
       >
         <Player {...props} />
@@ -98,12 +99,12 @@ describe("Player component", () => {
       duration: 1985.024,
     };
 
-    const resources = [];
+    const annotationResources = [];
 
     const props = {
       allSources: allSources as LabeledIIIFExternalWebResource[],
       painting: painting as LabeledIIIFExternalWebResource,
-      resources: resources as LabeledResource[],
+      annotationResources: annotationResources as AnnotationResources,
     };
 
     const vault = new Vault();
@@ -122,6 +123,7 @@ describe("Player component", () => {
           informationOpen: false,
           isLoaded: false,
           vault,
+          openSeadragonViewer: null,
         }}
       >
         <Player {...props} />

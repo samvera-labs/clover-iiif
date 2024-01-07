@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Item } from "src/components/Viewer/InformationPanel/Cue.styled";
+import { Item } from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue.styled";
 import { convertTime } from "src/lib/utils";
 
 interface Props {
