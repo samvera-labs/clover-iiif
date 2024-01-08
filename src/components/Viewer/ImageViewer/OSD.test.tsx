@@ -7,6 +7,7 @@ const props = {
   uri: "foobar",
   hasPlaceholder: false,
   imageType: "simpleImage" as osdImageTypes,
+  annotationResources: [],
 };
 
 vi.mock("openseadragon", () => ({

@@ -69,6 +69,7 @@ describe("Player component", () => {
           informationOpen: false,
           isLoaded: false,
           vault,
+          openSeadragonViewer: null,
         }}
       >
         <Player {...props} />
@@ -122,6 +123,7 @@ describe("Player component", () => {
           informationOpen: false,
           isLoaded: false,
           vault,
+          openSeadragonViewer: null,
         }}
       >
         <Player {...props} />
