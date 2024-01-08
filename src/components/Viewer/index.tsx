@@ -1,6 +1,5 @@
 import { CollectionNormalized, ManifestNormalized } from "@iiif/presentation-3";
 import React, { useEffect, useState } from "react";
-import OpenSeadragon from "openseadragon";
 import {
   type ViewerConfigOptions,
   ViewerProvider,
@@ -17,12 +16,6 @@ import { getRequest } from "src/lib/xhr";
 
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
-  osdViewerCallback?: (
-    viewer: any,
-    OpenSeadragon: any,
-    vault: any,
-    activeCanvas: any,
-  ) => void;
   customDisplays?: Array<CustomDisplay>;
   customTheme?: any;
   iiifContent: string;
@@ -33,7 +26,6 @@ export interface CloverViewerProps {
 
 const CloverViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback = () => {},
-  osdViewerCallback,
   customDisplays = [],
   customTheme,
   iiifContent,
@@ -69,7 +61,6 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
       <RenderViewer
         iiifContent={iiifResource}
         canvasIdCallback={canvasIdCallback}
-        osdViewerCallback={osdViewerCallback}
         customTheme={customTheme}
         options={options}
       />
@@ -79,7 +70,6 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
 
 const RenderViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback,
-  osdViewerCallback,
   customTheme,
   iiifContent,
   options,
@@ -91,8 +81,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * the normalized manifest available from @iiif/vault.
    */
   const store = useViewerState();
-  const { activeCanvas, activeManifest, isLoaded, vault, openSeadragonViewer } =
-    store;
+  const { activeCanvas, activeManifest, isLoaded, vault } = store;
   const [iiifResource, setIiifResource] = useState<
     CollectionNormalized | ManifestNormalized
   >();
@@ -111,17 +100,6 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   useEffect(() => {
     if (canvasIdCallback) canvasIdCallback(activeCanvas);
   }, [activeCanvas, canvasIdCallback]);
-
-  useEffect(() => {
-    if (osdViewerCallback && openSeadragonViewer) {
-      osdViewerCallback(
-        openSeadragonViewer,
-        OpenSeadragon,
-        vault,
-        activeCanvas,
-      );
-    }
-  }, [openSeadragonViewer, vault, activeCanvas, osdViewerCallback]);
 
   useEffect(() => {
     if (activeManifest)
