@@ -6,12 +6,7 @@ function Newspaper() {
   const iiifContent =
     "http://localhost:3000/manifest/newspaper/newspaper_collection.json";
 
-  return (
-    <Viewer
-      iiifContent={iiifContent}
-      options={{ informationPanel: { renderAbout: false } }}
-    />
-  );
+  return <Viewer iiifContent={iiifContent} />;
 }
 
 export default Newspaper;
