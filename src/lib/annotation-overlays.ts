@@ -1,7 +1,7 @@
 import { type CanvasNormalized } from "@iiif/presentation-3";
 import OpenSeadragon from "openseadragon";
 import { type ViewerConfigOptions } from "src/context/viewer-context";
-import { OsdSvgOverlay } from "src/lib/seadragon-svg";
+import { OsdSvgOverlay } from "src/lib/openseadragon-svg";
 
 import {
   type LabeledAnnotationedResource,

@@ -3,8 +3,8 @@ import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationRes
 import { afterEach, describe, expect, it, vi, Mock } from "vitest";
 import { type CanvasNormalized } from "@iiif/presentation-3";
 
-import { OsdSvgOverlay } from "src/lib/seadragon-svg";
-vi.mock("src/lib/seadragon-svg");
+import { OsdSvgOverlay } from "src/lib/openseadragon-svg";
+vi.mock("src/lib/openseadragon-svg");
 const mockedOsdSvgOverlay = OsdSvgOverlay as Mock;
 
 describe("addOverlaysToViewer", () => {
