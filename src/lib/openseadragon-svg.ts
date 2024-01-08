@@ -14,16 +14,17 @@ if (!$) {
 const svgNS = "http://www.w3.org/2000/svg";
 
 // ----------
-// @ts-expect-error: svgOverlay does not exist on Viewer
-$.Viewer.prototype.svgOverlay = function () {
-  if (this._svgOverlayInfo) {
+if ($.Viewer) {
+  // @ts-expect-error: svgOverlay does not exist on Viewer
+  $.Viewer.prototype.svgOverlay = function () {
+    if (this._svgOverlayInfo) {
+      return this._svgOverlayInfo;
+    }
+
+    this._svgOverlayInfo = new Overlay(this);
     return this._svgOverlayInfo;
-  }
-
-  this._svgOverlayInfo = new Overlay(this);
-  return this._svgOverlayInfo;
-};
-
+  };
+}
 // ----------
 const Overlay = function (viewer) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
