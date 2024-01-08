@@ -21,6 +21,7 @@ const props = {
   activeCanvas: "foobar",
   painting: [],
   resources: [],
+  annotationResources: [],
   items: [],
   isAudioVideo: false,
 };
