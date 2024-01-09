@@ -147,6 +147,7 @@ function svg_processChild(
     overlay.node().append(newElement);
     overlay._svg?.setAttribute("class", "annotation-overlay");
 
+    // BUG: svg with children elements aren't formated correctly.
     child.childNodes.forEach((child) => {
       svg_processChild(viewer, child, configOptions, scale);
     });
