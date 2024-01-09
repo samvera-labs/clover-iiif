@@ -17,12 +17,6 @@ export const AnnotationItem: React.FC<Props> = ({ item }) => {
     type: "Canvas",
   });
 
-  function addBBoxOverlay(viewer, bbox) {
-    const div = document.createElement("div");
-    div.style.backgroundColor = "rgba(0,100,200,.25)";
-    viewer.addOverlay(div, bbox);
-  }
-
   function handleClick(e) {
     if (!openSeadragonViewer) return;
 
@@ -61,20 +55,7 @@ export const AnnotationItem: React.FC<Props> = ({ item }) => {
 
         openSeadragonViewer.viewport.fitBounds(rect);
       } else if (target.selector?.type === "SvgSelector") {
-        const overlayEl = document.querySelector(".annotation-overlay") as any;
-        if (overlayEl) {
-          const bbox = overlayEl.getBBox();
-          const rect = new OpenSeadragon.Rect(
-            250 * (1 / canvas.width),
-            500 * (1 / canvas.height),
-            1300 * (1 / canvas.width),
-            950 * (1 / canvas.height),
-          );
-          console.log("bbox", bbox);
-          console.log("rect", rect);
-
-          addBBoxOverlay(openSeadragonViewer, rect);
-        }
+        // TODO: figure out how to get the bounding box for an svg
       }
     }
   }
