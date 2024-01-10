@@ -5,5 +5,12 @@
       "sidebar": false
     },
     "title": "Demo"
+  },
+  "newspaper": {
+    "title": "Newspaper",
+    "theme": {
+      "sidebar": false,
+      "layout": "full"
+    }
   }
 }
