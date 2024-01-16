@@ -62,13 +62,13 @@
         {
           "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json",
           "type": "AnnotationPage",
+          "label": {
+            "en": ["Search results"]
+          },
           "items": [
             {
               "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json-1",
               "type": "Annotation",
-              "label": {
-                "en": ["Search results"]
-              },
               "motivation": "highlighting",
               "body": {
                 "type": "TextualBody",
@@ -81,9 +81,6 @@
             {
               "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json-2",
               "type": "Annotation",
-              "label": {
-                "en": ["Search results"]
-              },
               "motivation": "highlighting",
               "body": {
                 "type": "TextualBody",
@@ -96,9 +93,6 @@
             {
               "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json-3",
               "type": "Annotation",
-              "label": {
-                "en": ["Search results"]
-              },
               "motivation": "highlighting",
               "body": {
                 "type": "TextualBody",
@@ -111,9 +105,6 @@
             {
               "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json-4",
               "type": "Annotation",
-              "label": {
-                "en": ["Search results"]
-              },
               "motivation": "highlighting",
               "body": {
                 "type": "TextualBody",
@@ -122,6 +113,24 @@
                 "value": "„Berliner"
               },
               "target": "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=1608,4429,123,25"
+            }
+          ]
+        },
+        {
+          "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p2.json",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p2.json-1",
+              "type": "Annotation",
+              "motivation": "commenting",
+              "body": {
+                "type": "TextualBody",
+                "format": "text/plain",
+                "language": "en",
+                "value": "This is a newspaper."
+              },
+              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p1"
             }
           ]
         }

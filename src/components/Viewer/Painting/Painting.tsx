@@ -3,9 +3,9 @@ import { Select, SelectOption } from "src/components/internal/Select";
 
 import { CanvasNormalized } from "@iiif/presentation-3";
 import ImageViewer from "src/components/Viewer/ImageViewer/ImageViewer";
+import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
-import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 import PaintingPlaceholder from "./Placeholder";
 import Player from "src/components/Viewer/Player/Player";
 import React from "react";
@@ -97,7 +97,8 @@ const Painting: React.FC<PaintingProps> = ({
             <Player
               allSources={painting}
               painting={painting[annotationIndex]}
-              resources={resources}
+              // resources={resources}
+              annotationResources={annotationResources}
             />
           ) : (
             painting && (

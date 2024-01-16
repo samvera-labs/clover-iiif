@@ -2,13 +2,13 @@ import React from "react";
 import { Item } from "src/components/Viewer/InformationPanel/AnnotationItem.styled";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 import OpenSeadragon from "openseadragon";
-import { type CanvasNormalized } from "@iiif/presentation-3";
+import { Annotation, type CanvasNormalized } from "@iiif/presentation-3";
 
 type Props = {
-  item: any;
+  annotation: Annotation;
 };
 
-export const AnnotationItem: React.FC<Props> = ({ item }) => {
+export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
   const viewerState: ViewerContextStore = useViewerState();
   const { openSeadragonViewer, vault, activeCanvas, configOptions } =
     viewerState;
@@ -61,6 +61,7 @@ export const AnnotationItem: React.FC<Props> = ({ item }) => {
   }
 
   function renderItemBody(body, target, i = 0) {
+    console.log(body);
     if (body.format === "text/html") {
       return (
         <div key={i} dangerouslySetInnerHTML={{ __html: body.value }}></div>
@@ -76,19 +77,19 @@ export const AnnotationItem: React.FC<Props> = ({ item }) => {
     }
   }
 
-  const targetJson = JSON.stringify(item.target);
+  const targetJson = JSON.stringify(annotation.target);
 
-  if (Array.isArray(item.body)) {
+  if (Array.isArray(annotation.body)) {
     return (
       <Item onClick={handleClick} data-target={targetJson}>
-        {item.body.map((body, i) => renderItemBody(body, targetJson, i))}
+        {annotation.body.map((body, i) => renderItemBody(body, targetJson, i))}
       </Item>
     );
   }
 
   return (
     <Item onClick={handleClick} data-target={targetJson}>
-      {renderItemBody(item.body, targetJson)}
+      {renderItemBody(annotation.body, targetJson)}
     </Item>
   );
 };

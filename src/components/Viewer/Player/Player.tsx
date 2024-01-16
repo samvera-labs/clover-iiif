@@ -161,14 +161,14 @@ const Player: React.FC<PlayerProps> = ({ allSources, resources, painting }) => {
         {allSources.map((painting) => (
           <source src={painting.id} type={painting.format} key={painting.id} />
         ))}
-        {resources.length > 0 &&
+        {/* {resources?.length > 0 &&
           resources.map((resource) => (
             <Track
               resource={resource}
               ignoreCaptionLabels={configOptions.ignoreCaptionLabels || []}
               key={resource.id}
             />
-          ))}
+          ))} */}
         Sorry, your browser doesn&apos;t support embedded videos.
       </video>
 

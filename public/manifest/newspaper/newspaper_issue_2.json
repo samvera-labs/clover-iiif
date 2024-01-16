@@ -59,14 +59,13 @@
         {
           "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_2-anno_p1.json",
           "type": "AnnotationPage",
-
+          "label": {
+            "en": ["Search results"]
+          },
           "items": [
             {
               "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_2-anno_p1.json-5",
               "type": "Annotation",
-              "label": {
-                "en": ["Search results"]
-              },
               "motivation": "highlighting",
               "body": {
                 "type": "TextualBody",
@@ -79,9 +78,6 @@
             {
               "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_2-anno_p1.json-6",
               "type": "Annotation",
-              "label": {
-                "en": ["Search results"]
-              },
               "motivation": "highlighting",
               "body": {
                 "type": "TextualBody",
@@ -94,9 +90,6 @@
             {
               "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_2-anno_p1.json-7",
               "type": "Annotation",
-              "label": {
-                "en": ["Search results"]
-              },
               "motivation": "highlighting",
               "body": {
                 "type": "TextualBody",

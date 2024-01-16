@@ -8,17 +8,17 @@ import {
 import React, { useEffect, useState } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
+import AnnotationPage from "src/components/Viewer/InformationPanel/AnnotationPage";
+import { AnnotationPage as AnnotationPageType } from "@iiif/presentation-3";
 import Information from "src/components/Viewer/InformationPanel/About/About";
 import { Label } from "src/components/Primitives";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
-import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 import Resource from "src/components/Viewer/InformationPanel/Resource";
-import AnnotationResource from "src/components/Viewer/InformationPanel/AnnotationResource";
 
 interface NavigatorProps {
   activeCanvas: string;
   resources?: Array<LabeledResource>;
-  annotationResources?: LabeledAnnotationedResource[];
+  annotationResources?: AnnotationPageType[];
 }
 
 export const InformationPanel: React.FC<NavigatorProps> = ({
@@ -56,7 +56,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     setActiveResource(value);
   };
 
-  if (!resources) return <></>;
+  // if (!resources) return <></>;
 
   return (
     <Wrapper
@@ -69,13 +69,13 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     >
       <List aria-label="select chapter" data-testid="information-panel-list">
         {renderAbout && <Trigger value="manifest-about">About</Trigger>}
-        {renderSupplementing &&
+        {/* {renderSupplementing &&
           resources &&
           resources.map(({ id, label }) => (
             <Trigger key={id} value={id as string}>
               <Label label={label} />
             </Trigger>
-          ))}
+          ))} */}
 
         {renderAnnotation &&
           annotationResources &&
@@ -91,7 +91,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             <Information />
           </Content>
         )}
-        {renderSupplementing &&
+        {/* {renderSupplementing &&
           resources &&
           resources.map((resource) => {
             return (
@@ -99,13 +99,14 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
                 <Resource resource={resource} />
               </Content>
             );
-          })}
+          })} */}
+
         {renderAnnotation &&
           annotationResources &&
-          annotationResources.map((resource) => {
+          annotationResources.map((annotationPage) => {
             return (
-              <Content key={resource.id} value={resource.id}>
-                <AnnotationResource resource={resource} />
+              <Content key={annotationPage.id} value={annotationPage.id}>
+                <AnnotationPage annotationPage={annotationPage} />
               </Content>
             );
           })}

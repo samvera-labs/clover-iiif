@@ -1,6 +1,7 @@
 import * as Collapsible from "@radix-ui/react-collapsible";
 
 import {
+  AnnotationPage,
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
@@ -12,19 +13,20 @@ import {
   useViewerState,
 } from "src/context/viewer-context";
 import {
+  getAnnotationResources,
   getPaintingResource,
   getSupplementingResources,
-  getAnnotationResources,
 } from "src/hooks/use-iiif";
 
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/Viewer/Viewer/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
+import { LabeledAnnotationResource } from "src/hooks/use-iiif/getAnnotationResources";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
-import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
 import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
+import { an } from "vitest/dist/reporters-5f784f42";
 import { media } from "src/styles/stitches.config";
 import { useBodyLocked } from "src/hooks/useBodyLocked";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
@@ -51,7 +53,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   const [painting, setPainting] = useState<IIIFExternalWebResource[]>([]);
   const [resources, setResources] = useState<LabeledResource[]>([]);
   const [annotationResources, setAnnotationResources] = useState<
-    LabeledAnnotationedResource[]
+    AnnotationPage[]
   >([]);
 
   const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
@@ -87,12 +89,13 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
 
   useEffect(() => {
     const painting = getPaintingResource(vault, activeCanvas);
-    const resources = getSupplementingResources(
-      vault,
-      activeCanvas,
-      "text/vtt",
-    );
+    // const resources = getSupplementingResources(
+    //   vault,
+    //   activeCanvas,
+    //   "text/vtt",
+    // );
     const annotationResources = getAnnotationResources(vault, activeCanvas);
+
     if (painting) {
       setIsAudioVideo(
         ["Sound", "Video"].indexOf(painting[0].type as ExternalResourceTypes) >
@@ -102,12 +105,15 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
       );
       setPainting(painting);
     }
-    setResources(resources);
+    // setResources(resources);
     setAnnotationResources(annotationResources);
+
     setIsInformationPanel(
       resources.length !== 0 || annotationResources.length !== 0,
     );
   }, [activeCanvas, vault]);
+
+  console.log(annotationResources, `annotationResources`);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -129,7 +135,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
           <ViewerContent
             activeCanvas={activeCanvas}
             painting={painting}
-            resources={resources}
+            // resources={resources}
             annotationResources={annotationResources}
             items={manifest.items}
             isAudioVideo={isAudioVideo}
