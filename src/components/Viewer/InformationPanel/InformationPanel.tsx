@@ -13,7 +13,6 @@ import { AnnotationPage as AnnotationPageType } from "@iiif/presentation-3";
 import Information from "src/components/Viewer/InformationPanel/About/About";
 import { Label } from "src/components/Primitives";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
-import Resource from "src/components/Viewer/InformationPanel/Resource";
 
 interface NavigatorProps {
   activeCanvas: string;

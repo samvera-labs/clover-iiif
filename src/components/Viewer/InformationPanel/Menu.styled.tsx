@@ -1,4 +1,4 @@
-import { Item } from "src/components/Viewer/InformationPanel/Cue.styled";
+import { Item } from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue.styled";
 import { styled } from "src/styles/stitches.config";
 
 export const MenuStyled = styled("ul", {

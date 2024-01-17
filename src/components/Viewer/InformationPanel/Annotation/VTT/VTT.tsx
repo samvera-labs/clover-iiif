@@ -1,23 +1,27 @@
+import { Annotation, Body, ExternalWebResource } from "@iiif/presentation-3";
 import React, { useEffect } from "react";
 import useWebVtt, {
   NodeWebVttCue,
   NodeWebVttCueNested,
 } from "src/hooks/use-webvtt";
 
-import { Group } from "src/components/Viewer/InformationPanel/Cue.styled";
+import { Group } from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue.styled";
 import { InternationalString } from "@iiif/presentation-3";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import Menu from "src/components/Viewer/InformationPanel/Menu";
 import { getLabel } from "src/hooks/use-iiif";
 import { parse } from "node-webvtt";
 
-interface Resource {
-  resource: LabeledResource;
-}
+type AnnotationItemVTTProps = {
+  annotation: Annotation;
+};
 
-const Resource: React.FC<Resource> = ({ resource }) => {
+const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
+  annotation,
+}) => {
   const [cues, setCues] = React.useState<Array<NodeWebVttCueNested>>([]);
-  const { id, label } = resource;
+
+  const { body } = annotation;
+  const { id, label } = body as unknown as Body & ExternalWebResource;
   const { createNestedCues, orderCuesByTime } = useWebVtt();
 
   useEffect(() => {
@@ -30,6 +34,7 @@ const Resource: React.FC<Resource> = ({ resource }) => {
       })
         .then((response) => response.text())
         .then((data) => {
+          console.log("data", data);
           const flatCues = parse(data).cues as unknown as Array<NodeWebVttCue>;
           const orderedCues = orderCuesByTime(flatCues);
           const nestedCues = createNestedCues(orderedCues);
@@ -47,4 +52,4 @@ const Resource: React.FC<Resource> = ({ resource }) => {
   );
 };
 
-export default Resource;
+export default AnnotationItemVTT;

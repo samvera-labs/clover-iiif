@@ -5,7 +5,7 @@ import { render, screen } from "@testing-library/react";
 import About from "src/components/Viewer/InformationPanel/About/About";
 import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
 import React from "react";
-import Resource from "./Resource";
+import Resource from "./Annotation/VTT/VTT";
 
 const props = {
   activeCanvas: "foobar",
