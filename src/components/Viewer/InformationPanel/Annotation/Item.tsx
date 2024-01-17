@@ -1,12 +1,21 @@
 import React from "react";
-import { Item } from "src/components/Viewer/InformationPanel/AnnotationItem.styled";
+import { Item } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 import OpenSeadragon from "openseadragon";
-import { Annotation, type CanvasNormalized } from "@iiif/presentation-3";
+import {
+  Annotation,
+  AnnotationBody,
+  ContentResource,
+  type CanvasNormalized,
+} from "@iiif/presentation-3";
 
 type Props = {
   annotation: Annotation;
 };
+
+/**
+ * Check for 'text/plain', 'text/html', 'text/vtt', 'image/?' for starters
+ */
 
 export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
   const viewerState: ViewerContextStore = useViewerState();
@@ -62,6 +71,7 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
 
   function renderItemBody(body, target, i = 0) {
     console.log(body);
+
     if (body.format === "text/html") {
       return (
         <div key={i} dangerouslySetInnerHTML={{ __html: body.value }}></div>

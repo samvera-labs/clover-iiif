@@ -4,8 +4,8 @@ import {
 } from "@iiif/presentation-3";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
-import AnnotationItem from "src/components/Viewer/InformationPanel/AnnotationItem";
-import { Group } from "src/components/Viewer/InformationPanel/AnnotationItem.styled";
+import AnnotationItem from "src/components/Viewer/InformationPanel/Annotation/Item";
+import { Group } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
 import React from "react";
 
 type Props = {

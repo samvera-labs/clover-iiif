@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
-import AnnotationPage from "src/components/Viewer/InformationPanel/AnnotationPage";
+import AnnotationPage from "src/components/Viewer/InformationPanel/Annotation/Page";
 import { AnnotationPage as AnnotationPageType } from "@iiif/presentation-3";
 import Information from "src/components/Viewer/InformationPanel/About/About";
 import { Label } from "src/components/Primitives";
