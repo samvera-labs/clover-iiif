@@ -16,6 +16,7 @@ import {
 vi.mock("src/lib/openseadragon-svg");
 const mockedOsdSvgOverlay = OsdSvgOverlay as Mock;
 
+// TODO: Fix these tests
 describe("addOverlaysToViewer", () => {
   afterEach(() => {
     vi.restoreAllMocks();

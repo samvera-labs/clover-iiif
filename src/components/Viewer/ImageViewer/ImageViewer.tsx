@@ -1,9 +1,9 @@
 import OSD, { osdImageTypes } from "src/components/Viewer/ImageViewer/OSD";
 import React, { useEffect, useState } from "react";
 
+import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { getImageServiceURI } from "src/lib/iiif";
-import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 
 interface ImageViewerProps {
   painting: LabeledIIIFExternalWebResource;

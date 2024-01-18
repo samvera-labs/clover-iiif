@@ -14,9 +14,12 @@ import {
 import Controls from "src/components/Viewer/ImageViewer/Controls";
 import { getInfoResponse } from "src/lib/iiif";
 import { v4 as uuidv4 } from "uuid";
-import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 import { addOverlaysToViewer } from "src/lib/openseadragon-helpers";
-import { type CanvasNormalized } from "@iiif/presentation-3";
+import {
+  Annotation,
+  AnnotationPage,
+  type CanvasNormalized,
+} from "@iiif/presentation-3";
 
 export type osdImageTypes = "tiledImage" | "simpleImage" | undefined;
 
@@ -24,7 +27,7 @@ interface OSDProps {
   uri: string | undefined;
   hasPlaceholder: boolean;
   imageType: osdImageTypes;
-  annotationResources: LabeledAnnotationedResource[];
+  annotationResources: AnnotationPage;
 }
 
 const OSD: React.FC<OSDProps> = ({
@@ -69,6 +72,15 @@ const OSD: React.FC<OSDProps> = ({
     ajaxWithCredentials: configOptions.withCredentials,
   };
 
+  // Track annotations from the AnnotationPage
+  const annotations: Array<Annotation> = [];
+
+  // Should AnnotationPage be an array here, or are we just dealing with one Page (ie. pass down only an object, not an array)?
+  annotationResources[0]?.items?.forEach((item) => {
+    const annotationResource = vault.get(item.id);
+    annotations.push(annotationResource as unknown as Annotation);
+  });
+
   useEffect(() => {
     if (uri !== osdUri) {
       setOsdUri(uri);
@@ -89,12 +101,7 @@ const OSD: React.FC<OSDProps> = ({
             openSeadragonViewer: viewer,
           });
           if (configOptions.annotationOverlays?.renderOverlays) {
-            addOverlaysToViewer(
-              viewer,
-              canvas,
-              configOptions,
-              annotationResources,
-            );
+            addOverlaysToViewer(viewer, canvas, configOptions, annotations);
           }
           break;
         case "tiledImage":
@@ -108,12 +115,7 @@ const OSD: React.FC<OSDProps> = ({
               openSeadragonViewer: viewer,
             });
             if (configOptions.annotationOverlays?.renderOverlays) {
-              addOverlaysToViewer(
-                viewer,
-                canvas,
-                configOptions,
-                annotationResources,
-              );
+              addOverlaysToViewer(viewer, canvas, configOptions, annotations);
             }
           });
           break;

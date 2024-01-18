@@ -34,7 +34,6 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
       })
         .then((response) => response.text())
         .then((data) => {
-          console.log("data", data);
           const flatCues = parse(data).cues as unknown as Array<NodeWebVttCue>;
           const orderedCues = orderCuesByTime(flatCues);
           const nestedCues = createNestedCues(orderedCues);

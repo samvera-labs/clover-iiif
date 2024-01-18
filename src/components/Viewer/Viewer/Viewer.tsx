@@ -15,7 +15,6 @@ import {
 import {
   getAnnotationResources,
   getPaintingResource,
-  getSupplementingResources,
 } from "src/hooks/use-iiif";
 
 import { ErrorBoundary } from "react-error-boundary";
@@ -26,7 +25,6 @@ import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
 import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
-import { an } from "vitest/dist/reporters-5f784f42";
 import { media } from "src/styles/stitches.config";
 import { useBodyLocked } from "src/hooks/useBodyLocked";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
@@ -51,7 +49,6 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   const [isInformationPanel, setIsInformationPanel] = useState<boolean>(false);
   const [isAudioVideo, setIsAudioVideo] = useState(false);
   const [painting, setPainting] = useState<IIIFExternalWebResource[]>([]);
-  const [resources, setResources] = useState<LabeledResource[]>([]);
   const [annotationResources, setAnnotationResources] = useState<
     AnnotationPage[]
   >([]);
@@ -89,11 +86,6 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
 
   useEffect(() => {
     const painting = getPaintingResource(vault, activeCanvas);
-    // const resources = getSupplementingResources(
-    //   vault,
-    //   activeCanvas,
-    //   "text/vtt",
-    // );
     const annotationResources = getAnnotationResources(vault, activeCanvas);
 
     if (painting) {
@@ -105,15 +97,11 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
       );
       setPainting(painting);
     }
-    // setResources(resources);
+
     setAnnotationResources(annotationResources);
 
-    setIsInformationPanel(
-      resources.length !== 0 || annotationResources.length !== 0,
-    );
+    setIsInformationPanel(annotationResources.length !== 0);
   }, [activeCanvas, vault]);
-
-  console.log(annotationResources, `annotationResources`);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>

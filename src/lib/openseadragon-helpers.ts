@@ -1,38 +1,72 @@
-import { type CanvasNormalized } from "@iiif/presentation-3";
+import { Annotation, type CanvasNormalized } from "@iiif/presentation-3";
 import OpenSeadragon from "openseadragon";
 import { type ViewerConfigOptions } from "src/context/viewer-context";
 import { OsdSvgOverlay } from "src/lib/openseadragon-svg";
+import { parseAnnotationTarget } from "src/lib/annotation-helpers";
 
-import {
-  type LabeledAnnotationedResource,
-  type FormattedAnnotationItem,
-} from "src/hooks/use-iiif/getAnnotationResources";
+import { type FormattedAnnotationItem } from "src/hooks/use-iiif/getAnnotationResources";
 import { ParsedAnnotationTarget } from "src/types/annotations";
 
 export function addOverlaysToViewer(
   viewer: OpenSeadragon.Viewer,
   canvas: CanvasNormalized,
   configOptions: ViewerConfigOptions,
-  resources: LabeledAnnotationedResource[],
+  annotations: Annotation[],
 ): void {
   if (!viewer) return;
 
   const scale = 1 / canvas.width;
 
-  resources.forEach((resource) => {
-    resource.items.forEach((item) => {
-      if (typeof item.target === "string") {
-        if (item.target.includes("#xywh=")) {
-          handleXywhString(item, viewer, configOptions, scale);
-        }
-      } else if (typeof item.target === "object") {
-        if (item.target.selector?.type === "PointSelector") {
-          handlePointSelector(item, viewer, configOptions, scale);
-        } else if (item.target.selector?.type === "SvgSelector") {
-          handleSvgSelector(item, viewer, configOptions, scale);
-        }
-      }
-    });
+  annotations.forEach((annotation) => {
+    const parsedAnnotationTarget = parseAnnotationTarget(
+      annotation.target as string,
+    );
+
+    const { point, rect, svg } = parsedAnnotationTarget;
+
+    // Handle Rectangle overlay
+    if (rect) {
+      const { x, y, w, h } = rect;
+      addRectangularOverlay(
+        viewer,
+        x * scale,
+        y * scale,
+        w * scale,
+        h * scale,
+        configOptions,
+      );
+    }
+
+    // Handle Point Selector Overlay
+    if (point) {
+      const { x, y } = point;
+      const svg = `
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="${x}" cy="${y}" r="20" />
+        </svg>
+      `;
+
+      addSvgOverlay(viewer, svg, configOptions, scale);
+    }
+
+    // Handle SVG overlay
+    if (svg) {
+      addSvgOverlay(viewer, svg, configOptions, scale);
+    }
+
+    // resource.items.forEach((item) => {
+    //   if (typeof item.target === "string") {
+    //     if (item.target.includes("#xywh=")) {
+    //       handleXywhString(item, viewer, configOptions, scale);
+    //     }
+    //   } else if (typeof item.target === "object") {
+    //     if (item.target.selector?.type === "PointSelector") {
+    //       handlePointSelector(item, viewer, configOptions, scale);
+    //     } else if (item.target.selector?.type === "SvgSelector") {
+    //       handleSvgSelector(item, viewer, configOptions, scale);
+    //     }
+    //   }
+    // });
   });
 }
 
@@ -69,6 +103,7 @@ export function createOpenSeadragonRect(
   return rect;
 }
 
+// TODO: Remove this?
 function handleXywhString(
   item: FormattedAnnotationItem,
   viewer: OpenSeadragon.Viewer,
@@ -91,6 +126,7 @@ function handleXywhString(
   }
 }
 
+// TODO: Remove this?
 function handlePointSelector(
   item: FormattedAnnotationItem,
   viewer: OpenSeadragon.Viewer,
@@ -109,6 +145,7 @@ function handlePointSelector(
   addSvgOverlay(viewer, svg, configOptions, scale);
 }
 
+// TODO: Remove this?
 function handleSvgSelector(
   item: FormattedAnnotationItem,
   viewer: OpenSeadragon.Viewer,
@@ -120,6 +157,9 @@ function handleSvgSelector(
   addSvgOverlay(viewer, svgString, configOptions, scale);
 }
 
+/**
+ * Add a rectangular overlay to an OpenSeadragon viewer
+ */
 function addRectangularOverlay(
   viewer: OpenSeadragon.Viewer,
   x: number,

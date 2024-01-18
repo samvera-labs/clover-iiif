@@ -16,10 +16,6 @@ type Props = {
   annotation: Annotation;
 };
 
-/**
- * Check for 'text/plain', 'text/html', 'text/vtt', 'image/?' for starters
- */
-
 export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
   function renderItemBody(annotation: Annotation) {
     const { body, target } = annotation;
@@ -34,15 +30,13 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
     });
 
     function handleClick() {
-      const parsedAnnotationTarget = parseAnnotationTarget(target);
+      const parsedAnnotationTarget = parseAnnotationTarget(target as string);
 
-      // console.log("parsedAnnotationTarget", parsedAnnotationTarget);
       if (!parsedAnnotationTarget?.rect && !parsedAnnotationTarget.point)
         return;
 
       const zoomLevel = configOptions.annotationOverlays?.zoomLevel || 1;
 
-      console.log({ canvas, parsedAnnotationTarget, zoomLevel });
       const rect = createOpenSeadragonRect(
         canvas,
         parsedAnnotationTarget,
