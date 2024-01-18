@@ -104,29 +104,6 @@ export function createOpenSeadragonRect(
 }
 
 // TODO: Remove this?
-function handleXywhString(
-  item: FormattedAnnotationItem,
-  viewer: OpenSeadragon.Viewer,
-  configOptions: ViewerConfigOptions,
-  scale: number,
-): void {
-  const target = item.target as string;
-  const parts = target.split("#xywh=");
-  if (parts && parts[1]) {
-    const [x, y, w, h] = parts[1].split(",").map((value) => Number(value));
-
-    addRectangularOverlay(
-      viewer,
-      x * scale,
-      y * scale,
-      w * scale,
-      h * scale,
-      configOptions,
-    );
-  }
-}
-
-// TODO: Remove this?
 function handlePointSelector(
   item: FormattedAnnotationItem,
   viewer: OpenSeadragon.Viewer,

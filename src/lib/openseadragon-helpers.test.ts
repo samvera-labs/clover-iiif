@@ -16,7 +16,7 @@ import {
 vi.mock("src/lib/openseadragon-svg");
 const mockedOsdSvgOverlay = OsdSvgOverlay as Mock;
 
-// TODO: Fix these tests
+// TODO: Fix these
 describe("addOverlaysToViewer", () => {
   afterEach(() => {
     vi.restoreAllMocks();
@@ -25,21 +25,16 @@ describe("addOverlaysToViewer", () => {
   function createAnnotations(target1): LabeledAnnotationedResource[] {
     return [
       {
-        id: "Search results",
-        label: {
-          en: ["Search results"],
-        },
-        motivation: "highlighting",
-        items: [
+        id: "https://iiif.io/api/cookbook/recipe/0021-tagging/annotation/p0002-tag",
+        type: "Annotation",
+        motivation: ["tagging"],
+        body: [
           {
-            target: target1,
-            id: "1",
-            type: "TextualBody",
-            format: "text/plain",
-            language: "en",
-            value: "cat",
+            id: "vault://605b9d93",
+            type: "ContentResource",
           },
         ],
+        target: target1,
       },
     ];
   }
