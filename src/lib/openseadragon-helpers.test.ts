@@ -1,9 +1,18 @@
-import { addOverlaysToViewer } from "./annotation-overlays";
+import {
+  addOverlaysToViewer,
+  createOpenSeadragonRect,
+} from "./openseadragon-helpers";
 import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 import { afterEach, describe, expect, it, vi, Mock } from "vitest";
 import { type CanvasNormalized } from "@iiif/presentation-3";
 
 import { OsdSvgOverlay } from "src/lib/openseadragon-svg";
+import {
+  openSeadragonHelpersCanvas,
+  openSeadragonHelpersRect,
+  openSeadragonHelpersPoint,
+} from "src/fixtures/openSeadragonHelpers";
+
 vi.mock("src/lib/openseadragon-svg");
 const mockedOsdSvgOverlay = OsdSvgOverlay as Mock;
 
@@ -173,5 +182,39 @@ describe("addOverlaysToViewer", () => {
     expect(mockedOsdSvgOverlay).toHaveBeenCalledTimes(1);
     expect(mockDataTable.append).toHaveBeenCalledTimes(1);
     expect(mockDataTable.append.mock.calls).toEqual([[newElement]]);
+  });
+});
+
+describe("createOpenSeadragonRect", () => {
+  it("creates OpenSeadrgon.Rect object from provided rect", () => {
+    const rect = createOpenSeadragonRect(
+      openSeadragonHelpersCanvas,
+      openSeadragonHelpersRect,
+      2,
+    );
+
+    expect(rect).toEqual({
+      degrees: 0,
+      height: 0.6145833333333333,
+      width: 0.625,
+      x: -0.09052579365079365,
+      y: 0.010292658730158749,
+    });
+  });
+
+  it("creates OpenSeadrgon.Rect object from provided point", () => {
+    const rect = createOpenSeadragonRect(
+      openSeadragonHelpersCanvas,
+      openSeadragonHelpersPoint,
+      2,
+    );
+
+    expect(rect).toEqual({
+      degrees: 0,
+      height: 0.01984126984126984,
+      width: 0.01984126984126984,
+      x: 0.11904761904761904,
+      y: 0.16865079365079363,
+    });
   });
 });

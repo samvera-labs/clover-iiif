@@ -1,11 +1,8 @@
 import React from "react";
 import { Item } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
-import OpenSeadragon from "openseadragon";
 import {
   Annotation,
-  AnnotationBody,
-  ContentResource,
   type CanvasNormalized,
   EmbeddedResource,
 } from "@iiif/presentation-3";
@@ -13,6 +10,7 @@ import AnnotationItemPlainText from "./PlainText";
 import AnnotationItemHTML from "./HTML";
 import AnnotationItemVTT from "./VTT/VTT";
 import { parseAnnotationTarget } from "src/lib/annotation-helpers";
+import { createOpenSeadragonRect } from "src/lib/openseadragon-helpers";
 
 type Props = {
   annotation: Annotation;
@@ -38,53 +36,21 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
     function handleClick() {
       const parsedAnnotationTarget = parseAnnotationTarget(target);
 
-      console.log("parsedAnnotationTarget", parsedAnnotationTarget);
+      // console.log("parsedAnnotationTarget", parsedAnnotationTarget);
+      if (!parsedAnnotationTarget?.rect && !parsedAnnotationTarget.point)
+        return;
+
+      const zoomLevel = configOptions.annotationOverlays?.zoomLevel || 1;
+
+      console.log({ canvas, parsedAnnotationTarget, zoomLevel });
+      const rect = createOpenSeadragonRect(
+        canvas,
+        parsedAnnotationTarget,
+        zoomLevel,
+      );
+
+      openSeadragonViewer?.viewport.fitBounds(rect);
     }
-
-    // const zoomLevel = configOptions.annotationOverlays?.zoomLevel || 1;
-
-    //   if (typeof target === "string") {
-    //     if (!target.includes("#xywh=")) return;
-
-    //     const parts = target.split("#xywh=");
-    //     if (parts && parts[1]) {
-    //       const [x, y, w, h] = parts[1]
-    //         .split(",")
-    //         .map((value) => Number(value));
-    //       // const scale = 1 / canvas.width;
-    //       // const rect = new OpenSeadragon.Rect(
-    //       //   x * scale - ((w * scale) / 2) * (zoomLevel - 1),
-    //       //   y * scale - ((h * scale) / 2) * (zoomLevel - 1),
-    //       //   w * scale * zoomLevel,
-    //       //   h * scale * zoomLevel,
-    //       // );
-
-    //       // openSeadragonViewer.viewport.fitBounds(rect);
-    //     }
-    //   } else {
-    //     if (target.selector?.type === "PointSelector") {
-    //       const scale = 1 / canvas.width;
-    //       const x = target.selector.x;
-    //       const y = target.selector.y;
-    //       const w = 40;
-    //       const h = 40;
-    //       const rect = new OpenSeadragon.Rect(
-    //         x * scale - (w / 2) * scale * zoomLevel,
-    //         y * scale - (h / 2) * scale * zoomLevel,
-    //         w * scale * zoomLevel,
-    //         h * scale * zoomLevel,
-    //       );
-
-    //       // openSeadragonViewer.viewport.fitBounds(rect);
-    //     } else if (target.selector?.type === "SvgSelector") {
-    //       // TODO: figure out how to get the bounding box for an svg
-    //     }
-    //   }
-    // }
-
-    // const handleClick = (e) => {
-    //   console.log("handleClick", e.target.dataset.target);
-    // };
 
     switch (format) {
       case "text/plain":

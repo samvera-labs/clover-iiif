@@ -7,6 +7,7 @@ import {
   type LabeledAnnotationedResource,
   type FormattedAnnotationItem,
 } from "src/hooks/use-iiif/getAnnotationResources";
+import { ParsedAnnotationTarget } from "src/types/annotations";
 
 export function addOverlaysToViewer(
   viewer: OpenSeadragon.Viewer,
@@ -33,6 +34,39 @@ export function addOverlaysToViewer(
       }
     });
   });
+}
+
+export function createOpenSeadragonRect(
+  canvas: CanvasNormalized,
+  parsedAnnotationTarget: ParsedAnnotationTarget,
+  zoomLevel: number,
+) {
+  let x,
+    y,
+    w = 40,
+    h = 40;
+
+  if (parsedAnnotationTarget.rect) {
+    x = parsedAnnotationTarget.rect.x;
+    y = parsedAnnotationTarget.rect.y;
+    w = parsedAnnotationTarget.rect.w;
+    h = parsedAnnotationTarget.rect.h;
+  }
+
+  if (parsedAnnotationTarget.point) {
+    x = parsedAnnotationTarget.point.x;
+    y = parsedAnnotationTarget.point.y;
+  }
+
+  const scale = 1 / canvas.width;
+  const rect = new OpenSeadragon.Rect(
+    x * scale - ((w * scale) / 2) * (zoomLevel - 1),
+    y * scale - ((h * scale) / 2) * (zoomLevel - 1),
+    w * scale * zoomLevel,
+    h * scale * zoomLevel,
+  );
+
+  return rect;
 }
 
 function handleXywhString(

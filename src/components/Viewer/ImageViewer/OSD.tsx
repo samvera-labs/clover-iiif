@@ -15,7 +15,7 @@ import Controls from "src/components/Viewer/ImageViewer/Controls";
 import { getInfoResponse } from "src/lib/iiif";
 import { v4 as uuidv4 } from "uuid";
 import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
-import { addOverlaysToViewer } from "src/lib/annotation-overlays";
+import { addOverlaysToViewer } from "src/lib/openseadragon-helpers";
 import { type CanvasNormalized } from "@iiif/presentation-3";
 
 export type osdImageTypes = "tiledImage" | "simpleImage" | undefined;
