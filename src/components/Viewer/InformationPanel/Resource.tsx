@@ -36,7 +36,7 @@ const Resource: React.FC<Resource> = ({ resource }) => {
           setCues(nestedCues);
         })
         .catch((error) => console.error(id, error.toString()));
-  }, [createNestedCues, id, orderCuesByTime]);
+  }, [id]);
 
   return (
     <Group
