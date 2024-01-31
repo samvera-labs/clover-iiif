@@ -1,12 +1,13 @@
 import { ParsedAnnotationTarget } from "src/types/annotations";
+import { SpecificResource } from "@iiif/presentation-3";
 
-const parseAnnotationTarget = (target: string) => {
+const parseAnnotationTarget = (target: string | SpecificResource) => {
   // https://iiif.io/api/cookbook/recipe/0021-tagging/canvas/p1
   // https://iiif.io/api/cookbook/recipe/0021-tagging/canvas/p1#xywh=265,661,1260,1239
   // https://iiif.io/api/cookbook/recipe/0021-tagging/canvas/p1#t=31.5,55.5
 
   let parsedTarget: ParsedAnnotationTarget = {
-    id: target,
+    id: typeof target === "string" ? target : target.source,
   };
 
   if (typeof target === "string") {
@@ -38,8 +39,8 @@ const parseAnnotationTarget = (target: string) => {
       parsedTarget = {
         id: target.source,
         point: {
-          x: target.selector.x,
-          y: target.selector.y,
+          x: target.selector.x!,
+          y: target.selector.y!,
         },
       };
     } else if (target.selector?.type === "SvgSelector") {

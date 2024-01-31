@@ -92,6 +92,10 @@ export function createOpenSeadragonRect(
     y = parsedAnnotationTarget.point.y;
   }
 
+  // TODO: Handle SVG where no rect or point exists
+  if (parseAnnotationTarget.svg) {
+  }
+
   const scale = 1 / canvas.width;
   const rect = new OpenSeadragon.Rect(
     x * scale - ((w * scale) / 2) * (zoomLevel - 1),
@@ -101,25 +105,6 @@ export function createOpenSeadragonRect(
   );
 
   return rect;
-}
-
-// TODO: Remove this?
-function handlePointSelector(
-  item: FormattedAnnotationItem,
-  viewer: OpenSeadragon.Viewer,
-  configOptions: ViewerConfigOptions,
-  scale: number,
-): void {
-  const x = item.target.selector?.x;
-  const y = item.target.selector?.y;
-
-  const svg = `
-    <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="${x}" cy="${y}" r="20" />
-    </svg>
-  `;
-
-  addSvgOverlay(viewer, svg, configOptions, scale);
 }
 
 // TODO: Remove this?

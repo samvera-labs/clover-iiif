@@ -17,36 +17,39 @@ type Props = {
 };
 
 export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
+  const viewerState: ViewerContextStore = useViewerState();
+  const { openSeadragonViewer, vault, activeCanvas, configOptions } =
+    viewerState;
+
   function renderItemBody(annotation: Annotation) {
     const { body, target } = annotation;
-    const { format } = body as unknown as Body & EmbeddedResource;
+    const { format: annotationBodyFormat } = body as unknown as Body &
+      EmbeddedResource;
 
-    const viewerState: ViewerContextStore = useViewerState();
-    const { openSeadragonViewer, vault, activeCanvas, configOptions } =
-      viewerState;
     const canvas: CanvasNormalized = vault.get({
       id: activeCanvas,
       type: "Canvas",
     });
 
     function handleClick() {
-      const parsedAnnotationTarget = parseAnnotationTarget(target as string);
-
-      if (!parsedAnnotationTarget?.rect && !parsedAnnotationTarget.point)
-        return;
+      if (!target) return;
 
       const zoomLevel = configOptions.annotationOverlays?.zoomLevel || 1;
+      const parsedAnnotationTarget = parseAnnotationTarget(target);
 
-      const rect = createOpenSeadragonRect(
-        canvas,
-        parsedAnnotationTarget,
-        zoomLevel,
-      );
+      const { point, rect, svg } = parsedAnnotationTarget;
 
-      openSeadragonViewer?.viewport.fitBounds(rect);
+      if (point || rect || svg) {
+        const rect = createOpenSeadragonRect(
+          canvas,
+          parsedAnnotationTarget,
+          zoomLevel,
+        );
+        openSeadragonViewer?.viewport.fitBounds(rect);
+      }
     }
 
-    switch (format) {
+    switch (annotationBodyFormat) {
       case "text/plain":
         return (
           <AnnotationItemPlainText
@@ -63,7 +66,7 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
         );
       case "text/vtt":
         return <AnnotationItemVTT annotation={annotation} />;
-      // case /^image\//.test(format):
+      // case /^image\//.test(annotationBodyFormat):
       //   return <>an image?</>;
       default:
         return (
@@ -73,31 +76,7 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
           />
         );
     }
-
-    // if (body.format === "text/html") {
-    //   return (
-    //     <div key={i} dangerouslySetInnerHTML={{ __html: body.value }}></div>
-    //   );
-    // } else if (body.value) {
-    //   return (
-    //     <div key={i} data-target={target}>
-    //       {body.value}
-    //     </div>
-    //   );
-    // } else if (body.type === "Image") {
-    //   return <img src={body.id} key={i} data-target={target} />;
-    // }
   }
-
-  // const targetJson = JSON.stringify(annotation.target);
-
-  // if (Array.isArray(annotation.body)) {
-  //   return (
-  //     <Item onClick={handleClick} data-target={targetJson}>
-  //       {annotation.body.map((body, i) => renderItemBody(body, targetJson, i))}
-  //     </Item>
-  //   );
-  // }
 
   return <Item>{renderItemBody(annotation)}</Item>;
 };
