@@ -3,6 +3,7 @@ import { Item } from "src/components/Viewer/InformationPanel/Annotation/Item.sty
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 import {
   Annotation,
+  AnnotationNormalized,
   type CanvasNormalized,
   EmbeddedResource,
 } from "@iiif/presentation-3";
@@ -13,7 +14,7 @@ import { parseAnnotationTarget } from "src/lib/annotation-helpers";
 import { createOpenSeadragonRect } from "src/lib/openseadragon-helpers";
 
 type Props = {
-  annotation: Annotation;
+  annotation: AnnotationNormalized;
 };
 
 export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
@@ -21,10 +22,16 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
   const { openSeadragonViewer, vault, activeCanvas, configOptions } =
     viewerState;
 
+  const annotationBody: Array<EmbeddedResource> = annotation.body.map((body) =>
+    vault.get(body.id),
+  );
+  const annotationBodyFormat =
+    annotationBody.find((body) => body.format)?.format || "";
+  const annotationBodyValue =
+    annotationBody.find((body) => body.value)?.value || "";
+
   function renderItemBody(annotation: Annotation) {
-    const { body, target } = annotation;
-    const { format: annotationBodyFormat } = body as unknown as Body &
-      EmbeddedResource;
+    const { target } = annotation;
 
     const canvas: CanvasNormalized = vault.get({
       id: activeCanvas,
@@ -53,25 +60,30 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
       case "text/plain":
         return (
           <AnnotationItemPlainText
-            annotation={annotation}
+            value={annotationBodyValue}
             handleClick={handleClick}
           />
         );
       case "text/html":
         return (
           <AnnotationItemHTML
-            annotation={annotation}
+            value={annotationBodyValue}
             handleClick={handleClick}
           />
         );
       case "text/vtt":
-        return <AnnotationItemVTT annotation={annotation} />;
+        return (
+          <AnnotationItemVTT
+            label={annotationBody[0].label}
+            vttUri={annotationBody[0].id || ""}
+          />
+        );
       // case /^image\//.test(annotationBodyFormat):
       //   return <>an image?</>;
       default:
         return (
           <AnnotationItemPlainText
-            annotation={annotation}
+            value={annotationBodyValue}
             handleClick={handleClick}
           />
         );

@@ -1,17 +1,12 @@
-import { Annotation, Body, EmbeddedResource } from "@iiif/presentation-3";
-
 type AnnotationItemPlainTextProps = {
-  annotation: Annotation;
+  value: string;
   handleClick: (e) => void;
 };
 
 const AnnotationItemPlainText: React.FC<AnnotationItemPlainTextProps> = ({
-  annotation,
+  value,
   handleClick,
 }) => {
-  const { body } = annotation;
-  const { value } = body as unknown as Body & EmbeddedResource;
-
   return <button onClick={handleClick}>{value}</button>;
 };
 

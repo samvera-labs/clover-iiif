@@ -1,7 +1,6 @@
 import {
-  Annotation,
+  AnnotationNormalized,
   AnnotationPage as AnnotationPageType,
-  ContentResource,
 } from "@iiif/presentation-3";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
@@ -24,12 +23,7 @@ export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
     return <></>;
 
   const annotations = annotationPage.items.map((item) => {
-    const annotation = vault.get(item.id) as Annotation;
-    console.log("annotation", annotation);
-    const body = annotation.body
-      ? (vault.get(annotation?.body[0].id) as ContentResource)
-      : {};
-    return { ...annotation, body };
+    return vault.get(item.id) as AnnotationNormalized;
   });
 
   if (!annotations) return <></>;
@@ -37,10 +31,7 @@ export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
   return (
     <Group>
       {annotations?.map((annotation) => (
-        <AnnotationItem
-          key={annotation.id}
-          annotation={annotation}
-        ></AnnotationItem>
+        <AnnotationItem key={annotation.id} annotation={annotation} />
       ))}
     </Group>
   );

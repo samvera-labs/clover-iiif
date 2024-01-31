@@ -18,10 +18,9 @@ export function addOverlaysToViewer(
   const scale = 1 / canvas.width;
 
   annotations.forEach((annotation) => {
-    const parsedAnnotationTarget = parseAnnotationTarget(
-      annotation.target as string,
-    );
+    if (!annotation.target) return;
 
+    const parsedAnnotationTarget = parseAnnotationTarget(annotation.target);
     const { point, rect, svg } = parsedAnnotationTarget;
 
     // Handle Rectangle overlay
@@ -92,7 +91,7 @@ export function createOpenSeadragonRect(
     y = parsedAnnotationTarget.point.y;
   }
 
-  // TODO: Handle SVG where no rect or point exists
+  // TODO: How to handle SVG where no rect or point exists?
   if (parseAnnotationTarget.svg) {
   }
 

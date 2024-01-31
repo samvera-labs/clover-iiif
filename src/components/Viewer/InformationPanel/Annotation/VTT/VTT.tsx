@@ -1,4 +1,3 @@
-import { Annotation, Body, ExternalWebResource } from "@iiif/presentation-3";
 import React, { useEffect } from "react";
 import useWebVtt, {
   NodeWebVttCue,
@@ -12,21 +11,20 @@ import { getLabel } from "src/hooks/use-iiif";
 import { parse } from "node-webvtt";
 
 type AnnotationItemVTTProps = {
-  annotation: Annotation;
+  label: InternationalString;
+  vttUri: string;
 };
 
 const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
-  annotation,
+  label,
+  vttUri,
 }) => {
   const [cues, setCues] = React.useState<Array<NodeWebVttCueNested>>([]);
-
-  const { body } = annotation;
-  const { id, label } = body as unknown as Body & ExternalWebResource;
   const { createNestedCues, orderCuesByTime } = useWebVtt();
 
   useEffect(() => {
-    if (id)
-      fetch(id, {
+    if (vttUri)
+      fetch(vttUri, {
         headers: {
           "Content-Type": "text/plain",
           Accept: "application/json",
@@ -39,8 +37,8 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
           const nestedCues = createNestedCues(orderedCues);
           setCues(nestedCues);
         })
-        .catch((error) => console.error(id, error.toString()));
-  }, [id]);
+        .catch((error) => console.error(vttUri, error.toString()));
+  }, [vttUri]);
 
   return (
     <Group
