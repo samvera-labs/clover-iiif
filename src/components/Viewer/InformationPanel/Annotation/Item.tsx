@@ -1,5 +1,5 @@
 import React from "react";
-import { Item } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
+import { Item as ItemStyled } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 import {
   Annotation,
@@ -103,7 +103,7 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
     }
   }
 
-  return <Item>{renderItemBody(annotation)}</Item>;
+  return <ItemStyled>{renderItemBody(annotation)}</ItemStyled>;
 };
 
 export default AnnotationItem;

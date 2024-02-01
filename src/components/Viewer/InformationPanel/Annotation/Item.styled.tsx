@@ -1,18 +1,44 @@
-import { styled } from "src/styles/stitches.config";
+import { CSS, styled } from "src/styles/stitches.config";
 
-export const Group = styled("div", {
+const annotationItemRow: CSS = {
+  position: "relative",
+  cursor: "pointer",
+  display: "flex",
+  width: "100%",
+  justifyContent: "space-between",
+  textAlign: "left",
+  margin: "0",
+  padding: "0.5rem 1.618rem",
+  fontFamily: "inherit",
+  lineHeight: "1.25em",
+  fontSize: "1rem",
+  color: "inherit",
+  border: "none",
+  background: "none",
+};
+
+const ButtonStyled = styled("button", {
+  textAlign: "left",
+
+  "&:hover": {
+    color: "$accent",
+  },
+});
+
+const Group = styled("div", {
   display: "flex",
   flexDirection: "column",
   width: "100%",
 });
 
-export const Item = styled("div", {
-  position: "relative",
-  cursor: "pointer",
-  padding: "0.5rem 1.618rem",
-  lineHeight: "1.25em",
+const Item = styled("div", {
+  ...annotationItemRow,
+});
 
+const ItemHTMLWrapper = styled("div", {
   "&:hover": {
-    backgroundColor: "$secondaryMuted",
+    color: "$accent",
   },
 });
+
+export { annotationItemRow, ButtonStyled, Group, Item, ItemHTMLWrapper };

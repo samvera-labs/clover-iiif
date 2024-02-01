@@ -1,3 +1,5 @@
+import { ItemHTMLWrapper } from "./Item.styled";
+
 type AnnotationItemHTMLProps = {
   value: string;
   handleClick: (e) => void;
@@ -8,7 +10,10 @@ const AnnotationItemHTML: React.FC<AnnotationItemHTMLProps> = ({
   handleClick,
 }) => {
   return (
-    <button dangerouslySetInnerHTML={{ __html: value }} onClick={handleClick} />
+    <ItemHTMLWrapper
+      dangerouslySetInnerHTML={{ __html: value }}
+      onClick={handleClick}
+    />
   );
 };
 

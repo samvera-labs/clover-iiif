@@ -1,3 +1,5 @@
+import { ButtonStyled } from "./Item.styled";
+
 type AnnotationItemImageProps = {
   caption: string;
   handleClick: (e) => void;
@@ -10,10 +12,10 @@ const AnnotationItemImage: React.FC<AnnotationItemImageProps> = ({
   imageUri,
 }) => {
   return (
-    <button onClick={handleClick}>
+    <ButtonStyled onClick={handleClick}>
       <img src={imageUri} alt={`A visual annotation for ${caption}`} />
       <span>{caption}</span>
-    </button>
+    </ButtonStyled>
   );
 };
 
