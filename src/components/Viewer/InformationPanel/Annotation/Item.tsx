@@ -12,6 +12,7 @@ import AnnotationItemHTML from "./HTML";
 import AnnotationItemVTT from "./VTT/VTT";
 import { parseAnnotationTarget } from "src/lib/annotation-helpers";
 import { createOpenSeadragonRect } from "src/lib/openseadragon-helpers";
+import AnnotationItemImage from "./Image";
 
 type Props = {
   annotation: AnnotationNormalized;
@@ -78,9 +79,21 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
             vttUri={annotationBody[0].id || ""}
           />
         );
-      // case /^image\//.test(annotationBodyFormat):
-      //   return <>an image?</>;
       default:
+        // Is annotation body format is of type "image/*"?
+        if (/^image\//.test(annotationBodyFormat)) {
+          const imageUri =
+            annotationBody.find((body) => !body.id?.includes("vault://"))?.id ||
+            "";
+          return (
+            <AnnotationItemImage
+              caption={annotationBodyValue}
+              handleClick={handleClick}
+              imageUri={imageUri}
+            />
+          );
+        }
+
         return (
           <AnnotationItemPlainText
             value={annotationBodyValue}
