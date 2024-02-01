@@ -1,11 +1,9 @@
+import { AnnotationPage, CanvasNormalized } from "@iiif/presentation-3";
 import { PaintingCanvas, PaintingStyled } from "./Painting.styled";
 import { Select, SelectOption } from "src/components/internal/Select";
 
-import { CanvasNormalized } from "@iiif/presentation-3";
 import ImageViewer from "src/components/Viewer/ImageViewer/ImageViewer";
-import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import PaintingPlaceholder from "./Placeholder";
 import Player from "src/components/Viewer/Player/Player";
 import React from "react";
@@ -13,19 +11,17 @@ import Toggle from "./Toggle";
 import { useViewerState } from "src/context/viewer-context";
 
 interface PaintingProps {
-  painting: LabeledIIIFExternalWebResource[];
-  resources: LabeledResource[];
-  annotationResources: LabeledAnnotationedResource[];
   activeCanvas: string;
+  annotationResources: AnnotationPage[];
   isMedia: boolean;
+  painting: LabeledIIIFExternalWebResource[];
 }
 
 const Painting: React.FC<PaintingProps> = ({
   activeCanvas,
+  annotationResources,
   isMedia,
   painting,
-  resources,
-  annotationResources,
 }) => {
   const [annotationIndex, setAnnotationIndex] = React.useState<number>(0);
   const [isInteractive, setIsInteractive] = React.useState(false);
@@ -97,7 +93,6 @@ const Painting: React.FC<PaintingProps> = ({
             <Player
               allSources={painting}
               painting={painting[annotationIndex]}
-              // resources={resources}
               annotationResources={annotationResources}
             />
           ) : (

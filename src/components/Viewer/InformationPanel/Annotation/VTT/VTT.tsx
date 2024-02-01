@@ -11,7 +11,7 @@ import { getLabel } from "src/hooks/use-iiif";
 import { parse } from "node-webvtt";
 
 type AnnotationItemVTTProps = {
-  label: InternationalString;
+  label: InternationalString | undefined;
   vttUri: string;
 };
 
@@ -38,7 +38,7 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
           setCues(nestedCues);
         })
         .catch((error) => console.error(vttUri, error.toString()));
-  }, [vttUri]);
+  }, [vttUri]); // NOTE: Do not include createNestedCues and orderCuesByTime in the dependency array as it will cause an infinite loop
 
   return (
     <Group

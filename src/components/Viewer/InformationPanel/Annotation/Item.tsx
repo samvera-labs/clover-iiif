@@ -2,10 +2,10 @@ import React from "react";
 import { Item as ItemStyled } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 import {
-  Annotation,
   AnnotationNormalized,
   type CanvasNormalized,
   EmbeddedResource,
+  InternationalString,
 } from "@iiif/presentation-3";
 import AnnotationItemPlainText from "./PlainText";
 import AnnotationItemHTML from "./HTML";
@@ -23,15 +23,17 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
   const { openSeadragonViewer, vault, activeCanvas, configOptions } =
     viewerState;
 
-  const annotationBody: Array<EmbeddedResource> = annotation.body.map((body) =>
-    vault.get(body.id),
-  );
+  const annotationBody: Array<
+    EmbeddedResource & {
+      label?: InternationalString;
+    }
+  > = annotation.body.map((body) => vault.get(body.id));
   const annotationBodyFormat =
     annotationBody.find((body) => body.format)?.format || "";
   const annotationBodyValue =
     annotationBody.find((body) => body.value)?.value || "";
 
-  function renderItemBody(annotation: Annotation) {
+  function renderItemBody(annotation: AnnotationNormalized) {
     const { target } = annotation;
 
     const canvas: CanvasNormalized = vault.get({
@@ -43,6 +45,7 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
       if (!target) return;
 
       const zoomLevel = configOptions.annotationOverlays?.zoomLevel || 1;
+      // @ts-ignore
       const parsedAnnotationTarget = parseAnnotationTarget(target);
 
       const { point, rect, svg } = parsedAnnotationTarget;

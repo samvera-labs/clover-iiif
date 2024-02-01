@@ -20,8 +20,6 @@ import {
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/Viewer/Viewer/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
-import { LabeledAnnotationResource } from "src/hooks/use-iiif/getAnnotationResources";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
 import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
@@ -123,7 +121,6 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
           <ViewerContent
             activeCanvas={activeCanvas}
             painting={painting}
-            // resources={resources}
             annotationResources={annotationResources}
             items={manifest.items}
             isAudioVideo={isAudioVideo}

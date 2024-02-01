@@ -1,7 +1,14 @@
+import { AnnotationTarget } from "@iiif/presentation-3";
 import { ParsedAnnotationTarget } from "src/types/annotations";
-import { SpecificResource } from "@iiif/presentation-3";
 
-const parseAnnotationTarget = (target: string | SpecificResource) => {
+type AnnotationTargetExtended =
+  | string
+  | (AnnotationTarget & {
+      selector?: any;
+      source?: string;
+    });
+
+const parseAnnotationTarget = (target: AnnotationTargetExtended) => {
   // https://iiif.io/api/cookbook/recipe/0021-tagging/canvas/p1
   // https://iiif.io/api/cookbook/recipe/0021-tagging/canvas/p1#xywh=265,661,1260,1239
   // https://iiif.io/api/cookbook/recipe/0021-tagging/canvas/p1#t=31.5,55.5

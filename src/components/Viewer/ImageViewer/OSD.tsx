@@ -27,7 +27,7 @@ interface OSDProps {
   uri: string | undefined;
   hasPlaceholder: boolean;
   imageType: osdImageTypes;
-  annotationResources: AnnotationPage;
+  annotationResources: AnnotationPage[];
 }
 
 const OSD: React.FC<OSDProps> = ({

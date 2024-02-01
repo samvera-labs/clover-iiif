@@ -1,6 +1,6 @@
 import {
   AnnotationNormalized,
-  AnnotationPage as AnnotationPageType,
+  AnnotationPageNormalized,
 } from "@iiif/presentation-3";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
@@ -9,7 +9,7 @@ import { Group } from "src/components/Viewer/InformationPanel/Annotation/Item.st
 import React from "react";
 
 type Props = {
-  annotationPage: AnnotationPageType;
+  annotationPage: AnnotationPageNormalized;
 };
 export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
   const viewerState: ViewerContextStore = useViewerState();
@@ -25,6 +25,7 @@ export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
   const annotations = annotationPage.items.map((item) => {
     return vault.get(item.id) as AnnotationNormalized;
   });
+  console.log("annotations", annotations);
 
   if (!annotations) return <></>;
 

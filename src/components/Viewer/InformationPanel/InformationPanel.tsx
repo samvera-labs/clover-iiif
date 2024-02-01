@@ -1,4 +1,8 @@
 import {
+  AnnotationPage as AnnotationPageType,
+  InternationalString,
+} from "@iiif/presentation-3";
+import {
   Content,
   List,
   Scroll,
@@ -9,7 +13,6 @@ import React, { useEffect, useState } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import AnnotationPage from "src/components/Viewer/InformationPanel/Annotation/Page";
-import { AnnotationPage as AnnotationPageType } from "@iiif/presentation-3";
 import Information from "src/components/Viewer/InformationPanel/About/About";
 import { Label } from "src/components/Primitives";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
@@ -34,7 +37,6 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   const renderAbout =
     informationPanel?.renderAbout ||
     configOptions?.informationPanel?.renderAbout;
-  const renderSupplementing = informationPanel?.renderSupplementing;
   const renderAnnotation = informationPanel?.renderAnnotation;
 
   useEffect(() => {
@@ -68,19 +70,12 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     >
       <List aria-label="select chapter" data-testid="information-panel-list">
         {renderAbout && <Trigger value="manifest-about">About</Trigger>}
-        {/* {renderSupplementing &&
-          resources &&
-          resources.map(({ id, label }) => (
-            <Trigger key={id} value={id as string}>
-              <Label label={label} />
-            </Trigger>
-          ))} */}
 
         {renderAnnotation &&
           annotationResources &&
           annotationResources.map((resource, i) => (
             <Trigger key={i} value={resource.id}>
-              <Label label={resource.label} />
+              <Label label={resource.label as InternationalString} />
             </Trigger>
           ))}
       </List>

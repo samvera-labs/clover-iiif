@@ -1,12 +1,12 @@
+import { AnnotationPage, CanvasNormalized } from "@iiif/presentation-3";
 import Hls, { HlsConfig } from "hls.js";
 import React, { useEffect } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import AudioVisualizer from "src/components/Viewer/Player/AudioVisualizer";
-import { CanvasNormalized } from "@iiif/presentation-3";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Track from "src/components/Viewer/Player/Track";
 import { getPaintingResource } from "src/hooks/use-iiif";
 
@@ -15,10 +15,14 @@ import { getPaintingResource } from "src/hooks/use-iiif";
 interface PlayerProps {
   allSources: LabeledIIIFExternalWebResource[];
   painting: LabeledIIIFExternalWebResource;
-  resources: LabeledResource[];
+  annotationResources: AnnotationPage[];
 }
 
-const Player: React.FC<PlayerProps> = ({ allSources, resources, painting }) => {
+const Player: React.FC<PlayerProps> = ({
+  allSources,
+  annotationResources,
+  painting,
+}) => {
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [poster, setPoster] = React.useState<string | undefined>();
   const playerRef = React.useRef<HTMLVideoElement>(null);
@@ -26,6 +30,11 @@ const Player: React.FC<PlayerProps> = ({ allSources, resources, painting }) => {
 
   const viewerState: ViewerContextStore = useViewerState();
   const { activeCanvas, configOptions, vault } = viewerState;
+
+  console.log(
+    "annotationResources: Media Player need to wire up",
+    annotationResources,
+  );
 
   /**
    * HLS.js binding for .m3u8 files
@@ -161,8 +170,9 @@ const Player: React.FC<PlayerProps> = ({ allSources, resources, painting }) => {
         {allSources.map((painting) => (
           <source src={painting.id} type={painting.format} key={painting.id} />
         ))}
-        {/* {resources?.length > 0 &&
-          resources.map((resource) => (
+        {/* TODO: Get these working again */}
+        {/* {annotationResources?.length > 0 &&
+          annotationResources.map((resource) => (
             <Track
               resource={resource}
               ignoreCaptionLabels={configOptions.ignoreCaptionLabels || []}

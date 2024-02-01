@@ -13,7 +13,6 @@ import {
 } from "src/components/Viewer/Viewer/Viewer.styled";
 
 import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React from "react";
@@ -22,7 +21,6 @@ import { useViewerState } from "src/context/viewer-context";
 interface Props {
   activeCanvas: string;
   painting: IIIFExternalWebResource[];
-  resources: LabeledResource[];
   annotationResources: AnnotationPage[];
   items: Canvas[];
   isAudioVideo: boolean;
@@ -31,7 +29,6 @@ interface Props {
 const ViewerContent: React.FC<Props> = ({
   activeCanvas,
   painting,
-  // resources,
   annotationResources,
   items,
   isAudioVideo,

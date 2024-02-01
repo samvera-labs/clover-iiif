@@ -1,14 +1,14 @@
 import OSD, { osdImageTypes } from "src/components/Viewer/ImageViewer/OSD";
 import React, { useEffect, useState } from "react";
 
-import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
+import { AnnotationPage } from "@iiif/presentation-3";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { getImageServiceURI } from "src/lib/iiif";
 
 interface ImageViewerProps {
   painting: LabeledIIIFExternalWebResource;
   hasPlaceholder: boolean;
-  annotationResources: LabeledAnnotationedResource[];
+  annotationResources: AnnotationPage[];
 }
 
 const ImageViewer: React.FC<ImageViewerProps> = ({

@@ -1,3 +1,7 @@
+import { AnnotationPageNormalized } from "@iiif/presentation-3";
+
+type AnnotationResources = AnnotationPageNormalized[];
+
 interface ParsedAnnotationTarget {
   id: string;
   point?: {
@@ -14,4 +18,4 @@ interface ParsedAnnotationTarget {
   t?: string;
 }
 
-export type { ParsedAnnotationTarget };
+export type { AnnotationResources, ParsedAnnotationTarget };
