@@ -13,35 +13,29 @@ import { AnnotationResources } from "src/types/annotations";
 import Information from "src/components/Viewer/InformationPanel/About/About";
 import { InternationalString } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 
 interface NavigatorProps {
   activeCanvas: string;
   annotationResources?: AnnotationResources;
-  resources?: Array<LabeledResource>;
 }
 
 export const InformationPanel: React.FC<NavigatorProps> = ({
   activeCanvas,
   annotationResources,
-  resources,
 }) => {
   const viewerState: ViewerContextStore = useViewerState();
-  const { configOptions } = viewerState;
-  const { informationPanel } = configOptions;
+  const {
+    configOptions: { informationPanel },
+  } = viewerState;
 
   const [activeResource, setActiveResource] = useState<string>();
 
-  const renderAbout =
-    informationPanel?.renderAbout ||
-    configOptions?.informationPanel?.renderAbout;
+  const renderAbout = informationPanel?.renderAbout;
   const renderAnnotation = informationPanel?.renderAnnotation;
 
   useEffect(() => {
     if (renderAbout) {
       setActiveResource("manifest-about");
-    } else if (resources && resources?.length > 0 && !renderAbout) {
-      setActiveResource(resources[0].id);
     } else if (
       annotationResources &&
       annotationResources?.length > 0 &&
@@ -49,13 +43,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     ) {
       setActiveResource(annotationResources[0].id);
     }
-  }, [activeCanvas, renderAbout, resources, annotationResources]);
+  }, [activeCanvas, renderAbout, annotationResources]);
 
   const handleValueChange = (value: string) => {
     setActiveResource(value);
   };
-
-  // if (!resources) return <></>;
 
   return (
     <Wrapper

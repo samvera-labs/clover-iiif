@@ -50,10 +50,9 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
       <Main>
         <Painting
           activeCanvas={activeCanvas}
+          annotationResources={annotationResources}
           isMedia={isAudioVideo}
           painting={painting}
-          // resources={resources}
-          annotationResources={annotationResources}
         />
 
         {isAside && (

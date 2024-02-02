@@ -1,96 +1,131 @@
 {
-  "@context": ["http://iiif.io/api/presentation/3/context.json"],
+  "@context": [
+    "http://iiif.io/api/presentation/3/context.json"
+  ],
   "id": "http://localhost:3000/manifest/newspaper/annotation_demo.json",
-  "type": "Collection",
-  "label": {
-    "en": ["Cookbook Annotation Examples"]
-  },
   "items": [
     {
       "id": "https://iiif.io/api/cookbook/recipe/0219-using-caption-file/manifest.json",
-      "type": "Manifest",
       "label": {
-        "en": ["0219 - Using Caption and Subtitle Files with Video Content"]
-      }
+        "en": [
+          "0219 - Using Caption and Subtitle Files with Video Content"
+        ]
+      },
+      "type": "Manifest"
     },
     {
       "id": "https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/manifest.json",
-      "type": "Manifest",
       "label": {
-        "en": ["0266 - Simplest annotation"]
-      }
+        "en": [
+          "0266 - Simplest annotation"
+        ]
+      },
+      "type": "Manifest"
     },
     {
       "id": "https://iiif.io/api/cookbook/recipe/0019-html-in-annotations/manifest.json",
-      "type": "Manifest",
       "label": {
-        "en": ["0019 - HTML in Annotations"]
-      }
+        "en": [
+          "0019 - HTML in Annotations"
+        ]
+      },
+      "type": "Manifest"
     },
     {
       "id": "https://iiif.io/api/cookbook/recipe/0021-tagging/manifest.json",
-      "type": "Manifest",
       "label": {
-        "en": ["0021 - Simple Annotation - Tagging"]
-      }
+        "en": [
+          "0021 - Simple Annotation - Tagging"
+        ]
+      },
+      "type": "Manifest"
     },
     {
       "id": "https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/manifest.json",
-      "type": "Manifest",
       "label": {
-        "en": ["0261 - Annotation with a Non-Rectangular Polygon"]
-      }
+        "en": [
+          "0261 - Annotation with a Non-Rectangular Polygon"
+        ]
+      },
+      "type": "Manifest"
     },
     {
       "id": "https://iiif.io/api/cookbook/recipe/0258-tagging-external-resource/manifest.json",
-      "type": "Manifest",
       "label": {
-        "en": ["0258 Tagging with an External Resource"]
-      }
+        "en": [
+          "0258 Tagging with an External Resource"
+        ]
+      },
+      "type": "Manifest"
     },
     {
       "id": "https://iiif.io/api/cookbook/recipe/0326-annotating-image-layer/manifest.json",
-      "type": "Manifest",
       "label": {
-        "en": ["0326 - Annotate a specific images or layers"]
-      }
+        "en": [
+          "0326 - Annotate a specific images or layers"
+        ]
+      },
+      "type": "Manifest"
     },
     {
       "id": "https://iiif.io/api/cookbook/recipe/0135-annotating-point-in-canvas/manifest.json",
-      "type": "Manifest",
       "label": {
-        "en": ["0135 - Annotating a specific point of an image"]
-      }
+        "en": [
+          "0135 - Annotating a specific point of an image"
+        ]
+      },
+      "type": "Manifest"
     },
     {
       "id": "https://iiif.io/api/cookbook/recipe/0139-geolocate-canvas-fragment/manifest.json",
-      "type": "Manifest",
       "label": {
-        "en": ["0139 - Geographic coordinates"]
-      }
+        "en": [
+          "0139 - Geographic coordinates"
+        ]
+      },
+      "type": "Manifest"
     },
     {
       "id": "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/manifest.json",
-      "type": "Manifest",
       "label": {
-        "en": ["0269 - Embedded or Referenced Annotations"]
-      }
+        "en": [
+          "0269 - Embedded or Referenced Annotations"
+        ]
+      },
+      "type": "Manifest"
     },
     {
       "id": "https://iiif.io/api/cookbook/recipe/0306-linking-annotations-to-manifests/manifest.json",
-      "type": "Manifest",
       "label": {
         "en": [
-          "10. Linking external Annotations targeting a Canvas to a Manifest"
+          "0306 - Linking external Annotations targeting a Canvas to a Manifest"
         ]
-      }
+      },
+      "type": "Manifest"
     },
     {
       "id": "https://iiif.io/api/cookbook/recipe/0377-image-in-annotation/manifest.json",
-      "type": "Manifest",
       "label": {
-        "en": ["11. Image in annotations"]
-      }
+        "en": [
+          "0377 - Image in annotations"
+        ]
+      },
+      "type": "Manifest"
+    },
+    {
+      "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1.json",
+      "label": {
+        "en": [
+          "Local Newspaper Demo"
+        ]
+      },
+      "type": "Manifest"
     }
-  ]
+  ],
+  "label": {
+    "en": [
+      "Cookbook Annotation Examples"
+    ]
+  },
+  "type": "Collection"
 }

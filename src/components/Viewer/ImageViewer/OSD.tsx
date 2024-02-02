@@ -72,10 +72,8 @@ const OSD: React.FC<OSDProps> = ({
     ajaxWithCredentials: configOptions.withCredentials,
   };
 
-  // Track annotations from the AnnotationPage
   const annotations: Array<AnnotationNormalized> = [];
 
-  // Should AnnotationPage be an array here, or are we just dealing with one Page (ie. pass down only an object, not an array)?
   annotationResources[0]?.items?.forEach((item) => {
     const annotationResource = vault.get(item.id);
     annotations.push(annotationResource as unknown as AnnotationNormalized);
