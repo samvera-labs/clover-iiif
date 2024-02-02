@@ -1,4 +1,5 @@
 import { ButtonStyled } from "./Item.styled";
+import React from "react";
 
 type AnnotationItemPlainTextProps = {
   value: string;

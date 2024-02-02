@@ -29,7 +29,7 @@ export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
   if (!annotations) return <></>;
 
   return (
-    <Group>
+    <Group data-testid="annotation-page">
       {annotations?.map((annotation) => (
         <AnnotationItem key={annotation.id} annotation={annotation} />
       ))}
