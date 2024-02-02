@@ -1,7 +1,8 @@
-import { AnnotationPage, CanvasNormalized } from "@iiif/presentation-3";
 import { PaintingCanvas, PaintingStyled } from "./Painting.styled";
 import { Select, SelectOption } from "src/components/internal/Select";
 
+import { AnnotationResources } from "src/types/annotations";
+import { CanvasNormalized } from "@iiif/presentation-3";
 import ImageViewer from "src/components/Viewer/ImageViewer/ImageViewer";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import PaintingPlaceholder from "./Placeholder";
@@ -12,7 +13,7 @@ import { useViewerState } from "src/context/viewer-context";
 
 interface PaintingProps {
   activeCanvas: string;
-  annotationResources: AnnotationPage[];
+  annotationResources: AnnotationResources;
   isMedia: boolean;
   painting: LabeledIIIFExternalWebResource[];
 }

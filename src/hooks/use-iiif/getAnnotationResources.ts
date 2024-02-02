@@ -1,16 +1,8 @@
-import { CanvasNormalized, InternationalString } from "@iiif/presentation-3";
-
 import { AnnotationResources } from "src/types/annotations";
+import { CanvasNormalized } from "@iiif/presentation-3";
 
 export type FormattedAnnotationItem = {
   [k: string]: any;
-};
-
-export type LabeledAnnotationResource = {
-  id: string;
-  label: InternationalString;
-  motivation: string | string[] | undefined;
-  items: FormattedAnnotationItem[];
 };
 
 export const getAnnotationResources = (
@@ -25,7 +17,6 @@ export const getAnnotationResources = (
   if (!canvas?.annotations || !canvas.annotations[0]) return [];
 
   const annotationPages: AnnotationResources = vault.get(canvas.annotations);
-  console.log("annotationPages", annotationPages);
 
   /**
    * Filter out annotation pages that don't have any Annotations in the items array.

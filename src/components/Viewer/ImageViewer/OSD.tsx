@@ -16,10 +16,10 @@ import { getInfoResponse } from "src/lib/iiif";
 import { v4 as uuidv4 } from "uuid";
 import { addOverlaysToViewer } from "src/lib/openseadragon-helpers";
 import {
-  Annotation,
-  AnnotationPage,
+  AnnotationNormalized,
   type CanvasNormalized,
 } from "@iiif/presentation-3";
+import { AnnotationResources } from "src/types/annotations";
 
 export type osdImageTypes = "tiledImage" | "simpleImage" | undefined;
 
@@ -27,7 +27,7 @@ interface OSDProps {
   uri: string | undefined;
   hasPlaceholder: boolean;
   imageType: osdImageTypes;
-  annotationResources: AnnotationPage[];
+  annotationResources: AnnotationResources;
 }
 
 const OSD: React.FC<OSDProps> = ({
@@ -73,12 +73,12 @@ const OSD: React.FC<OSDProps> = ({
   };
 
   // Track annotations from the AnnotationPage
-  const annotations: Array<Annotation> = [];
+  const annotations: Array<AnnotationNormalized> = [];
 
   // Should AnnotationPage be an array here, or are we just dealing with one Page (ie. pass down only an object, not an array)?
   annotationResources[0]?.items?.forEach((item) => {
     const annotationResource = vault.get(item.id);
-    annotations.push(annotationResource as unknown as Annotation);
+    annotations.push(annotationResource as unknown as AnnotationNormalized);
   });
 
   useEffect(() => {

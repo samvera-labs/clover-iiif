@@ -1,8 +1,4 @@
 import {
-  AnnotationPage as AnnotationPageType,
-  InternationalString,
-} from "@iiif/presentation-3";
-import {
   Content,
   List,
   Scroll,
@@ -13,20 +9,22 @@ import React, { useEffect, useState } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import AnnotationPage from "src/components/Viewer/InformationPanel/Annotation/Page";
+import { AnnotationResources } from "src/types/annotations";
 import Information from "src/components/Viewer/InformationPanel/About/About";
+import { InternationalString } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
 import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 
 interface NavigatorProps {
   activeCanvas: string;
+  annotationResources?: AnnotationResources;
   resources?: Array<LabeledResource>;
-  annotationResources?: AnnotationPageType[];
 }
 
 export const InformationPanel: React.FC<NavigatorProps> = ({
   activeCanvas,
-  resources,
   annotationResources,
+  resources,
 }) => {
   const viewerState: ViewerContextStore = useViewerState();
   const { configOptions } = viewerState;
@@ -85,15 +83,6 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             <Information />
           </Content>
         )}
-        {/* {renderSupplementing &&
-          resources &&
-          resources.map((resource) => {
-            return (
-              <Content key={resource.id} value={resource.id as string}>
-                <Resource resource={resource} />
-              </Content>
-            );
-          })} */}
 
         {renderAnnotation &&
           annotationResources &&

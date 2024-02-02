@@ -1,9 +1,4 @@
 import {
-  AnnotationPage,
-  Canvas,
-  IIIFExternalWebResource,
-} from "@iiif/presentation-3";
-import {
   Aside,
   CollapsibleContent,
   CollapsibleTrigger,
@@ -11,27 +6,29 @@ import {
   Main,
   MediaWrapper,
 } from "src/components/Viewer/Viewer/Viewer.styled";
+import { Canvas, IIIFExternalWebResource } from "@iiif/presentation-3";
 
+import { AnnotationResources } from "src/types/annotations";
 import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
 import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React from "react";
 import { useViewerState } from "src/context/viewer-context";
 
-interface Props {
+interface ViewerContentProps {
   activeCanvas: string;
-  painting: IIIFExternalWebResource[];
-  annotationResources: AnnotationPage[];
-  items: Canvas[];
+  annotationResources: AnnotationResources;
   isAudioVideo: boolean;
+  items: Canvas[];
+  painting: IIIFExternalWebResource[];
 }
 
-const ViewerContent: React.FC<Props> = ({
+const ViewerContent: React.FC<ViewerContentProps> = ({
   activeCanvas,
-  painting,
   annotationResources,
-  items,
   isAudioVideo,
+  items,
+  painting,
 }) => {
   const { informationOpen, configOptions } = useViewerState();
   const { informationPanel } = configOptions;
@@ -76,7 +73,6 @@ const ViewerContent: React.FC<Props> = ({
           <CollapsibleContent>
             <InformationPanel
               activeCanvas={activeCanvas}
-              // resources={resources}
               annotationResources={annotationResources}
             />
           </CollapsibleContent>

@@ -2,9 +2,11 @@ import {
   addOverlaysToViewer,
   createOpenSeadragonRect,
 } from "./openseadragon-helpers";
-import { LabeledAnnotationedResource } from "src/hooks/use-iiif/getAnnotationResources";
 import { afterEach, describe, expect, it, vi, Mock } from "vitest";
-import { type CanvasNormalized } from "@iiif/presentation-3";
+import {
+  AnnotationNormalized,
+  type CanvasNormalized,
+} from "@iiif/presentation-3";
 
 import { OsdSvgOverlay } from "src/lib/openseadragon-svg";
 import {
@@ -16,13 +18,12 @@ import {
 vi.mock("src/lib/openseadragon-svg");
 const mockedOsdSvgOverlay = OsdSvgOverlay as Mock;
 
-// TODO: Fix these
 describe("addOverlaysToViewer", () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  function createAnnotations(target1): LabeledAnnotationedResource[] {
+  function createAnnotations(target1): AnnotationNormalized[] {
     return [
       {
         id: "https://iiif.io/api/cookbook/recipe/0021-tagging/annotation/p0002-tag",

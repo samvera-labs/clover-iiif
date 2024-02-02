@@ -1,7 +1,6 @@
 import * as Collapsible from "@radix-ui/react-collapsible";
 
 import {
-  AnnotationPage,
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
@@ -17,6 +16,7 @@ import {
   getPaintingResource,
 } from "src/hooks/use-iiif";
 
+import { AnnotationResources } from "src/types/annotations";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/Viewer/Viewer/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
@@ -47,9 +47,8 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   const [isInformationPanel, setIsInformationPanel] = useState<boolean>(false);
   const [isAudioVideo, setIsAudioVideo] = useState(false);
   const [painting, setPainting] = useState<IIIFExternalWebResource[]>([]);
-  const [annotationResources, setAnnotationResources] = useState<
-    AnnotationPage[]
-  >([]);
+  const [annotationResources, setAnnotationResources] =
+    useState<AnnotationResources>([]);
 
   const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
   const isSmallViewport = useMediaQuery(media.sm);
@@ -84,7 +83,6 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
 
   useEffect(() => {
     const painting = getPaintingResource(vault, activeCanvas);
-    const annotationResources = getAnnotationResources(vault, activeCanvas);
 
     if (painting) {
       setIsAudioVideo(
@@ -96,10 +94,10 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
       setPainting(painting);
     }
 
-    setAnnotationResources(annotationResources);
+    setAnnotationResources(getAnnotationResources(vault, activeCanvas));
 
     setIsInformationPanel(annotationResources.length !== 0);
-  }, [activeCanvas, vault]);
+  }, [activeCanvas, annotationResources.length, vault]);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>

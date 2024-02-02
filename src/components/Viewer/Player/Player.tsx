@@ -1,9 +1,10 @@
-import { AnnotationPage, CanvasNormalized } from "@iiif/presentation-3";
 import Hls, { HlsConfig } from "hls.js";
 import React, { useEffect } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
+import { AnnotationResources } from "src/types/annotations";
 import AudioVisualizer from "src/components/Viewer/Player/AudioVisualizer";
+import { CanvasNormalized } from "@iiif/presentation-3";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -15,7 +16,7 @@ import { getPaintingResource } from "src/hooks/use-iiif";
 interface PlayerProps {
   allSources: LabeledIIIFExternalWebResource[];
   painting: LabeledIIIFExternalWebResource;
-  annotationResources: AnnotationPage[];
+  annotationResources: AnnotationResources;
 }
 
 const Player: React.FC<PlayerProps> = ({

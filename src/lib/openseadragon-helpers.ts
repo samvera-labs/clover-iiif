@@ -1,17 +1,20 @@
-import { Annotation, type CanvasNormalized } from "@iiif/presentation-3";
+import {
+  Annotation,
+  AnnotationNormalized,
+  type CanvasNormalized,
+} from "@iiif/presentation-3";
 import OpenSeadragon from "openseadragon";
 import { type ViewerConfigOptions } from "src/context/viewer-context";
 import { OsdSvgOverlay } from "src/lib/openseadragon-svg";
 import { parseAnnotationTarget } from "src/lib/annotation-helpers";
 
-import { type FormattedAnnotationItem } from "src/hooks/use-iiif/getAnnotationResources";
 import { ParsedAnnotationTarget } from "src/types/annotations";
 
 export function addOverlaysToViewer(
   viewer: OpenSeadragon.Viewer,
   canvas: CanvasNormalized,
   configOptions: ViewerConfigOptions,
-  annotations: Annotation[],
+  annotations: Annotation[] | AnnotationNormalized[],
 ): void {
   if (!viewer) return;
 
@@ -23,7 +26,6 @@ export function addOverlaysToViewer(
     const parsedAnnotationTarget = parseAnnotationTarget(annotation.target);
     const { point, rect, svg } = parsedAnnotationTarget;
 
-    // Handle Rectangle overlay
     if (rect) {
       const { x, y, w, h } = rect;
       addRectangularOverlay(
@@ -36,7 +38,6 @@ export function addOverlaysToViewer(
       );
     }
 
-    // Handle Point Selector Overlay
     if (point) {
       const { x, y } = point;
       const svg = `
@@ -48,24 +49,9 @@ export function addOverlaysToViewer(
       addSvgOverlay(viewer, svg, configOptions, scale);
     }
 
-    // Handle SVG overlay
     if (svg) {
       addSvgOverlay(viewer, svg, configOptions, scale);
     }
-
-    // resource.items.forEach((item) => {
-    //   if (typeof item.target === "string") {
-    //     if (item.target.includes("#xywh=")) {
-    //       handleXywhString(item, viewer, configOptions, scale);
-    //     }
-    //   } else if (typeof item.target === "object") {
-    //     if (item.target.selector?.type === "PointSelector") {
-    //       handlePointSelector(item, viewer, configOptions, scale);
-    //     } else if (item.target.selector?.type === "SvgSelector") {
-    //       handleSvgSelector(item, viewer, configOptions, scale);
-    //     }
-    //   }
-    // });
   });
 }
 
@@ -92,6 +78,7 @@ export function createOpenSeadragonRect(
   }
 
   // TODO: How to handle SVG where no rect or point exists?
+  // @ts-ignore
   if (parseAnnotationTarget.svg) {
   }
 
@@ -104,18 +91,6 @@ export function createOpenSeadragonRect(
   );
 
   return rect;
-}
-
-// TODO: Remove this?
-function handleSvgSelector(
-  item: FormattedAnnotationItem,
-  viewer: OpenSeadragon.Viewer,
-  configOptions: ViewerConfigOptions,
-  scale: number,
-) {
-  const svgString = item.target.selector?.value;
-
-  addSvgOverlay(viewer, svgString, configOptions, scale);
 }
 
 /**

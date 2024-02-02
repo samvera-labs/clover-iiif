@@ -25,7 +25,6 @@ export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
   const annotations = annotationPage.items.map((item) => {
     return vault.get(item.id) as AnnotationNormalized;
   });
-  console.log("annotations", annotations);
 
   if (!annotations) return <></>;
 
