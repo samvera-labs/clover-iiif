@@ -1,13 +1,12 @@
+import { AnnotationNormalized, CanvasNormalized } from "@iiif/presentation-3";
 import Hls, { HlsConfig } from "hls.js";
 import React, { useEffect } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import { AnnotationResources } from "src/types/annotations";
 import AudioVisualizer from "src/components/Viewer/Player/AudioVisualizer";
-import { CanvasNormalized } from "@iiif/presentation-3";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import Track from "src/components/Viewer/Player/Track";
 import { getPaintingResource } from "src/hooks/use-iiif";
 
@@ -15,8 +14,8 @@ import { getPaintingResource } from "src/hooks/use-iiif";
 
 interface PlayerProps {
   allSources: LabeledIIIFExternalWebResource[];
-  painting: LabeledIIIFExternalWebResource;
   annotationResources: AnnotationResources;
+  painting: LabeledIIIFExternalWebResource;
 }
 
 const Player: React.FC<PlayerProps> = ({
@@ -31,11 +30,6 @@ const Player: React.FC<PlayerProps> = ({
 
   const viewerState: ViewerContextStore = useViewerState();
   const { activeCanvas, configOptions, vault } = viewerState;
-
-  console.log(
-    "annotationResources: Media Player need to wire up",
-    annotationResources,
-  );
 
   /**
    * HLS.js binding for .m3u8 files
@@ -171,15 +165,33 @@ const Player: React.FC<PlayerProps> = ({
         {allSources.map((painting) => (
           <source src={painting.id} type={painting.format} key={painting.id} />
         ))}
-        {/* TODO: Get these working again */}
-        {/* {annotationResources?.length > 0 &&
-          annotationResources.map((resource) => (
-            <Track
-              resource={resource}
-              ignoreCaptionLabels={configOptions.ignoreCaptionLabels || []}
-              key={resource.id}
-            />
-          ))} */}
+        {annotationResources?.length > 0 &&
+          annotationResources.map((annotationPage) => {
+            const annotationBodies: LabeledIIIFExternalWebResource[] = [];
+
+            annotationPage.items.forEach((annotation) => {
+              const annotationNormalized = vault.get(
+                annotation.id,
+              ) as AnnotationNormalized;
+
+              annotationNormalized.body.forEach((body) => {
+                const annotationBody = vault.get(
+                  body.id,
+                ) as LabeledIIIFExternalWebResource;
+                annotationBodies.push(annotationBody);
+              });
+            });
+
+            return annotationBodies.map((body) => {
+              return (
+                <Track
+                  resource={body}
+                  ignoreCaptionLabels={configOptions.ignoreCaptionLabels || []}
+                  key={body.id}
+                />
+              );
+            });
+          })}
         Sorry, your browser doesn&apos;t support embedded videos.
       </video>
 
