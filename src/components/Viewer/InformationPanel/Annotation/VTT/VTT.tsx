@@ -21,6 +21,7 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
 }) => {
   const [cues, setCues] = React.useState<Array<NodeWebVttCueNested>>([]);
   const { createNestedCues, orderCuesByTime } = useWebVtt();
+  const [isNetworkError, setIsNetworkError] = React.useState<Error>();
 
   useEffect(() => {
     if (vttUri)
@@ -37,13 +38,22 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
           const nestedCues = createNestedCues(orderedCues);
           setCues(nestedCues);
         })
-        .catch((error) => console.error(vttUri, error.toString()));
+        .catch((error) => {
+          console.error(vttUri, error.toString());
+          setIsNetworkError(error);
+        });
   }, [vttUri]); // NOTE: Do not include createNestedCues and orderCuesByTime in the dependency array as it will cause an infinite loop
 
   return (
     <Group
+      data-testid="annotation-item-vtt"
       aria-label={`navigate ${getLabel(label as InternationalString, "en")}`}
     >
+      {isNetworkError && (
+        <div data-testid="error-message">
+          Network Error: {isNetworkError.toString()}
+        </div>
+      )}
       <Menu items={cues} />
     </Group>
   );

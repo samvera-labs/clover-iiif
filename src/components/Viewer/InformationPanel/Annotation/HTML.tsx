@@ -1,4 +1,5 @@
 import { ItemHTMLWrapper } from "./Item.styled";
+import React from "react";
 
 type AnnotationItemHTMLProps = {
   value: string;
