@@ -71,12 +71,12 @@
     "@stitches/react": "^1.2.8",
     "hls.js": "^1.5.3",
     "node-webvtt": "^1.9.4",
-    "openseadragon": "^2.4.2",
+    "openseadragon": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.12",
     "sanitize-html": "^2.11.0",
-    "swiper": "^9.4.1",
+    "swiper": "^9.0.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
