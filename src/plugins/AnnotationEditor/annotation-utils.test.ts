@@ -2,6 +2,7 @@ import {
   saveAnnotation,
   deleteAnnotation,
   updateAnnotation,
+  fetchAnnotation,
 } from "./annotation-utils";
 
 const webAnnotation1 = {
@@ -61,30 +62,65 @@ const annotation2 = {
   type: "Annotation",
 };
 
+const webAnnotationMultipleBodies = {
+  "@context": "http://www.w3.org/ns/anno.jsonld",
+  type: "Annotation",
+  body: [
+    { type: "TextualBody", value: "second b", purpose: "commenting" },
+    { type: "TextualBody", value: "second c", purpose: "commenting" },
+  ],
+  target: {
+    source: "https://example.com/1",
+    selector: {
+      type: "FragmentSelector",
+      conformsTo: "http://www.w3.org/TR/media-frags/",
+      value: "xywh=10,20,30,40",
+    },
+  },
+  id: "123abc",
+};
+
+const annotationMultipleBodies = {
+  body: [
+    { type: "TextualBody", value: "second b" },
+    { type: "TextualBody", value: "second c" },
+  ],
+  id: "123abc",
+  motivation: "commenting",
+  target: {
+    source: "https://example.com/1",
+    selector: {
+      type: "FragmentSelector",
+      value: "xywh=10,20,30,40",
+    },
+  },
+  type: "Annotation",
+};
+
 describe("saveAnnotation", () => {
   afterEach(() => {
     localStorage.clear();
   });
 
-  it("saves annotation to local storage when no saved annotation", () => {
+  it("saves annotation when there are no saved annotation", () => {
     const canvas = "canvas1";
 
     saveAnnotation(webAnnotation1, canvas);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
-      [canvas]: [annotation1],
+      [canvas]: { id: canvas, items: [annotation1], type: "AnnotationPage" },
     });
 
-    expect(res).toBe(expected);
+    expect(res).toStrictEqual(expected);
   });
 
-  it("saves annotation to local storage when there are saved annotation", () => {
+  it("saves annotation when there are saved annotation", () => {
     const canvas = "canvas1";
     localStorage.setItem(
       "annotations",
       JSON.stringify({
-        [canvas]: [annotation1],
+        [canvas]: { id: canvas, items: [annotation1], type: "AnnotationPage" },
       }),
     );
 
@@ -92,20 +128,28 @@ describe("saveAnnotation", () => {
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
-      [canvas]: [annotation1, annotation2],
+      [canvas]: {
+        id: canvas,
+        items: [annotation1, annotation2],
+        type: "AnnotationPage",
+      },
     });
 
-    expect(res).toBe(expected);
+    expect(res).toStrictEqual(expected);
   });
 
-  it("saves annotation to local storage when there are saved annotation with diffrent canvas", () => {
+  it("saves annotation when there are saved annotation with multiple canvas", () => {
     const canvas1 = "canvas1";
     const canvas2 = "canvas2";
 
     localStorage.setItem(
       "annotations",
       JSON.stringify({
-        [canvas1]: [annotation1],
+        [canvas1]: {
+          id: canvas1,
+          items: [annotation1],
+          type: "AnnotationPage",
+        },
       }),
     );
 
@@ -113,11 +157,28 @@ describe("saveAnnotation", () => {
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
-      [canvas1]: [annotation1],
-      [canvas2]: [annotation2],
+      [canvas1]: { id: canvas1, items: [annotation1], type: "AnnotationPage" },
+      [canvas2]: { id: canvas2, items: [annotation2], type: "AnnotationPage" },
     });
 
-    expect(res).toBe(expected);
+    expect(res).toStrictEqual(expected);
+  });
+
+  it("saves annotation with multiple bodies", () => {
+    const canvas = "canvas1";
+
+    saveAnnotation(webAnnotationMultipleBodies, canvas);
+    const res = localStorage.getItem("annotations");
+
+    const expected = JSON.stringify({
+      [canvas]: {
+        id: canvas,
+        items: [annotationMultipleBodies],
+        type: "AnnotationPage",
+      },
+    });
+
+    expect(res).toStrictEqual(expected);
   });
 });
 
@@ -126,13 +187,17 @@ describe("deleteAnnotation", () => {
     localStorage.clear();
   });
 
-  it("deletes annotation from local storage", () => {
+  it("deletes annotation when there is one annotation", () => {
     const canvas = "canvas1";
 
     localStorage.setItem(
       "annotations",
       JSON.stringify({
-        [canvas]: [annotation1],
+        [canvas]: {
+          id: canvas,
+          items: [annotation1],
+          type: "AnnotationPage",
+        },
       }),
     );
 
@@ -140,19 +205,23 @@ describe("deleteAnnotation", () => {
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
-      [canvas]: [],
+      [canvas]: { id: canvas, items: [], type: "AnnotationPage" },
     });
 
-    expect(res).toBe(expected);
+    expect(res).toStrictEqual(expected);
   });
 
-  it("deletes annotation from local storage when multiple annotations", () => {
+  it("deletes annotation when there are multiple annotations", () => {
     const canvas = "canvas1";
 
     localStorage.setItem(
       "annotations",
       JSON.stringify({
-        [canvas]: [annotation1, annotation2],
+        [canvas]: {
+          id: canvas,
+          items: [annotation1, annotation2],
+          type: "AnnotationPage",
+        },
       }),
     );
 
@@ -160,21 +229,33 @@ describe("deleteAnnotation", () => {
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
-      [canvas]: [annotation2],
+      [canvas]: {
+        id: canvas,
+        items: [annotation2],
+        type: "AnnotationPage",
+      },
     });
 
-    expect(res).toBe(expected);
+    expect(res).toStrictEqual(expected);
   });
 
-  it("deletes annotation from local storage when multiple canvases", () => {
+  it("deletes annotation when multiple canvases", () => {
     const canvas = "canvas1";
     const canvas2 = "canvas2";
 
     localStorage.setItem(
       "annotations",
       JSON.stringify({
-        [canvas]: [annotation1],
-        [canvas2]: [annotation2],
+        [canvas]: {
+          id: canvas,
+          items: [annotation1],
+          type: "AnnotationPage",
+        },
+        [canvas2]: {
+          id: canvas2,
+          items: [annotation2],
+          type: "AnnotationPage",
+        },
       }),
     );
 
@@ -182,22 +263,38 @@ describe("deleteAnnotation", () => {
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
-      [canvas]: [annotation1],
-      [canvas2]: [],
+      [canvas]: {
+        id: canvas,
+        items: [annotation1],
+        type: "AnnotationPage",
+      },
+      [canvas2]: {
+        id: canvas2,
+        items: [],
+        type: "AnnotationPage",
+      },
     });
 
-    expect(res).toBe(expected);
+    expect(res).toStrictEqual(expected);
   });
 
-  it("does nothing if canvas for annotation does not match", () => {
+  it("does nothing if canvas for annotation does not match saved annotations", () => {
     const canvas = "canvas1";
     const canvas2 = "canvas2";
 
     localStorage.setItem(
       "annotations",
       JSON.stringify({
-        [canvas]: [annotation1],
-        [canvas2]: [annotation2],
+        [canvas]: {
+          id: canvas,
+          items: [annotation1],
+          type: "AnnotationPage",
+        },
+        [canvas2]: {
+          id: canvas2,
+          items: [annotation2],
+          type: "AnnotationPage",
+        },
       }),
     );
 
@@ -205,11 +302,19 @@ describe("deleteAnnotation", () => {
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
-      [canvas]: [annotation1],
-      [canvas2]: [annotation2],
+      [canvas]: {
+        id: canvas,
+        items: [annotation1],
+        type: "AnnotationPage",
+      },
+      [canvas2]: {
+        id: canvas2,
+        items: [annotation2],
+        type: "AnnotationPage",
+      },
     });
 
-    expect(res).toBe(expected);
+    expect(res).toStrictEqual(expected);
   });
 });
 
@@ -218,13 +323,16 @@ describe("updateAnnotation", () => {
     localStorage.clear();
   });
 
-  it("updates annotation from local storage", () => {
+  it("updates annotation when there is one annotation", () => {
     const canvas = "canvas1";
-
     localStorage.setItem(
       "annotations",
       JSON.stringify({
-        [canvas]: [annotation1],
+        [canvas]: {
+          id: canvas,
+          items: [annotation1],
+          type: "AnnotationPage",
+        },
       }),
     );
     const webAnnotation = {
@@ -236,7 +344,7 @@ describe("updateAnnotation", () => {
         selector: {
           type: "FragmentSelector",
           conformsTo: "http://www.w3.org/TR/media-frags/",
-          value: "xywh=10,20,30,40",
+          value: "xywh=100,200,300,400",
         },
       },
       id: "123abc",
@@ -246,109 +354,203 @@ describe("updateAnnotation", () => {
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
-      [canvas]: [
-        {
-          body: { type: "TextualBody", value: "updated" },
-          id: "123abc",
-          motivation: "commenting",
-          target: {
-            source: "https://example.com/1",
-            selector: {
-              type: "FragmentSelector",
-              value: "xywh=10,20,30,40",
+      [canvas]: {
+        id: canvas,
+        items: [
+          {
+            body: { type: "TextualBody", value: "updated" },
+            id: "123abc",
+            motivation: "commenting",
+            target: {
+              source: "https://example.com/1",
+              selector: {
+                type: "FragmentSelector",
+                value: "xywh=100,200,300,400",
+              },
             },
+            type: "Annotation",
           },
-          type: "Annotation",
-        },
-      ],
+        ],
+        type: "AnnotationPage",
+      },
     });
 
-    expect(res).toBe(expected);
+    expect(res).toStrictEqual(expected);
   });
 
-  it("updates annotation from local storage when multiple annotations", () => {
+  it("updates annotation when there are multiple annotations", () => {
     const canvas = "canvas1";
 
     localStorage.setItem(
       "annotations",
       JSON.stringify({
-        [canvas]: [annotation1, annotation2],
+        [canvas]: {
+          id: canvas,
+          items: [annotation1, annotation2],
+          type: "AnnotationPage",
+        },
       }),
     );
     const webAnnotation = {
-      "@context": "http://www.w3.org/ns/anno.jsonld",
-      type: "Annotation",
+      ...webAnnotation1,
       body: [{ type: "TextualBody", value: "updated", purpose: "commenting" }],
-      target: {
-        source: "https://example.com/1",
-        selector: {
-          type: "FragmentSelector",
-          conformsTo: "http://www.w3.org/TR/media-frags/",
-          value: "xywh=10,20,30,40",
-        },
-      },
-      id: "123abc",
     };
 
     updateAnnotation(webAnnotation, canvas);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
-      [canvas]: [
-        {
-          body: { type: "TextualBody", value: "updated" },
-          id: "123abc",
-          motivation: "commenting",
-          target: {
-            source: "https://example.com/1",
-            selector: {
-              type: "FragmentSelector",
-              value: "xywh=10,20,30,40",
-            },
+      [canvas]: {
+        id: canvas,
+        items: [
+          {
+            ...annotation1,
+            body: { type: "TextualBody", value: "updated" },
           },
-          type: "Annotation",
-        },
-        annotation2,
-      ],
+          annotation2,
+        ],
+        type: "AnnotationPage",
+      },
     });
 
-    expect(res).toBe(expected);
+    expect(res).toStrictEqual(expected);
   });
 
-  it("does nothing if canvas for annotation does not match", () => {
+  it("does nothing if canvas for annotation does not match saved annotations", () => {
     const canvas = "canvas1";
     const canvas2 = "canvas2";
 
     localStorage.setItem(
       "annotations",
       JSON.stringify({
-        [canvas]: [annotation1],
-        [canvas2]: [annotation2],
+        [canvas]: {
+          id: canvas,
+          items: [annotation1],
+          type: "AnnotationPage",
+        },
+        [canvas2]: {
+          id: canvas,
+          items: [annotation2],
+          type: "AnnotationPage",
+        },
       }),
     );
     const webAnnotation = {
-      "@context": "http://www.w3.org/ns/anno.jsonld",
-      type: "Annotation",
+      ...webAnnotation1,
       body: [{ type: "TextualBody", value: "updated", purpose: "commenting" }],
-      target: {
-        source: "https://example.com/1",
-        selector: {
-          type: "FragmentSelector",
-          conformsTo: "http://www.w3.org/TR/media-frags/",
-          value: "xywh=10,20,30,40",
-        },
-      },
-      id: "123abc",
     };
 
     updateAnnotation(webAnnotation, canvas2);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
-      [canvas]: [annotation1],
-      [canvas2]: [annotation2],
+      [canvas]: {
+        id: canvas,
+        items: [annotation1],
+        type: "AnnotationPage",
+      },
+      [canvas2]: {
+        id: canvas2,
+        items: [annotation2],
+        type: "AnnotationPage",
+      },
     });
 
-    expect(res).toBe(expected);
+    expect(res).toStrictEqual(expected);
+  });
+
+  it("update annotation when there are multiple bodies", () => {
+    const canvas = "canvas1";
+    localStorage.setItem(
+      "annotations",
+      JSON.stringify({
+        [canvas]: {
+          id: canvas,
+          items: [annotation1],
+          type: "AnnotationPage",
+        },
+      }),
+    );
+
+    updateAnnotation(webAnnotationMultipleBodies, canvas);
+    const res = localStorage.getItem("annotations");
+
+    const expected = JSON.stringify({
+      [canvas]: {
+        id: canvas,
+        items: [annotationMultipleBodies],
+        type: "AnnotationPage",
+      },
+    });
+    expect(res).toStrictEqual(expected);
+  });
+});
+
+describe("fetchAnnotation", () => {
+  it("returns empty array if no saved annotations", () => {
+    const canvas = "canvas1";
+
+    const res = fetchAnnotation(canvas);
+
+    const expected = [];
+    expect(res).toStrictEqual(expected);
+  });
+
+  it("returns web annotations for a given canvas", () => {
+    const canvas = "canvas1";
+    localStorage.setItem(
+      "annotations",
+      JSON.stringify({
+        [canvas]: {
+          id: canvas,
+          items: [annotation1],
+          type: "AnnotationPage",
+        },
+      }),
+    );
+
+    const res = fetchAnnotation(canvas);
+
+    const expected = [webAnnotation1];
+    expect(res).toStrictEqual(expected);
+  });
+
+  it("returns empty array if canvas does not match saved annotation", () => {
+    const canvas = "canvas1";
+    const canvas2 = "canvas2";
+    localStorage.setItem(
+      "annotations",
+      JSON.stringify({
+        [canvas]: {
+          id: canvas,
+          items: [annotation1],
+          type: "AnnotationPage",
+        },
+      }),
+    );
+
+    const res = fetchAnnotation(canvas2);
+
+    const expected = [];
+    expect(res).toStrictEqual(expected);
+  });
+
+  it("returns annotations with multiple bodies", () => {
+    const canvas = "canvas1";
+    localStorage.setItem(
+      "annotations",
+      JSON.stringify({
+        [canvas]: {
+          id: canvas,
+          items: [annotationMultipleBodies],
+          type: "AnnotationPage",
+        },
+      }),
+    );
+
+    const res = fetchAnnotation(canvas);
+
+    const expected = [webAnnotationMultipleBodies];
+    expect(res).toStrictEqual(expected);
   });
 });
