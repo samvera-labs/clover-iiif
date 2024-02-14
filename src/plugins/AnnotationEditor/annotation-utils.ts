@@ -7,14 +7,33 @@ export function saveAnnotation(annotation: any, activeCanvas, user = null) {
       if (annotationsObj[activeCanvas] == undefined) {
         annotationsObj[activeCanvas] = [];
       }
-      annotationsObj[activeCanvas].push(annotation);
+      annotationsObj[activeCanvas].push(convertWebAnnotation(annotation));
       annotations = annotationsObj;
     } else {
-      annotations[activeCanvas] = [annotation];
+      annotations[activeCanvas] = [convertWebAnnotation(annotation)];
     }
 
     window.localStorage.setItem("annotations", JSON.stringify(annotations));
   }
+}
+
+function convertWebAnnotation(webAnnotation) {
+  return {
+    body: {
+      type: webAnnotation.body[0].type,
+      value: webAnnotation.body[0].value,
+    },
+    id: webAnnotation.id,
+    motivation: webAnnotation.body[0].purpose,
+    target: {
+      source: webAnnotation.target.source,
+      selector: {
+        type: webAnnotation.target.selector.type,
+        value: webAnnotation.target.selector.value,
+      },
+    },
+    type: "Annotation",
+  };
 }
 
 export function fetchAnnotation(activeCanvas: string, user = null) {
@@ -64,7 +83,7 @@ export function updateAnnotation(
         const updatedAnnotations: any = [];
         selectedAnnotations.forEach((ann) => {
           if (ann.id === annotation.id) {
-            updatedAnnotations.push(annotation);
+            updatedAnnotations.push(convertWebAnnotation(annotation));
           } else {
             updatedAnnotations.push(ann);
           }
