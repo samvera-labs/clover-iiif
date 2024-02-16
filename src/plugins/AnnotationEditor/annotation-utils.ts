@@ -1,5 +1,33 @@
-export function saveAnnotation(annotation: any, activeCanvas, user = null) {
-  if (!user) {
+function formatUrl(
+  activeCanvas: string,
+  user: string,
+  annotationServer: string,
+) {
+  return `${annotationServer}/?userId=${user}&canvas=${formatCanvasId(
+    activeCanvas,
+  )}`;
+}
+
+function formatCanvasId(activeCanvas) {
+  return activeCanvas
+    .replaceAll("/", "")
+    .replaceAll("http", "")
+    .replaceAll(":", "");
+}
+
+export async function saveAnnotation(
+  annotation: any,
+  activeCanvas: string,
+  user?: string,
+  annotationServer?: string,
+) {
+  if (user && annotationServer) {
+    await fetch(formatUrl(activeCanvas, user, annotationServer), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(convertWebAnnotation(annotation)),
+    });
+  } else if (!user) {
     let annotations: any = {};
     const savedAnnotations = window.localStorage.getItem("annotations");
     if (savedAnnotations) {
@@ -56,52 +84,72 @@ function convertWebAnnotation(webAnnotation) {
   return annotation;
 }
 
-export function fetchAnnotation(activeCanvas: string, user = null) {
-  if (!user) {
-    let annotations: any = [];
-    const savedAnnotations = window.localStorage.getItem("annotations");
-    if (savedAnnotations) {
-      const annotationsForCanvas = JSON.parse(savedAnnotations)[activeCanvas];
-      if (annotationsForCanvas) {
-        const webAnnotations = [] as any;
+export async function fetchAnnotation(
+  activeCanvas: string,
+  user?: string,
+  annotationServer?: string,
+) {
+  let annotations: any = [];
 
-        annotationsForCanvas.items.forEach((ann) => {
-          let body;
-          if (Array.isArray(ann.body)) {
-            body = ann.body.map((b) => {
-              return { ...b, purpose: "commenting" };
-            });
-          } else {
-            body = [{ ...ann.body, purpose: "commenting" }];
-          }
-          webAnnotations.push({
-            "@context": "http://www.w3.org/ns/anno.jsonld",
-            type: "Annotation",
-            body: body,
-            target: {
-              ...ann.target,
-              selector: {
-                ...ann.target.selector,
-                conformsTo: "http://www.w3.org/TR/media-frags/",
-              },
-            },
-            id: ann.id,
-          });
-        });
-        annotations = webAnnotations;
+  if (user && annotationServer) {
+    const res = await fetch(formatUrl(activeCanvas, user, annotationServer));
+    const savedAnnotation = await res.json();
+    annotations = processSavedAnnotation(savedAnnotation);
+  } else if (!user) {
+    const savedAnnotationsAll = window.localStorage.getItem("annotations");
+    if (savedAnnotationsAll) {
+      const savedAnnotation = JSON.parse(savedAnnotationsAll)[activeCanvas];
+      if (savedAnnotation) {
+        annotations = processSavedAnnotation(savedAnnotation);
       }
     }
-
-    return annotations;
   }
+
+  return annotations;
 }
 
-export function deleteAnnotation(
+function processSavedAnnotation(savedAnnotation) {
+  const webAnnotations = [] as any;
+
+  savedAnnotation.items.forEach((ann) => {
+    let body;
+    if (Array.isArray(ann.body)) {
+      body = ann.body.map((b) => {
+        return { ...b, purpose: "commenting" };
+      });
+    } else {
+      body = [{ ...ann.body, purpose: "commenting" }];
+    }
+    webAnnotations.push({
+      "@context": "http://www.w3.org/ns/anno.jsonld",
+      type: "Annotation",
+      body: body,
+      target: {
+        ...ann.target,
+        selector: {
+          ...ann.target.selector,
+          conformsTo: "http://www.w3.org/TR/media-frags/",
+        },
+      },
+      id: ann.id,
+    });
+  });
+  return webAnnotations;
+}
+
+export async function deleteAnnotation(
   annotation,
   activeCanvas: string,
-  user = null,
+  user?: string,
+  annotationServer?: string,
 ) {
-  if (!user) {
+  if (user && annotationServer) {
+    await fetch(formatUrl(activeCanvas, user, annotationServer), {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(convertWebAnnotation(annotation)),
+    });
+  } else if (!user) {
     const savedAnnotations = window.localStorage.getItem("annotations");
     if (savedAnnotations) {
       const annotations = JSON.parse(savedAnnotations);
@@ -121,12 +169,19 @@ export function deleteAnnotation(
   }
 }
 
-export function updateAnnotation(
+export async function updateAnnotation(
   annotation,
   activeCanvas: string,
-  user = null,
+  user?: string,
+  annotationServer?: string,
 ) {
-  if (!user) {
+  if (user && annotationServer) {
+    await fetch(formatUrl(activeCanvas, user, annotationServer), {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(convertWebAnnotation(annotation)),
+    });
+  } else if (!user) {
     const savedAnnotations = window.localStorage.getItem("annotations");
     if (savedAnnotations) {
       const annotations = JSON.parse(savedAnnotations);
