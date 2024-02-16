@@ -17,6 +17,8 @@ import OpenSeadragon from "openseadragon";
 type PropType = {
   openSeadragonViewer: OpenSeadragon.Viewer | null;
   activeCanvas: string;
+  userId?: string;
+  annotationServer?: string;
 };
 
 export default function CreateAnnotation(props: PropType) {
@@ -35,8 +37,7 @@ export default function CreateAnnotation(props: PropType) {
 }
 
 function RenderCreateAnnotation(props: PropType) {
-  const { activeCanvas, openSeadragonViewer } = props;
-
+  const { activeCanvas, openSeadragonViewer, userId, annotationServer } = props;
   useEffect(() => {
     if (!openSeadragonViewer) return;
 
@@ -50,29 +51,30 @@ function RenderCreateAnnotation(props: PropType) {
     const anno = Annotorious(openSeadragonViewer, options);
     AnnotoriousToolbar(anno, document.getElementById("my-toolbar-container"));
     anno.on("createAnnotation", (annotation) => {
-      console.log("created", annotation);
-      saveAnnotation(annotation, activeCanvas);
+      saveAnnotation(annotation, activeCanvas, userId, annotationServer);
     });
-
-    anno.on("updateAnnotation", (annotation, previous) => {
-      console.log("updated", annotation, previous);
-      updateAnnotation(annotation, activeCanvas);
+    anno.on("updateAnnotation", (annotation) => {
+      updateAnnotation(annotation, activeCanvas, userId, annotationServer);
     });
-
     anno.on("deleteAnnotation", (annotation) => {
-      console.log("deleted", annotation);
-      deleteAnnotation(annotation, activeCanvas);
+      deleteAnnotation(annotation, activeCanvas, userId, annotationServer);
     });
 
     // load existing annotations
-    const savedAnnotations = fetchAnnotation(activeCanvas);
-    savedAnnotations.forEach((annotation) => {
-      try {
-        anno.addAnnotation(annotation);
-      } catch (error) {
-        console.log(error);
-      }
-    });
+    (async () => {
+      const savedAnnotations = await fetchAnnotation(
+        activeCanvas,
+        userId,
+        annotationServer,
+      );
+      savedAnnotations.forEach((annotation) => {
+        try {
+          anno.addAnnotation(annotation);
+        } catch (error) {
+          console.log(error);
+        }
+      });
+    })();
 
     // Cleanup: destroy current instance
     return () => anno.destroy();
