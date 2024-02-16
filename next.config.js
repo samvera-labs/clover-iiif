@@ -13,6 +13,6 @@ module.exports = (phase) => {
     images: {
       unoptimized: true,
     },
-    output: "export",
+    // output: "export",
   });
 };
