@@ -5,11 +5,21 @@ import {
 } from "src/components/Viewer/ImageViewer/ImageViewer.styled";
 import OpenSeadragon, { Options } from "openseadragon";
 import React, { useEffect, useState } from "react";
-import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
+import {
+  ViewerContextStore,
+  useViewerState,
+  useViewerDispatch,
+} from "src/context/viewer-context";
 
 import Controls from "src/components/Viewer/ImageViewer/Controls";
 import { getInfoResponse } from "src/lib/iiif";
 import { v4 as uuidv4 } from "uuid";
+import { addOverlaysToViewer } from "src/lib/openseadragon-helpers";
+import {
+  AnnotationNormalized,
+  type CanvasNormalized,
+} from "@iiif/presentation-3";
+import { AnnotationResources } from "src/types/annotations";
 
 export type osdImageTypes = "tiledImage" | "simpleImage" | undefined;
 
@@ -17,13 +27,24 @@ interface OSDProps {
   uri: string | undefined;
   hasPlaceholder: boolean;
   imageType: osdImageTypes;
+  annotationResources: AnnotationResources;
 }
 
-const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
+const OSD: React.FC<OSDProps> = ({
+  uri,
+  hasPlaceholder,
+  imageType,
+  annotationResources,
+}) => {
   const [osdUri, setOsdUri] = useState<string>();
   const [osdInstance, setOsdInstance] = useState<string>();
   const viewerState: ViewerContextStore = useViewerState();
-  const { configOptions } = viewerState;
+  const { configOptions, vault, activeCanvas } = viewerState;
+  const dispatch: any = useViewerDispatch();
+  const canvas: CanvasNormalized = vault.get({
+    id: activeCanvas,
+    type: "Canvas",
+  });
 
   const config: Options = {
     id: `openseadragon-viewport-${osdInstance}`,
@@ -51,6 +72,13 @@ const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
     ajaxWithCredentials: configOptions.withCredentials,
   };
 
+  const annotations: Array<AnnotationNormalized> = [];
+
+  annotationResources[0]?.items?.forEach((item) => {
+    const annotationResource = vault.get(item.id);
+    annotations.push(annotationResource as unknown as AnnotationNormalized);
+  });
+
   useEffect(() => {
     if (uri !== osdUri) {
       setOsdUri(uri);
@@ -62,16 +90,32 @@ const OSD: React.FC<OSDProps> = ({ uri, hasPlaceholder, imageType }) => {
     if (osdUri) {
       switch (imageType) {
         case "simpleImage":
-          OpenSeadragon(config).addSimpleImage({
+          const viewer = OpenSeadragon(config);
+          viewer.addSimpleImage({
             url: osdUri,
           });
+          dispatch({
+            type: "updateOpenSeadragonViewer",
+            openSeadragonViewer: viewer,
+          });
+          if (configOptions.annotationOverlays?.renderOverlays) {
+            addOverlaysToViewer(viewer, canvas, configOptions, annotations);
+          }
           break;
         case "tiledImage":
-          getInfoResponse(osdUri).then((tileSource) =>
-            OpenSeadragon(config).addTiledImage({
+          getInfoResponse(osdUri).then((tileSource) => {
+            const viewer = OpenSeadragon(config);
+            viewer.addTiledImage({
               tileSource: tileSource,
-            }),
-          );
+            });
+            dispatch({
+              type: "updateOpenSeadragonViewer",
+              openSeadragonViewer: viewer,
+            });
+            if (configOptions.annotationOverlays?.renderOverlays) {
+              addOverlaysToViewer(viewer, canvas, configOptions, annotations);
+            }
+          });
           break;
         default:
           console.warn(

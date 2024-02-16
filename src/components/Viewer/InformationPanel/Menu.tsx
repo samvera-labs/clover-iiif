@@ -1,4 +1,4 @@
-import Cue from "src/components/Viewer/InformationPanel/Cue";
+import Cue from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue";
 import { MenuStyled } from "src/components/Viewer/InformationPanel/Menu.styled";
 import { NodeWebVttCueNested } from "src/hooks/use-webvtt";
 import React from "react";

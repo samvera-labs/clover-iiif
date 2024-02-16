@@ -1,9 +1,10 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
+
+import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
+import React from "react";
 import Track from "src/components/Viewer/Player/Track";
 
-const mockResourceCaptions: LabeledResource = {
+const mockResourceCaptions: LabeledIIIFExternalWebResource = {
   id: "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
   type: "Text",
   format: "text/vtt",
@@ -11,7 +12,7 @@ const mockResourceCaptions: LabeledResource = {
   language: "en",
 };
 
-const mockResourceChapters: LabeledResource = {
+const mockResourceChapters: LabeledIIIFExternalWebResource = {
   id: "https://raw.githubusercontent.com/mathewjordan/mirador-playground/main/assets/iiif/supplementing/new_airliner_en.vtt",
   type: "Text",
   format: "text/vtt",
@@ -20,7 +21,7 @@ const mockResourceChapters: LabeledResource = {
 };
 
 describe("Player component", () => {
-  it("Renders Video <track> for caption resourc", async () => {
+  it("Renders Video <track> for caption resource", async () => {
     render(<Track resource={mockResourceCaptions} ignoreCaptionLabels={[]} />);
     const el = await screen.findByTestId("player-track");
     expect(el);
@@ -40,7 +41,7 @@ describe("Player component", () => {
       />,
     );
 
-    const el = await screen.queryByTestId("player-track");
+    const el = screen.queryByTestId("player-track");
     expect(el).not.toBeInTheDocument();
   });
 });

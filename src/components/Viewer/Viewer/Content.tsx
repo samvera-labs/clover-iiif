@@ -8,27 +8,27 @@ import {
 } from "src/components/Viewer/Viewer/Viewer.styled";
 import { Canvas, IIIFExternalWebResource } from "@iiif/presentation-3";
 
+import { AnnotationResources } from "src/types/annotations";
 import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
 import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React from "react";
 import { useViewerState } from "src/context/viewer-context";
 
-interface Props {
+interface ViewerContentProps {
   activeCanvas: string;
-  painting: IIIFExternalWebResource[];
-  resources: LabeledResource[];
-  items: Canvas[];
+  annotationResources: AnnotationResources;
   isAudioVideo: boolean;
+  items: Canvas[];
+  painting: IIIFExternalWebResource[];
 }
 
-const ViewerContent: React.FC<Props> = ({
+const ViewerContent: React.FC<ViewerContentProps> = ({
   activeCanvas,
-  painting,
-  resources,
-  items,
+  annotationResources,
   isAudioVideo,
+  items,
+  painting,
 }) => {
   const { informationOpen, configOptions } = useViewerState();
   const { informationPanel } = configOptions;
@@ -40,7 +40,7 @@ const ViewerContent: React.FC<Props> = ({
 
   const isAside =
     informationPanel?.renderAbout ||
-    (informationPanel?.renderSupplementing && resources.length > 0);
+    (informationPanel?.renderAnnotation && annotationResources.length > 0);
 
   return (
     <Content
@@ -50,9 +50,9 @@ const ViewerContent: React.FC<Props> = ({
       <Main>
         <Painting
           activeCanvas={activeCanvas}
+          annotationResources={annotationResources}
           isMedia={isAudioVideo}
           painting={painting}
-          resources={resources}
         />
 
         {isAside && (
@@ -72,7 +72,7 @@ const ViewerContent: React.FC<Props> = ({
           <CollapsibleContent>
             <InformationPanel
               activeCanvas={activeCanvas}
-              resources={resources}
+              annotationResources={annotationResources}
             />
           </CollapsibleContent>
         </Aside>

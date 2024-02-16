@@ -2,11 +2,20 @@ import React, { useReducer } from "react";
 
 import { CollectionNormalized } from "@iiif/presentation-3";
 import { IncomingHttpHeaders } from "http";
-import { Options as OpenSeadragonOptions } from "openseadragon";
+import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
 import { Vault } from "@iiif/vault";
 import { deepMerge } from "src/lib/utils";
 
 export type ViewerConfigOptions = {
+  annotationOverlays?: {
+    backgroundColor?: string;
+    borderColor?: string;
+    borderType?: string;
+    borderWidth?: string;
+    opacity?: string;
+    renderOverlays?: boolean;
+    zoomLevel?: number;
+  };
   background?: string;
   canvasBackgroundColor?: string;
   canvasHeight?: string;
@@ -16,6 +25,7 @@ export type ViewerConfigOptions = {
     renderAbout?: boolean;
     renderSupplementing?: boolean;
     renderToggle?: boolean;
+    renderAnnotation?: boolean;
   };
   openSeadragon?: OpenSeadragonOptions;
   requestHeaders?: IncomingHttpHeaders;
@@ -25,6 +35,15 @@ export type ViewerConfigOptions = {
 };
 
 const defaultConfigOptions = {
+  annotationOverlays: {
+    backgroundColor: "#ff6666",
+    borderColor: "#990000",
+    borderType: "solid",
+    borderWidth: "1px",
+    opacity: "0.5",
+    renderOverlays: true,
+    zoomLevel: 2,
+  },
   background: "transparent",
   canvasBackgroundColor: "#6662",
   canvasHeight: "61.8vh",
@@ -34,6 +53,7 @@ const defaultConfigOptions = {
     renderAbout: true,
     renderSupplementing: true,
     renderToggle: true,
+    renderAnnotation: true,
   },
   openSeadragon: {},
   requestHeaders: { "Content-Type": "application/json" },
@@ -62,6 +82,7 @@ export interface ViewerContextStore {
   informationOpen: boolean;
   isLoaded: boolean;
   vault: Vault;
+  openSeadragonViewer: OpenSeadragon.Viewer | null;
 }
 
 export interface ViewerAction {
@@ -73,6 +94,7 @@ export interface ViewerAction {
   isLoaded: boolean;
   manifestId: string;
   vault: Vault;
+  openSeadragonViewer: OpenSeadragon.Viewer;
 }
 
 export const defaultState: ViewerContextStore = {
@@ -84,6 +106,7 @@ export const defaultState: ViewerContextStore = {
   informationOpen: defaultConfigOptions?.informationPanel?.open,
   isLoaded: false,
   vault: new Vault(),
+  openSeadragonViewer: null,
 };
 
 const ViewerStateContext =
@@ -131,6 +154,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         isLoaded: action.isLoaded,
+      };
+    }
+    case "updateOpenSeadragonViewer": {
+      return {
+        ...state,
+        openSeadragonViewer: action.openSeadragonViewer,
       };
     }
     default: {

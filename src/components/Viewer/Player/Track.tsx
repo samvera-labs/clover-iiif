@@ -1,10 +1,10 @@
 import { InternationalString } from "@iiif/presentation-3";
-import { LabeledResource } from "src/hooks/use-iiif/getSupplementingResources";
+import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import React from "react";
 import { getLabel } from "src/hooks/use-iiif";
 
 export interface TrackProps {
-  resource: LabeledResource;
+  resource: LabeledIIIFExternalWebResource;
   ignoreCaptionLabels: string[];
 }
 

@@ -2,6 +2,8 @@ import * as RadioGroup from "@radix-ui/react-radio-group";
 
 import { keyframes, styled } from "src/styles/stitches.config";
 
+import { annotationItemRow } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
+
 const spin = keyframes({
   from: { transform: "rotate(360deg)" },
   to: { transform: "rotate(0deg)" },
@@ -14,20 +16,7 @@ export const Group = styled(RadioGroup.Root, {
 });
 
 export const Item = styled(RadioGroup.Item, {
-  position: "relative",
-  cursor: "pointer",
-  display: "flex",
-  width: "100%",
-  justifyContent: "space-between",
-  textAlign: "left",
-  margin: "0",
-  padding: "0.5rem 1.618rem",
-  fontFamily: "inherit",
-  lineHeight: "1.25em",
-  fontSize: "1rem",
-  color: "inherit",
-  border: "none",
-  background: "none",
+  ...annotationItemRow,
 
   "@sm": {
     padding: "0.5rem 1rem",
