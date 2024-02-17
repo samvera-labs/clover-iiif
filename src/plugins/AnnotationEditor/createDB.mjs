@@ -4,6 +4,8 @@ const db = new Database("tmp/database.db", { verbose: console.log });
 db.exec(`CREATE TABLE annotations  (
 	id INTEGER PRIMARY KEY,
 	canvas TEXT NOT NULL,
-	annotations TEXT NOT NULL,
-	user_id INTEGER NOT NULL
+	annotation TEXT NOT NULL,
+	object_id INTEGER NOT NULL,
+	user_id INTEGER NOT NULL,
+	annotation_id INTEGER NOT NULL
 )`);

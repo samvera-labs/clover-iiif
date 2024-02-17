@@ -1,9 +1,9 @@
 function formatUrl(
+  annotationServer: string,
   activeCanvas: string,
   user: string,
-  annotationServer: string,
 ) {
-  return `${annotationServer}/?userId=${user}&canvas=${activeCanvas}`;
+  return `${annotationServer}/?canvas=${activeCanvas}&userId=${user}`;
 }
 
 export async function saveAnnotation(
@@ -13,7 +13,7 @@ export async function saveAnnotation(
   annotationServer?: string,
 ) {
   if (user && annotationServer) {
-    await fetch(formatUrl(activeCanvas, user, annotationServer), {
+    await fetch(formatUrl(annotationServer, activeCanvas, user), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(convertWebAnnotation(annotation)),
@@ -83,7 +83,7 @@ export async function fetchAnnotation(
   let annotations: any = [];
 
   if (user && annotationServer) {
-    const res = await fetch(formatUrl(activeCanvas, user, annotationServer));
+    const res = await fetch(formatUrl(annotationServer, activeCanvas, user));
     const savedAnnotation = await res.json();
     annotations = processSavedAnnotation(savedAnnotation);
   } else if (!user) {
@@ -135,7 +135,7 @@ export async function deleteAnnotation(
   annotationServer?: string,
 ) {
   if (user && annotationServer) {
-    await fetch(formatUrl(activeCanvas, user, annotationServer), {
+    await fetch(formatUrl(annotationServer, activeCanvas, user), {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(convertWebAnnotation(annotation)),
@@ -167,7 +167,7 @@ export async function updateAnnotation(
   annotationServer?: string,
 ) {
   if (user && annotationServer) {
-    await fetch(formatUrl(activeCanvas, user, annotationServer), {
+    await fetch(formatUrl(annotationServer, activeCanvas, user), {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(convertWebAnnotation(annotation)),
