@@ -1,8 +1,8 @@
+import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
 import React, { useReducer } from "react";
 
 import { CollectionNormalized } from "@iiif/presentation-3";
 import { IncomingHttpHeaders } from "http";
-import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
 import { Vault } from "@iiif/vault";
 import { deepMerge } from "src/lib/utils";
 
@@ -21,6 +21,7 @@ export type ViewerConfigOptions = {
   canvasHeight?: string;
   ignoreCaptionLabels?: string[];
   informationPanel?: {
+    defaultAnnotationTabLabel?: string;
     open?: boolean;
     renderAbout?: boolean;
     renderSupplementing?: boolean;
@@ -49,6 +50,7 @@ const defaultConfigOptions = {
   canvasHeight: "61.8vh",
   ignoreCaptionLabels: [],
   informationPanel: {
+    defaultAnnotationTabLabel: "Annotations",
     open: true,
     renderAbout: true,
     renderSupplementing: true,

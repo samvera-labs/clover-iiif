@@ -1,0 +1,163 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "homepage": [
+    {
+      "format": "text/html",
+      "id": "https://dc.rdc-staging.library.northwestern.edu/items/f9878d91-be39-4fdf-a4db-ea31b7a41754",
+      "label": {
+        "none": [
+          "Homepage at Northwestern University Libraries Digital Collections"
+        ]
+      },
+      "type": "Text"
+    }
+  ],
+  "id": "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/f9878d91-be39-4fdf-a4db-ea31b7a41754?as=iiif",
+  "items": [
+    {
+      "annotations": [
+        {
+          "id": "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/f9878d91-be39-4fdf-a4db-ea31b7a41754?as=iiif/canvas/access/0/annotations/page/0",
+          "items": [
+            {
+              "body": {
+                "format": "text/vtt",
+                "id": "https://iiif.stack.rdc-staging.library.northwestern.edu/public/vtt/5e/34/91/1f/-8/4c/5-/4d/ba/-b/9a/1-/5d/d3/1b/81/2a/e5/5e34911f-84c5-4dba-b9a1-5dd31b812ae5.vtt",
+                "label": {
+                  "en": ["Chapters"]
+                },
+                "language": "none",
+                "type": "Text"
+              },
+              "id": "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/f9878d91-be39-4fdf-a4db-ea31b7a41754?as=iiif/canvas/access/0/annotations/page/0/a0",
+              "motivation": "supplementing",
+              "target": "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/f9878d91-be39-4fdf-a4db-ea31b7a41754?as=iiif/canvas/access/0",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "duration": 10,
+      "height": 720,
+      "id": "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/f9878d91-be39-4fdf-a4db-ea31b7a41754?as=iiif/canvas/access/0",
+      "items": [
+        {
+          "id": "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/f9878d91-be39-4fdf-a4db-ea31b7a41754?as=iiif/canvas/access/0/annotation-page",
+          "items": [
+            {
+              "body": {
+                "duration": 10,
+                "format": "application/x-mpegurl",
+                "height": 720,
+                "id": "https://meadow-streaming.rdc-staging.library.northwestern.edu/5e/34/91/1f/-8/4c/5-/4d/ba/-b/9a/1-/5d/d3/1b/81/2a/e5/5e34911f-84c5-4dba-b9a1-5dd31b812ae5.m3u8",
+                "type": "Video",
+                "width": 1280
+              },
+              "id": "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/f9878d91-be39-4fdf-a4db-ea31b7a41754?as=iiif/canvas/access/0/annotation/0",
+              "motivation": "painting",
+              "target": "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/f9878d91-be39-4fdf-a4db-ea31b7a41754?as=iiif/canvas/access/0",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "none": ["Big Buck"]
+      },
+      "type": "Canvas",
+      "width": 1280
+    }
+  ],
+  "label": {
+    "none": ["Adam Test Video"]
+  },
+  "logo": [
+    {
+      "format": "image/webp",
+      "height": 139,
+      "id": "https://iiif.dc.library.northwestern.edu/iiif/2/00000000-0000-0000-0000-000000000003/full/pct:50/0/default.webp",
+      "type": "Image",
+      "width": 1190
+    }
+  ],
+  "metadata": [
+    {
+      "label": {
+        "none": ["Last Modified"]
+      },
+      "value": {
+        "none": ["2024-02-19T15:16:09.236327Z"]
+      }
+    }
+  ],
+  "partOf": [
+    {
+      "id": "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/collections/f76a8cc3-7395-4e05-83d2-590c0c5c71c6?as=iiif",
+      "label": {
+        "none": ["Adam Test Collection"]
+      },
+      "type": "Collection"
+    }
+  ],
+  "provider": [
+    {
+      "homepage": [
+        {
+          "format": "text/html",
+          "id": "https://dc.library.northwestern.edu/",
+          "label": {
+            "none": [
+              "Northwestern University Libraries Digital Collections Homepage"
+            ]
+          },
+          "language": ["en"],
+          "type": "Text"
+        }
+      ],
+      "id": "https://www.library.northwestern.edu/",
+      "label": {
+        "none": ["Northwestern University Libraries"]
+      },
+      "logo": [
+        {
+          "format": "image/webp",
+          "height": 139,
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/2/00000000-0000-0000-0000-000000000003/full/pct:50/0/default.webp",
+          "type": "Image",
+          "width": 1190
+        }
+      ],
+      "type": "Agent"
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "none": ["Attribution"]
+    },
+    "value": {
+      "none": ["Courtesy of Northwestern University Libraries"]
+    }
+  },
+  "seeAlso": [
+    {
+      "format": "application/json",
+      "id": "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/f9878d91-be39-4fdf-a4db-ea31b7a41754",
+      "label": {
+        "none": ["Northwestern University Libraries Digital Collections API"]
+      },
+      "type": "Dataset"
+    }
+  ],
+  "thumbnail": [
+    {
+      "format": "image/jpeg",
+      "height": 300,
+      "id": "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/f9878d91-be39-4fdf-a4db-ea31b7a41754/thumbnail",
+      "type": "Image",
+      "width": 300
+    }
+  ],
+  "type": "Manifest"
+}

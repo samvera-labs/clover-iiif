@@ -8,6 +8,7 @@ export type FormattedAnnotationItem = {
 export const getAnnotationResources = (
   vault: any,
   activeCanvas: string,
+  defaultAnnotationTabLabel: string = "",
 ): AnnotationResources => {
   const canvas: CanvasNormalized = vault.get({
     id: activeCanvas,
@@ -29,9 +30,10 @@ export const getAnnotationResources = (
     .map((annotationPage) => {
       /**
        * If the annotation page doesn't have a label, add a default label.
-       * Set this value in a CONFIG and not here.
        */
-      const label = annotationPage.label || { none: ["Annotations"] };
+      const label = annotationPage.label || {
+        none: [defaultAnnotationTabLabel],
+      };
       return { ...annotationPage, label };
     });
 };

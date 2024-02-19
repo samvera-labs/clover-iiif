@@ -11,6 +11,10 @@ import { Vault } from "@iiif/vault";
 import { getAnnotationResources } from "./getAnnotationResources";
 import { manifestNoAnnotations } from "src/fixtures/use-iiif/get-supplementing-resources";
 
+// This value is part of the default config options in the ViewerContext
+// and defaults to "Annotations" if not configured
+const DEFAULT_ANNOTATION_TAB_LABEL = "Annotations";
+
 describe("getAnnotationResources method", () => {
   it("processes manifest with simple annotations", async () => {
     const vault = new Vault();
@@ -19,6 +23,7 @@ describe("getAnnotationResources method", () => {
     const result = getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/canvas-1",
+      DEFAULT_ANNOTATION_TAB_LABEL,
     );
 
     const expected = [
@@ -60,6 +65,7 @@ describe("getAnnotationResources method", () => {
     const result = getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0021-tagging/canvas/p1",
+      "Chapters",
     );
 
     const expected = [
@@ -69,7 +75,7 @@ describe("getAnnotationResources method", () => {
         behavior: [],
         motivation: null,
         label: {
-          none: ["Annotations"],
+          none: ["Chapters"],
         },
         thumbnail: [],
         summary: null,
@@ -100,6 +106,7 @@ describe("getAnnotationResources method", () => {
     const result = getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/canvas/p1",
+      DEFAULT_ANNOTATION_TAB_LABEL,
     );
 
     const expected = [
@@ -140,6 +147,7 @@ describe("getAnnotationResources method", () => {
     const result = getAnnotationResources(
       vault,
       "http://localhost:3000/manifest/newspaper/canvas/i1p1",
+      DEFAULT_ANNOTATION_TAB_LABEL,
     );
 
     const expected = [
@@ -192,6 +200,7 @@ describe("getAnnotationResources method", () => {
     const result = getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0377-image-in-annotation/canvas-1",
+      DEFAULT_ANNOTATION_TAB_LABEL,
     );
 
     const expected = [
@@ -232,6 +241,7 @@ describe("getAnnotationResources method", () => {
     const result = getAnnotationResources(
       vault,
       "https://api.dc.library.northwestern.edu/api/v2/works/57446da0-dc8b-4be6-998d-efb67c71f654?as=iiif/canvas/access/0",
+      DEFAULT_ANNOTATION_TAB_LABEL,
     );
 
     expect(result).toHaveLength(0);
@@ -273,6 +283,7 @@ describe("getAnnotationResources method", () => {
     const result = getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0219-using-caption-file/canvas",
+      DEFAULT_ANNOTATION_TAB_LABEL,
     );
 
     expect(result).toStrictEqual(expected);

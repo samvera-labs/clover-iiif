@@ -88,6 +88,9 @@ describe("Viewer Context", () => {
     );
     expect(elObj.configOptions.canvasIndex).toEqual(0);
     expect(elObj.configOptions.canvasNavigationId).toEqual("canvas-nav");
+    expect(
+      elObj.configOptions.informationPanel.defaultAnnotationTabLabel,
+    ).toEqual("Annotations");
     expect(elObj.informationOpen).toEqual(true);
     expect(elObj.isLoaded).toEqual(false);
   });

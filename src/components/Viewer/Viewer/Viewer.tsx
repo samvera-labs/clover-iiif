@@ -94,7 +94,13 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
       setPainting(painting);
     }
 
-    setAnnotationResources(getAnnotationResources(vault, activeCanvas));
+    setAnnotationResources(
+      getAnnotationResources(
+        vault,
+        activeCanvas,
+        configOptions?.informationPanel?.defaultAnnotationTabLabel,
+      ),
+    );
 
     setIsInformationPanel(annotationResources.length !== 0);
   }, [activeCanvas, annotationResources.length, vault]);
