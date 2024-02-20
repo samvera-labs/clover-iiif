@@ -5,10 +5,16 @@ import {
   recipe0219captionFile,
   simpleAnnotations,
   simpleTagging,
+  searchContent,
 } from "src/fixtures/use-iiif/get-annotation-resources";
+import { SearchContentResources } from "src/types/annotations";
+import { AnnotationPage } from "@iiif/presentation-3";
 
 import { Vault } from "@iiif/vault";
-import { getAnnotationResources } from "./getAnnotationResources";
+import {
+  getAnnotationResources,
+  getContentSearchResources,
+} from "./getAnnotationResources";
 import { manifestNoAnnotations } from "src/fixtures/use-iiif/get-supplementing-resources";
 
 describe("getAnnotationResources method", () => {
@@ -276,5 +282,97 @@ describe("getAnnotationResources method", () => {
     );
 
     expect(result).toStrictEqual(expected);
+  });
+});
+
+describe("getContentSearchResources", () => {
+  const canvasLabelObj = {
+    "http://localhost:3000/manifest/newspaper/canvas/i1p1": "Page 1",
+    "http://localhost:3000/manifest/newspaper/canvas/i1p2": "Page 2",
+  };
+
+  it("processes content search AnnotationPage manifest", async () => {
+    const result = await getContentSearchResources(
+      searchContent,
+      canvasLabelObj,
+    );
+
+    const expected: SearchContentResources = {
+      id: "Search Results",
+      items: {
+        "Page 1": [
+          {
+            body: {
+              format: "text/plain",
+              id: "vault://91a5bffd",
+              type: "TextualBody",
+              value: "Berliner",
+            },
+            canvas: "http://localhost:3000/manifest/newspaper/canvas/i1p1",
+            target:
+              "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=839,3259,118,27",
+          },
+          {
+            body: {
+              format: "text/plain",
+              id: "vault://91a5bffd",
+              type: "TextualBody",
+              value: "Berliner",
+            },
+            canvas: "http://localhost:3000/manifest/newspaper/canvas/i1p1",
+            target:
+              "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=161,459,1063,329",
+          },
+        ],
+        "Page 2": [
+          {
+            body: {
+              format: "text/plain",
+              id: "vault://91a5bffd",
+              type: "TextualBody",
+              value: "Berliner",
+            },
+            canvas: "http://localhost:3000/manifest/newspaper/canvas/i1p2",
+            target:
+              "http://localhost:3000/manifest/newspaper/canvas/i1p2#xywh=2468,4313,106,26",
+          },
+        ],
+      },
+      label: {
+        en: ["Search Results"],
+      },
+      motivation: "highlighting",
+    };
+    expect(result).toStrictEqual(expected);
+  });
+
+  it("returns empty object if no items", async () => {
+    const annotationPage: AnnotationPage = {
+      "@context": "http://iiif.io/api/search/2/context.json",
+      id: "http://localhost:3000/manifest/newspaper/newspaper_search_content_1.json",
+      type: "AnnotationPage",
+    };
+
+    const result = await getContentSearchResources(
+      annotationPage,
+      canvasLabelObj,
+    );
+
+    expect(result).toStrictEqual({});
+  });
+
+  it("returns empty object if content is not search content v2", async () => {
+    const annotationPage: AnnotationPage = {
+      "@context": "http://iiif.io/api/presentation/3/context.json",
+      id: "http://localhost:3000/manifest/newspaper/newspaper_search_content_1.json",
+      type: "AnnotationPage",
+    };
+
+    const result = await getContentSearchResources(
+      annotationPage,
+      canvasLabelObj,
+    );
+
+    expect(result).toStrictEqual({});
   });
 });

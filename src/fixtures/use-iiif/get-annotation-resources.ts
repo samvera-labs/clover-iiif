@@ -1,4 +1,6 @@
-export const multipleHighlighting = {
+import { Manifest, AnnotationPage } from "@iiif/presentation-3";
+
+export const multipleHighlighting: Manifest = {
   "@context": ["http://iiif.io/api/presentation/3/context.json"],
   id: "http://localhost:3000/manifest/newspaper/newspaper_issue_1.json",
   type: "Manifest",
@@ -554,6 +556,59 @@ export const recipe0219captionFile = {
           ],
         },
       ],
+    },
+  ],
+};
+
+export const searchContent: AnnotationPage = {
+  "@context": "http://iiif.io/api/search/2/context.json",
+  id: "http://localhost:3000/manifest/newspaper/content-search.json",
+  type: "AnnotationPage",
+  items: [
+    {
+      id: "http://localhost:3000/manifest/newspaper/annotation/584",
+      type: "Annotation",
+      motivation: "highlighting",
+      label: {
+        en: ["Page 1"],
+      },
+      body: {
+        type: "TextualBody",
+        value: "Berliner",
+        format: "text/plain",
+      },
+      target:
+        "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=839,3259,118,27",
+    },
+    {
+      id: "http://localhost:3000/manifest/newspaper/annotation/920",
+      type: "Annotation",
+      motivation: "highlighting",
+      label: {
+        en: ["Page 1"],
+      },
+      body: {
+        type: "TextualBody",
+        value: "Berliner",
+        format: "text/plain",
+      },
+      target:
+        "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=161,459,1063,329",
+    },
+    {
+      id: "http://localhost:3000/manifest/newspaper/annotation/2650",
+      type: "Annotation",
+      motivation: "highlighting",
+      label: {
+        en: ["Page 2"],
+      },
+      body: {
+        type: "TextualBody",
+        value: "Berliner",
+        format: "text/plain",
+      },
+      target:
+        "http://localhost:3000/manifest/newspaper/canvas/i1p2#xywh=2468,4313,106,26",
     },
   ],
 };
