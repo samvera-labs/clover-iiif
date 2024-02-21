@@ -47,7 +47,7 @@ export const ContentSearchPage: React.FC<Props> = ({ annotationPage }) => {
     !annotationPage.items ||
     annotationPage.items?.length === 0
   )
-    return <></>;
+    return <div>No search results.</div>;
 
   const annotations = annotationPage.items.map((item) => {
     return contentSearchVault.get(item.id) as AnnotationNormalized;

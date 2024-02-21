@@ -328,16 +328,39 @@ describe("getContentSearchResources", () => {
     expect(result).toStrictEqual(expected);
   });
 
-  it("returns empty object if no items", async () => {
+  it("processes content search AnnotationPage if no items", async () => {
     const annotationPage: AnnotationPage = {
       "@context": "http://iiif.io/api/search/2/context.json",
-      id: "http://localhost:3000/manifest/newspaper/newspaper_search_content_1.json",
+      id: "http://localhost:3000/manifest/newspaper/content-search-no-results.json",
       type: "AnnotationPage",
+      items: [],
     };
     const vault = new Vault();
     const result = await getContentSearchResources(vault, annotationPage);
 
-    expect(result).toStrictEqual({});
+    const expected = {
+      "@context": "http://iiif.io/api/search/2/context.json",
+      behavior: [],
+      homepage: [],
+      id: "http://localhost:3000/manifest/newspaper/content-search-no-results.json",
+      items: [],
+      label: {
+        none: ["Search Results"],
+      },
+      logo: [],
+      metadata: [],
+      motivation: null,
+      provider: [],
+      rendering: [],
+      requiredStatement: null,
+      rights: null,
+      seeAlso: [],
+      service: [],
+      summary: null,
+      thumbnail: [],
+      type: "AnnotationPage",
+    };
+    expect(result).toStrictEqual(expected);
   });
 
   it("returns empty object if content is not search content v2", async () => {

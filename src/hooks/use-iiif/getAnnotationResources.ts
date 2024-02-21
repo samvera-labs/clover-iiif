@@ -38,8 +38,6 @@ export const getContentSearchResources = async (
 ): Promise<AnnotationResource> => {
   if (annotationPage["@context"] !== "http://iiif.io/api/search/2/context.json")
     return {} as AnnotationResource;
-  if (!annotationPage.items || !annotationPage.items.length)
-    return {} as AnnotationResource;
 
   await contentSearchVault.loadManifest(annotationPage);
   const annotationPageVault: AnnotationResource =
