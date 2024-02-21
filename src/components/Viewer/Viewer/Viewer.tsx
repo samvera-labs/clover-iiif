@@ -4,6 +4,7 @@ import {
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
+  CanvasNormalized,
 } from "@iiif/presentation-3";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -14,6 +15,7 @@ import {
 import {
   getAnnotationResources,
   getPaintingResource,
+  getContentSearchResources,
 } from "src/hooks/use-iiif";
 
 import { AnnotationResources } from "src/types/annotations";
@@ -30,15 +32,26 @@ import { useMediaQuery } from "src/hooks/useMediaQuery";
 interface ViewerProps {
   manifest: ManifestNormalized;
   theme?: unknown;
+  iiifContentSearch?: string;
 }
 
-const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
+const Viewer: React.FC<ViewerProps> = ({
+  manifest,
+  theme,
+  iiifContentSearch,
+}) => {
   /**
    * Viewer State
    */
   const viewerState: ViewerContextStore = useViewerState();
   const viewerDispatch: any = useViewerDispatch();
-  const { activeCanvas, isInformationOpen, vault, configOptions } = viewerState;
+  const {
+    activeCanvas,
+    isInformationOpen,
+    vault,
+    contentSearchVault,
+    configOptions,
+  } = viewerState;
 
   const absoluteCanvasHeights = ["100%", "auto"];
   const isAbsolutePosition =
@@ -110,6 +123,22 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
     setAnnotationResources(resources);
     setIsInformationPanel(resources.length !== 0);
   }, [activeCanvas, vault, viewerDispatch]);
+
+  useEffect(() => {
+    if (iiifContentSearch === undefined) return;
+
+    fetch(iiifContentSearch)
+      .then((response) => response.json())
+      .then((data) => {
+        return getContentSearchResources(contentSearchVault, data);
+      })
+      .then((contentSearch) => {
+        console.log(contentSearch);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [iiifContentSearch, contentSearchVault]);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>

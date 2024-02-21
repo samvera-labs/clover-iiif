@@ -18,10 +18,12 @@ const CloverViewer = ({
   iiifContent = defaultIiifContent,
   options,
   customDisplays,
+  iiifContentSearch,
 }: {
   iiifContent: string;
   options?: ViewerConfigOptions;
   customDisplays?: Array<CustomDisplay>;
+  iiifContentSearch?: string;
 }) => {
   const router = useRouter();
   const iiifResource = router.query["iiif-content"]
@@ -33,6 +35,7 @@ const CloverViewer = ({
   return (
     <Viewer
       iiifContent={iiifResource}
+      iiifContentSearch={iiifContentSearch}
       options={{ ...options, background }}
       key={iiifResource}
       {...(customDisplays && { customDisplays })}
