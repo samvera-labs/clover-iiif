@@ -127,17 +127,11 @@ const Viewer: React.FC<ViewerProps> = ({
   useEffect(() => {
     if (iiifContentSearch === undefined) return;
 
-    fetch(iiifContentSearch)
-      .then((response) => response.json())
-      .then((data) => {
-        return getContentSearchResources(contentSearchVault, data);
-      })
-      .then((contentSearch) => {
+    getContentSearchResources(contentSearchVault, iiifContentSearch).then(
+      (contentSearch) => {
         setContentSearchResource(contentSearch);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      },
+    );
   }, [iiifContentSearch, contentSearchVault]);
 
   return (

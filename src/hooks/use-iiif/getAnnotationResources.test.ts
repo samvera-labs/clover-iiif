@@ -5,9 +5,7 @@ import {
   recipe0219captionFile,
   simpleAnnotations,
   simpleTagging,
-  searchContent,
 } from "src/fixtures/use-iiif/get-annotation-resources";
-import { SearchContentResources } from "src/types/annotations";
 import { AnnotationPage } from "@iiif/presentation-3";
 
 import { Vault } from "@iiif/vault";
@@ -287,8 +285,10 @@ describe("getAnnotationResources method", () => {
 
 describe("getContentSearchResources", () => {
   it("processes content search AnnotationPage manifest", async () => {
+    const searchUrl =
+      "http://localhost:3000/manifest/content-search/content-search.json";
     const vault = new Vault();
-    const result = await getContentSearchResources(vault, searchContent);
+    const result = await getContentSearchResources(vault, searchUrl);
 
     const expected = {
       "@context": "http://iiif.io/api/search/2/context.json",
@@ -329,14 +329,10 @@ describe("getContentSearchResources", () => {
   });
 
   it("processes content search AnnotationPage if no items", async () => {
-    const annotationPage: AnnotationPage = {
-      "@context": "http://iiif.io/api/search/2/context.json",
-      id: "http://localhost:3000/manifest/newspaper/content-search-no-results.json",
-      type: "AnnotationPage",
-      items: [],
-    };
+    const searchUrl =
+      "http://localhost:3000/manifest/content-search/content-search-no-results.json";
     const vault = new Vault();
-    const result = await getContentSearchResources(vault, annotationPage);
+    const result = await getContentSearchResources(vault, searchUrl);
 
     const expected = {
       "@context": "http://iiif.io/api/search/2/context.json",
@@ -364,13 +360,10 @@ describe("getContentSearchResources", () => {
   });
 
   it("returns empty object if content is not search content v2", async () => {
-    const annotationPage: AnnotationPage = {
-      "@context": "http://iiif.io/api/presentation/3/context.json",
-      id: "http://localhost:3000/manifest/newspaper/newspaper_search_content_1.json",
-      type: "AnnotationPage",
-    };
+    const searchUrl =
+      "http://localhost:3000/manifest/content-search/search-v1.json";
     const vault = new Vault();
-    const result = await getContentSearchResources(vault, annotationPage);
+    const result = await getContentSearchResources(vault, searchUrl);
 
     expect(result).toStrictEqual({});
   });
