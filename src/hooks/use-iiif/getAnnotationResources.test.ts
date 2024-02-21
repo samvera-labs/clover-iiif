@@ -286,62 +286,44 @@ describe("getAnnotationResources method", () => {
 });
 
 describe("getContentSearchResources", () => {
-  const canvasLabelObj = {
-    "http://localhost:3000/manifest/newspaper/canvas/i1p1": "Page 1",
-    "http://localhost:3000/manifest/newspaper/canvas/i1p2": "Page 2",
-  };
-
   it("processes content search AnnotationPage manifest", async () => {
-    const result = await getContentSearchResources(
-      searchContent,
-      canvasLabelObj,
-    );
+    const vault = new Vault();
+    const result = await getContentSearchResources(vault, searchContent);
 
-    const expected: SearchContentResources = {
-      id: "Search Results",
-      items: {
-        "Page 1": [
-          {
-            body: {
-              format: "text/plain",
-              id: "vault://91a5bffd",
-              type: "TextualBody",
-              value: "Berliner",
-            },
-            canvas: "http://localhost:3000/manifest/newspaper/canvas/i1p1",
-            target:
-              "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=839,3259,118,27",
-          },
-          {
-            body: {
-              format: "text/plain",
-              id: "vault://91a5bffd",
-              type: "TextualBody",
-              value: "Berliner",
-            },
-            canvas: "http://localhost:3000/manifest/newspaper/canvas/i1p1",
-            target:
-              "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=161,459,1063,329",
-          },
-        ],
-        "Page 2": [
-          {
-            body: {
-              format: "text/plain",
-              id: "vault://91a5bffd",
-              type: "TextualBody",
-              value: "Berliner",
-            },
-            canvas: "http://localhost:3000/manifest/newspaper/canvas/i1p2",
-            target:
-              "http://localhost:3000/manifest/newspaper/canvas/i1p2#xywh=2468,4313,106,26",
-          },
-        ],
-      },
+    const expected = {
+      "@context": "http://iiif.io/api/search/2/context.json",
+      behavior: [],
+      homepage: [],
+      id: "http://localhost:3000/manifest/newspaper/content-search.json",
+      items: [
+        {
+          id: "http://localhost:3000/manifest/newspaper/annotation/584",
+          type: "Annotation",
+        },
+        {
+          id: "http://localhost:3000/manifest/newspaper/annotation/920",
+          type: "Annotation",
+        },
+        {
+          id: "http://localhost:3000/manifest/newspaper/annotation/2650",
+          type: "Annotation",
+        },
+      ],
       label: {
-        en: ["Search Results"],
+        none: ["Search Results"],
       },
-      motivation: "highlighting",
+      logo: [],
+      metadata: [],
+      motivation: null,
+      provider: [],
+      rendering: [],
+      requiredStatement: null,
+      rights: null,
+      seeAlso: [],
+      service: [],
+      summary: null,
+      thumbnail: [],
+      type: "AnnotationPage",
     };
     expect(result).toStrictEqual(expected);
   });
@@ -352,11 +334,8 @@ describe("getContentSearchResources", () => {
       id: "http://localhost:3000/manifest/newspaper/newspaper_search_content_1.json",
       type: "AnnotationPage",
     };
-
-    const result = await getContentSearchResources(
-      annotationPage,
-      canvasLabelObj,
-    );
+    const vault = new Vault();
+    const result = await getContentSearchResources(vault, annotationPage);
 
     expect(result).toStrictEqual({});
   });
@@ -367,11 +346,8 @@ describe("getContentSearchResources", () => {
       id: "http://localhost:3000/manifest/newspaper/newspaper_search_content_1.json",
       type: "AnnotationPage",
     };
-
-    const result = await getContentSearchResources(
-      annotationPage,
-      canvasLabelObj,
-    );
+    const vault = new Vault();
+    const result = await getContentSearchResources(vault, annotationPage);
 
     expect(result).toStrictEqual({});
   });
