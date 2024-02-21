@@ -4,7 +4,6 @@ import {
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
-  CanvasNormalized,
 } from "@iiif/presentation-3";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -18,7 +17,7 @@ import {
   getContentSearchResources,
 } from "src/hooks/use-iiif";
 
-import { AnnotationResources } from "src/types/annotations";
+import { AnnotationResources, AnnotationResource } from "src/types/annotations";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
@@ -66,10 +65,11 @@ const Viewer: React.FC<ViewerProps> = ({
   const [painting, setPainting] = useState<IIIFExternalWebResource[]>([]);
   const [annotationResources, setAnnotationResources] =
     useState<AnnotationResources>([]);
+  const [contentSearchResource, setContentSearchResource] =
+    useState<AnnotationResource>();
 
   const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
   const isSmallViewport = useMediaQuery(media.sm);
-
   const setInformationOpen = useCallback(
     (open: boolean) => {
       viewerDispatch({
@@ -133,7 +133,7 @@ const Viewer: React.FC<ViewerProps> = ({
         return getContentSearchResources(contentSearchVault, data);
       })
       .then((contentSearch) => {
-        console.log(contentSearch);
+        setContentSearchResource(contentSearch);
       })
       .catch((err) => {
         console.log(err);
@@ -162,6 +162,7 @@ const Viewer: React.FC<ViewerProps> = ({
             activeCanvas={activeCanvas}
             painting={painting}
             annotationResources={annotationResources}
+            contentSearchResource={contentSearchResource}
             items={manifest.items}
             isAudioVideo={isAudioVideo}
           />

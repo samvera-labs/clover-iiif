@@ -40,6 +40,7 @@ export type ViewerConfigOptions = {
     vtt?: {
       autoScroll?: AutoScrollOptions | AutoScrollSettings | boolean;
     };
+    renderContentSearch?: boolean;
   };
   openSeadragon?: OpenSeadragonOptions;
   requestHeaders?: IncomingHttpHeaders;
@@ -80,6 +81,7 @@ const defaultConfigOptions = {
     renderSupplementing: true,
     renderToggle: true,
     renderAnnotation: true,
+    renderContentSearch: true,
   },
   openSeadragon: {},
   requestHeaders: { "Content-Type": "application/json" },

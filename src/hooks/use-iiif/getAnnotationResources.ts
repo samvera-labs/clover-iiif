@@ -1,4 +1,4 @@
-import { AnnotationResources } from "src/types/annotations";
+import { AnnotationResources, AnnotationResource } from "src/types/annotations";
 import { AnnotationPage, CanvasNormalized } from "@iiif/presentation-3";
 
 export const getAnnotationResources = (
@@ -35,14 +35,14 @@ export const getAnnotationResources = (
 export const getContentSearchResources = async (
   contentSearchVault: any,
   annotationPage: AnnotationPage,
-): Promise<AnnotationPage> => {
+): Promise<AnnotationResource> => {
   if (annotationPage["@context"] !== "http://iiif.io/api/search/2/context.json")
-    return {} as AnnotationPage;
+    return {} as AnnotationResource;
   if (!annotationPage.items || !annotationPage.items.length)
-    return {} as AnnotationPage;
+    return {} as AnnotationResource;
 
   await contentSearchVault.loadManifest(annotationPage);
-  const annotationPageVault: AnnotationPage =
+  const annotationPageVault: AnnotationResource =
     contentSearchVault.get(annotationPage);
 
   if (annotationPageVault.label == undefined) {
