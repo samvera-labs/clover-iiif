@@ -25,16 +25,17 @@ const SearchContent: React.FC<Props> = ({
   const viewerState: ViewerContextStore = useViewerState();
   const { contentSearchVault, openSeadragonViewer, configOptions } =
     viewerState;
-  const searchText = configOptions.localeText.contentSearch;
+  const searchText = configOptions.localeText?.contentSearch;
 
   async function searchSubmitHandler(e) {
     e.preventDefault();
+    const tabLabel = searchText?.tabLabel as string;
 
     if (!openSeadragonViewer) return;
     if (!searchTerms || searchTerms.trim() === "") {
       // must return a label because Information Panel tab requires a label
       setContentSearchResource({
-        label: { none: [searchText.tabLabel] },
+        label: { none: [tabLabel] },
       } as unknown as AnnotationPageNormalized);
       return;
     }
@@ -42,14 +43,12 @@ const SearchContent: React.FC<Props> = ({
     setLoading(true);
 
     const url = searchServiceUrl + "?q=" + searchTerms.trim();
-    getContentSearchResources(
-      contentSearchVault,
-      url,
-      searchText.tabLabel,
-    ).then((resources) => {
-      setContentSearchResource(resources);
-      setLoading(false);
-    });
+    getContentSearchResources(contentSearchVault, url, tabLabel).then(
+      (resources) => {
+        setContentSearchResource(resources);
+        setLoading(false);
+      },
+    );
   }
 
   const handleChange = (e: any) => {
@@ -61,7 +60,7 @@ const SearchContent: React.FC<Props> = ({
     <FormStyled>
       <Form.Root onSubmit={searchSubmitHandler} className="content-search-form">
         <Form.Field name="searchTerms" onChange={handleChange}>
-          <Form.Control placeholder={searchText.formPlaceholder} />
+          <Form.Control placeholder={searchText?.formPlaceholder} />
         </Form.Field>
       </Form.Root>
     </FormStyled>

@@ -21,7 +21,7 @@ export const ContentSearchPage: React.FC<Props> = ({ annotationPage }) => {
   const [activeTarget, setActiveTarget] = useState<string | undefined>();
 
   const searchResultsLimit = configOptions.contentSearch?.searchResultsLimit;
-  const searchText = configOptions.localeText.contentSearch;
+  const searchText = configOptions.localeText?.contentSearch;
 
   function formatAnnotationPage(annotationPage: AnnotationPageNormalized) {
     const groupedAnnotations: GroupedAnnotations = {};
@@ -68,7 +68,7 @@ export const ContentSearchPage: React.FC<Props> = ({ annotationPage }) => {
       if (moreCount > 0) {
         return (
           <ResultsFooter>
-            {moreCount} {searchText.moreResults}
+            {moreCount} {searchText?.moreResults}
           </ResultsFooter>
         );
       }
@@ -80,7 +80,7 @@ export const ContentSearchPage: React.FC<Props> = ({ annotationPage }) => {
     !annotationPage.items ||
     annotationPage.items?.length === 0
   )
-    return <p>{searchText.noSearchResults}</p>;
+    return <p>{searchText?.noSearchResults}</p>;
 
   return (
     <>

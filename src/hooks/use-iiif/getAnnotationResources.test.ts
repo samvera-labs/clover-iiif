@@ -6,7 +6,6 @@ import {
   simpleAnnotations,
   simpleTagging,
 } from "src/fixtures/use-iiif/get-annotation-resources";
-import { AnnotationPage } from "@iiif/presentation-3";
 
 import { Vault } from "@iiif/vault";
 import {
