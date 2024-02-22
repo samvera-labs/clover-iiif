@@ -30,6 +30,9 @@ export type ViewerConfigOptions = {
   background?: string;
   canvasBackgroundColor?: string;
   canvasHeight?: string;
+  contentSearch?: {
+    searchResultsLimit?: number;
+  };
   ignoreCaptionLabels?: string[];
   informationPanel?: {
     open?: boolean;
@@ -68,6 +71,9 @@ const defaultConfigOptions = {
   background: "transparent",
   canvasBackgroundColor: "#6662",
   canvasHeight: "500px",
+  contentSearch: {
+    searchResultsLimit: 20,
+  },
   ignoreCaptionLabels: [],
   informationPanel: {
     vtt: {

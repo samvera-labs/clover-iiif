@@ -31,8 +31,20 @@ const Container = styled("div", {
   margin: "0.5rem 1.618rem",
 });
 
-const Title = styled("span", {
+const ResultsHeader = styled("div", {
   fontWeight: "bold",
 });
 
-export { Item, List, ButtonStyled, FormStyled, Container, Title };
+const ResultsFooter = styled("div", {
+  marginBottom: "1rem",
+});
+
+export {
+  Item,
+  List,
+  ButtonStyled,
+  FormStyled,
+  Container,
+  ResultsHeader,
+  ResultsFooter,
+};
