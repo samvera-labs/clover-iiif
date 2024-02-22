@@ -57,6 +57,7 @@ const Viewer: React.FC<ViewerProps> = ({
     contentSearchVault,
     configOptions,
     openSeadragonViewer,
+    plugins,
   } = viewerState;
 
   const absoluteCanvasHeights = ["100%", "auto"];
@@ -186,6 +187,20 @@ const Viewer: React.FC<ViewerProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openSeadragonViewer, contentSearchResource]);
 
+  function renderPlugins(activeCanvas, openSeadragonViewer) {
+    return plugins.map((plugin, i) => {
+      const Plugin = plugin.component as unknown as React.ElementType;
+      return (
+        <Plugin
+          key={i}
+          {...plugin.componentProps}
+          openSeadragonViewer={openSeadragonViewer}
+          activeCanvas={activeCanvas}
+        ></Plugin>
+      );
+    });
+  }
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Wrapper
@@ -204,6 +219,9 @@ const Viewer: React.FC<ViewerProps> = ({
             manifestLabel={manifest.label as InternationalString}
             manifestId={manifest.id}
           />
+          {activeCanvas &&
+            openSeadragonViewer &&
+            renderPlugins(activeCanvas, openSeadragonViewer)}
           <ViewerContent
             activeCanvas={activeCanvas}
             painting={painting}

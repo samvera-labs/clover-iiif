@@ -138,6 +138,10 @@ export type CustomDisplay = {
     paintingFormat?: string[];
   };
 };
+export type Plugin = {
+  component: React.ElementType;
+  componentProps?: Record<string, unknown>;
+};
 
 export interface ViewerContextStore {
   activeCanvas: string;
@@ -146,6 +150,7 @@ export interface ViewerContextStore {
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
+  plugins: Array<Plugin>;
   isAutoScrollEnabled?: boolean;
   isAutoScrolling?: boolean;
   isInformationOpen: boolean;
@@ -210,6 +215,7 @@ export const defaultState: ViewerContextStore = {
   collection: {},
   configOptions: defaultConfigOptions,
   customDisplays: [],
+  plugins: [],
   isAutoScrollEnabled: expandedAutoScrollOptions.enabled,
   isAutoScrolling: false,
   isInformationOpen: defaultConfigOptions?.informationPanel?.open,
