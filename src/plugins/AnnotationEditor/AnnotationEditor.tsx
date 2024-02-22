@@ -6,10 +6,17 @@ import {
   CreateAnnotationProvider,
   defaultState,
 } from "src/plugins/AnnotationEditor/annotation-editor-context";
+import {
+  saveAnnotation,
+  fetchAnnotation,
+  deleteAnnotation,
+  updateAnnotation,
+} from "src/plugins/AnnotationEditor/annotation-utils";
 import OpenSeadragon from "openseadragon";
 
 type PropType = {
   openSeadragonViewer: OpenSeadragon.Viewer | null;
+  activeCanvas: string;
 };
 
 export default function CreateAnnotation(props: PropType) {
@@ -27,9 +34,11 @@ export default function CreateAnnotation(props: PropType) {
   );
 }
 
-function RenderCreateAnnotation(props) {
+function RenderCreateAnnotation(props: PropType) {
+  const { activeCanvas, openSeadragonViewer } = props;
+
   useEffect(() => {
-    if (!props.openSeadragonViewer) return;
+    if (!openSeadragonViewer) return;
 
     const options = {
       allowEmpty: true,
@@ -38,20 +47,36 @@ function RenderCreateAnnotation(props) {
       widgets: ["COMMENT"],
     };
 
-    const anno = Annotorious(props.openSeadragonViewer, options);
+    const anno = Annotorious(openSeadragonViewer, options);
     AnnotoriousToolbar(anno, document.getElementById("my-toolbar-container"));
     anno.on("createAnnotation", (annotation) => {
       console.log("created", annotation);
+      saveAnnotation(annotation, activeCanvas);
     });
 
     anno.on("updateAnnotation", (annotation, previous) => {
       console.log("updated", annotation, previous);
+      updateAnnotation(annotation, activeCanvas);
     });
 
     anno.on("deleteAnnotation", (annotation) => {
       console.log("deleted", annotation);
+      deleteAnnotation(annotation, activeCanvas);
     });
-  });
+
+    // load existing annotations
+    const savedAnnotations = fetchAnnotation(activeCanvas);
+    savedAnnotations.forEach((annotation) => {
+      try {
+        anno.addAnnotation(annotation);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+
+    // Cleanup: destroy current instance
+    return () => anno.destroy();
+  }, [openSeadragonViewer, activeCanvas]);
 
   return (
     <>
