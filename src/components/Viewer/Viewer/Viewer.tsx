@@ -38,7 +38,14 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
    */
   const viewerState: ViewerContextStore = useViewerState();
   const viewerDispatch: any = useViewerDispatch();
-  const { activeCanvas, isInformationOpen, vault, configOptions } = viewerState;
+  const {
+    activeCanvas,
+    isInformationOpen,
+    vault,
+    configOptions,
+    openSeadragonViewer,
+    plugins,
+  } = viewerState;
 
   const absoluteCanvasHeights = ["100%", "auto"];
   const isAbsolutePosition =
@@ -111,6 +118,20 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
     setIsInformationPanel(resources.length !== 0);
   }, [activeCanvas, vault, viewerDispatch]);
 
+  function renderPlugins(activeCanvas, openSeadragonViewer) {
+    return plugins.map((plugin, i) => {
+      const Plugin = plugin.component as unknown as React.ElementType;
+      return (
+        <Plugin
+          key={i}
+          {...plugin.componentProps}
+          openSeadragonViewer={openSeadragonViewer}
+          activeCanvas={activeCanvas}
+        ></Plugin>
+      );
+    });
+  }
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Wrapper
@@ -129,6 +150,9 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
             manifestLabel={manifest.label as InternationalString}
             manifestId={manifest.id}
           />
+          {activeCanvas &&
+            openSeadragonViewer &&
+            renderPlugins(activeCanvas, openSeadragonViewer)}
           <ViewerContent
             activeCanvas={activeCanvas}
             painting={painting}
