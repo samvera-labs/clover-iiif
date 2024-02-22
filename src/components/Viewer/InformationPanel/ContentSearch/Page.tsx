@@ -3,8 +3,8 @@ import {
   AnnotationNormalized,
   AnnotationPageNormalized,
 } from "@iiif/presentation-3";
-import ContentSearchItem from "src/components/Viewer/InformationPanel/ContentSearch/Item";
-import { List } from "src/components/Viewer/InformationPanel/ContentSearch/Item.styled";
+import ContentSearchItem from "./Item";
+import { List, Title } from "./Item.styled";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 import { getLabel } from "src/hooks/use-iiif";
 
@@ -47,34 +47,30 @@ export const ContentSearchPage: React.FC<Props> = ({ annotationPage }) => {
     !annotationPage.items ||
     annotationPage.items?.length === 0
   )
-    return <div>No search results.</div>;
-
-  const annotations = annotationPage.items.map((item) => {
-    return contentSearchVault.get(item.id) as AnnotationNormalized;
-  });
-
-  if (!annotations) return <></>;
-
-  const groupedAnnotations = formatAnnotationPage(annotationPage);
+    return <p>No search results.</p>;
 
   return (
-    <div>
-      {Object.entries(groupedAnnotations).map(([label, annotations], i) => {
-        return (
-          <List key={i}>
-            {label}
-            {annotations.map((annotation, i) => (
-              <ContentSearchItem
-                key={i}
-                annotation={annotation}
-                activeTarget={activeTarget}
-                setActiveTarget={setActiveTarget}
-              />
-            ))}
-          </List>
-        );
-      })}
-    </div>
+    <>
+      {Object.entries(formatAnnotationPage(annotationPage)).map(
+        ([label, annotations], i) => {
+          return (
+            <>
+              <Title className="content-search-results-title">{label}</Title>
+              <List key={i} className="content-search-results">
+                {annotations.map((annotation, i) => (
+                  <ContentSearchItem
+                    key={i}
+                    annotation={annotation}
+                    activeTarget={activeTarget}
+                    setActiveTarget={setActiveTarget}
+                  />
+                ))}
+              </List>
+            </>
+          );
+        },
+      )}
+    </>
   );
 };
 

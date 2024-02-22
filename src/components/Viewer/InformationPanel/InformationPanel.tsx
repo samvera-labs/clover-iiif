@@ -13,11 +13,13 @@ import {
 } from "src/context/viewer-context";
 
 import AnnotationPage from "src/components/Viewer/InformationPanel/Annotation/Page";
-import ContentSearchAnnotationPage from "src/components/Viewer/InformationPanel/ContentSearch/Page";
-
+import ContentSearch from "src/components/Viewer/InformationPanel/ContentSearch/ContentSearch";
 import { AnnotationResources, AnnotationResource } from "src/types/annotations";
 import Information from "src/components/Viewer/InformationPanel/About/About";
-import { InternationalString } from "@iiif/presentation-3";
+import {
+  InternationalString,
+  AnnotationPageNormalized,
+} from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
@@ -25,12 +27,18 @@ const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event 
 interface NavigatorProps {
   activeCanvas: string;
   annotationResources?: AnnotationResources;
+  searchServiceUrl?: string;
+  setContentSearchResource: React.Dispatch<
+    React.SetStateAction<AnnotationPageNormalized | undefined>
+  >;
   contentSearchResource?: AnnotationResource;
 }
 
 export const InformationPanel: React.FC<NavigatorProps> = ({
   activeCanvas,
   annotationResources,
+  searchServiceUrl,
+  setContentSearchResource,
   contentSearchResource,
 }) => {
   const dispatch: any = useViewerDispatch();
@@ -118,7 +126,10 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       <Scroll handleScroll={handleScroll}>
         {renderContentSearch && contentSearchResource && (
           <Content value="manifest-content-search">
-            <ContentSearchAnnotationPage
+            <ContentSearch
+              searchServiceUrl={searchServiceUrl}
+              setContentSearchResource={setContentSearchResource}
+              activeCanvas={activeCanvas}
               annotationPage={contentSearchResource}
             />
           </Content>

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Item as ItemStyled } from "src/components/Viewer/InformationPanel/ContentSearch/Item.styled";
+import { Item as ItemStyled } from "./Item.styled";
 
 import {
   ViewerContextStore,
@@ -14,6 +14,7 @@ import {
 } from "@iiif/presentation-3";
 import { parseAnnotationTarget } from "src/lib/annotation-helpers";
 import { createOpenSeadragonRect } from "src/lib/openseadragon-helpers";
+import AnnotationItemPlainText from "./PlainText";
 
 type Props = {
   annotation: AnnotationNormalized;
@@ -116,14 +117,13 @@ export const ContentSearchItem: React.FC<Props> = ({
   const targetJson = JSON.stringify(annotationTarget);
 
   return (
-    <ItemStyled
-      onClick={handleClick}
-      data-target={targetJson}
-      data-canvas={annotationCanvas}
-    >
-      <span data-target={targetJson} data-canvas={annotationCanvas}>
-        {annotationBodyValue}
-      </span>
+    <ItemStyled>
+      <AnnotationItemPlainText
+        target={targetJson}
+        canvas={annotationCanvas}
+        value={annotationBodyValue}
+        handleClick={handleClick}
+      />
     </ItemStyled>
   );
 };

@@ -1,21 +1,4 @@
-import { CSS, styled } from "src/styles/stitches.config";
-
-const annotationItemRow: CSS = {
-  position: "relative",
-  cursor: "pointer",
-  display: "flex",
-  width: "100%",
-  justifyContent: "space-between",
-  textAlign: "left",
-  margin: "0",
-  padding: "0.5rem 1.618rem",
-  fontFamily: "inherit",
-  lineHeight: "1.25em",
-  fontSize: "1rem",
-  color: "inherit",
-  border: "none",
-  background: "none",
-};
+import { styled } from "src/styles/stitches.config";
 
 const ButtonStyled = styled("button", {
   textAlign: "left",
@@ -25,28 +8,31 @@ const ButtonStyled = styled("button", {
   },
 });
 
-const Group = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  width: "100%",
-});
-
-const Item = styled("div", {
-  ...annotationItemRow,
-});
-
-const ItemHTMLWrapper = styled("div", {
-  "&:hover": {
-    color: "$accent",
-  },
+const Item = styled("li", {
+  margin: "0.25rem 0",
 });
 
 const List = styled("ol", {
-  display: "flex",
-  flexDirection: "column",
-  width: "100%",
-  listStyle: "auto",
+  listStyleType: "auto",
+  marginBottom: "1rem",
+  listStylePosition: "inside",
+});
+
+const FormStyled = styled("div", {
+  marginBottom: "1rem",
+
+  input: {
+    background: "#efefef",
+    padding: ".25rem",
+  },
+});
+
+const Container = styled("div", {
   margin: "0.5rem 1.618rem",
 });
 
-export { annotationItemRow, ButtonStyled, Group, Item, ItemHTMLWrapper, List };
+const Title = styled("span", {
+  fontWeight: "bold",
+});
+
+export { Item, List, ButtonStyled, FormStyled, Container, Title };
