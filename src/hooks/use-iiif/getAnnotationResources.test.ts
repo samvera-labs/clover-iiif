@@ -288,7 +288,11 @@ describe("getContentSearchResources", () => {
     const searchUrl =
       "http://localhost:3000/manifest/content-search/content-search.json";
     const vault = new Vault();
-    const result = await getContentSearchResources(vault, searchUrl);
+    const result = await getContentSearchResources(
+      vault,
+      searchUrl,
+      "Search Results",
+    );
 
     const expected = {
       "@context": "http://iiif.io/api/search/2/context.json",
@@ -332,7 +336,11 @@ describe("getContentSearchResources", () => {
     const searchUrl =
       "http://localhost:3000/manifest/content-search/content-search-no-results.json";
     const vault = new Vault();
-    const result = await getContentSearchResources(vault, searchUrl);
+    const result = await getContentSearchResources(
+      vault,
+      searchUrl,
+      "Search Results",
+    );
 
     const expected = {
       "@context": "http://iiif.io/api/search/2/context.json",
@@ -363,7 +371,11 @@ describe("getContentSearchResources", () => {
     const searchUrl =
       "http://localhost:3000/manifest/content-search/search-v1.json";
     const vault = new Vault();
-    const result = await getContentSearchResources(vault, searchUrl);
+    const result = await getContentSearchResources(
+      vault,
+      searchUrl,
+      "Search Results",
+    );
 
     expect(result).toStrictEqual({});
   });

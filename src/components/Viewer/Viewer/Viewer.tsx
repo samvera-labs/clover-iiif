@@ -131,15 +131,18 @@ const Viewer: React.FC<ViewerProps> = ({
     if (iiifContentSearch === undefined) return;
     if (configOptions.informationPanel?.renderContentSearch === false) return;
 
-    getContentSearchResources(contentSearchVault, iiifContentSearch).then(
-      (contentSearch) => {
-        setContentSearchResource(contentSearch);
-      },
-    );
+    getContentSearchResources(
+      contentSearchVault,
+      iiifContentSearch,
+      configOptions.localeText.contentSearch.tabLabel,
+    ).then((contentSearch) => {
+      setContentSearchResource(contentSearch);
+    });
   }, [
     iiifContentSearch,
     contentSearchVault,
     configOptions.informationPanel?.renderContentSearch,
+    configOptions.localeText.contentSearch.tabLabel,
   ]);
 
   const hasSearchService = manifest.service.some(

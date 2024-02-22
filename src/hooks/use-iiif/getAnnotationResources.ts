@@ -35,6 +35,7 @@ export const getAnnotationResources = (
 export const getContentSearchResources = async (
   contentSearchVault: any,
   searchUrl: string,
+  tabLabel: string,
 ): Promise<AnnotationResource> => {
   let annotationPage;
   try {
@@ -45,7 +46,7 @@ export const getContentSearchResources = async (
   }
 
   if (annotationPage.label == undefined) {
-    annotationPage.label = { none: ["Search Results"] };
+    annotationPage.label = { none: [tabLabel] };
   }
   return annotationPage;
 };

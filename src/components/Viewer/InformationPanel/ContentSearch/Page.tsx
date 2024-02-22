@@ -21,6 +21,7 @@ export const ContentSearchPage: React.FC<Props> = ({ annotationPage }) => {
   const [activeTarget, setActiveTarget] = useState<string | undefined>();
 
   const searchResultsLimit = configOptions.contentSearch?.searchResultsLimit;
+  const searchText = configOptions.localeText.contentSearch;
 
   function formatAnnotationPage(annotationPage: AnnotationPageNormalized) {
     const groupedAnnotations: GroupedAnnotations = {};
@@ -65,7 +66,11 @@ export const ContentSearchPage: React.FC<Props> = ({ annotationPage }) => {
     if (searchResultsLimit) {
       const moreCount = annotations.length - searchResultsLimit;
       if (moreCount > 0) {
-        return <ResultsFooter>{moreCount} more results.</ResultsFooter>;
+        return (
+          <ResultsFooter>
+            {moreCount} {searchText.moreResults}
+          </ResultsFooter>
+        );
       }
     }
   }
@@ -75,22 +80,22 @@ export const ContentSearchPage: React.FC<Props> = ({ annotationPage }) => {
     !annotationPage.items ||
     annotationPage.items?.length === 0
   )
-    return <p>No search results.</p>;
+    return <p>{searchText.noSearchResults}</p>;
 
   return (
     <>
       {Object.entries(formatAnnotationPage(annotationPage)).map(
         ([label, annotations], i) => {
           return (
-            <>
+            <div key={i}>
               <ResultsHeader className="content-search-results-title">
                 {label}
               </ResultsHeader>
-              <List key={i} className="content-search-results">
+              <List className="content-search-results">
                 {renderSearchResults(annotations)}
               </List>
               {renderMoreResultsMessage(annotations)}
-            </>
+            </div>
           );
         },
       )}

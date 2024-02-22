@@ -51,6 +51,7 @@ export type ViewerConfigOptions = {
   showIIIFBadge?: boolean;
   showTitle?: boolean;
   withCredentials?: boolean;
+  localeText: { [k: string]: { [k: string]: string } };
 };
 
 const defaultAutoScrollSettings: AutoScrollSettings = {
@@ -95,6 +96,15 @@ const defaultConfigOptions = {
   showIIIFBadge: true,
   showTitle: true,
   withCredentials: false,
+  localeText: {
+    contentSearch: {
+      tabLabel: "Search Results",
+      formPlaceholder: "Enter search words",
+      noSearchResults: "No search results",
+      loading: "Loading...",
+      moreResults: "more results",
+    },
+  },
 };
 
 export type CustomDisplay = {
