@@ -4,6 +4,9 @@ import {
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
+  CanvasNormalized,
+  AnnotationNormalized,
+  AnnotationPageNormalized,
 } from "@iiif/presentation-3";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -16,6 +19,10 @@ import {
   getPaintingResource,
   getContentSearchResources,
 } from "src/hooks/use-iiif";
+import {
+  addOverlaysToViewer,
+  removeOverlaysFromViewer,
+} from "src/lib/openseadragon-helpers";
 
 import { AnnotationResources, AnnotationResource } from "src/types/annotations";
 import { ErrorBoundary } from "react-error-boundary";
@@ -50,6 +57,7 @@ const Viewer: React.FC<ViewerProps> = ({
     vault,
     contentSearchVault,
     configOptions,
+    openSeadragonViewer,
   } = viewerState;
 
   const absoluteCanvasHeights = ["100%", "auto"];
@@ -126,8 +134,8 @@ const Viewer: React.FC<ViewerProps> = ({
     setIsInformationPanel(resources.length !== 0);
   }, [activeCanvas, vault, viewerDispatch]);
 
+  // make request to content search service using iiifContentSearch prop
   useEffect(() => {
-    // make request to content search service using iiifContentSearch prop
     if (iiifContentSearch === undefined) return;
     if (configOptions.informationPanel?.renderContentSearch === false) return;
 
@@ -138,19 +146,44 @@ const Viewer: React.FC<ViewerProps> = ({
     ).then((contentSearch) => {
       setContentSearchResource(contentSearch);
     });
+  }, [iiifContentSearch, contentSearchVault, configOptions]);
+
+  // add overlays for content search
+  useEffect(() => {
+    if (!openSeadragonViewer) return;
+    if (!contentSearchResource) return;
+
+    const canvas: CanvasNormalized = vault.get({
+      id: activeCanvas,
+      type: "Canvas",
+    });
+
+    console.log("openSeadragonViewer 20", openSeadragonViewer?.id);
+    console.log("canvas 20", canvas.id);
+
+    removeOverlaysFromViewer(openSeadragonViewer);
+    addContentSearchOverlays(
+      contentSearchVault,
+      contentSearchResource,
+      openSeadragonViewer,
+      canvas,
+      configOptions,
+    );
   }, [
-    iiifContentSearch,
     contentSearchVault,
-    configOptions.informationPanel?.renderContentSearch,
-    configOptions.localeText.contentSearch.tabLabel,
+    configOptions,
+    openSeadragonViewer,
+    activeCanvas,
+    vault,
+    contentSearchResource,
   ]);
 
   const hasSearchService = manifest.service.some(
     (service: any) => service.type === "SearchService2",
   );
 
+  // check if search service exists in the manifest
   useEffect(() => {
-    // check if search service exists in the manifest
     if (hasSearchService) {
       const searchService: any = manifest.service.find(
         (service: any) => service.type === "SearchService2",
@@ -196,3 +229,31 @@ const Viewer: React.FC<ViewerProps> = ({
 };
 
 export default Viewer;
+
+function addContentSearchOverlays(
+  contentSearchVault: any,
+  contentSearch: AnnotationPageNormalized,
+  openSeadragonViewer,
+  canvas: CanvasNormalized,
+  configOptions,
+) {
+  const annotations: Array<AnnotationNormalized> = [];
+  contentSearch?.items?.forEach((item) => {
+    const annotation = contentSearchVault.get(item.id) as AnnotationNormalized;
+
+    if (typeof annotation.target === "string") {
+      if (annotation.target.startsWith(canvas.id)) {
+        annotations.push(annotation as unknown as AnnotationNormalized);
+      }
+    }
+  });
+
+  if (openSeadragonViewer) {
+    addOverlaysToViewer(
+      openSeadragonViewer,
+      canvas,
+      configOptions,
+      annotations,
+    );
+  }
+}
