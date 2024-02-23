@@ -51,7 +51,15 @@ export type ViewerConfigOptions = {
   showIIIFBadge?: boolean;
   showTitle?: boolean;
   withCredentials?: boolean;
-  localeText?: { [k: string]: { [k: string]: string } };
+  localeText?: {
+    contentSearch?: {
+      tabLabel?: string;
+      formPlaceholder?: string;
+      noSearchResults?: string;
+      loading?: string;
+      moreResults?: string;
+    };
+  };
 };
 
 const defaultAutoScrollSettings: AutoScrollSettings = {
