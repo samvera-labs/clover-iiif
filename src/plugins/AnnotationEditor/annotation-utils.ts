@@ -3,16 +3,7 @@ function formatUrl(
   user: string,
   annotationServer: string,
 ) {
-  return `${annotationServer}/?userId=${user}&canvas=${formatCanvasId(
-    activeCanvas,
-  )}`;
-}
-
-function formatCanvasId(activeCanvas) {
-  return activeCanvas
-    .replaceAll("/", "")
-    .replaceAll("http", "")
-    .replaceAll(":", "");
+  return `${annotationServer}/?userId=${user}&canvas=${activeCanvas}`;
 }
 
 export async function saveAnnotation(

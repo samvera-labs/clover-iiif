@@ -93,6 +93,7 @@
     "@recogito/annotorious-toolbar": "1.1",
     "@stitches/react": "^1.2.8",
     "flexsearch": "^0.7.43",
+    "better-sqlite3": "^9.4.1",
     "hls.js": "^1.5.3",
     "node-webvtt": "^1.9.4",
     "openseadragon": "^4.1.1",
