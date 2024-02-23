@@ -6,6 +6,6 @@ db.exec(`CREATE TABLE annotations  (
 	canvas TEXT NOT NULL,
 	annotation TEXT NOT NULL,
 	object_id INTEGER NOT NULL,
-	user_id INTEGER NOT NULL,
+	token TEXT NOT NULL,
 	annotation_id INTEGER NOT NULL
 )`);

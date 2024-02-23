@@ -17,7 +17,7 @@ import OpenSeadragon from "openseadragon";
 type PropType = {
   openSeadragonViewer: OpenSeadragon.Viewer | null;
   activeCanvas: string;
-  userId?: string;
+  token?: string;
   annotationServer?: string;
 };
 
@@ -37,7 +37,7 @@ export default function CreateAnnotation(props: PropType) {
 }
 
 function RenderCreateAnnotation(props: PropType) {
-  const { activeCanvas, openSeadragonViewer, userId, annotationServer } = props;
+  const { activeCanvas, openSeadragonViewer, token, annotationServer } = props;
   useEffect(() => {
     if (!openSeadragonViewer) return;
 
@@ -51,20 +51,20 @@ function RenderCreateAnnotation(props: PropType) {
     const anno = Annotorious(openSeadragonViewer, options);
     AnnotoriousToolbar(anno, document.getElementById("my-toolbar-container"));
     anno.on("createAnnotation", (annotation) => {
-      saveAnnotation(annotation, activeCanvas, userId, annotationServer);
+      saveAnnotation(annotation, activeCanvas, token, annotationServer);
     });
     anno.on("updateAnnotation", (annotation) => {
-      updateAnnotation(annotation, activeCanvas, userId, annotationServer);
+      updateAnnotation(annotation, activeCanvas, token, annotationServer);
     });
     anno.on("deleteAnnotation", (annotation) => {
-      deleteAnnotation(annotation, activeCanvas, userId, annotationServer);
+      deleteAnnotation(annotation, activeCanvas, token, annotationServer);
     });
 
     // load existing annotations
     (async () => {
       const savedAnnotations = await fetchAnnotation(
         activeCanvas,
-        userId,
+        token,
         annotationServer,
       );
       savedAnnotations.forEach((annotation) => {
