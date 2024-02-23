@@ -16,7 +16,7 @@ function newspaper() {
           component: AnnotationEditor,
           componentProps: {
             annotationServer: "http://localhost:3000/api/annotationsByCanvas/1",
-            userId: "123",
+            token: "123abc",
           },
         },
       ]}

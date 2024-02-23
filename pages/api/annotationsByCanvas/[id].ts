@@ -10,16 +10,19 @@ export default async function handler(
 ) {
   const objectId = req.query.id;
   const canvas = req.query.canvas;
-  const userId = req.query.userId;
+  const token = req.headers.authorization?.replace("Bearer ", "");
   const url = "http://localhost:3000/" + req.url;
 
   if (canvas === undefined) {
-    return res.status(200).json({ message: "no canvas" });
+    return res.status(400).json({ error: "no canvas" });
+  }
+  if (token === undefined) {
+    return res.status(400).json({ error: "no token" });
   }
 
   // fetch
   if (req.method === "GET") {
-    const annotations = await fetchAnnotations(canvas, objectId, userId);
+    const annotations = await fetchAnnotations(canvas, objectId, token);
     return res.status(200).json(formatAnnotationPage(annotations, url));
   } else if (req.body === undefined) {
     return res.status(400).json({ error: "body is missing" });
@@ -29,14 +32,14 @@ export default async function handler(
     const newAnnotation = req.body;
 
     const stmt = db.prepare(
-      `INSERT INTO annotations (annotation, canvas, object_id, user_id, annotation_id)
+      `INSERT INTO annotations (annotation, canvas, object_id, token, annotation_id)
       VALUES (?, ?, ?, ?, ?)`,
     );
     stmt.run(
       JSON.stringify(newAnnotation),
       canvas,
       objectId,
-      userId,
+      token,
       newAnnotation.id,
     );
 
@@ -62,13 +65,13 @@ export default async function handler(
   }
 }
 
-async function fetchAnnotations(canvas, objectId, userId) {
+async function fetchAnnotations(canvas, objectId, token) {
   let annotations = [];
 
   const stmt = db.prepare(
-    `SELECT annotation FROM annotations WHERE canvas = ? AND object_id = ? AND user_id = ?;`,
+    `SELECT annotation FROM annotations WHERE canvas = ? AND object_id = ? AND token = ?;`,
   );
-  const rows = stmt.all(canvas, objectId, userId);
+  const rows = stmt.all(canvas, objectId, token);
   if (rows.length > 0) {
     annotations = rows.map((row) => JSON.parse(row.annotation));
   }
