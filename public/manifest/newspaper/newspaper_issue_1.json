@@ -73,7 +73,7 @@
                 "language": "en",
                 "value": "This is issue 1, page 1"
               },
-              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p1"
+              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=1300,400,200,400"
             }
           ]
         }

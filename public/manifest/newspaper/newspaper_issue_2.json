@@ -16,7 +16,7 @@
               },
               "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_2-anno_p1.json-5",
               "motivation": "highlighting",
-              "target": "http://localhost:3000/manifest/newspaper/canvas/i2p1",
+              "target": "http://localhost:3000/manifest/newspaper/canvas/i2p1#xywh=1320,500,200,400",
               "type": "Annotation"
             }
           ],
