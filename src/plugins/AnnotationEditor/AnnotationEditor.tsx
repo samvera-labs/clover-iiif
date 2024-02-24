@@ -38,12 +38,15 @@ export default function CreateAnnotation(props: PropType) {
 
 function RenderCreateAnnotation(props: PropType) {
   const { activeCanvas, openSeadragonViewer, token, annotationServer } = props;
+
+  const fragmentUnit = "pixel";
+
   useEffect(() => {
     if (!openSeadragonViewer) return;
 
     const options = {
       allowEmpty: true,
-      fragmentUnit: "percent",
+      fragmentUnit: fragmentUnit,
 
       widgets: ["COMMENT"],
     };
@@ -51,19 +54,38 @@ function RenderCreateAnnotation(props: PropType) {
     const anno = Annotorious(openSeadragonViewer, options);
     AnnotoriousToolbar(anno, document.getElementById("my-toolbar-container"));
     anno.on("createAnnotation", (annotation) => {
-      saveAnnotation(annotation, activeCanvas, token, annotationServer);
+      saveAnnotation(
+        annotation,
+        activeCanvas,
+        fragmentUnit,
+        token,
+        annotationServer,
+      );
     });
     anno.on("updateAnnotation", (annotation) => {
-      updateAnnotation(annotation, activeCanvas, token, annotationServer);
+      updateAnnotation(
+        annotation,
+        activeCanvas,
+        fragmentUnit,
+        token,
+        annotationServer,
+      );
     });
     anno.on("deleteAnnotation", (annotation) => {
-      deleteAnnotation(annotation, activeCanvas, token, annotationServer);
+      deleteAnnotation(
+        annotation,
+        activeCanvas,
+        fragmentUnit,
+        token,
+        annotationServer,
+      );
     });
 
     // load existing annotations
     (async () => {
       const savedAnnotations = await fetchAnnotation(
         activeCanvas,
+        fragmentUnit,
         token,
         annotationServer,
       );

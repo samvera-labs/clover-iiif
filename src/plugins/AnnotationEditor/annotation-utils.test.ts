@@ -14,7 +14,7 @@ const webAnnotation1 = {
     selector: {
       type: "FragmentSelector",
       conformsTo: "http://www.w3.org/TR/media-frags/",
-      value: "xywh=10,20,30,40",
+      value: "xywh=pixel:10,20,30,40",
     },
   },
   id: "123abc",
@@ -25,9 +25,11 @@ const annotation1 = {
   id: "123abc",
   motivation: "commenting",
   target: {
+    type: "SpecificResource",
     source: "https://example.com/1",
     selector: {
       type: "FragmentSelector",
+      conformsTo: "http://www.w3.org/TR/media-frags/",
       value: "xywh=10,20,30,40",
     },
   },
@@ -43,7 +45,7 @@ const webAnnotation2 = {
     selector: {
       type: "FragmentSelector",
       conformsTo: "http://www.w3.org/TR/media-frags/",
-      value: "xywh=15,25,35,45",
+      value: "xywh=pixel:15,25,35,45",
     },
   },
   id: "456def",
@@ -53,9 +55,11 @@ const annotation2 = {
   id: "456def",
   motivation: "commenting",
   target: {
+    type: "SpecificResource",
     source: "https://example.com/2",
     selector: {
       type: "FragmentSelector",
+      conformsTo: "http://www.w3.org/TR/media-frags/",
       value: "xywh=15,25,35,45",
     },
   },
@@ -74,7 +78,7 @@ const webAnnotationMultipleBodies = {
     selector: {
       type: "FragmentSelector",
       conformsTo: "http://www.w3.org/TR/media-frags/",
-      value: "xywh=10,20,30,40",
+      value: "xywh=pixel:10,20,30,40",
     },
   },
   id: "123abc",
@@ -88,14 +92,18 @@ const annotationMultipleBodies = {
   id: "123abc",
   motivation: "commenting",
   target: {
+    type: "SpecificResource",
     source: "https://example.com/1",
     selector: {
       type: "FragmentSelector",
+      conformsTo: "http://www.w3.org/TR/media-frags/",
       value: "xywh=10,20,30,40",
     },
   },
   type: "Annotation",
 };
+
+const unit = "pixel";
 
 describe("saveAnnotation", () => {
   afterEach(() => {
@@ -105,7 +113,7 @@ describe("saveAnnotation", () => {
   it("saves annotation when there are no saved annotation", () => {
     const canvas = "canvas1";
 
-    saveAnnotation(webAnnotation1, canvas);
+    saveAnnotation(webAnnotation1, canvas, unit);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
@@ -124,7 +132,7 @@ describe("saveAnnotation", () => {
       }),
     );
 
-    saveAnnotation(webAnnotation2, canvas);
+    saveAnnotation(webAnnotation2, canvas, unit);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
@@ -153,7 +161,7 @@ describe("saveAnnotation", () => {
       }),
     );
 
-    saveAnnotation(webAnnotation2, canvas2);
+    saveAnnotation(webAnnotation2, canvas2, unit);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
@@ -167,7 +175,7 @@ describe("saveAnnotation", () => {
   it("saves annotation with multiple bodies", () => {
     const canvas = "canvas1";
 
-    saveAnnotation(webAnnotationMultipleBodies, canvas);
+    saveAnnotation(webAnnotationMultipleBodies, canvas, unit);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
@@ -201,7 +209,7 @@ describe("deleteAnnotation", () => {
       }),
     );
 
-    deleteAnnotation(webAnnotation1, canvas);
+    deleteAnnotation(webAnnotation1, canvas, unit);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
@@ -225,7 +233,7 @@ describe("deleteAnnotation", () => {
       }),
     );
 
-    deleteAnnotation(webAnnotation1, canvas);
+    deleteAnnotation(webAnnotation1, canvas, unit);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
@@ -259,7 +267,7 @@ describe("deleteAnnotation", () => {
       }),
     );
 
-    deleteAnnotation(webAnnotation2, canvas2);
+    deleteAnnotation(webAnnotation2, canvas2, unit);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
@@ -298,7 +306,7 @@ describe("deleteAnnotation", () => {
       }),
     );
 
-    deleteAnnotation(webAnnotation2, canvas);
+    deleteAnnotation(webAnnotation2, canvas, unit);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
@@ -350,7 +358,7 @@ describe("updateAnnotation", () => {
       id: "123abc",
     };
 
-    updateAnnotation(webAnnotation, canvas);
+    updateAnnotation(webAnnotation, canvas, unit);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
@@ -362,9 +370,11 @@ describe("updateAnnotation", () => {
             id: "123abc",
             motivation: "commenting",
             target: {
+              type: "SpecificResource",
               source: "https://example.com/1",
               selector: {
                 type: "FragmentSelector",
+                conformsTo: "http://www.w3.org/TR/media-frags/",
                 value: "xywh=100,200,300,400",
               },
             },
@@ -396,7 +406,7 @@ describe("updateAnnotation", () => {
       body: [{ type: "TextualBody", value: "updated", purpose: "commenting" }],
     };
 
-    updateAnnotation(webAnnotation, canvas);
+    updateAnnotation(webAnnotation, canvas, unit);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
@@ -440,7 +450,7 @@ describe("updateAnnotation", () => {
       body: [{ type: "TextualBody", value: "updated", purpose: "commenting" }],
     };
 
-    updateAnnotation(webAnnotation, canvas2);
+    updateAnnotation(webAnnotation, canvas2, unit);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
@@ -472,7 +482,7 @@ describe("updateAnnotation", () => {
       }),
     );
 
-    updateAnnotation(webAnnotationMultipleBodies, canvas);
+    updateAnnotation(webAnnotationMultipleBodies, canvas, unit);
     const res = localStorage.getItem("annotations");
 
     const expected = JSON.stringify({
@@ -487,16 +497,16 @@ describe("updateAnnotation", () => {
 });
 
 describe("fetchAnnotation", () => {
-  it("returns empty array if no saved annotations", () => {
+  it("returns empty array if no saved annotations", async () => {
     const canvas = "canvas1";
 
-    const res = fetchAnnotation(canvas);
+    const res = await fetchAnnotation(canvas, unit);
 
     const expected = [];
     expect(res).toStrictEqual(expected);
   });
 
-  it("returns web annotations for a given canvas", () => {
+  it("returns web annotations for a given canvas", async () => {
     const canvas = "canvas1";
     localStorage.setItem(
       "annotations",
@@ -509,13 +519,13 @@ describe("fetchAnnotation", () => {
       }),
     );
 
-    const res = fetchAnnotation(canvas);
+    const res = await fetchAnnotation(canvas, unit);
 
     const expected = [webAnnotation1];
     expect(res).toStrictEqual(expected);
   });
 
-  it("returns empty array if canvas does not match saved annotation", () => {
+  it("returns empty array if canvas does not match saved annotation", async () => {
     const canvas = "canvas1";
     const canvas2 = "canvas2";
     localStorage.setItem(
@@ -529,13 +539,13 @@ describe("fetchAnnotation", () => {
       }),
     );
 
-    const res = fetchAnnotation(canvas2);
+    const res = await fetchAnnotation(canvas2, unit);
 
     const expected = [];
     expect(res).toStrictEqual(expected);
   });
 
-  it("returns annotations with multiple bodies", () => {
+  it("returns annotations with multiple bodies", async () => {
     const canvas = "canvas1";
     localStorage.setItem(
       "annotations",
@@ -548,7 +558,7 @@ describe("fetchAnnotation", () => {
       }),
     );
 
-    const res = fetchAnnotation(canvas);
+    const res = await fetchAnnotation(canvas, unit);
 
     const expected = [webAnnotationMultipleBodies];
     expect(res).toStrictEqual(expected);

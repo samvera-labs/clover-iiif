@@ -5,6 +5,7 @@ function formatUrl(annotationServer: string, activeCanvas: string) {
 export async function saveAnnotation(
   annotation: any,
   activeCanvas: string,
+  unit: "pixel" | "percent",
   token?: string,
   annotationServer?: string,
 ) {
@@ -15,7 +16,7 @@ export async function saveAnnotation(
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(convertWebAnnotation(annotation)),
+      body: JSON.stringify(convertWebAnnotation(annotation, unit)),
     });
   } else if (!token) {
     let annotations: any = {};
@@ -29,12 +30,14 @@ export async function saveAnnotation(
           type: "AnnotationPage",
         };
       }
-      annotationsObj[activeCanvas].items.push(convertWebAnnotation(annotation));
+      annotationsObj[activeCanvas].items.push(
+        convertWebAnnotation(annotation, unit),
+      );
       annotations = annotationsObj;
     } else {
       annotations[activeCanvas] = {
         id: activeCanvas,
-        items: [convertWebAnnotation(annotation)],
+        items: [convertWebAnnotation(annotation, unit)],
         type: "AnnotationPage",
       };
     }
@@ -43,7 +46,7 @@ export async function saveAnnotation(
   }
 }
 
-function convertWebAnnotation(webAnnotation) {
+function convertWebAnnotation(webAnnotation, unit: "pixel" | "percent") {
   const annotation = {} as any;
 
   if (webAnnotation.body.length == 1) {
@@ -63,10 +66,12 @@ function convertWebAnnotation(webAnnotation) {
   annotation.id = webAnnotation.id;
   annotation.motivation = webAnnotation.body[0].purpose;
   annotation.target = {
+    type: "SpecificResource",
     source: webAnnotation.target.source,
     selector: {
       type: webAnnotation.target.selector.type,
-      value: webAnnotation.target.selector.value,
+      conformsTo: webAnnotation.target.selector.conformsTo,
+      value: webAnnotation.target.selector.value.replace(`${unit}:`, ""),
     },
   };
   annotation.type = "Annotation";
@@ -76,6 +81,7 @@ function convertWebAnnotation(webAnnotation) {
 
 export async function fetchAnnotation(
   activeCanvas: string,
+  unit: "pixel" | "percent",
   token?: string,
   annotationServer?: string,
 ) {
@@ -90,7 +96,7 @@ export async function fetchAnnotation(
     });
     if (res.ok) {
       const savedAnnotation = await res.json();
-      annotations = processSavedAnnotation(savedAnnotation);
+      annotations = processSavedAnnotation(savedAnnotation, unit);
     } else {
       const error = await res.json();
       console.error(error);
@@ -100,7 +106,7 @@ export async function fetchAnnotation(
     if (savedAnnotationsAll) {
       const savedAnnotation = JSON.parse(savedAnnotationsAll)[activeCanvas];
       if (savedAnnotation) {
-        annotations = processSavedAnnotation(savedAnnotation);
+        annotations = processSavedAnnotation(savedAnnotation, unit);
       }
     }
   }
@@ -108,7 +114,7 @@ export async function fetchAnnotation(
   return annotations;
 }
 
-function processSavedAnnotation(savedAnnotation) {
+function processSavedAnnotation(savedAnnotation, unit: "pixel" | "percent") {
   const webAnnotations = [] as any;
 
   savedAnnotation.items.forEach((ann) => {
@@ -125,10 +131,11 @@ function processSavedAnnotation(savedAnnotation) {
       type: "Annotation",
       body: body,
       target: {
-        ...ann.target,
+        source: ann.target.source,
         selector: {
-          ...ann.target.selector,
-          conformsTo: "http://www.w3.org/TR/media-frags/",
+          type: ann.target.selector.type,
+          conformsTo: ann.target.selector.conformsTo,
+          value: ann.target.selector.value.replace("xywh=", `xywh=${unit}:`),
         },
       },
       id: ann.id,
@@ -140,6 +147,7 @@ function processSavedAnnotation(savedAnnotation) {
 export async function deleteAnnotation(
   annotation,
   activeCanvas: string,
+  unit: "pixel" | "percent",
   token?: string,
   annotationServer?: string,
 ) {
@@ -150,7 +158,7 @@ export async function deleteAnnotation(
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(convertWebAnnotation(annotation)),
+      body: JSON.stringify(convertWebAnnotation(annotation, unit)),
     });
   } else if (!token) {
     const savedAnnotations = window.localStorage.getItem("annotations");
@@ -175,6 +183,7 @@ export async function deleteAnnotation(
 export async function updateAnnotation(
   annotation,
   activeCanvas: string,
+  unit: "pixel" | "percent",
   token?: string,
   annotationServer?: string,
 ) {
@@ -185,7 +194,7 @@ export async function updateAnnotation(
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(convertWebAnnotation(annotation)),
+      body: JSON.stringify(convertWebAnnotation(annotation, unit)),
     });
   } else if (!token) {
     const savedAnnotations = window.localStorage.getItem("annotations");
@@ -196,7 +205,7 @@ export async function updateAnnotation(
         const updatedAnnotations: any = [];
         selectedAnnotations.items.forEach((ann) => {
           if (ann.id === annotation.id) {
-            updatedAnnotations.push(convertWebAnnotation(annotation));
+            updatedAnnotations.push(convertWebAnnotation(annotation, unit));
           } else {
             updatedAnnotations.push(ann);
           }
