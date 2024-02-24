@@ -16,7 +16,7 @@ describe("getAnnotationResources method", () => {
     const vault = new Vault();
     await vault.loadManifest("", simpleAnnotations);
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/canvas-1",
     );
@@ -57,7 +57,7 @@ describe("getAnnotationResources method", () => {
     const vault = new Vault();
     await vault.loadManifest("", simpleTagging);
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0021-tagging/canvas/p1",
     );
@@ -97,7 +97,7 @@ describe("getAnnotationResources method", () => {
     const vault = new Vault();
     await vault.loadManifest("", nonRectangularPolygon);
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/canvas/p1",
     );
@@ -137,7 +137,7 @@ describe("getAnnotationResources method", () => {
     const vault = new Vault();
     await vault.loadManifest("", multipleHighlighting);
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "http://localhost:3000/manifest/newspaper/canvas/i1p1",
     );
@@ -189,7 +189,7 @@ describe("getAnnotationResources method", () => {
     const vault = new Vault();
     await vault.loadManifest("", imagesAnnotations);
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0377-image-in-annotation/canvas-1",
     );
@@ -229,7 +229,7 @@ describe("getAnnotationResources method", () => {
     const vault = new Vault();
     await vault.loadManifest("", manifestNoAnnotations);
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "https://api.dc.library.northwestern.edu/api/v2/works/57446da0-dc8b-4be6-998d-efb67c71f654?as=iiif/canvas/access/0",
     );
@@ -270,7 +270,7 @@ describe("getAnnotationResources method", () => {
       },
     ];
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0219-using-caption-file/canvas",
     );
