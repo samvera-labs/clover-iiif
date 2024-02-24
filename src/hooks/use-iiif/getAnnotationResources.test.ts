@@ -5,6 +5,7 @@ import {
   recipe0219captionFile,
   simpleAnnotations,
   simpleTagging,
+  referencedAnnotations,
 } from "src/fixtures/use-iiif/get-annotation-resources";
 
 import { Vault } from "@iiif/vault";
@@ -275,6 +276,47 @@ describe("getAnnotationResources method", () => {
       "https://iiif.io/api/cookbook/recipe/0219-using-caption-file/canvas",
     );
 
+    expect(result).toStrictEqual(expected);
+  });
+
+  it("processes manifests with annotations stored on separate document", async () => {
+    const vault = new Vault();
+    await vault.loadManifest("", referencedAnnotations);
+
+    const result = await getAnnotationResources(
+      vault,
+      referencedAnnotations.items[0].id,
+    );
+
+    const expected = [
+      {
+        "@context": "http://iiif.io/api/presentation/3/context.json",
+        behavior: [],
+        homepage: [],
+        id: "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/annotationpage.json",
+        items: [
+          {
+            id: "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/canvas-1/annopage-2/anno-1",
+            type: "Annotation",
+          },
+        ],
+        label: {
+          none: ["Annotations"],
+        },
+        logo: [],
+        metadata: [],
+        motivation: null,
+        provider: [],
+        rendering: [],
+        requiredStatement: null,
+        rights: null,
+        seeAlso: [],
+        service: [],
+        summary: null,
+        thumbnail: [],
+        type: "AnnotationPage",
+      },
+    ];
     expect(result).toStrictEqual(expected);
   });
 });
