@@ -1,7 +1,7 @@
 import { AnnotationTarget } from "@iiif/presentation-3";
 import { ParsedAnnotationTarget } from "src/types/annotations";
 
-type AnnotationTargetExtended = AnnotationTarget & {
+export type AnnotationTargetExtended = AnnotationTarget & {
   selector?: any;
   source?: string;
   svg?: string;
@@ -50,6 +50,29 @@ const parseAnnotationTarget = (target: AnnotationTargetExtended | string) => {
         id: target.source,
         svg: target.selector.value,
       };
+    } else if (target.selector?.type === "FragmentSelector") {
+      if (
+        target.selector?.value.includes("xywh=") &&
+        target.source.type == "Canvas" &&
+        target.source.id
+      ) {
+        const parts = target.selector?.value.split("xywh=");
+        if (parts && parts[1]) {
+          const [x, y, w, h] = parts[1]
+            .split(",")
+            .map((value) => Number(value));
+
+          parsedTarget = {
+            id: target.source.id,
+            rect: {
+              x,
+              y,
+              w,
+              h,
+            },
+          };
+        }
+      }
     }
   }
 
