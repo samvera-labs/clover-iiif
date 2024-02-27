@@ -21,6 +21,7 @@ function newspaper() {
         },
       ]}
       options={{
+        ignoreAnnotationOverlaysLabels: ["Clippings"],
         informationPanel: { open: true },
         canvasHeight: "640px",
         openSeadragon: {
