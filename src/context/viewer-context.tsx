@@ -31,6 +31,7 @@ export type ViewerConfigOptions = {
   canvasBackgroundColor?: string;
   canvasHeight?: string;
   ignoreCaptionLabels?: string[];
+  ignoreAnnotationOverlaysLabels?: string[];
   informationPanel?: {
     open?: boolean;
     renderAbout?: boolean;
@@ -68,6 +69,7 @@ const defaultConfigOptions = {
   canvasBackgroundColor: "#6662",
   canvasHeight: "500px",
   ignoreCaptionLabels: [],
+  ignoreAnnotationOverlaysLabels: [],
   informationPanel: {
     vtt: {
       autoScroll: {

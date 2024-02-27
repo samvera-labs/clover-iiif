@@ -1,7 +1,15 @@
 import {
   parseAnnotationTarget,
   AnnotationTargetExtended,
+  parseAnnotationsFromAnnotationResources,
 } from "./annotation-helpers";
+import { Vault } from "@iiif/vault";
+import {
+  simpleTagging,
+  multiplePages,
+} from "src/fixtures/use-iiif/get-annotation-resources";
+
+import { getAnnotationResources } from "src/hooks/use-iiif/getAnnotationResources";
 
 describe("parseAnnotationTarget", () => {
   it("handles target strings with xywh", () => {
@@ -108,6 +116,134 @@ describe("parseAnnotationTarget", () => {
       },
     };
     expect(result).toEqual(expected);
+  });
+});
+
+describe("parseAnnotationsFromAnnotationResources", () => {
+  it("returns annotations from annotation resource", async () => {
+    const config = {};
+    const vault = new Vault();
+    await vault.loadManifest("", structuredClone(simpleTagging));
+    const annotationResources = await getAnnotationResources(
+      vault,
+      simpleTagging.items[0].id,
+    );
+
+    const res = parseAnnotationsFromAnnotationResources(
+      annotationResources,
+      vault,
+      config,
+    );
+
+    const expected = [
+      {
+        body: [
+          {
+            id: "vault://605b9d93",
+            type: "ContentResource",
+          },
+        ],
+        id: "https://iiif.io/api/cookbook/recipe/0021-tagging/annotation/p0002-tag",
+        motivation: ["tagging"],
+        target:
+          "https://iiif.io/api/cookbook/recipe/0021-tagging/canvas/p1#xywh=265,661,1260,1239",
+        type: "Annotation",
+      },
+    ];
+    expect(res).toStrictEqual(expected);
+  });
+
+  it("returns annotations if annotation resource has multiple annotation pages", async () => {
+    const config = {};
+    const vault = new Vault();
+    await vault.loadManifest("", structuredClone(multiplePages));
+    const annotationResources = await getAnnotationResources(
+      vault,
+      multiplePages.items[0].id,
+    );
+
+    const res = parseAnnotationsFromAnnotationResources(
+      annotationResources,
+      vault,
+      config,
+    );
+
+    const expected = [
+      {
+        body: [
+          {
+            id: "vault://772e4338",
+            type: "ContentResource",
+          },
+        ],
+        id: "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json-1",
+        motivation: ["highlighting"],
+        target:
+          "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=839,3259,118,27",
+        type: "Annotation",
+      },
+      {
+        body: [
+          {
+            id: "vault://772e4338",
+            type: "ContentResource",
+          },
+        ],
+        id: "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p2.json-2",
+        motivation: ["commenting"],
+        target:
+          "http://localhost:3000/manifest/newspaper/canvas/i1p2#xywh=161,459,1063,329",
+        type: "Annotation",
+      },
+    ];
+    expect(res).toStrictEqual(expected);
+  });
+
+  it("ignores annotations in ignoreAnnotationOverlaysLabels", async () => {
+    const config = { ignoreAnnotationOverlaysLabels: ["Clippings"] };
+    const vault = new Vault();
+    await vault.loadManifest("", structuredClone(multiplePages));
+    const annotationResources = await getAnnotationResources(
+      vault,
+      multiplePages.items[0].id,
+    );
+
+    const res = parseAnnotationsFromAnnotationResources(
+      annotationResources,
+      vault,
+      config,
+    );
+
+    const expected = [
+      {
+        body: [
+          {
+            id: "vault://772e4338",
+            type: "ContentResource",
+          },
+        ],
+        id: "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json-1",
+        motivation: ["highlighting"],
+        target:
+          "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=839,3259,118,27",
+        type: "Annotation",
+      },
+    ];
+    expect(res).toStrictEqual(expected);
+  });
+
+  it("returns empty array if annotation resource is empty array", () => {
+    const config = {};
+    const annotationResources = [];
+    const vault = new Vault();
+
+    const res = parseAnnotationsFromAnnotationResources(
+      annotationResources,
+      vault,
+      config,
+    );
+
+    expect(res).toStrictEqual([]);
   });
 });
 
