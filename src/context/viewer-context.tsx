@@ -27,6 +27,7 @@ export type ViewerConfigOptions = {
     overlays?: OverlayOptions;
   };
   ignoreCaptionLabels?: string[];
+  ignoreAnnotationOverlaysLabels?: string[];
   informationPanel?: {
     open?: boolean;
     renderAbout?: boolean;
@@ -97,6 +98,7 @@ const defaultConfigOptions = {
     },
   },
   ignoreCaptionLabels: [],
+  ignoreAnnotationOverlaysLabels: [],
   informationPanel: {
     vtt: {
       autoScroll: {
