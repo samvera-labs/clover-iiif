@@ -64,7 +64,9 @@ function convertWebAnnotation(webAnnotation, unit: "pixel" | "percent") {
   }
 
   annotation.id = webAnnotation.id;
-  annotation.motivation = webAnnotation.body[0].purpose;
+  annotation.motivation = webAnnotation.body[0]
+    ? webAnnotation.body[0].purpose
+    : "commenting";
   annotation.target = {
     type: "SpecificResource",
     source: webAnnotation.target.source,
