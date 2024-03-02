@@ -3,7 +3,8 @@ function formatUrl(annotationServer: string, activeCanvas: string) {
 }
 
 export async function saveAnnotation(
-  annotation: any,
+  webAnnotation: any,
+  manifestId: string,
   activeCanvas: string,
   unit: "pixel" | "percent",
   token?: string,
@@ -16,7 +17,9 @@ export async function saveAnnotation(
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(convertWebAnnotation(annotation, unit)),
+      body: JSON.stringify(
+        convertWebAnnotation(webAnnotation, manifestId, activeCanvas, unit),
+      ),
     });
   } else if (!token) {
     let annotations: any = {};
@@ -31,13 +34,15 @@ export async function saveAnnotation(
         };
       }
       annotationsObj[activeCanvas].items.push(
-        convertWebAnnotation(annotation, unit),
+        convertWebAnnotation(webAnnotation, manifestId, activeCanvas, unit),
       );
       annotations = annotationsObj;
     } else {
       annotations[activeCanvas] = {
         id: activeCanvas,
-        items: [convertWebAnnotation(annotation, unit)],
+        items: [
+          convertWebAnnotation(webAnnotation, manifestId, activeCanvas, unit),
+        ],
         type: "AnnotationPage",
       };
     }
@@ -46,42 +51,58 @@ export async function saveAnnotation(
   }
 }
 
-function convertWebAnnotation(webAnnotation, unit: "pixel" | "percent") {
+export function convertWebAnnotation(
+  webAnnotation: any,
+  manifestId: string,
+  canvasId: string,
+  unit: "pixel" | "percent",
+) {
   const annotation = {} as any;
+  annotation.type = "Annotation";
 
   if (webAnnotation.body.length == 1) {
     annotation.body = {
       type: webAnnotation.body[0].type,
       value: webAnnotation.body[0].value,
+      format: "text/plain",
     };
   } else if (webAnnotation.body.length > 1) {
     annotation.body = webAnnotation.body.map((ann) => {
       return {
         type: ann.type,
         value: ann.value,
+        format: "text/plain",
       };
     });
   }
 
-  annotation.id = webAnnotation.id;
   annotation.motivation = webAnnotation.body[0]
     ? webAnnotation.body[0].purpose
     : "commenting";
   annotation.target = {
     type: "SpecificResource",
-    source: webAnnotation.target.source,
+    source: {
+      id: canvasId,
+      type: "Canvas",
+      partOf: [
+        {
+          id: manifestId,
+          type: "Manifest",
+        },
+      ],
+    },
     selector: {
       type: webAnnotation.target.selector.type,
       conformsTo: webAnnotation.target.selector.conformsTo,
       value: webAnnotation.target.selector.value.replace(`${unit}:`, ""),
     },
   };
-  annotation.type = "Annotation";
+  annotation.id = webAnnotation.id;
 
   return annotation;
 }
 
-export async function fetchAnnotation(
+export async function fetchAnnotations(
   activeCanvas: string,
   unit: "pixel" | "percent",
   token?: string,
@@ -123,10 +144,12 @@ function processSavedAnnotation(savedAnnotation, unit: "pixel" | "percent") {
     let body;
     if (Array.isArray(ann.body)) {
       body = ann.body.map((b) => {
-        return { ...b, purpose: "commenting" };
+        return { purpose: "commenting", type: b.type, value: b.value };
       });
     } else {
-      body = [{ ...ann.body, purpose: "commenting" }];
+      body = [
+        { purpose: "commenting", type: ann.body.type, value: ann.body.value },
+      ];
     }
     webAnnotations.push({
       "@context": "http://www.w3.org/ns/anno.jsonld",
@@ -147,7 +170,8 @@ function processSavedAnnotation(savedAnnotation, unit: "pixel" | "percent") {
 }
 
 export async function deleteAnnotation(
-  annotation,
+  webAnnotation,
+  manifestId: string,
   activeCanvas: string,
   unit: "pixel" | "percent",
   token?: string,
@@ -160,7 +184,9 @@ export async function deleteAnnotation(
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(convertWebAnnotation(annotation, unit)),
+      body: JSON.stringify(
+        convertWebAnnotation(webAnnotation, manifestId, activeCanvas, unit),
+      ),
     });
   } else if (!token) {
     const savedAnnotations = window.localStorage.getItem("annotations");
@@ -169,7 +195,7 @@ export async function deleteAnnotation(
       const selectedAnnotations = annotations[activeCanvas];
       if (selectedAnnotations) {
         const otherAnnotations = selectedAnnotations.items.filter(
-          (ann) => ann.id !== annotation.id,
+          (ann) => ann.id !== webAnnotation.id,
         );
         annotations[activeCanvas] = {
           id: activeCanvas,
@@ -183,7 +209,8 @@ export async function deleteAnnotation(
 }
 
 export async function updateAnnotation(
-  annotation,
+  webAnnotation,
+  manifestId: string,
   activeCanvas: string,
   unit: "pixel" | "percent",
   token?: string,
@@ -196,7 +223,9 @@ export async function updateAnnotation(
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(convertWebAnnotation(annotation, unit)),
+      body: JSON.stringify(
+        convertWebAnnotation(webAnnotation, manifestId, activeCanvas, unit),
+      ),
     });
   } else if (!token) {
     const savedAnnotations = window.localStorage.getItem("annotations");
@@ -206,8 +235,15 @@ export async function updateAnnotation(
       if (selectedAnnotations) {
         const updatedAnnotations: any = [];
         selectedAnnotations.items.forEach((ann) => {
-          if (ann.id === annotation.id) {
-            updatedAnnotations.push(convertWebAnnotation(annotation, unit));
+          if (ann.id === webAnnotation.id) {
+            updatedAnnotations.push(
+              convertWebAnnotation(
+                webAnnotation,
+                manifestId,
+                activeCanvas,
+                unit,
+              ),
+            );
           } else {
             updatedAnnotations.push(ann);
           }

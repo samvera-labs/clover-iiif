@@ -8,7 +8,7 @@ import {
 } from "src/plugins/AnnotationEditor/annotation-editor-context";
 import {
   saveAnnotation,
-  fetchAnnotation,
+  fetchAnnotations,
   deleteAnnotation,
   updateAnnotation,
 } from "src/plugins/AnnotationEditor/annotation-utils";
@@ -19,6 +19,7 @@ type PropType = {
   activeCanvas: string;
   token?: string;
   annotationServer?: string;
+  manifest: any;
 };
 
 export default function CreateAnnotation(props: PropType) {
@@ -36,8 +37,14 @@ export default function CreateAnnotation(props: PropType) {
   );
 }
 
-function RenderCreateAnnotation(props: PropType) {
-  const { activeCanvas, openSeadragonViewer, token, annotationServer } = props;
+function RenderAnnotationEditor(props: PropType) {
+  const {
+    activeCanvas,
+    openSeadragonViewer,
+    token,
+    annotationServer,
+    manifest,
+  } = props;
 
   const fragmentUnit = "pixel";
 
@@ -56,6 +63,7 @@ function RenderCreateAnnotation(props: PropType) {
     anno.on("createAnnotation", (annotation) => {
       saveAnnotation(
         annotation,
+        manifest.id,
         activeCanvas,
         fragmentUnit,
         token,
@@ -65,6 +73,7 @@ function RenderCreateAnnotation(props: PropType) {
     anno.on("updateAnnotation", (annotation) => {
       updateAnnotation(
         annotation,
+        manifest.id,
         activeCanvas,
         fragmentUnit,
         token,
@@ -74,6 +83,7 @@ function RenderCreateAnnotation(props: PropType) {
     anno.on("deleteAnnotation", (annotation) => {
       deleteAnnotation(
         annotation,
+        manifest.id,
         activeCanvas,
         fragmentUnit,
         token,
@@ -83,7 +93,7 @@ function RenderCreateAnnotation(props: PropType) {
 
     // load existing annotations
     (async () => {
-      const savedAnnotations = await fetchAnnotation(
+      const savedAnnotations = await fetchAnnotations(
         activeCanvas,
         fragmentUnit,
         token,
