@@ -1,6 +1,7 @@
 import {
   AnnotationNormalized,
   AnnotationPageNormalized,
+  CanvasNormalized,
 } from "@iiif/presentation-3";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
@@ -13,7 +14,8 @@ type Props = {
 };
 export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
   const viewerState: ViewerContextStore = useViewerState();
-  const { vault } = viewerState;
+  const { vault, openSeadragonViewer, activeCanvas, configOptions, plugins } =
+    viewerState;
 
   if (
     !annotationPage ||
@@ -27,6 +29,44 @@ export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
   });
 
   if (!annotations) return <></>;
+
+  const plugin = plugins.find((plugin) => {
+    let match = false;
+    if (plugin.informationPanel?.annotationPageId) {
+      match = plugin.informationPanel.annotationPageId.includes(
+        annotationPage.id,
+      );
+    }
+
+    return match;
+  });
+
+  const PluginInformationPanel = plugin?.informationPanel
+    ?.component as unknown as React.ElementType;
+
+  if (PluginInformationPanel) {
+    const annotationsWithBodies = annotations.map((annotation) => {
+      return {
+        ...annotation,
+        body: annotation.body.map((body) => vault.get(body.id)),
+      };
+    });
+    const canvas: CanvasNormalized = vault.get({
+      id: activeCanvas,
+      type: "Canvas",
+    });
+
+    return (
+      <Group data-testid="annotation-page">
+        <PluginInformationPanel
+          canvas={canvas}
+          openSeadragonViewer={openSeadragonViewer}
+          annotations={annotationsWithBodies}
+          configOptions={configOptions}
+        />
+      </Group>
+    );
+  }
 
   return (
     <Group data-testid="annotation-page">
