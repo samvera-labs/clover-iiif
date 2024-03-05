@@ -34,7 +34,12 @@ export const getAnnotationResources = async (
       pages.push({ ...annotationPage, label: label });
       // handle referenced annotations that are in a separate AnnotationPage
     } else {
-      const annotationPageReferenced = await vault.load(annotationPage.id);
+      let annotationPageReferenced = {} as any;
+      try {
+        annotationPageReferenced = await vault.load(annotationPage.id);
+      } catch (error) {
+        console.log(error);
+      }
       if (
         annotationPageReferenced.items &&
         annotationPageReferenced.items.length > 0
