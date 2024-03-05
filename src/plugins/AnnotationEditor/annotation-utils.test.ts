@@ -681,4 +681,51 @@ describe("convertWebAnnotation", () => {
 
     expect(res).toStrictEqual(annotation1(manifest, canvas));
   });
+
+  it("handles web annotation with empty body", () => {
+    const webAnnotation = {
+      "@context": "http://www.w3.org/ns/anno.jsonld",
+      type: "Annotation",
+      body: [],
+      target: {
+        source: "http://example.com/canvas/1",
+        selector: {
+          type: "FragmentSelector",
+          conformsTo: "http://www.w3.org/TR/media-frags/",
+          value: "xywh=pixel:10,20,30,40",
+        },
+      },
+      id: "123abc",
+    };
+    const canvas = "canvas1";
+    const manifest = "manifest";
+
+    const res = convertWebAnnotation(webAnnotation, manifest, canvas, unit);
+
+    const expected = {
+      body: {},
+      id: "123abc",
+      motivation: "commenting",
+      target: {
+        selector: {
+          conformsTo: "http://www.w3.org/TR/media-frags/",
+          type: "FragmentSelector",
+          value: "xywh=10,20,30,40",
+        },
+        source: {
+          id: "canvas1",
+          partOf: [
+            {
+              id: "manifest",
+              type: "Manifest",
+            },
+          ],
+          type: "Canvas",
+        },
+        type: "SpecificResource",
+      },
+      type: "Annotation",
+    };
+    expect(res).toStrictEqual(expected);
+  });
 });
