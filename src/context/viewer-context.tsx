@@ -1,7 +1,10 @@
 import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
 import React, { useReducer } from "react";
 
-import { CollectionNormalized } from "@iiif/presentation-3";
+import {
+  CollectionNormalized,
+  InternationalString,
+} from "@iiif/presentation-3";
 import { IncomingHttpHeaders } from "http";
 import { Vault } from "@iiif/vault";
 import { deepMerge } from "src/lib/utils";
@@ -141,8 +144,15 @@ export type CustomDisplay = {
   };
 };
 export type Plugin = {
+  id: string;
   component: React.ElementType;
   componentProps?: Record<string, unknown>;
+  informationPanel?: {
+    component: React.ElementType;
+    componentProps?: Record<string, unknown>;
+    annotationPageId?: string[];
+    label?: InternationalString;
+  };
 };
 
 export interface ViewerContextStore {
