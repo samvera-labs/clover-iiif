@@ -74,7 +74,9 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   }
 
   useEffect(() => {
-    if (renderAbout) {
+    if (activeResource) {
+      return;
+    } else if (renderAbout) {
       setActiveResource("manifest-about");
     } else if (
       annotationResources &&
