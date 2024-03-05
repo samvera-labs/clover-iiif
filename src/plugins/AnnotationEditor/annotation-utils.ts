@@ -74,6 +74,8 @@ export function convertWebAnnotation(
         format: "text/plain",
       };
     });
+  } else {
+    annotation.body = {};
   }
 
   annotation.motivation = webAnnotation.body[0]
