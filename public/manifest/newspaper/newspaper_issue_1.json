@@ -62,77 +62,24 @@
         {
           "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json",
           "type": "AnnotationPage",
-          "label": {
-            "en": ["Search results"]
-          },
           "items": [
             {
               "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json-1",
-              "type": "Annotation",
-              "motivation": "highlighting",
-              "body": {
-                "type": "TextualBody",
-                "format": "text/plain",
-                "language": "de",
-                "value": "Berliner"
-              },
-              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=839,3259,118,27"
-            },
-            {
-              "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json-2",
-              "type": "Annotation",
-              "motivation": "highlighting",
-              "body": {
-                "type": "TextualBody",
-                "format": "text/plain",
-                "language": "de",
-                "value": "Berliner"
-              },
-              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=161,459,1063,329"
-            },
-            {
-              "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json-3",
-              "type": "Annotation",
-              "motivation": "highlighting",
-              "body": {
-                "type": "TextualBody",
-                "format": "text/plain",
-                "language": "de",
-                "value": "Berliner"
-              },
-              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=1942,1579,106,23"
-            },
-            {
-              "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json-4",
-              "type": "Annotation",
-              "motivation": "highlighting",
-              "body": {
-                "type": "TextualBody",
-                "format": "text/plain",
-                "language": "de",
-                "value": "„Berliner"
-              },
-              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=1608,4429,123,25"
-            }
-          ]
-        },
-        {
-          "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p2.json",
-          "type": "AnnotationPage",
-          "items": [
-            {
-              "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p2.json-1",
               "type": "Annotation",
               "motivation": "commenting",
               "body": {
                 "type": "TextualBody",
                 "format": "text/plain",
                 "language": "en",
-                "value": "This is a newspaper."
+                "value": "This is issue 1, page 1"
               },
-              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p1"
+              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=1300,400,200,400"
             }
           ]
+        },
+        {
+          "id": "http://localhost:3000/api/annotations/1",
+          "type": "AnnotationPage"
         }
       ]
     },
@@ -172,40 +119,8 @@
       ],
       "annotations": [
         {
-          "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p2.json",
-          "type": "AnnotationPage",
-          "items": [
-            {
-              "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p2.json-1",
-              "type": "Annotation",
-              "label": {
-                "en": ["Search results"]
-              },
-              "motivation": "highlighting",
-              "body": {
-                "type": "TextualBody",
-                "format": "text/plain",
-                "language": "de",
-                "value": "„Berliner"
-              },
-              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p2#xywh=1996,3996,122,26"
-            },
-            {
-              "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p2.json-2",
-              "type": "Annotation",
-              "label": {
-                "en": ["Search results"]
-              },
-              "motivation": "highlighting",
-              "body": {
-                "type": "TextualBody",
-                "format": "text/plain",
-                "language": "de",
-                "value": "Berliner"
-              },
-              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p2#xywh=2468,4313,106,26"
-            }
-          ]
+          "id": "http://localhost:3000/api/annotations/1",
+          "type": "AnnotationPage"
         }
       ]
     }
