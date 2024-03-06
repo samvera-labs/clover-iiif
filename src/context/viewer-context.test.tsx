@@ -1,6 +1,8 @@
 import {
+  AutoScrollSettings,
   ViewerProvider,
   defaultState,
+  expandAutoScrollOptions,
   useViewerDispatch,
   useViewerState,
 } from "./viewer-context";
@@ -36,7 +38,7 @@ describe("Viewer Context", () => {
 
         dispatch({
           type: "updateInformationOpen",
-          informationOpen: true,
+          isInformationOpen: true,
         });
 
         dispatch({
@@ -88,7 +90,7 @@ describe("Viewer Context", () => {
     );
     expect(elObj.configOptions.canvasIndex).toEqual(0);
     expect(elObj.configOptions.canvasNavigationId).toEqual("canvas-nav");
-    expect(elObj.informationOpen).toEqual(true);
+    expect(elObj.isInformationOpen).toEqual(true);
     expect(elObj.isLoaded).toEqual(false);
   });
 
@@ -112,5 +114,31 @@ describe("Viewer Context", () => {
         </ViewerProvider>,
       );
     }).toThrowError("Unhandled action type: invalid");
+  });
+});
+
+describe("AutoScroll Options", () => {
+  test("Correctly parses informationPanel.vtt.autoScroll = true", () => {
+    const result = expandAutoScrollOptions(true);
+    expect(result).toMatchObject({
+      enabled: true,
+      settings: { behavior: expect.anything(), block: expect.anything() },
+    });
+  });
+
+  test("Correctly parses informationPanel.vtt.autoScroll = false", () => {
+    const result = expandAutoScrollOptions(false);
+    expect(result.enabled).toStrictEqual(false);
+  });
+
+  test("Correctly parses informationPanel.vtt.autoScroll = undefined", () => {
+    const result = expandAutoScrollOptions(undefined);
+    expect(result.enabled).toStrictEqual(true);
+  });
+
+  test("Correctly parses an AuroScrollSettings object", () => {
+    const settings = { behavior: "instant", block: "end" };
+    const result = expandAutoScrollOptions(settings as AutoScrollSettings);
+    expect(result).toMatchObject({ enabled: true, settings });
   });
 });

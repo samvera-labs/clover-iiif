@@ -1,3 +1,4 @@
+import React, { ReactNode } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
 
 import { styled } from "src/styles/stitches.config";
@@ -83,7 +84,23 @@ const Content = styled(Tabs.Content, {
   },
 });
 
-const Scroll = styled("div", {
+interface Scrollable {
+  handleScroll?: (e) => void;
+  children?: ReactNode;
+  className?: string;
+}
+
+const ScrollableComponent: React.FC<Scrollable> = ({
+  handleScroll,
+  children,
+  className,
+}) => (
+  <div className={className} onScroll={handleScroll}>
+    {children}
+  </div>
+);
+
+const Scroll = styled(ScrollableComponent, {
   position: "relative",
   height: "100%",
   width: "100%",

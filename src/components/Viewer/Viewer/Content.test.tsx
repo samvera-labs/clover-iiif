@@ -86,7 +86,30 @@ describe("ViewerContent with no Annotation Resources", () => {
       <ViewerProvider
         initialState={{
           ...defaultState,
-          informationOpen: false, // This is set as false in a parent component when informationPanel.open is false
+          isInformationOpen: false,
+          configOptions: {
+            informationPanel: {
+              open: false,
+              renderAbout: false,
+              renderToggle: false,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...props} />
+      </ViewerProvider>,
+    );
+    expect(screen.queryByTestId("mock-information-panel")).toBeNull();
+  });
+});
+
+describe("ViewerContent with Annotation Resources", () => {
+  test("renders Annotations in InformationPanel even if initial default configuration turns off InformationPanel", () => {
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: true,
           configOptions: {
             informationPanel: {
               open: false,
@@ -107,7 +130,7 @@ describe("ViewerContent with no Annotation Resources", () => {
       <ViewerProvider
         initialState={{
           ...defaultState,
-          informationOpen: false,
+          isInformationOpen: false,
           configOptions: {
             informationPanel: {
               open: false,
@@ -135,7 +158,7 @@ describe("ViewerContent with Annotation Resources", () => {
       <ViewerProvider
         initialState={{
           ...defaultState,
-          informationOpen: true,
+          isInformationOpen: true,
           configOptions: {
             informationPanel: {
               ...defaultState.configOptions.informationPanel,
@@ -159,7 +182,7 @@ describe("ViewerContent with Annotation Resources", () => {
       <ViewerProvider
         initialState={{
           ...defaultState,
-          informationOpen: false,
+          isInformationOpen: false,
         }}
       >
         <ViewerContent {...propsWithAnnotationResources} />
@@ -173,7 +196,7 @@ describe("ViewerContent with Annotation Resources", () => {
       <ViewerProvider
         initialState={{
           ...defaultState,
-          informationOpen: true,
+          isInformationOpen: true,
           configOptions: {
             informationPanel: {
               ...defaultState.configOptions.informationPanel,

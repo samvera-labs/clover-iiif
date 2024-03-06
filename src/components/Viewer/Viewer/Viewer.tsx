@@ -38,7 +38,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
    */
   const viewerState: ViewerContextStore = useViewerState();
   const viewerDispatch: any = useViewerDispatch();
-  const { activeCanvas, informationOpen, vault, configOptions } = viewerState;
+  const { activeCanvas, isInformationOpen, vault, configOptions } = viewerState;
 
   /**
    * Local state
@@ -56,7 +56,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
     (open: boolean) => {
       viewerDispatch({
         type: "updateInformationOpen",
-        informationOpen: open,
+        isInformationOpen: open,
       });
     },
     [viewerDispatch],
@@ -77,8 +77,8 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
       setIsBodyLocked(false);
       return;
     }
-    setIsBodyLocked(informationOpen);
-  }, [informationOpen, isSmallViewport, setIsBodyLocked]);
+    setIsBodyLocked(isInformationOpen);
+  }, [isInformationOpen, isSmallViewport, setIsBodyLocked]);
 
   useEffect(() => {
     const painting = getPaintingResource(vault, activeCanvas);
@@ -98,7 +98,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
     if (resources.length > 0) {
       viewerDispatch({
         type: "updateInformationOpen",
-        informationOpen: true,
+        isInformationOpen: true,
       });
     }
 
@@ -113,10 +113,10 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
         css={{ background: configOptions?.background }}
         data-body-locked={isBodyLocked}
         data-information-panel={isInformationPanel}
-        data-information-panel-open={informationOpen}
+        data-information-panel-open={isInformationOpen}
       >
         <Collapsible.Root
-          open={informationOpen}
+          open={isInformationOpen}
           onOpenChange={setInformationOpen}
         >
           <ViewerHeader

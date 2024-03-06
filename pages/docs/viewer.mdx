@@ -168,13 +168,24 @@ const MyCustomViewer = () => {
 
 The information panel is a collapsible panel that displays information about the current Manifest and renders supplementing resources for the active canvas. It is rendered by default, but can be configured to be hidden or to render only certain tabs.
 
-| Prop                                           | Type      | Required | Default |
-| ---------------------------------------------- | --------- | -------- | ------- |
-| `options.informationPanel.open`                | `boolean` | No       | true    |
-| `options.informationPanel.renderAbout`         | `boolean` | No       | true    |
-| `options.informationPanel.renderAnnotation`    | `boolean` | No       | true    |
-| `options.informationPanel.renderSupplementing` | `boolean` | No       | true    |
-| `options.informationPanel.renderToggle`        | `boolean` | No       | true    |
+| Prop                                           | Type                            | Required | Default |
+| ---------------------------------------------- | ------------------------------- | -------- | ------- |
+| `options.informationPanel.open`                | `boolean`                       | No       | true    |
+| `options.informationPanel.vtt.autoScroll`      | [See Auto Scroll](#auto-scroll) | No       | true    |
+| `options.informationPanel.renderAbout`         | `boolean`                       | No       | true    |
+| `options.informationPanel.renderAnnotation`    | `boolean`                       | No       | true    |
+| `options.informationPanel.renderSupplementing` | `boolean`                       | No       | true    |
+| `options.informationPanel.renderToggle`        | `boolean`                       | No       | true    |
+
+### Auto Scroll
+
+When VTT annotations are displayed, the Clover IIIF Viewer can automatically scroll the information panel to keep the currently active caption in view. Whether it does so (and how) is governed by the `informationPanel.vtt.autoScroll` configuration option. The possible values are:
+
+- `{ behavior: (behavior), block: (block) }`: auto-scroll using the given settings (see below).
+- `true`: Auto-scroll using the default behavior. This is equivalent to `{ behavior: "smooth", block: "center" }`.
+- `false`: Do not auto-scroll.
+
+The settings take the form `{ behavior: "auto" | "instant" | "smooth", block: "center" | "end" | "nearest" | "start" }`, and have the same effect as the `scrollIntoViewOptions` object documented with the [`Element.scrollIntoView()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView) Web API method. (The `inline` option does not apply since there is no horizontal scrolling involved.)
 
 ### Custom Displays
 
@@ -268,7 +279,7 @@ export default function App() {
 
 ---
 
-### Custome Theme
+### Custom Theme
 
 You may choose to override the base theme by setting optional colors and fonts. Naming conventions for colors are limited to those shown in the config example below.
 
