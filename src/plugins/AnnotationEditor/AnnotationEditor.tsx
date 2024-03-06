@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import * as Annotorious from "@recogito/annotorious-openseadragon";
 import * as AnnotoriousToolbar from "@recogito/annotorious-toolbar";
 import "@recogito/annotorious-openseadragon/dist/annotorious.min.css";
@@ -20,6 +20,7 @@ export default function AnnotationEditor(props: PropType) {
     props;
   const activeCanvas = canvas.id;
   const fragmentUnit = "pixel";
+  const toolbarRef = useRef<null | HTMLDivElement>(null);
 
   // create Annotorious instance for each openSeadragonViewer instance
   useEffect(() => {
@@ -90,14 +91,20 @@ export default function AnnotationEditor(props: PropType) {
         }
       });
     })();
+    const toolbarDOM = toolbarRef.current;
 
-    // Cleanup: destroy current instance
-    return () => anno.destroy();
-  }, [openSeadragonViewer, activeCanvas]);
+    // destroy Annotorious instance
+    return () => {
+      console.log("Annotorious destroy");
+      anno.destroy();
 
-  return (
-    <>
-      <div id="my-toolbar-container"></div>
-    </>
-  );
+      // remove the DOM elements added by Annotorious toolbar
+      if (toolbarDOM) {
+        toolbarDOM.innerHTML = "";
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openSeadragonViewer]);
+
+  return <div id="my-toolbar-container" ref={toolbarRef}></div>;
 }
