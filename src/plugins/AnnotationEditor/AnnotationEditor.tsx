@@ -17,8 +17,13 @@ interface PropType extends Plugin {
 }
 
 export default function AnnotationEditor(props: PropType) {
-  const { canvas, openSeadragonViewer, manifest, token, annotationServer } =
-    props;
+  const {
+    canvas,
+    openSeadragonViewer,
+    activeManifest,
+    token,
+    annotationServer,
+  } = props;
 
   const [active, setActive] = useState(false);
   const [editor, setEditor] = useState<any>();
@@ -44,7 +49,7 @@ export default function AnnotationEditor(props: PropType) {
     anno.on("createAnnotation", (annotation) => {
       saveAnnotation(
         annotation,
-        manifest.id,
+        activeManifest,
         canvas.id,
         fragmentUnit,
         token,
@@ -59,7 +64,7 @@ export default function AnnotationEditor(props: PropType) {
     anno.on("updateAnnotation", (annotation) => {
       updateAnnotation(
         annotation,
-        manifest.id,
+        activeManifest,
         activeCanvas,
         fragmentUnit,
         token,
@@ -74,7 +79,7 @@ export default function AnnotationEditor(props: PropType) {
     anno.on("deleteAnnotation", (annotation) => {
       deleteAnnotation(
         annotation,
-        manifest.id,
+        activeManifest,
         activeCanvas,
         fragmentUnit,
         token,
