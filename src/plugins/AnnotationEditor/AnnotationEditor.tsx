@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import * as Annotorious from "@recogito/annotorious-openseadragon";
-import * as AnnotoriousToolbar from "@recogito/annotorious-toolbar";
 import "@recogito/annotorious-openseadragon/dist/annotorious.min.css";
 import {
   saveAnnotation,
@@ -10,6 +9,7 @@ import {
 } from "src/plugins/AnnotationEditor/annotation-utils";
 import { type Plugin } from "src/index";
 import { useEditorDispatch } from "./annotation-editor-context";
+import styles from "./AnnotationEditor.module.css";
 
 interface PropType extends Plugin {
   token?: string;
@@ -19,11 +19,13 @@ interface PropType extends Plugin {
 export default function AnnotationEditor(props: PropType) {
   const { canvas, openSeadragonViewer, manifest, token, annotationServer } =
     props;
+
+  const [active, setActive] = useState(false);
+  const [editor, setEditor] = useState<any>();
+  const editorDispatch: any = useEditorDispatch();
+
   const activeCanvas = canvas.id;
   const fragmentUnit = "pixel";
-  const toolbarRef = useRef<null | HTMLDivElement>(null);
-
-  const editorDispatch: any = useEditorDispatch();
 
   // create Annotorious instance for each openSeadragonViewer instance
   useEffect(() => {
@@ -37,12 +39,6 @@ export default function AnnotationEditor(props: PropType) {
       widgets: ["COMMENT"],
     };
     const anno = Annotorious(openSeadragonViewer, options);
-
-    // setup toolbar
-    AnnotoriousToolbar(anno, document.getElementById("my-toolbar-container"), {
-      drawingTools: ["rect"],
-      withTooltip: true,
-    });
 
     // set up CRUD
     anno.on("createAnnotation", (annotation) => {
@@ -90,7 +86,12 @@ export default function AnnotationEditor(props: PropType) {
         });
       });
     });
-    anno.setDrawingTool("rect");
+
+    // set menu button to inactive after drawing selectionbox
+    anno.on("createSelection", () => {
+      setActive(false);
+    });
+    setEditor(anno);
 
     // load saved clippings
     (async () => {
@@ -109,20 +110,40 @@ export default function AnnotationEditor(props: PropType) {
         }
       });
     })();
-    const toolbarDOM = toolbarRef.current;
 
     // destroy Annotorious instance
     return () => {
       console.log("Annotorious destroy");
       anno.destroy();
-
-      // remove the DOM elements added by Annotorious toolbar
-      if (toolbarDOM) {
-        toolbarDOM.innerHTML = "";
-      }
     };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openSeadragonViewer]);
 
-  return <div id="my-toolbar-container" ref={toolbarRef}></div>;
+  function clickHandler() {
+    editor.setDrawingTool("rect");
+    editor.setDrawingEnabled(!active);
+    setActive(!active);
+  }
+
+  if (!editor) return <></>;
+
+  return (
+    <button
+      onClick={clickHandler}
+      className={`${active && styles.active} ${styles.toolbarBtn}`}
+    >
+      <svg viewBox="0 0 80 80">
+        <g>
+          <rect x="18" y="25" width="46" height="30"></rect>
+          <g className="handles">
+            <circle cx="18" cy="25" r="5"></circle>
+            <circle cx="64" cy="25" r="5"></circle>
+            <circle cx="18" cy="55" r="5"></circle>
+            <circle cx="64" cy="55" r="5"></circle>
+          </g>
+        </g>
+      </svg>
+    </button>
+  );
 }

@@ -1,0 +1,42 @@
+.toolbarBtn {
+  display: flex;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 2rem;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-left: 0.618rem;
+  background-color: #1a1d1e;
+  filter: drop-shadow(2px 2px 5px #0003);
+}
+
+.toolbarBtn:hover {
+  background-color: hsl(209 100% 38.2%);
+}
+
+.toolbarBtn svg {
+  width: 100%;
+  height: 100%;
+  fill: white;
+  stroke: white;
+}
+
+.toolbarBtn svg * {
+  stroke-width: 4px;
+  fill: none;
+  stroke: white;
+}
+
+.toolbarBtn svg circle {
+  stroke-width: 2px;
+  fill: white;
+  stroke: white;
+}
+
+.active {
+  background-color: hsl(209 100% 38.2%);
+}
