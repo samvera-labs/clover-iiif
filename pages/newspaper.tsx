@@ -24,10 +24,13 @@ function RenderNewspaper() {
       plugins={[
         {
           id: "AnnotationEditor",
-          component: AnnotationEditor,
-          componentProps: {
-            annotationServer: "http://localhost:3000/api/annotationsByCanvas/1",
-            token: "123abc",
+          menu: {
+            component: AnnotationEditor,
+            componentProps: {
+              annotationServer:
+                "http://localhost:3000/api/annotationsByCanvas/1",
+              token: "123abc",
+            },
           },
           informationPanel: {
             component: InfomationPanel,
