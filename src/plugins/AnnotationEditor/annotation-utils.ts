@@ -1,7 +1,3 @@
-function formatUrl(annotationServer: string, activeCanvas: string) {
-  return `${annotationServer}/?canvas=${activeCanvas}`;
-}
-
 export async function saveAnnotation(
   webAnnotation: any,
   manifestId: string,
@@ -11,15 +7,21 @@ export async function saveAnnotation(
   annotationServer?: string,
 ) {
   if (token && annotationServer) {
-    await fetch(formatUrl(annotationServer, activeCanvas), {
+    await fetch(annotationServer, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(
-        convertWebAnnotation(webAnnotation, manifestId, activeCanvas, unit),
-      ),
+      body: JSON.stringify({
+        canvas: activeCanvas,
+        annotation: convertWebAnnotation(
+          webAnnotation,
+          manifestId,
+          activeCanvas,
+          unit,
+        ),
+      }),
     });
   } else if (!token) {
     let annotations: any = {};
@@ -113,11 +115,15 @@ export async function fetchAnnotations(
   let annotations: any = [];
 
   if (token && annotationServer) {
-    const res = await fetch(formatUrl(annotationServer, activeCanvas), {
+    const res = await fetch(annotationServer + "?action=GET", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({
+        canvas: activeCanvas,
+      }),
     });
     if (res.ok) {
       const savedAnnotation = await res.json();
@@ -180,15 +186,21 @@ export async function deleteAnnotation(
   annotationServer?: string,
 ) {
   if (token && annotationServer) {
-    await fetch(formatUrl(annotationServer, activeCanvas), {
+    await fetch(annotationServer, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(
-        convertWebAnnotation(webAnnotation, manifestId, activeCanvas, unit),
-      ),
+      body: JSON.stringify({
+        canvas: activeCanvas,
+        annotation: convertWebAnnotation(
+          webAnnotation,
+          manifestId,
+          activeCanvas,
+          unit,
+        ),
+      }),
     });
   } else if (!token) {
     const savedAnnotations = window.localStorage.getItem("annotations");
@@ -219,15 +231,21 @@ export async function updateAnnotation(
   annotationServer?: string,
 ) {
   if (token && annotationServer) {
-    await fetch(formatUrl(annotationServer, activeCanvas), {
+    await fetch(annotationServer, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(
-        convertWebAnnotation(webAnnotation, manifestId, activeCanvas, unit),
-      ),
+      body: JSON.stringify({
+        canvas: activeCanvas,
+        annotation: convertWebAnnotation(
+          webAnnotation,
+          manifestId,
+          activeCanvas,
+          unit,
+        ),
+      }),
     });
   } else if (!token) {
     const savedAnnotations = window.localStorage.getItem("annotations");

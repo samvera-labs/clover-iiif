@@ -9,7 +9,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const objectId = req.query.id;
-  const canvas = req.query.canvas;
+  const { canvas, annotation } = req.body;
   const token = req.headers.authorization?.replace("Bearer ", "");
   const url = "http://localhost:3000/" + req.url;
 
@@ -21,7 +21,7 @@ export default async function handler(
   }
 
   // fetch
-  if (req.method === "GET") {
+  if (req.query.action === "GET") {
     const annotations = await fetchAnnotations(canvas, objectId, token);
     return res.status(200).json(formatAnnotationPage(annotations, url));
   } else if (req.body === undefined) {
@@ -29,37 +29,33 @@ export default async function handler(
 
     // create
   } else if (req.method === "POST") {
-    const newAnnotation = req.body;
-
     const stmt = db.prepare(
       `INSERT INTO annotations (annotation, canvas, object_id, token, annotation_id)
       VALUES (?, ?, ?, ?, ?)`,
     );
     stmt.run(
-      JSON.stringify(newAnnotation),
+      JSON.stringify(annotation),
       canvas,
       objectId,
       token,
-      newAnnotation.id,
+      annotation.id,
     );
 
     return res.status(200).json({ message: "create annotation" });
 
     // update
   } else if (req.method === "PUT") {
-    const updatedAnnotation = req.body;
     const stmt = db.prepare(
       "UPDATE annotations set annotation = ? WHERE annotation_id = ?",
     );
-    stmt.run(JSON.stringify(updatedAnnotation), updatedAnnotation.id);
+    stmt.run(JSON.stringify(annotation), annotation.id);
 
     return res.status(200).json({ message: "annotation is updated" });
 
     // delete
   } else if (req.method === "DELETE") {
-    const updatedAnnotation = req.body;
     const stmt = db.prepare("DELETE from annotations WHERE annotation_id = ?");
-    stmt.run(updatedAnnotation.id);
+    stmt.run(annotation.id);
 
     return res.status(200).json({ message: "annotation is deleted" });
   }
