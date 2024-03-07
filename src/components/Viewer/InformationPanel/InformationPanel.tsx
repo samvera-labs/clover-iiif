@@ -51,6 +51,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     openSeadragonViewer,
     configOptions,
     plugins,
+    activeManifest,
   } = viewerState;
   const { informationPanel } = configOptions;
 
@@ -67,7 +68,9 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
   const pluginsWithoutAnnotations = plugins.filter((plugin) => {
     let match = false;
-    if (plugin.informationPanel?.annotationPageId === undefined) {
+    const annotationServer =
+      plugin.informationPanel?.componentProps?.annotationServer;
+    if (annotationServer === undefined) {
       match = true;
     }
 
@@ -75,14 +78,18 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   });
 
   function renderPluginInformationPanel(plugin) {
-    const PluginInformationPanel = plugin?.informationPanel
+    const PluginInformationPanelComponent = plugin?.informationPanel
       ?.component as unknown as React.ElementType;
 
     return (
-      <PluginInformationPanel
+      <PluginInformationPanelComponent
+        {...plugin?.componentProps}
+        activeManifest={activeManifest}
         canvas={canvas}
+        viewerConfigOptions={configOptions}
         openSeadragonViewer={openSeadragonViewer}
-        configOptions={configOptions}
+        useViewerDispatch={useViewerDispatch}
+        useViewerState={useViewerState}
       />
     );
   }
