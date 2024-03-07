@@ -1,7 +1,7 @@
 // https://stackoverflow.com/questions/73103695/workaround-for-next-js-error-referenceerror-document-is-not-defined-for-an-ex
 import React, { useEffect } from "react";
 import { parseAnnotationTarget, createOpenSeadragonRect } from "./helpers";
-import { PluginInformationPanel } from "src/index";
+import { type PluginInformationPanel } from "src/index";
 
 interface PropType extends PluginInformationPanel {
   annotation: any;

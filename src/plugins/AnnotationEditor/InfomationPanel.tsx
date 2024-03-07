@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { PluginInformationPanel } from "src/index";
+import { type PluginInformationPanel } from "src/index";
 import styles from "./InformationPanel.module.css";
 import { useEditorState } from "./annotation-editor-context";
 
