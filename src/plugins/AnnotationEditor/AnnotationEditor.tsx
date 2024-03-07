@@ -35,7 +35,6 @@ export default function AnnotationEditor(props: PropType) {
   // create Annotorious instance for each openSeadragonViewer instance
   useEffect(() => {
     if (!openSeadragonViewer) return;
-    console.log("Annotorious setup");
 
     // set up Annotorious
     const options = {
@@ -118,7 +117,6 @@ export default function AnnotationEditor(props: PropType) {
 
     // destroy Annotorious instance
     return () => {
-      console.log("Annotorious destroy");
       anno.destroy();
     };
 

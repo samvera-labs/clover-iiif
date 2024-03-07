@@ -1,14 +1,10 @@
 import React, { useReducer } from "react";
 
 export type ConfigOptions = {
-  showToolbar?: boolean;
-  showAnnotations?: boolean;
+  [k: string]: any;
 };
 
-const defaultConfigOptions: ConfigOptions = {
-  showToolbar: false,
-  showAnnotations: true,
-};
+const defaultConfigOptions: ConfigOptions = {};
 
 export interface EditorContextStore {
   configOptions: ConfigOptions;
