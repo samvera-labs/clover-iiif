@@ -57,7 +57,6 @@ const Viewer: React.FC<ViewerProps> = ({
     contentSearchVault,
     configOptions,
     openSeadragonViewer,
-    plugins,
   } = viewerState;
 
   const absoluteCanvasHeights = ["100%", "auto"];
@@ -89,11 +88,6 @@ const Viewer: React.FC<ViewerProps> = ({
     },
     [viewerDispatch],
   );
-
-  const canvas: CanvasNormalized = vault.get({
-    id: activeCanvas,
-    type: "Canvas",
-  });
 
   useEffect(() => {
     if (configOptions?.informationPanel?.open) {
@@ -190,24 +184,6 @@ const Viewer: React.FC<ViewerProps> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openSeadragonViewer, contentSearchResource]);
 
-  function renderPlugins() {
-    return plugins.map((plugin, i) => {
-      const PluginComponent = plugin.component as unknown as React.ElementType;
-      return (
-        <PluginComponent
-          key={i}
-          {...plugin?.componentProps}
-          activeManifest={manifest.id}
-          canvas={canvas}
-          viewerConfigOptions={configOptions}
-          openSeadragonViewer={openSeadragonViewer}
-          useViewerDispatch={useViewerDispatch}
-          useViewerState={useViewerState}
-        ></PluginComponent>
-      );
-    });
-  }
-
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Wrapper
@@ -226,7 +202,6 @@ const Viewer: React.FC<ViewerProps> = ({
             manifestLabel={manifest.label as InternationalString}
             manifestId={manifest.id}
           />
-          {activeCanvas && openSeadragonViewer && renderPlugins()}
           <ViewerContent
             activeCanvas={activeCanvas}
             painting={painting}
