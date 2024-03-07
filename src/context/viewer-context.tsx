@@ -111,7 +111,6 @@ export type Plugin = {
   informationPanel?: {
     component: React.ElementType;
     componentProps?: Record<string, unknown>;
-    annotationPageId?: string[];
     label?: InternationalString;
   };
 };

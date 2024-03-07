@@ -3,7 +3,11 @@ import {
   AnnotationPageNormalized,
   CanvasNormalized,
 } from "@iiif/presentation-3";
-import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
+import {
+  ViewerContextStore,
+  useViewerState,
+  useViewerDispatch,
+} from "src/context/viewer-context";
 
 import AnnotationItem from "src/components/Viewer/InformationPanel/Annotation/Item";
 import { Group } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
@@ -14,8 +18,14 @@ type Props = {
 };
 export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
   const viewerState: ViewerContextStore = useViewerState();
-  const { vault, openSeadragonViewer, activeCanvas, configOptions, plugins } =
-    viewerState;
+  const {
+    vault,
+    openSeadragonViewer,
+    activeCanvas,
+    configOptions,
+    plugins,
+    activeManifest,
+  } = viewerState;
 
   if (
     !annotationPage ||
@@ -30,39 +40,44 @@ export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
 
   if (!annotations) return <></>;
 
+  const canvas: CanvasNormalized = vault.get({
+    id: activeCanvas,
+    type: "Canvas",
+  });
+
   const plugin = plugins.find((plugin) => {
     let match = false;
-    if (plugin.informationPanel?.annotationPageId) {
-      match = plugin.informationPanel.annotationPageId.includes(
-        annotationPage.id,
-      );
+    const annotationServer =
+      plugin.informationPanel?.componentProps?.annotationServer;
+    if (annotationServer) {
+      match = annotationServer === annotationPage.id;
     }
 
     return match;
   });
 
-  const PluginInformationPanel = plugin?.informationPanel
+  const PluginInformationPanelComponent = plugin?.informationPanel
     ?.component as unknown as React.ElementType;
 
-  if (PluginInformationPanel) {
+  if (PluginInformationPanelComponent) {
     const annotationsWithBodies = annotations.map((annotation) => {
       return {
         ...annotation,
         body: annotation.body.map((body) => vault.get(body.id)),
       };
     });
-    const canvas: CanvasNormalized = vault.get({
-      id: activeCanvas,
-      type: "Canvas",
-    });
 
     return (
       <Group data-testid="annotation-page">
-        <PluginInformationPanel
-          canvas={canvas}
-          openSeadragonViewer={openSeadragonViewer}
+        <PluginInformationPanelComponent
           annotations={annotationsWithBodies}
-          configOptions={configOptions}
+          {...plugin?.informationPanel?.componentProps}
+          activeManifest={activeManifest}
+          canvas={canvas}
+          viewerConfigOptions={configOptions}
+          openSeadragonViewer={openSeadragonViewer}
+          useViewerDispatch={useViewerDispatch}
+          useViewerState={useViewerState}
         />
       </Group>
     );
