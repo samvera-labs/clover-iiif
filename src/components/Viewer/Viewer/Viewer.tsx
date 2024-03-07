@@ -4,7 +4,6 @@ import {
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
-  CanvasNormalized,
 } from "@iiif/presentation-3";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -39,14 +38,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
    */
   const viewerState: ViewerContextStore = useViewerState();
   const viewerDispatch: any = useViewerDispatch();
-  const {
-    activeCanvas,
-    isInformationOpen,
-    vault,
-    configOptions,
-    openSeadragonViewer,
-    plugins,
-  } = viewerState;
+  const { activeCanvas, isInformationOpen, vault, configOptions } = viewerState;
 
   const absoluteCanvasHeights = ["100%", "auto"];
   const isAbsolutePosition =
@@ -74,11 +66,6 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
     },
     [viewerDispatch],
   );
-
-  const canvas: CanvasNormalized = vault.get({
-    id: activeCanvas,
-    type: "Canvas",
-  });
 
   useEffect(() => {
     if (configOptions?.informationPanel?.open) {
@@ -122,24 +109,6 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
     });
   }, [activeCanvas, annotationResources.length, vault, viewerDispatch]);
 
-  function renderPlugins() {
-    return plugins.map((plugin, i) => {
-      const PluginComponent = plugin.component as unknown as React.ElementType;
-      return (
-        <PluginComponent
-          key={i}
-          {...plugin?.componentProps}
-          activeManifest={manifest.id}
-          canvas={canvas}
-          viewerConfigOptions={configOptions}
-          openSeadragonViewer={openSeadragonViewer}
-          useViewerDispatch={useViewerDispatch}
-          useViewerState={useViewerState}
-        ></PluginComponent>
-      );
-    });
-  }
-
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Wrapper
@@ -158,7 +127,6 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
             manifestLabel={manifest.label as InternationalString}
             manifestId={manifest.id}
           />
-          {activeCanvas && openSeadragonViewer && renderPlugins()}
           <ViewerContent
             activeCanvas={activeCanvas}
             painting={painting}
