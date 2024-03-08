@@ -104,7 +104,7 @@ export type CustomDisplay = {
     paintingFormat?: string[];
   };
 };
-export type Plugin = {
+export type PluginConfig = {
   id: string;
   menu?: {
     component: React.ElementType;
@@ -113,7 +113,8 @@ export type Plugin = {
   informationPanel?: {
     component: React.ElementType;
     componentProps?: Record<string, unknown>;
-    label?: InternationalString;
+    label: InternationalString;
+    displayIfNoAnnotations?: boolean;
   };
 };
 
@@ -123,7 +124,7 @@ export interface ViewerContextStore {
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
-  plugins: Array<Plugin>;
+  plugins: Array<PluginConfig>;
   isAutoScrollEnabled?: boolean;
   isAutoScrolling?: boolean;
   isInformationOpen: boolean;

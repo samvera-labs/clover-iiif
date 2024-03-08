@@ -8,7 +8,7 @@ import {
   useViewerDispatch,
   useViewerState,
   CustomDisplay,
-  Plugin,
+  PluginConfig,
 } from "src/context/viewer-context";
 
 import { Vault } from "@iiif/vault";
@@ -24,7 +24,7 @@ import {
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
   customDisplays?: Array<CustomDisplay>;
-  plugins?: Array<Plugin>;
+  plugins?: Array<PluginConfig>;
   customTheme?: any;
   iiifContent: string;
   id?: string;
