@@ -10,28 +10,25 @@ const defaultConfigOptions: ConfigOptions = {
   showAnnotations: true,
 };
 
-interface CreateAnnotationContextStore {
+export interface EditorContextStore {
   configOptions: ConfigOptions;
 }
 
-interface CreateAnnotationAction {
+interface EditorAction {
   type: string;
   configOptions: ConfigOptions;
 }
 
-export const defaultState: CreateAnnotationContextStore = {
+export const defaultState: EditorContextStore = {
   configOptions: defaultConfigOptions,
 };
 
-const CreateAnnotationStateContext =
-  React.createContext<CreateAnnotationContextStore>(defaultState);
-const CreateAnnotationDispatchContext =
-  React.createContext<CreateAnnotationContextStore>(defaultState);
+const EditorStateContext =
+  React.createContext<EditorContextStore>(defaultState);
+const EditorDispatchContext =
+  React.createContext<EditorContextStore>(defaultState);
 
-function createAnnotationReducer(
-  state: CreateAnnotationContextStore,
-  action: CreateAnnotationAction,
-) {
+function EditorReducer(state: EditorContextStore, action: EditorAction) {
   switch (action.type) {
     case "updateConfigOptions": {
       return {
@@ -48,52 +45,44 @@ function createAnnotationReducer(
   }
 }
 
-interface CreateAnnotationProviderProps {
-  initialState?: CreateAnnotationContextStore;
+interface EditorProviderProps {
+  initialState?: EditorContextStore;
   children: React.ReactNode;
 }
 
-const CreateAnnotationProvider: React.FC<CreateAnnotationProviderProps> = ({
+const EditorProvider: React.FC<EditorProviderProps> = ({
   initialState = defaultState,
   children,
 }) => {
   const [state, dispatch] = useReducer<
-    React.Reducer<CreateAnnotationContextStore, CreateAnnotationAction>
-  >(createAnnotationReducer, initialState);
+    React.Reducer<EditorContextStore, EditorAction>
+  >(EditorReducer, initialState);
 
   return (
-    <CreateAnnotationStateContext.Provider value={state}>
-      <CreateAnnotationDispatchContext.Provider
-        value={dispatch as unknown as CreateAnnotationContextStore}
+    <EditorStateContext.Provider value={state}>
+      <EditorDispatchContext.Provider
+        value={dispatch as unknown as EditorContextStore}
       >
         {children}
-      </CreateAnnotationDispatchContext.Provider>
-    </CreateAnnotationStateContext.Provider>
+      </EditorDispatchContext.Provider>
+    </EditorStateContext.Provider>
   );
 };
 
-function useCreateAnnotationState() {
-  const context = React.useContext(CreateAnnotationStateContext);
+function useEditorState() {
+  const context = React.useContext(EditorStateContext);
   if (context === undefined) {
-    throw new Error(
-      "useCreateAnnotationState must be used within a CreateAnnotationProvider",
-    );
+    throw new Error("useEditorState must be used within a EditorProvider");
   }
   return context;
 }
 
-function useCreateAnnotationDispatch() {
-  const context = React.useContext(CreateAnnotationDispatchContext);
+function useEditorDispatch() {
+  const context = React.useContext(EditorDispatchContext);
   if (context === undefined) {
-    throw new Error(
-      "useCreateAnnotationDispatch must be used within a CreateAnnotationProvider",
-    );
+    throw new Error("useEditorDispatch must be used within a EditorProvider");
   }
   return context;
 }
 
-export {
-  CreateAnnotationProvider,
-  useCreateAnnotationState,
-  useCreateAnnotationDispatch,
-};
+export { EditorProvider, useEditorState, useEditorDispatch };
