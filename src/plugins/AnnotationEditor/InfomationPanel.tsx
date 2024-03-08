@@ -10,7 +10,7 @@ const AnnotationItem = dynamic(() => import("./AnnotationItem"), {
 
 interface PropType extends PluginInformationPanel {
   token: string;
-  annotationPageId: string[];
+  annotationServer: string;
 }
 
 export const InfomationPanel: React.FC<PropType> = ({
@@ -22,7 +22,7 @@ export const InfomationPanel: React.FC<PropType> = ({
   useViewerDispatch,
   useViewerState,
   token,
-  annotationPageId,
+  annotationServer,
 }) => {
   const [activeTarget, setActiveTarget] = useState();
   const [clippings, setClippings] = useState(annotations);
@@ -33,8 +33,7 @@ export const InfomationPanel: React.FC<PropType> = ({
   useEffect(() => {
     if (!clippingsUpdatedAt) return;
 
-    const url = annotationPageId[0];
-    fetch(url, {
+    fetch(annotationServer, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
