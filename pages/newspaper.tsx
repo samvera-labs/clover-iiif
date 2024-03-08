@@ -17,6 +17,10 @@ const Newspaper = () => {
   );
 };
 
+function Demo() {
+  return <div>Demo info panel</div>;
+}
+
 function RenderNewspaper() {
   return (
     <Viewer
@@ -34,10 +38,19 @@ function RenderNewspaper() {
           },
           informationPanel: {
             component: InfomationPanel,
+            label: { none: ["my clip"] },
+            // displayIfNoAnnotations: false,
             componentProps: {
               annotationServer: "http://localhost:3000/api/annotations/1",
               token: "123abc",
             },
+          },
+        },
+        {
+          id: "demo",
+          informationPanel: {
+            label: { none: ["My demo"] },
+            component: Demo,
           },
         },
       ]}
