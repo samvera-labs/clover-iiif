@@ -1,7 +1,7 @@
 import {
   type CustomDisplay,
   ViewerConfigOptions,
-  Plugin,
+  PluginConfig,
 } from "src/context/viewer-context";
 import dynamic from "next/dynamic";
 import { isDark } from "docs/lib/theme";
@@ -27,7 +27,7 @@ const CloverViewer = ({
   options?: ViewerConfigOptions;
   customDisplays?: Array<CustomDisplay>;
   iiifContentSearchQuery?: ContentSearchQuery;
-  plugins?: Array<Plugin>;
+  plugins?: Array<PluginConfig>;
 }) => {
   const router = useRouter();
   const iiifResource = router.query["iiif-content"]
