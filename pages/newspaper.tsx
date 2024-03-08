@@ -35,7 +35,7 @@ function RenderNewspaper() {
           informationPanel: {
             component: InfomationPanel,
             componentProps: {
-              annotationPageId: ["http://localhost:3000/api/annotations/1"],
+              annotationServer: "http://localhost:3000/api/annotations/1",
               token: "123abc",
             },
           },
