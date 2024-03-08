@@ -1,21 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { PluginInformationPanel } from "src/index";
 import styles from "./InformationPanel.module.css";
+import { useEditorState } from "./annotation-editor-context";
 
 const AnnotationItem = dynamic(() => import("./AnnotationItem"), {
   ssr: false,
 });
 
-export const InfomationPanel: React.FC<PluginInformationPanel> = ({
+interface PropType extends PluginInformationPanel {
+  token: string;
+  annotationPageId: string[];
+}
+
+export const InfomationPanel: React.FC<PropType> = ({
   annotations,
   canvas,
   viewerConfigOptions,
   openSeadragonViewer,
   useViewerDispatch,
   useViewerState,
+  token,
+  annotationPageId,
 }) => {
   const [activeTarget, setActiveTarget] = useState();
+  const [clippings, setClippings] = useState(annotations);
+
+  const editorState = useEditorState();
+  const { clippingsUpdatedAt } = editorState;
+
+  useEffect(() => {
+    if (!clippingsUpdatedAt) return;
+
+    const url = annotationPageId[0];
+    fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((newAnnotations) => {
+        setClippings(newAnnotations.items);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clippingsUpdatedAt]);
 
   return (
     <div className={styles.container}>
@@ -27,10 +56,10 @@ export const InfomationPanel: React.FC<PluginInformationPanel> = ({
         <a href="">View all clippings.</a>
       </p>
       <p>Clippings from this record</p>
-      {annotations?.map((annotation) => (
+      {clippings?.map((clipping) => (
         <AnnotationItem
-          key={annotation.id}
-          annotation={annotation}
+          key={clipping.id}
+          annotation={clipping}
           canvas={canvas}
           viewerConfigOptions={viewerConfigOptions}
           openSeadragonViewer={openSeadragonViewer}

@@ -1,6 +1,7 @@
 import Viewer from "docs/components/DynamicImports/Viewer";
 import dynamic from "next/dynamic";
 import InfomationPanel from "src/plugins/AnnotationEditor/InfomationPanel";
+import { EditorProvider } from "src/plugins/AnnotationEditor/annotation-editor-context";
 const AnnotationEditor = dynamic(
   () => import("src/plugins/AnnotationEditor/AnnotationEditor"),
   {
@@ -8,7 +9,15 @@ const AnnotationEditor = dynamic(
   },
 );
 
-function newspaper() {
+const Newspaper = () => {
+  return (
+    <EditorProvider>
+      <RenderNewspaper />
+    </EditorProvider>
+  );
+};
+
+function RenderNewspaper() {
   return (
     <Viewer
       iiifContent="http://localhost:3000/manifest/newspaper/newspaper_collection.json"
@@ -24,6 +33,7 @@ function newspaper() {
             component: InfomationPanel,
             componentProps: {
               annotationPageId: ["http://localhost:3000/api/annotations/1"],
+              token: "123abc",
             },
           },
         },
@@ -42,4 +52,4 @@ function newspaper() {
   );
 }
 
-export default newspaper;
+export default Newspaper;
