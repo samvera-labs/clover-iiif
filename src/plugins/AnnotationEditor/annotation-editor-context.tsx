@@ -12,15 +12,18 @@ const defaultConfigOptions: ConfigOptions = {
 
 export interface EditorContextStore {
   configOptions: ConfigOptions;
+  clippingsUpdatedAt: string;
 }
 
 interface EditorAction {
   type: string;
   configOptions: ConfigOptions;
+  clippingsUpdatedAt: string;
 }
 
 export const defaultState: EditorContextStore = {
   configOptions: defaultConfigOptions,
+  clippingsUpdatedAt: "",
 };
 
 const EditorStateContext =
@@ -37,6 +40,12 @@ function EditorReducer(state: EditorContextStore, action: EditorAction) {
           ...defaultConfigOptions,
           ...action.configOptions,
         },
+      };
+    }
+    case "updateClippingsUpdatedAt": {
+      return {
+        ...state,
+        clippingsUpdatedAt: action.clippingsUpdatedAt,
       };
     }
     default: {

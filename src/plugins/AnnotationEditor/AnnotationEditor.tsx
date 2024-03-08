@@ -9,6 +9,7 @@ import {
   updateAnnotation,
 } from "src/plugins/AnnotationEditor/annotation-utils";
 import { type Plugin } from "src/index";
+import { useEditorDispatch } from "./annotation-editor-context";
 
 interface PropType extends Plugin {
   token?: string;
@@ -21,6 +22,8 @@ export default function AnnotationEditor(props: PropType) {
   const activeCanvas = canvas.id;
   const fragmentUnit = "pixel";
   const toolbarRef = useRef<null | HTMLDivElement>(null);
+
+  const editorDispatch: any = useEditorDispatch();
 
   // create Annotorious instance for each openSeadragonViewer instance
   useEffect(() => {
@@ -50,7 +53,12 @@ export default function AnnotationEditor(props: PropType) {
         fragmentUnit,
         token,
         annotationServer,
-      );
+      ).then(() => {
+        editorDispatch({
+          type: "updateClippingsUpdatedAt",
+          clippingsUpdatedAt: new Date().getTime(),
+        });
+      });
     });
     anno.on("updateAnnotation", (annotation) => {
       updateAnnotation(
@@ -60,7 +68,12 @@ export default function AnnotationEditor(props: PropType) {
         fragmentUnit,
         token,
         annotationServer,
-      );
+      ).then(() => {
+        editorDispatch({
+          type: "updateClippingsUpdatedAt",
+          clippingsUpdatedAt: new Date().getTime(),
+        });
+      });
     });
     anno.on("deleteAnnotation", (annotation) => {
       deleteAnnotation(
@@ -70,7 +83,12 @@ export default function AnnotationEditor(props: PropType) {
         fragmentUnit,
         token,
         annotationServer,
-      );
+      ).then(() => {
+        editorDispatch({
+          type: "updateClippingsUpdatedAt",
+          clippingsUpdatedAt: new Date().getTime(),
+        });
+      });
     });
     anno.setDrawingTool("rect");
 
