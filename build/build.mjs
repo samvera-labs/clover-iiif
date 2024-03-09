@@ -26,6 +26,20 @@ const buildOptions = {
       fileName: "index",
     },
   },
+  'annotation-helpers': {
+    lib: {
+      name: "CloverIIIFAnnotationHelpers",
+      entry: "./src/lib/annotation-helpers.ts",
+      fileName: "index",
+    },
+  },
+  'openseadragon-helpers': {
+    lib: {
+      name: "CloverIIIFOpenseadragonHelpers",
+      entry: "./src/lib/openseadragon-helpers.ts",
+      fileName: "index",
+    },
+  },
 };
 
 (async () => {
