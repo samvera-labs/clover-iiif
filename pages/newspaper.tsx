@@ -22,17 +22,17 @@ function Demo() {
 }
 
 function RenderNewspaper() {
+  const base_url = "http://localhost:3000";
   return (
     <Viewer
-      iiifContent="http://localhost:3000/manifest/newspaper/newspaper_collection.json"
+      iiifContent={`${base_url}/api/newspaper/collection`}
       plugins={[
         {
           id: "AnnotationEditor",
           menu: {
             component: AnnotationEditor,
             componentProps: {
-              annotationServer:
-                "http://localhost:3000/api/annotationsByCanvas/1",
+              annotationServer: `${base_url}/api/annotationsByCanvas/1`,
               token: "123abc",
             },
           },
@@ -41,7 +41,7 @@ function RenderNewspaper() {
             label: { none: ["my clip"] },
             // displayIfNoAnnotations: false,
             componentProps: {
-              annotationServer: "http://localhost:3000/api/annotations/1",
+              annotationServer: `${base_url}/api/annotations/1`,
               token: "123abc",
             },
           },

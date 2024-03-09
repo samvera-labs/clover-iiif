@@ -8,10 +8,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const objectId = req.query.id;
+  const objectId = req.query.id as string;
   // const token = req.headers.authorization?.replace("Bearer ", "");
   const token = "123abc";
-  const url = "http://localhost:3000" + req.url;
+  const url = `${req.headers["x-forwarded-proto"]}://${req.headers.host}${req.url}`;
 
   if (token === undefined) {
     return res.status(400).json({ error: "no token" });
@@ -21,7 +21,7 @@ export default async function handler(
   return res.status(200).json(formatAnnotationPage(annotations, url));
 }
 
-async function fetchAnnotations(objectId, token) {
+async function fetchAnnotations(objectId: string, token: string) {
   let annotations = [];
 
   const stmt = db.prepare(
@@ -57,7 +57,7 @@ async function fetchAnnotations(objectId, token) {
   return annotations;
 }
 
-function formatAnnotationPage(annotations, url) {
+function formatAnnotationPage(annotations: any, url: string) {
   return {
     "@context": "http://iiif.io/api/presentation/3/context.json",
     id: url,

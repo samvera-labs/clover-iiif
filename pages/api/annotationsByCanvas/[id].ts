@@ -8,10 +8,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const objectId = req.query.id;
+  const objectId = req.query.id as string;
   const { canvas, annotation } = req.body;
   const token = req.headers.authorization?.replace("Bearer ", "");
-  const url = "http://localhost:3000/" + req.url;
+  const url = `${req.headers["x-forwarded-proto"]}://${req.headers.host}${req.url}`;
 
   if (canvas === undefined) {
     return res.status(400).json({ error: "no canvas" });
@@ -61,7 +61,11 @@ export default async function handler(
   }
 }
 
-async function fetchAnnotations(canvas, objectId, token) {
+async function fetchAnnotations(
+  canvas: string,
+  objectId: string,
+  token: string,
+) {
   let annotations = [];
 
   const stmt = db.prepare(
@@ -75,7 +79,7 @@ async function fetchAnnotations(canvas, objectId, token) {
   return annotations;
 }
 
-function formatAnnotationPage(annotations, url) {
+function formatAnnotationPage(annotations: any, url: string) {
   return {
     "@context": "http://iiif.io/api/presentation/3/context.json",
     id: url,
