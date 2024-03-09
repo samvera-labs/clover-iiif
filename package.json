@@ -37,6 +37,16 @@
       "import": "./dist/viewer/index.mjs",
       "require": "./dist/viewer/index.umd.js",
       "types": "./dist/viewer/index.d.ts"
+    },
+    "./annotation-helpers": {
+      "import": "./dist/annotation-helpers/index.mjs",
+      "require": "./dist/annotation-helpers/index.umd.js",
+      "types": "./dist/annotation-helpers/index.d.ts"
+    },
+    "./openseadragon-helpers": {
+      "import": "./dist/openseadragon-helpers/index.mjs",
+      "require": "./dist/openseadragon-helpers/index.umd.js",
+      "types": "./dist/openseadragon-helpers/index.d.ts"
     }
   },
   "types": "./dist/index.d.ts",
