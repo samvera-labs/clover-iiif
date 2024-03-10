@@ -1,4 +1,4 @@
-import { CanvasNormalized } from "@iiif/presentation-3";
+import { CanvasNormalized, Annotation } from "@iiif/presentation-3";
 import {
   ViewerContextStore,
   ViewerConfigOptions,
@@ -14,7 +14,7 @@ export interface Plugin {
 }
 
 export interface PluginInformationPanel {
-  annotations?: any;
+  annotations?: Annotation[];
   activeManifest: string;
   canvas: CanvasNormalized;
   viewerConfigOptions: ViewerConfigOptions;
