@@ -19,6 +19,9 @@ import Information from "src/components/Viewer/InformationPanel/About/About";
 import { InternationalString, CanvasNormalized } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
 import { setupPlugins, formatPluginAnnotations } from "src/lib/plugin-helpers";
+import ErrorFallback from "../Viewer/ErrorFallback";
+
+import { ErrorBoundary } from "react-error-boundary";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
 
@@ -48,18 +51,21 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
   const renderAbout = informationPanel?.renderAbout;
   const renderAnnotation = informationPanel?.renderAnnotation;
-
-  const canvas: CanvasNormalized = vault.get({
-    id: activeCanvas,
-    type: "Canvas",
-  });
+  let canvas: CanvasNormalized;
+  try {
+    canvas = vault.get({
+      id: activeCanvas,
+      type: "Canvas",
+    });
+  } catch (error) {
+    console.error(error);
+  }
 
   const { pluginsWithInfoPanel, pluginsAnnotationPageIds } =
     setupPlugins(plugins);
 
   function renderPluginLabel(plugin: PluginConfig, i: number) {
     const annotations = formatPluginAnnotations(plugin, annotationResources);
-
     if (
       annotations.length === 0 &&
       plugin.informationPanel?.displayIfNoAnnotations === false
@@ -68,6 +74,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     }
 
     const label = plugin.informationPanel?.label || { none: [plugin.id] };
+
     return (
       <Trigger key={i} value={plugin.id}>
         <Label label={label} />
@@ -98,16 +105,18 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
     return (
       <Content key={i} value={plugin.id}>
-        <PluginInformationPanelComponent
-          annotations={annotations}
-          {...plugin?.informationPanel?.componentProps}
-          activeManifest={activeManifest}
-          canvas={canvas}
-          viewerConfigOptions={configOptions}
-          openSeadragonViewer={openSeadragonViewer}
-          useViewerDispatch={useViewerDispatch}
-          useViewerState={useViewerState}
-        />
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <PluginInformationPanelComponent
+            annotations={annotations}
+            {...plugin?.informationPanel?.componentProps}
+            activeManifest={activeManifest}
+            canvas={canvas}
+            viewerConfigOptions={configOptions}
+            openSeadragonViewer={openSeadragonViewer}
+            useViewerDispatch={useViewerDispatch}
+            useViewerState={useViewerState}
+          />
+        </ErrorBoundary>
       </Content>
     );
   }
