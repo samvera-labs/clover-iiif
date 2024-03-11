@@ -1,9 +1,9 @@
 import Viewer from "docs/components/DynamicImports/Viewer";
 import dynamic from "next/dynamic";
-import InfomationPanel from "src/plugins/AnnotationEditor/InfomationPanel";
-import { EditorProvider } from "src/plugins/AnnotationEditor/annotation-editor-context";
+import InfomationPanel from "src/plugins/AnnotationEditor/components/InfomationPanel";
+import { EditorProvider } from "src/plugins/AnnotationEditor/context/annotation-editor-context";
 const AnnotationEditor = dynamic(
-  () => import("src/plugins/AnnotationEditor/AnnotationEditor"),
+  () => import("src/plugins/AnnotationEditor/components/AnnotationEditor"),
   {
     ssr: false,
   },
