@@ -93,9 +93,8 @@ const parseAnnotationsFromAnnotationResources = (
       if (annotationResource.label) {
         const label = getLabel(annotationResource.label);
         if (Array.isArray(label)) {
-          return !label.some(
-            (value) =>
-              configOptions.ignoreAnnotationOverlaysLabels?.includes(value),
+          return !label.some((value) =>
+            configOptions.ignoreAnnotationOverlaysLabels?.includes(value),
           );
         }
       }
