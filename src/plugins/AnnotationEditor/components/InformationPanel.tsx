@@ -36,6 +36,22 @@ export const InfomationPanel: React.FC<PropType> = ({
   const editorState = useEditorState();
   const { clippingsUpdatedAt } = editorState;
 
+  // fetch clippings on page load. use plugin to fetch token since Clover isn't
+  // set up to use tokens for the vault.get
+  useEffect(() => {
+    fetch(annotationServer, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((newAnnotations) => {
+        setClippings(newAnnotations.items);
+      });
+  }, []);
+
+  // fetch clippings when there is a change in the clippings
   useEffect(() => {
     if (!clippingsUpdatedAt) return;
 
