@@ -55,7 +55,7 @@ function RenderNewspaper() {
         },
       ]}
       options={{
-        ignoreAnnotationOverlaysLabels: ["Clippings"],
+        // ignoreAnnotationOverlaysLabels: ["Clippings"],
         informationPanel: { open: true },
         canvasHeight: "640px",
         openSeadragon: {
