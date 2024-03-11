@@ -40,27 +40,35 @@ export function formatPluginAnnotations(
     if (annotationPage) {
       if (vault) {
         annotations = annotationPage.items.map((item) => {
+          // populate data for annotation
           let annotation;
           try {
             annotation = vault.get(item.id) as AnnotationNormalized;
           } catch (error) {
             console.error(error);
           }
-
-          return {
-            ...annotation,
-            body: annotation.body
-              .filter((body) => {
-                try {
+          // populate data for annotation.body
+          if (annotation.body) {
+            return {
+              ...annotation,
+              body: annotation.body
+                .filter((body) => {
+                  try {
+                    return vault.get(body.id);
+                  } catch (error) {
+                    console.error(error);
+                  }
+                })
+                .map((body) => {
                   return vault.get(body.id);
-                } catch (error) {
-                  console.error(error);
-                }
-              })
-              .map((body) => {
-                return vault.get(body.id);
-              }),
-          };
+                }),
+            };
+          } else {
+            return {
+              ...annotation,
+              body: [],
+            };
+          }
         });
       } else {
         annotations = annotationPage.items;
