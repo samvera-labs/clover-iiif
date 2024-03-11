@@ -18,7 +18,7 @@ const Toggle = () => {
       type: "updateInformationOpen",
       informationOpen: checked,
     });
-  }, [checked]);
+  }, [checked, dispatch]);
 
   return (
     <StyledToggle>
