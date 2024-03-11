@@ -18,19 +18,19 @@
     "outDir": "dist",
     "paths": {
       "docs/*": ["docs/*"],
-      "src/*": ["src/*"]
+      "src/*": ["src/*"],
     },
     "plugins": [
       {
-        "name": "next"
-      }
+        "name": "next",
+      },
     ],
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": false,
     "strictNullChecks": true,
     "target": "esnext",
-    "types": ["vitest/globals"]
+    "types": ["vitest/globals"],
   },
   "exclude": ["dist", "node_modules", "theme.config.tsx", "vite.*"],
   "include": [
@@ -39,6 +39,6 @@
     "**/*.tsx",
     "../index.ts",
     ".next/types/**/*.ts",
-    "src/setupTests.ts"
-  ]
+    "src/setupTests.ts",
+  ],
 }

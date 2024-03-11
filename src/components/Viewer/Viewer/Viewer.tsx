@@ -43,7 +43,6 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   /**
    * Local state
    */
-
   const [isInformationPanel, setIsInformationPanel] = useState<boolean>(false);
   const [isAudioVideo, setIsAudioVideo] = useState(false);
   const [painting, setPainting] = useState<IIIFExternalWebResource[]>([]);
@@ -94,10 +93,18 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
       setPainting(painting);
     }
 
-    setAnnotationResources(getAnnotationResources(vault, activeCanvas));
+    const resources = getAnnotationResources(vault, activeCanvas);
 
+    if (resources.length > 0) {
+      viewerDispatch({
+        type: "updateInformationOpen",
+        informationOpen: true,
+      });
+    }
+
+    setAnnotationResources(resources);
     setIsInformationPanel(annotationResources.length !== 0);
-  }, [activeCanvas, annotationResources.length, vault]);
+  }, [activeCanvas, annotationResources.length, vault, viewerDispatch]);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>

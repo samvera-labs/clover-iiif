@@ -15,7 +15,7 @@ import Painting from "../Painting/Painting";
 import React from "react";
 import { useViewerState } from "src/context/viewer-context";
 
-interface ViewerContentProps {
+export interface ViewerContentProps {
   activeCanvas: string;
   annotationResources: AnnotationResources;
   isAudioVideo: boolean;
@@ -67,7 +67,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
           </MediaWrapper>
         )}
       </Main>
-      {informationOpen && isAside && (
+      {(informationOpen || isAside) && (
         <Aside>
           <CollapsibleContent>
             <InformationPanel
