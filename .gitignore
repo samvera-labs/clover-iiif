@@ -20,3 +20,4 @@ html/
 dist/tsconfig.tsbuildinfo
 tmp
 .env.local
+tsconfig.tsbuildinfo
