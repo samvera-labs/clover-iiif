@@ -10,13 +10,14 @@ import {
 import { type Plugin } from "src/index";
 import { useEditorDispatch } from "../context/annotation-editor-context";
 import styles from "./AnnotationEditor.module.css";
+import { AnnotationFromAnnotorious } from "../types/annotation";
 
 interface PropType extends Plugin {
   token?: string;
   annotationServer?: string;
 }
 
-export default function AnnotationEditor(props: PropType) {
+const AnnotationEditor: React.FC<PropType> = (props: PropType) => {
   const {
     canvas,
     openSeadragonViewer,
@@ -45,7 +46,7 @@ export default function AnnotationEditor(props: PropType) {
     const anno = Annotorious(openSeadragonViewer, options);
 
     // set up CRUD
-    anno.on("createAnnotation", (annotation) => {
+    anno.on("createAnnotation", (annotation: AnnotationFromAnnotorious) => {
       saveAnnotation(
         annotation,
         activeManifest,
@@ -60,7 +61,7 @@ export default function AnnotationEditor(props: PropType) {
         });
       });
     });
-    anno.on("updateAnnotation", (annotation) => {
+    anno.on("updateAnnotation", (annotation: AnnotationFromAnnotorious) => {
       updateAnnotation(
         annotation,
         activeManifest,
@@ -75,7 +76,7 @@ export default function AnnotationEditor(props: PropType) {
         });
       });
     });
-    anno.on("deleteAnnotation", (annotation) => {
+    anno.on("deleteAnnotation", (annotation: AnnotationFromAnnotorious) => {
       deleteAnnotation(
         annotation,
         activeManifest,
@@ -149,4 +150,6 @@ export default function AnnotationEditor(props: PropType) {
       </svg>
     </button>
   );
-}
+};
+
+export default AnnotationEditor;

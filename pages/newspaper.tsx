@@ -1,6 +1,6 @@
 import Viewer from "docs/components/DynamicImports/Viewer";
 import dynamic from "next/dynamic";
-import InfomationPanel from "src/plugins/AnnotationEditor/components/InfomationPanel";
+import InformationPanel from "src/plugins/AnnotationEditor/components/InformationPanel";
 import { EditorProvider } from "src/plugins/AnnotationEditor/context/annotation-editor-context";
 const AnnotationEditor = dynamic(
   () => import("src/plugins/AnnotationEditor/components/AnnotationEditor"),
@@ -37,7 +37,7 @@ function RenderNewspaper() {
             },
           },
           informationPanel: {
-            component: InfomationPanel,
+            component: InformationPanel,
             label: { none: ["my clip"] },
             // displayIfNoAnnotations: false,
             componentProps: {
