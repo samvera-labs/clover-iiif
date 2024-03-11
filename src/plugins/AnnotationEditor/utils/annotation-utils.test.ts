@@ -4,7 +4,7 @@ import {
   updateAnnotation,
   fetchAnnotations,
   convertWebAnnotation,
-} from "./annotation-utils";
+} from "../utils/annotation-utils";
 
 const webAnnotation1 = {
   "@context": "http://www.w3.org/ns/anno.jsonld",

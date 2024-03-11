@@ -6,9 +6,9 @@ import {
   fetchAnnotations,
   deleteAnnotation,
   updateAnnotation,
-} from "src/plugins/AnnotationEditor/annotation-utils";
+} from "../utils/annotation-utils";
 import { type Plugin } from "src/index";
-import { useEditorDispatch } from "./annotation-editor-context";
+import { useEditorDispatch } from "../context/annotation-editor-context";
 import styles from "./AnnotationEditor.module.css";
 
 interface PropType extends Plugin {
