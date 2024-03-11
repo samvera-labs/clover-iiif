@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { type PluginInformationPanel } from "src/index";
+import {
+  type PluginInformationPanel,
+  type AnnotationTargetExtended,
+} from "src/index";
 import styles from "./InformationPanel.module.css";
 import { useEditorState } from "../context/annotation-editor-context";
+import { AnnotationForEditor } from "../types/annotation";
 
 const AnnotationItem = dynamic(() => import("./AnnotationItem"), {
   ssr: false,
 });
-
 interface PropType extends PluginInformationPanel {
   token: string;
   annotationServer: string;
+  annotations: AnnotationForEditor[];
 }
 
 export const InfomationPanel: React.FC<PropType> = ({
@@ -24,7 +28,9 @@ export const InfomationPanel: React.FC<PropType> = ({
   token,
   annotationServer,
 }) => {
-  const [activeTarget, setActiveTarget] = useState();
+  const [activeTarget, setActiveTarget] = useState<
+    AnnotationTargetExtended | string
+  >();
   const [clippings, setClippings] = useState(annotations);
 
   const editorState = useEditorState();

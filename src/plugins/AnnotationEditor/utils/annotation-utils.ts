@@ -1,11 +1,19 @@
+import {
+  AnnotationForEditor,
+  AnnotationFromAnnotorious,
+  AnnotationPageForEditor,
+  AnnotationForAnnotorious,
+  AnnotationBodyAnnotorious,
+} from "../types/annotation";
+
 export async function saveAnnotation(
-  webAnnotation: any,
+  webAnnotation: AnnotationFromAnnotorious,
   manifestId: string,
   activeCanvas: string,
   unit: "pixel" | "percent",
   token?: string,
   annotationServer?: string,
-) {
+): Promise<void> {
   if (token && annotationServer) {
     await fetch(annotationServer, {
       method: "POST",
@@ -15,7 +23,7 @@ export async function saveAnnotation(
       },
       body: JSON.stringify({
         canvas: activeCanvas,
-        annotation: convertWebAnnotation(
+        annotation: convertWebAnnotationToIIIFAnnotation(
           webAnnotation,
           manifestId,
           activeCanvas,
@@ -24,26 +32,38 @@ export async function saveAnnotation(
       }),
     });
   } else if (!token) {
-    let annotations: any = {};
+    let annotations = {} as { [k: string]: AnnotationPageForEditor };
     const savedAnnotations = window.localStorage.getItem("annotations");
     if (savedAnnotations) {
       const annotationsObj = JSON.parse(savedAnnotations);
       if (annotationsObj[activeCanvas] == undefined) {
         annotationsObj[activeCanvas] = {
+          "@context": "http://iiif.io/api/presentation/3/context.json",
           id: activeCanvas,
           items: [],
           type: "AnnotationPage",
         };
       }
       annotationsObj[activeCanvas].items.push(
-        convertWebAnnotation(webAnnotation, manifestId, activeCanvas, unit),
+        convertWebAnnotationToIIIFAnnotation(
+          webAnnotation,
+          manifestId,
+          activeCanvas,
+          unit,
+        ),
       );
       annotations = annotationsObj;
     } else {
       annotations[activeCanvas] = {
+        "@context": "http://iiif.io/api/presentation/3/context.json",
         id: activeCanvas,
         items: [
-          convertWebAnnotation(webAnnotation, manifestId, activeCanvas, unit),
+          convertWebAnnotationToIIIFAnnotation(
+            webAnnotation,
+            manifestId,
+            activeCanvas,
+            unit,
+          ),
         ],
         type: "AnnotationPage",
       };
@@ -53,66 +73,13 @@ export async function saveAnnotation(
   }
 }
 
-export function convertWebAnnotation(
-  webAnnotation: any,
-  manifestId: string,
-  canvasId: string,
-  unit: "pixel" | "percent",
-) {
-  const annotation = {} as any;
-  annotation.type = "Annotation";
-
-  if (webAnnotation.body.length == 1) {
-    annotation.body = {
-      type: webAnnotation.body[0].type,
-      value: webAnnotation.body[0].value,
-      format: "text/plain",
-    };
-  } else if (webAnnotation.body.length > 1) {
-    annotation.body = webAnnotation.body.map((ann) => {
-      return {
-        type: ann.type,
-        value: ann.value,
-        format: "text/plain",
-      };
-    });
-  } else {
-    annotation.body = {};
-  }
-
-  annotation.motivation = webAnnotation.body[0]
-    ? webAnnotation.body[0].purpose
-    : "commenting";
-  annotation.target = {
-    type: "SpecificResource",
-    source: {
-      id: canvasId,
-      type: "Canvas",
-      partOf: [
-        {
-          id: manifestId,
-          type: "Manifest",
-        },
-      ],
-    },
-    selector: {
-      type: webAnnotation.target.selector.type,
-      conformsTo: webAnnotation.target.selector.conformsTo,
-      value: webAnnotation.target.selector.value.replace(`${unit}:`, ""),
-    },
-  };
-  annotation.id = webAnnotation.id;
-
-  return annotation;
-}
-
 export async function fetchAnnotations(
   activeCanvas: string,
   unit: "pixel" | "percent",
   token?: string,
   annotationServer?: string,
-) {
-  let annotations: any = [];
+): Promise<AnnotationForAnnotorious[]> {
+  let annotations: AnnotationForAnnotorious[] = [];
 
   if (token && annotationServer) {
     const res = await fetch(annotationServer + "?action=GET", {
@@ -126,8 +93,11 @@ export async function fetchAnnotations(
       }),
     });
     if (res.ok) {
-      const savedAnnotation = await res.json();
-      annotations = processSavedAnnotation(savedAnnotation, unit);
+      const savedAnnotations = await res.json();
+      annotations = convertIIIFAnnotationPageToWebAnnotations(
+        savedAnnotations,
+        unit,
+      );
     } else {
       const error = await res.json();
       console.error(error);
@@ -137,7 +107,10 @@ export async function fetchAnnotations(
     if (savedAnnotationsAll) {
       const savedAnnotation = JSON.parse(savedAnnotationsAll)[activeCanvas];
       if (savedAnnotation) {
-        annotations = processSavedAnnotation(savedAnnotation, unit);
+        annotations = convertIIIFAnnotationPageToWebAnnotations(
+          savedAnnotation,
+          unit,
+        );
       }
     }
   }
@@ -145,46 +118,14 @@ export async function fetchAnnotations(
   return annotations;
 }
 
-function processSavedAnnotation(savedAnnotation, unit: "pixel" | "percent") {
-  const webAnnotations = [] as any;
-
-  savedAnnotation.items.forEach((ann) => {
-    let body;
-    if (Array.isArray(ann.body)) {
-      body = ann.body.map((b) => {
-        return { purpose: "commenting", type: b.type, value: b.value };
-      });
-    } else {
-      body = [
-        { purpose: "commenting", type: ann.body.type, value: ann.body.value },
-      ];
-    }
-    webAnnotations.push({
-      "@context": "http://www.w3.org/ns/anno.jsonld",
-      type: "Annotation",
-      body: body,
-      target: {
-        source: ann.target.source,
-        selector: {
-          type: ann.target.selector.type,
-          conformsTo: ann.target.selector.conformsTo,
-          value: ann.target.selector.value.replace("xywh=", `xywh=${unit}:`),
-        },
-      },
-      id: ann.id,
-    });
-  });
-  return webAnnotations;
-}
-
 export async function deleteAnnotation(
-  webAnnotation,
+  webAnnotation: AnnotationFromAnnotorious,
   manifestId: string,
   activeCanvas: string,
   unit: "pixel" | "percent",
   token?: string,
   annotationServer?: string,
-) {
+): Promise<void> {
   if (token && annotationServer) {
     await fetch(annotationServer, {
       method: "DELETE",
@@ -194,7 +135,7 @@ export async function deleteAnnotation(
       },
       body: JSON.stringify({
         canvas: activeCanvas,
-        annotation: convertWebAnnotation(
+        annotation: convertWebAnnotationToIIIFAnnotation(
           webAnnotation,
           manifestId,
           activeCanvas,
@@ -209,7 +150,7 @@ export async function deleteAnnotation(
       const selectedAnnotations = annotations[activeCanvas];
       if (selectedAnnotations) {
         const otherAnnotations = selectedAnnotations.items.filter(
-          (ann) => ann.id !== webAnnotation.id,
+          (ann: any) => ann.id !== webAnnotation.id,
         );
         annotations[activeCanvas] = {
           id: activeCanvas,
@@ -223,13 +164,13 @@ export async function deleteAnnotation(
 }
 
 export async function updateAnnotation(
-  webAnnotation,
+  webAnnotation: AnnotationFromAnnotorious,
   manifestId: string,
   activeCanvas: string,
   unit: "pixel" | "percent",
   token?: string,
   annotationServer?: string,
-) {
+): Promise<void> {
   if (token && annotationServer) {
     await fetch(annotationServer, {
       method: "PUT",
@@ -239,7 +180,7 @@ export async function updateAnnotation(
       },
       body: JSON.stringify({
         canvas: activeCanvas,
-        annotation: convertWebAnnotation(
+        annotation: convertWebAnnotationToIIIFAnnotation(
           webAnnotation,
           manifestId,
           activeCanvas,
@@ -254,10 +195,10 @@ export async function updateAnnotation(
       const selectedAnnotations = annotations[activeCanvas];
       if (selectedAnnotations) {
         const updatedAnnotations: any = [];
-        selectedAnnotations.items.forEach((ann) => {
+        selectedAnnotations.items.forEach((ann: any) => {
           if (ann.id === webAnnotation.id) {
             updatedAnnotations.push(
-              convertWebAnnotation(
+              convertWebAnnotationToIIIFAnnotation(
                 webAnnotation,
                 manifestId,
                 activeCanvas,
@@ -277,4 +218,101 @@ export async function updateAnnotation(
       }
     }
   }
+}
+
+export function convertWebAnnotationToIIIFAnnotation(
+  webAnnotation: AnnotationFromAnnotorious,
+  manifestId: string,
+  canvasId: string,
+  unit: "pixel" | "percent",
+): AnnotationForEditor {
+  const annotation = {} as AnnotationForEditor;
+  annotation.type = "Annotation";
+
+  if (Array.isArray(webAnnotation.body)) {
+    if (webAnnotation.body.length == 1) {
+      annotation.body = {
+        type: webAnnotation.body[0].type,
+        value: webAnnotation.body[0].value,
+        format: "text/plain",
+      };
+    } else if (webAnnotation.body.length > 1) {
+      annotation.body = webAnnotation.body.map((ann) => {
+        return {
+          type: ann.type,
+          value: ann.value,
+          format: "text/plain",
+        };
+      });
+    }
+  }
+
+  annotation.motivation = webAnnotation.body[0]
+    ? webAnnotation.body[0].purpose
+    : "commenting";
+  annotation.target = {
+    type: "SpecificResource",
+    source: {
+      id: canvasId,
+      type: "Canvas",
+      partOf: [
+        {
+          id: manifestId,
+          type: "Manifest",
+        },
+      ],
+    },
+    selector: {
+      type: webAnnotation.target?.selector.type,
+      conformsTo: webAnnotation.target.selector.conformsTo,
+      value: webAnnotation.target.selector.value.replace(`${unit}:`, ""),
+    },
+  };
+  annotation.id = webAnnotation.id;
+
+  return annotation;
+}
+
+export function convertIIIFAnnotationPageToWebAnnotations(
+  savedAnnotation: AnnotationPageForEditor,
+  unit: "pixel" | "percent",
+): AnnotationForAnnotorious[] {
+  const webAnnotations: AnnotationForAnnotorious[] = [];
+
+  savedAnnotation.items?.forEach((ann) => {
+    const annotationBody = ann.body;
+
+    let body: AnnotationBodyAnnotorious[];
+    if (!annotationBody) {
+      body = [];
+    } else if (Array.isArray(annotationBody)) {
+      body = annotationBody.map((body) => {
+        return { purpose: "commenting", type: body.type, value: body.value };
+      });
+    } else {
+      body = [
+        {
+          purpose: "commenting",
+          type: annotationBody.type,
+          value: annotationBody.value,
+        },
+      ];
+    }
+    webAnnotations.push({
+      "@context": "http://www.w3.org/ns/anno.jsonld",
+      type: "Annotation",
+      body: body,
+      target: {
+        source: ann.target.source,
+        selector: {
+          type: ann.target.selector.type,
+          conformsTo: ann.target.selector.conformsTo,
+          value: ann.target.selector.value.replace("xywh=", `xywh=${unit}:`),
+        },
+      },
+      id: ann.id,
+    });
+  });
+
+  return webAnnotations;
 }
