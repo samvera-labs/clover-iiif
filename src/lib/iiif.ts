@@ -56,8 +56,10 @@ export const decodeContentStateContainerURI = (cs: string) => {
     if (cs && cs.startsWith("http")) return cs;
     const json = JSON.parse(decodeContentState(cs));
     const container = json["partOf"];
-    return container && container["id"] && "Manifest" == container["type"]
-      ? container["id"]
+    if (!container || container.length == 0) return null;
+    const partOf = container[0];
+    return partOf && partOf["id"] && "Manifest" == partOf["type"]
+      ? partOf["id"]
       : json["id"];
   } catch {
     return null;
