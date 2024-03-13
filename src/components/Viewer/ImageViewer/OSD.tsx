@@ -133,6 +133,7 @@ const OSD: React.FC<OSDProps> = ({
       css={{
         backgroundColor: configOptions.canvasBackgroundColor,
         height: configOptions.canvasHeight,
+        maxHeight: "100%",
       }}
       className="clover-viewer-osd-wrapper"
       data-testid="clover-viewer-osd-wrapper"

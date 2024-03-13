@@ -59,15 +59,17 @@ const CollapsibleTrigger = styled(Collapsible.Trigger, {
 });
 
 const CollapsibleContent = styled(Collapsible.Content, {
-  width: "100%",
   display: "flex",
+
+  "&[data-state=open]": {
+    width: "38.2%",
+  },
 });
 
 const Aside = styled("aside", {
   display: "flex",
-  flexGrow: "1",
+  flexGrow: "0",
   flexShrink: "0",
-  width: "38.2%",
   maxHeight: "100%",
 
   "@sm": {
@@ -77,7 +79,8 @@ const Aside = styled("aside", {
 
 const Wrapper = styled("div", {
   display: "flex",
-  flexDirection: "column",
+  flexDirection: "row",
+  flex: 1,
   fontSmooth: "auto",
   webkitFontSmoothing: "antialiased",
 

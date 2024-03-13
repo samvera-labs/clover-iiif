@@ -1,5 +1,4 @@
 import {
-  Aside,
   CollapsibleContent,
   CollapsibleTrigger,
   Content,
@@ -68,14 +67,12 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
         )}
       </Main>
       {(informationOpen || isAside) && (
-        <Aside>
-          <CollapsibleContent>
-            <InformationPanel
-              activeCanvas={activeCanvas}
-              annotationResources={annotationResources}
-            />
-          </CollapsibleContent>
-        </Aside>
+        <CollapsibleContent>
+          <InformationPanel
+            activeCanvas={activeCanvas}
+            annotationResources={annotationResources}
+          />
+        </CollapsibleContent>
       )}
     </Content>
   );

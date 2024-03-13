@@ -69,6 +69,7 @@ const Painting: React.FC<PaintingProps> = ({
         style={{
           backgroundColor: configOptions.canvasBackgroundColor,
           maxHeight: configOptions.canvasHeight,
+          minHeight: 0,
         }}
       >
         {placeholderCanvas && !isMedia && (

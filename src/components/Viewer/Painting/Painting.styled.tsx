@@ -7,6 +7,7 @@ const PaintingStyled = styled("div", {
   zIndex: "0",
   display: "flex",
   flexDirection: "column",
+  minHeight: 0,
   gap: "1rem",
 
   "&:hover": {

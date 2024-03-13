@@ -38,7 +38,7 @@ const Item = styled(RadioGroup.Item, {
 
   figure: {
     margin: "0",
-    width: "161.8px",
+    maxWidth: "161.8px",
 
     "> div": {
       position: "relative",

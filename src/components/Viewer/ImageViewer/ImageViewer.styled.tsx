@@ -5,7 +5,7 @@ const Navigator = styled("div", {
   zIndex: "1",
   top: "1rem",
   left: "1rem",
-  width: "161.8px",
+  maxWidth: "161.8px",
   height: "100px",
   backgroundColor: "#000D",
   boxShadow: "5px 5px 5px #0002",
