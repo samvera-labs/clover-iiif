@@ -92,7 +92,7 @@ const parseIiifContent = (iiifContent: string) => {
   return { resourceId, active };
 };
 
-export const decodeContentStateContainerURI = (iiifContent) => {
+export const decodeContentStateContainerURI = (iiifContent: string) => {
   const { resourceId } = parseIiifContent(iiifContent);
   return resourceId.collection || resourceId.manifest || resourceId;
 };
