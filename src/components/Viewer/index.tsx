@@ -13,6 +13,11 @@ import { Vault } from "@iiif/vault";
 import Viewer from "src/components/Viewer/Viewer/Viewer";
 import { createTheme } from "@stitches/react";
 import { getRequest } from "src/lib/xhr";
+import {
+  decodeContentStateCanvasURI,
+  decodeContentStateContainerURI,
+  decodeContentStateManifestURI,
+} from "src/lib/iiif";
 
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
@@ -109,7 +114,9 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
           setManifest(data);
           dispatch({
             type: "updateActiveCanvas",
-            canvasId: data.items[0] && data.items[0].id,
+            canvasId:
+              decodeContentStateCanvasURI(iiifContent) ||
+              (data.items[0] && data.items[0].id),
           });
         })
         .catch((error: Error) => {
@@ -128,9 +135,9 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
       type: "updateConfigOptions",
       configOptions: options,
     });
-
+    const containerURI = decodeContentStateContainerURI(iiifContent);
     vault
-      .load(iiifContent)
+      .load(containerURI)
       .then((data: CollectionNormalized | ManifestNormalized) => {
         setIiifResource(data);
       })
@@ -157,7 +164,8 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
       if (manifests.length > 0) {
         dispatch({
           type: "updateActiveManifest",
-          manifestId: manifests[0],
+          manifestId:
+            decodeContentStateManifestURI(iiifContent) || manifests[0],
         });
       }
     } else if (iiifResource?.type === "Manifest") {

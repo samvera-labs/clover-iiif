@@ -4,6 +4,7 @@ import {
   ImageService,
   Service,
 } from "@iiif/presentation-3";
+import { decodeContentState } from "@iiif/vault-helpers";
 
 export const getCanvasResource = (canvas: Canvas) => {
   if (canvas?.items) {
@@ -47,4 +48,36 @@ export const getImageServiceURI = (service: Service[] | undefined) => {
   }
 
   return imageServiceURI;
+};
+
+export const decodeContentStateContainerURI = (cs: string) => {
+  if (!cs) return null;
+  try {
+    if (cs && cs.startsWith("http")) return cs;
+    const json = JSON.parse(decodeContentState(cs));
+    const container = json["partOf"];
+    return container && container["id"] && "Manifest" == container["type"]
+      ? container["id"]
+      : json["id"];
+  } catch {
+    return null;
+  }
+};
+
+export const decodeContentStateCanvasURI = (cs: string) => {
+  return decodeContentStateURI(cs, "Canvas");
+};
+
+export const decodeContentStateManifestURI = (cs: string) => {
+  return decodeContentStateURI(cs, "Manifest");
+};
+
+const decodeContentStateURI = (cs: string, iiifResourceType: string) => {
+  if (!cs) return null;
+  try {
+    const json = JSON.parse(decodeContentState(cs));
+    return json["type"] == iiifResourceType ? json["id"] : null;
+  } catch {
+    return null;
+  }
 };
