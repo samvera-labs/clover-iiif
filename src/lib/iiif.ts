@@ -70,7 +70,7 @@ const parseIiifContent = (iiifContent: string) => {
         resourceId = json?.target.partOf[0].id;
         active = {
           manifest: resourceId,
-          canvas: json?.id,
+          canvas: json?.target.id,
         };
         break;
       case "Canvas":
