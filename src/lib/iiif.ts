@@ -50,36 +50,62 @@ export const getImageServiceURI = (service: Service[] | undefined) => {
   return imageServiceURI;
 };
 
-export const decodeContentStateContainerURI = (cs: string) => {
-  if (!cs) return null;
-  try {
-    if (cs && cs.startsWith("http")) return cs;
-    const json = JSON.parse(decodeContentState(cs));
-    const container = json["partOf"];
-    if (!container || container.length == 0) return null;
-    const partOf = container[0];
-    return partOf && partOf["id"] && "Manifest" == partOf["type"]
-      ? partOf["id"]
-      : json["id"];
-  } catch {
-    return null;
+const parseIiifContent = (iiifContent: string) => {
+  let resourceId;
+  let active;
+  if (iiifContent.startsWith("http")) {
+    resourceId = iiifContent;
+    active = {};
+  } else {
+    console.log("decode");
+    const json = JSON.parse(decodeContentState(iiifContent));
+    switch (json?.type) {
+      // https://iiif.io/api/content-state/1.0/#51-a-region-of-a-canvas-in-a-manifest
+      // https://iiif.io/api/content-state/1.0/#52-start-playing-at-a-point-in-a-recording
+      // https://iiif.io/api/content-state/1.0/#53-multiple-targets-for-a-comparison-view
+      // https://iiif.io/api/content-state/1.0/#54-search-results
+      case "SpecificResource":
+      case "Range":
+      case "Annotation":
+        resourceId = json?.target.partOf[0].id;
+        active = {
+          manifest: resourceId,
+          canvas: json?.id,
+        };
+        break;
+      case "Canvas":
+        resourceId = json?.partOf[0].id;
+        active = {
+          manifest: resourceId,
+          canvas: json?.id,
+        };
+        break;
+      case "Manifest":
+        resourceId = json?.id;
+        active = {
+          collection: json?.partOf[0].id,
+          manifest: json?.id,
+        };
+        break;
+    }
   }
+  return { resourceId, active };
 };
 
-export const decodeContentStateCanvasURI = (cs: string) => {
-  return decodeContentStateURI(cs, "Canvas");
+export const decodeContentStateContainerURI = (iiifContent) => {
+  console.log("Container");
+  const { resourceId } = parseIiifContent(iiifContent);
+  return resourceId.collection || resourceId.manifest || resourceId;
 };
 
-export const decodeContentStateManifestURI = (cs: string) => {
-  return decodeContentStateURI(cs, "Manifest");
+export const decodeContentStateCanvasURI = (iiifContent: string) => {
+  console.log("Canvas");
+  const { active } = parseIiifContent(iiifContent);
+  return active.canvas;
 };
 
-const decodeContentStateURI = (cs: string, iiifResourceType: string) => {
-  if (!cs) return null;
-  try {
-    const json = JSON.parse(decodeContentState(cs));
-    return json["type"] == iiifResourceType ? json["id"] : null;
-  } catch {
-    return null;
-  }
+export const decodeContentStateManifestURI = (iiifContent: string) => {
+  console.log("Manifest");
+  const { active } = parseIiifContent(iiifContent);
+  return active.manifest;
 };
