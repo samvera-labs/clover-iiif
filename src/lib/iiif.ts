@@ -53,7 +53,7 @@ export const getImageServiceURI = (service: Service[] | undefined) => {
 const parseIiifContent = (iiifContent: string) => {
   let resourceId;
   let active;
-  if (iiifContent.startsWith("http")) {
+  if (isURL(iiifContent)) {
     resourceId = iiifContent;
     active = {};
   } else {
@@ -93,19 +93,25 @@ const parseIiifContent = (iiifContent: string) => {
 };
 
 export const decodeContentStateContainerURI = (iiifContent) => {
-  console.log("Container");
   const { resourceId } = parseIiifContent(iiifContent);
   return resourceId.collection || resourceId.manifest || resourceId;
 };
 
 export const decodeContentStateCanvasURI = (iiifContent: string) => {
-  console.log("Canvas");
   const { active } = parseIiifContent(iiifContent);
   return active.canvas;
 };
 
 export const decodeContentStateManifestURI = (iiifContent: string) => {
-  console.log("Manifest");
   const { active } = parseIiifContent(iiifContent);
   return active.manifest;
+};
+
+const isURL = (url: string) => {
+  try {
+    new URL(url);
+  } catch {
+    return false;
+  }
+  return true;
 };
