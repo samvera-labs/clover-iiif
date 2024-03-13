@@ -1,10 +1,11 @@
 import React, { useReducer } from "react";
-
 import { CollectionNormalized } from "@iiif/presentation-3";
 import { IncomingHttpHeaders } from "http";
 import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
 import { Vault } from "@iiif/vault";
 import { deepMerge } from "src/lib/utils";
+import AudioVisualizer from "../components/Viewer/Player/AudioVisualizer";
+import { AudioVisualizerBase } from "../components/Viewer/Player/AudioVisualizerBase";
 
 export type ViewerConfigOptions = {
   annotationOverlays?: {
@@ -15,6 +16,10 @@ export type ViewerConfigOptions = {
     opacity?: string;
     renderOverlays?: boolean;
     zoomLevel?: number;
+  };
+  audioVisualizer?: {
+    component?: AudioVisualizerBase;
+    props?: unknown;
   };
   background?: string;
   canvasBackgroundColor?: string;
@@ -43,6 +48,9 @@ const defaultConfigOptions = {
     opacity: "0.5",
     renderOverlays: true,
     zoomLevel: 2,
+  },
+  audioVisualizer: {
+    component: AudioVisualizer,
   },
   background: "transparent",
   canvasBackgroundColor: "#6662",
