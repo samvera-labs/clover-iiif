@@ -57,6 +57,20 @@ const canvasAnnotationContentState = encodeContentState(
     },
   }),
 );
+const emptyPartOfContentState = encodeContentState(
+  JSON.stringify({
+    id: manifest1,
+    type: "Manifest",
+    partOf: [],
+  }),
+);
+const emptyPartOfContentState2 = encodeContentState(
+  JSON.stringify({
+    id: collection2,
+    type: "Collection",
+    partOf: [],
+  }),
+);
 
 test("iiifContent as Manifest URI", () => {
   const containerURI = decodeContentStateContainerURI(manifestURI);
@@ -97,4 +111,22 @@ test("iiifContent as complete annotation with Canvas partOf Manifest", () => {
     canvasAnnotationContentState,
   );
   expect(manifestURI).toBe(manifest1);
+});
+
+test("iiifContent with Manifest, partOf empty", () => {
+  const containerURI = decodeContentStateContainerURI(emptyPartOfContentState);
+  expect(containerURI).toBe(manifest1);
+  const canvasURI = decodeContentStateCanvasURI(emptyPartOfContentState);
+  expect(canvasURI).toBe(undefined);
+  const manifestURI = decodeContentStateManifestURI(emptyPartOfContentState);
+  expect(manifestURI).toBe(manifest1);
+});
+
+test("iiifContent with Collection, partOf empty", () => {
+  const containerURI = decodeContentStateContainerURI(emptyPartOfContentState2);
+  expect(containerURI).toBe(collection2);
+  const canvasURI = decodeContentStateCanvasURI(emptyPartOfContentState2);
+  expect(canvasURI).toBe(undefined);
+  const manifestURI = decodeContentStateManifestURI(emptyPartOfContentState2);
+  expect(manifestURI).toBe(undefined);
 });

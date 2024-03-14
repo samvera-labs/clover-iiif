@@ -82,8 +82,14 @@ const parseIiifContent = (iiifContent: string) => {
       case "Manifest":
         resourceId = json?.id;
         active = {
-          collection: json?.partOf[0].id,
+          collection: json?.partOf[0]?.id,
           manifest: json?.id,
+        };
+        break;
+      case "Collection":
+        resourceId = json?.id;
+        active = {
+          collection: resourceId,
         };
         break;
     }
