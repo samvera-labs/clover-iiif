@@ -6,6 +6,7 @@ import {
 } from "src/lib/iiif";
 import { expect } from "vitest";
 
+// URIs for fixtures
 const canvas1 =
   "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif/canvas/access/2";
 const manifest1 =
@@ -14,6 +15,8 @@ const manifest2 =
   "https://api.dc.library.northwestern.edu/api/v2/works/b6584c92-8465-4969-afe4-8e2f94988acf?as=iiif";
 const collection2 =
   "https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif";
+
+// fixtures
 const manifestURI = manifest1;
 const collectionURI = collection2;
 const canvasContentState = encodeContentState(
