@@ -57,7 +57,6 @@ const parseIiifContent = (iiifContent: string) => {
     resourceId = iiifContent;
     active = {};
   } else {
-    console.log("decode");
     const json = JSON.parse(decodeContentState(iiifContent));
     switch (json?.type) {
       // https://iiif.io/api/content-state/1.0/#51-a-region-of-a-canvas-in-a-manifest
@@ -93,8 +92,8 @@ const parseIiifContent = (iiifContent: string) => {
 };
 
 export const decodeContentStateContainerURI = (iiifContent: string) => {
-  const { resourceId } = parseIiifContent(iiifContent);
-  return resourceId.collection || resourceId.manifest || resourceId;
+  const { resourceId, active } = parseIiifContent(iiifContent);
+  return active.collection || active.manifest || resourceId;
 };
 
 export const decodeContentStateCanvasURI = (iiifContent: string) => {
