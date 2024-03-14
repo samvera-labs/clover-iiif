@@ -103,8 +103,8 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
     }
 
     setAnnotationResources(resources);
-    setIsInformationPanel(annotationResources.length !== 0);
-  }, [activeCanvas, annotationResources.length, vault, viewerDispatch]);
+    setIsInformationPanel(resources.length !== 0);
+  }, [activeCanvas, vault, viewerDispatch]);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>

@@ -38,9 +38,12 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
    * there is content (About or Supplementing Resources) to display.
    */
 
-  const isAside =
-    informationPanel?.renderAbout ||
-    (informationPanel?.renderAnnotation && annotationResources.length > 0);
+  const isAside = informationPanel?.renderAbout && informationOpen;
+
+  const isForcedAside =
+    informationPanel?.renderAnnotation &&
+    annotationResources.length > 0 &&
+    !informationPanel.open;
 
   return (
     <Content
@@ -67,7 +70,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
           </MediaWrapper>
         )}
       </Main>
-      {(informationOpen || isAside) && (
+      {(isAside || isForcedAside) && (
         <Aside>
           <CollapsibleContent>
             <InformationPanel
