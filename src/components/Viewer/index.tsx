@@ -115,8 +115,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
           dispatch({
             type: "updateActiveCanvas",
             canvasId:
-              decodeContentStateCanvasURI(iiifContent) ||
-              (data.items[0] && data.items[0].id),
+              decodeContentStateCanvasURI(iiifContent) || data.items[0]?.id,
           });
         })
         .catch((error: Error) => {
