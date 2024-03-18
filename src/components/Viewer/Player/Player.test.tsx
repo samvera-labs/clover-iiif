@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 
 import { AnnotationResources } from "src/types/annotations";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
+import AudioVisualizer from "src/components/Viewer/Player/AudioVisualizer";
 import Player from "src/components/Viewer/Player/Player";
 import React from "react";
 import { Vault } from "@iiif/vault";
@@ -64,7 +65,11 @@ describe("Player component", () => {
           activeManifest:
             "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/d2a423b1-6b5e-45cb-9956-46a99cd62cfd?as=iiif",
           collection: {},
-          configOptions: {},
+          configOptions: {
+            audioVisualizer: {
+              component: AudioVisualizer,
+            },
+          },
           customDisplays: [],
           informationOpen: false,
           isLoaded: false,
@@ -118,7 +123,11 @@ describe("Player component", () => {
           activeManifest:
             "https://iiif.io/api/cookbook/recipe/0002-mvm-audio/manifest.json",
           collection: {},
-          configOptions: {},
+          configOptions: {
+            audioVisualizer: {
+              component: AudioVisualizer,
+            },
+          },
           customDisplays: [],
           informationOpen: false,
           isLoaded: false,
