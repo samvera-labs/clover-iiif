@@ -6,6 +6,16 @@ import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
 import { Vault } from "@iiif/vault";
 import { deepMerge } from "src/lib/utils";
 
+export type AutoScrollSettings = {
+  behavior: string; // ScrollBehavior ("auto" | "instant" | "smooth")
+  block: string; // ScrollLogicalPosition ("center" | "end" | "nearest" | "start")
+};
+
+export type AutoScrollOptions = {
+  enabled: boolean;
+  settings: AutoScrollSettings;
+};
+
 export type ViewerConfigOptions = {
   annotationOverlays?: {
     backgroundColor?: string;
@@ -26,12 +36,20 @@ export type ViewerConfigOptions = {
     renderSupplementing?: boolean;
     renderToggle?: boolean;
     renderAnnotation?: boolean;
+    vtt?: {
+      autoScroll?: AutoScrollOptions | AutoScrollSettings | boolean;
+    };
   };
   openSeadragon?: OpenSeadragonOptions;
   requestHeaders?: IncomingHttpHeaders;
   showIIIFBadge?: boolean;
   showTitle?: boolean;
   withCredentials?: boolean;
+};
+
+const defaultAutoScrollSettings: AutoScrollSettings = {
+  behavior: "smooth",
+  block: "center",
 };
 
 const defaultConfigOptions = {
@@ -49,6 +67,12 @@ const defaultConfigOptions = {
   canvasHeight: "61.8vh",
   ignoreCaptionLabels: [],
   informationPanel: {
+    vtt: {
+      autoScroll: {
+        enabled: true,
+        settings: defaultAutoScrollSettings,
+      },
+    },
     open: true,
     renderAbout: true,
     renderSupplementing: true,
@@ -79,8 +103,11 @@ export interface ViewerContextStore {
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
-  informationOpen: boolean;
+  isAutoScrollEnabled?: boolean;
+  isAutoScrolling?: boolean;
+  isInformationOpen: boolean;
   isLoaded: boolean;
+  isUserScrolling?: number | undefined;
   vault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer | null;
 }
@@ -90,12 +117,42 @@ export interface ViewerAction {
   canvasId: string;
   collection: CollectionNormalized;
   configOptions: ViewerConfigOptions;
-  informationOpen: boolean;
+  isAutoScrollEnabled: boolean;
+  isAutoScrolling: boolean;
+  isInformationOpen: boolean;
   isLoaded: boolean;
+  isUserScrolling: number | undefined;
   manifestId: string;
   vault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer;
 }
+
+export function expandAutoScrollOptions(
+  value: AutoScrollOptions | AutoScrollSettings | boolean | undefined,
+): AutoScrollOptions {
+  let result: AutoScrollOptions = {
+    ...defaultConfigOptions.informationPanel.vtt.autoScroll,
+  };
+  if (typeof value === "object") {
+    result = "enabled" in value ? value : { enabled: true, settings: value };
+  }
+  if (value === false) result.enabled = false;
+  validateAutoScrollSettings(result.settings);
+  return result;
+}
+
+function validateAutoScrollSettings({ behavior, block }: AutoScrollSettings) {
+  const validBehaviors = ["auto", "instant", "smooth"];
+  const validPositions = ["center", "end", "nearest", "start"];
+  if (!validBehaviors.includes(behavior))
+    throw TypeError(`'${behavior}' not in ${validBehaviors.join(" | ")}`);
+  if (!validPositions.includes(block))
+    throw TypeError(`'${block}' not in ${validPositions.join(" | ")}`);
+}
+
+const expandedAutoScrollOptions = expandAutoScrollOptions(
+  defaultConfigOptions?.informationPanel?.vtt?.autoScroll,
+);
 
 export const defaultState: ViewerContextStore = {
   activeCanvas: "",
@@ -103,8 +160,11 @@ export const defaultState: ViewerContextStore = {
   collection: {},
   configOptions: defaultConfigOptions,
   customDisplays: [],
-  informationOpen: defaultConfigOptions?.informationPanel?.open,
+  isAutoScrollEnabled: expandedAutoScrollOptions.enabled,
+  isAutoScrolling: false,
+  isInformationOpen: defaultConfigOptions?.informationPanel?.open,
   isLoaded: false,
+  isUserScrolling: undefined,
   vault: new Vault(),
   openSeadragonViewer: null,
 };
@@ -132,6 +192,18 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
         activeManifest: action.manifestId,
       };
     }
+    case "updateAutoScrollAnnotationEnabled": {
+      return {
+        ...state,
+        isAutoScrollEnabled: action.isAutoScrollEnabled,
+      };
+    }
+    case "updateAutoScrolling": {
+      return {
+        ...state,
+        isAutoScrolling: action.isAutoScrolling,
+      };
+    }
     case "updateCollection": {
       return {
         ...state,
@@ -147,13 +219,19 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
     case "updateInformationOpen": {
       return {
         ...state,
-        informationOpen: action.informationOpen,
+        isInformationOpen: action.isInformationOpen,
       };
     }
     case "updateIsLoaded": {
       return {
         ...state,
         isLoaded: action.isLoaded,
+      };
+    }
+    case "updateUserScrolling": {
+      return {
+        ...state,
+        isUserScrolling: action.isUserScrolling,
       };
     }
     case "updateOpenSeadragonViewer": {

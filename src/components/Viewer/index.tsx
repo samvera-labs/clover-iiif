@@ -4,6 +4,7 @@ import {
   type ViewerConfigOptions,
   ViewerProvider,
   defaultState,
+  expandAutoScrollOptions,
   useViewerDispatch,
   useViewerState,
   CustomDisplay,
@@ -43,12 +44,17 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
   if (id) iiifResource = id;
   if (manifestId) iiifResource = manifestId;
 
+  const autoScrollOptions = expandAutoScrollOptions(
+    options?.informationPanel?.vtt?.autoScroll,
+  );
+
   return (
     <ViewerProvider
       initialState={{
         ...defaultState,
         customDisplays,
-        informationOpen: Boolean(options?.informationPanel?.open),
+        isAutoScrollEnabled: autoScrollOptions.enabled,
+        isInformationOpen: Boolean(options?.informationPanel?.open),
         vault: new Vault({
           customFetcher: (url: string) =>
             getRequest(url, {

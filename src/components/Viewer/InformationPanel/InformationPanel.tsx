@@ -6,13 +6,19 @@ import {
   Wrapper,
 } from "src/components/Viewer/InformationPanel/InformationPanel.styled";
 import React, { useEffect, useState } from "react";
-import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
+import {
+  ViewerContextStore,
+  useViewerDispatch,
+  useViewerState,
+} from "src/context/viewer-context";
 
 import AnnotationPage from "src/components/Viewer/InformationPanel/Annotation/Page";
 import { AnnotationResources } from "src/types/annotations";
 import Information from "src/components/Viewer/InformationPanel/About/About";
 import { InternationalString } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
+
+const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
 
 interface NavigatorProps {
   activeCanvas: string;
@@ -23,9 +29,12 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   activeCanvas,
   annotationResources,
 }) => {
+  const dispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
   const {
+    isAutoScrolling,
     configOptions: { informationPanel },
+    isUserScrolling,
   } = viewerState;
 
   const [activeResource, setActiveResource] = useState<string>();
@@ -44,6 +53,24 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       setActiveResource(annotationResources[0].id);
     }
   }, [activeCanvas, renderAbout, annotationResources]);
+
+  function handleScroll() {
+    // console.log("Type of scroll: ", isAutoScrolling ? 'auto' : 'user');
+    if (!isAutoScrolling) {
+      clearTimeout(isUserScrolling);
+      const timeout = setTimeout(() => {
+        dispatch({
+          type: "updateUserScrolling",
+          isUserScrolling: undefined,
+        });
+      }, UserScrollTimeout);
+
+      dispatch({
+        type: "updateUserScrolling",
+        isUserScrolling: timeout,
+      });
+    }
+  }
 
   const handleValueChange = (value: string) => {
     setActiveResource(value);
@@ -69,7 +96,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             </Trigger>
           ))}
       </List>
-      <Scroll>
+      <Scroll handleScroll={handleScroll}>
         {renderAbout && (
           <Content value="manifest-about">
             <Information />

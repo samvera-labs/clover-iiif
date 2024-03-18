@@ -30,7 +30,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   items,
   painting,
 }) => {
-  const { informationOpen, configOptions } = useViewerState();
+  const { isInformationOpen, configOptions } = useViewerState();
   const { informationPanel } = configOptions;
 
   /**
@@ -38,12 +38,14 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
    * there is content (About or Supplementing Resources) to display.
    */
 
-  const isAside = informationPanel?.renderAbout && informationOpen;
+  const isAside = informationPanel?.renderAbout && isInformationOpen;
 
   const isForcedAside =
     informationPanel?.renderAnnotation &&
     annotationResources.length > 0 &&
     !informationPanel.open;
+
+  console.log(isAside, isForcedAside);
 
   return (
     <Content
@@ -60,7 +62,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
 
         {isAside && (
           <CollapsibleTrigger>
-            <span>{informationOpen ? "View Items" : "More Information"}</span>
+            <span>{isInformationOpen ? "View Items" : "More Information"}</span>
           </CollapsibleTrigger>
         )}
 

@@ -16,7 +16,7 @@ const Toggle = () => {
   useEffect(() => {
     dispatch({
       type: "updateInformationOpen",
-      informationOpen: checked,
+      isInformationOpen: checked,
     });
   }, [checked, dispatch]);
 
