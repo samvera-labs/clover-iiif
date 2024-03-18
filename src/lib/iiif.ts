@@ -1,7 +1,9 @@
 import {
   Canvas,
+  CollectionNormalized,
   IIIFExternalWebResource,
   ImageService,
+  ManifestNormalized,
   Service,
 } from "@iiif/presentation-3";
 import { decodeContentState } from "@iiif/vault-helpers";
@@ -102,14 +104,27 @@ export const decodeContentStateContainerURI = (iiifContent: string) => {
   return active.collection || active.manifest || resourceId;
 };
 
-export const decodeContentStateCanvasURI = (iiifContent: string) => {
+export const getActiveCanvas = (
+  iiifContent: string,
+  manifest: ManifestNormalized,
+) => {
+  const canvases = manifest.items.map((item) => item.id);
   const { active } = parseIiifContent(iiifContent);
-  return active.canvas;
+  const canvas = active.canvas;
+  return canvases.includes(canvas) ? canvas : canvases[0];
 };
 
-export const decodeContentStateManifestURI = (iiifContent: string) => {
+export const getActiveManifest = (
+  iiifContent: string,
+  collection: CollectionNormalized,
+) => {
   const { active } = parseIiifContent(iiifContent);
-  return active.manifest;
+  const manifest = active.manifest;
+  const manifests = collection.items
+    .filter((item) => item.type === "Manifest")
+    .map((manifest) => manifest.id);
+  if (manifests.length == 0) return null;
+  return manifests.includes(manifest) ? manifest : manifests[0];
 };
 
 const isURL = (url: string) => {

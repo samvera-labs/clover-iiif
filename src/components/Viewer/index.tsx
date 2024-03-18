@@ -14,9 +14,9 @@ import Viewer from "src/components/Viewer/Viewer/Viewer";
 import { createTheme } from "@stitches/react";
 import { getRequest } from "src/lib/xhr";
 import {
-  decodeContentStateCanvasURI,
   decodeContentStateContainerURI,
-  decodeContentStateManifestURI,
+  getActiveCanvas,
+  getActiveManifest,
 } from "src/lib/iiif";
 
 export interface CloverViewerProps {
@@ -114,8 +114,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
           setManifest(data);
           dispatch({
             type: "updateActiveCanvas",
-            canvasId:
-              decodeContentStateCanvasURI(iiifContent) || data.items[0]?.id,
+            canvasId: getActiveCanvas(iiifContent, data),
           });
         })
         .catch((error: Error) => {
@@ -127,7 +126,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
             isLoaded: true,
           });
         });
-  }, [activeManifest, dispatch, vault]);
+  }, [iiifContent, activeManifest, dispatch, vault]);
 
   useEffect(() => {
     dispatch({
@@ -148,23 +147,20 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   }, [dispatch, iiifContent, options, vault]);
 
   useEffect(() => {
-    let manifests: string[] = [];
-
     if (iiifResource?.type === "Collection") {
       dispatch({
         type: "updateCollection",
         collection: iiifResource,
       });
 
-      manifests = iiifResource.items
-        .filter((item) => item.type === "Manifest")
-        .map((manifest) => manifest.id);
-
-      if (manifests.length > 0) {
+      const manifestFromContentState = getActiveManifest(
+        iiifContent,
+        iiifResource,
+      );
+      if (manifestFromContentState) {
         dispatch({
           type: "updateActiveManifest",
-          manifestId:
-            decodeContentStateManifestURI(iiifContent) || manifests[0],
+          manifestId: manifestFromContentState,
         });
       }
     } else if (iiifResource?.type === "Manifest") {
@@ -173,7 +169,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
         manifestId: iiifResource.id,
       });
     }
-  }, [dispatch, iiifResource]);
+  }, [dispatch, iiifContent, iiifResource]);
 
   /**
    * Render loading component while manifest is fetched and
