@@ -1,7 +1,7 @@
-import Button from "src/components/Viewer/ImageViewer/Button";
+import Button from "src/components/Image/Controls/Button";
 import { Options } from "openseadragon";
 import React from "react";
-import { Wrapper } from "src/components/Viewer/ImageViewer/Controls.styled";
+import { Wrapper } from "src/components/Image/Controls/Controls.styled";
 
 const ZoomIn = () => {
   return (
@@ -60,45 +60,44 @@ const Rotate = () => {
 };
 
 const Controls = ({
-  hasPlaceholder,
-  options,
+  _cloverViewerHasPlaceholder,
+  config,
 }: {
-  hasPlaceholder: boolean;
-  options: Options;
+  _cloverViewerHasPlaceholder: boolean;
+  config: Options;
 }) => {
   return (
     <Wrapper
-      data-testid="openseadragon-controls"
-      hasPlaceholder={hasPlaceholder}
-      id="openseadragon-controls"
+      data-testid="clover-iiif-image-openseadragon-controls"
+      hasPlaceholder={_cloverViewerHasPlaceholder}
     >
-      {options.showZoomControl && (
+      {config.showZoomControl && (
         <>
-          <Button id="zoomIn" label="zoom in">
+          <Button id={config.zoomInButton as string} label="zoom in">
             <ZoomIn />
           </Button>
-          <Button id="zoomOut" label="zoom out">
+          <Button id={config.zoomOutButton as string} label="zoom out">
             <ZoomOut />
           </Button>
         </>
       )}
-      {options.showFullPageControl && (
-        <Button id="fullPage" label="full page">
+      {config.showFullPageControl && (
+        <Button id={config.fullPageButton as string} label="full page">
           <ZoomFullScreen />
         </Button>
       )}
-      {options.showRotationControl && (
+      {config.showRotationControl && (
         <>
-          <Button id="rotateRight" label="rotate right">
+          <Button id={config.rotateRightButton as string} label="rotate right">
             <Rotate />
           </Button>
-          <Button id="rotateLeft" label="rotate left">
+          <Button id={config.rotateLeftButton as string} label="rotate left">
             <Rotate />
           </Button>
         </>
       )}
-      {options.showHomeControl && (
-        <Button id="reset" label="reset">
+      {config.showHomeControl && (
+        <Button id={config.homeButton as string} label="reset">
           <Reset />
         </Button>
       )}

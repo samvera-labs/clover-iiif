@@ -1,5 +1,5 @@
+import { Item as ButtonStyled } from "src/components/Image/Controls/Button.styled";
 import { styled } from "src/styles/stitches.config";
-import { Item as ButtonStyled } from "src/components/Viewer/ImageViewer/Button.styled";
 
 const ToggleStyled = styled(ButtonStyled, {
   position: "absolute",

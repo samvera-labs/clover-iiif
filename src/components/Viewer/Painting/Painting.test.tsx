@@ -1,9 +1,9 @@
 import { ViewerProvider, defaultState } from "src/context/viewer-context";
 import { render, screen } from "@testing-library/react";
 
-import ImageViewer from "../ImageViewer/ImageViewer";
+import ImageViewer from "src/components/Image";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
-import Painting from "./Painting";
+import Painting from "src/components/Viewer/Painting/Painting";
 import Placeholder from "src/components/Viewer/Painting/Placeholder";
 import Player from "src/components/Viewer/Player/Player";
 import React from "react";
@@ -53,7 +53,7 @@ const defaultProps = {
 vi.mock("src/components/Viewer/Player/Player");
 vi.mocked(Player).mockReturnValue(<div data-testid="mock-player">Player</div>);
 
-vi.mock("src/components/Viewer/ImageViewer/ImageViewer");
+vi.mock("src/components/Image");
 vi.mocked(ImageViewer).mockReturnValue(
   <div data-testid="mock-image-viewer">ImageViewer</div>,
 );

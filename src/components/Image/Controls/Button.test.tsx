@@ -1,6 +1,7 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
-import Button from "src/components/Viewer/ImageViewer/Button";
+
+import Button from "src/components/Image/Controls/Button";
+import React from "react";
 
 describe("Button component", () => {
   it("renders", () => {

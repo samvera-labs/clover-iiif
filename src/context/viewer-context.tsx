@@ -1,10 +1,11 @@
+import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
 import React, { useReducer } from "react";
 
 import { CollectionNormalized } from "@iiif/presentation-3";
 import { IncomingHttpHeaders } from "http";
-import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
 import { Vault } from "@iiif/vault";
 import { deepMerge } from "src/lib/utils";
+import { v4 as uuidv4 } from "uuid";
 
 export type AutoScrollSettings = {
   behavior: string; // ScrollBehavior ("auto" | "instant" | "smooth")
@@ -110,6 +111,8 @@ export interface ViewerContextStore {
   isUserScrolling?: number | undefined;
   vault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer | null;
+  openSeadragonId?: string;
+  viewerId?: string;
 }
 
 export interface ViewerAction {
@@ -125,6 +128,7 @@ export interface ViewerAction {
   manifestId: string;
   vault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer;
+  viewerId: string;
 }
 
 export function expandAutoScrollOptions(
@@ -167,6 +171,7 @@ export const defaultState: ViewerContextStore = {
   isUserScrolling: undefined,
   vault: new Vault(),
   openSeadragonViewer: null,
+  viewerId: uuidv4(),
 };
 
 const ViewerStateContext =
@@ -238,6 +243,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         openSeadragonViewer: action.openSeadragonViewer,
+      };
+    }
+    case "updateViewerId": {
+      return {
+        ...state,
+        viewerId: action.viewerId,
       };
     }
     default: {

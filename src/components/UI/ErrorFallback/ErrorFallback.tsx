@@ -1,9 +1,10 @@
-import React from "react";
 import {
-  ErrorFallbackStyled,
   ErrorBody,
+  ErrorFallbackStyled,
   Headline,
-} from "src/components/Viewer/Viewer/ErrorFallback.styled";
+} from "src/components/UI/ErrorFallback/ErrorFallback.styled";
+
+import React from "react";
 
 interface ErrorFallbackProps {
   error: Error;

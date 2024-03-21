@@ -51,6 +51,13 @@ export const deepMerge = (target, source) => {
   return target;
 };
 
+export const hashCode = (s: string) => {
+  return s.split("").reduce(function (a, b) {
+    a = (a << 5) - a + b.charCodeAt(0);
+    return a & a;
+  }, 0);
+};
+
 export const getRealPropertyValue = (
   obj: { [key: string]: any },
   property: string,

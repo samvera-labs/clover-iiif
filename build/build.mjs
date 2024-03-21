@@ -5,6 +5,13 @@ import fs from "fs";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 const buildOptions = {
+  image: {
+    lib: {
+      name: "CloverIIIFImage",
+      entry: "./src/components/Image/index.tsx",
+      fileName: "index",
+    },
+  }, 
   primitives: {
     lib: {
       name: "CloverIIIFPrimitives",
