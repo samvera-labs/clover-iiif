@@ -9,8 +9,14 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ className, id, label, children }) => {
+  const dataButton = label.toLowerCase().replace(/\s/g, "-");
   return (
-    <Item id={id} className={className} data-testid="openseadragon-button">
+    <Item
+      id={id}
+      className={className}
+      data-testid="openseadragon-button"
+      data-button={dataButton}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         aria-labelledby={`${id}-svg-title`}

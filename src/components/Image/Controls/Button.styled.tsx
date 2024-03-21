@@ -9,11 +9,11 @@ const Item = styled("button", {
   margin: "0",
   fontFamily: "inherit",
   background: "none",
+  backgroundColor: "$primary",
   border: "none",
   color: "white",
   cursor: "pointer",
   marginLeft: "0.618rem",
-  backgroundColor: "$primary",
   filter: "drop-shadow(2px 2px 5px #0003)",
   transition: "$all",
   boxSizing: "content-box !important",
@@ -46,7 +46,7 @@ const Item = styled("button", {
     backgroundColor: "$accent",
   },
 
-  "&#rotateRight": {
+  "&[data-button=rotate-right]": {
     "&:hover, &:focus": {
       svg: {
         rotate: "45deg",
@@ -54,7 +54,7 @@ const Item = styled("button", {
     },
   },
 
-  "&#rotateLeft": {
+  "&[data-button=rotate-left]": {
     transform: "scaleX(-1)",
 
     "&:hover, &:focus": {
@@ -64,7 +64,7 @@ const Item = styled("button", {
     },
   },
 
-  "&#reset": {
+  "&[data-button=reset]": {
     "&:hover, &:focus": {
       svg: {
         rotate: "-15deg",
