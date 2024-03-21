@@ -1,5 +1,5 @@
-import { Popover } from "src/components/internal";
-import { StyledSelect } from "src/components/internal/Select/Select.styled";
+import { Popover } from "src/components/UI";
+import { StyledSelect } from "src/components/UI/Select/Select.styled";
 import { styled } from "src/styles/stitches.config";
 
 const IIIFBadgeButton = styled(Popover.Trigger, {

@@ -1,15 +1,16 @@
+import { Item } from "src/components/Image/Controls/Button.styled";
 import React from "react";
-import { Item } from "src/components/Viewer/ImageViewer/Button.styled";
 
 interface ButtonProps {
+  className?: string;
   id: string;
   label: string;
   children: React.ReactChild;
 }
 
-const Button: React.FC<ButtonProps> = ({ id, label, children }) => {
+const Button: React.FC<ButtonProps> = ({ className, id, label, children }) => {
   return (
-    <Item id={id} data-testid="openseadragon-button">
+    <Item id={id} className={className} data-testid="openseadragon-button">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         aria-labelledby={`${id}-svg-title`}

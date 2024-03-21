@@ -1,4 +1,4 @@
-import { Add, Audio, Close, Image, Video } from "src/components/internal/Icons";
+import { Add, Audio, Close, Image, Video } from "src/components/UI/Icons";
 import { type CSS, type VariantProps } from "src/styles/stitches.config";
 
 import React from "react";

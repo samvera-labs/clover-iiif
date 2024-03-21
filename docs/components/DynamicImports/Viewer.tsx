@@ -34,7 +34,7 @@ const CloverViewer = ({
     <Viewer
       iiifContent={iiifResource}
       options={{ ...options, background }}
-      key={iiifContent}
+      key={iiifResource}
       {...(customDisplays && { customDisplays })}
     />
   );

@@ -1,6 +1,7 @@
 import {
   Annotation,
   AnnotationNormalized,
+  IIIFExternalWebResource,
   type CanvasNormalized,
 } from "@iiif/presentation-3";
 import OpenSeadragon from "openseadragon";
@@ -9,6 +10,8 @@ import { OsdSvgOverlay } from "src/lib/openseadragon-svg";
 import { parseAnnotationTarget } from "src/lib/annotation-helpers";
 
 import { ParsedAnnotationTarget } from "src/types/annotations";
+import { getImageServiceURI } from "src/lib/iiif";
+import { OpenSeadragonImageTypes } from "src/types/open-seadragon";
 
 export function addOverlaysToViewer(
   viewer: OpenSeadragon.Viewer,
@@ -237,3 +240,29 @@ function svg_handleTextNode(child: ChildNode) {
     child.childNodes.length,
   );
 }
+
+export const parseImageBody = (body: IIIFExternalWebResource) => {
+  const hasImageService =
+    Array.isArray(body?.service) && body?.service.length > 0;
+
+  const uri = hasImageService ? getImageServiceURI(body?.service) : body?.id;
+  const imageType: OpenSeadragonImageTypes = hasImageService
+    ? OpenSeadragonImageTypes.TiledImage
+    : OpenSeadragonImageTypes.SimpleImage;
+
+  return {
+    uri,
+    imageType,
+  };
+};
+
+export const parseSrc = (src: string, isTiledImage: boolean) => {
+  const imageType = isTiledImage
+    ? OpenSeadragonImageTypes.TiledImage
+    : OpenSeadragonImageTypes.SimpleImage;
+
+  return {
+    uri: src,
+    imageType,
+  };
+};

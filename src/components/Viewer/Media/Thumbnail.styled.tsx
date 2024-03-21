@@ -1,6 +1,6 @@
 import * as RadioGroup from "@radix-ui/react-radio-group";
 
-import { Tag } from "src/components/internal";
+import { Tag } from "src/components/UI";
 import { styled } from "src/styles/stitches.config";
 
 const Type = styled("span", {

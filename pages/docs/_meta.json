@@ -6,6 +6,7 @@
     "title": "IIIF Components"
   },
   "viewer": "Viewer",
+  "image": "Image",
   "slider": "Slider",
   "--primitives": {
     "type": "separator",

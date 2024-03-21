@@ -14,7 +14,7 @@ import {
   StyledSelectButton,
   StyledSelectContent,
   StyledSelectLabel,
-} from "src/components/internal/Select/Select.styled";
+} from "src/components/UI/Select/Select.styled";
 
 import Icon from "./Icon";
 import { InternationalString } from "@iiif/presentation-3";

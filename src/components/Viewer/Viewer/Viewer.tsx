@@ -18,7 +18,7 @@ import {
 
 import { AnnotationResources } from "src/types/annotations";
 import { ErrorBoundary } from "react-error-boundary";
-import ErrorFallback from "src/components/Viewer/Viewer/ErrorFallback";
+import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";

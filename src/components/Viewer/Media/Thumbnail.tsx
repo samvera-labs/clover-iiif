@@ -8,7 +8,7 @@ import {
   Spacer,
   Type,
 } from "src/components/Viewer/Media/Thumbnail.styled";
-import { Icon, Tag } from "src/components/internal";
+import { Icon, Tag } from "src/components/UI";
 
 import { Label } from "src/components/Primitives";
 import React from "react";

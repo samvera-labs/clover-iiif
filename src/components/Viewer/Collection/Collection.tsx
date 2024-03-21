@@ -1,8 +1,9 @@
-import { Select, SelectOption } from "src/components/internal/Select";
+import { Select, SelectOption } from "src/components/UI/Select";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
 import { CollectionItems } from "@iiif/presentation-3";
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const Collection: React.FC = () => {
   const dispatch: any = useViewerDispatch();
@@ -15,6 +16,10 @@ const Collection: React.FC = () => {
     dispatch({
       type: "updateActiveManifest",
       manifestId: manifestId,
+    });
+    dispatch({
+      type: "updateViewerId",
+      viewerId: uuidv4(),
     });
   };
 

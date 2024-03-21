@@ -1,0 +1,347 @@
+---
+title: Image
+---
+
+import IIIFBadge from "docs/components/IIIFBadge";
+import CloverImage from "docs/components/DynamicImports/Image";
+import { Tabs, Tab } from "nextra/components";
+
+export const handleOpenSeadragonCallback = () => {};
+
+# Image
+
+A UI component the renders a pan and deep-zoom Image viewer using [OpenSeadragon](https://openseadragon.github.io/).
+
+<IIIFBadge href="https://iiif.io/api/image/3.0" text={["Image"]} />
+
+<div style={{ height: "38.2vh", minHeight: "450px" }}>
+  <CloverImage
+    body={{
+      id: "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/600,/0/default.jpg",
+      type: "Image",
+      format: "image/tiff",
+      height: 5709,
+      width: 8949,
+      service: [
+        {
+          "@id":
+            "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace",
+          "@type": "ImageService2",
+          profile: "http://iiif.io/api/image/2/level2.json",
+        },
+      ],
+    }}
+  />
+</div>
+
+## Features
+
+Provide a IIIF Annotation body with the `type` of `Image` and the component:
+
+- Renders a single [OpenSeadragon](https://openseadragon.github.io/) instance.
+- Returns OpenSeadragon's `Viewer` instance for programmatic control.
+- Provides configuration options for OpenSeadragon's `Viewer` instance.
+
+## Installation
+
+<Tabs items={["npm", "yarn", "pnpm"]}>
+  {/* prettier-ignore */}
+  <Tab>
+    ```shell
+      npm install @samvera/clover-iiif
+    ```
+  </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    ```shell
+      yarn add @samvera/clover-iiif
+    ```
+  </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    ```shell
+      pnpm install @samvera/clover-iiif
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+### React
+
+Add the `Image` component to your `jsx` or `tsx` code.
+
+```jsx
+import Image from "@samvera/clover-iiif/image";
+```
+
+#### Using `src` and `isTiledImage` props
+
+For **Tiled Images**, render `Image` with a `src` attribute of the IIIF Image service `id`. The `isTiledImage` prop is optional and defaults to `false`.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx
+    <div style={{ height: "400px" }}>
+      <CloverImage
+        src="https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace"
+        isTiledImage={true}
+      />
+    </div>
+    ```
+  </Tab>
+  <Tab>
+    <div style={{ height: "400px" }}>
+      <CloverImage
+        src="https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace"
+        isTiledImage={true}
+      />
+    </div>
+  </Tab>
+</Tabs>
+
+For **Simple Images**, render `Image` with a `src` attribute of the image, ex: `https://example.org/image.jpg`. The `isTiledImage` must be omitted or set to `false`.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx
+    <div style={{ height: "400px" }}>
+      <CloverImage
+        src="https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/1000,/0/default.jpg"
+      />
+    </div>
+    ```
+
+  </Tab>
+  <Tab>
+    <div style={{ height: "400px" }}>
+      <CloverImage
+        src="https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/1000,/0/default.jpg"
+      />
+    </div>
+
+  </Tab>
+</Tabs>
+
+#### Using the IIIF annotation `body`
+
+When using the IIIF annotation `body` from IIIF Manifest, the `Image` component will render the image based on the IIIF Image service `id` and other properties.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx
+    <div style={{ height: "400px" }}>
+      <CloverImage
+        body={{
+          id: "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/600,/0/default.jpg",
+          type: "Image",
+          format: "image/tiff",
+          height: 5709,
+          width: 8949,
+          service: [
+            {
+              "@id":
+                "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace",
+              "@type": "ImageService2",
+              profile: "http://iiif.io/api/image/2/level2.json",
+            },
+          ],
+        }}
+      />
+    </div>
+    ```
+
+  </Tab>
+  <Tab>
+    <div style={{ height: "400px" }}>
+      <CloverImage
+        body={{
+          id: "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/600,/0/default.jpg",
+          type: "Image",
+          format: "image/tiff",
+          height: 5709,
+          width: 8949,
+          service: [
+            {
+              "@id":
+                "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace",
+              "@type": "ImageService2",
+              profile: "http://iiif.io/api/image/2/level2.json",
+            },
+          ],
+        }}
+      />
+    </div>
+
+  </Tab>
+</Tabs>
+
+### Vanilla JavaScript
+
+The Viewer can also be implemented in Vanilla Javascript by use of a web component. This web component example sources a registered `<clover-viewer>` web component.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```html
+    <html>
+      <head>
+        <title>Clover IIIF - Image - Web Component</title>
+        <meta charset="UTF-8" />
+      </head>
+      <body>
+        <script src="https://www.unpkg.com/@samvera/clover-iiif@latest/dist/web-components/index.umd.js"></script>
+
+        <div style="height: 400px;">
+            <clover-image
+              src="https://iiif.dc.library.northwestern.edu/iiif/2/7192086f-fbe3-4939-b58a-6a63cddea42f"
+              is-tiled-image="true"
+              aria-label="A IIIF Image"
+            />
+        </div>
+      </body>
+    </html>
+    ```
+
+  </Tab>
+  <Tab>
+    <CloverImage />
+  </Tab>
+</Tabs>
+
+### Next.js
+
+Implementation with Next.js requires a [dynamic import](https://nextjs.org/docs/advanced-features/dynamic-import) utilizing `next/dynamic`. This is due to Next's node compilation method creating issue with an `OpenSeadragon` (a dependency of Clover IIIF) assumption of a browser `document` object.
+
+```jsx
+import dynamic from "next/dynamic";
+
+const Image = dynamic(
+  () => import("@samvera/clover-iiif").then((Clover) => Clover.Image),
+  {
+    ssr: false,
+  },
+);
+
+const MyCustomImage = () => {
+  return (
+    <Image src="https://ids.lib.harvard.edu/ids/iiif/18772291/full/full/0/default.jpg" />
+  );
+};
+```
+
+## API Reference
+
+Note that while that `src` and `body` are both optional, at least one of them must be provided.
+
+| Prop                    | Type                                                                                | Required |
+| ----------------------- | ----------------------------------------------------------------------------------- | -------- |
+| `body`                  | [IIIF Content Resource](https://iiif.io/api/presentation/3.0/#57-content-resources) | No       |
+| `instanceId`            | `string`                                                                            | No       |
+| `label`                 | `string` or [IIIF Label](https://iiif.io/api/presentation/3.0/#label)               | No       |
+| `src`                   | `string`                                                                            | No       |
+| `openSeadragonCallback` | function                                                                            | No       |
+| `openSeadragonConfig`   | OpenSeadragon.Options                                                               | No       |
+
+## OpenSeadragon
+
+### OpenSeadragon Callback
+
+The `Image` component uses [OpenSeadragon](https://openseadragon.github.io/) to render the image. The `openSeadragonCallback` prop provides a callback function that returns the OpenSeadragon `Viewer` instance. This can be used to programmatically control the viewer from the consuming application.
+
+```jsx
+import Image from "@samvera/clover-iiif/image";
+
+const MyCustomImage = () => {
+  export const handleOpenSeadragonCallback = (viewer) => {
+    console.log("OpenSeadragon instance is ready");
+    console.log(viewer);
+  };
+
+  return (
+    <Image
+      src="https://ids.lib.harvard.edu/ids/iiif/18772291/full/full/0/default.jpg"
+      openSeadragonCallback={handleOpenSeadragonCallback}
+    />
+  );
+};
+```
+
+### OpenSeadragon Configuration
+
+The `openSeadragonConfig` prop provides a way to configure the OpenSeadragon `Viewer` instance. This prop accepts an object of [OpenSeadragon.Options](https://openseadragon.github.io/docs/OpenSeadragon.html#.Options).
+
+```jsx
+import Image from "@samvera/clover-iiif/image";
+
+const MyCustomImage = () => {
+  const openSeadragonConfig = {
+    showNavigator: false,
+    showRotationControl: true,
+    // ... other OpenSeadragon options
+  };
+
+  return (
+    <Image
+      src="https://ids.lib.harvard.edu/ids/iiif/18772291/full/full/0/default.jpg"
+      openSeadragonConfig={openSeadragonConfig}
+    />
+  );
+};
+```
+
+## Label and ARIA
+
+The `label` prop is used to provide an accessible name for the OpenSeadragon. This is used as the `aria-label` attribute on the viewport element wrapping the OpenSeadragon canvas.
+
+The label can be a `string` or a valid IIIF Presentation API 3.0 [label](https://iiif.io/api/presentation/3.0/#label).
+
+```jsx
+import Image from "@samvera/clover-iiif/image";
+
+const MyCustomImage = () => {
+  return (
+    <Image
+      src="https://ids.lib.harvard.edu/ids/iiif/18772291/full/full/0/default.jpg"
+      label="Self-Portrait at Eleven Years Old"
+    />
+  );
+};
+```
+
+```jsx
+import Image from "@samvera/clover-iiif/image";
+
+const MyCustomImage = () => {
+  return (
+    <Image
+      src="https://ids.lib.harvard.edu/ids/iiif/18772291/full/full/0/default.jpg"
+      label={{ en: ["Self-Portrait at Eleven Years Old"] }}
+    />
+  );
+};
+```
+
+## Instance ID
+
+The `instanceId` prop is used to provide an identifier defined from the consuming application for the OpenSeadragon instance. This is used as the `id` attribute on the viewport element wrapping the OpenSeadragon canvas. `instanceId` is optional and by default the `Image` component will generate a unique identifier.
+
+```jsx
+import Image from "@samvera/clover-iiif/image";
+
+const MyCustomImage = () => {
+  const instanceId = "my-defined-instance-id";
+
+  const handleOpenSeadragonCallback = (viewer) => {
+    console.log(viewer?.id);
+    // openseadragon-my-defined-instance-id
+  };
+
+  return (
+    <Image
+      src="https://ids.lib.harvard.edu/ids/iiif/18772291/full/full/0/default.jpg"
+      instanceId={instanceId}
+      openSeadragonCallback={handleOpenSeadragonCallback}
+    />
+  );
+};
+```

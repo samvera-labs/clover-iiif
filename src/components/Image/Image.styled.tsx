@@ -36,14 +36,29 @@ const Viewport = styled("div", {
 
 const Wrapper = styled("div", {
   width: "100%",
-  height: "61.8vh",
+  height: "100%",
   maxHeight: "100vh",
-  background: "black",
+  background: "transparent",
   backgroundSize: "contain",
   color: "white",
   position: "relative",
-  zIndex: "1",
+  zIndex: "0",
   overflow: "hidden",
+
+  variants: {
+    hasNavigator: {
+      true: {
+        [`${Navigator}`]: {
+          display: "block",
+        },
+      },
+      false: {
+        [`${Navigator}`]: {
+          display: "none",
+        },
+      },
+    },
+  },
 });
 
 export { Navigator, Viewport, Wrapper };

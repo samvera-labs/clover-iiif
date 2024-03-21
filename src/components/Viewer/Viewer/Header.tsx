@@ -12,7 +12,7 @@ import CopyText from "src/components/Viewer/CopyText";
 import IIIFBadge from "src/components/Viewer/Viewer/IIIFBadge";
 import { InternationalString } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
-import { Popover } from "src/components/internal";
+import { Popover } from "src/components/UI";
 import React from "react";
 import Toggle from "./Toggle";
 import { media } from "src/styles/stitches.config";

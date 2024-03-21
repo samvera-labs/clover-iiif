@@ -1,6 +1,7 @@
-import React from "react";
-import ErrorFallback from "src/components/Viewer/Viewer/ErrorFallback";
 import { render, screen } from "@testing-library/react";
+
+import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
+import React from "react";
 
 describe("ErrorFallback component", () => {
   const mockErrorObj = {

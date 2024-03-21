@@ -13,6 +13,11 @@
       "require": "./dist/index.umd.js",
       "types": "./dist/index.d.ts"
     },
+    "./image": {
+      "import": "./dist/image/index.mjs",
+      "require": "./dist/image/index.umd.js",
+      "types": "./dist/image/index.d.ts"
+    },
     "./primitives": {
       "import": "./dist/primitives/index.mjs",
       "require": "./dist/primitives/index.umd.js",

@@ -10,6 +10,7 @@ public/index.html
 coverage/
 html/
 **/*.d.ts
+*.umd.js
 
 # OS
 .DS_Store
