@@ -1,3 +1,4 @@
+import "src/i18n/config";
 import { CollectionNormalized, ManifestNormalized } from "@iiif/presentation-3";
 import React, { useEffect, useState } from "react";
 import {

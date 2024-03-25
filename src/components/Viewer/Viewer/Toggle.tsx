@@ -7,9 +7,14 @@ import {
 import React, { useEffect, useState } from "react";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
+import { useTranslation } from "react-i18next";
+
 const Toggle = () => {
   const { configOptions } = useViewerState();
   const dispatch: any = useViewerDispatch();
+
+  // Use 'src/i18n/viewer.json' namespace file for translation
+  const { t } = useTranslation(["viewer"]);
 
   const [checked, setChecked] = useState(configOptions?.informationPanel?.open);
 
@@ -23,7 +28,7 @@ const Toggle = () => {
   return (
     <StyledToggle>
       <Label htmlFor="information-toggle" css={checked ? { opacity: "1" } : {}}>
-        More Information
+        {t("toggle.label")}
       </Label>
       <StyledSwitch
         checked={checked}
