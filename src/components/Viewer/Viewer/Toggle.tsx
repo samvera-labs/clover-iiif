@@ -13,7 +13,6 @@ const Toggle = () => {
   const { configOptions } = useViewerState();
   const dispatch: any = useViewerDispatch();
 
-  // Use 'src/i18n/viewer.json' namespace file for translation
   const { t } = useTranslation(["viewer"]);
 
   const [checked, setChecked] = useState(configOptions?.informationPanel?.open);
