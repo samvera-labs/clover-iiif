@@ -9,7 +9,7 @@ export const defaultNS = "viewer";
 
 i18next.use(initReactI18next).init({
   lng: "en", // if you're using a language detector, do not define the lng option
-  debug: true,
+  debug: false,
   resources: {
     en: {
       bloom,
@@ -21,3 +21,5 @@ i18next.use(initReactI18next).init({
     },
   },
 });
+
+export default i18next;
