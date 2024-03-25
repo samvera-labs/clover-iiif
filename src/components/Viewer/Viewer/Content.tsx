@@ -13,6 +13,7 @@ import InformationPanel from "src/components/Viewer/InformationPanel/Information
 import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useViewerState } from "src/context/viewer-context";
 
 export interface ViewerContentProps {
@@ -30,6 +31,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   items,
   painting,
 }) => {
+  const { t } = useTranslation(["viewer"]);
   const { isInformationOpen, configOptions } = useViewerState();
   const { informationPanel } = configOptions;
 
@@ -44,8 +46,6 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     informationPanel?.renderAnnotation &&
     annotationResources.length > 0 &&
     !informationPanel.open;
-
-  console.log(isAside, isForcedAside);
 
   return (
     <Content
@@ -62,7 +62,11 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
 
         {isAside && (
           <CollapsibleTrigger>
-            <span>{isInformationOpen ? "View Items" : "More Information"}</span>
+            <span>
+              {isInformationOpen
+                ? t("aside.collapsibleTrigger.openMessage")
+                : t("aside.collapsibleTrigger.closedMessage")}
+            </span>
           </CollapsibleTrigger>
         )}
 

@@ -1,0 +1,31 @@
+{
+  "aside": {
+    "collapsibleTrigger": {
+      "closedMessage": "More Information",
+      "openMessage": "View Items"
+    }
+  },
+  "header": {
+    "toggle": {
+      "label": "More Information"
+    }
+  },
+  "informationPanel": {
+    "annotation": {
+      "vtt": {
+        "navigate": "navigate"
+      }
+    },
+    "tabs": {
+      "about": "About",
+      "select": "select information panel tab"
+    },
+    "toggle": {
+      "label": "information panel toggle"
+    }
+  },
+  "media": {
+    "selectItem": "select item"
+  },
+  "painting": {}
+}

@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 
 import AnnotationItemVTT from "./VTT";
+import { I18NextTestingProvider } from "src/lib/testing-helpers/i18n";
 import Menu from "src/components/Viewer/InformationPanel/Menu";
 import React from "react";
 
@@ -16,7 +17,11 @@ const props = {
 
 describe("AnnotationItemVTT", () => {
   it("should render the component and aria-label caption", () => {
-    render(<AnnotationItemVTT {...props} />);
+    render(
+      <I18NextTestingProvider>
+        <AnnotationItemVTT {...props} />
+      </I18NextTestingProvider>,
+    );
     const el = screen.getByTestId("annotation-item-vtt");
     expect(el).toHaveAttribute(
       "aria-label",

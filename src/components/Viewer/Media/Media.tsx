@@ -20,6 +20,7 @@ import Controls from "src/components/Viewer/Media/Controls";
 import { Group } from "src/components/Viewer/Media/Media.styled";
 import Thumbnail from "src/components/Viewer/Media/Thumbnail";
 import { getResourceType } from "src/hooks/use-iiif/getResourceType";
+import { useTranslation } from "react-i18next";
 
 interface MediaProps {
   items: Canvas[];
@@ -27,6 +28,7 @@ interface MediaProps {
 }
 
 const Media: React.FC<MediaProps> = ({ items }) => {
+  const { t } = useTranslation(["viewer"]);
   const dispatch: any = useViewerDispatch();
   const state: ViewerContextStore = useViewerState();
   const { activeCanvas, vault } = state;
@@ -95,7 +97,11 @@ const Media: React.FC<MediaProps> = ({ items }) => {
         activeIndex={activeIndex}
         canvasLength={mediaItems.length}
       />
-      <Group aria-label="select item" data-testid="media" ref={scrollRef}>
+      <Group
+        aria-label={t("media.selectItem")}
+        data-testid="media"
+        ref={scrollRef}
+      >
         {mediaItems
           .filter((item) => {
             if (item.canvas?.label) {

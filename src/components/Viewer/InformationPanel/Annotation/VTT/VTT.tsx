@@ -9,6 +9,7 @@ import { InternationalString } from "@iiif/presentation-3";
 import Menu from "src/components/Viewer/InformationPanel/Menu";
 import { getLabel } from "src/hooks/use-iiif";
 import { parse } from "node-webvtt";
+import { useTranslation } from "react-i18next";
 
 type AnnotationItemVTTProps = {
   label: InternationalString | undefined;
@@ -19,6 +20,7 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
   label,
   vttUri,
 }) => {
+  const { t } = useTranslation(["viewer"]);
   const [cues, setCues] = React.useState<Array<NodeWebVttCueNested>>([]);
   const { createNestedCues, orderCuesByTime } = useWebVtt();
   const [isNetworkError, setIsNetworkError] = React.useState<Error>();
@@ -52,7 +54,7 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
   return (
     <Group
       data-testid="annotation-item-vtt"
-      aria-label={`navigate ${getLabel(label as InternationalString, "en")}`}
+      aria-label={`${t("informationPanel.annotation.vtt.navigate")} ${getLabel(label as InternationalString, "en")}`}
     >
       {isNetworkError && (
         <div data-testid="error-message">
