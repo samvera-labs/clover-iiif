@@ -17,6 +17,7 @@ import { AnnotationResources } from "src/types/annotations";
 import Information from "src/components/Viewer/InformationPanel/About/About";
 import { InternationalString } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
+import { useTranslation } from "react-i18next";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
 
@@ -29,6 +30,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   activeCanvas,
   annotationResources,
 }) => {
+  const { t } = useTranslation(["viewer"]);
   const dispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
   const {
@@ -85,8 +87,15 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       value={activeResource}
       className="clover-viewer-information-panel"
     >
-      <List aria-label="select chapter" data-testid="information-panel-list">
-        {renderAbout && <Trigger value="manifest-about">About</Trigger>}
+      <List
+        aria-label={t("informationPanel.tabs.select")}
+        data-testid="information-panel-list"
+      >
+        {renderAbout && (
+          <Trigger value="manifest-about">
+            {t("informationPanel.tabs.about")}
+          </Trigger>
+        )}
 
         {renderAnnotation &&
           annotationResources &&

@@ -27,13 +27,13 @@ const Toggle = () => {
   return (
     <StyledToggle>
       <Label htmlFor="information-toggle" css={checked ? { opacity: "1" } : {}}>
-        {t("toggle.label")}
+        {t("header.toggle.label")}
       </Label>
       <StyledSwitch
         checked={checked}
         onCheckedChange={() => setChecked(!checked)}
         id="information-toggle"
-        aria-label="information panel toggle"
+        aria-label={t("informationPanel.toggle.label")}
         name="toggled?"
       >
         <StyledThumb />
