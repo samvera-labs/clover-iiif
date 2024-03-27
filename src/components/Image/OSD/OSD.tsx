@@ -17,6 +17,7 @@ interface OSDProps {
   uri: string | undefined;
   imageType: OpenSeadragonImageTypes;
   openSeadragonCallback?: (viewer: OpenSeadragon.Viewer) => void;
+  imageLoadedCallback?: (viewer: OpenSeadragon.Viewer) => void;
 }
 
 const OSD: React.FC<OSDProps> = ({
@@ -26,6 +27,7 @@ const OSD: React.FC<OSDProps> = ({
   _cloverViewerHasPlaceholder,
   imageType,
   openSeadragonCallback,
+  imageLoadedCallback,
 }) => {
   const [osdUri, setOsdUri] = useState<string>();
   const [openSeadragon, setOpenSeadragon] = useState<OpenSeadragon.Viewer>();
@@ -70,6 +72,11 @@ const OSD: React.FC<OSDProps> = ({
 
               openSeadragon?.addTiledImage({
                 tileSource,
+                success: () => {
+                  if (imageLoadedCallback) {
+                    imageLoadedCallback(openSeadragon);
+                  }
+                },
               });
             } catch (e) {
               console.error(e);

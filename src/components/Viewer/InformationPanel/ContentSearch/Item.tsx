@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Item as ItemStyled } from "./Item.styled";
 
 import {
@@ -12,21 +12,15 @@ import {
   EmbeddedResource,
   InternationalString,
 } from "@iiif/presentation-3";
-import { parseAnnotationTarget } from "src/lib/annotation-helpers";
-import { createOpenSeadragonRect } from "src/lib/openseadragon-helpers";
+import { panToTarget } from "src/lib/content-search-helpers";
+
 import AnnotationItemPlainText from "./PlainText";
 
 type Props = {
   annotation: AnnotationNormalized;
-  activeTarget: string | undefined;
-  setActiveTarget: React.Dispatch<React.SetStateAction<string | undefined>>;
 };
 
-export const ContentSearchItem: React.FC<Props> = ({
-  annotation,
-  activeTarget,
-  setActiveTarget,
-}) => {
+export const ContentSearchItem: React.FC<Props> = ({ annotation }) => {
   const dispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
   const {
@@ -66,33 +60,6 @@ export const ContentSearchItem: React.FC<Props> = ({
     }
   }
 
-  function panToTarget() {
-    const zoomLevel = configOptions.annotationOverlays?.zoomLevel || 1;
-
-    const parsedAnnotationTarget = parseAnnotationTarget(annotationTarget);
-
-    const { point, rect, svg } = parsedAnnotationTarget;
-
-    if (point || rect || svg) {
-      const rect = createOpenSeadragonRect(
-        canvas,
-        parsedAnnotationTarget,
-        zoomLevel,
-      );
-      openSeadragonViewer?.viewport.fitBounds(rect);
-    }
-  }
-
-  // when openSeadragonViewer changes, then zoom to target
-  useEffect(() => {
-    if (!openSeadragonViewer) return;
-    if (annotationTarget != activeTarget) return;
-
-    panToTarget();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [openSeadragonViewer]);
-
   function handleClick(e) {
     if (!openSeadragonViewer) return;
 
@@ -101,16 +68,19 @@ export const ContentSearchItem: React.FC<Props> = ({
 
     // if activeCanvas does not change, then zoom to target
     if (activeCanvas === canvasId) {
-      panToTarget();
+      panToTarget(openSeadragonViewer, configOptions, annotationTarget, canvas);
 
-      // else activeCanvas does change, which will trigger rerendering <OSD />
-      // and creating new openseadragon viewer
+      // else change canvas and then zoom to target
     } else {
       dispatch({
         type: "updateActiveCanvas",
         canvasId: canvasId,
       });
-      setActiveTarget(target);
+
+      dispatch({
+        type: "updateActiveContentSearchTarget",
+        activeContentSearchTarget: target,
+      });
     }
   }
 

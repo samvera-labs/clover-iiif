@@ -6,6 +6,7 @@ import { IncomingHttpHeaders } from "http";
 import { Vault } from "@iiif/vault";
 import { deepMerge } from "src/lib/utils";
 import { v4 as uuidv4 } from "uuid";
+import { ParsedAnnotationTarget } from "src/types/annotations";
 
 export type AutoScrollSettings = {
   behavior: string; // ScrollBehavior ("auto" | "instant" | "smooth")
@@ -129,6 +130,7 @@ export type CustomDisplay = {
 export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
+  activeContentSearchTarget?: ParsedAnnotationTarget;
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
@@ -155,6 +157,7 @@ export interface ViewerAction {
   isLoaded: boolean;
   isUserScrolling: number | undefined;
   manifestId: string;
+  activeContentSearchTarget?: ParsedAnnotationTarget;
   vault: Vault;
   contentSearchVault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer;
@@ -191,6 +194,7 @@ const expandedAutoScrollOptions = expandAutoScrollOptions(
 export const defaultState: ViewerContextStore = {
   activeCanvas: "",
   activeManifest: "",
+  activeContentSearchTarget: undefined,
   collection: {},
   configOptions: defaultConfigOptions,
   customDisplays: [],
@@ -226,6 +230,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         activeManifest: action.manifestId,
+      };
+    }
+    case "updateActiveContentSearchTarget": {
+      return {
+        ...state,
+        activeContentSearchTarget: action.activeContentSearchTarget,
       };
     }
     case "updateAutoScrollAnnotationEnabled": {

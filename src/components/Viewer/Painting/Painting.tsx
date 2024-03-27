@@ -15,6 +15,7 @@ import {
   removeOverlaysFromViewer,
 } from "src/lib/openseadragon-helpers";
 import { hashCode } from "src/lib/utils";
+import { panToTarget } from "src/lib/content-search-helpers";
 
 interface PaintingProps {
   activeCanvas: string;
@@ -37,9 +38,14 @@ const Painting: React.FC<PaintingProps> = ({
     openSeadragonViewer,
     vault,
     viewerId,
+    activeContentSearchTarget,
   } = useViewerState();
   const dispatch: any = useViewerDispatch();
 
+  const canvas: CanvasNormalized = vault.get({
+    id: activeCanvas,
+    type: "Canvas",
+  });
   const normalizedCanvas: CanvasNormalized = vault.get(activeCanvas);
   const placeholderCanvas = normalizedCanvas?.placeholderCanvas?.id;
   const hasPlaceholder = Boolean(placeholderCanvas);
@@ -113,6 +119,18 @@ const Painting: React.FC<PaintingProps> = ({
     }
   };
 
+  const handleImageLoadedCallback = () => {
+    // zoom and pan to content search result
+    if (activeContentSearchTarget) {
+      panToTarget(
+        openSeadragonViewer,
+        configOptions,
+        activeContentSearchTarget,
+        canvas,
+      );
+    }
+  };
+
   const CustomComponent = customDisplay?.display
     ?.component as unknown as React.ElementType;
 
@@ -161,6 +179,7 @@ const Painting: React.FC<PaintingProps> = ({
                 key={instanceId}
                 openSeadragonCallback={handleOpenSeadragonCallback}
                 openSeadragonConfig={configOptions.openSeadragon}
+                imageLoadedCallback={handleImageLoadedCallback}
               />
             )
           ))}
