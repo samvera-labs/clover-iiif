@@ -10,7 +10,10 @@ import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import PaintingPlaceholder from "./Placeholder";
 import Player from "src/components/Viewer/Player/Player";
 import Toggle from "./Toggle";
-import { addOverlaysToViewer } from "src/lib/openseadragon-helpers";
+import {
+  addOverlaysToViewer,
+  removeOverlaysFromViewer,
+} from "src/lib/openseadragon-helpers";
 import { hashCode } from "src/lib/utils";
 
 interface PaintingProps {
@@ -83,11 +86,13 @@ const Painting: React.FC<PaintingProps> = ({
       openSeadragonViewer &&
       configOptions.annotationOverlays?.renderOverlays
     ) {
+      removeOverlaysFromViewer(openSeadragonViewer, "annotation-overlay");
       addOverlaysToViewer(
         openSeadragonViewer,
         normalizedCanvas,
         configOptions,
         annotations,
+        "annotation-overlay",
       );
     }
   }, [
