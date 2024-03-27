@@ -6,6 +6,7 @@ import { IncomingHttpHeaders } from "http";
 import { Vault } from "@iiif/vault";
 import { deepMerge } from "src/lib/utils";
 import { v4 as uuidv4 } from "uuid";
+import { ParsedAnnotationTarget } from "src/types/annotations";
 
 export type AutoScrollSettings = {
   behavior: string; // ScrollBehavior ("auto" | "instant" | "smooth")
@@ -30,6 +31,9 @@ export type ViewerConfigOptions = {
   background?: string;
   canvasBackgroundColor?: string;
   canvasHeight?: string;
+  contentSearch?: {
+    searchResultsLimit?: number;
+  };
   ignoreCaptionLabels?: string[];
   informationPanel?: {
     open?: boolean;
@@ -40,12 +44,22 @@ export type ViewerConfigOptions = {
     vtt?: {
       autoScroll?: AutoScrollOptions | AutoScrollSettings | boolean;
     };
+    renderContentSearch?: boolean;
   };
   openSeadragon?: OpenSeadragonOptions;
   requestHeaders?: IncomingHttpHeaders;
   showIIIFBadge?: boolean;
   showTitle?: boolean;
   withCredentials?: boolean;
+  localeText?: {
+    contentSearch?: {
+      tabLabel?: string;
+      formPlaceholder?: string;
+      noSearchResults?: string;
+      loading?: string;
+      moreResults?: string;
+    };
+  };
 };
 
 const defaultAutoScrollSettings: AutoScrollSettings = {
@@ -66,6 +80,9 @@ const defaultConfigOptions = {
   background: "transparent",
   canvasBackgroundColor: "#6662",
   canvasHeight: "61.8vh",
+  contentSearch: {
+    searchResultsLimit: 20,
+  },
   ignoreCaptionLabels: [],
   informationPanel: {
     vtt: {
@@ -79,12 +96,22 @@ const defaultConfigOptions = {
     renderSupplementing: true,
     renderToggle: true,
     renderAnnotation: true,
+    renderContentSearch: true,
   },
   openSeadragon: {},
   requestHeaders: { "Content-Type": "application/json" },
   showIIIFBadge: true,
   showTitle: true,
   withCredentials: false,
+  localeText: {
+    contentSearch: {
+      tabLabel: "Search Results",
+      formPlaceholder: "Enter search words",
+      noSearchResults: "No search results",
+      loading: "Loading...",
+      moreResults: "more results",
+    },
+  },
 };
 
 export type CustomDisplay = {
@@ -101,6 +128,7 @@ export type CustomDisplay = {
 export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
+  activeContentSearchTarget?: ParsedAnnotationTarget;
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
@@ -110,6 +138,7 @@ export interface ViewerContextStore {
   isLoaded: boolean;
   isUserScrolling?: number | undefined;
   vault: Vault;
+  contentSearchVault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer | null;
   openSeadragonId?: string;
   viewerId?: string;
@@ -126,7 +155,9 @@ export interface ViewerAction {
   isLoaded: boolean;
   isUserScrolling: number | undefined;
   manifestId: string;
+  activeContentSearchTarget?: ParsedAnnotationTarget;
   vault: Vault;
+  contentSearchVault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer;
   viewerId: string;
 }
@@ -161,6 +192,7 @@ const expandedAutoScrollOptions = expandAutoScrollOptions(
 export const defaultState: ViewerContextStore = {
   activeCanvas: "",
   activeManifest: "",
+  activeContentSearchTarget: undefined,
   collection: {},
   configOptions: defaultConfigOptions,
   customDisplays: [],
@@ -170,6 +202,7 @@ export const defaultState: ViewerContextStore = {
   isLoaded: false,
   isUserScrolling: undefined,
   vault: new Vault(),
+  contentSearchVault: new Vault(),
   openSeadragonViewer: null,
   viewerId: uuidv4(),
 };
@@ -195,6 +228,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         activeManifest: action.manifestId,
+      };
+    }
+    case "updateActiveContentSearchTarget": {
+      return {
+        ...state,
+        activeContentSearchTarget: action.activeContentSearchTarget,
       };
     }
     case "updateAutoScrollAnnotationEnabled": {

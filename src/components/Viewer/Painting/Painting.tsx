@@ -10,8 +10,12 @@ import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import PaintingPlaceholder from "./Placeholder";
 import Player from "src/components/Viewer/Player/Player";
 import Toggle from "./Toggle";
-import { addOverlaysToViewer } from "src/lib/openseadragon-helpers";
+import {
+  addOverlaysToViewer,
+  removeOverlaysFromViewer,
+} from "src/lib/openseadragon-helpers";
 import { hashCode } from "src/lib/utils";
+import { panToTarget } from "src/lib/content-search-helpers";
 
 interface PaintingProps {
   activeCanvas: string;
@@ -34,9 +38,14 @@ const Painting: React.FC<PaintingProps> = ({
     openSeadragonViewer,
     vault,
     viewerId,
+    activeContentSearchTarget,
   } = useViewerState();
   const dispatch: any = useViewerDispatch();
 
+  const canvas: CanvasNormalized = vault.get({
+    id: activeCanvas,
+    type: "Canvas",
+  });
   const normalizedCanvas: CanvasNormalized = vault.get(activeCanvas);
   const placeholderCanvas = normalizedCanvas?.placeholderCanvas?.id;
   const hasPlaceholder = Boolean(placeholderCanvas);
@@ -83,11 +92,13 @@ const Painting: React.FC<PaintingProps> = ({
       openSeadragonViewer &&
       configOptions.annotationOverlays?.renderOverlays
     ) {
+      removeOverlaysFromViewer(openSeadragonViewer, "annotation-overlay");
       addOverlaysToViewer(
         openSeadragonViewer,
         normalizedCanvas,
         configOptions,
         annotations,
+        "annotation-overlay",
       );
     }
   }, [
@@ -105,6 +116,18 @@ const Painting: React.FC<PaintingProps> = ({
         type: "updateOpenSeadragonViewer",
         openSeadragonViewer: viewer,
       });
+    }
+  };
+
+  const handleImageLoadedCallback = () => {
+    // zoom and pan to content search result
+    if (activeContentSearchTarget) {
+      panToTarget(
+        openSeadragonViewer,
+        configOptions,
+        activeContentSearchTarget,
+        canvas,
+      );
     }
   };
 
@@ -153,6 +176,7 @@ const Painting: React.FC<PaintingProps> = ({
                 key={instanceId}
                 openSeadragonCallback={handleOpenSeadragonCallback}
                 openSeadragonConfig={configOptions.openSeadragon}
+                imageLoadedCallback={handleImageLoadedCallback}
               />
             )
           ))}

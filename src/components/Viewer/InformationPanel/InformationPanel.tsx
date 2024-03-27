@@ -13,9 +13,13 @@ import {
 } from "src/context/viewer-context";
 
 import AnnotationPage from "src/components/Viewer/InformationPanel/Annotation/Page";
-import { AnnotationResources } from "src/types/annotations";
+import ContentSearch from "src/components/Viewer/InformationPanel/ContentSearch/ContentSearch";
+import { AnnotationResources, AnnotationResource } from "src/types/annotations";
 import Information from "src/components/Viewer/InformationPanel/About/About";
-import { InternationalString } from "@iiif/presentation-3";
+import {
+  InternationalString,
+  AnnotationPageNormalized,
+} from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
@@ -23,11 +27,19 @@ const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event 
 interface NavigatorProps {
   activeCanvas: string;
   annotationResources?: AnnotationResources;
+  searchServiceUrl?: string;
+  setContentSearchResource: React.Dispatch<
+    React.SetStateAction<AnnotationPageNormalized | undefined>
+  >;
+  contentSearchResource?: AnnotationResource;
 }
 
 export const InformationPanel: React.FC<NavigatorProps> = ({
   activeCanvas,
   annotationResources,
+  searchServiceUrl,
+  setContentSearchResource,
+  contentSearchResource,
 }) => {
   const dispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
@@ -41,9 +53,14 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
   const renderAbout = informationPanel?.renderAbout;
   const renderAnnotation = informationPanel?.renderAnnotation;
+  const renderContentSearch = informationPanel?.renderContentSearch;
 
   useEffect(() => {
-    if (renderAbout) {
+    if (activeResource) {
+      return;
+    } else if (renderContentSearch) {
+      setActiveResource("manifest-content-search");
+    } else if (renderAbout) {
       setActiveResource("manifest-about");
     } else if (
       annotationResources &&
@@ -52,7 +69,14 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     ) {
       setActiveResource(annotationResources[0].id);
     }
-  }, [activeCanvas, renderAbout, annotationResources]);
+  }, [
+    activeCanvas,
+    activeResource,
+    renderAbout,
+    renderContentSearch,
+    annotationResources,
+    contentSearchResource,
+  ]);
 
   function handleScroll() {
     // console.log("Type of scroll: ", isAutoScrolling ? 'auto' : 'user');
@@ -86,8 +110,12 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       className="clover-viewer-information-panel"
     >
       <List aria-label="select chapter" data-testid="information-panel-list">
+        {renderContentSearch && contentSearchResource && (
+          <Trigger value="manifest-content-search">
+            <Label label={contentSearchResource.label as InternationalString} />
+          </Trigger>
+        )}
         {renderAbout && <Trigger value="manifest-about">About</Trigger>}
-
         {renderAnnotation &&
           annotationResources &&
           annotationResources.map((resource, i) => (
@@ -97,12 +125,21 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
           ))}
       </List>
       <Scroll handleScroll={handleScroll}>
+        {renderContentSearch && contentSearchResource && (
+          <Content value="manifest-content-search">
+            <ContentSearch
+              searchServiceUrl={searchServiceUrl}
+              setContentSearchResource={setContentSearchResource}
+              activeCanvas={activeCanvas}
+              annotationPage={contentSearchResource}
+            />
+          </Content>
+        )}
         {renderAbout && (
           <Content value="manifest-about">
             <Information />
           </Content>
         )}
-
         {renderAnnotation &&
           annotationResources &&
           annotationResources.map((annotationPage) => {

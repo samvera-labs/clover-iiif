@@ -4,6 +4,9 @@ import {
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
+  CanvasNormalized,
+  AnnotationNormalized,
+  AnnotationPageNormalized,
 } from "@iiif/presentation-3";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -14,9 +17,14 @@ import {
 import {
   getAnnotationResources,
   getPaintingResource,
+  getContentSearchResources,
 } from "src/hooks/use-iiif";
+import {
+  addOverlaysToViewer,
+  removeOverlaysFromViewer,
+} from "src/lib/openseadragon-helpers";
 
-import { AnnotationResources } from "src/types/annotations";
+import { AnnotationResources, AnnotationResource } from "src/types/annotations";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
@@ -30,15 +38,27 @@ import { useMediaQuery } from "src/hooks/useMediaQuery";
 interface ViewerProps {
   manifest: ManifestNormalized;
   theme?: unknown;
+  iiifContentSearch?: string;
 }
 
-const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
+const Viewer: React.FC<ViewerProps> = ({
+  manifest,
+  theme,
+  iiifContentSearch,
+}) => {
   /**
    * Viewer State
    */
   const viewerState: ViewerContextStore = useViewerState();
   const viewerDispatch: any = useViewerDispatch();
-  const { activeCanvas, isInformationOpen, vault, configOptions } = viewerState;
+  const {
+    activeCanvas,
+    isInformationOpen,
+    vault,
+    contentSearchVault,
+    configOptions,
+    openSeadragonViewer,
+  } = viewerState;
 
   /**
    * Local state
@@ -48,9 +68,12 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   const [painting, setPainting] = useState<IIIFExternalWebResource[]>([]);
   const [annotationResources, setAnnotationResources] =
     useState<AnnotationResources>([]);
+  const [contentSearchResource, setContentSearchResource] =
+    useState<AnnotationResource>();
 
   const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
   const isSmallViewport = useMediaQuery(media.sm);
+  const [searchServiceUrl, setSearchServiceUrl] = useState();
 
   const setInformationOpen = useCallback(
     (open: boolean) => {
@@ -106,6 +129,63 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
     setIsInformationPanel(resources.length !== 0);
   }, [activeCanvas, vault, viewerDispatch]);
 
+  // make request to content search service using iiifContentSearch prop
+  useEffect(() => {
+    if (iiifContentSearch === undefined) return;
+    if (configOptions.informationPanel?.renderContentSearch === false) return;
+
+    getContentSearchResources(
+      contentSearchVault,
+      iiifContentSearch,
+      configOptions.localeText?.contentSearch?.tabLabel as string,
+    ).then((contentSearch) => {
+      setContentSearchResource(contentSearch);
+    });
+  }, [iiifContentSearch, contentSearchVault, configOptions]);
+
+  // add overlays for content search
+  useEffect(() => {
+    if (!openSeadragonViewer) return;
+    if (!contentSearchResource) return;
+
+    const canvas: CanvasNormalized = vault.get({
+      id: activeCanvas,
+      type: "Canvas",
+    });
+
+    removeOverlaysFromViewer(openSeadragonViewer, "content-search-overlay");
+    addContentSearchOverlays(
+      contentSearchVault,
+      contentSearchResource,
+      openSeadragonViewer,
+      canvas,
+      configOptions,
+    );
+  }, [
+    contentSearchVault,
+    configOptions,
+    openSeadragonViewer,
+    activeCanvas,
+    vault,
+    contentSearchResource,
+  ]);
+
+  const hasSearchService = manifest.service.some(
+    (service: any) => service.type === "SearchService2",
+  );
+
+  // check if search service exists in the manifest
+  useEffect(() => {
+    if (hasSearchService) {
+      const searchService: any = manifest.service.find(
+        (service: any) => service.type === "SearchService2",
+      );
+      if (searchService) {
+        setSearchServiceUrl(searchService.id);
+      }
+    }
+  }, [manifest, hasSearchService]);
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Wrapper
@@ -127,6 +207,9 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
             activeCanvas={activeCanvas}
             painting={painting}
             annotationResources={annotationResources}
+            searchServiceUrl={searchServiceUrl}
+            setContentSearchResource={setContentSearchResource}
+            contentSearchResource={contentSearchResource}
             items={manifest.items}
             isAudioVideo={isAudioVideo}
           />
@@ -137,3 +220,32 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
 };
 
 export default Viewer;
+
+function addContentSearchOverlays(
+  contentSearchVault: any,
+  contentSearch: AnnotationPageNormalized,
+  openSeadragonViewer,
+  canvas: CanvasNormalized,
+  configOptions,
+) {
+  const annotations: Array<AnnotationNormalized> = [];
+  contentSearch?.items?.forEach((item) => {
+    const annotation = contentSearchVault.get(item.id) as AnnotationNormalized;
+
+    if (typeof annotation.target === "string") {
+      if (annotation.target.startsWith(canvas.id)) {
+        annotations.push(annotation as unknown as AnnotationNormalized);
+      }
+    }
+  });
+
+  if (openSeadragonViewer) {
+    addOverlaysToViewer(
+      openSeadragonViewer,
+      canvas,
+      configOptions,
+      annotations,
+      "content-search-overlay",
+    );
+  }
+}

@@ -7,6 +7,7 @@ import React from "react";
 const props = {
   activeCanvas: "foobar",
   resources: [],
+  setContentSearchResource: () => {},
 };
 
 vi.mock("src/components/Viewer/InformationPanel/About/About");

@@ -69,6 +69,7 @@ describe("Player component", () => {
           isInformationOpen: false,
           isLoaded: false,
           vault,
+          contentSearchVault: new Vault(),
           openSeadragonViewer: null,
         }}
       >
@@ -123,6 +124,7 @@ describe("Player component", () => {
           isInformationOpen: false,
           isLoaded: false,
           vault,
+          contentSearchVault: new Vault(),
           openSeadragonViewer: null,
         }}
       >

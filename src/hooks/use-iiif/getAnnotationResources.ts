@@ -1,9 +1,5 @@
-import { AnnotationResources } from "src/types/annotations";
+import { AnnotationResources, AnnotationResource } from "src/types/annotations";
 import { CanvasNormalized } from "@iiif/presentation-3";
-
-export type FormattedAnnotationItem = {
-  [k: string]: any;
-};
 
 export const getAnnotationResources = (
   vault: any,
@@ -34,4 +30,23 @@ export const getAnnotationResources = (
       const label = annotationPage.label || { none: ["Annotations"] };
       return { ...annotationPage, label };
     });
+};
+
+export const getContentSearchResources = async (
+  contentSearchVault: any,
+  searchUrl: string,
+  tabLabel: string,
+): Promise<AnnotationResource> => {
+  let annotationPage;
+  try {
+    annotationPage = await contentSearchVault.load(searchUrl);
+  } catch (error) {
+    console.log("Could not load content search.");
+    return {} as AnnotationResource;
+  }
+
+  if (annotationPage.label == undefined) {
+    annotationPage.label = { none: [tabLabel] };
+  }
+  return annotationPage;
 };

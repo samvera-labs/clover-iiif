@@ -8,7 +8,10 @@ import {
 } from "src/fixtures/use-iiif/get-annotation-resources";
 
 import { Vault } from "@iiif/vault";
-import { getAnnotationResources } from "./getAnnotationResources";
+import {
+  getAnnotationResources,
+  getContentSearchResources,
+} from "./getAnnotationResources";
 import { manifestNoAnnotations } from "src/fixtures/use-iiif/get-supplementing-resources";
 
 describe("getAnnotationResources method", () => {
@@ -276,5 +279,103 @@ describe("getAnnotationResources method", () => {
     );
 
     expect(result).toStrictEqual(expected);
+  });
+});
+
+describe("getContentSearchResources", () => {
+  it("processes content search AnnotationPage manifest", async () => {
+    const searchUrl =
+      "http://localhost:3000/manifest/content-search/content-search.json";
+    const vault = new Vault();
+    const result = await getContentSearchResources(
+      vault,
+      searchUrl,
+      "Search Results",
+    );
+
+    const expected = {
+      "@context": "http://iiif.io/api/search/2/context.json",
+      behavior: [],
+      homepage: [],
+      id: "http://localhost:3000/manifest/newspaper/content-search.json",
+      items: [
+        {
+          id: "http://localhost:3000/manifest/newspaper/annotation/584",
+          type: "Annotation",
+        },
+        {
+          id: "http://localhost:3000/manifest/newspaper/annotation/920",
+          type: "Annotation",
+        },
+        {
+          id: "http://localhost:3000/manifest/newspaper/annotation/2650",
+          type: "Annotation",
+        },
+      ],
+      label: {
+        none: ["Search Results"],
+      },
+      logo: [],
+      metadata: [],
+      motivation: null,
+      provider: [],
+      rendering: [],
+      requiredStatement: null,
+      rights: null,
+      seeAlso: [],
+      service: [],
+      summary: null,
+      thumbnail: [],
+      type: "AnnotationPage",
+    };
+    expect(result).toStrictEqual(expected);
+  });
+
+  it("processes content search AnnotationPage if no items", async () => {
+    const searchUrl =
+      "http://localhost:3000/manifest/content-search/content-search-no-results.json";
+    const vault = new Vault();
+    const result = await getContentSearchResources(
+      vault,
+      searchUrl,
+      "Search Results",
+    );
+
+    const expected = {
+      "@context": "http://iiif.io/api/search/2/context.json",
+      behavior: [],
+      homepage: [],
+      id: "http://localhost:3000/manifest/newspaper/content-search-no-results.json",
+      items: [],
+      label: {
+        none: ["Search Results"],
+      },
+      logo: [],
+      metadata: [],
+      motivation: null,
+      provider: [],
+      rendering: [],
+      requiredStatement: null,
+      rights: null,
+      seeAlso: [],
+      service: [],
+      summary: null,
+      thumbnail: [],
+      type: "AnnotationPage",
+    };
+    expect(result).toStrictEqual(expected);
+  });
+
+  it("returns empty object if content is not search content v2", async () => {
+    const searchUrl =
+      "http://localhost:3000/manifest/content-search/search-v1.json";
+    const vault = new Vault();
+    const result = await getContentSearchResources(
+      vault,
+      searchUrl,
+      "Search Results",
+    );
+
+    expect(result).toStrictEqual({});
   });
 });
