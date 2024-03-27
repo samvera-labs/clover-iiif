@@ -17,41 +17,22 @@ export default async function handler(
     return res.status(400).json({ error: "no token" });
   }
 
-  const annotations = await fetchAnnotations(objectId, token);
+  let annotations = await fetchAnnotations(objectId, token);
+  annotations = annotations.map(appendImage);
+
   return res.status(200).json(formatAnnotationPage(annotations, url));
 }
 
 async function fetchAnnotations(objectId: string, token: string) {
-  let annotations = [];
+  let annotations = [] as any;
 
   const stmt = db.prepare(
     `SELECT annotation FROM annotations WHERE object_id = ? AND token = ?;`,
   );
-  const rows = stmt.all(objectId, token);
+  const rows = await stmt.all(objectId, token);
 
   if (rows.length > 0) {
-    annotations = rows.map((row) => {
-      const annotation = JSON.parse(row.annotation);
-      if (Array.isArray(annotation.body)) {
-        annotation.body = [
-          {
-            id: "https://iiif.io/api/image/3.0/example/reference/4ce82cef49fb16798f4c2440307c3d6f-newspaper-p1/full/150,/0/default.jpg",
-            type: "Image",
-            format: "image/jpeg",
-          },
-        ].concat(annotation.body);
-      } else {
-        annotation.body = [
-          {
-            id: "https://iiif.io/api/image/3.0/example/reference/4ce82cef49fb16798f4c2440307c3d6f-newspaper-p1/full/150,/0/default.jpg",
-            type: "Image",
-            format: "image/jpeg",
-          },
-          annotation.body,
-        ];
-      }
-      return annotation;
-    });
+    annotations = rows.map((row) => JSON.parse(row.annotation));
   }
 
   return annotations;
@@ -65,4 +46,37 @@ function formatAnnotationPage(annotations: any, url: string) {
     label: { none: ["Clippings"] },
     items: annotations,
   };
+}
+
+function appendImage(annotation) {
+  if (Array.isArray(annotation.body)) {
+    annotation.body = [
+      {
+        value:
+          "https://iiif.io/api/image/3.0/example/reference/4ce82cef49fb16798f4c2440307c3d6f-newspaper-p1/full/150,/0/default.jpg",
+        type: "Image",
+        format: "image/jpeg",
+      },
+    ].concat(annotation.body);
+  } else if (annotation.body) {
+    annotation.body = [
+      {
+        value:
+          "https://iiif.io/api/image/3.0/example/reference/4ce82cef49fb16798f4c2440307c3d6f-newspaper-p1/full/150,/0/default.jpg",
+        type: "Image",
+        format: "image/jpeg",
+      },
+      annotation.body,
+    ];
+  } else {
+    annotation.body = [
+      {
+        value:
+          "https://iiif.io/api/image/3.0/example/reference/4ce82cef49fb16798f4c2440307c3d6f-newspaper-p1/full/150,/0/default.jpg",
+        type: "Image",
+        format: "image/jpeg",
+      },
+    ];
+  }
+  return annotation;
 }
