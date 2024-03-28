@@ -10,6 +10,7 @@ const MediaWrapper = styled("div", {
 const Content = styled("div", {
   display: "flex",
   flexDirection: "row",
+  flexGrow: "1",
   overflow: "hidden",
 
   "@sm": {
@@ -81,11 +82,20 @@ const Wrapper = styled("div", {
   fontSmooth: "auto",
   webkitFontSmoothing: "antialiased",
 
+  '&[data-absolute-position="true"]': {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    zIndex: "0",
+  },
+
   "> div": {
     display: "flex",
     flexDirection: "column",
     flexGrow: "1",
     justifyContent: "flex-start",
+    height: "100%",
+    maxHeight: "100%",
 
     "@sm": {
       [`& ${Content}`]: {
