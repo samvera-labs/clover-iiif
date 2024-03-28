@@ -40,6 +40,11 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
   const viewerDispatch: any = useViewerDispatch();
   const { activeCanvas, isInformationOpen, vault, configOptions } = viewerState;
 
+  const absoluteCanvasHeights = ["100%", "auto"];
+  const isAbsolutePosition =
+    configOptions?.canvasHeight &&
+    absoluteCanvasHeights.includes(configOptions?.canvasHeight);
+
   /**
    * Local state
    */
@@ -112,6 +117,7 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
         className={`${theme} clover-viewer`}
         css={{ background: configOptions?.background }}
         data-body-locked={isBodyLocked}
+        data-absolute-position={isAbsolutePosition}
         data-information-panel={isInformationPanel}
         data-information-panel-open={isInformationOpen}
       >

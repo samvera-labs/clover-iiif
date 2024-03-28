@@ -65,7 +65,7 @@ const defaultConfigOptions = {
   },
   background: "transparent",
   canvasBackgroundColor: "#6662",
-  canvasHeight: "61.8vh",
+  canvasHeight: "500px",
   ignoreCaptionLabels: [],
   informationPanel: {
     vtt: {
