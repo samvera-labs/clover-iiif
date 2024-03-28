@@ -116,7 +116,10 @@ const Painting: React.FC<PaintingProps> = ({
       <PaintingCanvas
         style={{
           backgroundColor: configOptions.canvasBackgroundColor,
-          height: configOptions.canvasHeight,
+          height:
+            configOptions.canvasHeight === "auto"
+              ? "100%"
+              : configOptions.canvasHeight,
         }}
       >
         {placeholderCanvas && !isMedia && (

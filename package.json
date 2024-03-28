@@ -1,6 +1,6 @@
 {
   "name": "@princeton/clover-iiif-test",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "description": "Extensible IIIF front-end toolkit and Manifest viewer. Accessible. Composable. Open Source.",
   "files": [
     "dist"

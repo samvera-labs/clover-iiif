@@ -164,6 +164,31 @@ const MyCustomViewer = () => {
 - Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
 - Option `options.openSeadragon` will grant you ability to override the [OpenSeadragon default options](https://openseadragon.github.io/docs/OpenSeadragon.html#.Options) set within the Clover IIIF Viewer to adjust touch and mouse gesture settings and various other configurations.
 
+### Canvas Height
+
+The height of the canvas can be set using the `options.canvasHeight` prop. This prop accepts a string value that is a valid CSS height value. The default value is `500px`.
+
+#### Automatic Height
+
+If the height is set to `auto` or `100%`, the **Viewer** will expand to the height of its wrapping container element. The wrapping element must have a position `relative`, along with a defined `height` for this to display as expected. Be aware to set a `z-index` value of `0` or an applicable value within your consuming application to ensure the viewer does not conflict with other page elements.
+
+```jsx
+export default function App() {
+  const iiifContent =
+    "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif";
+
+  const options = {
+    canvasHeight: "auto", // or "100%"
+  };
+
+  return (
+    <div style={{ position: "relative", height: "80vh", zIndex: "0" }}>
+      <Viewer iiifContent={iiifContent} options={options} />
+    </div>
+  );
+}
+```
+
 ### Information Panel
 
 The information panel is a collapsible panel that displays information about the current Manifest and renders supplementing resources for the active canvas. It is rendered by default, but can be configured to be hidden or to render only certain tabs.
