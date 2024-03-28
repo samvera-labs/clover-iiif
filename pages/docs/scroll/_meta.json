@@ -1,0 +1,9 @@
+{
+  "demo": {
+    "title": "Demo",
+    "theme": {
+      "sidebar": false,
+      "layout": "full"
+    }
+  }
+}
