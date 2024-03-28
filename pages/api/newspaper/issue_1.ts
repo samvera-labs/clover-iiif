@@ -87,10 +87,6 @@ function makeManifest(base_url: string, url: string) {
               },
             ],
           },
-          {
-            id: `${base_url}/api/annotations/1`,
-            type: "AnnotationPage",
-          },
         ],
       },
       {
@@ -125,12 +121,6 @@ function makeManifest(base_url: string, url: string) {
                 target: `${base_url}/api/newpaper/canvas/i1p2`,
               },
             ],
-          },
-        ],
-        annotations: [
-          {
-            id: `${base_url}/api/annotations/1`,
-            type: "AnnotationPage",
           },
         ],
       },

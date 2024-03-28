@@ -132,10 +132,6 @@ function makeManifest(base_url: string, url: string) {
               },
             ],
           },
-          {
-            id: `${base_url}/api/annotations/2`,
-            type: "AnnotationPage",
-          },
         ],
       },
       {
@@ -211,10 +207,6 @@ function makeManifest(base_url: string, url: string) {
             label: {
               en: ["Search results"],
             },
-          },
-          {
-            id: `${base_url}/api/annotations/2`,
-            type: "AnnotationPage",
           },
         ],
       },
