@@ -4,10 +4,13 @@ import { styled } from "src/styles/stitches.config";
 
 const PaintingStyled = styled("div", {
   position: "relative",
-  zIndex: "0",
   display: "flex",
   flexDirection: "column",
+  flexGrow: "1",
+  flexShrink: "1",
   gap: "1rem",
+  zIndex: "0",
+  overflow: "hidden",
 
   "&:hover": {
     [`${ToggleStyled}`]: {
@@ -16,14 +19,13 @@ const PaintingStyled = styled("div", {
 
     [`${PlaceholderStyled}`]: {
       backgroundColor: "#6662",
-
-      img: {
-        filter: "brightness(0.85)",
-      },
     },
   },
 });
 
-const PaintingCanvas = styled("div", {});
+const PaintingCanvas = styled("div", {
+  width: "100%",
+  height: "100%",
+});
 
 export { PaintingCanvas, PaintingStyled, ToggleStyled };
