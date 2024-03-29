@@ -1,6 +1,7 @@
 import { DocsThemeConfig } from "nextra-theme-docs";
 import Logo from "./docs/components/Logo";
 import React from "react";
+import TitleComponent from "./docs/components/TitleComponent";
 import { useConfig } from "nextra-theme-docs";
 import { useMemo } from "react";
 import { useRouter } from "next/router";
@@ -68,6 +69,8 @@ const config: DocsThemeConfig = {
   sidebar: {
     autoCollapse: true,
     defaultMenuCollapseLevel: 1,
+    titleComponent: (props) => <TitleComponent {...props} />,
+    toggleButton: true,
   },
 };
 

@@ -33,6 +33,13 @@ const buildOptions = {
       fileName: "index",
     },
   },
+  scroll: {
+    lib: {
+      name: "CloverIIIFScroll",
+      entry: "./src/components/Scroll/index.tsx",
+      fileName: "index",
+    },
+  },
 };
 
 (async () => {

@@ -1,0 +1,122 @@
+---
+title: Scroll
+---
+
+import Scroll from "docs/components/DynamicImports/Scroll";
+import IIIFBadge from "docs/components/IIIFBadge";
+import { Tabs, Tab } from "nextra/components";
+
+# Scroll
+
+A UI component rendering a vertical scrolling articles that output individual Canvases, basic descriptive properties, and Annotations with `commenting` motivations with support for `transcribing` and `translating` motivations.
+
+<IIIFBadge
+  href="https://iiif.io/api/presentation/3.0/#21-defined-types"
+  text={["Manifest"]}
+/>
+
+---
+
+<Scroll
+  iiifContent="https://digital.lib.utk.edu/assemble/manifest/civilwar/5390"
+  options={{ offset: 90 }}
+/>
+
+## Features
+
+Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Manifest and the component:
+
+- Renders the Canvases of a IIIF Manifest as HTML5 `article` elements
+- Outputs `Annotation` textual content along with `OpenSeadragon` for images
+- Automatically creates a client-side search index for full-text search of Annotations
+- Supports vertical scrolling and textual discovery with a fixed **Search...** input
+- Supports `commenting`, `transcribing`, and `translating` motivations
+
+## Installation
+
+<Tabs items={["npm", "yarn", "pnpm"]}>
+  {/* prettier-ignore */}
+  <Tab>
+    ```shell
+      npm install @samvera/clover-iiif
+    ```
+  </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    ```shell
+      yarn add @samvera/clover-iiif
+    ```
+  </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    ```shell
+      pnpm install @samvera/clover-iiif
+    ```
+  </Tab>
+</Tabs>
+
+## Usage
+
+### React
+
+Add the `Scroll` component to your `jsx` or `tsx` code.
+
+```jsx
+import Viewer from "@samvera/clover-iiif/scroll";
+```
+
+Render `Scroll` with a IIIF Manifest URI. The only required prop is the `iiifContent`, which is the URI of the IIIF Manifest.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx
+    <Scroll iiifContent="https://digital.lib.utk.edu/assemble/manifest/civilwar/5390" />
+    ```
+  </Tab>
+  <Tab>
+    <Scroll iiifContent="https://digital.lib.utk.edu/assemble/manifest/civilwar/5390" />
+  </Tab>
+</Tabs>
+
+### Next.js
+
+Implementation with Next.js requires a [dynamic import](https://nextjs.org/docs/advanced-features/dynamic-import) utilizing `next/dynamic`. This is due to Next's node compilation method creating issue with an `OpenSeadragon` (a dependency of Clover IIIF) assumption of a browser `document` object.
+
+```jsx
+import dynamic from "next/dynamic";
+
+const Scroll = dynamic(
+  () => import("@samvera/clover-iiif").then((Clover) => Clover.Scroll),
+  {
+    ssr: false,
+  },
+);
+
+const MyCustomScroll = () => {
+  const iiifContent =
+    "https://digital.lib.utk.edu/assemble/manifest/civilwar/5390";
+
+  return <Scroll iiifContent={iiifContent} />;
+};
+```
+
+## API Reference
+
+`Scroll` can configured through an `options` prop, which will serve as a object for common options.
+
+| Prop             | Type     | Required | Default |
+| ---------------- | -------- | -------- | ------- |
+| `iiifContent`    | `string` | Yes      |         |
+| `options`        | `object` | No       |         |
+| `options.offset` | `number` | No       | `0`     |
+
+### Offset
+
+The `options.offset` refers to the number of pixels to offset the fixed **Search...** input when scrolling vertically. This is useful when the `Scroll` is rendered within a page with a fixed header.
+
+```jsx
+<Scroll
+  iiifContent="https://digital.lib.utk.edu/assemble/manifest/civilwar/5390"
+  options={{ offset: 90 }}
+/>
+```

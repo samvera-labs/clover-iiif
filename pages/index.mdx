@@ -1,9 +1,10 @@
 import HomepageHeader from "docs/components/HomepageHeader";
 import Splash, { StyledGrid } from "docs/components/Splash/Splash";
 import SplashElement from "docs/components/Splash/Element";
-import Viewer from "docs/components/DynamicImports/Viewer";
 import Image from "docs/components/DynamicImports/Image";
+import Scroll from "docs/components/DynamicImports/Scroll";
 import Slider from "src/components/Slider";
+import Viewer from "docs/components/DynamicImports/Viewer";
 import {
   Homepage,
   Label,
@@ -42,6 +43,18 @@ import "swiper/css/pagination";
   >
     ```jsx
     <Viewer iiifContent="https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif" />
+    ```
+  </SplashElement>
+  <SplashElement
+    text="Scroll"
+    css={{ height: "860px" }}
+    component={
+      <Scroll iiifContent="https://digital.lib.utk.edu/assemble/manifest/civilwar/5390" />
+    }
+    href="docs/scroll"
+  >
+    ```jsx
+    <Scroll iiifContent="https://digital.lib.utk.edu/assemble/manifest/civilwar/5390" />
     ```
   </SplashElement>
   <SplashElement

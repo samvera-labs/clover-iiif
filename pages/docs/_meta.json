@@ -5,9 +5,13 @@
     "type": "separator",
     "title": "IIIF Components"
   },
-  "viewer": "Viewer",
   "image": "Image",
+  "scroll": {
+    "title": "Scroll",
+    "type": "doc"
+  },
   "slider": "Slider",
+  "viewer": "Viewer",
   "--primitives": {
     "type": "separator",
     "title": "IIIF Primitives"
