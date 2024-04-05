@@ -1,8 +1,13 @@
 import { InternationalString } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
+import React from "react";
 import { StyledScrollHeader } from "src/components/Scroll/Layout/Layout.styled";
 
-const ScrollHeader = ({ label }: { label: InternationalString }) => {
+interface ScrollHeaderProps {
+  label: InternationalString;
+}
+
+const ScrollHeader: React.FC<ScrollHeaderProps> = ({ label }) => {
   return (
     <StyledScrollHeader>
       <strong>
