@@ -7,6 +7,7 @@ import {
   Label,
   Metadata,
   PartOf,
+  Rendering,
   RequiredStatement,
   SeeAlso,
   Summary,
@@ -62,6 +63,9 @@ const App = () => {
         <PartOf partOf={manifest.partOf as PrimitivesIIIFResource[]} />
         <SeeAlso
           seeAlso={manifest.seeAlso as PrimitivesExternalWebResource[]}
+        />
+        <Rendering
+          rendering={manifest.rendering as PrimitivesExternalWebResource[]}
         />
         <Thumbnail
           thumbnail={manifest.thumbnail as IIIFExternalWebResource[]}

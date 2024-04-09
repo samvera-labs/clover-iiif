@@ -5,6 +5,7 @@ import Markup from "src/components/Primitives/Markup/Markup";
 import Metadata from "src/components/Primitives/Metadata/Metadata";
 import MetadataItem from "src/components/Primitives/Metadata/Item";
 import PartOf from "src/components/Primitives/PartOf/PartOf";
+import Rendering from "src/components/Primitives/Rendering/Rendering";
 import RequiredStatement from "src/components/Primitives/RequiredStatement/RequiredStatement";
 import SeeAlso from "src/components/Primitives/SeeAlso/SeeAlso";
 import Summary from "src/components/Primitives/Summary/Summary";
@@ -18,6 +19,7 @@ import {
   PrimitivesMetadata,
   PrimitivesMetadataItem,
   PrimitivesPartOf,
+  PrimitivesRendering,
   PrimitivesRequiredStatement,
   PrimitivesSeeAlso,
   PrimitivesSummary,
@@ -33,6 +35,7 @@ export interface CloverPrimitivesComposition {
   Metadata: React.FC<PrimitivesMetadata>;
   MetadataItem: React.FC<PrimitivesMetadataItem>;
   PartOf: React.FC<PrimitivesPartOf>;
+  Rendering: React.FC<PrimitivesRendering>;
   RequiredStatement: React.FC<PrimitivesRequiredStatement>;
   SeeAlso: React.FC<PrimitivesSeeAlso>;
   Summary: React.FC<PrimitivesSummary>;
@@ -52,6 +55,7 @@ Primitives.Markup = Markup;
 Primitives.Metadata = Metadata;
 Primitives.MetadataItem = MetadataItem;
 Primitives.PartOf = PartOf;
+Primitives.Rendering = Rendering;
 Primitives.RequiredStatement = RequiredStatement;
 Primitives.SeeAlso = SeeAlso;
 Primitives.Summary = Summary;
@@ -66,6 +70,7 @@ export {
   Metadata,
   MetadataItem,
   PartOf,
+  Rendering,
   RequiredStatement,
   SeeAlso,
   Summary,
