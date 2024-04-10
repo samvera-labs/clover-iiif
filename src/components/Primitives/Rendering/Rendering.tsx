@@ -15,7 +15,7 @@ const Rendering: React.FC<PrimitivesRendering> = (props) => {
    */
   const remove = ["as", "rendering"];
   const attributes = sanitizeAttributes(props, remove);
-  console.log(rendering);
+
   return (
     <StyledWrapper as={as}>
       {rendering &&
@@ -26,7 +26,7 @@ const Rendering: React.FC<PrimitivesRendering> = (props) => {
           ) as string;
           return (
             <StyledRendering key={resource.id}>
-              <a href={resource.id} {...attributes}>
+              <a href={resource.id} {...attributes} target="_blank">
                 {label ? label : resource.id}
               </a>
             </StyledRendering>
