@@ -12,6 +12,14 @@ const json: PrimitivesExternalWebResource[] = [
     },
     format: "application/pdf",
   },
+  {
+    id: "https://fixtures.iiif.io/other/UCLA/kabuki_ezukushi_rtl.pdf",
+    type: "Text",
+    label: {
+      en: ["PDF version"],
+    },
+    format: "application/pdf",
+  },
 ];
 
 describe("IIIF rendering property component", () => {
