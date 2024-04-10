@@ -13,7 +13,7 @@ const PropertiesRendering: React.FC<PropertiesRenderingProps> = ({
 
   return (
     <>
-      <span className="manifest-property-title">Rendering</span>
+      <span className="manifest-property-title">Alternate formats</span>
       <Rendering rendering={rendering} />
     </>
   );
