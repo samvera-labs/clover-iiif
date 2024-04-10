@@ -1,7 +1,4 @@
-import {
-  Document as FlexSearchDocumentIndex,
-  IndexOptionsForDocumentSearch,
-} from "flexsearch";
+import FlexSearch, { IndexOptionsForDocumentSearch } from "flexsearch";
 import React, { useContext } from "react";
 import {
   StyledSearch,
@@ -34,7 +31,7 @@ const ScrollSearch: React.FC<ScrollSearchProps> = ({ isPanelExpanded }) => {
   const { state } = useContext(ScrollContext);
   const { annotations, searchString = "" } = state;
 
-  const index = new FlexSearchDocumentIndex(config);
+  const index = new FlexSearch.Document(config);
   const indexIds: string[] = [];
   annotations?.forEach((annotation) => {
     annotation?.body?.forEach((body) => {

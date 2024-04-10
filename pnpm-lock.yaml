@@ -42,8 +42,8 @@ dependencies:
     specifier: ^1.2.8
     version: 1.2.8(react@18.2.0)
   flexsearch:
-    specifier: ^0.7.11
-    version: 0.7.11
+    specifier: ^0.7.43
+    version: 0.7.43
   hls.js:
     specifier: ^1.5.3
     version: 1.5.3
@@ -4222,13 +4222,8 @@ packages:
     resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
     dev: true
 
-  /flexsearch@0.7.11:
-    resolution: {integrity: sha512-7li2Kv9as1le1QuxK8lflA8D+qsI97wBAu8SPiDFZLtQ1wlakPOo6ytpRvd885tlEJez0qII1DnMpInhee4Y0Q==}
-    dev: false
-
   /flexsearch@0.7.43:
     resolution: {integrity: sha512-c5o/+Um8aqCSOXGcZoqZOm+NqtVwNsvVpWv6lfmSclU954O3wvQKxxK8zj74fPaSJbXpSLTs4PRhh+wnoCXnKg==}
-    dev: true
 
   /focus-visible@5.2.0:
     resolution: {integrity: sha512-Rwix9pBtC1Nuy5wysTmKy+UjbDJpIfg8eHjw0rjZ1mX4GNLz1Bmd16uDpI3Gk1i70Fgcs8Csg2lPm8HULFg9DQ==}
