@@ -101,12 +101,7 @@ const Painting: React.FC<PaintingProps> = ({
         "annotation-overlay",
       );
     }
-  }, [
-    normalizedCanvas?.id,
-    annotations,
-    openSeadragonViewer,
-    configOptions.annotationOverlays?.renderOverlays,
-  ]);
+  }, [normalizedCanvas, annotations, openSeadragonViewer, configOptions]);
 
   /** Update OpenSeadragon Viewer in viewer context */
   const handleOpenSeadragonCallback = (viewer) => {
@@ -121,7 +116,10 @@ const Painting: React.FC<PaintingProps> = ({
 
   const handleImageLoadedCallback = () => {
     // zoom and pan to content search result
-    if (activeContentSearchTarget) {
+    if (
+      activeContentSearchTarget &&
+      activeContentSearchTarget.startsWith(activeCanvas)
+    ) {
       panToTarget(
         openSeadragonViewer,
         configOptions,

@@ -6,7 +6,6 @@ import { IncomingHttpHeaders } from "http";
 import { Vault } from "@iiif/vault";
 import { deepMerge } from "src/lib/utils";
 import { v4 as uuidv4 } from "uuid";
-import { ParsedAnnotationTarget } from "src/types/annotations";
 
 export type AutoScrollSettings = {
   behavior: string; // ScrollBehavior ("auto" | "instant" | "smooth")
@@ -130,7 +129,7 @@ export type CustomDisplay = {
 export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
-  activeContentSearchTarget?: ParsedAnnotationTarget;
+  activeContentSearchTarget?: string;
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
@@ -157,7 +156,7 @@ export interface ViewerAction {
   isLoaded: boolean;
   isUserScrolling: number | undefined;
   manifestId: string;
-  activeContentSearchTarget?: ParsedAnnotationTarget;
+  activeContentSearchTarget?: string;
   vault: Vault;
   contentSearchVault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer;
