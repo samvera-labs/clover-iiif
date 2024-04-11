@@ -6,6 +6,7 @@ import {
   Homepage,
   Id,
   Metadata,
+  Rendering,
   RequiredStatement,
   Rights,
   SeeAlso,
@@ -29,6 +30,7 @@ const About: React.FC = () => {
 
   const [homepage, setHomepage] = useState<IIIFExternalWebResource[]>([]);
   const [seeAlso, setSeeAlso] = useState<IIIFExternalWebResource[]>([]);
+  const [rendering, setRendering] = useState<IIIFExternalWebResource[]>([]);
   const [thumbnail, setThumbnail] = useState<IIIFExternalWebResource[]>([]);
 
   useEffect(() => {
@@ -37,6 +39,7 @@ const About: React.FC = () => {
 
     if (data.homepage?.length > 0) setHomepage(vault.get(data.homepage));
     if (data.seeAlso?.length > 0) setSeeAlso(vault.get(data.seeAlso));
+    if (data.rendering?.length > 0) setRendering(vault.get(data.rendering));
     if (data.thumbnail?.length > 0) setThumbnail(vault.get(data.thumbnail));
   }, [activeManifest, vault]);
 
@@ -55,6 +58,9 @@ const About: React.FC = () => {
         />
         <SeeAlso
           seeAlso={seeAlso as unknown as PrimitivesExternalWebResource[]}
+        />
+        <Rendering
+          rendering={rendering as unknown as PrimitivesExternalWebResource[]}
         />
         <Id id={manifest.id} htmlLabel="IIIF Manifest" />
       </AboutContent>

@@ -10,6 +10,7 @@ import {
   Label,
   Metadata,
   PartOf,
+  Rendering,
   RequiredStatement,
   SeeAlso,
   Summary,
@@ -304,6 +305,32 @@ import "swiper/css/pagination";
       >
         ```jsx
         <SeeAlso seeAlso={manifest.seeAlso} />
+        ```
+      </SplashElement>
+      <SplashElement
+        text="Rendering"
+        css={{ height: "14.6vh" }}
+        component={
+          <Rendering
+            className="clover-link"
+            rendering={[
+              {
+                id: "https://fixtures.iiif.io/other/UCLA/kabuki_ezukushi_rtl.pdf",
+                type: "Text",
+                label: {
+                  en: [
+                    "PDF version"
+                  ]
+                },
+                format: "application/pdf"
+              }
+            ]}
+          />
+        }
+        href="docs/rendering"
+      >
+        ```jsx
+        <Rendering rendering={manifest.rendering} />
         ```
       </SplashElement>
       <SplashElement

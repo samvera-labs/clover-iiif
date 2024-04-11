@@ -82,6 +82,11 @@ export interface PrimitivesPartOf extends PrimitivesPrimitive {
   partOf: PrimitivesIIIFResource[];
 }
 
+export interface PrimitivesRendering extends PrimitivesPrimitive {
+  as?: "ol" | "ul";
+  rendering: PrimitivesExternalWebResource[];
+}
+
 export interface PrimitivesRequiredStatement extends PrimitivesPrimitive {
   as?: "dl";
   customValueDelimiter?: string;
