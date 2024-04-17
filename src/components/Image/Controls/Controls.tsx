@@ -89,14 +89,14 @@ const Controls = ({
 
   function renderPlugins() {
     return plugins
-      .filter((plugin) => plugin.menu)
+      .filter((plugin) => plugin.imageViewer?.menu)
       .map((plugin, i) => {
-        const PluginComponent = plugin.menu
+        const PluginComponent = plugin.imageViewer?.menu
           ?.component as unknown as React.ElementType;
         return (
           <PluginComponent
             key={i}
-            {...plugin?.menu?.componentProps}
+            {...plugin?.imageViewer?.menu?.componentProps}
             activeManifest={activeManifest}
             canvas={canvas}
             viewerConfigOptions={configOptions}
