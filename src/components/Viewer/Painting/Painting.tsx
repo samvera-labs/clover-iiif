@@ -126,6 +126,11 @@ const Painting: React.FC<PaintingProps> = ({
         activeContentSearchTarget,
         canvas,
       );
+
+      dispatch({
+        type: "updateActiveContentSearchTarget",
+        activeContentSearchTarget: undefined,
+      });
     }
   };
 
