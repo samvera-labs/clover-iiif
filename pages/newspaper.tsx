@@ -22,11 +22,13 @@ function Newspaper() {
         plugins={[
           {
             id: "AnnotationEditor",
-            menu: {
-              component: AnnotationEditor,
-              componentProps: {
-                annotationServer: `${base_url}/api/annotationsByCanvas/1`,
-                token: "123abc",
+            imageViewer: {
+              menu: {
+                component: AnnotationEditor,
+                componentProps: {
+                  annotationServer: `${base_url}/api/annotationsByCanvas/1`,
+                  token: "123abc",
+                },
               },
             },
             informationPanel: {
