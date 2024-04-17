@@ -9,6 +9,7 @@ import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
 import Track from "src/components/Viewer/Player/Track";
 import { getPaintingResource } from "src/hooks/use-iiif";
+import { hlsMimeTypes } from "src/lib/hls";
 
 // Set referrer header as a NU domain: ie. meadow.rdc-staging.library.northwestern.edu
 
@@ -51,8 +52,14 @@ const Player: React.FC<PlayerProps> = ({
     /**
      * Eject HLS attachment if file extension from
      * the IIIF content resource ID is not .m3u8
+     * and format is not one of many m3u8 formats.
      */
-    if (painting.id.split(".").pop() !== "m3u8") return;
+    if (
+      painting.id.split(".").pop() !== "m3u8" &&
+      painting.format &&
+      !hlsMimeTypes.includes(painting.format)
+    )
+      return;
 
     // Construct HLS.js config
     const config = {
