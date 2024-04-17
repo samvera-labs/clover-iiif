@@ -106,9 +106,11 @@ export type CustomDisplay = {
 };
 export type PluginConfig = {
   id: string;
-  menu?: {
-    component: React.ElementType;
-    componentProps?: Record<string, unknown>;
+  imageViewer?: {
+    menu?: {
+      component: React.ElementType;
+      componentProps?: Record<string, unknown>;
+    };
   };
   informationPanel?: {
     component: React.ElementType;

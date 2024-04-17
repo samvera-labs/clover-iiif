@@ -13,9 +13,11 @@ describe("setupPlugins", () => {
   it("returns plugins that have information panel", () => {
     const plugin: PluginConfig = {
       id: "plugin",
-      menu: {
-        component: ViewerComponent,
-        componentProps: { prop_a: "prop_a_value" },
+      imageViewer: {
+        menu: {
+          component: ViewerComponent,
+          componentProps: { prop_a: "prop_a_value" },
+        },
       },
       informationPanel: {
         component: InfoPanelComponent,
@@ -34,9 +36,11 @@ describe("setupPlugins", () => {
   it("returns empty arrays if plugins do not have information panel", () => {
     const plugin: PluginConfig = {
       id: "plugin",
-      menu: {
-        component: ViewerComponent,
-        componentProps: { prop_a: "prop_a_value" },
+      imageViewer: {
+        menu: {
+          component: ViewerComponent,
+          componentProps: { prop_a: "prop_a_value" },
+        },
       },
     };
     const res = setupPlugins([plugin]);
