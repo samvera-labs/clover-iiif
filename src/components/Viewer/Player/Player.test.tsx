@@ -128,6 +128,7 @@ describe("Player component", () => {
           collection: {},
           configOptions: {},
           customDisplays: [],
+          plugins: [],
           isInformationOpen: false,
           isLoaded: false,
           vault,
