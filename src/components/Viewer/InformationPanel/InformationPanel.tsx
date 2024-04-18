@@ -18,8 +18,8 @@ import { AnnotationResources } from "src/types/annotations";
 import Information from "src/components/Viewer/InformationPanel/About/About";
 import { InternationalString, CanvasNormalized } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
-import { setupPlugins, formatPluginAnnotations } from "src/lib/plugin-helpers";
-import ErrorFallback from "../Viewer/ErrorFallback";
+import { setupPlugins } from "src/lib/plugin-helpers";
+import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -61,26 +61,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     console.error(error);
   }
 
-  const { pluginsWithInfoPanel, pluginsAnnotationPageIds } =
-    setupPlugins(plugins);
-
-  function renderPluginLabel(plugin: PluginConfig, i: number) {
-    const annotations = formatPluginAnnotations(plugin, annotationResources);
-    if (
-      annotations.length === 0 &&
-      plugin.informationPanel?.displayIfNoAnnotations === false
-    ) {
-      return <></>;
-    }
-
-    const label = plugin.informationPanel?.label || { none: [plugin.id] };
-
-    return (
-      <Trigger key={i} value={plugin.id}>
-        <Label label={label} />
-      </Trigger>
-    );
-  }
+  const { pluginsWithInfoPanel } = setupPlugins(plugins);
 
   function renderPluginInformationPanel(plugin: PluginConfig, i: number) {
     const PluginInformationPanelComponent = plugin?.informationPanel
@@ -90,24 +71,10 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       return <></>;
     }
 
-    const annotations = formatPluginAnnotations(
-      plugin,
-      annotationResources,
-      vault,
-    );
-
-    if (
-      annotations.length === 0 &&
-      plugin.informationPanel?.displayIfNoAnnotations === false
-    ) {
-      return <></>;
-    }
-
     return (
       <Content key={i} value={plugin.id}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <PluginInformationPanelComponent
-            annotations={annotations}
             {...plugin?.informationPanel?.componentProps}
             activeManifest={activeManifest}
             canvas={canvas}
@@ -132,8 +99,10 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       !renderAbout
     ) {
       setActiveResource(annotationResources[0].id);
+    } else if (plugins.length > 0) {
+      setActiveResource(plugins[0].id);
     }
-  }, [activeCanvas, renderAbout, annotationResources]);
+  }, [activeCanvas, activeResource, renderAbout, annotationResources, plugins]);
 
   function handleScroll() {
     if (!isAutoScrolling) {
@@ -170,20 +139,20 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
         {renderAnnotation &&
           annotationResources &&
-          annotationResources
-            .filter((annotationPage) => {
-              return !pluginsAnnotationPageIds.includes(annotationPage.id);
-            })
-            .map((resource, i) => (
-              <Trigger key={i} value={resource.id}>
-                <Label label={resource.label as InternationalString} />
-              </Trigger>
-            ))}
+          annotationResources.map((resource, i) => (
+            <Trigger key={i} value={resource.id}>
+              <Label label={resource.label as InternationalString} />
+            </Trigger>
+          ))}
 
         {pluginsWithInfoPanel &&
-          pluginsWithInfoPanel.map((plugin, i) => {
-            return renderPluginLabel(plugin, i);
-          })}
+          pluginsWithInfoPanel.map((plugin, i) => (
+            <Trigger key={i} value={plugin.id}>
+              <Label
+                label={plugin.informationPanel?.label as InternationalString}
+              />
+            </Trigger>
+          ))}
       </List>
       <Scroll handleScroll={handleScroll}>
         {renderAbout && (
@@ -194,17 +163,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
         {renderAnnotation &&
           annotationResources &&
-          annotationResources
-            .filter((annotationPage) => {
-              return !pluginsAnnotationPageIds.includes(annotationPage.id);
-            })
-            .map((annotationPage) => {
-              return (
-                <Content key={annotationPage.id} value={annotationPage.id}>
-                  <AnnotationPage annotationPage={annotationPage} />
-                </Content>
-              );
-            })}
+          annotationResources.map((annotationPage) => (
+            <Content key={annotationPage.id} value={annotationPage.id}>
+              <AnnotationPage annotationPage={annotationPage} />
+            </Content>
+          ))}
 
         {pluginsWithInfoPanel &&
           pluginsWithInfoPanel.map((plugin, i) =>
