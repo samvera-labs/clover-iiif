@@ -5,7 +5,7 @@ import {
 } from "src/components/Scroll/Layout/Layout.styled";
 
 import { ScrollContext } from "src/context/scroll-context";
-import ScrollSearchResults from "src/components/Scroll/Panel/Search/Results";
+import ScrollSearchResults from "src/components/Scroll/Panel/Search/Search";
 import SearchForm from "src/components/Scroll/Panel/Search/Form";
 import { StyledPanel } from "src/components/Scroll/Panel/Panel.styled";
 import { useDistanceFromViewportTop } from "src/hooks/useDistanceFromViewportTop";
@@ -54,7 +54,7 @@ const ScrollPanel: React.FC<ScrollToggleProps> = ({
           data-panel-expanded={isPanelExpanded}
           isPanelExpanded={isPanelExpanded}
         >
-          <ScrollSearchResults isPanelExpanded={isPanelExpanded} />
+          {isPanelExpanded && <ScrollSearchResults />}
         </StyledPanel>
       </StyledScrollFixed>
     </StyledScrollAside>

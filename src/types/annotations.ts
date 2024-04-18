@@ -1,4 +1,8 @@
-import { AnnotationPageNormalized } from "@iiif/presentation-3";
+import {
+  Annotation,
+  AnnotationPageNormalized,
+  EmbeddedResource,
+} from "@iiif/presentation-3";
 
 type AnnotationResources = AnnotationPageNormalized[];
 
@@ -18,4 +22,12 @@ interface ParsedAnnotationTarget {
   t?: string;
 }
 
-export type { AnnotationResources, ParsedAnnotationTarget };
+interface AnnotationFlattened extends Annotation {
+  body: EmbeddedResource;
+}
+
+export type {
+  AnnotationFlattened,
+  AnnotationResources,
+  ParsedAnnotationTarget,
+};

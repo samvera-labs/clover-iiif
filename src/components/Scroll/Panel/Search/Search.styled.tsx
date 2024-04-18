@@ -11,10 +11,21 @@ const StyledSearchAnnotationInformation = styled("div", {
   gap: "0.25rem",
 });
 
+const StyledSearchAnnotationsResultsLabel = styled("div", {
+  fontSize: "0.9rem",
+  padding: "1rem 0.618rem",
+});
+
 const StyledSearchAnnotations = styled("div", {
   display: "flex",
   flexDirection: "column",
   gap: "0.5rem",
+
+  hr: {
+    margin: "0.618rem",
+    border: "none",
+    borderBottom: "1px solid #6662",
+  },
 
   button: {
     backgroundColor: "#6660",
@@ -26,7 +37,6 @@ const StyledSearchAnnotations = styled("div", {
     textAlign: "left",
     borderRadius: "6px",
     border: "1px solid #6662",
-    borderBottomWidth: "2px",
     display: "flex",
     flexDirection: "column",
     gap: "0.25rem",
@@ -39,11 +49,10 @@ const StyledSearchAnnotations = styled("div", {
     "&[data-result=true]": {
       backgroundColor: `rgba(${highlightColor}, 0.2)`,
       borderColor: `rgba(${highlightColor}, 0.2)`,
-      borderBottomColor: `rgba(${highlightColor}, 0.382)`,
       opacity: "1",
 
       "&:hover": {
-        backgroundColor: `rgba(${highlightColor}, 0.382)`,
+        backgroundColor: `rgba(${highlightColor}, 0.2)`,
       },
     },
   },
@@ -152,6 +161,7 @@ const StyledSearch = styled("div", {});
 export {
   StyledSearch,
   StyledSearchAnnotations,
+  StyledSearchAnnotationsResultsLabel,
   StyledSearchAnnotationInformation,
   StyledSearchBackButton,
   StyledSearchForm,

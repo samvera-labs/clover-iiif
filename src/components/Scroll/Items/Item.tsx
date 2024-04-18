@@ -1,4 +1,8 @@
-import { CanvasNormalized, Reference } from "@iiif/presentation-3";
+import {
+  CanvasNormalized,
+  EmbeddedResource,
+  Reference,
+} from "@iiif/presentation-3";
 import {
   PageBreak,
   StyledItem,
@@ -10,7 +14,7 @@ import { Label } from "src/components/Primitives";
 import React from "react";
 import { ScrollContext } from "src/context/scroll-context";
 import ScrollFigure from "src/components/Scroll/Figure/Figure";
-import ScrollItemBody from "src/components/Scroll/Items/Body";
+import ScrollItemBody from "src/components/Scroll/Annotation/Body";
 
 interface ScrollItemProps {
   hasItemBreak: boolean;
@@ -38,7 +42,10 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
     ?.filter((annotation) => annotation.target === item.id)
     ?.map((annotation) => {
       return annotation?.body?.map((body, index) => (
-        <ScrollItemBody body={body} key={index} />
+        <ScrollItemBody
+          body={body as unknown as EmbeddedResource}
+          key={index}
+        />
       ));
     });
 
