@@ -132,6 +132,7 @@ describe("Player component", () => {
           isLoaded: false,
           vault,
           openSeadragonViewer: null,
+          contentSearchVault: new Vault(),
         }}
       >
         <Player {...props} />
