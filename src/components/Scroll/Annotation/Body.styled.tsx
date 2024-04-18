@@ -3,7 +3,17 @@ import { styled } from "src/styles/stitches.config";
 const highlightColor = "255, 197, 32"; // #FFC520
 
 const TextualBody = styled("div", {
-  paddingTop: "1.618rem",
+  ul: {
+    padding: "1rem",
+  },
+
+  li: {
+    listStyleType: "disc",
+
+    li: {
+      listStyleType: "circle",
+    },
+  },
 
   "span.highlight": {
     position: "relative",

@@ -1,9 +1,11 @@
 import { render, screen } from "@testing-library/react";
 
 import Body from "./Body";
+import { EmbeddedResource } from "@iiif/presentation-3";
 import React from "react";
 
-const body = {
+const body: EmbeddedResource = {
+  type: "TextualBody",
   id: "https://body-id",
   format: "text/plain",
   value:

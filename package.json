@@ -70,6 +70,7 @@
     "@iiif/parser": "^1.1.2",
     "@iiif/vault": "^0.9.22",
     "@iiif/vault-helpers": "^0.10.0",
+    "@nulib/use-markdown": "^0.2.1",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
     "@radix-ui/react-collapsible": "^1.0.3",
     "@radix-ui/react-form": "^0.0.3",
