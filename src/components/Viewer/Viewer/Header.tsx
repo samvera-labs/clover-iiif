@@ -2,8 +2,8 @@ import {
   Header,
   HeaderOptions,
   IIIFBadgeButton,
-  IIIFBadgeContent,
   ManifestLabel,
+  PopoverContent,
 } from "./Header.styled";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
@@ -15,6 +15,7 @@ import { Label } from "src/components/Primitives";
 import { Popover } from "src/components/UI";
 import React from "react";
 import Toggle from "./Toggle";
+import ViewerDownload from "./Download";
 import { media } from "src/styles/stitches.config";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
 
@@ -27,12 +28,14 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
   const viewerState: ViewerContextStore = useViewerState();
   const { collection, configOptions } = viewerState;
 
-  const { showTitle, showIIIFBadge, informationPanel } = configOptions;
+  const { informationPanel, showDownload, showIIIFBadge, showTitle } =
+    configOptions;
 
   /**
    * Determine if header options should be rendered.
    */
-  const hasOptions = showIIIFBadge || informationPanel?.renderToggle;
+  const hasOptions =
+    showDownload || showIIIFBadge || informationPanel?.renderToggle;
   const isSmallViewport = useMediaQuery(media.sm);
 
   return (
@@ -46,12 +49,13 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
       )}
       {hasOptions && (
         <HeaderOptions>
+          {showDownload && <ViewerDownload />}
           {showIIIFBadge && (
             <Popover>
               <IIIFBadgeButton>
                 <IIIFBadge />
               </IIIFBadgeButton>
-              <IIIFBadgeContent>
+              <PopoverContent>
                 {collection?.items && (
                   <button
                     onClick={(e) => {
@@ -80,7 +84,7 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
                   textPrompt="Copy Manifest URL"
                   textToCopy={manifestId}
                 />
-              </IIIFBadgeContent>
+              </PopoverContent>
             </Popover>
           )}
           {informationPanel?.renderToggle && !isSmallViewport && <Toggle />}

@@ -55,7 +55,6 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   }, [activeCanvas, renderAbout, annotationResources]);
 
   function handleScroll() {
-    // console.log("Type of scroll: ", isAutoScrolling ? 'auto' : 'user');
     if (!isAutoScrolling) {
       clearTimeout(isUserScrolling);
       const timeout = setTimeout(() => {
