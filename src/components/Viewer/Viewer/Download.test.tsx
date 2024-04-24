@@ -4,6 +4,7 @@ import { render, screen } from "@testing-library/react";
 import Download from "./Download";
 import React from "react";
 import { Vault } from "@iiif/vault";
+import noRenderingManifest from "src/fixtures/viewer/rendering/manifest-without-renderings.json";
 import renderingManifest from "src/fixtures/iiif-cookbook/0046-rendering.json";
 import renderingMultipleManifest from "src/fixtures/viewer/rendering/manifest-with-renderings.json";
 import userEvent from "@testing-library/user-event";
@@ -80,5 +81,27 @@ describe("Viewer Download popover component", () => {
     expect(
       screen.getByText("Download the original file (image/tiff)"),
     ).toBeInTheDocument();
+  });
+
+  it("should not render the download button when no rendering items are present", async () => {
+    await vault.loadManifest("", noRenderingManifest);
+
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          activeManifest:
+            "https://iiif.io/api/cookbook/recipe/0046-rendering/manifest.json",
+          activeCanvas:
+            "https://iiif.io/api/cookbook/recipe/0046-rendering/canvas/p1",
+          vault,
+        }}
+      >
+        <Download />
+      </ViewerProvider>,
+    );
+
+    expect(screen.queryByTestId("download-button")).toBeNull();
+    expect(screen.queryByTestId("download-content")).toBeNull();
   });
 });

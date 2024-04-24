@@ -11,10 +11,15 @@ import useViewerDownload from "src/hooks/useViewerDownload";
 
 const ViewerDownload = () => {
   const { allPages, individualPages } = useViewerDownload();
+  const showDownloadButton = allPages.length > 0 || individualPages.length > 0;
 
   const handleDownloadClick = (id: RenderingItem["id"]) => {
     window.open(id, "_blank");
   };
+
+  if (!showDownloadButton) {
+    return null;
+  }
 
   return (
     <Popover>
