@@ -14,6 +14,19 @@ HTMLMediaElement.prototype.load = () => {};
 HTMLMediaElement.prototype.pause = () => {};
 //HTMLMediaElement.prototype.addTextTrack = () => { /* do nothing */ };
 
+// Mock ResizeObserver
+global.ResizeObserver = class ResizeObserver {
+  observe() {
+    // do nothing
+  }
+  unobserve() {
+    // do nothing
+  }
+  disconnect() {
+    // do nothing
+  }
+};
+
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
   cleanup();

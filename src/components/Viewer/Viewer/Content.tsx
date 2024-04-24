@@ -45,8 +45,6 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     annotationResources.length > 0 &&
     !informationPanel.open;
 
-  console.log(isAside, isForcedAside);
-
   return (
     <Content
       className="clover-viewer-content"

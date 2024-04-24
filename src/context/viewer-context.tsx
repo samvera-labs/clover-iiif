@@ -43,6 +43,7 @@ export type ViewerConfigOptions = {
   };
   openSeadragon?: OpenSeadragonOptions;
   requestHeaders?: IncomingHttpHeaders;
+  showDownload?: boolean;
   showIIIFBadge?: boolean;
   showTitle?: boolean;
   withCredentials?: boolean;
@@ -82,6 +83,7 @@ const defaultConfigOptions = {
   },
   openSeadragon: {},
   requestHeaders: { "Content-Type": "application/json" },
+  showDownload: true,
   showIIIFBadge: true,
   showTitle: true,
   withCredentials: false,

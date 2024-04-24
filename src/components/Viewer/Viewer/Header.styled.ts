@@ -7,7 +7,7 @@ const IIIFBadgeButton = styled(Popover.Trigger, {
   padding: "5px",
 });
 
-const IIIFBadgeContent = styled(Popover.Content, {
+const PopoverContent = styled(Popover.Content, {
   display: "flex",
   flexDirection: "column",
   fontSize: "0.8333rem",
@@ -85,6 +85,6 @@ export {
   Header,
   HeaderOptions,
   IIIFBadgeButton,
-  IIIFBadgeContent,
+  PopoverContent,
   ManifestLabel,
 };
