@@ -43,11 +43,10 @@ const Item = styled(RadioGroup.Item, {
     "> div": {
       position: "relative",
       display: "flex",
-      backgroundColor: "$secondaryAlt",
+      backgroundColor: "var(--gray-8)",
       width: "inherit",
       height: "100px",
       overflow: "hidden",
-      borderRadius: "3px",
       transition: "$all",
 
       img: {
@@ -72,8 +71,6 @@ const Item = styled(RadioGroup.Item, {
           backgroundColor: "#000d",
           color: "$secondary",
           fill: "$secondary",
-          borderBottomLeftRadius: "0",
-          borderTopRightRadius: "0",
         },
       },
     },
@@ -102,7 +99,7 @@ const Item = styled(RadioGroup.Item, {
         "&::before": {
           position: "absolute",
           zIndex: "1",
-          color: "$secondaryMuted",
+          color: "var(--gray-1)",
           content: "Active Item",
           textTransform: "uppercase",
           fontWeight: "700",
@@ -114,7 +111,6 @@ const Item = styled(RadioGroup.Item, {
           flexDirection: "column",
           justifyContent: "center",
           textAlign: "center",
-          textShadow: "5px 5px 5px #0003",
         },
 
         img: {
@@ -125,7 +121,7 @@ const Item = styled(RadioGroup.Item, {
 
         [`& ${Type}`]: {
           [`& ${Tag}`]: {
-            backgroundColor: "$accent",
+            backgroundColor: "var(--accent-10)",
           },
         },
       },

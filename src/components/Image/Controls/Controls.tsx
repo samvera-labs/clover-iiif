@@ -102,6 +102,7 @@ const Controls = ({
     <Wrapper
       data-testid="clover-iiif-image-openseadragon-controls"
       hasPlaceholder={_cloverViewerHasPlaceholder}
+      gap="2"
     >
       {config.showZoomControl && (
         <>

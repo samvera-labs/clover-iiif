@@ -56,6 +56,7 @@ const Toggle: React.FC<ToggleProps> = ({
       isInteractive={isInteractive}
       isMedia={isMedia}
       data-testid="placeholder-toggle"
+      highContrast
     >
       {isInteractive ? <CloseIcon /> : <OpenIcon isMedia={isMedia} />}
     </ToggleStyled>

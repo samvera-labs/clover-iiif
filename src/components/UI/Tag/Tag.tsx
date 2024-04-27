@@ -8,7 +8,6 @@ export const Tag = styled("div", {
   // Custom
   display: "inline-flex",
   alignItems: "center",
-  borderRadius: "5px",
   padding: "$1",
   marginBottom: "$2",
   marginRight: "$2",

@@ -1,3 +1,4 @@
+import { DataList } from "@radix-ui/themes";
 import MetadataItem from "src/components/Primitives/Metadata/Item";
 import { PrimitivesMetadata } from "src/types/primitives";
 import { PrimitivesProvider } from "src/context/primitives-context";
@@ -34,7 +35,7 @@ const Metadata: React.FC<PrimitivesMetadata> = (props) => {
         : undefined)}
     >
       {metadata.length > 0 && (
-        <StyledMetadata as={as} {...attributes}>
+        <DataList.Root orientation="vertical" {...attributes}>
           {metadata.map((item, index) => {
             const customValue = customValueContent
               ? parseCustomContent(item.label, customValueContent)
@@ -49,7 +50,7 @@ const Metadata: React.FC<PrimitivesMetadata> = (props) => {
               />
             );
           })}
-        </StyledMetadata>
+        </DataList.Root>
       )}
     </PrimitivesProvider>
   );

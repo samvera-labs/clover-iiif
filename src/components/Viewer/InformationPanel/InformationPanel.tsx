@@ -1,10 +1,4 @@
-import {
-  Content,
-  List,
-  Scroll,
-  Trigger,
-  Wrapper,
-} from "src/components/Viewer/InformationPanel/InformationPanel.styled";
+import { Box, Flex, ScrollArea, Tabs } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
 import {
   ViewerContextStore,
@@ -27,6 +21,7 @@ import { setupPlugins } from "src/lib/plugin-helpers";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 
 import { ErrorBoundary } from "react-error-boundary";
+import { Scroll } from "./InformationPanel.styled";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
 
@@ -147,68 +142,117 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   };
 
   return (
-    <Wrapper
-      data-testid="information-panel"
-      defaultValue={activeResource}
-      onValueChange={handleValueChange}
-      orientation="horizontal"
-      value={activeResource}
-      className="clover-viewer-information-panel"
-    >
-      <List aria-label="select chapter" data-testid="information-panel-list">
-        {renderAbout && <Trigger value="manifest-about">About</Trigger>}
-        {renderContentSearch && contentSearchResource && (
-          <Trigger value="manifest-content-search">
-            <Label label={contentSearchResource.label as InternationalString} />
-          </Trigger>
-        )}
-        {renderAnnotation &&
-          annotationResources &&
-          annotationResources.map((resource, i) => (
-            <Trigger key={i} value={resource.id}>
-              <Label label={resource.label as InternationalString} />
-            </Trigger>
-          ))}
+    // <Wrapper
+    //   data-testid="information-panel"
+    //   defaultValue={activeResource}
+    //   onValueChange={handleValueChange}
+    //   orientation="horizontal"
+    //   value={activeResource}
+    //   className="clover-viewer-information-panel"
+    // >
+    //   <List aria-label="select chapter" data-testid="information-panel-list">
+    //     {renderAbout && <Trigger value="manifest-about">About</Trigger>}
+    //     {renderContentSearch && contentSearchResource && (
+    //       <Trigger value="manifest-content-search">
+    //         <Label label={contentSearchResource.label as InternationalString} />
+    //       </Trigger>
+    //     )}
+    //     {renderAnnotation &&
+    //       annotationResources &&
+    //       annotationResources.map((resource, i) => (
+    //         <Trigger key={i} value={resource.id}>
+    //           <Label label={resource.label as InternationalString} />
+    //         </Trigger>
+    //       ))}
 
-        {pluginsWithInfoPanel &&
-          pluginsWithInfoPanel.map((plugin, i) => (
-            <Trigger key={i} value={plugin.id}>
-              <Label
-                label={plugin.informationPanel?.label as InternationalString}
-              />
-            </Trigger>
-          ))}
-      </List>
-      <Scroll handleScroll={handleScroll}>
-        {renderAbout && (
-          <Content value="manifest-about">
-            <Information />
-          </Content>
-        )}
-        {renderContentSearch && contentSearchResource && (
-          <Content value="manifest-content-search">
-            <ContentSearch
-              searchServiceUrl={searchServiceUrl}
-              setContentSearchResource={setContentSearchResource}
-              activeCanvas={activeCanvas}
-              annotationPage={contentSearchResource}
-            />
-          </Content>
-        )}
-        {renderAnnotation &&
-          annotationResources &&
-          annotationResources.map((annotationPage) => (
-            <Content key={annotationPage.id} value={annotationPage.id}>
-              <AnnotationPage annotationPage={annotationPage} />
-            </Content>
-          ))}
+    //     {pluginsWithInfoPanel &&
+    //       pluginsWithInfoPanel.map((plugin, i) => (
+    //         <Trigger key={i} value={plugin.id}>
+    //           <Label
+    //             label={plugin.informationPanel?.label as InternationalString}
+    //           />
+    //         </Trigger>
+    //       ))}
+    //   </List>
+    //   <Scroll handleScroll={handleScroll}>
+    //     {renderAbout && (
+    //       <Content value="manifest-about">
+    //         <Information />
+    //       </Content>
+    //     )}
+    //     {renderContentSearch && contentSearchResource && (
+    //       <Content value="manifest-content-search">
+    //         <ContentSearch
+    //           searchServiceUrl={searchServiceUrl}
+    //           setContentSearchResource={setContentSearchResource}
+    //           activeCanvas={activeCanvas}
+    //           annotationPage={contentSearchResource}
+    //         />
+    //       </Content>
+    //     )}
+    //     {renderAnnotation &&
+    //       annotationResources &&
+    //       annotationResources.map((annotationPage) => (
+    //         <Content key={annotationPage.id} value={annotationPage.id}>
+    //           <AnnotationPage annotationPage={annotationPage} />
+    //         </Content>
+    //       ))}
 
-        {pluginsWithInfoPanel &&
-          pluginsWithInfoPanel.map((plugin, i) =>
-            renderPluginInformationPanel(plugin, i),
+    //     {pluginsWithInfoPanel &&
+    //       pluginsWithInfoPanel.map((plugin, i) =>
+    //         renderPluginInformationPanel(plugin, i),
+    //       )}
+    //   </Scroll>
+    // </Wrapper>
+    <Box style={{ width: "100%", height: "100%" }}>
+      <Tabs.Root
+        data-testid="information-panel"
+        defaultValue={activeResource}
+        onValueChange={handleValueChange}
+        orientation="horizontal"
+        value={activeResource}
+        className="clover-viewer-information-panel"
+      >
+        <Tabs.List
+          aria-label="select chapter"
+          data-testid="information-panel-list"
+        >
+          {renderAbout && (
+            <Tabs.Trigger value="manifest-about">About</Tabs.Trigger>
           )}
-      </Scroll>
-    </Wrapper>
+
+          {renderAnnotation &&
+            annotationResources &&
+            annotationResources.map((resource, i) => (
+              <Tabs.Trigger key={i} value={resource.id}>
+                <Label label={resource.label as InternationalString} />
+              </Tabs.Trigger>
+            ))}
+        </Tabs.List>
+        <ScrollArea style={{ height: "500px" }}>
+          <Scroll>
+            {renderAbout && (
+              <Tabs.Content value="manifest-about">
+                <Information />
+              </Tabs.Content>
+            )}
+
+            {renderAnnotation &&
+              annotationResources &&
+              annotationResources.map((annotationPage) => {
+                return (
+                  <Tabs.Content
+                    key={annotationPage.id}
+                    value={annotationPage.id}
+                  >
+                    <AnnotationPage annotationPage={annotationPage} />
+                  </Tabs.Content>
+                );
+              })}
+          </Scroll>
+        </ScrollArea>
+      </Tabs.Root>
+    </Box>
   );
 };
 
