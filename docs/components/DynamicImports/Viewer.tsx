@@ -5,6 +5,7 @@ import {
 import dynamic from "next/dynamic";
 import { isDark } from "docs/lib/theme";
 import { useRouter } from "next/router";
+import { Theme } from "@radix-ui/themes";
 
 // todo: set this as a constant somewhere?
 const defaultIiifContent =

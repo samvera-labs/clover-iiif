@@ -8,12 +8,11 @@ const Navigator = styled("div", {
   width: "161.8px",
   height: "100px",
   backgroundColor: "#000D",
-  boxShadow: "5px 5px 5px #0002",
-  borderRadius: "3px",
+  boxShadow: "var(--shadow-3)",
 
   ".displayregion": {
-    border: " 3px solid $accent !important",
-    boxShadow: "0 0 3px #0006",
+    border: " 2px solid var(--accent-10) !important",
+    boxShadow: "var(--shadow-3)",
   },
 
   "@sm": {
@@ -28,16 +27,14 @@ const Navigator = styled("div", {
 });
 
 const Viewport = styled("div", {
-  position: "relative",
+  position: "absolute",
   width: "100%",
   height: "100%",
   zIndex: "0",
 });
 
 const Wrapper = styled("div", {
-  width: "100%",
-  height: "100%",
-  maxHeight: "100vh",
+  objectFit: "cover",
   background: "transparent",
   backgroundSize: "contain",
   color: "white",

@@ -1,11 +1,11 @@
+import { Flex } from "@radix-ui/themes";
 import { styled } from "src/styles/stitches.config";
 
-const Wrapper = styled("div", {
+const Wrapper = styled(Flex, {
   position: "absolute",
   zIndex: "1",
   top: "1rem",
   right: "1rem",
-  display: "flex",
 
   "@xs": {
     flexDirection: "column",

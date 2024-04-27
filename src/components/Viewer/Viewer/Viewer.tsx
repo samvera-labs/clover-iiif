@@ -1,3 +1,5 @@
+import "@radix-ui/themes/styles.css";
+
 import * as Collapsible from "@radix-ui/react-collapsible";
 
 import {
@@ -20,6 +22,7 @@ import { AnnotationResources } from "src/types/annotations";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
+import { Theme } from "@radix-ui/themes";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
 import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
@@ -113,31 +116,33 @@ const Viewer: React.FC<ViewerProps> = ({ manifest, theme }) => {
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Wrapper
-        className={`${theme} clover-viewer`}
-        css={{ background: configOptions?.background }}
-        data-body-locked={isBodyLocked}
-        data-absolute-position={isAbsolutePosition}
-        data-information-panel={isInformationPanel}
-        data-information-panel-open={isInformationOpen}
-      >
-        <Collapsible.Root
-          open={isInformationOpen}
-          onOpenChange={setInformationOpen}
+      <Theme>
+        <Wrapper
+          className={`${theme} clover-viewer`}
+          css={{ background: configOptions?.background }}
+          data-body-locked={isBodyLocked}
+          data-absolute-position={isAbsolutePosition}
+          data-information-panel={isInformationPanel}
+          data-information-panel-open={isInformationOpen}
         >
-          <ViewerHeader
-            manifestLabel={manifest.label as InternationalString}
-            manifestId={manifest.id}
-          />
-          <ViewerContent
-            activeCanvas={activeCanvas}
-            painting={painting}
-            annotationResources={annotationResources}
-            items={manifest.items}
-            isAudioVideo={isAudioVideo}
-          />
-        </Collapsible.Root>
-      </Wrapper>
+          <Collapsible.Root
+            open={isInformationOpen}
+            onOpenChange={setInformationOpen}
+          >
+            <ViewerHeader
+              manifestLabel={manifest.label as InternationalString}
+              manifestId={manifest.id}
+            />
+            <ViewerContent
+              activeCanvas={activeCanvas}
+              painting={painting}
+              annotationResources={annotationResources}
+              items={manifest.items}
+              isAudioVideo={isAudioVideo}
+            />
+          </Collapsible.Root>
+        </Wrapper>
+      </Theme>
     </ErrorBoundary>
   );
 };
