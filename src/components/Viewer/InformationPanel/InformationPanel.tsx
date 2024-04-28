@@ -58,7 +58,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   useEffect(() => {
     if (activeResource) {
       return;
-    } else if (renderContentSearch) {
+    } else if (renderContentSearch && contentSearchResource) {
       setActiveResource("manifest-content-search");
     } else if (renderAbout) {
       setActiveResource("manifest-about");
