@@ -22,7 +22,6 @@ const FormStyled = styled("div", {
   marginBottom: "1rem",
 
   input: {
-    background: "#efefef",
     padding: ".25rem",
   },
 });
