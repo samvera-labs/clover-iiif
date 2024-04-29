@@ -47,16 +47,9 @@ export const getContentSearchResources = async (
     return { label: { none: [tabLabel] } } as unknown as AnnotationResource;
   }
 
-  let url = `${searchUrl}?q=${searchQuery["q"].trim()}`;
-  if (searchQuery["motivation"]) {
-    url += `&motivation=${searchQuery["motivation"]}`;
-  }
-  if (searchQuery["date"]) {
-    url += `&date=${searchQuery["date"].trim()}`;
-  }
-  if (searchQuery["user"]) {
-    url += `&user=${searchQuery["user"].trim()}`;
-  }
+  // TODO: handle other query params (e.g. motivation, date, user) defined in
+  // Content Search spec
+  const url = `${searchUrl}?q=${searchQuery["q"].trim()}`;
 
   let annotationPage;
   try {
