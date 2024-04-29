@@ -1,4 +1,8 @@
-import { AnnotationResources, AnnotationResource } from "src/types/annotations";
+import {
+  AnnotationResources,
+  AnnotationResource,
+  ContentSearchQuery,
+} from "src/types/annotations";
 import { CanvasNormalized } from "@iiif/presentation-3";
 
 export const getAnnotationResources = (
@@ -36,10 +40,29 @@ export const getContentSearchResources = async (
   contentSearchVault: any,
   searchUrl: string,
   tabLabel: string,
+  searchQuery?: ContentSearchQuery,
 ): Promise<AnnotationResource> => {
+  if (searchQuery == undefined || searchQuery["q"] == undefined) {
+    // must return a label because Information Panel tab requires a label
+    return { label: { none: [tabLabel] } } as unknown as AnnotationResource;
+  }
+
+  let url = `${searchUrl}?q=${searchQuery["q"].trim()}`;
+  if (searchQuery["motivation"]) {
+    url += `&motivation=${searchQuery["motivation"]}`;
+  }
+  if (searchQuery["date"]) {
+    url += `&date=${searchQuery["date"].trim()}`;
+  }
+  if (searchQuery["user"]) {
+    url += `&user=${searchQuery["user"].trim()}`;
+  }
+
+  debugger;
+
   let annotationPage;
   try {
-    annotationPage = await contentSearchVault.load(searchUrl);
+    annotationPage = await contentSearchVault.load(url);
   } catch (error) {
     console.log("Could not load content search.");
     return {} as AnnotationResource;

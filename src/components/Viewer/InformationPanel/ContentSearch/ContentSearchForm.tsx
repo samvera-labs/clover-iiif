@@ -32,6 +32,7 @@ const SearchContent: React.FC<Props> = ({
     const tabLabel = searchText?.tabLabel as string;
 
     if (!openSeadragonViewer) return;
+    if (!searchServiceUrl) return;
     if (!searchTerms || searchTerms.trim() === "") {
       // must return a label because Information Panel tab requires a label
       setContentSearchResource({
@@ -42,13 +43,12 @@ const SearchContent: React.FC<Props> = ({
 
     setLoading(true);
 
-    const url = searchServiceUrl + "?q=" + searchTerms.trim();
-    getContentSearchResources(contentSearchVault, url, tabLabel).then(
-      (resources) => {
-        setContentSearchResource(resources);
-        setLoading(false);
-      },
-    );
+    getContentSearchResources(contentSearchVault, searchServiceUrl, tabLabel, {
+      q: searchTerms,
+    }).then((resources) => {
+      setContentSearchResource(resources);
+      setLoading(false);
+    });
   }
 
   const handleChange = (e: any) => {

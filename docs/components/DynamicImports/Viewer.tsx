@@ -5,6 +5,7 @@ import {
 import dynamic from "next/dynamic";
 import { isDark } from "docs/lib/theme";
 import { useRouter } from "next/router";
+import { ContentSearchQuery } from "src/types/annotations";
 
 // todo: set this as a constant somewhere?
 const defaultIiifContent =
@@ -18,12 +19,12 @@ const CloverViewer = ({
   iiifContent = defaultIiifContent,
   options,
   customDisplays,
-  iiifContentSearch,
+  iiifContentSearchQuery,
 }: {
   iiifContent: string;
   options?: ViewerConfigOptions;
   customDisplays?: Array<CustomDisplay>;
-  iiifContentSearch?: string;
+  iiifContentSearchQuery?: ContentSearchQuery;
 }) => {
   const router = useRouter();
   const iiifResource = router.query["iiif-content"]
@@ -35,7 +36,7 @@ const CloverViewer = ({
   return (
     <Viewer
       iiifContent={iiifResource}
-      iiifContentSearch={iiifContentSearch}
+      iiifContentSearchQuery={iiifContentSearchQuery}
       options={{ ...options, background }}
       key={iiifResource}
       {...(customDisplays && { customDisplays })}

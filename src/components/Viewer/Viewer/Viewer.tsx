@@ -34,17 +34,18 @@ import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
 import { media } from "src/styles/stitches.config";
 import { useBodyLocked } from "src/hooks/useBodyLocked";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
+import { ContentSearchQuery } from "src/types/annotations";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
   theme?: unknown;
-  iiifContentSearch?: string;
+  iiifContentSearchQuery?: ContentSearchQuery;
 }
 
 const Viewer: React.FC<ViewerProps> = ({
   manifest,
   theme,
-  iiifContentSearch,
+  iiifContentSearchQuery,
 }) => {
   /**
    * Viewer State
@@ -134,19 +135,25 @@ const Viewer: React.FC<ViewerProps> = ({
     setIsInformationPanel(resources.length !== 0);
   }, [activeCanvas, vault, viewerDispatch]);
 
-  // make request to content search service using iiifContentSearch prop
+  // make request to content search service using iiifContentSearchQuery prop
   useEffect(() => {
-    if (iiifContentSearch === undefined) return;
+    if (!searchServiceUrl) return;
     if (configOptions.informationPanel?.renderContentSearch === false) return;
 
     getContentSearchResources(
       contentSearchVault,
-      iiifContentSearch,
+      searchServiceUrl,
       configOptions.localeText?.contentSearch?.tabLabel as string,
+      iiifContentSearchQuery,
     ).then((contentSearch) => {
       setContentSearchResource(contentSearch);
     });
-  }, [iiifContentSearch, contentSearchVault, configOptions]);
+  }, [
+    iiifContentSearchQuery,
+    searchServiceUrl,
+    contentSearchVault,
+    configOptions,
+  ]);
 
   // add overlays for content search
   useEffect(() => {

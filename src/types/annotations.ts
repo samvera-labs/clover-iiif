@@ -2,7 +2,6 @@ import {
   Annotation,
   AnnotationPageNormalized,
   EmbeddedResource,
-  InternationalString,
 } from "@iiif/presentation-3";
 
 type AnnotationResources = AnnotationPageNormalized[];
@@ -28,15 +27,11 @@ interface AnnotationFlattened extends Annotation {
   body: EmbeddedResource;
 }
 
-type FormattedAnnotationItem = {
-  [k: string]: any;
-};
-
-type SearchContentResources = {
-  id: string;
-  label: InternationalString;
-  motivation: string | undefined;
-  items: { [k: string]: FormattedAnnotationItem[] };
+type ContentSearchQuery = {
+  q: string;
+  motivation?: string;
+  date?: string;
+  user?: string;
 };
 
 export type {
@@ -44,5 +39,5 @@ export type {
   AnnotationResources,
   AnnotationResource,
   ParsedAnnotationTarget,
-  SearchContentResources,
+  ContentSearchQuery,
 };

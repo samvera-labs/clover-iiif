@@ -10,7 +10,9 @@ import CallToAction from "docs/components/CallToAction";
 
 <Viewer
   iiifContent="http://localhost:3000/manifest/newspaper/newspaper_issue_1.json"
-  iiifContentSearch="http://localhost:3000/api/newspaper_search/1?q=Berliner"
+  iiifContentSearchQuery={{
+    q: "Berliner",
+  }}
   options={{
     informationPanel: { open: true },
     canvasHeight: "640px",
