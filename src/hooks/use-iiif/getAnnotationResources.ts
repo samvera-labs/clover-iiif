@@ -58,8 +58,6 @@ export const getContentSearchResources = async (
     url += `&user=${searchQuery["user"].trim()}`;
   }
 
-  debugger;
-
   let annotationPage;
   try {
     annotationPage = await contentSearchVault.load(url);

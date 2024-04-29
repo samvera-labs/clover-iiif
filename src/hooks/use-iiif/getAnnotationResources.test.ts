@@ -283,7 +283,7 @@ describe("getAnnotationResources method", () => {
 });
 
 describe("getContentSearchResources", () => {
-  it("returns empty object if content is not search content v2", async () => {
+  it("returns object with label if content is not search content v2", async () => {
     const searchUrl =
       "http://localhost:3000/manifest/content-search/search-v1.json";
     const vault = new Vault();
@@ -293,6 +293,6 @@ describe("getContentSearchResources", () => {
       "Search Results",
     );
 
-    expect(result).toStrictEqual({});
+    expect(result).toStrictEqual({ label: { none: ["Search Results"] } });
   });
 });
