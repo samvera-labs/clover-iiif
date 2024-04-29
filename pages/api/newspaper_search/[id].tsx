@@ -16,13 +16,13 @@ export default async function handler(
     return res.status(200).json({ errror: "missing search term" });
   }
 
-  const manifest = createManifest(id, searchTerm);
+  const contentSearchResponse = createContentSearchResponse(id, searchTerm);
 
-  return res.status(200).json(manifest);
+  return res.status(200).json(contentSearchResponse);
 }
 
-function createManifest(id: string, searchTerm: string) {
-  const manifest: AnnotationPage = {
+function createContentSearchResponse(id: string, searchTerm: string) {
+  const annotationPage: AnnotationPage = {
     "@context": "http://iiif.io/api/search/2/context.json",
     id: `http://localhost:3000/api/newspaper_search/${id}?q=${searchTerm}`,
     type: "AnnotationPage",
@@ -38,8 +38,8 @@ function createManifest(id: string, searchTerm: string) {
     if (matches) {
       matches.forEach((match) => {
         const [stringId, x, y, w, h] = match;
-        if (manifest.items) {
-          manifest.items.push({
+        if (annotationPage.items) {
+          annotationPage.items.push({
             id: `http://localhost:3000/manifest/newspaper/annotation/${stringId}`,
             type: "Annotation",
             motivation: "highlighting",
@@ -57,5 +57,5 @@ function createManifest(id: string, searchTerm: string) {
       });
     }
   });
-  return manifest;
+  return annotationPage;
 }
