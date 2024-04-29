@@ -96,7 +96,7 @@ const Painting: React.FC<PaintingProps> = ({
       addOverlaysToViewer(
         openSeadragonViewer,
         normalizedCanvas,
-        configOptions,
+        configOptions.annotationOverlays,
         annotations,
         "annotation-overlay",
       );

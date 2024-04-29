@@ -13,6 +13,7 @@ import {
   ViewerContextStore,
   useViewerDispatch,
   useViewerState,
+  type ViewerConfigOptions,
 } from "src/context/viewer-context";
 import {
   getAnnotationResources,
@@ -239,7 +240,7 @@ function addContentSearchOverlays(
   contentSearch: AnnotationPageNormalized,
   openSeadragonViewer,
   canvas: CanvasNormalized,
-  configOptions,
+  configOptions: ViewerConfigOptions,
 ) {
   const annotations: Array<AnnotationNormalized> = [];
   contentSearch?.items?.forEach((item) => {
@@ -252,11 +253,11 @@ function addContentSearchOverlays(
     }
   });
 
-  if (openSeadragonViewer) {
+  if (openSeadragonViewer && configOptions.contentSearch?.overlays) {
     addOverlaysToViewer(
       openSeadragonViewer,
       canvas,
-      configOptions,
+      configOptions.contentSearch.overlays,
       annotations,
       "content-search-overlay",
     );

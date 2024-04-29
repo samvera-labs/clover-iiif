@@ -18,20 +18,13 @@ export type AutoScrollOptions = {
 };
 
 export type ViewerConfigOptions = {
-  annotationOverlays?: {
-    backgroundColor?: string;
-    borderColor?: string;
-    borderType?: string;
-    borderWidth?: string;
-    opacity?: string;
-    renderOverlays?: boolean;
-    zoomLevel?: number;
-  };
+  annotationOverlays?: OverlayOptions;
   background?: string;
   canvasBackgroundColor?: string;
   canvasHeight?: string;
   contentSearch?: {
     searchResultsLimit?: number;
+    overlays?: OverlayOptions;
   };
   ignoreCaptionLabels?: string[];
   informationPanel?: {
@@ -63,6 +56,16 @@ export type ViewerConfigOptions = {
   };
 };
 
+export type OverlayOptions = {
+  backgroundColor?: string;
+  borderColor?: string;
+  borderType?: string;
+  borderWidth?: string;
+  opacity?: string;
+  renderOverlays?: boolean;
+  zoomLevel?: number;
+};
+
 const defaultAutoScrollSettings: AutoScrollSettings = {
   behavior: "smooth",
   block: "center",
@@ -70,8 +73,8 @@ const defaultAutoScrollSettings: AutoScrollSettings = {
 
 const defaultConfigOptions = {
   annotationOverlays: {
-    backgroundColor: "#ff6666",
-    borderColor: "#990000",
+    backgroundColor: "#6666ff",
+    borderColor: "#000099",
     borderType: "solid",
     borderWidth: "1px",
     opacity: "0.5",
@@ -83,6 +86,15 @@ const defaultConfigOptions = {
   canvasHeight: "500px",
   contentSearch: {
     searchResultsLimit: 20,
+    overlays: {
+      backgroundColor: "#ff6666",
+      borderColor: "#990000",
+      borderType: "solid",
+      borderWidth: "1px",
+      opacity: "0.5",
+      renderOverlays: true,
+      zoomLevel: 2,
+    },
   },
   ignoreCaptionLabels: [],
   informationPanel: {

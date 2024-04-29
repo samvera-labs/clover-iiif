@@ -83,7 +83,7 @@ describe("addOverlaysToViewer", () => {
     addOverlaysToViewer(
       viewer,
       canvas,
-      configOptions,
+      configOptions.annotationOverlays,
       annotations,
       "annotation-overlay",
     );
@@ -109,7 +109,7 @@ describe("addOverlaysToViewer", () => {
     addOverlaysToViewer(
       viewer,
       canvas,
-      configOptions,
+      configOptions.annotationOverlays,
       annotations,
       "annotation-overlay",
     );
@@ -151,7 +151,7 @@ describe("addOverlaysToViewer", () => {
     addOverlaysToViewer(
       viewer,
       canvas,
-      configOptions,
+      configOptions.annotationOverlays,
       annotations,
       "annotation-overlay",
     );
@@ -195,7 +195,7 @@ describe("addOverlaysToViewer", () => {
     addOverlaysToViewer(
       viewer,
       canvas,
-      configOptions,
+      configOptions.annotationOverlays,
       annotations,
       "annotation-overlay",
     );

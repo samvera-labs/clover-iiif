@@ -5,7 +5,7 @@ import {
   type CanvasNormalized,
 } from "@iiif/presentation-3";
 import OpenSeadragon from "openseadragon";
-import { type ViewerConfigOptions } from "src/context/viewer-context";
+import { type OverlayOptions } from "src/context/viewer-context";
 import { OsdSvgOverlay } from "src/lib/openseadragon-svg";
 import { parseAnnotationTarget } from "src/lib/annotation-helpers";
 
@@ -16,7 +16,7 @@ import { OpenSeadragonImageTypes } from "src/types/open-seadragon";
 export function addOverlaysToViewer(
   viewer: OpenSeadragon.Viewer,
   canvas: CanvasNormalized,
-  configOptions: ViewerConfigOptions,
+  configOptions: OverlayOptions,
   annotations: Annotation[] | AnnotationNormalized[],
   overlaySelector: string,
 ): void {
@@ -107,15 +107,15 @@ function addRectangularOverlay(
   y: number,
   w: number,
   h: number,
-  configOptions: ViewerConfigOptions,
+  configOptions: OverlayOptions,
   overlaySelector: string,
 ): void {
   const rect = new OpenSeadragon.Rect(x, y, w, h);
   const div = document.createElement("div");
 
-  if (configOptions.annotationOverlays) {
+  if (configOptions) {
     const { backgroundColor, opacity, borderType, borderColor, borderWidth } =
-      configOptions.annotationOverlays;
+      configOptions;
 
     div.style.backgroundColor = backgroundColor as string;
     div.style.opacity = opacity as string;
@@ -138,7 +138,7 @@ function convertSVGStringToHTML(svgString) {
 export function addSvgOverlay(
   viewer: any,
   svgString: string,
-  configOptions: ViewerConfigOptions,
+  configOptions: OverlayOptions,
   scale: number,
   overlaySelector: string,
 ) {
@@ -153,7 +153,7 @@ export function addSvgOverlay(
 function svg_processChild(
   viewer: any,
   child: ChildNode,
-  configOptions: ViewerConfigOptions,
+  configOptions: OverlayOptions,
   scale: number,
   overlaySelector: string,
 ) {
@@ -174,7 +174,7 @@ function svg_processChild(
 
 export function svg_handleElementNode(
   child: any,
-  configOptions: ViewerConfigOptions,
+  configOptions: OverlayOptions,
   scale: number,
 ) {
   let hasStrokeColor = false;
@@ -209,20 +209,16 @@ export function svg_handleElementNode(
   }
 
   if (!hasStrokeColor) {
-    newElement.style.stroke = configOptions.annotationOverlays
-      ?.borderColor as string;
+    newElement.style.stroke = configOptions?.borderColor as string;
   }
   if (!hasStrokeWidth) {
-    newElement.style.strokeWidth = configOptions.annotationOverlays
-      ?.borderWidth as string;
+    newElement.style.strokeWidth = configOptions?.borderWidth as string;
   }
   if (!hasFillColor) {
-    newElement.style.fill = configOptions.annotationOverlays
-      ?.backgroundColor as string;
+    newElement.style.fill = configOptions?.backgroundColor as string;
   }
   if (!hasFillOpacity) {
-    newElement.style.fillOpacity = configOptions.annotationOverlays
-      ?.opacity as string;
+    newElement.style.fillOpacity = configOptions?.opacity as string;
   }
   newElement.setAttribute("transform", `scale(${scale})`);
 
