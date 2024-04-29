@@ -44,6 +44,7 @@ export type ViewerConfigOptions = {
       autoScroll?: AutoScrollOptions | AutoScrollSettings | boolean;
     };
     renderContentSearch?: boolean;
+    defaultTab?: string;
   };
   openSeadragon?: OpenSeadragonOptions;
   requestHeaders?: IncomingHttpHeaders;

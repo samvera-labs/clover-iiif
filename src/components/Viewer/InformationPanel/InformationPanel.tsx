@@ -56,20 +56,28 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   const renderContentSearch = informationPanel?.renderContentSearch;
 
   useEffect(() => {
+    // set activeResource to defaultTab if defaultTab is valid
+    if (activeResource == undefined && informationPanel?.defaultTab) {
+      const validActiveResource = ["manifest-about", "manifest-content-search"];
+      if (annotationResources && annotationResources?.length > 0) {
+        validActiveResource.push(annotationResources[0].id);
+      }
+      if (validActiveResource.includes(informationPanel?.defaultTab)) {
+        setActiveResource(informationPanel.defaultTab);
+      }
+    }
+
     if (activeResource) {
       return;
-    } else if (renderContentSearch && contentSearchResource) {
-      setActiveResource("manifest-content-search");
     } else if (renderAbout) {
       setActiveResource("manifest-about");
-    } else if (
-      annotationResources &&
-      annotationResources?.length > 0 &&
-      !renderAbout
-    ) {
+    } else if (renderContentSearch) {
+      setActiveResource("manifest-content-search");
+    } else if (annotationResources && annotationResources?.length > 0) {
       setActiveResource(annotationResources[0].id);
     }
   }, [
+    informationPanel?.defaultTab,
     activeCanvas,
     activeResource,
     renderAbout,
@@ -109,12 +117,12 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       className="clover-viewer-information-panel"
     >
       <List aria-label="select chapter" data-testid="information-panel-list">
+        {renderAbout && <Trigger value="manifest-about">About</Trigger>}
         {renderContentSearch && contentSearchResource && (
           <Trigger value="manifest-content-search">
             <Label label={contentSearchResource.label as InternationalString} />
           </Trigger>
         )}
-        {renderAbout && <Trigger value="manifest-about">About</Trigger>}
         {renderAnnotation &&
           annotationResources &&
           annotationResources.map((resource, i) => (
@@ -124,6 +132,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
           ))}
       </List>
       <Scroll handleScroll={handleScroll}>
+        {renderAbout && (
+          <Content value="manifest-about">
+            <Information />
+          </Content>
+        )}
         {renderContentSearch && contentSearchResource && (
           <Content value="manifest-content-search">
             <ContentSearch
@@ -132,11 +145,6 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
               activeCanvas={activeCanvas}
               annotationPage={contentSearchResource}
             />
-          </Content>
-        )}
-        {renderAbout && (
-          <Content value="manifest-about">
-            <Information />
           </Content>
         )}
         {renderAnnotation &&
