@@ -1,6 +1,6 @@
 {
   "@context": ["http://iiif.io/api/presentation/3/context.json"],
-  "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1.json",
+  "id": "http://localhost:3000/manifest/content-search/newspaper_issue_1.json",
   "type": "Manifest",
   "label": {
     "de": ["1. Berliner Tageblatt - 1925-02-16"]
@@ -14,18 +14,9 @@
       "width": 300
     }
   ],
-  "partOf": [
-    {
-      "id": "http://localhost:3000/manifest/newspaper/newspaper_collection.json",
-      "type": "Collection",
-      "label": {
-        "de": ["Berliner Tageblatt"]
-      }
-    }
-  ],
   "items": [
     {
-      "id": "http://localhost:3000/manifest/newspaper/canvas/i1p1",
+      "id": "http://localhost:3000/manifest/content-search/canvas/i1p1",
       "type": "Canvas",
       "height": 5000,
       "width": 3602,
@@ -34,11 +25,11 @@
       },
       "items": [
         {
-          "id": "http://localhost:3000/manifest/newspaper/annotation_page_painting/ap1",
+          "id": "http://localhost:3000/manifest/content-search/annotation_page_painting/ap1",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http://localhost:3000/manifest/newspaper/annotation/p1",
+              "id": "http://localhost:3000/manifest/content-search/annotation/p1",
               "type": "Annotation",
               "motivation": "painting",
               "body": {
@@ -53,18 +44,18 @@
                   }
                 ]
               },
-              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p1"
+              "target": "http://localhost:3000/manifest/content-search/canvas/i1p1"
             }
           ]
         }
       ],
       "annotations": [
         {
-          "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json",
+          "id": "http://localhost:3000/manifest/content-search/newspaper_issue_1-anno_p1.json",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json-1",
+              "id": "http://localhost:3000/manifest/content-search/newspaper_issue_1-anno_p1.json-1",
               "type": "Annotation",
               "motivation": "commenting",
               "body": {
@@ -73,14 +64,14 @@
                 "language": "en",
                 "value": "This is issue 1, page 1"
               },
-              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=1300,400,200,400"
+              "target": "http://localhost:3000/manifest/content-search/canvas/i1p1#xywh=1300,400,200,400"
             }
           ]
         }
       ]
     },
     {
-      "id": "http://localhost:3000/manifest/newspaper/canvas/i1p2",
+      "id": "http://localhost:3000/manifest/content-search/canvas/i1p2",
       "type": "Canvas",
       "height": 4999,
       "width": 3536,
@@ -89,11 +80,11 @@
       },
       "items": [
         {
-          "id": "http://localhost:3000/manifest/newspaper/annotation_page_painting/ap2",
+          "id": "http://localhost:3000/manifest/content-search/annotation_page_painting/ap2",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http://localhost:3000/manifest/newspaper/annotation/p2",
+              "id": "http://localhost:3000/manifest/content-search/annotation/p2",
               "type": "Annotation",
               "motivation": "painting",
               "body": {
@@ -108,18 +99,18 @@
                   }
                 ]
               },
-              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p2"
+              "target": "http://localhost:3000/manifest/content-search/canvas/i1p2"
             }
           ]
         }
       ],
       "annotations": [
         {
-          "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p2.json",
+          "id": "http://localhost:3000/manifest/content-search/newspaper_issue_1-anno_p2.json",
           "type": "AnnotationPage",
           "items": [
             {
-              "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p2.json-1",
+              "id": "http://localhost:3000/manifest/content-search/newspaper_issue_1-anno_p2.json-1",
               "type": "Annotation",
               "motivation": "commenting",
               "body": {
@@ -128,7 +119,7 @@
                 "language": "en",
                 "value": "This is issue 1, page 2"
               },
-              "target": "http://localhost:3000/manifest/newspaper/canvas/i1p2"
+              "target": "http://localhost:3000/manifest/content-search/canvas/i1p2"
             }
           ]
         }
@@ -137,7 +128,7 @@
   ],
   "service": [
     {
-      "id": "http://localhost:3000/api/newspaper_search/1",
+      "id": "http://localhost:3000/api/fixtures/content-search/1",
       "type": "SearchService2"
     }
   ]

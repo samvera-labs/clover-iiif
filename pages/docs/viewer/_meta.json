@@ -6,8 +6,8 @@
     },
     "title": "Demo"
   },
-  "newspaper": {
-    "title": "Newspaper",
+  "contentsearch": {
+    "title": "Content Search",
     "theme": {
       "sidebar": false,
       "layout": "full"

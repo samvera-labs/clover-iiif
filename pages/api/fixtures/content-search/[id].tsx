@@ -40,7 +40,7 @@ function createContentSearchResponse(id: string, searchTerm: string) {
         const [stringId, x, y, w, h] = match;
         if (annotationPage.items) {
           annotationPage.items.push({
-            id: `http://localhost:3000/manifest/newspaper/annotation/${stringId}`,
+            id: `http://localhost:3000/manifest/content-search/annotation/${stringId}`,
             type: "Annotation",
             motivation: "highlighting",
             body: {
@@ -51,7 +51,7 @@ function createContentSearchResponse(id: string, searchTerm: string) {
             label: {
               none: [`p. ${page.page}`],
             },
-            target: `http://localhost:3000/manifest/newspaper/canvas/i${id}p${page.page}#xywh=${x},${y},${w},${h}`,
+            target: `http://localhost:3000/manifest/content-search/canvas/i${id}p${page.page}#xywh=${x},${y},${w},${h}`,
           });
         }
       });
