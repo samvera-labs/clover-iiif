@@ -122,6 +122,7 @@ export type PluginConfig = {
 export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
+  OSDImageLoaded?: boolean;
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
@@ -148,6 +149,7 @@ export interface ViewerAction {
   isLoaded: boolean;
   isUserScrolling: number | undefined;
   manifestId: string;
+  OSDImageLoaded?: boolean;
   vault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer;
   viewerId: string;
@@ -183,6 +185,7 @@ const expandedAutoScrollOptions = expandAutoScrollOptions(
 export const defaultState: ViewerContextStore = {
   activeCanvas: "",
   activeManifest: "",
+  OSDImageLoaded: false,
   collection: {},
   configOptions: defaultConfigOptions,
   customDisplays: [],
@@ -218,6 +221,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         activeManifest: action.manifestId,
+      };
+    }
+    case "updateOSDImageLoaded": {
+      return {
+        ...state,
+        OSDImageLoaded: action.OSDImageLoaded,
       };
     }
     case "updateAutoScrollAnnotationEnabled": {
