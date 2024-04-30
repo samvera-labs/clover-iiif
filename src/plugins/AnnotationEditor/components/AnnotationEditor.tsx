@@ -3,18 +3,22 @@ import * as Annotorious from "@recogito/annotorious-openseadragon";
 import "@recogito/annotorious-openseadragon/dist/annotorious.min.css";
 import {
   saveAnnotation,
-  fetchAnnotations,
   deleteAnnotation,
   updateAnnotation,
+  convertIIIFAnnotationToWebAnnotation,
 } from "../utils/annotation-utils";
 import { type Plugin } from "src/index";
 import { useEditorDispatch } from "../context/annotation-editor-context";
 import styles from "./AnnotationEditor.module.css";
-import { AnnotationFromAnnotorious } from "../types/annotation";
+import {
+  AnnotationFromAnnotorious,
+  AnnotationForEditor,
+} from "../types/annotation";
 
 interface PropType extends Plugin {
   token?: string;
   annotationServer?: string;
+  annotations: AnnotationForEditor[];
 }
 
 const AnnotationEditor: React.FC<PropType> = (props: PropType) => {
@@ -24,6 +28,7 @@ const AnnotationEditor: React.FC<PropType> = (props: PropType) => {
     activeManifest,
     token,
     annotationServer,
+    annotations,
   } = props;
 
   const [active, setActive] = useState(false);
@@ -98,18 +103,15 @@ const AnnotationEditor: React.FC<PropType> = (props: PropType) => {
     });
     setEditor(anno);
 
-    // load saved clippings
+    // add saved annotations to annotorious
     (async () => {
-      const savedAnnotations = await fetchAnnotations(
-        activeCanvas,
-        fragmentUnit,
-        token,
-        annotationServer,
-      );
-
-      savedAnnotations.forEach((annotation) => {
+      annotations.forEach((annotation) => {
         try {
-          anno.addAnnotation(annotation);
+          if (annotation.target.source.id === activeCanvas) {
+            anno.addAnnotation(
+              convertIIIFAnnotationToWebAnnotation(annotation, "pixel"),
+            );
+          }
         } catch (error) {
           console.log(error);
         }
