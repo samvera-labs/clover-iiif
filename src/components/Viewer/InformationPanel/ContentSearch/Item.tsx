@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Item as ItemStyled } from "./Item.styled";
 
 import {
@@ -29,7 +29,9 @@ export const ContentSearchItem: React.FC<Props> = ({ annotation }) => {
     contentSearchVault,
     activeCanvas,
     configOptions,
+    OSDImageLoaded,
   } = viewerState;
+  const [activeContentSearchTarget, setActiveContentSearchTarget] = useState();
 
   const canvas: CanvasNormalized = vault.get({
     id: activeCanvas,
@@ -60,6 +62,18 @@ export const ContentSearchItem: React.FC<Props> = ({ annotation }) => {
     }
   }
 
+  // zoom to activeTarget when openSeadragonViewer changes
+  useEffect(() => {
+    if (!OSDImageLoaded) return;
+    if (!openSeadragonViewer) return;
+    if (!annotation.target) return;
+    if (annotation.target != activeContentSearchTarget) return;
+
+    panToTarget(openSeadragonViewer, configOptions, annotationTarget, canvas);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openSeadragonViewer, OSDImageLoaded]);
+
   function handleClick(e) {
     if (!openSeadragonViewer) return;
 
@@ -73,14 +87,14 @@ export const ContentSearchItem: React.FC<Props> = ({ annotation }) => {
       // else change canvas and then zoom to target
     } else {
       dispatch({
+        type: "updateOSDImageLoaded",
+        OSDImageLoaded: false,
+      });
+      dispatch({
         type: "updateActiveCanvas",
         canvasId: canvasId,
       });
-
-      dispatch({
-        type: "updateActiveContentSearchTarget",
-        activeContentSearchTarget: target,
-      });
+      setActiveContentSearchTarget(target);
     }
   }
 

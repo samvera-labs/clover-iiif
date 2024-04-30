@@ -19,7 +19,6 @@ interface CloverImageProps {
   label?: InternationalString | string;
   src?: string;
   openSeadragonCallback?: (viewer: any) => void;
-  imageLoadedCallback?: (viewer: any) => void;
   openSeadragonConfig?: Options;
 }
 
@@ -31,7 +30,6 @@ const CloverImage: React.FC<CloverImageProps> = ({
   label,
   src = "",
   openSeadragonCallback,
-  imageLoadedCallback,
   openSeadragonConfig = {},
 }) => {
   const instance = instanceId ? instanceId : uuidv4();
@@ -57,7 +55,6 @@ const CloverImage: React.FC<CloverImageProps> = ({
         key={instance}
         uri={uri}
         openSeadragonCallback={openSeadragonCallback}
-        imageLoadedCallback={imageLoadedCallback}
       />
     </ErrorBoundary>
   );
