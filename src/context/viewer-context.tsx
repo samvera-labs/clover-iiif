@@ -143,6 +143,7 @@ export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
   activeContentSearchTarget?: string;
+  OSDImageLoaded?: boolean;
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
@@ -170,6 +171,7 @@ export interface ViewerAction {
   isUserScrolling: number | undefined;
   manifestId: string;
   activeContentSearchTarget?: string;
+  OSDImageLoaded?: boolean;
   vault: Vault;
   contentSearchVault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer;
@@ -207,6 +209,7 @@ export const defaultState: ViewerContextStore = {
   activeCanvas: "",
   activeManifest: "",
   activeContentSearchTarget: undefined,
+  OSDImageLoaded: false,
   collection: {},
   configOptions: defaultConfigOptions,
   customDisplays: [],
@@ -248,6 +251,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         activeContentSearchTarget: action.activeContentSearchTarget,
+      };
+    }
+    case "updateOSDImageLoaded": {
+      return {
+        ...state,
+        OSDImageLoaded: action.OSDImageLoaded,
       };
     }
     case "updateAutoScrollAnnotationEnabled": {
