@@ -42,8 +42,11 @@ const OSD: React.FC<OSDProps> = ({
   }, [openSeadragon, openSeadragonCallback]);
 
   useEffect(() => {
-    if (uri !== osdUri) setOsdUri(uri);
-  }, [osdUri, uri]);
+    if (openSeadragon && uri !== osdUri) {
+      openSeadragon.forceRedraw();
+      setOsdUri(uri);
+    }
+  }, [openSeadragon, osdUri, uri]);
 
   useEffect(() => {
     if (osdUri && openSeadragon) {
