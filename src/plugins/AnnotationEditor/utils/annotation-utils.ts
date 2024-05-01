@@ -73,6 +73,7 @@ export async function saveAnnotation(
 }
 
 export async function fetchAnnotations(
+  unit: "pixel" | "percent",
   token?: string,
   annotationServer?: string,
 ): Promise<AnnotationForEditor[]> {
@@ -93,6 +94,21 @@ export async function fetchAnnotations(
       console.error(error);
     }
   } else if (!token) {
+    const savedAnnotationsAll = window.localStorage.getItem("annotations");
+    if (savedAnnotationsAll) {
+      const savedAnnotation = JSON.parse(savedAnnotationsAll) as {
+        [k: string]: AnnotationPageForEditor;
+      };
+
+      if (savedAnnotation) {
+        let tmp: AnnotationForEditor[] = [];
+        Object.values(savedAnnotation).forEach(
+          (ann) => (tmp = tmp.concat(ann.items)),
+        );
+
+        annotations = tmp;
+      }
+    }
   }
 
   return annotations;

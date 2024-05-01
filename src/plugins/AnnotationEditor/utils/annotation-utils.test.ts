@@ -638,16 +638,17 @@ describe("updateAnnotation with guest user", () => {
 });
 
 describe("fetchAnnotations with guest user", () => {
+  const url = "http://example.com";
+  const token = undefined;
+
   it("returns empty array if no saved annotations", async () => {
-    const canvas = "canvas1";
-
-    const res = await fetchAnnotations(canvas, unit);
+    const res = await fetchAnnotations(unit, token, url);
 
     const expected: any = [];
     expect(res).toStrictEqual(expected);
   });
 
-  it("returns web annotations for a given canvas", async () => {
+  it("returns all annotations", async () => {
     const canvas = "canvas1";
     const manifest = "manifest";
     localStorage.setItem(
@@ -661,42 +662,9 @@ describe("fetchAnnotations with guest user", () => {
       }),
     );
 
-    const res = await fetchAnnotations(canvas, unit);
+    const res = await fetchAnnotations(unit, token, url);
 
-    const expected = [
-      {
-        ...webAnnotation1,
-        target: {
-          ...webAnnotation1.target,
-          source: {
-            id: canvas,
-            partOf: [{ id: manifest, type: "Manifest" }],
-            type: "Canvas",
-          },
-        },
-      },
-    ];
-    expect(res).toStrictEqual(expected);
-  });
-
-  it("returns empty array if canvas does not match saved annotation", async () => {
-    const canvas = "canvas1";
-    const canvas2 = "canvas2";
-    const manifest = "manifest";
-    localStorage.setItem(
-      "annotations",
-      JSON.stringify({
-        [canvas]: {
-          id: canvas,
-          items: [annotation1(manifest, canvas)],
-          type: "AnnotationPage",
-        },
-      }),
-    );
-
-    const res = await fetchAnnotations(canvas2, unit);
-
-    const expected: any = [];
+    const expected = [annotation1(manifest, canvas)];
     expect(res).toStrictEqual(expected);
   });
 
@@ -714,21 +682,9 @@ describe("fetchAnnotations with guest user", () => {
       }),
     );
 
-    const res = await fetchAnnotations(canvas, unit);
+    const res = await fetchAnnotations(unit, token, url);
 
-    const expected = [
-      {
-        ...webAnnotationMultipleBodies,
-        target: {
-          ...webAnnotationMultipleBodies.target,
-          source: {
-            id: canvas,
-            partOf: [{ id: manifest, type: "Manifest" }],
-            type: "Canvas",
-          },
-        },
-      },
-    ];
+    const expected = [annotationMultipleBodies(manifest, canvas)];
     expect(res).toStrictEqual(expected);
   });
 });

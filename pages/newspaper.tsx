@@ -18,11 +18,13 @@ function Demo() {
 
 function Newspaper() {
   const base_url = "http://localhost:3000";
+  const annotationServer = `${base_url}/api/annotations/1`;
+  const unit = "pixel";
+  const token = "123abc";
   const [annotations, setAnnotations] = useState<AnnotationForEditor[]>([]);
 
   useEffect(() => {
-    const url = `${base_url}/api/annotations/1`;
-    fetchAnnotations("123abc", url).then((response) => {
+    fetchAnnotations(unit, token, annotationServer).then((response) => {
       setAnnotations(response);
     });
   }, []);
@@ -38,8 +40,8 @@ function Newspaper() {
               menu: {
                 component: AnnotationEditor,
                 componentProps: {
-                  annotationServer: `${base_url}/api/annotations/1`,
-                  token: "123abc",
+                  annotationServer: annotationServer,
+                  token: token,
                   annotations,
                 },
               },
@@ -48,8 +50,8 @@ function Newspaper() {
               component: InformationPanel,
               label: { none: ["my clip"] },
               componentProps: {
-                annotationServer: `${base_url}/api/annotations/1`,
-                token: "123abc",
+                annotationServer: annotationServer,
+                token: token,
                 annotations,
               },
             },
