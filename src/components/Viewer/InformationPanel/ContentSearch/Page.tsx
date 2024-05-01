@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AnnotationNormalized,
   AnnotationPageNormalized,
@@ -17,6 +17,9 @@ type GroupedAnnotations = {
 export const ContentSearchPage: React.FC<Props> = ({ annotationPage }) => {
   const viewerState: ViewerContextStore = useViewerState();
   const { contentSearchVault, configOptions } = viewerState;
+  const [activeContentSearchTarget, setActiveContentSearchTarget] = useState<
+    string | undefined
+  >();
 
   const searchResultsLimit = configOptions.contentSearch?.searchResultsLimit;
   const searchText = configOptions.localeText?.contentSearch;
@@ -51,7 +54,12 @@ export const ContentSearchPage: React.FC<Props> = ({ annotationPage }) => {
       : annotations;
 
     return annotationsShown.map((annotation, i) => (
-      <ContentSearchItem key={i} annotation={annotation} />
+      <ContentSearchItem
+        key={i}
+        annotation={annotation}
+        activeContentSearchTarget={activeContentSearchTarget}
+        setActiveContentSearchTarget={setActiveContentSearchTarget}
+      />
     ));
   }
 

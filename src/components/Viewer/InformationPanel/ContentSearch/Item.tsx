@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Item as ItemStyled } from "./Item.styled";
 
 import {
@@ -18,9 +18,17 @@ import AnnotationItemPlainText from "./PlainText";
 
 type Props = {
   annotation: AnnotationNormalized;
+  activeContentSearchTarget?: string;
+  setActiveContentSearchTarget: React.Dispatch<
+    React.SetStateAction<string | undefined>
+  >;
 };
 
-export const ContentSearchItem: React.FC<Props> = ({ annotation }) => {
+export const ContentSearchItem: React.FC<Props> = ({
+  annotation,
+  activeContentSearchTarget,
+  setActiveContentSearchTarget,
+}) => {
   const dispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
   const {
@@ -31,7 +39,6 @@ export const ContentSearchItem: React.FC<Props> = ({ annotation }) => {
     configOptions,
     OSDImageLoaded,
   } = viewerState;
-  const [activeContentSearchTarget, setActiveContentSearchTarget] = useState();
 
   const canvas: CanvasNormalized = vault.get({
     id: activeCanvas,
