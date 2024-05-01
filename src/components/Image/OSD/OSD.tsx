@@ -4,7 +4,7 @@ import {
   Wrapper,
 } from "src/components/Image/Image.styled";
 import OpenSeadragon, { Options } from "openseadragon";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import Controls from "src/components/Image/Controls/Controls";
 import { OpenSeadragonImageTypes } from "src/types/open-seadragon";
@@ -30,8 +30,14 @@ const OSD: React.FC<OSDProps> = ({
   const [osdUri, setOsdUri] = useState<string>();
   const [openSeadragon, setOpenSeadragon] = useState<OpenSeadragon.Viewer>();
 
+  const initializeOSD = useRef(false);
+
   useEffect(() => {
-    if (!openSeadragon) setOpenSeadragon(OpenSeadragon(config));
+    if (!initializeOSD.current) {
+      initializeOSD.current = true;
+
+      if (!openSeadragon) setOpenSeadragon(OpenSeadragon(config));
+    }
 
     return () => openSeadragon?.destroy();
   }, []);
@@ -43,7 +49,7 @@ const OSD: React.FC<OSDProps> = ({
 
   useEffect(() => {
     if (openSeadragon && uri !== osdUri) {
-      openSeadragon.forceRedraw();
+      openSeadragon?.forceRedraw();
       setOsdUri(uri);
     }
   }, [openSeadragon, osdUri, uri]);
@@ -52,7 +58,7 @@ const OSD: React.FC<OSDProps> = ({
     if (osdUri && openSeadragon) {
       switch (imageType) {
         case "simpleImage":
-          openSeadragon.addSimpleImage({
+          openSeadragon?.addSimpleImage({
             url: osdUri,
           });
           break;
@@ -62,8 +68,8 @@ const OSD: React.FC<OSDProps> = ({
               if (!tileSource)
                 throw new Error(`No tile source found for ${osdUri}`);
 
-              openSeadragon.addTiledImage({
-                tileSource: tileSource,
+              openSeadragon?.addTiledImage({
+                tileSource,
               });
             } catch (e) {
               console.error(e);
@@ -71,14 +77,14 @@ const OSD: React.FC<OSDProps> = ({
           });
           break;
         default:
-          openSeadragon.close();
+          openSeadragon?.close();
           console.warn(
             `Unable to render ${osdUri} in OpenSeadragon as type: "${imageType}"`,
           );
           break;
       }
     }
-  }, [imageType, osdUri, openSeadragon]);
+  }, [imageType, osdUri]);
 
   return (
     <Wrapper
