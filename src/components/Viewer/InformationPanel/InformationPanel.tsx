@@ -56,20 +56,20 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   const renderContentSearch = informationPanel?.renderContentSearch;
 
   useEffect(() => {
-    // set activeResource to defaultTab if defaultTab is valid
-    if (activeResource == undefined && informationPanel?.defaultTab) {
+    if (activeResource) {
+      return;
+    } else if (informationPanel?.defaultTab) {
       const validActiveResource = ["manifest-about", "manifest-content-search"];
       if (annotationResources && annotationResources?.length > 0) {
         validActiveResource.push(annotationResources[0].id);
       }
       if (validActiveResource.includes(informationPanel?.defaultTab)) {
         setActiveResource(informationPanel.defaultTab);
+      } else {
+        setActiveResource("manifest-about");
       }
-    }
-
-    if (activeResource) {
-      return;
     } else if (renderAbout) {
+      debugger;
       setActiveResource("manifest-about");
     } else if (renderContentSearch) {
       setActiveResource("manifest-content-search");
