@@ -1,7 +1,10 @@
 import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
 import React, { useReducer } from "react";
 
-import { CollectionNormalized } from "@iiif/presentation-3";
+import {
+  CollectionNormalized,
+  InternationalString,
+} from "@iiif/presentation-3";
 import { IncomingHttpHeaders } from "http";
 import { Vault } from "@iiif/vault";
 import { deepMerge } from "src/lib/utils";
@@ -31,6 +34,7 @@ export type ViewerConfigOptions = {
   canvasBackgroundColor?: string;
   canvasHeight?: string;
   ignoreCaptionLabels?: string[];
+  ignoreAnnotationOverlaysLabels?: string[];
   informationPanel?: {
     open?: boolean;
     renderAbout?: boolean;
@@ -68,6 +72,7 @@ const defaultConfigOptions = {
   canvasBackgroundColor: "#6662",
   canvasHeight: "500px",
   ignoreCaptionLabels: [],
+  ignoreAnnotationOverlaysLabels: [],
   informationPanel: {
     vtt: {
       autoScroll: {
@@ -99,13 +104,29 @@ export type CustomDisplay = {
     paintingFormat?: string[];
   };
 };
+export type PluginConfig = {
+  id: string;
+  imageViewer?: {
+    menu?: {
+      component: React.ElementType;
+      componentProps?: Record<string, unknown>;
+    };
+  };
+  informationPanel?: {
+    component: React.ElementType;
+    componentProps?: Record<string, unknown>;
+    label: InternationalString;
+  };
+};
 
 export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
+  OSDImageLoaded?: boolean;
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
+  plugins: Array<PluginConfig>;
   isAutoScrollEnabled?: boolean;
   isAutoScrolling?: boolean;
   isInformationOpen: boolean;
@@ -128,6 +149,7 @@ export interface ViewerAction {
   isLoaded: boolean;
   isUserScrolling: number | undefined;
   manifestId: string;
+  OSDImageLoaded?: boolean;
   vault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer;
   viewerId: string;
@@ -163,9 +185,11 @@ const expandedAutoScrollOptions = expandAutoScrollOptions(
 export const defaultState: ViewerContextStore = {
   activeCanvas: "",
   activeManifest: "",
+  OSDImageLoaded: false,
   collection: {},
   configOptions: defaultConfigOptions,
   customDisplays: [],
+  plugins: [],
   isAutoScrollEnabled: expandedAutoScrollOptions.enabled,
   isAutoScrolling: false,
   isInformationOpen: defaultConfigOptions?.informationPanel?.open,
@@ -197,6 +221,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         activeManifest: action.manifestId,
+      };
+    }
+    case "updateOSDImageLoaded": {
+      return {
+        ...state,
+        OSDImageLoaded: action.OSDImageLoaded,
       };
     }
     case "updateAutoScrollAnnotationEnabled": {

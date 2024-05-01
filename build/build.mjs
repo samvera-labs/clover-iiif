@@ -11,7 +11,7 @@ const buildOptions = {
       entry: "./src/components/Image/index.tsx",
       fileName: "index",
     },
-  }, 
+  },
   primitives: {
     lib: {
       name: "CloverIIIFPrimitives",
@@ -37,6 +37,20 @@ const buildOptions = {
     lib: {
       name: "CloverIIIFScroll",
       entry: "./src/components/Scroll/index.tsx",
+      fileName: "index",
+    }
+  },
+  'annotation-helpers': {
+    lib: {
+      name: "CloverIIIFAnnotationHelpers",
+      entry: "./src/lib/annotation-helpers.ts",
+      fileName: "index",
+    },
+  },
+  'openseadragon-helpers': {
+    lib: {
+      name: "CloverIIIFOpenseadragonHelpers",
+      entry: "./src/lib/openseadragon-helpers.ts",
       fileName: "index",
     },
   },
