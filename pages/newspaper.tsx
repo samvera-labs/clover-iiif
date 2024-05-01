@@ -32,7 +32,7 @@ function Newspaper() {
   return (
     <EditorProvider>
       <Viewer
-        iiifContent={`${base_url}/api/newspaper/collection`}
+        iiifContent={`${base_url}/api/fixtures/newspaper/issue_1`}
         plugins={[
           {
             id: "AnnotationEditor",

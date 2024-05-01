@@ -24,18 +24,9 @@ function makeManifest(base_url: string, url: string) {
         width: 300,
       },
     ],
-    partOf: [
-      {
-        id: `${base_url}/api/newspaper/collection`,
-        type: "Collection",
-        label: {
-          de: ["Berliner Tageblatt"],
-        },
-      },
-    ],
     items: [
       {
-        id: `${base_url}/api/newpaper/canvas/i1p1`,
+        id: `${base_url}/api/fixtures/newpaper/canvas/i1p1`,
         type: "Canvas",
         height: 5000,
         width: 3602,
@@ -44,11 +35,11 @@ function makeManifest(base_url: string, url: string) {
         },
         items: [
           {
-            id: `${base_url}/api/newpaper/items/AnnotationPage/i1p1`,
+            id: `${base_url}/api/fixtures/newpaper/items/AnnotationPage/i1p1`,
             type: "AnnotationPage",
             items: [
               {
-                id: `${url}/api/newpaper/items/Annotation/i1p1a1`,
+                id: `${base_url}/api/fixtures/newpaper/items/Annotation/i1p1a1`,
                 type: "Annotation",
                 motivation: "painting",
                 body: {
@@ -63,18 +54,18 @@ function makeManifest(base_url: string, url: string) {
                     },
                   ],
                 },
-                target: `${base_url}/api/newpaper/canvas/i1p1`,
+                target: `${base_url}/api/fixtures/newpaper/canvas/i1p1`,
               },
             ],
           },
         ],
         annotations: [
           {
-            id: `${base_url}/api/newpaper/annotations/AnnotationPage/i1p1ap1`,
+            id: `${base_url}/api/fixtures/newpaper/annotations/AnnotationPage/i1p1ap1`,
             type: "AnnotationPage",
             items: [
               {
-                id: `${base_url}/api/newpaper/annotations/Annotation/i1p1ap1a1`,
+                id: `${base_url}/api/fixtures/newpaper/annotations/Annotation/i1p1ap1a1`,
                 type: "Annotation",
                 motivation: "commenting",
                 body: {
@@ -83,14 +74,14 @@ function makeManifest(base_url: string, url: string) {
                   language: "en",
                   value: "This is issue 1, page 1",
                 },
-                target: `${base_url}/api/newpaper/canvas/i1p1#xywh=1300,400,200,400`,
+                target: `${base_url}/api/fixtures/newpaper/canvas/i1p1#xywh=1300,400,200,400`,
               },
             ],
           },
         ],
       },
       {
-        id: `${base_url}/api/newpaper/canvas/i1p2`,
+        id: `${base_url}/api/fixtures/newpaper/canvas/i1p2`,
         type: "Canvas",
         height: 4999,
         width: 3536,
@@ -99,11 +90,11 @@ function makeManifest(base_url: string, url: string) {
         },
         items: [
           {
-            id: `${base_url}/api/newpaper/items/AnnotationPage/i1p2`,
+            id: `${base_url}/api/fixtures/newpaper/items/AnnotationPage/i1p2`,
             type: "AnnotationPage",
             items: [
               {
-                id: `${url}/api/newpaper/items/Annotation/i1p2`,
+                id: `${base_url}/api/fixtures/newpaper/items/Annotation/i1p2`,
                 type: "Annotation",
                 motivation: "painting",
                 body: {
@@ -118,7 +109,7 @@ function makeManifest(base_url: string, url: string) {
                     },
                   ],
                 },
-                target: `${base_url}/api/newpaper/canvas/i1p2`,
+                target: `${base_url}/api/fixtures/newpaper/canvas/i1p2`,
               },
             ],
           },
@@ -127,7 +118,7 @@ function makeManifest(base_url: string, url: string) {
     ],
     service: [
       {
-        id: `${base_url}/api/newspaper_search/1`,
+        id: `${base_url}/api/fixtures/content-search/1`,
         type: "SearchService2",
       },
     ],
