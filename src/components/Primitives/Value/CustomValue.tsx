@@ -1,11 +1,12 @@
 import React, { Fragment, cloneElement } from "react";
 
+import { DataList } from "@radix-ui/themes";
 import { PrimitivesCustomValue } from "src/types/primitives";
 import { getLabelEntries } from "src/lib/label-helpers";
 import { styled } from "src/styles/stitches.config";
 import { usePrimitivesContext } from "src/context/primitives-context";
 
-const StyledCustomValue = styled("span", {});
+const StyledCustomValue = styled(DataList.Value, {});
 
 const CustomValue: React.FC<PrimitivesCustomValue> = ({
   as = "dd",
