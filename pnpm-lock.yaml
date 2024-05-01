@@ -54,8 +54,8 @@ dependencies:
     specifier: ^1.9.4
     version: 1.9.4
   openseadragon:
-    specifier: ^2.4.2
-    version: 2.4.2
+    specifier: ^4.1.1
+    version: 4.1.1
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -6798,8 +6798,8 @@ packages:
       mimic-fn: 4.0.0
     dev: true
 
-  /openseadragon@2.4.2:
-    resolution: {integrity: sha512-398KbZwRtOYA6OmeWRY4Q0737NTacQ9Q6whmr9Lp1MNQO3p0eBz5LIASRne+4gwequcSM1vcHcjfy3dIndQziw==}
+  /openseadragon@4.1.1:
+    resolution: {integrity: sha512-owU9gsasAcobLN+LM8lN58Xc2VDSDotY9mkrwS/NB6g9KX/PcusV4RZvhHng2RF/Q0pMziwldf62glwXoGnuzg==}
     dev: false
 
   /optionator@0.9.3:
