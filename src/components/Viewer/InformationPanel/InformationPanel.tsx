@@ -69,7 +69,6 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         setActiveResource("manifest-about");
       }
     } else if (renderAbout) {
-      debugger;
       setActiveResource("manifest-about");
     } else if (renderContentSearch) {
       setActiveResource("manifest-content-search");
