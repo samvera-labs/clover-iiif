@@ -73,10 +73,15 @@ const OSD: React.FC<OSDProps> = ({
               openSeadragon?.addTiledImage({
                 tileSource,
                 success: () => {
-                  dispatch({
-                    type: "updateOSDImageLoaded",
-                    OSDImageLoaded: true,
-                  });
+                  // NOTE: need to check dispatch is a function, because when
+                  // using dev server, dispatch sometimes is set to
+                  // ViewerContext.defaultState object instead of a function
+                  if (typeof dispatch === "function") {
+                    dispatch({
+                      type: "updateOSDImageLoaded",
+                      OSDImageLoaded: true,
+                    });
+                  }
                 },
               });
             } catch (e) {
