@@ -93,7 +93,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     renderContentSearch,
     annotationResources,
     contentSearchResource,
-    canvas.annotations,
+    canvas?.annotations,
   ]);
 
   function handleScroll() {
