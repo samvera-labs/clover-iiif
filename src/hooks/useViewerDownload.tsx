@@ -1,5 +1,6 @@
 import { RenderingItem } from "src/types/presentation-3";
 import { getLabelAsString } from "src/lib/label-helpers";
+import useGetVaultEntityId from "src/hooks/useGetVaultEntityId";
 import useRendering from "src/hooks/use-iiif/useRendering";
 
 type DownloadItem = {
@@ -12,11 +13,14 @@ function prepareDownloadLinks(
   items: RenderingItem[],
   defaultLabel: string,
 ): DownloadItem[] {
-  return items.map(({ format, id, label }) => ({
-    format,
-    id,
-    label: getLabelAsString(label) || defaultLabel,
-  }));
+  return items.map(({ format, id, label }) => {
+    const resourceId = useGetVaultEntityId(id);
+    return {
+      format,
+      id: resourceId,
+      label: getLabelAsString(label) || defaultLabel,
+    };
+  });
 }
 
 export default function useViewerDownload() {
