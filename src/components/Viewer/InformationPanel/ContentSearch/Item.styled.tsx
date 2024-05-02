@@ -18,14 +18,6 @@ const List = styled("ol", {
   listStylePosition: "inside",
 });
 
-const FormStyled = styled("div", {
-  marginBottom: "1rem",
-
-  input: {
-    padding: ".25rem",
-  },
-});
-
 const Container = styled("div", {
   margin: "0.5rem 1.618rem",
 });
@@ -38,12 +30,4 @@ const ResultsFooter = styled("div", {
   marginBottom: "1rem",
 });
 
-export {
-  Item,
-  List,
-  ButtonStyled,
-  FormStyled,
-  Container,
-  ResultsHeader,
-  ResultsFooter,
-};
+export { Item, List, ButtonStyled, Container, ResultsHeader, ResultsFooter };
