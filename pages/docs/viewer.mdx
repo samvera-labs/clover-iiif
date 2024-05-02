@@ -205,6 +205,58 @@ The information panel is a collapsible panel that displays information about the
 | `options.informationPanel.renderSupplementing` | `boolean`                       | No       | true    |
 | `options.informationPanel.renderToggle`        | `boolean`                       | No       | true    |
 | `options.informationPanel.renderContentSearch` | `boolean`                       | No       | true    |
+| `options.informationPanel.defaultTab`          | `string`                        | No       |         |
+
+If `renderAbout` is true, Clover will use the About tab as the default tab. Use `options.informationPanel.defaultTab` to set the default tab.
+
+If you want content search to be the default tab, use `manifest-content-search`
+
+```jsx
+<Viewer
+  iiifContent="https://example.com/manifest/1"
+  options={{
+    informationPanel: {
+      defaultTab: "manifest-content-search",
+    },
+  }}
+/>
+```
+
+If the manifest has annotations, and you want one of the anotations to be the default tab, use the id from the annotation page.
+
+```json
+{
+  "@context": ["http://iiif.io/api/presentation/3/context.json"],
+  "type": "Manifest",
+   ...
+  "items": [
+    {
+      "id": "http://example.com/manifest/canvas/1",
+      "type": "Canvas",
+      "height": 1000,
+      "width": 2000,
+      "annotations": [
+        {
+          "id": "http://example.com/manifest/annotation/1",
+          "type": "AnnotationPage",
+          "items": [...]
+        }
+      ]
+    }
+  ]
+}
+```
+
+```jsx
+<Viewer
+  iiifContent="https://example.com/manifest/1"
+  options={{
+    informationPanel: {
+      defaultTab: "http://example.com/manifest/annotation/1",
+    },
+  }}
+/>
+```
 
 ### Auto Scroll
 
@@ -259,7 +311,7 @@ Clover supports IIIF content search v2. In order to display content search in th
 | `options.contentSearch.overlays.renderOverlays`  | `boolean` | No       | true     |
 | `options.contentSearch.overlays.zoomLevel`       | `number`  | No       | 4        |
 
-If your site has a search functionality that returns a list documents that match a search term, and you want to highlight that search term when the Clover viewer loads, use `iiifContentSearchQuery` when setting up the viewer.
+Many sites have a search functionality that returns a list objects that match the search terms. Clicking on a search result will display a details page for one object. If you want to highlight the search terms when the Clover image viewer loads on the details page, use `iiifContentSearchQuery` when setting up the viewer.
 
 ```jsx
 <Viewer
@@ -272,9 +324,7 @@ If your site has a search functionality that returns a list documents that match
 
 `options.contentSearch.searchResultsLimit` is the maximum number of search results to display per canvas in the information panel. If set to `undefined`, Clover will show all search results.
 
-You can set the appearance of how the search results are highlighted using `options.contentSearch.overlays`. By default the search results have a light red highlight.
-
-If you don't want the search results to be highlighted, set `options.contentSearch.overlays.renderOverlays` to `false`.
+By default, Clover's content search will draw light red boxes in the image viewer for each search result returned by the search service. You can set the appearance of the highlighted boxes using `options.contentSearch.overlays`. If you don't want the search results to be highlighted, set `options.contentSearch.overlays.renderOverlays` to `false`.
 
 When you click on the list of search results, Clover will pan and zoom to the location of that search result. You can set the zoom level using `options.contentSearch.overlays.zoomLevel`. A small zoom level will zoom in real close; a large zoom level will zoom in less.
 
