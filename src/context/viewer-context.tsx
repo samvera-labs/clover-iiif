@@ -93,7 +93,7 @@ const defaultConfigOptions = {
       borderWidth: "1px",
       opacity: "0.5",
       renderOverlays: true,
-      zoomLevel: 2,
+      zoomLevel: 4,
     },
   },
   ignoreCaptionLabels: [],
