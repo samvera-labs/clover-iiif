@@ -12,7 +12,7 @@ import {
   EmbeddedResource,
   InternationalString,
 } from "@iiif/presentation-3";
-import { panToTarget } from "src/lib/content-search-helpers";
+import { panToTarget } from "src/lib/openseadragon-helpers";
 
 import AnnotationItemPlainText from "./PlainText";
 
@@ -69,6 +69,8 @@ export const ContentSearchItem: React.FC<Props> = ({
     }
   }
 
+  const zoomLevel = configOptions.contentSearch?.overlays?.zoomLevel || 1;
+
   // zoom to activeTarget when openSeadragonViewer changes
   useEffect(() => {
     if (!OSDImageLoaded) return;
@@ -76,7 +78,7 @@ export const ContentSearchItem: React.FC<Props> = ({
     if (!annotation.target) return;
     if (annotation.target != activeContentSearchTarget) return;
 
-    panToTarget(openSeadragonViewer, configOptions, annotationTarget, canvas);
+    panToTarget(openSeadragonViewer, zoomLevel, annotationTarget, canvas);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openSeadragonViewer, OSDImageLoaded]);
@@ -89,7 +91,7 @@ export const ContentSearchItem: React.FC<Props> = ({
 
     // if activeCanvas does not change, then zoom to target
     if (activeCanvas === canvasId) {
-      panToTarget(openSeadragonViewer, configOptions, annotationTarget, canvas);
+      panToTarget(openSeadragonViewer, zoomLevel, annotationTarget, canvas);
 
       // else change canvas and then zoom to target
     } else {

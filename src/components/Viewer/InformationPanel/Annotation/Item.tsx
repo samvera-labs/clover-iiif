@@ -10,8 +10,7 @@ import {
 import AnnotationItemPlainText from "./PlainText";
 import AnnotationItemHTML from "./HTML";
 import AnnotationItemVTT from "./VTT/VTT";
-import { parseAnnotationTarget } from "src/lib/annotation-helpers";
-import { createOpenSeadragonRect } from "src/lib/openseadragon-helpers";
+import { panToTarget } from "src/lib/openseadragon-helpers";
 import AnnotationItemImage from "./Image";
 
 type Props = {
@@ -46,19 +45,7 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
     if (!target) return;
 
     const zoomLevel = configOptions.annotationOverlays?.zoomLevel || 1;
-    // @ts-ignore
-    const parsedAnnotationTarget = parseAnnotationTarget(target);
-
-    const { point, rect, svg } = parsedAnnotationTarget;
-
-    if (point || rect || svg) {
-      const rect = createOpenSeadragonRect(
-        canvas,
-        parsedAnnotationTarget,
-        zoomLevel,
-      );
-      openSeadragonViewer?.viewport.fitBounds(rect);
-    }
+    panToTarget(openSeadragonViewer, zoomLevel, target, canvas);
   }
 
   function renderItemBody() {

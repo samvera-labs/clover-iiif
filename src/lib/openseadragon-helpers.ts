@@ -281,3 +281,18 @@ export function removeOverlaysFromViewer(
     elements.forEach((element) => viewer.removeOverlay(element));
   }
 }
+
+export function panToTarget(openSeadragonViewer, zoomLevel, target, canvas) {
+  const parsedAnnotationTarget = parseAnnotationTarget(target);
+
+  const { point, rect, svg } = parsedAnnotationTarget;
+
+  if (point || rect || svg) {
+    const rect = createOpenSeadragonRect(
+      canvas,
+      parsedAnnotationTarget,
+      zoomLevel,
+    );
+    openSeadragonViewer?.viewport.fitBounds(rect);
+  }
+}
