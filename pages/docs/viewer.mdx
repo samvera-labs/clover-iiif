@@ -145,6 +145,7 @@ const MyCustomViewer = () => {
 | Prop                            | Type                                                                        | Required | Default                                  |
 | ------------------------------- | --------------------------------------------------------------------------- | -------- | ---------------------------------------- |
 | `iiifContent`                   | `string`                                                                    | Yes      |                                          |
+| `iiifContentSearchQuery`        | [See Content Search](#content-search)                                       | No       |                                          |
 | `canvasIdCallback`              | `function`                                                                  | No       |                                          |
 | `customDisplays`                | [See Custom Displays](#custom-displays)                                     | No       |                                          |
 | `customTheme`                   | `object`                                                                    | No       |                                          |
@@ -160,6 +161,7 @@ const MyCustomViewer = () => {
 | `options.showIIIFBadge`         | `boolean`                                                                   | No       | true                                     |
 | `options.showTitle`             | `boolean`                                                                   | No       | true                                     |
 | `options.withCredentials`       | `boolean`                                                                   | No       | false                                    |
+| `options.contentSearch`         | [See Content Search](#content-search)                                       | No       |                                          |
 
 - Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
 - Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
@@ -202,6 +204,7 @@ The information panel is a collapsible panel that displays information about the
 | `options.informationPanel.renderAnnotation`    | `boolean`                       | No       | true    |
 | `options.informationPanel.renderSupplementing` | `boolean`                       | No       | true    |
 | `options.informationPanel.renderToggle`        | `boolean`                       | No       | true    |
+| `options.informationPanel.renderContentSearch` | `boolean`                       | No       | true    |
 
 ### Auto Scroll
 
@@ -225,6 +228,55 @@ Clients may wish to use their own display components (for example a PDF Viewer, 
 | `customDisplays.display.componentProps` | `object`     | No       |         |
 | `customDisplays.target.canvasId`        | `string[]`   | No       |         |
 | `customDisplays.target.paintingFormat`  | `string[]`   | No       |         |
+
+### Content search
+
+Clover supports IIIF content search v2. In order to display content search in the information panel, add a content search service to the manifest.
+
+```json
+{
+  "@context": ["http://iiif.io/api/presentation/3/context.json"],
+  "type": "Manifest",
+  ...
+  "service": [
+    {
+      "id": "https://example.com/search",
+      "type": "SearchService2"
+    }
+  ]
+}
+```
+
+| Prop                                             | Type      | Required | Default  |
+| ------------------------------------------------ | --------- | -------- | -------- |
+| `iiifContentSearchQuery.q`                       | `string`  | No       |          |
+| `options.contentSearch.searchResultsLimit`       | `number`  | No       | 20       |
+| `options.contentSearch.overlays.backgroundColor` | `string`  | No       | #ff66660 |
+| `options.contentSearch.overlays.borderColor`     | `string`  | No       | #990000  |
+| `options.contentSearch.overlays.borderType`      | `string`  | No       | solid    |
+| `options.contentSearch.overlays.borderWidth`     | `string`  | No       | 1px      |
+| `options.contentSearch.overlays.opacity`         | `string`  | No       | 0.5      |
+| `options.contentSearch.overlays.renderOverlays`  | `boolean` | No       | true     |
+| `options.contentSearch.overlays.zoomLevel`       | `number`  | No       | 4        |
+
+If your site has a search functionality that returns a list documents that match a search term, and you want to highlight that search term when the Clover viewer loads, use `iiifContentSearchQuery` when setting up the viewer.
+
+```jsx
+<Viewer
+  iiifContent="https://example.com/manifest/1"
+  iiifContentSearchQuery={{
+    q: "my search terms",
+  }}
+/>
+```
+
+`options.contentSearch.searchResultsLimit` is the maximum number of search results to display per canvas in the information panel. If set to `undefined`, Clover will show all search results.
+
+You can set the appearance of how the search results are highlighted using `options.contentSearch.overlays`. By default the search results have a light red highlight.
+
+If you don't want the search results to be highlighted, set `options.contentSearch.overlays.renderOverlays` to `false`.
+
+When you click on the list of search results, Clover will pan and zoom to the location of that search result. You can set the zoom level using `options.contentSearch.overlays.zoomLevel`. A small zoom level will zoom in real close; a large zoom level will zoom in less.
 
 ### Deprecated Options
 
