@@ -8,11 +8,12 @@ import CallToAction from "docs/components/CallToAction";
 
 ## Content search.
 
+Type in anything in the search field and click search button. This demo will show the search results for "Berliner". Click on any of search results, and Clover will zoom and pan to that search result.
+
+Due to the fact that the Clover documentation site is a statically generated, search will only return results for "Berliner" because the search service returns a static content search manifest. In a fully functional site, the search service will return a dynamic content search manifest based on the entered search words.
+
 <Viewer
-  iiifContent="http://localhost:3000/manifest/content-search/newspaper_issue_1.json"
-  iiifContentSearchQuery={{
-    q: "Berliner",
-  }}
+  iiifContent="http://localhost:3000/manifest/content-search/newspaper.json"
   options={{
     informationPanel: {
       open: true,
