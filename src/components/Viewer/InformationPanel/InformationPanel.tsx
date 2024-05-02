@@ -19,6 +19,7 @@ import Information from "src/components/Viewer/InformationPanel/About/About";
 import {
   InternationalString,
   AnnotationPageNormalized,
+  CanvasNormalized,
 } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
 
@@ -47,7 +48,13 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     isAutoScrolling,
     configOptions: { informationPanel },
     isUserScrolling,
+    vault,
   } = viewerState;
+
+  const canvas: CanvasNormalized = vault.get({
+    id: activeCanvas,
+    type: "Canvas",
+  });
 
   const [activeResource, setActiveResource] = useState<string>();
 
@@ -60,11 +67,14 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       return;
     } else if (informationPanel?.defaultTab) {
       const validActiveResource = ["manifest-about", "manifest-content-search"];
-      if (annotationResources && annotationResources?.length > 0) {
-        validActiveResource.push(annotationResources[0].id);
+      if (canvas.annotations.length > 0) {
+        canvas.annotations.forEach((annotation) =>
+          validActiveResource.push(annotation.id),
+        );
       }
       if (validActiveResource.includes(informationPanel?.defaultTab)) {
         setActiveResource(informationPanel.defaultTab);
+        // handle cases when user sets defaultTab to an invalid value
       } else {
         setActiveResource("manifest-about");
       }
@@ -83,6 +93,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     renderContentSearch,
     annotationResources,
     contentSearchResource,
+    canvas.annotations,
   ]);
 
   function handleScroll() {
