@@ -5,15 +5,12 @@ import {
   InternationalString,
   ManifestNormalized,
   CanvasNormalized,
-  AnnotationNormalized,
-  AnnotationPageNormalized,
 } from "@iiif/presentation-3";
 import React, { useCallback, useEffect, useState } from "react";
 import {
   ViewerContextStore,
   useViewerDispatch,
   useViewerState,
-  type ViewerConfigOptions,
 } from "src/context/viewer-context";
 import {
   getAnnotationResources,
@@ -21,7 +18,7 @@ import {
   getContentSearchResources,
 } from "src/hooks/use-iiif";
 import {
-  addOverlaysToViewer,
+  addContentSearchOverlays,
   removeOverlaysFromViewer,
 } from "src/lib/openseadragon-helpers";
 
@@ -136,6 +133,22 @@ const Viewer: React.FC<ViewerProps> = ({
     setIsInformationPanel(resources.length !== 0);
   }, [activeCanvas, vault, viewerDispatch]);
 
+  const hasSearchService = manifest.service.some(
+    (service: any) => service.type === "SearchService2",
+  );
+
+  // check if search service exists in the manifest
+  useEffect(() => {
+    if (hasSearchService) {
+      const searchService: any = manifest.service.find(
+        (service: any) => service.type === "SearchService2",
+      );
+      if (searchService) {
+        setSearchServiceUrl(searchService.id);
+      }
+    }
+  }, [manifest, hasSearchService]);
+
   // make request to content search service using iiifContentSearchQuery prop
   useEffect(() => {
     if (!searchServiceUrl) return;
@@ -149,12 +162,8 @@ const Viewer: React.FC<ViewerProps> = ({
     ).then((contentSearch) => {
       setContentSearchResource(contentSearch);
     });
-  }, [
-    iiifContentSearchQuery,
-    searchServiceUrl,
-    contentSearchVault,
-    configOptions,
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchServiceUrl]);
 
   // add overlays for content search
   useEffect(() => {
@@ -174,30 +183,8 @@ const Viewer: React.FC<ViewerProps> = ({
       canvas,
       configOptions,
     );
-  }, [
-    contentSearchVault,
-    configOptions,
-    openSeadragonViewer,
-    activeCanvas,
-    vault,
-    contentSearchResource,
-  ]);
-
-  const hasSearchService = manifest.service.some(
-    (service: any) => service.type === "SearchService2",
-  );
-
-  // check if search service exists in the manifest
-  useEffect(() => {
-    if (hasSearchService) {
-      const searchService: any = manifest.service.find(
-        (service: any) => service.type === "SearchService2",
-      );
-      if (searchService) {
-        setSearchServiceUrl(searchService.id);
-      }
-    }
-  }, [manifest, hasSearchService]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [openSeadragonViewer, contentSearchResource]);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -234,32 +221,3 @@ const Viewer: React.FC<ViewerProps> = ({
 };
 
 export default Viewer;
-
-function addContentSearchOverlays(
-  contentSearchVault: any,
-  contentSearch: AnnotationPageNormalized,
-  openSeadragonViewer,
-  canvas: CanvasNormalized,
-  configOptions: ViewerConfigOptions,
-) {
-  const annotations: Array<AnnotationNormalized> = [];
-  contentSearch?.items?.forEach((item) => {
-    const annotation = contentSearchVault.get(item.id) as AnnotationNormalized;
-
-    if (typeof annotation.target === "string") {
-      if (annotation.target.startsWith(canvas.id)) {
-        annotations.push(annotation as unknown as AnnotationNormalized);
-      }
-    }
-  });
-
-  if (openSeadragonViewer && configOptions.contentSearch?.overlays) {
-    addOverlaysToViewer(
-      openSeadragonViewer,
-      canvas,
-      configOptions.contentSearch.overlays,
-      annotations,
-      "content-search-overlay",
-    );
-  }
-}

@@ -3,9 +3,13 @@ import {
   AnnotationNormalized,
   IIIFExternalWebResource,
   type CanvasNormalized,
+  AnnotationPageNormalized,
 } from "@iiif/presentation-3";
 import OpenSeadragon from "openseadragon";
-import { type OverlayOptions } from "src/context/viewer-context";
+import {
+  type OverlayOptions,
+  type ViewerConfigOptions,
+} from "src/context/viewer-context";
 import { OsdSvgOverlay } from "src/lib/openseadragon-svg";
 import { parseAnnotationTarget } from "src/lib/annotation-helpers";
 
@@ -294,5 +298,37 @@ export function panToTarget(openSeadragonViewer, zoomLevel, target, canvas) {
       zoomLevel,
     );
     openSeadragonViewer?.viewport.fitBounds(rect);
+  }
+}
+
+export function addContentSearchOverlays(
+  contentSearchVault: any,
+  contentSearch: AnnotationPageNormalized,
+  openSeadragonViewer,
+  canvas: CanvasNormalized,
+  configOptions: ViewerConfigOptions,
+) {
+  if (!contentSearch?.items) return;
+  if (contentSearch?.items.length === 0) return;
+
+  const annotations: Array<AnnotationNormalized> = [];
+  contentSearch.items.forEach((item) => {
+    const annotation = contentSearchVault.get(item.id) as AnnotationNormalized;
+
+    if (typeof annotation.target === "string") {
+      if (annotation.target.startsWith(canvas.id)) {
+        annotations.push(annotation as unknown as AnnotationNormalized);
+      }
+    }
+  });
+
+  if (openSeadragonViewer && configOptions.contentSearch?.overlays) {
+    addOverlaysToViewer(
+      openSeadragonViewer,
+      canvas,
+      configOptions.contentSearch.overlays,
+      annotations,
+      "content-search-overlay",
+    );
   }
 }
