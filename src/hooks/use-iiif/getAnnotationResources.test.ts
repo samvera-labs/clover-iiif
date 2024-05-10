@@ -8,7 +8,10 @@ import {
 } from "src/fixtures/use-iiif/get-annotation-resources";
 
 import { Vault } from "@iiif/vault";
-import { getAnnotationResources } from "./getAnnotationResources";
+import {
+  getAnnotationResources,
+  getContentSearchResources,
+} from "./getAnnotationResources";
 import { manifestNoAnnotations } from "src/fixtures/use-iiif/get-supplementing-resources";
 
 describe("getAnnotationResources method", () => {
@@ -276,5 +279,20 @@ describe("getAnnotationResources method", () => {
     );
 
     expect(result).toStrictEqual(expected);
+  });
+});
+
+describe("getContentSearchResources", () => {
+  it("returns object with label if content is not search content v2", async () => {
+    const searchUrl =
+      "http://localhost:3000/manifest/content-search/search-v1.json";
+    const vault = new Vault();
+    const result = await getContentSearchResources(
+      vault,
+      searchUrl,
+      "Search Results",
+    );
+
+    expect(result).toStrictEqual({ label: { none: ["Search Results"] } });
   });
 });

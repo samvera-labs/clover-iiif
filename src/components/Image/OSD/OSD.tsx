@@ -9,6 +9,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Controls from "src/components/Image/Controls/Controls";
 import { OpenSeadragonImageTypes } from "src/types/open-seadragon";
 import { getInfoResponse } from "src/lib/iiif";
+import { useViewerDispatch } from "src/context/viewer-context";
 
 interface OSDProps {
   _cloverViewerHasPlaceholder: boolean;
@@ -29,6 +30,7 @@ const OSD: React.FC<OSDProps> = ({
 }) => {
   const [osdUri, setOsdUri] = useState<string>();
   const [openSeadragon, setOpenSeadragon] = useState<OpenSeadragon.Viewer>();
+  const dispatch: any = useViewerDispatch();
 
   const initializeOSD = useRef(false);
 
@@ -70,6 +72,17 @@ const OSD: React.FC<OSDProps> = ({
 
               openSeadragon?.addTiledImage({
                 tileSource,
+                success: () => {
+                  // NOTE: need to check dispatch is a function, because when
+                  // using dev server, dispatch sometimes is set to
+                  // ViewerContext.defaultState object instead of a function
+                  if (typeof dispatch === "function") {
+                    dispatch({
+                      type: "updateOSDImageLoaded",
+                      OSDImageLoaded: true,
+                    });
+                  }
+                },
               });
             } catch (e) {
               console.error(e);

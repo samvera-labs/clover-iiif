@@ -1,4 +1,6 @@
-export const multipleHighlighting = {
+import { Manifest } from "@iiif/presentation-3";
+
+export const multipleHighlighting: Manifest = {
   "@context": ["http://iiif.io/api/presentation/3/context.json"],
   id: "http://localhost:3000/manifest/newspaper/newspaper_issue_1.json",
   type: "Manifest",

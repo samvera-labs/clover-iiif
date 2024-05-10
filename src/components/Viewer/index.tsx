@@ -19,6 +19,7 @@ import {
   getActiveCanvas,
   getActiveManifest,
 } from "src/lib/iiif";
+import { ContentSearchQuery } from "src/types/annotations";
 
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
@@ -28,6 +29,7 @@ export interface CloverViewerProps {
   id?: string;
   manifestId?: string;
   options?: ViewerConfigOptions;
+  iiifContentSearchQuery?: ContentSearchQuery;
 }
 
 const CloverViewer: React.FC<CloverViewerProps> = ({
@@ -38,6 +40,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
   id,
   manifestId,
   options,
+  iiifContentSearchQuery,
 }) => {
   /**
    * Legacy `id` and `manifestId` prop support.
@@ -74,6 +77,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
         canvasIdCallback={canvasIdCallback}
         customTheme={customTheme}
         options={options}
+        iiifContentSearchQuery={iiifContentSearchQuery}
       />
     </ViewerProvider>
   );
@@ -84,6 +88,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   customTheme,
   iiifContent,
   options,
+  iiifContentSearchQuery,
 }) => {
   const dispatch: any = useViewerDispatch();
 
@@ -214,7 +219,14 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * will will set the activeCanvas to the first index and render the
    * <Viewer/> component.
    */
-  return <Viewer manifest={manifest} theme={theme} key={manifest.id} />;
+  return (
+    <Viewer
+      manifest={manifest}
+      theme={theme}
+      key={manifest.id}
+      iiifContentSearchQuery={iiifContentSearchQuery}
+    />
+  );
 };
 
 export default CloverViewer;

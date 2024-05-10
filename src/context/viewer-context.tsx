@@ -18,18 +18,14 @@ export type AutoScrollOptions = {
 };
 
 export type ViewerConfigOptions = {
-  annotationOverlays?: {
-    backgroundColor?: string;
-    borderColor?: string;
-    borderType?: string;
-    borderWidth?: string;
-    opacity?: string;
-    renderOverlays?: boolean;
-    zoomLevel?: number;
-  };
+  annotationOverlays?: OverlayOptions;
   background?: string;
   canvasBackgroundColor?: string;
   canvasHeight?: string;
+  contentSearch?: {
+    searchResultsLimit?: number;
+    overlays?: OverlayOptions;
+  };
   ignoreCaptionLabels?: string[];
   informationPanel?: {
     open?: boolean;
@@ -40,6 +36,8 @@ export type ViewerConfigOptions = {
     vtt?: {
       autoScroll?: AutoScrollOptions | AutoScrollSettings | boolean;
     };
+    renderContentSearch?: boolean;
+    defaultTab?: string;
   };
   openSeadragon?: OpenSeadragonOptions;
   requestHeaders?: IncomingHttpHeaders;
@@ -47,6 +45,25 @@ export type ViewerConfigOptions = {
   showIIIFBadge?: boolean;
   showTitle?: boolean;
   withCredentials?: boolean;
+  localeText?: {
+    contentSearch?: {
+      tabLabel?: string;
+      formPlaceholder?: string;
+      noSearchResults?: string;
+      loading?: string;
+      moreResults?: string;
+    };
+  };
+};
+
+export type OverlayOptions = {
+  backgroundColor?: string;
+  borderColor?: string;
+  borderType?: string;
+  borderWidth?: string;
+  opacity?: string;
+  renderOverlays?: boolean;
+  zoomLevel?: number;
 };
 
 const defaultAutoScrollSettings: AutoScrollSettings = {
@@ -56,8 +73,8 @@ const defaultAutoScrollSettings: AutoScrollSettings = {
 
 const defaultConfigOptions = {
   annotationOverlays: {
-    backgroundColor: "#ff6666",
-    borderColor: "#990000",
+    backgroundColor: "#6666ff",
+    borderColor: "#000099",
     borderType: "solid",
     borderWidth: "1px",
     opacity: "0.5",
@@ -67,6 +84,18 @@ const defaultConfigOptions = {
   background: "transparent",
   canvasBackgroundColor: "#6662",
   canvasHeight: "500px",
+  contentSearch: {
+    searchResultsLimit: 20,
+    overlays: {
+      backgroundColor: "#ff6666",
+      borderColor: "#990000",
+      borderType: "solid",
+      borderWidth: "1px",
+      opacity: "0.5",
+      renderOverlays: true,
+      zoomLevel: 4,
+    },
+  },
   ignoreCaptionLabels: [],
   informationPanel: {
     vtt: {
@@ -80,6 +109,7 @@ const defaultConfigOptions = {
     renderSupplementing: true,
     renderToggle: true,
     renderAnnotation: true,
+    renderContentSearch: true,
   },
   openSeadragon: {},
   requestHeaders: { "Content-Type": "application/json" },
@@ -87,6 +117,15 @@ const defaultConfigOptions = {
   showIIIFBadge: true,
   showTitle: true,
   withCredentials: false,
+  localeText: {
+    contentSearch: {
+      tabLabel: "Search Results",
+      formPlaceholder: "Enter search words",
+      noSearchResults: "No search results",
+      loading: "Loading...",
+      moreResults: "more results",
+    },
+  },
 };
 
 export type CustomDisplay = {
@@ -103,6 +142,7 @@ export type CustomDisplay = {
 export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
+  OSDImageLoaded?: boolean;
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
@@ -112,6 +152,7 @@ export interface ViewerContextStore {
   isLoaded: boolean;
   isUserScrolling?: number | undefined;
   vault: Vault;
+  contentSearchVault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer | null;
   openSeadragonId?: string;
   viewerId?: string;
@@ -128,7 +169,9 @@ export interface ViewerAction {
   isLoaded: boolean;
   isUserScrolling: number | undefined;
   manifestId: string;
+  OSDImageLoaded?: boolean;
   vault: Vault;
+  contentSearchVault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer;
   viewerId: string;
 }
@@ -163,6 +206,7 @@ const expandedAutoScrollOptions = expandAutoScrollOptions(
 export const defaultState: ViewerContextStore = {
   activeCanvas: "",
   activeManifest: "",
+  OSDImageLoaded: false,
   collection: {},
   configOptions: defaultConfigOptions,
   customDisplays: [],
@@ -172,6 +216,7 @@ export const defaultState: ViewerContextStore = {
   isLoaded: false,
   isUserScrolling: undefined,
   vault: new Vault(),
+  contentSearchVault: new Vault(),
   openSeadragonViewer: null,
   viewerId: uuidv4(),
 };
@@ -197,6 +242,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         activeManifest: action.manifestId,
+      };
+    }
+    case "updateOSDImageLoaded": {
+      return {
+        ...state,
+        OSDImageLoaded: action.OSDImageLoaded,
       };
     }
     case "updateAutoScrollAnnotationEnabled": {

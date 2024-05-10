@@ -80,7 +80,13 @@ describe("addOverlaysToViewer", () => {
     const target1 = "https://example.com/1#xywh=100,101,102,103";
     const annotations = createAnnotations(target1);
 
-    addOverlaysToViewer(viewer, canvas, configOptions, annotations);
+    addOverlaysToViewer(
+      viewer,
+      canvas,
+      configOptions.annotationOverlays,
+      annotations,
+      "annotation-overlay",
+    );
 
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy.mock.calls[0]).toEqual([
@@ -100,7 +106,13 @@ describe("addOverlaysToViewer", () => {
     const target1 = "https://example.com/1";
     const annotations = createAnnotations(target1);
 
-    addOverlaysToViewer(viewer, canvas, configOptions, annotations);
+    addOverlaysToViewer(
+      viewer,
+      canvas,
+      configOptions.annotationOverlays,
+      annotations,
+      "annotation-overlay",
+    );
 
     expect(spy).toHaveBeenCalledTimes(0);
   });
@@ -136,7 +148,13 @@ describe("addOverlaysToViewer", () => {
       "stroke: #990000; stroke-width: 1px; fill: #ff6666; fill-opacity: 0.5;",
     );
 
-    addOverlaysToViewer(viewer, canvas, configOptions, annotations);
+    addOverlaysToViewer(
+      viewer,
+      canvas,
+      configOptions.annotationOverlays,
+      annotations,
+      "annotation-overlay",
+    );
 
     expect(mockedOsdSvgOverlay).toHaveBeenCalledTimes(1);
     expect(mockDataTable.append).toHaveBeenCalledTimes(1);
@@ -174,7 +192,13 @@ describe("addOverlaysToViewer", () => {
       "stroke: #990000; stroke-width: 1px; fill: #ff6666; fill-opacity: 0.5;",
     );
 
-    addOverlaysToViewer(viewer, canvas, configOptions, annotations);
+    addOverlaysToViewer(
+      viewer,
+      canvas,
+      configOptions.annotationOverlays,
+      annotations,
+      "annotation-overlay",
+    );
 
     expect(mockedOsdSvgOverlay).toHaveBeenCalledTimes(1);
     expect(mockDataTable.append).toHaveBeenCalledTimes(1);

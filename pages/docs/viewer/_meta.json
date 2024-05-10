@@ -5,5 +5,12 @@
       "sidebar": false
     },
     "title": "Demo"
+  },
+  "contentsearch": {
+    "title": "Content Search",
+    "theme": {
+      "sidebar": false,
+      "layout": "full"
+    }
   }
 }

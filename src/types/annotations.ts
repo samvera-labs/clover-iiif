@@ -5,6 +5,7 @@ import {
 } from "@iiif/presentation-3";
 
 type AnnotationResources = AnnotationPageNormalized[];
+type AnnotationResource = AnnotationPageNormalized;
 
 interface ParsedAnnotationTarget {
   id: string;
@@ -26,8 +27,17 @@ interface AnnotationFlattened extends Annotation {
   body: EmbeddedResource;
 }
 
+type ContentSearchQuery = {
+  q: string;
+  motivation?: string;
+  date?: string;
+  user?: string;
+};
+
 export type {
   AnnotationFlattened,
   AnnotationResources,
+  AnnotationResource,
   ParsedAnnotationTarget,
+  ContentSearchQuery,
 };
