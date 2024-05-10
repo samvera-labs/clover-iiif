@@ -94,13 +94,6 @@
         "en": ["0377 - Image in annotations"]
       },
       "type": "Manifest"
-    },
-    {
-      "id": "http://localhost:3000/manifest/newspaper/newspaper_issue_1.json",
-      "label": {
-        "en": ["Local Newspaper Demo"]
-      },
-      "type": "Manifest"
     }
   ],
   "label": {
