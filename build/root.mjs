@@ -5,7 +5,6 @@ import Slider from "./slider";
 import Viewer from "./viewer";
 import {
   parseAnnotationTarget,
-  parseAnnotationsFromAnnotationResources,
 } from "./annotation-helpers";
 import { createOpenSeadragonRect } from "./openseadragon-helpers";
 
@@ -16,7 +15,6 @@ export {
   Slider,
   Viewer,
   parseAnnotationTarget,
-  parseAnnotationsFromAnnotationResources,
   createOpenSeadragonRect
 };
 

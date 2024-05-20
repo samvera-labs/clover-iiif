@@ -18,8 +18,6 @@ import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React from "react";
 import { useViewerState } from "src/context/viewer-context";
-import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
-import { ErrorBoundary } from "react-error-boundary";
 
 export interface ViewerContentProps {
   activeCanvas: string;
@@ -87,15 +85,13 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
       {(isAside || isForcedAside) && (
         <Aside>
           <CollapsibleContent>
-            <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <InformationPanel
-                activeCanvas={activeCanvas}
-                annotationResources={annotationResources}
-                searchServiceUrl={searchServiceUrl}
-                setContentSearchResource={setContentSearchResource}
-                contentSearchResource={contentSearchResource}
-              />
-            </ErrorBoundary>
+            <InformationPanel
+              activeCanvas={activeCanvas}
+              annotationResources={annotationResources}
+              searchServiceUrl={searchServiceUrl}
+              setContentSearchResource={setContentSearchResource}
+              contentSearchResource={contentSearchResource}
+            />
           </CollapsibleContent>
         </Aside>
       )}
