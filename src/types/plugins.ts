@@ -13,12 +13,6 @@ export interface Plugin {
   useViewerState: () => ViewerContextStore;
 }
 
-export interface PluginInformationPanel {
+export interface PluginInformationPanel extends Plugin {
   annotations?: Annotation[];
-  activeManifest: string;
-  canvas: CanvasNormalized;
-  viewerConfigOptions: ViewerConfigOptions;
-  openSeadragonViewer: OpenSeadragon.Viewer | null;
-  useViewerDispatch: () => ViewerContextStore;
-  useViewerState: () => ViewerContextStore;
 }
