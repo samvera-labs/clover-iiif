@@ -14,7 +14,7 @@ describe("setupPlugins", () => {
     const plugin: PluginConfig = {
       id: "plugin",
       imageViewer: {
-        menu: {
+        controls: {
           component: ViewerComponent,
           componentProps: { prop_a: "prop_a_value" },
         },
@@ -37,7 +37,7 @@ describe("setupPlugins", () => {
     const plugin: PluginConfig = {
       id: "plugin",
       imageViewer: {
-        menu: {
+        controls: {
           component: ViewerComponent,
           componentProps: { prop_a: "prop_a_value" },
         },

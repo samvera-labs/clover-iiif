@@ -144,7 +144,7 @@ export type CustomDisplay = {
 export type PluginConfig = {
   id: string;
   imageViewer?: {
-    menu?: {
+    controls?: {
       component: React.ElementType;
       componentProps?: Record<string, unknown>;
     };
