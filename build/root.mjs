@@ -4,9 +4,8 @@ import Scroll from "./scroll";
 import Slider from "./slider";
 import Viewer from "./viewer";
 import {
-  parseAnnotationTarget,
-} from "./annotation-helpers";
-import { createOpenSeadragonRect } from "./openseadragon-helpers";
+  parseAnnotationTarget, createOpenSeadragonRect
+} from "./helpers";
 
 export {
   Image,
