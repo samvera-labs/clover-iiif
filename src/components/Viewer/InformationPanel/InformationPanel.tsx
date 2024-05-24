@@ -49,15 +49,8 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 }) => {
   const dispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
-  const {
-    isAutoScrolling,
-    isUserScrolling,
-    vault,
-    openSeadragonViewer,
-    configOptions,
-    plugins,
-    activeManifest,
-  } = viewerState;
+  const { isAutoScrolling, isUserScrolling, vault, configOptions, plugins } =
+    viewerState;
   const { informationPanel } = configOptions;
 
   const [activeResource, setActiveResource] = useState<string>();
@@ -86,10 +79,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <PluginInformationPanelComponent
             {...plugin?.informationPanel?.componentProps}
-            activeManifest={activeManifest}
             canvas={canvas}
-            viewerConfigOptions={configOptions}
-            openSeadragonViewer={openSeadragonViewer}
             useViewerDispatch={useViewerDispatch}
             useViewerState={useViewerState}
           />

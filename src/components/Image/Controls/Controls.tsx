@@ -73,14 +73,7 @@ const Controls = ({
   config: Options;
 }) => {
   const viewerState: ViewerContextStore = useViewerState();
-  const {
-    activeCanvas,
-    configOptions,
-    openSeadragonViewer,
-    plugins,
-    vault,
-    activeManifest,
-  } = viewerState;
+  const { activeCanvas, plugins, vault } = viewerState;
 
   const canvas: CanvasNormalized = vault.get({
     id: activeCanvas,
@@ -97,10 +90,7 @@ const Controls = ({
           <PluginComponent
             key={i}
             {...plugin?.imageViewer?.controls?.componentProps}
-            activeManifest={activeManifest}
             canvas={canvas}
-            viewerConfigOptions={configOptions}
-            openSeadragonViewer={openSeadragonViewer}
             useViewerDispatch={useViewerDispatch}
             useViewerState={useViewerState}
           ></PluginComponent>
