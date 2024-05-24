@@ -10,15 +10,19 @@ import {
 import { createOpenSeadragonRect } from "src/lib/openseadragon-helpers";
 import { type Plugin, type PluginInformationPanel } from "src/types/plugins";
 
+const helpers = {
+  parseAnnotationTarget,
+  createOpenSeadragonRect,
+};
+
 export {
   Image,
   Primitives,
   Scroll,
   Slider,
   Viewer,
-  parseAnnotationTarget,
+  helpers,
   type AnnotationTargetExtended,
-  createOpenSeadragonRect,
   type Plugin,
   type PluginInformationPanel,
 };
