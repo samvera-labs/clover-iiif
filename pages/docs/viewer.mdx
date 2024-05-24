@@ -582,7 +582,7 @@ The `Viewer` component will pass the following props to your custom display comp
 
 Clover supports 3rd-party plugins as a way to add more functionality to Clover. To add plugins, use the `plugins` prop. `plugins` will accept an array of objects, with each object representing a plugin.
 
-People can use prebuilt plugins or create their own plugins. To install a prebuilt plugin, people should follow the instructions for the particular plugin. If you install multiple plugins, make sure the plugin ids are unique.
+People can use prebuilt plugins or create their own plugins. To install a prebuilt plugin, people should follow the instructions for the particular plugin.
 
 Here's an example of using two plugins. PluginA adds a button to `imageViewer.controls`. PluginB adds a tab to `informationPanel`.
 
@@ -632,6 +632,8 @@ export default function App() {
 | `informationPanel.componentProps`     | `object`          | no       |         |
 | `informationPanel.label`              | `object`          | yes      |         |
 
+`id` - unique id for the plugin
+
 `imageViewer.controls` - If you want to add a custom component to image viewer controls, use `imageViewer.controls`.
 
 `imageViewer.controls.component` - The component to render.
@@ -660,7 +662,7 @@ Clover offers these features to support plugins:
 | `useViewerDispatch` | React hook to update the [Viewer context store](https://github.com/samvera-labs/clover-iiif/blob/main/src/context/viewer-context.tsx) |
 | `useViewerState`    | React hook to access the [Viewer context store](https://github.com/samvera-labs/clover-iiif/blob/main/src/context/viewer-context.tsx) |
 
-Here is an example plugin that has both `imageViewer.controls` and `informationPanel`
+Here is an example plugin that has both `imageViewer.controls` and `informationPanel`. Plugin components have access to canvas, useViewerDispatch, and useViewerState via props.
 
 ![plugin](/media/images/pluginUI.png)
 
