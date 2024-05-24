@@ -3,9 +3,7 @@ import Primitives from "./primitives";
 import Scroll from "./scroll";
 import Slider from "./slider";
 import Viewer from "./viewer";
-import {
-  parseAnnotationTarget, createOpenSeadragonRect
-} from "./helpers";
+import Helpers from "./helpers";
 
 export {
   Image,
@@ -13,8 +11,7 @@ export {
   Scroll,
   Slider,
   Viewer,
-  parseAnnotationTarget,
-  createOpenSeadragonRect
+  Helpers
 };
 
 export default Viewer;

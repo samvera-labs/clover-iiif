@@ -5,10 +5,7 @@ const Primitives = require("./primitives");
 const Scroll = require("./scroll");
 const Slider = require("./slider");
 const Viewer = require("./viewer");
-const {
-  parseAnnotationTarget,
-} = require("./annotation_helpers");
-const { createOpenSeadragonRect } = require("./openseadragon-helpers");
+const Helpers = require("./helpers");
 
 module.exports = {
   default: Viewer,
@@ -17,6 +14,5 @@ module.exports = {
   Scroll,
   Slider,
   Viewer,
-  parseAnnotationTarget,
-  createOpenSeadragonRect
+  Helpers
 };
