@@ -1,7 +1,10 @@
 import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
 import React, { useReducer } from "react";
 
-import { CollectionNormalized } from "@iiif/presentation-3";
+import {
+  CollectionNormalized,
+  InternationalString,
+} from "@iiif/presentation-3";
 import { IncomingHttpHeaders } from "http";
 import { Vault } from "@iiif/vault";
 import { deepMerge } from "src/lib/utils";
@@ -138,6 +141,20 @@ export type CustomDisplay = {
     paintingFormat?: string[];
   };
 };
+export type PluginConfig = {
+  id: string;
+  imageViewer?: {
+    controls?: {
+      component: React.ElementType;
+      componentProps?: Record<string, unknown>;
+    };
+  };
+  informationPanel?: {
+    component: React.ElementType;
+    componentProps?: Record<string, unknown>;
+    label: InternationalString;
+  };
+};
 
 export interface ViewerContextStore {
   activeCanvas: string;
@@ -146,6 +163,7 @@ export interface ViewerContextStore {
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
+  plugins: Array<PluginConfig>;
   isAutoScrollEnabled?: boolean;
   isAutoScrolling?: boolean;
   isInformationOpen: boolean;
@@ -210,6 +228,7 @@ export const defaultState: ViewerContextStore = {
   collection: {},
   configOptions: defaultConfigOptions,
   customDisplays: [],
+  plugins: [],
   isAutoScrollEnabled: expandedAutoScrollOptions.enabled,
   isAutoScrolling: false,
   isInformationOpen: defaultConfigOptions?.informationPanel?.open,

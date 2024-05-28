@@ -17,4 +17,8 @@ html/
 
 # VSCode
 .vscode/
+
+dist/tsconfig.tsbuildinfo
 tmp
+.env.local
+tsconfig.tsbuildinfo

@@ -5,6 +5,7 @@ import {
   recipe0219captionFile,
   simpleAnnotations,
   simpleTagging,
+  referencedAnnotations,
 } from "src/fixtures/use-iiif/get-annotation-resources";
 
 import { Vault } from "@iiif/vault";
@@ -19,7 +20,7 @@ describe("getAnnotationResources method", () => {
     const vault = new Vault();
     await vault.loadManifest("", simpleAnnotations);
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/canvas-1",
     );
@@ -60,7 +61,7 @@ describe("getAnnotationResources method", () => {
     const vault = new Vault();
     await vault.loadManifest("", simpleTagging);
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0021-tagging/canvas/p1",
     );
@@ -100,7 +101,7 @@ describe("getAnnotationResources method", () => {
     const vault = new Vault();
     await vault.loadManifest("", nonRectangularPolygon);
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/canvas/p1",
     );
@@ -140,7 +141,7 @@ describe("getAnnotationResources method", () => {
     const vault = new Vault();
     await vault.loadManifest("", multipleHighlighting);
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "http://localhost:3000/manifest/newspaper/canvas/i1p1",
     );
@@ -192,7 +193,7 @@ describe("getAnnotationResources method", () => {
     const vault = new Vault();
     await vault.loadManifest("", imagesAnnotations);
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0377-image-in-annotation/canvas-1",
     );
@@ -232,7 +233,7 @@ describe("getAnnotationResources method", () => {
     const vault = new Vault();
     await vault.loadManifest("", manifestNoAnnotations);
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "https://api.dc.library.northwestern.edu/api/v2/works/57446da0-dc8b-4be6-998d-efb67c71f654?as=iiif/canvas/access/0",
     );
@@ -273,11 +274,52 @@ describe("getAnnotationResources method", () => {
       },
     ];
 
-    const result = getAnnotationResources(
+    const result = await getAnnotationResources(
       vault,
       "https://iiif.io/api/cookbook/recipe/0219-using-caption-file/canvas",
     );
 
+    expect(result).toStrictEqual(expected);
+  });
+
+  it("processes manifests with annotations stored on separate document", async () => {
+    const vault = new Vault();
+    await vault.loadManifest("", referencedAnnotations);
+
+    const result = await getAnnotationResources(
+      vault,
+      referencedAnnotations.items[0].id,
+    );
+
+    const expected = [
+      {
+        "@context": "http://iiif.io/api/presentation/3/context.json",
+        behavior: [],
+        homepage: [],
+        id: "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/annotationpage.json",
+        items: [
+          {
+            id: "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/canvas-1/annopage-2/anno-1",
+            type: "Annotation",
+          },
+        ],
+        label: {
+          none: ["Annotations"],
+        },
+        logo: [],
+        metadata: [],
+        motivation: null,
+        provider: [],
+        rendering: [],
+        requiredStatement: null,
+        rights: null,
+        seeAlso: [],
+        service: [],
+        summary: null,
+        thumbnail: [],
+        type: "AnnotationPage",
+      },
+    ];
     expect(result).toStrictEqual(expected);
   });
 });

@@ -37,6 +37,11 @@
       "import": "./dist/viewer/index.mjs",
       "require": "./dist/viewer/index.umd.js",
       "types": "./dist/viewer/index.d.ts"
+    },
+    "./helpers": {
+      "import": "./dist/helpers/index.mjs",
+      "require": "./dist/helpers/index.umd.js",
+      "types": "./dist/helpers/index.d.ts"
     }
   },
   "types": "./dist/index.d.ts",

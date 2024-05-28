@@ -11,7 +11,7 @@ const buildOptions = {
       entry: "./src/components/Image/index.tsx",
       fileName: "index",
     },
-  }, 
+  },
   primitives: {
     lib: {
       name: "CloverIIIFPrimitives",
@@ -37,6 +37,13 @@ const buildOptions = {
     lib: {
       name: "CloverIIIFScroll",
       entry: "./src/components/Scroll/index.tsx",
+      fileName: "index",
+    }
+  },
+  'helpers': {
+    lib: {
+      name: "CloverIIIFHelpers",
+      entry: "./src/lib/index.ts",
       fileName: "index",
     },
   },

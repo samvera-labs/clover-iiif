@@ -559,3 +559,147 @@ export const recipe0219captionFile = {
     },
   ],
 };
+
+export const referencedAnnotations = {
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  id: "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/manifest.json",
+  type: "Manifest",
+  label: {
+    en: ["Picture of Göttingen taken during the 2019 IIIF Conference"],
+  },
+  items: [
+    {
+      id: "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/canvas-1",
+      type: "Canvas",
+      height: 3024,
+      width: 4032,
+      items: [
+        {
+          id: "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/canvas-1/annopage-1",
+          type: "AnnotationPage",
+          items: [
+            {
+              id: "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/canvas-1/annopage-1/anno-1",
+              type: "Annotation",
+              motivation: "painting",
+              body: {
+                id: "https://iiif.io/api/image/3.0/example/reference/918ecd18c2592080851777620de9bcb5-gottingen/full/max/0/default.jpg",
+                type: "Image",
+                format: "image/jpeg",
+                height: 3024,
+                width: 4032,
+                service: [
+                  {
+                    id: "https://iiif.io/api/image/3.0/example/reference/918ecd18c2592080851777620de9bcb5-gottingen",
+                    profile: "level1",
+                    type: "ImageService3",
+                  },
+                ],
+              },
+              target:
+                "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/canvas-1",
+            },
+          ],
+        },
+      ],
+      annotations: [
+        {
+          id: "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/annotationpage.json",
+          type: "AnnotationPage",
+        },
+      ],
+    },
+  ],
+};
+
+export const multiplePages = {
+  "@context": ["http://iiif.io/api/presentation/3/context.json"],
+  id: "http://localhost:3000/manifest/newspaper/newspaper_issue_1.json",
+  type: "Manifest",
+  label: {
+    de: ["1. Berliner Tageblatt - 1925-02-16"],
+  },
+  items: [
+    {
+      id: "http://localhost:3000/manifest/newspaper/canvas/i1p1",
+      type: "Canvas",
+      height: 5000,
+      width: 3602,
+      label: {
+        none: ["p. 1"],
+      },
+      items: [
+        {
+          id: "http://localhost:3000/manifest/newspaper/annotation_page_painting/ap1",
+          type: "AnnotationPage",
+          items: [
+            {
+              id: "http://localhost:3000/manifest/newspaper/annotation/p1",
+              type: "Annotation",
+              motivation: "painting",
+              body: {
+                id: "https://iiif.io/api/image/3.0/example/reference/4ce82cef49fb16798f4c2440307c3d6f-newspaper-p1/full/max/0/default.jpg",
+                type: "Image",
+                format: "image/jpeg",
+                service: [
+                  {
+                    id: "https://iiif.io/api/image/3.0/example/reference/4ce82cef49fb16798f4c2440307c3d6f-newspaper-p1",
+                    type: "ImageService3",
+                    profile: "level1",
+                  },
+                ],
+              },
+              target: "http://localhost:3000/manifest/newspaper/canvas/i1p1",
+            },
+          ],
+        },
+      ],
+      annotations: [
+        {
+          id: "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p10.json",
+          type: "AnnotationPage",
+          label: {
+            en: ["Search results"],
+          },
+          items: [
+            {
+              id: "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json-1",
+              type: "Annotation",
+              motivation: "highlighting",
+              body: {
+                type: "TextualBody",
+                format: "text/plain",
+                language: "de",
+                value: "Berliner",
+              },
+              target:
+                "http://localhost:3000/manifest/newspaper/canvas/i1p1#xywh=839,3259,118,27",
+            },
+          ],
+        },
+        {
+          id: "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p2.json",
+          type: "AnnotationPage",
+          label: {
+            en: ["Clippings"],
+          },
+          items: [
+            {
+              id: "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p2.json-2",
+              type: "Annotation",
+              motivation: "commenting",
+              body: {
+                type: "TextualBody",
+                format: "text/plain",
+                language: "de",
+                value: "Berliner",
+              },
+              target:
+                "http://localhost:3000/manifest/newspaper/canvas/i1p2#xywh=161,459,1063,329",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};

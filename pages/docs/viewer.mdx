@@ -149,6 +149,7 @@ const MyCustomViewer = () => {
 | `canvasIdCallback`              | `function`                                                                  | No       |                                          |
 | `customDisplays`                | [See Custom Displays](#custom-displays)                                     | No       |                                          |
 | `customTheme`                   | `object`                                                                    | No       |                                          |
+| `plugins`                       | [See Plugins](#plugins)                                                     | No       |                                          |
 | `options`                       | `object`                                                                    | No       |                                          |
 | `options.background`            | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background) | No       | `transparent`                            |
 | `options.canvasBackgroundColor` | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background) | No       | `#1a1d1e`                                |
@@ -574,3 +575,214 @@ The `Viewer` component will pass the following props to your custom display comp
 ```
 
 [See a complete recipe for a PDF Viewer](https://github.com/samvera-labs/clover-iiif/blob/main/docs/components/CustomDisplays/PDFViewer.tsx) using custom canvas displays.
+
+---
+
+### Plugins
+
+Clover supports 3rd-party plugins as a way to add more functionality to Clover. To add plugins, use the `plugins` prop. `plugins` will accept an array of objects, with each object representing a plugin.
+
+People can use prebuilt plugins or create their own plugins. To install a prebuilt plugin, people should follow the instructions for the particular plugin.
+
+Here's an example of using two plugins. PluginA adds a button to `imageViewer.controls`. PluginB adds a tab to `informationPanel`.
+
+```tsx
+import PluginA from "plugin-A";
+import PluginB from "plugin-B";
+
+export default function App() {
+  return (
+    <Viewer
+      iiifContent={iiifContent}
+      plugins={[
+        {
+          id: "Plugin A",
+          imageViewer: {
+            controls: {
+              component: PluginA,
+            },
+          },
+        },
+        {
+          id: "Plugin B",
+          informationPanel: {
+            component: PluginB,
+            componentProps: {
+              objectId: 456,
+            },
+            label: { none: ["My Plugin"] },
+          },
+        },
+      ]}
+    />
+  );
+}
+```
+
+![plugin](/media/images/pluginUI.png)
+
+| Prop                                  | Type              | Required | Default |
+| ------------------------------------- | ----------------- | -------- | ------- |
+| `id`                                  | `string`          | yes      |         |
+| `imageViewer.controls`                | `object`          | No       |         |
+| `imageViewer.controls.component`      | `React Component` | yes      |         |
+| `imageViewer.controls.componentProps` | `object`          | no       |         |
+| `informationPanel`                    | `object`          | No       |         |
+| `informationPanel.component`          | `React Component` | yes      |         |
+| `informationPanel.componentProps`     | `object`          | no       |         |
+| `informationPanel.label`              | `object`          | yes      |         |
+
+`id` - unique id for the plugin
+
+`imageViewer.controls` - If you want to add a custom component to image viewer controls, use `imageViewer.controls`.
+
+`imageViewer.controls.component` - The component to render.
+
+`imageViewer.controls.componentProps` - Props passed to the controls component.
+
+`informationPanel` - If you want to add a custom component to the information panel, use `informationPanel`.
+
+`informationPanel.component` - The component to render.
+
+`informationPanel.componentProps` - Props passed to the information panel component.
+
+`informationPanel.label` - The text that is displayed in the tab.
+
+#### Instructions for creating a plugin
+
+Clover offers these features to support plugins:
+
+- Renders custom React components in certain areas of the Clover Viewer. Areas include image viewer controls and information panel.
+- Gives plugins the ability to access and change the state of the Clover Viewer via props
+- Pass in props to the plugin components
+
+| Prop                | Description                                                                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `canvas`            | active canvas object                                                                                                                  |
+| `useViewerDispatch` | React hook to update the [Viewer context store](https://github.com/samvera-labs/clover-iiif/blob/main/src/context/viewer-context.tsx) |
+| `useViewerState`    | React hook to access the [Viewer context store](https://github.com/samvera-labs/clover-iiif/blob/main/src/context/viewer-context.tsx) |
+
+Here is an example plugin that has both `imageViewer.controls` and `informationPanel`. Plugin components have access to canvas, useViewerDispatch, and useViewerState via props.
+
+![plugin](/media/images/pluginUI.png)
+
+```tsx
+// PluginButton.tsx
+
+export default function PluginButton(props) {
+  const { canvas, useViewerDispatch, useViewerState } = props;
+
+  // use useViewerState to access to viewer state properties such as openSeadragonViewer, etc
+  const viewerState = useViewerState();
+  const { openSeadragonViewer, activeManifest } = viewerState;
+
+  // use useViewerDispatch to update viewer state
+  const dispatch: any = useViewerDispatch();
+
+  function clickHandler() {
+    dispatch({
+      type: "updateOSDImageLoaded",
+      OSDImageLoaded: false,
+    });
+  }
+
+  return (
+    <button
+      onClick={clickHandler}
+      style={{
+        backgroundColor: "var(--colors-primary)",
+        borderRadius: "2rem",
+        width: "2rem",
+        margin: "0px 0px 0px 0.618rem",
+      }}
+    >
+      <b>P</b>
+    </button>
+  );
+}
+
+// PluginInfoPanel.tsx
+
+export default function PluginInfoPanel(props) {
+  const {
+    canvas,
+    useViewerDispatch,
+    useViewerState,
+
+    // componentProps
+    objectId,
+  } = props;
+
+  return (
+    <div style={{ padding: "0px 1.618rem 2rem" }}>
+      <p>Plugin Info Panel</p>
+      <p>objectId: {objectId}</p>
+    </div>
+  );
+}
+
+// App.tsx
+
+import PluginButton from "PluginButton";
+import PluginInfoPanel from "PluginInfoPanel";
+
+export default function App() {
+  return (
+    <Viewer
+      iiifContent="https://iiif.io/api/cookbook/recipe/0001-mvm-image/manifest.json"
+      plugins={[
+        {
+          id: "Demo",
+          imageViewer: {
+            controls: {
+              component: PluginButton,
+            },
+          },
+          informationPanel: {
+            component: PluginInfoPanel,
+            label: { none: ["My Plugin"] },
+            componentProps: {
+              objectId: 456,
+            },
+          },
+        },
+      ]}
+    />
+  );
+}
+```
+
+If the `imageViewer.controls.component` and `informationPanel.component` need to share state, wrap the Viewer in a context provider that is provided by the plugin.
+
+```tsx
+import PluginButton from "PluginButton";
+import PluginInfoPanel from "PluginInfoPanel";
+import { PluginProvider } from "PluginContext";
+
+export default function App() {
+  return (
+    <PluginProvider>
+      <Viewer
+        iiifContent="https://iiif.io/api/cookbook/recipe/0001-mvm-image/manifest.json"
+        plugins={[
+          {
+            id: "Demo",
+            imageViewer: {
+              controls: {
+                component: PluginButton,
+              },
+            },
+            informationPanel: {
+              component: PluginInfoPanel,
+              label: { none: ["My Plugin"] },
+              componentProps: {
+                objectId: 456,
+              },
+            },
+          },
+        ]}
+      />
+    </PluginProvider>
+  );
+}
+```
