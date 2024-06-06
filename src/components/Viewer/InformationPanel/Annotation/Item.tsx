@@ -49,6 +49,7 @@ export const AnnotationItem: React.FC<Props> = ({
             // @ts-ignore
             start: target?.selector?.t,
             end: 0,
+            html: " ",
             text: " ",
             styles: "",
             children: [],
