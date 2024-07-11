@@ -30,40 +30,6 @@ const Main = styled("div", {
   },
 });
 
-const CollapsibleTrigger = styled(Collapsible.Trigger, {
-  display: "none",
-  border: "none",
-  padding: "0",
-  transition: "$all",
-  opacity: "1",
-  background: "#6663",
-  margin: "1rem 0",
-  borderRadius: "6px",
-
-  "&[data-information-panel='false']": {
-    opacity: "0",
-    marginTop: "-59px",
-  },
-
-  "@sm": {
-    display: "flex",
-
-    "> span": {
-      display: "flex",
-      flexGrow: "1",
-      fontSize: "0.8333em",
-      justifyContent: "center",
-      padding: "0.5rem",
-      fontFamily: "inherit",
-    },
-  },
-});
-
-const CollapsibleContent = styled(Collapsible.Content, {
-  width: "100%",
-  display: "flex",
-});
-
 const Aside = styled("aside", {
   display: "flex",
   flexGrow: "1",
@@ -124,24 +90,8 @@ const Wrapper = styled("div", {
       [`& ${MediaWrapper}`]: {
         display: "none",
       },
-
-      [`& ${CollapsibleTrigger}`]: {
-        margin: "1rem",
-      },
-
-      [`& ${CollapsibleContent}`]: {
-        height: "100%",
-      },
     },
   },
 });
 
-export {
-  Wrapper,
-  Content,
-  Main,
-  MediaWrapper,
-  CollapsibleContent,
-  CollapsibleTrigger,
-  Aside,
-};
+export { Wrapper, Content, Main, MediaWrapper, Aside };
