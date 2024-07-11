@@ -5,6 +5,7 @@ import { styled } from "src/styles/stitches.config";
 const DownloadButton = styled(Popover.Trigger, {
   width: "30px",
   padding: "5px",
+  marginBottom: "auto"
 });
 
 const DownloadContent = styled(PopoverContent, {
