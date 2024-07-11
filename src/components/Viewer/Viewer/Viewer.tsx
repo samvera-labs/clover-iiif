@@ -189,7 +189,7 @@ const Viewer: React.FC<ViewerProps> = ({
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Theme>
+      <Theme className="clover-theme clover-theme--viewer" accentColor="iris">
         <Wrapper
           className={`${theme} clover-viewer`}
           css={{ background: configOptions?.background }}

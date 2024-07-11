@@ -40,6 +40,7 @@ const Wrapper = styled("div", {
   color: "white",
   position: "relative",
   zIndex: "0",
+  height: "100%",
   overflow: "hidden",
 
   variants: {

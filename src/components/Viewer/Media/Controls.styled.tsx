@@ -29,8 +29,6 @@ const Button = styled(IconButton, {
 const Direction = styled(Flex, {
   marginRight: "var(--space-3)",
   backgroundColor: "var(--gray-4)",
-  borderRadius: "var(--radius-6)",
-  boxShadow: "var(--shadow-3)",
 });
 
 const Wrapper = styled("div", {

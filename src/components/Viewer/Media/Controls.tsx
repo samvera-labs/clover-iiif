@@ -116,7 +116,11 @@ const Controls: React.FC<Props> = ({
           <Input autoFocus onChange={handleFilterChange} placeholder="Search" />
         )}
         {!toggleFilter && (
-          <Direction align="center" gap="2">
+          <Direction
+            align="center"
+            gap="2"
+            className="rt-BaseButton rt-r-size-2"
+          >
             <Button
               onClick={() => handleCanvasToggle(-1)}
               disabled={isPreviousDisabled}
