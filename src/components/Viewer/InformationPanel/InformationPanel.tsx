@@ -1,4 +1,3 @@
-import { Box, Flex, ScrollArea, Tabs } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
 import {
   ViewerContextStore,
@@ -6,7 +5,6 @@ import {
   useViewerState,
   type PluginConfig,
 } from "src/context/viewer-context";
-
 import AnnotationPage from "src/components/Viewer/InformationPanel/Annotation/Page";
 import ContentSearch from "src/components/Viewer/InformationPanel/ContentSearch/ContentSearch";
 import { AnnotationResources, AnnotationResource } from "src/types/annotations";
@@ -17,6 +15,7 @@ import {
   CanvasNormalized,
 } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
+import { Tabs } from "@radix-ui/themes";
 import { setupPlugins } from "src/lib/plugin-helpers";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 
@@ -70,7 +69,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     }
 
     return (
-      <Content key={i} value={plugin.id}>
+      <Tabs.Content key={i} value={plugin.id}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <PluginInformationPanelComponent
             {...plugin?.informationPanel?.componentProps}
@@ -79,7 +78,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             useViewerState={useViewerState}
           />
         </ErrorBoundary>
-      </Content>
+      </Tabs.Content>
     );
   }
 
