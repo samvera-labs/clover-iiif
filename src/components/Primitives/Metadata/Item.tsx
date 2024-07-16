@@ -3,7 +3,7 @@ import { DataList } from "@radix-ui/themes";
 import Label from "../Label/Label";
 import { PrimitivesMetadataItem } from "src/types/primitives";
 import React from "react";
-import Value from "../Value/Value";
+import Value from "src/components/Primitives/Value/Value";
 import { getLabelAsString } from "src/lib/label-helpers";
 
 const MetadataItem: React.FC<PrimitivesMetadataItem> = (props) => {

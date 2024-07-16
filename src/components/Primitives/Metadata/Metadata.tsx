@@ -8,7 +8,7 @@ import { parseCustomContent } from "src/lib/custom";
 import { sanitizeAttributes } from "src/lib/html-element";
 import { styled } from "src/styles/stitches.config";
 
-const StyledMetadata = styled("dl", {});
+const StyledMetadata = styled(DataList.Root, {});
 
 const Metadata: React.FC<PrimitivesMetadata> = (props) => {
   const { as, customValueContent, metadata } = props;
@@ -35,7 +35,7 @@ const Metadata: React.FC<PrimitivesMetadata> = (props) => {
         : undefined)}
     >
       {metadata.length > 0 && (
-        <DataList.Root orientation="vertical" {...attributes}>
+        <StyledMetadata as={as} {...attributes}>
           {metadata.map((item, index) => {
             const customValue = customValueContent
               ? parseCustomContent(item.label, customValueContent)
@@ -50,7 +50,7 @@ const Metadata: React.FC<PrimitivesMetadata> = (props) => {
               />
             );
           })}
-        </DataList.Root>
+        </StyledMetadata>
       )}
     </PrimitivesProvider>
   );

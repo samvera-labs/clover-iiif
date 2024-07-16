@@ -1,6 +1,8 @@
+import { DataList, Link } from "@radix-ui/themes";
+
 import { PrimitivesExternalWebResource } from "src/types/primitives";
-import { SeeAlso } from "src/components/Primitives";
 import React from "react";
+import { SeeAlso } from "src/components/Primitives";
 
 interface PropertiesSeeAlsoProps {
   seeAlso: PrimitivesExternalWebResource[];
@@ -10,10 +12,14 @@ const PropertiesSeeAlso: React.FC<PropertiesSeeAlsoProps> = ({ seeAlso }) => {
   if (seeAlso?.length === 0) return <></>;
 
   return (
-    <>
-      <span className="manifest-property-title">See Also</span>
-      <SeeAlso seeAlso={seeAlso} />
-    </>
+    <DataList.Root orientation="vertical">
+      <DataList.Item role="group">
+        <DataList.Label>See Also</DataList.Label>
+        <DataList.Value>
+          <SeeAlso seeAlso={seeAlso} />
+        </DataList.Value>
+      </DataList.Item>
+    </DataList.Root>
   );
 };
 

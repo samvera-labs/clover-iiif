@@ -1,13 +1,11 @@
 import { styled } from "src/styles/stitches.config";
 
 const AboutContent = styled("div", {
-  padding: " 0 1.618rem 2rem",
+  padding: "var(--space-4)",
   display: "flex",
   flexDirection: "column",
   overflow: "scroll",
   position: "absolute",
-  fontWeight: "400",
-  fontSize: "1rem",
   zIndex: "0",
 
   img: {
@@ -24,44 +22,8 @@ const AboutContent = styled("div", {
     display: "none",
   },
 
-  "a, a:visited": {
-    color: "$accent",
-  },
-
-  p: {
-    fontSize: "1rem",
-    lineHeight: "1.45em",
-    margin: "0",
-  },
-
   dl: {
-    margin: "0",
-
-    dt: {
-      fontWeight: "700",
-      margin: "1rem 0 0.25rem",
-    },
-
-    dd: {
-      margin: "0",
-    },
-  },
-
-  ".manifest-property-title": {
-    fontWeight: "700",
-    margin: "1rem 0 0.25rem",
-  },
-
-  "ul, ol": {
-    padding: "0",
-    margin: "0",
-
-    li: {
-      fontSize: "1rem",
-      lineHeight: "1.45em",
-      listStyle: "none",
-      margin: "0.25rem 0 0.25rem",
-    },
+    margin: "calc(var(--space-4) * 1.25) 0 0",
   },
 });
 

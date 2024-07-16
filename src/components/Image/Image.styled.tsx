@@ -7,7 +7,7 @@ const Navigator = styled("div", {
   left: "1rem",
   width: "161.8px",
   height: "100px",
-  backgroundColor: "#000D",
+  backgroundColor: "var(--gray-a12)",
   boxShadow: "var(--shadow-3)",
 
   ".displayregion": {
@@ -37,7 +37,6 @@ const Wrapper = styled("div", {
   objectFit: "cover",
   background: "transparent",
   backgroundSize: "contain",
-  color: "white",
   position: "relative",
   zIndex: "0",
   height: "100%",

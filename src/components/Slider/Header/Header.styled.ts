@@ -3,47 +3,34 @@ import { styled } from "src/styles/stitches.config";
 const HeaderContent = styled("div", {
   display: "flex",
   flexDirection: "column",
+  gap: "var(--space-2)",
+  flexShrink: 1,
 });
 
 const HeaderControls = styled("div", {
   display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  paddingLeft: "$5",
-  paddingRight: "$4",
+  gap: "var(--space-2)",
+  flexShrink: 0,
 
-  "@xs": {
-    width: "100%",
-    justifyContent: "center",
-    padding: "$4 $1 0 0",
+  button: {
+    cursor: "pointer",
+
+    svg: {
+      width: "18px",
+      height: "18px",
+    },
   },
 });
 
 const HeaderStyled = styled("div", {
   display: "flex",
-  flexDirection: "row",
   justifyContent: "space-between",
-  paddingBottom: "$4",
-  margin: "0",
-  lineHeight: "1.4em",
   alignItems: "flex-end",
+  paddingBottom: "var(--space-5)",
+  gap: "var(--space-7)",
 
   "@xs": {
     flexDirection: "column",
-  },
-
-  ".clover-slider-header-homepage": {
-    textDecoration: "none",
-  },
-
-  ".clover-slider-header-label": {
-    fontSize: "1.25rem",
-    fontWeight: "400",
-  },
-
-  ".clover-slider-header-summary": {
-    fontSize: "$4",
-    marginTop: "$2",
   },
 });
 

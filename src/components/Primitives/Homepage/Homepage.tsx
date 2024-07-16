@@ -1,10 +1,11 @@
-import React from "react";
-import { styled } from "src/styles/stitches.config";
-import { getLabelAsString } from "src/lib/label-helpers";
+import { Link } from "@radix-ui/themes";
 import { PrimitivesHomepage } from "src/types/primitives";
+import React from "react";
+import { getLabelAsString } from "src/lib/label-helpers";
 import { sanitizeAttributes } from "src/lib/html-element";
+import { styled } from "src/styles/stitches.config";
 
-const StyledHomepage = styled("a", {});
+const StyledHomepage = styled(Link, {});
 
 const Homepage: React.FC<PrimitivesHomepage> = (props) => {
   const { children, homepage } = props;

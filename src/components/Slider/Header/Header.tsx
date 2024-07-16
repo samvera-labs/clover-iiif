@@ -1,7 +1,7 @@
 import { ContentResource, InternationalString } from "@iiif/presentation-3";
-import { ControlStyled, Icon } from "./Control.styled";
 import { HeaderContent, HeaderControls, HeaderStyled } from "./Header.styled";
 import { Homepage, Label, Summary } from "src/components/Primitives";
+import { IconButton, Link, Text } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
 
 import { NextIcon } from "src/components/Slider/Icons/NextIcon";
@@ -34,18 +34,19 @@ const Header: React.FC<HeaderProps> = ({
           <Homepage
             // @ts-ignore
             homepage={homepage}
+            as={Link}
+            size="5"
+            weight="medium"
             className="clover-slider-header-homepage"
           >
-            <Label
-              label={label}
-              as="span"
-              className="clover-slider-header-label"
-            />
+            <Label label={label} className="clover-slider-header-label" />
           </Homepage>
         ) : (
           <Label
             label={label}
-            as="span"
+            as={Text}
+            size="5"
+            weight="medium"
             className="clover-slider-header-label"
           />
         )}
@@ -53,28 +54,24 @@ const Header: React.FC<HeaderProps> = ({
         {summary && (
           <Summary
             summary={summary}
-            as="span"
+            as={Text}
             className="clover-slider-header-summary"
           />
         )}
       </HeaderContent>
       <HeaderControls>
-        <ControlStyled
+        <IconButton
           className={`clover-slider-previous-${instance}`}
           aria-label="previous"
         >
-          <Icon>
-            <PreviousIcon />
-          </Icon>
-        </ControlStyled>
-        <ControlStyled
+          <PreviousIcon />
+        </IconButton>
+        <IconButton
           className={`clover-slider-next-${instance}`}
           aria-label="next"
         >
-          <Icon>
-            <NextIcon />
-          </Icon>
-        </ControlStyled>
+          <NextIcon />
+        </IconButton>
         {hasHomepage && (
           <ViewAll
             homepage={homepage}

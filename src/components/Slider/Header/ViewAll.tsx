@@ -1,37 +1,17 @@
-import { Homepage } from "src/components/Primitives";
+import { Button } from "@radix-ui/themes";
 import React from "react";
-import { styled } from "src/styles/stitches.config";
-
-const ViewAllStyled = styled(Homepage, {
-  display: "flex",
-  backgroundColor: "$accent",
-  color: "$secondary",
-  height: "2rem !important",
-  padding: "0 $3",
-  margin: "0 0 0 $3",
-  borderRadius: "2rem",
-  cursor: "pointer",
-  boxSizing: "content-box !important",
-  transition: "$all",
-  justifyContent: "center",
-  alignItems: "center",
-  lineBreak: "none",
-  whiteSpace: "nowrap",
-  textDecoration: "none !important",
-  fontSize: "0.8333rem",
-
-  [`&:hover`]: {
-    backgroundColor: "$accentAlt",
-    boxShadow: "3px 3px 11px #0003",
-
-    [`&:disabled`]: {
-      boxShadow: "unset",
-    },
-  },
-});
 
 const ViewAll = (props) => {
-  return <ViewAllStyled {...props}>View All</ViewAllStyled>;
+  if (!props?.homepage && !props?.homepage[0]?.id) return null;
+
+  const url = props.homepage[0].id;
+  const handleClick = () => window.open(url, "_self");
+
+  return (
+    <Button data-url={url} onClick={handleClick}>
+      View All
+    </Button>
+  );
 };
 
 export default ViewAll;

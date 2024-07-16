@@ -1,3 +1,4 @@
+import { DataList, Link, LinkProps, Text } from "@radix-ui/themes";
 import {
   IIIFExternalWebResource,
   InternationalString,
@@ -7,6 +8,9 @@ import React, { ReactElement, ReactNode } from "react";
 
 export interface PrimitivesPrimitive
   extends React.HTMLAttributes<HTMLElement> {}
+
+type PrimitivesDataList = DataList.RootProps & PrimitivesPrimitive;
+type PrimitivesLink = LinkProps & PrimitivesPrimitive;
 
 export interface PrimitivesCustomValueContent {
   matchingLabel: InternationalString;
@@ -61,7 +65,10 @@ export interface PrimitivesLabel extends PrimitivesPrimitive {
     | "h6"
     | "label"
     | "p"
-    | "span";
+    | "span"
+    | typeof Text
+    | typeof Link
+    | typeof DataList.Label;
   label: InternationalString;
 }
 
@@ -70,8 +77,8 @@ export interface PrimitivesMarkup extends PrimitivesPrimitive {
   markup?: InternationalString;
 }
 
-export interface PrimitivesMetadata extends PrimitivesPrimitive {
-  as?: "dl";
+export interface PrimitivesMetadata extends PrimitivesDataList {
+  as?: "dl" | typeof DataList.Root;
   customValueContent?: PrimitivesCustomValueContent[];
   customValueDelimiter?: string;
   metadata: MetadataItem[];
@@ -82,24 +89,34 @@ export interface PrimitivesPartOf extends PrimitivesPrimitive {
   partOf: PrimitivesIIIFResource[];
 }
 
-export interface PrimitivesRendering extends PrimitivesPrimitive {
+export interface PrimitivesRendering extends PrimitivesLink {
   as?: "ol" | "ul";
   rendering: PrimitivesExternalWebResource[];
 }
 
-export interface PrimitivesRequiredStatement extends PrimitivesPrimitive {
-  as?: "dl";
+export interface PrimitivesRequiredStatement extends PrimitivesDataList {
+  as?: "dl" | typeof DataList.Root;
   customValueDelimiter?: string;
   requiredStatement: MetadataItem;
 }
 
-export interface PrimitivesSeeAlso extends PrimitivesPrimitive {
+export interface PrimitivesSeeAlso extends PrimitivesLink {
   as?: "ol" | "ul";
   seeAlso: PrimitivesExternalWebResource[];
 }
 
 export interface PrimitivesSummary extends PrimitivesPrimitive {
-  as?: "span" | "p" | "label" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+  as?:
+    | "span"
+    | "p"
+    | "label"
+    | "h1"
+    | "h2"
+    | "h3"
+    | "h4"
+    | "h5"
+    | "h6"
+    | typeof Text;
   customValueDelimiter?: string;
   summary: InternationalString;
 }
@@ -111,7 +128,7 @@ export interface PrimitivesThumbnail extends PrimitivesPrimitive {
 }
 
 export interface PrimitivesValue extends PrimitivesPrimitive {
-  as?: "span" | "dd";
+  as?: "span" | "dd" | typeof DataList.Value;
   value: InternationalString;
 }
 
