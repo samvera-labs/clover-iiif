@@ -1,3 +1,5 @@
+import "@radix-ui/themes/styles.css";
+
 import {
   CollectionItems,
   CollectionNormalized,
@@ -18,6 +20,7 @@ import Header from "src/components/Slider/Header/Header";
 import Items from "src/components/Slider/Items/Items";
 import hash from "src/lib/hash";
 import { upgrade } from "@iiif/parser/upgrader";
+import { Theme } from "@radix-ui/themes";
 
 export interface CloverSliderProps {
   collectionId?: string;
@@ -64,7 +67,7 @@ const RenderSlider: React.FC<CloverSliderProps> = ({
       });
   }, [iiifResource]);
 
-  if (collection?.items.length === 0) {
+  if (collection?.items?.length === 0) {
     console.log(`The IIIF Collection ${iiifResource} does not contain items.`);
     return <></>;
   }
@@ -76,22 +79,24 @@ const RenderSlider: React.FC<CloverSliderProps> = ({
   return (
     <div>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <Header
-          label={collection.label as InternationalString}
-          summary={
-            collection && collection.summary
-              ? collection.summary
-              : { none: [""] }
-          }
-          homepage={collection.homepage as any as ContentResource[]}
-          instance={instance}
-        />
-        <Items
-          items={collection.items as CollectionItems[]}
-          handleItemInteraction={onItemInteraction}
-          instance={instance}
-          breakpoints={options.breakpoints}
-        />
+        <Theme className="clover-theme clover-theme--slider">
+          <Header
+            label={collection.label as InternationalString}
+            summary={
+              collection && collection.summary
+                ? collection.summary
+                : { none: [""] }
+            }
+            homepage={collection.homepage as any as ContentResource[]}
+            instance={instance}
+          />
+          <Items
+            items={collection.items as CollectionItems[]}
+            handleItemInteraction={onItemInteraction}
+            instance={instance}
+            breakpoints={options.breakpoints}
+          />
+        </Theme>
       </ErrorBoundary>
     </div>
   );

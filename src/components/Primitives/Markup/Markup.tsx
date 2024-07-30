@@ -7,10 +7,11 @@ import { createMarkup, sanitizeAttributes } from "src/lib/html-element";
 
 import { PrimitivesMarkup } from "src/types/primitives";
 import React from "react";
+import { Text } from "@radix-ui/themes";
 import { getLabelAsString } from "src/lib/label-helpers";
 import { styled } from "src/styles/stitches.config";
 
-const StyledMarkup = styled("span", {});
+const StyledMarkup = styled(Text, {});
 
 const Markup: React.FC<PrimitivesMarkup> = (props) => {
   const { as, markup } = props;

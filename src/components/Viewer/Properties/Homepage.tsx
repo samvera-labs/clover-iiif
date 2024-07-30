@@ -1,3 +1,4 @@
+import { DataList } from "@radix-ui/themes";
 import { Homepage } from "src/components/Primitives";
 import { PrimitivesExternalWebResource } from "src/types/primitives";
 import React from "react";
@@ -12,10 +13,14 @@ const PropertiesHomepage: React.FC<PropertiesHomepageProps> = ({
   if (homepage?.length === 0) return <></>;
 
   return (
-    <>
-      <span className="manifest-property-title">Homepage</span>
-      <Homepage homepage={homepage} />
-    </>
+    <DataList.Root orientation="vertical" size="3">
+      <DataList.Item role="group">
+        <DataList.Label>Homepage</DataList.Label>
+        <DataList.Value>
+          <Homepage homepage={homepage} />
+        </DataList.Value>
+      </DataList.Item>
+    </DataList.Root>
   );
 };
 

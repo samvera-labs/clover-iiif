@@ -2,13 +2,13 @@ import {
   Header,
   HeaderOptions,
   IIIFBadgeButton,
-  ManifestLabel,
   PopoverContent,
 } from "./Header.styled";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import Collection from "src/components/Viewer/Collection/Collection";
 import CopyText from "src/components/Viewer/CopyText";
+import { Heading } from "@radix-ui/themes";
 import IIIFBadge from "src/components/Viewer/Viewer/IIIFBadge";
 import { InternationalString } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
@@ -43,9 +43,9 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
       {collection?.items ? (
         <Collection />
       ) : (
-        <ManifestLabel className={!showTitle ? "visually-hidden" : ""}>
+        <Heading weight="medium" size="5">
           {showTitle && <Label label={manifestLabel} className="label" />}
-        </ManifestLabel>
+        </Heading>
       )}
       {hasOptions && (
         <HeaderOptions>

@@ -114,8 +114,8 @@ const Painting: React.FC<PaintingProps> = ({
   return (
     <PaintingStyled className="clover-viewer-painting">
       <PaintingCanvas
+        pb="current"
         style={{
-          backgroundColor: configOptions.canvasBackgroundColor,
           height:
             configOptions.canvasHeight === "auto"
               ? "100%"

@@ -1,3 +1,5 @@
+import { DataList, Link } from "@radix-ui/themes";
+
 import React from "react";
 
 interface PropertiesIdProps {
@@ -12,12 +14,16 @@ const PropertiesId: React.FC<PropertiesIdProps> = ({
   parent = "manifest",
 }) => {
   return (
-    <>
-      <span className="manifest-property-title">{htmlLabel}</span>
-      <a href={id} target="_blank" id={`iiif-${parent}-id`}>
-        {id}
-      </a>
-    </>
+    <DataList.Root orientation="vertical" size="3">
+      <DataList.Item role="group">
+        <DataList.Label>{htmlLabel}</DataList.Label>
+        <DataList.Value>
+          <Link href={id} target="_blank" id={`iiif-${parent}-id`}>
+            {id}
+          </Link>
+        </DataList.Value>
+      </DataList.Item>
+    </DataList.Root>
   );
 };
 

@@ -1,82 +1,42 @@
+import { Flex, IconButton, TextField } from "@radix-ui/themes";
+
 import { styled } from "src/styles/stitches.config";
 
-const Form = styled("div", {
+const Form = styled(Flex, {
   position: "absolute",
-  right: "1rem",
-  top: "1rem",
-  display: "flex",
-  justifyContent: "flex-end",
+  right: "var(--space-4)",
+  top: "var(--space-4)",
   zIndex: "1",
 });
 
-const Input = styled("input", {
-  flexGrow: "1",
-  border: "none",
-  backgroundColor: "$secondaryMuted",
-  color: "$primary",
-  marginRight: "1rem",
-  height: "2rem",
-  padding: "0 1rem",
-  borderRadius: "2rem",
-  fontFamily: "inherit",
-  fontSize: "1rem",
-  lineHeight: "1rem",
-  boxShadow: "inset 1px 1px 2px #0003",
-
-  "&::placeholder": {
-    color: "$primaryMuted",
-  },
+const Input = styled(TextField.Root, {
+  width: "100%",
 });
 
-const Button = styled("button", {
-  display: "flex",
-  background: "none",
-  border: "none",
-  width: "2rem !important",
-  height: "2rem !important",
-  padding: "0",
-  margin: "0",
-  fontWeight: "700",
-  borderRadius: "2rem",
-  backgroundColor: "$accent",
-  color: "$secondary",
+const Button = styled(IconButton, {
   cursor: "pointer",
-  boxSizing: "content-box !important",
-  transition: "$all",
+
+  "&[data-disabled=true]": {
+    cursor: "unset",
+    color: "var(--accent-8)",
+    fill: "var(--accent-8)",
+    stroke: "var(--accent-8)",
+  },
 
   svg: {
+    color: "currentColor",
+    fill: "currentColor",
+    stroke: "currentColor",
+    transition: "$all",
     height: "60%",
     width: "60%",
-    padding: "20%",
-    fill: "$secondary",
-    stroke: "$secondary",
-    opacity: "1",
-    filter: "drop-shadow(5px 5px 5px #000D)",
-    boxSizing: "inherit",
-    transition: "$all",
-  },
-
-  "&:disabled": {
-    backgroundColor: "transparent",
-    boxShadow: "none",
-    svg: { opacity: "0.25" },
   },
 });
 
-const Direction = styled("div", {
-  display: "flex",
-  marginRight: "0.618rem",
-  backgroundColor: "$accentAlt",
-  borderRadius: "2rem",
-  boxShadow: "5px 5px 5px #0003",
-  color: "$secondary",
-  alignItems: "center",
-
-  "> span": {
-    display: "flex",
-    margin: "0 0.5rem",
-    fontSize: "0.7222rem",
-  },
+const Direction = styled(Flex, {
+  marginRight: "var(--space-3)",
+  backgroundColor: "var(--accent-12)",
+  color: "var(--gray-1)",
 });
 
 const Wrapper = styled("div", {

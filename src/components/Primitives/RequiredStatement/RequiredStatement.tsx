@@ -1,3 +1,4 @@
+import { DataList } from "@radix-ui/themes";
 import MetadataItem from "src/components/Primitives/Metadata/Item";
 import { PrimitivesProvider } from "src/context/primitives-context";
 import { PrimitivesRequiredStatement } from "src/types/primitives";
@@ -6,7 +7,7 @@ import { getRealPropertyValue } from "src/lib/utils";
 import { sanitizeAttributes } from "src/lib/html-element";
 import { styled } from "src/styles/stitches.config";
 
-const StyledRequiredStatement = styled("dl", {});
+const StyledRequiredStatement = styled(DataList.Root, {});
 
 const RequiredStatement: React.FC<PrimitivesRequiredStatement> = (props) => {
   const { as, requiredStatement } = props;
@@ -27,7 +28,7 @@ const RequiredStatement: React.FC<PrimitivesRequiredStatement> = (props) => {
         ? { initialState: { delimiter: delimiter as string } }
         : undefined)}
     >
-      <StyledRequiredStatement as={as} {...attributes}>
+      <StyledRequiredStatement orientation="vertical" {...attributes}>
         <MetadataItem item={requiredStatement} lang={attributes.lang} />
       </StyledRequiredStatement>
     </PrimitivesProvider>

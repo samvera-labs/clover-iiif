@@ -1,0 +1,44 @@
+import { Theme } from "@radix-ui/themes";
+
+export default function CloverDocsApp({ Component, pageProps }) {
+  return (
+    <Theme accentColor="purple">
+    <style jsx global>{`
+        .radix-themes {
+            --purple-1: #E4E0EE;
+            --purple-2: #B6ACD1;
+            --purple-3: #A495C3;
+            --purple-4: #9380B6;
+            --purple-5: #836EAA;
+            --purple-6: #765DA0;
+            --purple-7: #684C96;
+            --purple-8: #401F68;
+            --purple-9: #4E2A84;
+            --purple-10: #401F68;
+            --purple-11: #38175A;
+            --purple-12: #1D0235;
+
+            --purple-a1: #E4E0EE;
+            --purple-a2: #B6ACD1;
+            --purple-a3: #A495C3;
+            --purple-a4: #9380B6;
+            --purple-a5: #836EAA;
+            --purple-a6: #765DA0;
+            --purple-a7: #684C96;
+            --purple-a8: #401F68;
+            --purple-a9: #4E2A84;
+            --purple-a10: #401F68;
+            --purple-a11: #38175A;
+            --purple-a12: #1D0235;
+
+            --purple-surface: #4E2A84;
+            --purple-indicator: #4E2A84;
+            --purple-track: #4E2A84;
+            --purple-contrast: #ffffff;
+        }
+      `}</style>
+      <Component {...pageProps} />
+    </Theme>
+
+);
+}

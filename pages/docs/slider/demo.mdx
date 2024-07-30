@@ -3,6 +3,7 @@ import CustomManifest from "docs/components/CustomManifest/CustomManifest";
 import { Bleed } from "nextra-theme-docs";
 import { Tabs, Tab } from "nextra/components";
 import CallToAction from "docs/components/CallToAction";
+import { Flex } from "@radix-ui/themes";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -17,4 +18,10 @@ A UI component that renders an item carousel for the contents of a IIIF Collecti
 
 ---
 
-<Slider iiifContent="https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif" />
+{/* <Slider iiifContent="https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif" /> */}
+
+<Flex direction="column" gap="7">
+  <Slider iiifContent="https://api.dc.library.northwestern.edu/api/v2/works/3807023b-76b7-4062-9e40-d63ebc8945a9/similar?as=iiif&collectionLabel=More+Like+This&collectionSummary=Similar+to+Johnny+Rivers%2C+Monterey+Pop+Festival" />
+  <Slider iiifContent="https://api.dc.library.northwestern.edu/api/v2/search?as=iiif&collectionLabel=Monterey+International+Pop+Festival+%281967+%3A+Monterey%2C+Calif.%29&collectionSummary=Subject&query=subject.label%3A%22Monterey+International+Pop+Festival+%281967+%3A+Monterey%2C+Calif.%29%22" />
+  <Slider iiifContent="https://api.dc.library.northwestern.edu/api/v2/search?as=iiif&collectionLabel=Rivers%2C+Johnny&collectionSummary=Subject&query=subject.label%3A%22Rivers%2C+Johnny%22" />
+</Flex>

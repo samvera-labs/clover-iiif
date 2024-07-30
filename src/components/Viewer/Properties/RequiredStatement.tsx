@@ -18,6 +18,8 @@ const PropertiesRequiredStatement: React.FC<PropertiesSummaryProps> = ({
       <RequiredStatement
         requiredStatement={requiredStatement}
         id={`iiif-${parent}-required-statement`}
+        orientation="vertical"
+        size="3"
       />
     </>
   );

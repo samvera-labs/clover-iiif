@@ -1,3 +1,4 @@
+import { DataList } from "@radix-ui/themes";
 import MetadataItem from "src/components/Primitives/Metadata/Item";
 import { PrimitivesMetadata } from "src/types/primitives";
 import { PrimitivesProvider } from "src/context/primitives-context";
@@ -7,7 +8,7 @@ import { parseCustomContent } from "src/lib/custom";
 import { sanitizeAttributes } from "src/lib/html-element";
 import { styled } from "src/styles/stitches.config";
 
-const StyledMetadata = styled("dl", {});
+const StyledMetadata = styled(DataList.Root, {});
 
 const Metadata: React.FC<PrimitivesMetadata> = (props) => {
   const { as, customValueContent, metadata } = props;

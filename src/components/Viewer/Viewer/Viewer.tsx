@@ -1,10 +1,13 @@
+import "@radix-ui/themes/styles.css";
+
 import * as Collapsible from "@radix-ui/react-collapsible";
 
+import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
+  CanvasNormalized,
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
-  CanvasNormalized,
 } from "@iiif/presentation-3";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -13,26 +16,26 @@ import {
   useViewerState,
 } from "src/context/viewer-context";
 import {
-  getAnnotationResources,
-  getPaintingResource,
-  getContentSearchResources,
-} from "src/hooks/use-iiif";
-import {
   addContentSearchOverlays,
   removeOverlaysFromViewer,
 } from "src/lib/openseadragon-helpers";
+import {
+  getAnnotationResources,
+  getContentSearchResources,
+  getPaintingResource,
+} from "src/hooks/use-iiif";
 
-import { AnnotationResources, AnnotationResource } from "src/types/annotations";
+import { ContentSearchQuery } from "src/types/annotations";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
+import { Theme } from "@radix-ui/themes";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
 import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
 import { media } from "src/styles/stitches.config";
 import { useBodyLocked } from "src/hooks/useBodyLocked";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
-import { ContentSearchQuery } from "src/types/annotations";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
@@ -186,34 +189,33 @@ const Viewer: React.FC<ViewerProps> = ({
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Wrapper
-        className={`${theme} clover-viewer`}
-        css={{ background: configOptions?.background }}
-        data-body-locked={isBodyLocked}
-        data-absolute-position={isAbsolutePosition}
-        data-information-panel={isInformationPanel}
-        data-information-panel-open={isInformationOpen}
-      >
-        <Collapsible.Root
-          open={isInformationOpen}
-          onOpenChange={setInformationOpen}
+      <Theme className="clover-theme clover-theme--viewer">
+        <Wrapper
+          className={`${theme} clover-viewer`}
+          css={{ background: configOptions?.background }}
+          data-body-locked={isBodyLocked}
+          data-absolute-position={isAbsolutePosition}
+          data-information-panel={isInformationPanel}
+          data-information-panel-open={isInformationOpen}
         >
-          <ViewerHeader
-            manifestLabel={manifest.label as InternationalString}
-            manifestId={manifest.id}
-          />
-          <ViewerContent
-            activeCanvas={activeCanvas}
-            painting={painting}
-            annotationResources={annotationResources}
-            searchServiceUrl={searchServiceUrl}
-            setContentSearchResource={setContentSearchResource}
-            contentSearchResource={contentSearchResource}
-            items={manifest.items}
-            isAudioVideo={isAudioVideo}
-          />
-        </Collapsible.Root>
-      </Wrapper>
+          <Collapsible.Root>
+            <ViewerHeader
+              manifestLabel={manifest.label as InternationalString}
+              manifestId={manifest.id}
+            />
+            <ViewerContent
+              activeCanvas={activeCanvas}
+              painting={painting}
+              annotationResources={annotationResources}
+              searchServiceUrl={searchServiceUrl}
+              setContentSearchResource={setContentSearchResource}
+              contentSearchResource={contentSearchResource}
+              items={manifest.items}
+              isAudioVideo={isAudioVideo}
+            />
+          </Collapsible.Root>
+        </Wrapper>
+      </Theme>
     </ErrorBoundary>
   );
 };

@@ -1,6 +1,7 @@
 import { InternationalString } from "@iiif/presentation-3";
 import React from "react";
 import { Summary } from "src/components/Primitives";
+import { Text } from "@radix-ui/themes";
 
 interface PropertiesSummaryProps {
   summary: InternationalString | null;
@@ -15,7 +16,7 @@ const PropertiesSummary: React.FC<PropertiesSummaryProps> = ({
 
   return (
     <>
-      <Summary summary={summary} as="p" id={`iiif-${parent}-summary`} />
+      <Summary summary={summary} as={Text} id={`iiif-${parent}-summary`} />
     </>
   );
 };

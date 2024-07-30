@@ -1,49 +1,45 @@
 import * as AspectRatio from "@radix-ui/react-aspect-ratio";
 
-import {
-  Description,
-  FigureStyled,
-  Placeholder,
-  Title,
-  Width,
-} from "./Figure.styled";
-import React, { useRef } from "react";
+import { Card, Inset, Link, Text } from "@radix-ui/themes";
+import { FigureStyled, Placeholder } from "./Figure.styled";
+import { Label, Summary, Thumbnail } from "src/components/Primitives";
 
 import { InternationalString } from "@iiif/presentation-3";
-import { Thumbnail } from "src/components/Primitives";
+import React from "react";
 
 interface FigureProps {
+  href: string;
   label: InternationalString;
   summary?: InternationalString;
   thumbnail: Array<any>;
-  index: number;
-  isFocused: boolean;
 }
 
-const Figure: React.FC<FigureProps> = ({
-  isFocused,
-  label,
-  summary,
-  thumbnail,
-}) => {
-  const widthRef = useRef<HTMLDivElement>(null);
-
+const Figure: React.FC<FigureProps> = ({ href, label, summary, thumbnail }) => {
   return (
-    <FigureStyled isFocused={isFocused}>
-      <AspectRatio.Root ratio={1 / 1}>
-        <Width ref={widthRef} />
-        <Placeholder>
-          <Thumbnail
-            altAsLabel={label}
-            thumbnail={thumbnail}
-            data-testid="figure-thumbnail"
-          />
-        </Placeholder>
-      </AspectRatio.Root>
-      <figcaption>
-        <Title label={label} />
-        {summary && <Description summary={summary} />}
-      </figcaption>
+    <FigureStyled as="figure">
+      <Card size="2" variant="classic">
+        <Link href={href}>
+          <Inset clip="padding-box" side="top" pb="current">
+            <AspectRatio.Root ratio={1 / 1}>
+              <Placeholder>
+                <Thumbnail
+                  altAsLabel={label}
+                  thumbnail={thumbnail}
+                  data-testid="figure-thumbnail"
+                />
+              </Placeholder>
+            </AspectRatio.Root>
+          </Inset>
+        </Link>
+        <figcaption>
+          <Link href={href}>
+            <Label as={Text} weight="medium" label={label} />
+          </Link>
+          {summary && (
+            <Summary as={Text} size="2" color="gray" summary={summary} />
+          )}
+        </figcaption>
+      </Card>
     </FigureStyled>
   );
 };

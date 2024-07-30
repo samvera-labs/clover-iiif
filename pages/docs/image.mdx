@@ -14,23 +14,15 @@ A UI component that renders a _pan and deep-zoom_ Image viewer using [OpenSeadra
 
 <IIIFBadge href="https://iiif.io/api/image/3.0" text={["Image"]} />
 
-<div style={{ height: "38.2vh", minHeight: "450px" }}>
+<div
+  style={{
+    height: "400px",
+    position: "relative",
+  }}
+>
   <CloverImage
-    body={{
-      id: "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/600,/0/default.jpg",
-      type: "Image",
-      format: "image/tiff",
-      height: 5709,
-      width: 8949,
-      service: [
-        {
-          "@id":
-            "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace",
-          "@type": "ImageService2",
-          profile: "http://iiif.io/api/image/2/level2.json",
-        },
-      ],
-    }}
+    isTiledImage={true}
+    src="https://iiif.dc.library.northwestern.edu/iiif/2/7192086f-fbe3-4939-b58a-6a63cddea42f"
   />
 </div>
 

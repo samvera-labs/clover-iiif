@@ -1,9 +1,4 @@
-import {
-  Label,
-  StyledSwitch,
-  StyledThumb,
-  StyledToggle,
-} from "src/components/Viewer/Viewer/Toggle.styled";
+import { Flex, Switch, Text } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
@@ -21,20 +16,16 @@ const Toggle = () => {
   }, [checked, dispatch]);
 
   return (
-    <StyledToggle>
-      <Label htmlFor="information-toggle" css={checked ? { opacity: "1" } : {}}>
-        More Information
-      </Label>
-      <StyledSwitch
-        checked={checked}
-        onCheckedChange={() => setChecked(!checked)}
-        id="information-toggle"
-        aria-label="information panel toggle"
-        name="toggled?"
-      >
-        <StyledThumb />
-      </StyledSwitch>
-    </StyledToggle>
+    <Text as="label" size="2">
+      <Flex gap="2">
+        Information
+        <Switch
+          size="3"
+          checked={checked}
+          onCheckedChange={() => setChecked(!checked)}
+        />
+      </Flex>
+    </Text>
   );
 };
 

@@ -1,6 +1,6 @@
+import { Metadata } from "src/components/Primitives";
 import { MetadataItem } from "@iiif/presentation-3";
 import React from "react";
-import { Metadata } from "src/components/Primitives";
 
 interface PropertiesMetadataProps {
   metadata: MetadataItem[] | null;
@@ -14,9 +14,12 @@ const PropertiesMetadata: React.FC<PropertiesMetadataProps> = ({
   if (!metadata) return <></>;
 
   return (
-    <>
-      <Metadata metadata={metadata} id={`iiif-${parent}-metadata`} />
-    </>
+    <Metadata
+      metadata={metadata}
+      id={`iiif-${parent}-metadata`}
+      orientation="vertical"
+      size="3"
+    />
   );
 };
 

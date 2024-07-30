@@ -1,10 +1,3 @@
-import {
-  Content,
-  List,
-  Scroll,
-  Trigger,
-  Wrapper,
-} from "src/components/Viewer/InformationPanel/InformationPanel.styled";
 import React, { useEffect, useState } from "react";
 import {
   ViewerContextStore,
@@ -12,7 +5,6 @@ import {
   useViewerState,
   type PluginConfig,
 } from "src/context/viewer-context";
-
 import AnnotationPage from "src/components/Viewer/InformationPanel/Annotation/Page";
 import ContentSearch from "src/components/Viewer/InformationPanel/ContentSearch/ContentSearch";
 import { AnnotationResources, AnnotationResource } from "src/types/annotations";
@@ -23,10 +15,12 @@ import {
   CanvasNormalized,
 } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
+import { Tabs } from "@radix-ui/themes";
 import { setupPlugins } from "src/lib/plugin-helpers";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 
 import { ErrorBoundary } from "react-error-boundary";
+import { StyledScrollArea, StyledTabsRoot } from "./InformationPanel.styled";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
 
@@ -75,7 +69,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     }
 
     return (
-      <Content key={i} value={plugin.id}>
+      <Tabs.Content key={i} value={plugin.id}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <PluginInformationPanelComponent
             {...plugin?.informationPanel?.componentProps}
@@ -84,7 +78,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             useViewerState={useViewerState}
           />
         </ErrorBoundary>
-      </Content>
+      </Tabs.Content>
     );
   }
 
@@ -147,7 +141,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   };
 
   return (
-    <Wrapper
+    <StyledTabsRoot
       data-testid="information-panel"
       defaultValue={activeResource}
       onValueChange={handleValueChange}
@@ -155,60 +149,65 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       value={activeResource}
       className="clover-viewer-information-panel"
     >
-      <List aria-label="select chapter" data-testid="information-panel-list">
-        {renderAbout && <Trigger value="manifest-about">About</Trigger>}
+      <Tabs.List
+        aria-label="select chapter"
+        data-testid="information-panel-list"
+      >
+        {renderAbout && (
+          <Tabs.Trigger value="manifest-about">About</Tabs.Trigger>
+        )}
         {renderContentSearch && contentSearchResource && (
-          <Trigger value="manifest-content-search">
+          <Tabs.Trigger value="manifest-content-search">
             <Label label={contentSearchResource.label as InternationalString} />
-          </Trigger>
+          </Tabs.Trigger>
         )}
         {renderAnnotation &&
           annotationResources &&
           annotationResources.map((resource, i) => (
-            <Trigger key={i} value={resource.id}>
+            <Tabs.Trigger key={i} value={resource.id}>
               <Label label={resource.label as InternationalString} />
-            </Trigger>
+            </Tabs.Trigger>
           ))}
 
         {pluginsWithInfoPanel &&
           pluginsWithInfoPanel.map((plugin, i) => (
-            <Trigger key={i} value={plugin.id}>
+            <Tabs.Trigger key={i} value={plugin.id}>
               <Label
                 label={plugin.informationPanel?.label as InternationalString}
               />
-            </Trigger>
+            </Tabs.Trigger>
           ))}
-      </List>
-      <Scroll handleScroll={handleScroll}>
+      </Tabs.List>
+      <StyledScrollArea>
         {renderAbout && (
-          <Content value="manifest-about">
+          <Tabs.Content value="manifest-about">
             <Information />
-          </Content>
+          </Tabs.Content>
         )}
         {renderContentSearch && contentSearchResource && (
-          <Content value="manifest-content-search">
+          <Tabs.Content value="manifest-content-search">
             <ContentSearch
               searchServiceUrl={searchServiceUrl}
               setContentSearchResource={setContentSearchResource}
               activeCanvas={activeCanvas}
               annotationPage={contentSearchResource}
             />
-          </Content>
+          </Tabs.Content>
         )}
         {renderAnnotation &&
           annotationResources &&
           annotationResources.map((annotationPage) => (
-            <Content key={annotationPage.id} value={annotationPage.id}>
+            <Tabs.Content key={annotationPage.id} value={annotationPage.id}>
               <AnnotationPage annotationPage={annotationPage} />
-            </Content>
+            </Tabs.Content>
           ))}
 
         {pluginsWithInfoPanel &&
           pluginsWithInfoPanel.map((plugin, i) =>
             renderPluginInformationPanel(plugin, i),
           )}
-      </Scroll>
-    </Wrapper>
+      </StyledScrollArea>
+    </StyledTabsRoot>
   );
 };
 

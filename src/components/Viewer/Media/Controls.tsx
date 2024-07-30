@@ -7,6 +7,7 @@ import {
 } from "src/components/Viewer/Media/Controls.styled";
 import React, { useEffect, useState } from "react";
 
+import { Text } from "@radix-ui/themes";
 import useKeyPress from "src/hooks/useKeyPress";
 
 interface Props {
@@ -110,12 +111,16 @@ const Controls: React.FC<Props> = ({
 
   return (
     <Wrapper isToggle={toggleFilter}>
-      <Form>
+      <Form gap="3">
         {toggleFilter && (
           <Input autoFocus onChange={handleFilterChange} placeholder="Search" />
         )}
         {!toggleFilter && (
-          <Direction>
+          <Direction
+            align="center"
+            gap="2"
+            className="rt-BaseButton rt-r-size-2"
+          >
             <Button
               onClick={() => handleCanvasToggle(-1)}
               disabled={isPreviousDisabled}
@@ -123,9 +128,9 @@ const Controls: React.FC<Props> = ({
             >
               <PreviousIcon />
             </Button>
-            <span>
+            <Text size="2" weight="medium">
               {activeIndex + 1} of {canvasLength}
-            </span>
+            </Text>
             <Button
               onClick={() => handleCanvasToggle(1)}
               disabled={isNextDisabled}
