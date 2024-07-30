@@ -13,7 +13,7 @@ const PropertiesHomepage: React.FC<PropertiesHomepageProps> = ({
   if (homepage?.length === 0) return <></>;
 
   return (
-    <DataList.Root orientation="vertical">
+    <DataList.Root orientation="vertical" size="3">
       <DataList.Item role="group">
         <DataList.Label>Homepage</DataList.Label>
         <DataList.Value>

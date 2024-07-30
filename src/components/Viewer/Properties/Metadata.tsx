@@ -18,6 +18,7 @@ const PropertiesMetadata: React.FC<PropertiesMetadataProps> = ({
       metadata={metadata}
       id={`iiif-${parent}-metadata`}
       orientation="vertical"
+      size="3"
     />
   );
 };

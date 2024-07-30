@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 // todo: set this as a constant somewhere?
 const defaultIiifContent =
-  "https://api.dc.library.northwestern.edu/api/v2/works/ad25d4af-8a12-4d8f-a557-79aea012e081?as=iiif";
+  "https://api.dc.library.northwestern.edu/api/v2/works/3807023b-76b7-4062-9e40-d63ebc8945a9/similar?as=iiif&collectionLabel=More+Like+This&collectionSummary=Similar+to+Johnny+Rivers%2C+Monterey+Pop+Festival";
 
 const CloverSlider = ({
   iiifContent = defaultIiifContent,

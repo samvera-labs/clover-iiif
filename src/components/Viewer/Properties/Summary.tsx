@@ -16,12 +16,7 @@ const PropertiesSummary: React.FC<PropertiesSummaryProps> = ({
 
   return (
     <>
-      <Summary
-        summary={summary}
-        as={Text}
-        size="2"
-        id={`iiif-${parent}-summary`}
-      />
+      <Summary summary={summary} as={Text} id={`iiif-${parent}-summary`} />
     </>
   );
 };

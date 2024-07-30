@@ -10,7 +10,7 @@ const PropertiesRights: React.FC<PropertiesRightsProps> = ({ rights }) => {
   if (!rights) return <></>;
 
   return (
-    <DataList.Root orientation="vertical">
+    <DataList.Root orientation="vertical" size="3">
       <DataList.Item role="group">
         <DataList.Label>Rights</DataList.Label>
         <DataList.Value>

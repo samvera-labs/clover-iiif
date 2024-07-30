@@ -18,7 +18,7 @@ const Toggle = () => {
   return (
     <Text as="label" size="2">
       <Flex gap="2">
-        More Information
+        Information
         <Switch
           size="3"
           checked={checked}

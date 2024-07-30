@@ -60,7 +60,7 @@ const Items: React.FC<ItemsProps> = ({
       }}
       spaceBetween={25}
     >
-      {items.map((item, index) => (
+      {items?.map((item, index) => (
         <SwiperSlide
           key={`${item.id}-${index}`}
           data-index={index}

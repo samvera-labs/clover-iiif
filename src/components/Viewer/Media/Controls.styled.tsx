@@ -4,8 +4,8 @@ import { styled } from "src/styles/stitches.config";
 
 const Form = styled(Flex, {
   position: "absolute",
-  right: "1rem",
-  top: "1rem",
+  right: "var(--space-4)",
+  top: "var(--space-4)",
   zIndex: "1",
 });
 
@@ -15,6 +15,13 @@ const Input = styled(TextField.Root, {
 
 const Button = styled(IconButton, {
   cursor: "pointer",
+
+  "&[data-disabled=true]": {
+    cursor: "unset",
+    color: "var(--accent-8)",
+    fill: "var(--accent-8)",
+    stroke: "var(--accent-8)",
+  },
 
   svg: {
     color: "currentColor",
@@ -28,7 +35,8 @@ const Button = styled(IconButton, {
 
 const Direction = styled(Flex, {
   marginRight: "var(--space-3)",
-  backgroundColor: "var(--gray-4)",
+  backgroundColor: "var(--accent-12)",
+  color: "var(--gray-1)",
 });
 
 const Wrapper = styled("div", {

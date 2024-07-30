@@ -8,7 +8,7 @@ const ViewAll = (props) => {
   const handleClick = () => window.open(url, "_self");
 
   return (
-    <Button data-url={url} onClick={handleClick}>
+    <Button data-url={url} onClick={handleClick} highContrast>
       View All
     </Button>
   );

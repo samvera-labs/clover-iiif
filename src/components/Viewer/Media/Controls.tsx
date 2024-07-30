@@ -128,7 +128,7 @@ const Controls: React.FC<Props> = ({
             >
               <PreviousIcon />
             </Button>
-            <Text size="1" color="gray">
+            <Text size="2" weight="medium">
               {activeIndex + 1} of {canvasLength}
             </Text>
             <Button

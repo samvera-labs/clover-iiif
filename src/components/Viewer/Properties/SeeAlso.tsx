@@ -12,11 +12,11 @@ const PropertiesSeeAlso: React.FC<PropertiesSeeAlsoProps> = ({ seeAlso }) => {
   if (seeAlso?.length === 0) return <></>;
 
   return (
-    <DataList.Root orientation="vertical">
+    <DataList.Root orientation="vertical" size="3">
       <DataList.Item role="group">
         <DataList.Label>See Also</DataList.Label>
         <DataList.Value>
-          <SeeAlso seeAlso={seeAlso} />
+          <SeeAlso seeAlso={seeAlso} as={Link} />
         </DataList.Value>
       </DataList.Item>
     </DataList.Root>

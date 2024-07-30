@@ -14,7 +14,7 @@ const PropertiesId: React.FC<PropertiesIdProps> = ({
   parent = "manifest",
 }) => {
   return (
-    <DataList.Root orientation="vertical">
+    <DataList.Root orientation="vertical" size="3">
       <DataList.Item role="group">
         <DataList.Label>{htmlLabel}</DataList.Label>
         <DataList.Value>

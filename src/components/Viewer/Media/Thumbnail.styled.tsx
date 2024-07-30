@@ -22,7 +22,7 @@ const Duration = styled("span", {
 const Item = styled(RadioGroup.Item, {
   display: "flex",
   flexShrink: "0",
-  margin: "0 1.618rem 0 0",
+  margin: "0 var(--space-4) 0 0",
   padding: "0",
   cursor: "pointer",
   background: "none",

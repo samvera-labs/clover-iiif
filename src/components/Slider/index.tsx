@@ -67,7 +67,7 @@ const RenderSlider: React.FC<CloverSliderProps> = ({
       });
   }, [iiifResource]);
 
-  if (collection?.items.length === 0) {
+  if (collection?.items?.length === 0) {
     console.log(`The IIIF Collection ${iiifResource} does not contain items.`);
     return <></>;
   }

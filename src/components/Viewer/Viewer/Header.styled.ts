@@ -59,7 +59,12 @@ const Header = styled("header", {
   backgroundColor: "transparent !important",
   justifyContent: "space-between",
   alignItems: "flex-start",
+  marginBottom: "var(--space-4)",
   width: "100%",
+
+  svg: {
+    fill: "var(--gray-10)",
+  },
 
   [`> ${StyledSelect}`]: {
     flexGrow: "1",
@@ -74,11 +79,11 @@ const Header = styled("header", {
 
 const HeaderOptions = styled("div", {
   display: "flex",
-  alignItems: "flex-end",
+  alignItems: "center",
   justifyContent: "flex-end",
-  padding: "1rem",
   flexShrink: "0",
   flexGrow: "1",
+  gap: "var(--space-3)",
 });
 
 export {

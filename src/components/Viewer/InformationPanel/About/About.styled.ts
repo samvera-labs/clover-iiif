@@ -1,7 +1,7 @@
 import { styled } from "src/styles/stitches.config";
 
 const AboutContent = styled("div", {
-  padding: "var(--space-4)",
+  padding: "var(--space-4) var(--space-4) var(--space-6)",
   display: "flex",
   flexDirection: "column",
   overflow: "scroll",

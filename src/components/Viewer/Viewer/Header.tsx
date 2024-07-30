@@ -2,7 +2,6 @@ import {
   Header,
   HeaderOptions,
   IIIFBadgeButton,
-  ManifestLabel,
   PopoverContent,
 } from "./Header.styled";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
@@ -44,7 +43,7 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
       {collection?.items ? (
         <Collection />
       ) : (
-        <Heading>
+        <Heading weight="medium" size="5">
           {showTitle && <Label label={manifestLabel} className="label" />}
         </Heading>
       )}
