@@ -5,10 +5,10 @@ import { useTranslation } from "react-i18next";
 export const useCopyToClipboard = (
   text: string,
   notifyTimeout = 2500,
-): [string | undefined, () => void] => {
+): [string, () => void] => {
   const { t } = useTranslation();
 
-  const [copyStatus, setCopyStatus] = useState();
+  const [copyStatus, setCopyStatus] = useState("");
   const copy = useCallback(() => {
     navigator.clipboard.writeText(text).then(
       () => setCopyStatus(t("copySuccess")),
@@ -19,7 +19,10 @@ export const useCopyToClipboard = (
   useEffect(() => {
     if (!copyStatus) return;
 
-    const timeoutId = setTimeout(() => setCopyStatus(undefined), notifyTimeout);
+    const timeoutId = setTimeout(
+      () => setCopyStatus(t("copyFailure")),
+      notifyTimeout,
+    );
 
     return () => clearTimeout(timeoutId);
   }, [copyStatus]);
