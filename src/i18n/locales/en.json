@@ -1,0 +1,20 @@
+{
+  "commonClose": "Close",
+  "commonNext": "Next",
+  "commonPrevious": "Previous",
+  "commonSearch": "Search",
+  "commonSearchPlaceholder": "Search...",
+  "commonShare": "Share",
+  "commonViewAll": "View All",
+  "copyFailure": "Failed",
+  "copySuccess": "Copied",
+  "informationPanelTabs": "Select",
+  "informationPanelTabsAbout": "About",
+  "informationPanelTabsAnnotations": "Annotations",
+  "informationPanelTabsSearch": "Search",
+  "informationPanelToggle": "More Information",
+  "shareCollectionJson": "View Collection",
+  "shareCollectionCopy": "Copy Collection URL",
+  "shareManifestJson": "View Manifest",
+  "shareManifestCopy": "Copy Manifest URL"
+}

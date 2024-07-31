@@ -32,10 +32,10 @@
     "target": "esnext",
     "types": ["vitest/globals"]
   },
-  "paths": {
-    "docs/*": ["docs/*"],
-    "src/*": ["src/*"]
-  },
+  // "paths": {
+  //   "docs/*": ["docs/*"],
+  //   "src/*": ["src/*"]
+  // },
   "exclude": ["dist", "node_modules", "theme.config.tsx", "vite.*"],
   "include": [
     "next-env.d.ts",

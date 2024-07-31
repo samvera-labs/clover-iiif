@@ -1,4 +1,10 @@
 import {
+  AnnotationPageNormalized,
+  Canvas,
+  IIIFExternalWebResource,
+} from "@iiif/presentation-3";
+import { AnnotationResource, AnnotationResources } from "src/types/annotations";
+import {
   Aside,
   CollapsibleContent,
   CollapsibleTrigger,
@@ -6,17 +12,12 @@ import {
   Main,
   MediaWrapper,
 } from "src/components/Viewer/Viewer/Viewer.styled";
-import {
-  Canvas,
-  IIIFExternalWebResource,
-  AnnotationPageNormalized,
-} from "@iiif/presentation-3";
 
-import { AnnotationResources, AnnotationResource } from "src/types/annotations";
 import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
 import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useViewerState } from "src/context/viewer-context";
 
 export interface ViewerContentProps {
@@ -42,6 +43,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   items,
   painting,
 }) => {
+  const { t } = useTranslation();
   const { isInformationOpen, configOptions } = useViewerState();
   const { informationPanel } = configOptions;
 
@@ -72,7 +74,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
 
         {isAside && (
           <CollapsibleTrigger>
-            <span>{isInformationOpen ? "View Items" : "More Information"}</span>
+            <span>{t("informationPanelToggle")}</span>
           </CollapsibleTrigger>
         )}
 

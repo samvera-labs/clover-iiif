@@ -1,0 +1,75 @@
+---
+title: i18n
+---
+
+# i18n
+
+We welcome contributions to Clover IIIF in any language. If you would like to contribute to a language, please follow the instructions below.
+
+```json filename="src/i18n/locales/en.json"
+{
+  "commonClose": "Close",
+  "commonNext": "Next",
+  "commonPrevious": "Previous",
+  "commonSearch": "Search",
+  "commonSearchPlaceholder": "Search...",
+  "commonShare": "Share",
+  "commonViewAll": "View All",
+  ...
+}
+```
+
+## How to contribute
+
+1. Fork the [Clover IIIF](https://github.com/samvera-labs/clover-iiif) repository.
+2. Create a new file in the `src/i18n/locales` directory for the relative BCP 47 language code you would like to contribute towards, example `fr.json` for French.
+3. Copy the `en.json` file as a template and translate the string values for each key.
+4. Import the new language JSON file within the `src/i18n/locales/index.ts` file and include it in the default export.
+5. Submit a pull request.
+
+### Adding a new locale
+
+Add a new file in the `src/i18n/locales` directory with the relative BCP 47 language code, example `fr.json` for French.
+
+```json filename="src/i18n/locales/fr.json"
+{
+  "commonClose": "Fermer",
+  "commonNext": "Suivant",
+  "commonPrevious": "Précédent",
+  "commonSearch": "Rechercher",
+  "commonSearchPlaceholder": "Rechercher...",
+  "commonShare": "Partager",
+  "commonViewAll": "Voir Tout",
+  ...
+}
+```
+
+```ts filename="src/i18n/locales/index.ts"
+import en from "./en.json";
+import fr from "./fr.json";
+
+export default {
+  en,
+  fr,
+};
+```
+
+### Language and Region subtags
+
+If you would like to contribute a locale for a lanugage with a region subtag,
+please use the `-` dash character to separate the language and region in the filename,
+example `fr-CA.json` for Canadian French.
+
+You will need to adjust the import statement in the `src/i18n/locales/index.ts` file to include the new locale.
+
+```ts filename="src/i18n/locales/index.ts"
+import en from "./en.json";
+import fr from "./fr.json";
+import frCA from "./fr-CA.json";
+
+export default {
+  en,
+  fr,
+  "fr-CA": frCA,
+};
+```

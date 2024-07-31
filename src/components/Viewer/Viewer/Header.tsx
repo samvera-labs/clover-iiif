@@ -18,6 +18,7 @@ import Toggle from "./Toggle";
 import ViewerDownload from "./Download";
 import { media } from "src/styles/stitches.config";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   manifestId: string;
@@ -38,6 +39,8 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
     showDownload || showIIIFBadge || informationPanel?.renderToggle;
   const isSmallViewport = useMediaQuery(media.sm);
 
+  const { t } = useTranslation();
+
   return (
     <Header className="clover-viewer-header">
       {collection?.items ? (
@@ -53,7 +56,7 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
           {showIIIFBadge && (
             <Popover>
               <IIIFBadgeButton>
-                <IIIFBadge />
+                <IIIFBadge title={t("commonShare")} />
               </IIIFBadgeButton>
               <PopoverContent>
                 {collection?.items && (
@@ -63,7 +66,7 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
                       window.open(collection.id, "_blank");
                     }}
                   >
-                    View Collection
+                    {t("shareCollectionJson")}
                   </button>
                 )}
                 <button
@@ -72,16 +75,16 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
                     window.open(manifestId, "_blank");
                   }}
                 >
-                  View Manifest
+                  {t("shareManifestJson")}
                 </button>{" "}
                 {collection?.items && (
                   <CopyText
-                    textPrompt="Copy Collection URL"
+                    textPrompt={t("shareCollectionCopy")}
                     textToCopy={collection.id}
                   />
                 )}
                 <CopyText
-                  textPrompt="Copy Manifest URL"
+                  textPrompt={t("shareManifestCopy")}
                   textToCopy={manifestId}
                 />
               </PopoverContent>
