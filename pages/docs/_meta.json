@@ -20,8 +20,14 @@
   "label": "Label",
   "metadata": "Metadata",
   "partOf": "PartOf",
+  "rendering": "Rendering",
   "requiredStatement": "RequiredStatement",
   "seeAlso": "SeeAlso",
   "summary": "Summary",
-  "thumbnail": "Thumbnail"
+  "thumbnail": "Thumbnail",
+  "--contribute": {
+    "type": "separator",
+    "title": "Contribute"
+  },
+  "i18n": "i18n"
 }

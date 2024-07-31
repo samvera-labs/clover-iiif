@@ -8,6 +8,7 @@ import {
 import React, { useEffect, useState } from "react";
 
 import useKeyPress from "src/hooks/useKeyPress";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   handleCanvasToggle: (arg0: -1 | 1) => void;
@@ -15,10 +16,11 @@ interface Props {
   activeIndex: number;
   canvasLength: number;
 }
-const PreviousIcon: React.FC = () => {
+
+const PreviousIcon = ({ title }: { title: string }) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-      <title>Arrow Back</title>
+      <title>{title}</title>
       <path
         fill="none"
         stroke="currentColor"
@@ -32,10 +34,10 @@ const PreviousIcon: React.FC = () => {
   );
 };
 
-const NextIcon: React.FC = () => {
+const NextIcon = ({ title }: { title: string }) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-      <title>Arrow Forward</title>
+      <title>{title}</title>
       <path
         fill="none"
         stroke="currentColor"
@@ -49,19 +51,19 @@ const NextIcon: React.FC = () => {
   );
 };
 
-const CloseIcon: React.FC = () => {
+const CloseIcon = ({ title }: { title: string }) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-      <title>Close</title>
+      <title>{title}</title>
       <path d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z" />
     </svg>
   );
 };
 
-const SearchIcon: React.FC = () => {
+const SearchIcon = ({ title }: { title: string }) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-      <title>Search</title>
+      <title>{title}</title>
       <path d="M456.69 421.39L362.6 327.3a173.81 173.81 0 0034.84-104.58C397.44 126.38 319.06 48 222.72 48S48 126.38 48 222.72s78.38 174.72 174.72 174.72A173.81 173.81 0 00327.3 362.6l94.09 94.09a25 25 0 0035.3-35.3zM97.92 222.72a124.8 124.8 0 11124.8 124.8 124.95 124.95 0 01-124.8-124.8z" />
     </svg>
   );
@@ -76,6 +78,8 @@ const Controls: React.FC<Props> = ({
   const [toggleFilter, setToggleFilter] = useState<boolean>(false);
   const [isNextDisabled, setIsNextDisabled] = useState<boolean>(false);
   const [isPreviousDisabled, setIsPreviousDisabled] = useState<boolean>(false);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     activeIndex === 0
@@ -112,7 +116,11 @@ const Controls: React.FC<Props> = ({
     <Wrapper isToggle={toggleFilter}>
       <Form>
         {toggleFilter && (
-          <Input autoFocus onChange={handleFilterChange} placeholder="Search" />
+          <Input
+            autoFocus
+            onChange={handleFilterChange}
+            placeholder={t("commonSearchPlaceholder")}
+          />
         )}
         {!toggleFilter && (
           <Direction>
@@ -121,7 +129,7 @@ const Controls: React.FC<Props> = ({
               disabled={isPreviousDisabled}
               type="button"
             >
-              <PreviousIcon />
+              <PreviousIcon title={t("commonPrevious")} />
             </Button>
             <span>
               {activeIndex + 1} of {canvasLength}
@@ -131,12 +139,16 @@ const Controls: React.FC<Props> = ({
               disabled={isNextDisabled}
               type="button"
             >
-              <NextIcon />
+              <NextIcon title={t("commonNext")} />
             </Button>
           </Direction>
         )}
         <Button onClick={handleFilterToggle} type="button">
-          {toggleFilter ? <CloseIcon /> : <SearchIcon />}
+          {toggleFilter ? (
+            <CloseIcon title={t("commonClose")} />
+          ) : (
+            <SearchIcon title={t("commonSearch")} />
+          )}
         </Button>
       </Form>
     </Wrapper>

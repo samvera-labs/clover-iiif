@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { NextIcon } from "src/components/Slider/Icons/NextIcon";
 import { PreviousIcon } from "src/components/Slider/Icons/PrevIcon";
 import ViewAll from "./ViewAll";
+import { useTranslation } from "react-i18next";
 
 interface HeaderProps {
   homepage?: ContentResource[];
@@ -21,6 +22,7 @@ const Header: React.FC<HeaderProps> = ({
   label,
   summary,
 }) => {
+  const { t } = useTranslation();
   const [hasHomepage, setHasHomepage] = useState<boolean>(false);
 
   useEffect(() => {
@@ -61,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({
       <HeaderControls>
         <ControlStyled
           className={`clover-slider-previous-${instance}`}
-          aria-label="previous"
+          aria-label={t("commonPrevious")}
         >
           <Icon>
             <PreviousIcon />
@@ -69,7 +71,7 @@ const Header: React.FC<HeaderProps> = ({
         </ControlStyled>
         <ControlStyled
           className={`clover-slider-next-${instance}`}
-          aria-label="next"
+          aria-label={t("commonNext")}
         >
           <Icon>
             <NextIcon />

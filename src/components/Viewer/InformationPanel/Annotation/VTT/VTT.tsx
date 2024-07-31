@@ -52,7 +52,7 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
   return (
     <Group
       data-testid="annotation-item-vtt"
-      aria-label={`navigate ${getLabel(label as InternationalString, "en")}`}
+      aria-label={`${getLabel(label as InternationalString)}`}
     >
       {isNetworkError && (
         <div data-testid="error-message">

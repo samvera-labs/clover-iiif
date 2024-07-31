@@ -27,6 +27,7 @@ import { setupPlugins } from "src/lib/plugin-helpers";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 
 import { ErrorBoundary } from "react-error-boundary";
+import { useTranslation } from "react-i18next";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
 
@@ -47,6 +48,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   setContentSearchResource,
   contentSearchResource,
 }) => {
+  const { t } = useTranslation();
   const dispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
   const { isAutoScrolling, isUserScrolling, vault, configOptions, plugins } =
@@ -155,8 +157,15 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       value={activeResource}
       className="clover-viewer-information-panel"
     >
-      <List aria-label="select chapter" data-testid="information-panel-list">
-        {renderAbout && <Trigger value="manifest-about">About</Trigger>}
+      <List
+        aria-label={t("informationPanelTabs")}
+        data-testid="information-panel-list"
+      >
+        {renderAbout && (
+          <Trigger value="manifest-about">
+            {t("informationPanelTabsAbout")}
+          </Trigger>
+        )}
         {renderContentSearch && contentSearchResource && (
           <Trigger value="manifest-content-search">
             <Label label={contentSearchResource.label as InternationalString} />

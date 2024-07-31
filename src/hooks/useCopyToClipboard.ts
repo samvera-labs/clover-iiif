@@ -1,23 +1,23 @@
 import { useCallback, useEffect, useState } from "react";
 
-export type CopyStatus = undefined | "copied" | "failed";
+import { useTranslation } from "react-i18next";
 
 export const useCopyToClipboard = (
   text: string,
   notifyTimeout = 2500,
-): [CopyStatus, () => void] => {
-  const [copyStatus, setCopyStatus] = useState<CopyStatus>();
+): [string | undefined, () => void] => {
+  const { t } = useTranslation();
+
+  const [copyStatus, setCopyStatus] = useState();
   const copy = useCallback(() => {
     navigator.clipboard.writeText(text).then(
-      () => setCopyStatus("copied"),
-      () => setCopyStatus("failed"),
+      () => setCopyStatus(t("copySuccess")),
+      () => setCopyStatus(t("copyFailure")),
     );
   }, [text]);
 
   useEffect(() => {
-    if (!copyStatus) {
-      return;
-    }
+    if (!copyStatus) return;
 
     const timeoutId = setTimeout(() => setCopyStatus(undefined), notifyTimeout);
 
