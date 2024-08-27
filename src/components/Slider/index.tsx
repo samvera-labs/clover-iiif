@@ -19,7 +19,6 @@ import Header from "src/components/Slider/Header/Header";
 import Items from "src/components/Slider/Items/Items";
 import hash from "src/lib/hash";
 import { upgrade } from "@iiif/parser/upgrader";
-import { format } from "path";
 
 export interface CloverSliderProps {
   collectionId?: string;
