@@ -1,3 +1,4 @@
+import "src/i18n/config";
 import {
   CollectionItems,
   CollectionNormalized,
@@ -18,6 +19,7 @@ import Header from "src/components/Slider/Header/Header";
 import Items from "src/components/Slider/Items/Items";
 import hash from "src/lib/hash";
 import { upgrade } from "@iiif/parser/upgrader";
+import { format } from "path";
 
 export interface CloverSliderProps {
   collectionId?: string;
@@ -69,6 +71,16 @@ const RenderSlider: React.FC<CloverSliderProps> = ({
     return <></>;
   }
 
+  const homepage: ContentResource[] = options.customViewAll
+    ? [
+        {
+          id: options.customViewAll,
+          type: "Text",
+          format: "text/html",
+        },
+      ]
+    : (collection?.homepage as any as ContentResource[]);
+
   const instance = hash(iiifResource);
 
   if (!collection) return <></>;
@@ -83,7 +95,7 @@ const RenderSlider: React.FC<CloverSliderProps> = ({
               ? collection.summary
               : { none: [""] }
           }
-          homepage={collection.homepage as any as ContentResource[]}
+          homepage={homepage}
           instance={instance}
         />
         <Items

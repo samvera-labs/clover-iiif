@@ -5,6 +5,7 @@ import { SwiperProps } from "swiper/react";
 export interface ConfigOptions {
   breakpoints?: SwiperBreakpoints;
   credentials?: FetchCredentials;
+  customViewAll?: string;
 }
 
 export type CustomHomepage = Array<
