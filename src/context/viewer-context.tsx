@@ -10,6 +10,9 @@ import { Vault } from "@iiif/vault";
 import { deepMerge } from "src/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 
+import AudioVisualizer from "../components/Viewer/Player/AudioVisualizer";
+import { AudioVisualizerBase } from "../components/Viewer/Player/AudioVisualizerBase";
+
 export type AutoScrollSettings = {
   behavior: string; // ScrollBehavior ("auto" | "instant" | "smooth")
   block: string; // ScrollLogicalPosition ("center" | "end" | "nearest" | "start")
@@ -22,6 +25,10 @@ export type AutoScrollOptions = {
 
 export type ViewerConfigOptions = {
   annotationOverlays?: OverlayOptions;
+  audioVisualizer?: {
+    component?: AudioVisualizerBase;
+    props?: unknown;
+  };
   background?: string;
   canvasBackgroundColor?: string;
   canvasHeight?: string;
@@ -83,6 +90,9 @@ const defaultConfigOptions = {
     opacity: "0.5",
     renderOverlays: true,
     zoomLevel: 2,
+  },
+  audioVisualizer: {
+    component: AudioVisualizer,
   },
   background: "transparent",
   canvasBackgroundColor: "#6662",
