@@ -1,3 +1,4 @@
+import { Box } from "@radix-ui/themes";
 import React from "react";
 import { ToggleStyled } from "./Painting.styled";
 
@@ -51,14 +52,17 @@ const Toggle: React.FC<ToggleProps> = ({
   isMedia,
 }) => {
   return (
-    <ToggleStyled
-      onClick={handleToggle}
-      isInteractive={isInteractive}
-      isMedia={isMedia}
-      data-testid="placeholder-toggle"
-    >
-      {isInteractive ? <CloseIcon /> : <OpenIcon isMedia={isMedia} />}
-    </ToggleStyled>
+    <Box position="absolute" top="3" right="3" style={{ zIndex: 100 }}>
+      <ToggleStyled
+        onClick={handleToggle}
+        isInteractive={isInteractive}
+        isMedia={isMedia}
+        data-testid="placeholder-toggle"
+        highContrast
+      >
+        {isInteractive ? <CloseIcon /> : <OpenIcon isMedia={isMedia} />}
+      </ToggleStyled>
+    </Box>
   );
 };
 

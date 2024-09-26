@@ -13,10 +13,6 @@ const PaintingStyled = styled("div", {
   overflow: "hidden",
 
   "&:hover": {
-    [`${ToggleStyled}`]: {
-      backgroundColor: "$accent",
-    },
-
     [`${PlaceholderStyled}`]: {
       backgroundColor: "#6662",
     },

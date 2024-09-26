@@ -102,7 +102,7 @@ const Controls = ({
   return (
     <Wrapper
       data-testid="clover-iiif-image-openseadragon-controls"
-      gap="2"
+      gap="1"
       top={{ initial: _cloverViewerHasPlaceholder ? "8" : "3", sm: "3" }}
       right={{ initial: "3", sm: _cloverViewerHasPlaceholder ? "8" : "3" }}
       direction={{ sm: "row", initial: "column" }}

@@ -10,7 +10,7 @@ const Navigator = styled(Box, {
   height: "100px",
 
   ".displayregion": {
-    outline: "2px solid var(--accent-10) !important",
+    border: "2px solid var(--accent-10) !important",
     boxShadow: "var(--shadow-3)",
   },
 

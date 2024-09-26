@@ -2,24 +2,6 @@ import { Item as ButtonStyled } from "src/components/Image/Controls/Button.style
 import { styled } from "src/styles/stitches.config";
 
 const ToggleStyled = styled(ButtonStyled, {
-  position: "absolute",
-  width: "2rem",
-  top: "1rem",
-  right: "1rem",
-  zIndex: 100,
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  textAlign: "center",
-  transition: "$all",
-  borderRadius: "50%",
-  backgroundColor: "$accent",
-  cursor: "pointer",
-
-  "&:hover, &:focus": {
-    backgroundColor: "$accent !important",
-  },
-
   variants: {
     isInteractive: {
       true: {
