@@ -16,6 +16,7 @@ const Button: React.FC<ButtonProps> = ({ className, id, label, children }) => {
       className={className}
       data-testid="openseadragon-button"
       data-button={dataButton}
+      size="2"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

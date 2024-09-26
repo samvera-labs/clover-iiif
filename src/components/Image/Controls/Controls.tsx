@@ -1,13 +1,14 @@
+import {
+  ViewerContextStore,
+  useViewerDispatch,
+  useViewerState,
+} from "src/context/viewer-context";
+
 import Button from "src/components/Image/Controls/Button";
+import { CanvasNormalized } from "@iiif/presentation-3";
 import { Options } from "openseadragon";
 import React from "react";
 import { Wrapper } from "src/components/Image/Controls/Controls.styled";
-import {
-  ViewerContextStore,
-  useViewerState,
-  useViewerDispatch,
-} from "src/context/viewer-context";
-import { CanvasNormalized } from "@iiif/presentation-3";
 
 const ZoomIn = () => {
   return (
@@ -101,7 +102,10 @@ const Controls = ({
   return (
     <Wrapper
       data-testid="clover-iiif-image-openseadragon-controls"
-      hasPlaceholder={_cloverViewerHasPlaceholder}
+      gap="2"
+      top={{ initial: _cloverViewerHasPlaceholder ? "8" : "3", sm: "3" }}
+      right={{ initial: "3", sm: _cloverViewerHasPlaceholder ? "8" : "3" }}
+      direction={{ sm: "row", initial: "column" }}
     >
       {config.showZoomControl && (
         <>

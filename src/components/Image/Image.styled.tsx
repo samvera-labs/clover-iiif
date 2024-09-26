@@ -1,19 +1,17 @@
+import { Box } from "@radix-ui/themes";
 import { styled } from "src/styles/stitches.config";
 
-const Navigator = styled("div", {
-  position: "absolute !important",
+const Navigator = styled(Box, {
   zIndex: "1",
-  top: "1rem",
-  left: "1rem",
+  backgroundColor: "var(--gray-12)",
+  boxShadow: "var(--shadow-5)",
+  objectFit: "cover",
   width: "161.8px",
   height: "100px",
-  backgroundColor: "#000D",
-  boxShadow: "5px 5px 5px #0002",
-  borderRadius: "3px",
 
   ".displayregion": {
-    border: " 3px solid $accent !important",
-    boxShadow: "0 0 3px #0006",
+    outline: "2px solid var(--accent-10) !important",
+    boxShadow: "var(--shadow-3)",
   },
 
   "@sm": {
@@ -27,23 +25,13 @@ const Navigator = styled("div", {
   },
 });
 
-const Viewport = styled("div", {
-  position: "relative",
-  width: "100%",
-  height: "100%",
-  zIndex: "0",
-});
+const Viewport = styled(Box, {});
 
-const Wrapper = styled("div", {
-  width: "100%",
-  height: "100%",
-  maxHeight: "100vh",
+const Wrapper = styled(Box, {
+  objectFit: "cover",
   background: "transparent",
   backgroundSize: "contain",
-  color: "white",
-  position: "relative",
-  zIndex: "0",
-  overflow: "hidden",
+  boxShadow: "var(--shadow-4)",
 
   variants: {
     hasNavigator: {

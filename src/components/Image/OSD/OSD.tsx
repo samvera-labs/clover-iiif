@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import Controls from "src/components/Image/Controls/Controls";
 import { OpenSeadragonImageTypes } from "src/types/open-seadragon";
+import { a } from "vitest/dist/chunks/suite.CcK46U-P";
 import { getInfoResponse } from "src/lib/iiif";
 import { useViewerDispatch } from "src/context/viewer-context";
 
@@ -105,6 +106,9 @@ const OSD: React.FC<OSDProps> = ({
       data-testid="clover-iiif-image-openseadragon"
       data-openseadragon-instance={config.id}
       hasNavigator={config.showNavigator}
+      position="relative"
+      overflow="hidden"
+      height="100%"
     >
       <Controls
         _cloverViewerHasPlaceholder={_cloverViewerHasPlaceholder}
@@ -114,12 +118,17 @@ const OSD: React.FC<OSDProps> = ({
         <Navigator
           id={config.navigatorId}
           data-testid="clover-iiif-image-openseadragon-navigator"
+          top="3"
+          left="3"
         />
       )}
       <Viewport
         id={config.id}
         data-testid="clover-iiif-image-openseadragon-viewport"
         role="img"
+        position="absolute"
+        height="100%"
+        width="100%"
         {...(ariaLabel && { "aria-label": ariaLabel })}
       />
     </Wrapper>

@@ -1,3 +1,5 @@
+import "@radix-ui/themes/styles.css";
+
 import { parseImageBody, parseSrc } from "src/lib/openseadragon-helpers";
 
 import { ErrorBoundary } from "react-error-boundary";
@@ -7,8 +9,10 @@ import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import OSD from "src/components/Image/OSD/OSD";
 import { Options } from "openseadragon";
 import React from "react";
+import { Theme } from "@radix-ui/themes";
 import defaultOpenSeadragonConfig from "src/components/Image/OSD/defaults";
 import { getLabelAsString } from "src/lib/label-helpers";
+import { globalCloverImage } from "src/styles/components";
 import { v4 as uuidv4 } from "uuid";
 
 interface CloverImageProps {
@@ -32,6 +36,8 @@ const CloverImage: React.FC<CloverImageProps> = ({
   openSeadragonCallback,
   openSeadragonConfig = {},
 }) => {
+  globalCloverImage();
+
   const instance = instanceId ? instanceId : uuidv4();
   const ariaLabel = typeof label === "string" ? label : getLabelAsString(label);
   const config = {
@@ -47,15 +53,17 @@ const CloverImage: React.FC<CloverImageProps> = ({
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <OSD
-        _cloverViewerHasPlaceholder={_cloverViewerHasPlaceholder}
-        ariaLabel={ariaLabel}
-        config={config}
-        imageType={imageType}
-        key={instance}
-        uri={uri}
-        openSeadragonCallback={openSeadragonCallback}
-      />
+      <Theme className="clover-theme clover-theme--image">
+        <OSD
+          _cloverViewerHasPlaceholder={_cloverViewerHasPlaceholder}
+          ariaLabel={ariaLabel}
+          config={config}
+          imageType={imageType}
+          key={instance}
+          uri={uri}
+          openSeadragonCallback={openSeadragonCallback}
+        />
+      </Theme>
     </ErrorBoundary>
   );
 };

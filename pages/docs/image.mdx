@@ -17,7 +17,7 @@ A UI component that renders a _pan and deep-zoom_ Image viewer using [OpenSeadra
 <div style={{ height: "38.2vh", minHeight: "450px" }}>
   <CloverImage
     body={{
-      id: "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/600,/0/default.jpg",
+      id: "https://iiif.dc.library.northwestern.edu/iiif/3/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/600,/0/default.jpg",
       type: "Image",
       format: "image/tiff",
       height: 5709,
@@ -25,7 +25,7 @@ A UI component that renders a _pan and deep-zoom_ Image viewer using [OpenSeadra
       service: [
         {
           "@id":
-            "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace",
+            "https://iiif.dc.library.northwestern.edu/iiif/3/6ca016c5-de7f-4373-ae8f-7047fecf6ace",
           "@type": "ImageService2",
           profile: "http://iiif.io/api/image/2/level2.json",
         },
@@ -84,7 +84,7 @@ For **Tiled Images**, render `Image` with a `src` attribute of the IIIF Image se
     ```jsx
     <div style={{ height: "400px" }}>
       <CloverImage
-        src="https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace"
+        src="https://iiif.dc.library.northwestern.edu/iiif/3/6ca016c5-de7f-4373-ae8f-7047fecf6ace"
         isTiledImage={true}
       />
     </div>
@@ -93,7 +93,7 @@ For **Tiled Images**, render `Image` with a `src` attribute of the IIIF Image se
   <Tab>
     <div style={{ height: "400px" }}>
       <CloverImage
-        src="https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace"
+        src="https://iiif.dc.library.northwestern.edu/iiif/3/6ca016c5-de7f-4373-ae8f-7047fecf6ace"
         isTiledImage={true}
       />
     </div>
@@ -107,7 +107,7 @@ For **Simple Images**, render `Image` with a `src` attribute of the image, ex: `
     ```jsx
     <div style={{ height: "400px" }}>
       <CloverImage
-        src="https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/1000,/0/default.jpg"
+        src="https://iiif.dc.library.northwestern.edu/iiif/3/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/1000,/0/default.jpg"
       />
     </div>
     ```
@@ -116,7 +116,7 @@ For **Simple Images**, render `Image` with a `src` attribute of the image, ex: `
   <Tab>
     <div style={{ height: "400px" }}>
       <CloverImage
-        src="https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/1000,/0/default.jpg"
+        src="https://iiif.dc.library.northwestern.edu/iiif/3/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/1000,/0/default.jpg"
       />
     </div>
 
@@ -133,7 +133,7 @@ When using the IIIF annotation `body` from IIIF Manifest, the `Image` component 
     <div style={{ height: "400px" }}>
       <CloverImage
         body={{
-          id: "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/600,/0/default.jpg",
+          id: "https://iiif.dc.library.northwestern.edu/iiif/3/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/600,/0/default.jpg",
           type: "Image",
           format: "image/tiff",
           height: 5709,
@@ -141,7 +141,7 @@ When using the IIIF annotation `body` from IIIF Manifest, the `Image` component 
           service: [
             {
               "@id":
-                "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace",
+                "https://iiif.dc.library.northwestern.edu/iiif/3/6ca016c5-de7f-4373-ae8f-7047fecf6ace",
               "@type": "ImageService2",
               profile: "http://iiif.io/api/image/2/level2.json",
             },
@@ -156,7 +156,7 @@ When using the IIIF annotation `body` from IIIF Manifest, the `Image` component 
     <div style={{ height: "400px" }}>
       <CloverImage
         body={{
-          id: "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/600,/0/default.jpg",
+          id: "https://iiif.dc.library.northwestern.edu/iiif/3/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/600,/0/default.jpg",
           type: "Image",
           format: "image/tiff",
           height: 5709,
@@ -164,7 +164,7 @@ When using the IIIF annotation `body` from IIIF Manifest, the `Image` component 
           service: [
             {
               "@id":
-                "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace",
+                "https://iiif.dc.library.northwestern.edu/iiif/3/6ca016c5-de7f-4373-ae8f-7047fecf6ace",
               "@type": "ImageService2",
               profile: "http://iiif.io/api/image/2/level2.json",
             },
@@ -193,7 +193,7 @@ The Viewer can also be implemented in Vanilla Javascript by use of a web compone
 
         <div style="height: 400px;">
             <clover-image
-              src="https://iiif.dc.library.northwestern.edu/iiif/2/7192086f-fbe3-4939-b58a-6a63cddea42f"
+              src="https://iiif.dc.library.northwestern.edu/iiif/3/7192086f-fbe3-4939-b58a-6a63cddea42f"
               is-tiled-image="true"
               aria-label="A IIIF Image"
             />

@@ -112,6 +112,8 @@ const Controls: React.FC<Props> = ({
   const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     handleFilter(event.target.value);
 
+  const currentOfTotal = `${activeIndex + 1} ${t("commonCurrentOfTotalExpression")} ${canvasLength}`;
+
   return (
     <Wrapper isToggle={toggleFilter}>
       <Form>
@@ -131,9 +133,7 @@ const Controls: React.FC<Props> = ({
             >
               <PreviousIcon title={t("commonPrevious")} />
             </Button>
-            <span>
-              {activeIndex + 1} of {canvasLength}
-            </span>
+            <span>{currentOfTotal}</span>
             <Button
               onClick={() => handleCanvasToggle(1)}
               disabled={isNextDisabled}
