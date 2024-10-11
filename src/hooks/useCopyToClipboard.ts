@@ -20,7 +20,7 @@ export const useCopyToClipboard = (
     if (!copyStatus) return;
 
     const timeoutId = setTimeout(
-      () => setCopyStatus(t("copyFailure")),
+      () => setCopyStatus(""),
       notifyTimeout,
     );
 
