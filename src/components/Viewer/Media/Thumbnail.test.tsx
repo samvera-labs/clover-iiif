@@ -92,6 +92,20 @@ describe("Thumbnail component", () => {
     });
   });
 
+  describe("figure missing a label", () => {
+    const newProps = { ...props, canvas: { ...props.canvas, label: null } };
+
+    it("renders a fallback label for item index + 1", () => {
+      render(
+        <Group>
+          <Thumbnail {...newProps} />
+        </Group>,
+      );
+      expect(screen.getByTestId("fig-caption")).toHaveTextContent("2");
+      expect(screen.getByAltText("2"));
+    });
+  });
+
   describe("audio and video thumbnail types", () => {
     it("renders a duration value in the tag for audio type", () => {
       const newProps = { ...props, type: "Sound" };

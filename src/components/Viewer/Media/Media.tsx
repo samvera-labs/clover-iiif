@@ -95,25 +95,33 @@ const Media: React.FC<MediaProps> = ({ items }) => {
         handleFilter={handleFilter}
         handleCanvasToggle={handleCanvasToggle}
         activeIndex={activeIndex}
-        canvasLength={mediaItems.length}
+        canvasLength={items.length}
       />
       <Group
         aria-label={t("media.selectItem")}
         data-testid="media"
+        data-active-canvas={items[activeIndex].id}
+        data-canvas-length={items.length}
+        data-filter={filter}
         ref={scrollRef}
       >
         {mediaItems
-          .filter((item) => {
+          .filter((item, key) => {
+            if (!filter) return true;
+
             if (item.canvas?.label) {
               const label = getLabel(item.canvas.label);
               if (Array.isArray(label))
                 return label[0].toLowerCase().includes(filter.toLowerCase());
+            } else {
+              const label = (key + 1).toString();
+              return label.includes(filter);
             }
           })
           .map((item, index) => (
             <Thumbnail
               canvas={item.canvas as CanvasNormalized}
-              canvasIndex={index}
+              canvasIndex={mediaItems.findIndex((el) => el === item)}
               handleChange={handleChange}
               isActive={activeCanvas === item?.canvas?.id ? true : false}
               key={item?.canvas?.id}

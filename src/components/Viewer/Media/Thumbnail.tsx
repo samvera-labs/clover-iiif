@@ -55,6 +55,10 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   type,
   handleChange,
 }) => {
+  const label = canvas?.label
+    ? getLabel(canvas.label)
+    : (canvasIndex + 1).toString();
+
   return (
     <Item
       aria-checked={isActive}
@@ -65,12 +69,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
     >
       <figure>
         <div>
-          {thumbnail?.id && (
-            <img
-              src={thumbnail.id}
-              alt={canvas?.label ? (getLabel(canvas.label) as string) : ""}
-            />
-          )}
+          {thumbnail?.id && <img src={thumbnail.id} alt={label as string} />}
 
           <Type>
             <Tag isIcon data-testid="thumbnail-tag">
@@ -84,11 +83,13 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
             </Tag>
           </Type>
         </div>
-        {canvas?.label && (
-          <figcaption data-testid="fig-caption">
+        <figcaption data-testid="fig-caption">
+          {canvas.label ? (
             <Label label={canvas.label} />
-          </figcaption>
-        )}
+          ) : (
+            (canvasIndex + 1).toString()
+          )}
+        </figcaption>
       </figure>
     </Item>
   );
