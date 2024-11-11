@@ -121,7 +121,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
           .map((item, index) => (
             <Thumbnail
               canvas={item.canvas as CanvasNormalized}
-              canvasIndex={index}
+              canvasIndex={mediaItems.findIndex((el) => el === item)}
               handleChange={handleChange}
               isActive={activeCanvas === item?.canvas?.id ? true : false}
               key={item?.canvas?.id}
