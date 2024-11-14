@@ -1,8 +1,8 @@
 import { AnnotationNormalized, ManifestNormalized } from "@iiif/presentation-3";
 import React, { Dispatch, createContext, useReducer } from "react";
 
-import { Vault } from "@iiif/vault";
-import { Vault as VaultShape } from "@iiif/vault/dist/index";
+import { Vault } from "@iiif/helpers/vault";
+import { Vault as VaultShape } from "@iiif/helpers/dist/index";
 
 interface StateType {
   annotations?: AnnotationNormalized[];

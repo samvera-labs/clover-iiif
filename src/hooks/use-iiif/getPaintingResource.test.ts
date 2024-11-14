@@ -3,7 +3,7 @@ import {
   manifestNoAnnotations,
 } from "src/fixtures/use-iiif/get-painting-resource";
 
-import { Vault } from "@iiif/vault";
+import { Vault } from "@iiif/helpers/vault";
 import { getPaintingResource } from "./getPaintingResource";
 
 describe("getPaintingResource()", () => {
@@ -20,6 +20,14 @@ describe("getPaintingResource()", () => {
         format: "image/tiff",
         height: 2580,
         id: "https://iiif.dc.library.northwestern.edu/iiif/2/4eb5a0d0-1908-42a8-a5f2-1ce88e25928c/full/600,/0/default.jpg",
+        "iiif-parser:hasPart": [
+          {
+            id: "https://iiif.dc.library.northwestern.edu/iiif/2/4eb5a0d0-1908-42a8-a5f2-1ce88e25928c/full/600,/0/default.jpg",
+            "iiif-parser:partOf":
+              "https://test.org/works/ad25d4af-8a12-4d8f-a557-79aea012e081?as=iiif/canvas/access/0/annotation/0",
+            type: "Image",
+          },
+        ],
         service: [
           {
             "@id":

@@ -18,6 +18,9 @@ html/
 # VSCode
 .vscode/
 
+# Intellij editor configs
+.idea
+
 dist/tsconfig.tsbuildinfo
 tmp
 .env.local

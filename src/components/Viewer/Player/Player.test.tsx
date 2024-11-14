@@ -5,7 +5,7 @@ import { AnnotationResources } from "src/types/annotations";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import Player from "src/components/Viewer/Player/Player";
 import React from "react";
-import { Vault } from "@iiif/vault";
+import { Vault } from "@iiif/helpers/vault";
 import { ViewerProvider } from "src/context/viewer-context";
 import manifestSimpleAudio from "src/fixtures/viewer/player/manifest-simple-audio.json";
 import manifestStreaming from "src/fixtures/viewer/player/manifest-streaming-audio.json";

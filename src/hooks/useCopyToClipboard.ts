@@ -19,10 +19,7 @@ export const useCopyToClipboard = (
   useEffect(() => {
     if (!copyStatus) return;
 
-    const timeoutId = setTimeout(
-      () => setCopyStatus(""),
-      notifyTimeout,
-    );
+    const timeoutId = setTimeout(() => setCopyStatus(""), notifyTimeout);
 
     return () => clearTimeout(timeoutId);
   }, [copyStatus]);

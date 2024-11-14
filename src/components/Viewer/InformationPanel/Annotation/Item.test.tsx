@@ -8,7 +8,7 @@ import AnnotationItemPlainText from "./PlainText";
 import AnnotationItemVTT from "./VTT/VTT";
 import { AnnotationNormalized } from "@iiif/presentation-3";
 import React from "react";
-import { Vault } from "@iiif/vault";
+import { Vault } from "@iiif/helpers/vault";
 import htmlAnnotationManifest from "src/fixtures/iiif-cookbook/0019-html-in-annotations.json";
 import imageInAnntationManifest from "src/fixtures/iiif-cookbook/0377-image-in-annotation.json";
 import simpleAnnotationManifest from "src/fixtures/iiif-cookbook/simple-annotation.json";

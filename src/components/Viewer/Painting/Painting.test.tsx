@@ -7,7 +7,7 @@ import Painting from "src/components/Viewer/Painting/Painting";
 import Placeholder from "src/components/Viewer/Painting/Placeholder";
 import Player from "src/components/Viewer/Player/Player";
 import React from "react";
-import { Vault } from "@iiif/vault";
+import { Vault } from "@iiif/helpers/vault";
 import { canvasWithPDFs } from "src/fixtures/viewer/custom-display/manifest-complex";
 import customDisplayManifest from "public/manifest/custom-displays/pdf-no-placeholder.json";
 import { manifestImage } from "src/fixtures/viewer/manifest-image";

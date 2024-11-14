@@ -6,7 +6,7 @@ import {
   ManifestNormalized,
   Service,
 } from "@iiif/presentation-3";
-import { decodeContentState } from "@iiif/vault-helpers";
+import { decodeContentState } from "@iiif/helpers";
 
 export const getCanvasResource = (canvas: Canvas) => {
   if (canvas?.items) {

@@ -8,7 +8,7 @@ import {
   referencedAnnotations,
 } from "src/fixtures/use-iiif/get-annotation-resources";
 
-import { Vault } from "@iiif/vault";
+import { Vault } from "@iiif/helpers/vault";
 import {
   getAnnotationResources,
   getContentSearchResources,
@@ -30,7 +30,6 @@ describe("getAnnotationResources method", () => {
         id: "https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/canvas-1/annopage-2",
         type: "AnnotationPage",
         behavior: [],
-        motivation: null,
         label: {
           none: ["Annotations"],
         },
@@ -40,6 +39,14 @@ describe("getAnnotationResources method", () => {
         metadata: [],
         rights: null,
         provider: [],
+        "iiif-parser:hasPart": [
+          {
+            id: "https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/canvas-1/annopage-2",
+            "iiif-parser:partOf":
+              "https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/canvas-1",
+            type: "AnnotationPage",
+          },
+        ],
         items: [
           {
             id: "https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/canvas-1/annopage-2/anno-1",
@@ -48,7 +55,6 @@ describe("getAnnotationResources method", () => {
         ],
         seeAlso: [],
         homepage: [],
-        logo: [],
         rendering: [],
         service: [],
       },
@@ -71,7 +77,6 @@ describe("getAnnotationResources method", () => {
         id: "https://iiif.io/api/cookbook/recipe/0021-tagging/page/p2/1",
         type: "AnnotationPage",
         behavior: [],
-        motivation: null,
         label: {
           none: ["Annotations"],
         },
@@ -81,6 +86,14 @@ describe("getAnnotationResources method", () => {
         metadata: [],
         rights: null,
         provider: [],
+        "iiif-parser:hasPart": [
+          {
+            id: "https://iiif.io/api/cookbook/recipe/0021-tagging/page/p2/1",
+            "iiif-parser:partOf":
+              "https://iiif.io/api/cookbook/recipe/0021-tagging/canvas/p1",
+            type: "AnnotationPage",
+          },
+        ],
         items: [
           {
             id: "https://iiif.io/api/cookbook/recipe/0021-tagging/annotation/p0002-tag",
@@ -89,7 +102,6 @@ describe("getAnnotationResources method", () => {
         ],
         seeAlso: [],
         homepage: [],
-        logo: [],
         rendering: [],
         service: [],
       },
@@ -111,7 +123,6 @@ describe("getAnnotationResources method", () => {
         id: "https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/page/p2/1",
         type: "AnnotationPage",
         behavior: [],
-        motivation: null,
         label: {
           none: ["Annotations"],
         },
@@ -121,6 +132,14 @@ describe("getAnnotationResources method", () => {
         metadata: [],
         rights: null,
         provider: [],
+        "iiif-parser:hasPart": [
+          {
+            id: "https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/page/p2/1",
+            "iiif-parser:partOf":
+              "https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/canvas/p1",
+            type: "AnnotationPage",
+          },
+        ],
         items: [
           {
             id: "https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/annotation/p0002-svg",
@@ -129,7 +148,6 @@ describe("getAnnotationResources method", () => {
         ],
         seeAlso: [],
         homepage: [],
-        logo: [],
         rendering: [],
         service: [],
       },
@@ -151,7 +169,6 @@ describe("getAnnotationResources method", () => {
         id: "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json",
         type: "AnnotationPage",
         behavior: [],
-        motivation: null,
         label: {
           none: ["Annotations"],
         },
@@ -161,6 +178,14 @@ describe("getAnnotationResources method", () => {
         metadata: [],
         rights: null,
         provider: [],
+        "iiif-parser:hasPart": [
+          {
+            id: "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json",
+            "iiif-parser:partOf":
+              "http://localhost:3000/manifest/newspaper/canvas/i1p1",
+            type: "AnnotationPage",
+          },
+        ],
         items: [
           {
             id: "http://localhost:3000/manifest/newspaper/newspaper_issue_1-anno_p1.json-1",
@@ -181,7 +206,6 @@ describe("getAnnotationResources method", () => {
         ],
         seeAlso: [],
         homepage: [],
-        logo: [],
         rendering: [],
         service: [],
       },
@@ -203,7 +227,6 @@ describe("getAnnotationResources method", () => {
         id: "https://iiif.io/api/cookbook/recipe/0377-image-in-annotation/canvas-1/annopage-2",
         type: "AnnotationPage",
         behavior: [],
-        motivation: null,
         label: {
           none: ["Annotations"],
         },
@@ -213,6 +236,14 @@ describe("getAnnotationResources method", () => {
         metadata: [],
         rights: null,
         provider: [],
+        "iiif-parser:hasPart": [
+          {
+            id: "https://iiif.io/api/cookbook/recipe/0377-image-in-annotation/canvas-1/annopage-2",
+            "iiif-parser:partOf":
+              "https://iiif.io/api/cookbook/recipe/0377-image-in-annotation/canvas-1",
+            type: "AnnotationPage",
+          },
+        ],
         items: [
           {
             id: "https://iiif.io/api/cookbook/recipe/0377-image-in-annotation/canvas-1/annopage-2/anno-1",
@@ -221,7 +252,6 @@ describe("getAnnotationResources method", () => {
         ],
         seeAlso: [],
         homepage: [],
-        logo: [],
         rendering: [],
         service: [],
       },
@@ -250,7 +280,6 @@ describe("getAnnotationResources method", () => {
         id: "https://iiif.io/api/cookbook/recipe/0219-using-caption-file/canvas/page2",
         type: "AnnotationPage",
         behavior: [],
-        motivation: null,
         label: {
           none: ["Annotations"],
         },
@@ -260,6 +289,14 @@ describe("getAnnotationResources method", () => {
         metadata: [],
         rights: null,
         provider: [],
+        "iiif-parser:hasPart": [
+          {
+            id: "https://iiif.io/api/cookbook/recipe/0219-using-caption-file/canvas/page2",
+            "iiif-parser:partOf":
+              "https://iiif.io/api/cookbook/recipe/0219-using-caption-file/canvas",
+            type: "AnnotationPage",
+          },
+        ],
         items: [
           {
             id: "https://iiif.io/api/cookbook/recipe/0219-using-caption-file/canvas/page2/a1",
@@ -268,7 +305,6 @@ describe("getAnnotationResources method", () => {
         ],
         seeAlso: [],
         homepage: [],
-        logo: [],
         rendering: [],
         service: [],
       },
@@ -297,6 +333,15 @@ describe("getAnnotationResources method", () => {
         behavior: [],
         homepage: [],
         id: "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/annotationpage.json",
+        "iiif-parser:hasPart": [
+          {
+            id: "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/annotationpage.json",
+            "iiif-parser:partOf":
+              "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/annotationpage.json",
+            type: "AnnotationPage",
+          },
+        ],
+        "iiif-parser:isExternal": true,
         items: [
           {
             id: "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/canvas-1/annopage-2/anno-1",
@@ -306,9 +351,7 @@ describe("getAnnotationResources method", () => {
         label: {
           none: ["Annotations"],
         },
-        logo: [],
         metadata: [],
-        motivation: null,
         provider: [],
         rendering: [],
         requiredStatement: null,

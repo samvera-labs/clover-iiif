@@ -1,4 +1,4 @@
-import { encodeContentState } from "@iiif/vault-helpers";
+import { encodeContentState } from "@iiif/helpers";
 import {
   decodeContentStateContainerURI,
   getActiveCanvas,
