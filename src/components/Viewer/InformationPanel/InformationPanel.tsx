@@ -59,10 +59,10 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
   const renderAbout = informationPanel?.renderAbout;
   const renderAnnotation = informationPanel?.renderAnnotation;
-  const canvas: CanvasNormalized = vault.get({
+  const canvas = vault.get({
     id: activeCanvas,
     type: "Canvas",
-  });
+  }) as CanvasNormalized;
 
   const renderContentSearch = informationPanel?.renderContentSearch;
 

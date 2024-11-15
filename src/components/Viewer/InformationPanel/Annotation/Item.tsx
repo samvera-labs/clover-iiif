@@ -36,10 +36,10 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
   const annotationBodyValue =
     annotationBody.find((body) => body.value)?.value || "";
 
-  const canvas: CanvasNormalized = vault.get({
+  const canvas = vault.get({
     id: activeCanvas,
     type: "Canvas",
-  });
+  }) as CanvasNormalized;
 
   function handleClick() {
     if (!target) return;

@@ -125,7 +125,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   useEffect(() => {
     if (activeManifest)
       vault
-        .loadManifest(activeManifest)
+        .load(activeManifest)
         .then((data: ManifestNormalized) => {
           setManifest(data);
           dispatch({

@@ -1,13 +1,14 @@
+import {
+  ViewerContextStore,
+  useViewerDispatch,
+  useViewerState,
+} from "src/context/viewer-context";
+
 import Button from "src/components/Image/Controls/Button";
+import { CanvasNormalized } from "@iiif/presentation-3";
 import { Options } from "openseadragon";
 import React from "react";
 import { Wrapper } from "src/components/Image/Controls/Controls.styled";
-import {
-  ViewerContextStore,
-  useViewerState,
-  useViewerDispatch,
-} from "src/context/viewer-context";
-import { CanvasNormalized } from "@iiif/presentation-3";
 
 const ZoomIn = () => {
   return (
@@ -75,10 +76,10 @@ const Controls = ({
   const viewerState: ViewerContextStore = useViewerState();
   const { activeCanvas, plugins, vault } = viewerState;
 
-  const canvas: CanvasNormalized = vault.get({
+  const canvas = vault.get({
     id: activeCanvas,
     type: "Canvas",
-  });
+  }) as CanvasNormalized;
 
   function renderPlugins() {
     return plugins
