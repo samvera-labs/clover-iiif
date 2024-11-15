@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 
-import { CSS } from "@stitches/react/types/css-util";
+import { CSS } from "@stitches/react";
 import CallToAction from "../CallToAction";
 import { styled } from "src/styles/stitches.config";
 import { useRouter } from "next/router";
