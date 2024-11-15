@@ -3,6 +3,11 @@ import {
   AboutStyled,
 } from "src/components/Viewer/InformationPanel/About/About.styled";
 import {
+  ContentResource,
+  IIIFExternalWebResource,
+  ManifestNormalized,
+} from "@iiif/presentation-3";
+import {
   Homepage,
   Id,
   Metadata,
@@ -13,10 +18,6 @@ import {
   Summary,
   Thumbnail,
 } from "src/components/Viewer/Properties";
-import {
-  IIIFExternalWebResource,
-  ManifestNormalized,
-} from "@iiif/presentation-3";
 import React, { useEffect, useState } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
@@ -28,19 +29,41 @@ const About: React.FC = () => {
 
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
-  const [homepage, setHomepage] = useState<IIIFExternalWebResource[]>([]);
-  const [seeAlso, setSeeAlso] = useState<IIIFExternalWebResource[]>([]);
-  const [rendering, setRendering] = useState<IIIFExternalWebResource[]>([]);
+  const [homepage, setHomepage] = useState<PrimitivesExternalWebResource[]>([]);
+  const [seeAlso, setSeeAlso] = useState<PrimitivesExternalWebResource[]>([]);
+  const [rendering, setRendering] = useState<PrimitivesExternalWebResource[]>(
+    [],
+  );
   const [thumbnail, setThumbnail] = useState<IIIFExternalWebResource[]>([]);
 
   useEffect(() => {
     const data: ManifestNormalized = vault.get(activeManifest);
     setManifest(data);
 
-    if (data.homepage?.length > 0) setHomepage(vault.get(data.homepage));
-    if (data.seeAlso?.length > 0) setSeeAlso(vault.get(data.seeAlso));
-    if (data.rendering?.length > 0) setRendering(vault.get(data.rendering));
-    if (data.thumbnail?.length > 0) setThumbnail(vault.get(data.thumbnail));
+    if (data.homepage?.length > 0)
+      setHomepage(
+        vault.get(
+          data.homepage,
+        ) as ContentResource[] as PrimitivesExternalWebResource[],
+      );
+    if (data.seeAlso?.length > 0)
+      setSeeAlso(
+        vault.get(
+          data.seeAlso,
+        ) as ContentResource[] as PrimitivesExternalWebResource[],
+      );
+    if (data.rendering?.length > 0)
+      setRendering(
+        vault.get(
+          data.rendering,
+        ) as ContentResource[] as PrimitivesExternalWebResource[],
+      );
+    if (data.thumbnail?.length > 0)
+      setThumbnail(
+        vault.get(
+          data.thumbnail,
+        ) as ContentResource[] as IIIFExternalWebResource[],
+      );
   }, [activeManifest, vault]);
 
   if (!manifest) return <></>;
@@ -53,15 +76,9 @@ const About: React.FC = () => {
         <Metadata metadata={manifest.metadata} />
         <RequiredStatement requiredStatement={manifest.requiredStatement} />
         <Rights rights={manifest.rights} />
-        <Homepage
-          homepage={homepage as unknown as PrimitivesExternalWebResource[]}
-        />
-        <SeeAlso
-          seeAlso={seeAlso as unknown as PrimitivesExternalWebResource[]}
-        />
-        <Rendering
-          rendering={rendering as unknown as PrimitivesExternalWebResource[]}
-        />
+        <Homepage homepage={homepage} />
+        <SeeAlso seeAlso={seeAlso} />
+        <Rendering rendering={rendering} />
         <Id id={manifest.id} htmlLabel="IIIF Manifest" />
       </AboutContent>
     </AboutStyled>
