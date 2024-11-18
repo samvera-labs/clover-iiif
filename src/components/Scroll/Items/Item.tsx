@@ -38,11 +38,13 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
   const canvas = vault?.get(item) as CanvasNormalized;
 
   const numItems = annotations?.filter(
-    (annotation) => annotation.target === item.id,
+    // @ts-ignore
+    (annotation) => annotation.target?.source?.id === item.id,
   ).length;
 
   const annotationBody = annotations
-    ?.filter((annotation) => annotation.target === item.id)
+    // @ts-ignore
+    ?.filter((annotation) => annotation.target?.source?.id === item.id)
     ?.map((annotation) => {
       return annotation?.body?.map((body, index) => (
         <ScrollItemBody
