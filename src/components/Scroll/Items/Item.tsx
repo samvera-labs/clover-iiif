@@ -38,6 +38,10 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
 
   const canvas = vault?.get(item) as CanvasNormalized;
 
+  const numItems = annotations?.filter(
+    (annotation) => annotation.target === item.id,
+  ).length;
+
   const annotationBody = annotations
     ?.filter((annotation) => annotation.target === item.id)
     ?.map((annotation) => {
@@ -45,6 +49,7 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
         <ScrollItemBody
           body={body as unknown as EmbeddedResource}
           key={index}
+          numItems={numItems}
         />
       ));
     });
@@ -55,26 +60,21 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
   };
 
   return (
-    <StyledItem
-      data-page-break={hasItemBreak}
-      data-page-number={itemNumber}
-      data-last-item={isLastItem}
-    >
-      <StyledItemFigure>
-        {canvas && <ScrollFigure canvas={canvas} canvasInfo={canvasInfo} />}
-      </StyledItemFigure>
-      <StyledItemTextualBodies>
-        {canvas?.label && (
-          <strong>
-            <Label label={canvas?.label} />{" "}
-            {`(${canvasInfo.current} / ${canvasInfo.total})`}
-          </strong>
-        )}
-        <div>{annotationBody ? annotationBody : <p>[Blank]</p>}</div>
-
-        {hasItemBreak && <PageBreak aria-label="Page Break" />}
-      </StyledItemTextualBodies>
-    </StyledItem>
+    <>
+      <StyledItem
+        data-page-break={hasItemBreak}
+        data-page-number={itemNumber}
+        data-last-item={isLastItem}
+      >
+        <StyledItemFigure>
+          {canvas && <ScrollFigure canvas={canvas} canvasInfo={canvasInfo} />}
+        </StyledItemFigure>
+        <StyledItemTextualBodies>
+          <div>{annotationBody?.length ? annotationBody : <p>[Blank]</p>}</div>
+        </StyledItemTextualBodies>
+      </StyledItem>
+      {hasItemBreak && <PageBreak aria-label="Page Break" />}
+    </>
   );
 };
 

@@ -29,21 +29,25 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
       .catch((error: Error) =>
         console.error(`Manifest ${iiifContent} failed to load: ${error}`),
       );
-  }, [iiifContent, vault]);
+  }, [iiifContent]);
 
   useEffect(() => {
     dispatch({
       type: "updateAnnotations",
       payload: annotations,
     });
-  }, [annotations, dispatch]);
+  }, [annotations]);
 
   if (!manifest) return null;
 
   return (
     <StyledScrollWrapper>
-      {manifest.label && <ScrollHeader label={manifest.label} />}
-      {manifest.items && <ScrollItems items={manifest.items} />}
+      {manifest && (
+        <>
+          <ScrollHeader label={manifest?.label} />
+          <ScrollItems items={manifest.items} />
+        </>
+      )}
     </StyledScrollWrapper>
   );
 };

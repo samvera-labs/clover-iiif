@@ -10,17 +10,25 @@ const StyledItem = styled("article", {
 
 const StyledItemFigure = styled("div", {
   transition: "$all",
-  width: "50%",
-  opacity: 0,
-  transform: "translateX(2.618rem)",
-  zIndex: -1,
+  width: "38.2%",
 });
 
 const StyledItemTextualBodies = styled("div", {
-  width: "50%",
+  width: "61.8%",
   display: "flex",
   flexDirection: "column",
   justifyContent: "flex-start",
+
+  "> div": {
+    display: "flex",
+    flexDirection: "row",
+    gap: "2.618rem",
+
+    "> div": {
+      width: "calc(100% / var(--num-items))",
+      boxSizing: "border-box",
+    },
+  },
 });
 
 const PageBreak = styled("hr", {
@@ -28,10 +36,11 @@ const PageBreak = styled("hr", {
   borderColor: "transparent",
   height: "1.618rem",
   position: "relative",
+  width: "61.8%",
   zIndex: 0,
+  marginLeft: "38.2%",
   display: "flex",
   justifyContent: "flex-end",
-  marginTop: "2.618rem",
 
   "&::before": {
     content: "attr(aria-label)",
@@ -49,7 +58,7 @@ const PageBreak = styled("hr", {
 
   "&::after": {
     content: "",
-    width: "100%",
+    width: "calc(100% -  2.618em)",
     position: "absolute",
     zIndex: 0,
     height: "1px",
@@ -58,8 +67,6 @@ const PageBreak = styled("hr", {
 });
 
 const StyledScrollItems = styled("div", {
-  position: "relative",
-  zIndex: "1",
   display: "flex",
   flexDirection: "column",
   gap: "2.618rem",
