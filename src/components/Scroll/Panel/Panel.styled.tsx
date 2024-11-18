@@ -2,13 +2,9 @@ import { styled } from "src/styles/stitches.config";
 
 const StyledPanel = styled("div", {
   display: "flex",
-  flexDirection: "column",
-  flexGrow: "1",
-  flexShrink: "0",
   position: "relative",
   zIndex: "1",
   maxWidth: "100%",
-  marginTop: "1rem",
   transition: "$all",
 
   variants: {

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { EmbeddedResource } from "@iiif/presentation-3";
 import { ScrollContext } from "src/context/scroll-context";
@@ -8,15 +8,17 @@ import useMarkdown from "@nulib/use-markdown";
 
 const ScrollAnnotationBody = ({
   body,
+  numItems = 1,
   stringLength,
   type = "content",
 }: {
   body: EmbeddedResource;
+  numItems?: number;
   stringLength?: number;
   type?: string;
 }) => {
   const { state } = useContext(ScrollContext);
-  const { searchString } = state;
+  const { searchActiveMatch, searchString } = state;
 
   let value = String(body.value);
 
@@ -48,12 +50,15 @@ const ScrollAnnotationBody = ({
   }
 
   // Highlighting the searchString
-  if (searchString && innerHtml) {
+  if (String(searchString) && innerHtml) {
+    let matchCount = 1;
     const regex = new RegExp(`(${searchString})`, "gi");
-    innerHtml = innerHtml?.replace(
-      regex,
-      (match) => `<span class="highlight">${match}</span>`,
-    );
+    innerHtml = innerHtml?.replace(regex, (match) => {
+      const matchId = `${body.id}/${matchCount}`;
+      const isActive = searchActiveMatch === matchId;
+      matchCount += 1;
+      return `<span class="clover-scroll-highlight${isActive ? ` active` : ``}" data-index="${matchId}">${match}</span>`;
+    });
   }
 
   const id = [body.id, type].join("-");
@@ -61,17 +66,35 @@ const ScrollAnnotationBody = ({
   const dir = isRtl ? "rtl" : "ltr";
   const fontSize = isRtl ? "1.3em" : "1em";
 
+  useEffect(() => {
+    // Scroll to the active match
+    if (searchActiveMatch) {
+      const activeElement = document.querySelector(
+        `[data-index="${searchActiveMatch}"]`,
+      ) as HTMLElement;
+      if (activeElement)
+        activeElement.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+          inline: "center",
+        });
+    }
+  }, [searchActiveMatch]);
+
   if (!innerHtml) return null;
 
   return (
-    <TextualBody
-      dangerouslySetInnerHTML={{ __html: innerHtml }}
-      data-body-id={id}
-      data-testid="scroll-item-body"
-      id={id}
-      dir={dir}
-      css={{ fontSize }}
-    />
+    <>
+      <TextualBody
+        dangerouslySetInnerHTML={{ __html: innerHtml }}
+        data-body-id={id}
+        data-testid="scroll-item-body"
+        style={{ "--num-items": numItems } as React.CSSProperties}
+        id={id}
+        dir={dir}
+        css={{ fontSize }}
+      />
+    </>
   );
 };
 

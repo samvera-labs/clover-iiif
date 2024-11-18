@@ -52,6 +52,10 @@ const PanelToggle: React.FC<PanelToggleProps> = ({
       payload: "",
       type: "updateSearchString",
     });
+    dispatch({
+      payload: undefined,
+      type: "updateSearchActiveMatch",
+    });
   };
 
   const clearInput = () => {
@@ -106,6 +110,7 @@ const PanelToggle: React.FC<PanelToggleProps> = ({
       id="scroll-search"
       autoComplete="off"
       isPanelExpanded={isPanelExpanded}
+      data-testid="scroll-panel-search-form"
     >
       <StyledSearchIcon onClick={focusInput}>
         <SearchIcon />

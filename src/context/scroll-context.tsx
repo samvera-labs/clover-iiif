@@ -7,10 +7,17 @@ import { Vault as VaultShape } from "@iiif/vault/dist/index";
 interface StateType {
   annotations?: AnnotationNormalized[];
   manifest?: ManifestNormalized;
-  searchString?: string;
   options: {
     offset: number;
   };
+  searchActiveMatch?: string;
+  searchMatches?: {
+    matches: {
+      [key: string]: string[];
+    };
+    total: number;
+  };
+  searchString?: string;
   vault?: VaultShape;
 }
 
@@ -22,10 +29,12 @@ interface ActionType {
 const initialState: StateType = {
   annotations: [],
   manifest: undefined,
-  searchString: undefined,
   options: {
     offset: 0,
   },
+  searchActiveMatch: undefined,
+  searchMatches: undefined,
+  searchString: undefined,
   vault: new Vault(),
 };
 
@@ -35,6 +44,16 @@ function reducer(state: StateType, action: ActionType): StateType {
       return {
         ...state,
         annotations: action.payload,
+      };
+    case "updateSearchActiveMatch":
+      return {
+        ...state,
+        searchActiveMatch: action.payload,
+      };
+    case "updateSearchMatches":
+      return {
+        ...state,
+        searchMatches: action.payload,
       };
     case "updateSearchString":
       return {

@@ -6,6 +6,7 @@ const StyledFigure = styled("figure", {
     flexDirection: "column",
     margin: "1.618rem 0 0",
     opacity: 0.9,
+    gap: "0.382rem",
 
     em: {
       fontSize: "0.9em",
