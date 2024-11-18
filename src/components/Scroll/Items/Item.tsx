@@ -10,7 +10,6 @@ import {
   StyledItemTextualBodies,
 } from "src/components/Scroll/Items/Items.styled";
 
-import { Label } from "src/components/Primitives";
 import React from "react";
 import { ScrollContext } from "src/context/scroll-context";
 import ScrollFigure from "src/components/Scroll/Figure/Figure";

@@ -121,7 +121,10 @@ const ScrollSearch = () => {
       const bodyValue = annotation.body.value;
       const matchArray: string[] = [];
       let matchCount = 0;
+
       let match;
+
+      console.log(match);
 
       while ((match = regex.exec(bodyValue)) !== null) {
         matchCount++;
@@ -130,7 +133,7 @@ const ScrollSearch = () => {
 
       if (matchCount > 0) {
         result.total += matchCount;
-        // @ts-expect-error
+        // @ts-ignore
         result.matches.push({ [bodyId]: matchArray });
       }
     });

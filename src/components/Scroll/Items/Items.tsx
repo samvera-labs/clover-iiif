@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-
+import React from "react";
 import { Reference } from "@iiif/presentation-3";
 import ScrollItem from "src/components/Scroll/Items/Item";
 import { StyledScrollItems } from "src/components/Scroll/Items/Items.styled";

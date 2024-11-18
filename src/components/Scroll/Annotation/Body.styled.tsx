@@ -1,5 +1,4 @@
 import { styled } from "src/styles/stitches.config";
-import { text } from "stream/consumers";
 
 const highlightColor = "255, 197, 32"; // #FFC520
 

@@ -118,7 +118,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
               return label.includes(filter);
             }
           })
-          .map((item, index) => (
+          .map((item) => (
             <Thumbnail
               canvas={item.canvas as CanvasNormalized}
               canvasIndex={mediaItems.findIndex((el) => el === item)}
