@@ -1,13 +1,33 @@
 import FlexSearch, { IndexOptionsForDocumentSearch } from "flexsearch";
-import React, { useContext } from "react";
-import {
-  StyledSearch,
-  StyledSearchAnnotationsResultsLabel,
-} from "src/components/Scroll/Panel/Search/Search.styled";
+import React, { useContext, useEffect, useState } from "react";
 
 import { AnnotationFlattened } from "src/types/annotations";
 import { ScrollContext } from "src/context/scroll-context";
-import ScrollSearchResults from "src/components/Scroll/Panel/Search/Results";
+import SearchAnnotationsResultsLabel from "./ResultsLabel";
+import { StyledSearch } from "src/components/Scroll/Panel/Search/Search.styled";
+
+const ArrowIcon = ({
+  title,
+  style = {},
+}: {
+  title: string;
+  style?: React.CSSProperties;
+}) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style={style}>
+      <title>{title}</title>
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeMiterlimit="10"
+        strokeWidth="45"
+        d="M244 400L100 256l144-144M120 256h292"
+      />
+    </svg>
+  );
+};
 
 const config: IndexOptionsForDocumentSearch<{
   id: string;
@@ -24,7 +44,8 @@ const config: IndexOptionsForDocumentSearch<{
 };
 
 const ScrollSearch = () => {
-  const { state } = useContext(ScrollContext);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const { dispatch, state } = useContext(ScrollContext);
   const { annotations, searchString = "" } = state;
 
   const index = new FlexSearch.Document(config);
@@ -40,6 +61,39 @@ const ScrollSearch = () => {
       });
     });
   });
+
+  const searchResults = index?.search(searchString).reduce((acc, curr) => {
+    return [...new Set([...acc, ...curr.result])];
+  }, []);
+
+  //
+  const searchMatches = findMatches(
+    mapAnnotationBodies(searchResults),
+    searchString,
+  );
+
+  const searchMatchesFlattened = searchMatches.matches.flatMap((match) => {
+    return Object.values(match).flat();
+  });
+
+  useEffect(() => {
+    setActiveIndex(0);
+    dispatch({
+      type: "updateSearchMatches",
+      payload: searchMatches,
+    });
+    dispatch({
+      type: "updateSearchActiveMatch",
+      payload: undefined,
+    });
+  }, [searchString]);
+
+  useEffect(() => {
+    dispatch({
+      type: "updateSearchActiveMatch",
+      payload: searchMatchesFlattened[activeIndex],
+    });
+  }, [activeIndex, searchString]);
 
   function mapAnnotationBodies(array): AnnotationFlattened[] {
     return array.map((id) => {
@@ -58,28 +112,64 @@ const ScrollSearch = () => {
     });
   }
 
-  const searchResults = index?.search(searchString).reduce((acc, curr) => {
-    return [...new Set([...acc, ...curr.result])];
-  }, []);
+  function findMatches(annotations, searchString) {
+    const regex = new RegExp(searchString, "gi");
+    const result = { total: 0, matches: [] };
 
-  const results: {
-    found: AnnotationFlattened[];
-    notFound: AnnotationFlattened[];
-  } = {
-    found: mapAnnotationBodies(searchResults),
-    notFound: mapAnnotationBodies(
-      indexIds.filter((id) => !searchResults.includes(id)),
-    ),
-  };
+    annotations.forEach((annotation) => {
+      const bodyId = annotation.body.id;
+      const bodyValue = annotation.body.value;
+      const matchArray: string[] = [];
+      let matchCount = 0;
+      let match;
+
+      while ((match = regex.exec(bodyValue)) !== null) {
+        matchCount++;
+        matchArray.push(`${bodyId}/${matchCount}`);
+      }
+
+      if (matchCount > 0) {
+        result.total += matchCount;
+        // @ts-expect-error
+        result.matches.push({ [bodyId]: matchArray });
+      }
+    });
+
+    return result;
+  }
+
+  const handleNext = () =>
+    setActiveIndex((prevIndex) =>
+      prevIndex < searchMatchesFlattened.length - 1 ? prevIndex + 1 : 0,
+    );
+
+  const handlePrevious = () =>
+    setActiveIndex((prevIndex) =>
+      prevIndex > 0 ? prevIndex - 1 : searchMatchesFlattened.length - 1,
+    );
 
   return (
-    <StyledSearch>
+    <StyledSearch data-active={Boolean(searchString)}>
       {searchString && (
-        <StyledSearchAnnotationsResultsLabel>
-          {results.found?.length} results for <strong>{searchString}</strong>
-        </StyledSearchAnnotationsResultsLabel>
+        <SearchAnnotationsResultsLabel
+          activeIndex={activeIndex}
+          searchString={searchString}
+          total={searchMatches.total}
+        />
       )}
-      <ScrollSearchResults results={results} />
+      {searchMatches?.total !== 0 && (
+        <>
+          <button onClick={handlePrevious}>
+            <ArrowIcon
+              title="previous"
+              style={{ transform: "rotate(90deg)" }}
+            />
+          </button>
+          <button onClick={handleNext}>
+            <ArrowIcon title="next" style={{ transform: "rotate(270deg)" }} />
+          </button>
+        </>
+      )}
     </StyledSearch>
   );
 };

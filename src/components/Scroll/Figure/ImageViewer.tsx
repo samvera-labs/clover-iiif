@@ -24,4 +24,4 @@ const ImageViewer: React.FC<ImageViewerProps> = ({ body, label }) => {
   );
 };
 
-export default ImageViewer;
+export default React.memo(ImageViewer);

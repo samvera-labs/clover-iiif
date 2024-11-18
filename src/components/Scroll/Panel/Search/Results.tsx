@@ -57,7 +57,6 @@ const ScrollSearchResults = ({
           key={annotation.id}
         />
       ))}
-      <hr />
       {results.notFound.map((annotation) => (
         <ScrollSearchResultsButton
           annotation={annotation}

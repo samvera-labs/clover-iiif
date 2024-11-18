@@ -1,50 +1,53 @@
-import React, { useContext, useRef } from "react";
+import React, { CSSProperties, useContext, useRef } from "react";
 import {
-  StyledScrollAside,
   StyledScrollFixed,
+  StyledScrollPanel,
 } from "src/components/Scroll/Layout/Layout.styled";
 
 import { ScrollContext } from "src/context/scroll-context";
 import ScrollSearchResults from "src/components/Scroll/Panel/Search/Search";
 import SearchForm from "src/components/Scroll/Panel/Search/Form";
 import { StyledPanel } from "src/components/Scroll/Panel/Panel.styled";
-import { useDistanceFromViewportTop } from "src/hooks/useDistanceFromViewportTop";
 
-interface ScrollToggleProps {
-  isPanelExpanded: boolean;
-  handlePanel: (status: boolean) => void;
-}
-
-const ScrollPanel: React.FC<ScrollToggleProps> = ({
-  isPanelExpanded,
-  handlePanel,
-}) => {
+const ScrollPanel = ({ width, isFixed }) => {
   const scrollAsideRef = useRef<HTMLDivElement>(null);
+  const [isPanelExpanded, setPanelExpanded] = React.useState(false);
 
   const { state } = useContext(ScrollContext);
   const { options } = state;
   const { offset } = options;
 
-  const { top } = useDistanceFromViewportTop(scrollAsideRef);
-  const isAnchored = top ? top < offset : false;
-  const articleWidth = scrollAsideRef?.current?.offsetWidth;
-  const panelWidth = articleWidth ? articleWidth * 0.5 : articleWidth;
-  const defaultFormWidth = panelWidth ? panelWidth - 315 : 180;
+  const fixedStyles: CSSProperties = isFixed
+    ? {
+        position: "fixed",
+        top: isFixed ? offset : 0,
+      }
+    : {};
 
-  const fixedStyles = {
-    top: isAnchored ? offset : 0,
-    width: `calc(${panelWidth}px - 1.318rem)`,
-    maxWidth: isPanelExpanded ? "100%" : `${defaultFormWidth}px`,
-    minWidth: "130px",
-  };
+  function handlePanel(e) {
+    setPanelExpanded(e);
+  }
 
   return (
-    <StyledScrollAside
+    <StyledScrollPanel
       ref={scrollAsideRef}
-      className={isAnchored ? "anchor" : ""}
       data-testid="scroll-panel"
+      style={{
+        left: isPanelExpanded
+          ? "unset"
+          : isFixed
+            ? "unset"
+            : `calc(${width}px - 2rem)`,
+        marginLeft: isPanelExpanded
+          ? `-${width}px`
+          : isFixed
+            ? "-2rem"
+            : `unset`,
+        width: isPanelExpanded ? width : "2rem",
+        ...fixedStyles,
+      }}
     >
-      <StyledScrollFixed style={fixedStyles}>
+      <StyledScrollFixed>
         <SearchForm
           togglePanel={handlePanel}
           isPanelExpanded={isPanelExpanded}
@@ -57,7 +60,7 @@ const ScrollPanel: React.FC<ScrollToggleProps> = ({
           {isPanelExpanded && <ScrollSearchResults />}
         </StyledPanel>
       </StyledScrollFixed>
-    </StyledScrollAside>
+    </StyledScrollPanel>
   );
 };
 

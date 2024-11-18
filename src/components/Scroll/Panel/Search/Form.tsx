@@ -52,6 +52,10 @@ const PanelToggle: React.FC<PanelToggleProps> = ({
       payload: "",
       type: "updateSearchString",
     });
+    dispatch({
+      payload: undefined,
+      type: "updateSearchActiveMatch",
+    });
   };
 
   const clearInput = () => {

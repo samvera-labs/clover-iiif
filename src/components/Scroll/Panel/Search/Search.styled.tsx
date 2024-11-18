@@ -12,20 +12,14 @@ const StyledSearchAnnotationInformation = styled("div", {
 });
 
 const StyledSearchAnnotationsResultsLabel = styled("div", {
-  fontSize: "0.9rem",
-  padding: "1rem 0.618rem",
+  fontSize: "0.9rem !important",
+  color: "$secondaryAlt",
+  margin: "0 0.5em",
 });
 
 const StyledSearchAnnotations = styled("div", {
   display: "flex",
   flexDirection: "column",
-  gap: "0.5rem",
-
-  hr: {
-    margin: "0.618rem",
-    border: "none",
-    borderBottom: "1px solid #6662",
-  },
 
   button: {
     backgroundColor: "#6660",
@@ -60,31 +54,21 @@ const StyledSearchAnnotations = styled("div", {
 
 const StyledSearchInput = styled("input", {
   margin: "0",
-  padding: "0 1rem 0 2rem",
   background: "none",
   zIndex: "2",
   height: "2rem",
-  marginLeft: "1rem",
-  marginTop: "1rem",
   justifyContent: "center",
   display: "flex",
   alignItems: "center",
   fontSize: "1rem",
-  borderRadius: "2rem",
   fontFamily: "inherit",
-  backgroundColor: "$primary",
-  border: "none",
+  outline: "none !important",
+  border: "none !important",
   color: "$secondary",
-  cursor: "text",
-  filter: "drop-shadow(2px 2px 5px #0003)",
-  transition: "$all",
+  cursor: "pointer",
   boxSizing: "content-box !important",
   flexGrow: "0",
-  width: "100%",
-
-  "&:placeholder": {
-    color: "inherit",
-  },
+  width: "2rem",
 });
 
 const StyledSearchIcon = styled("span", {
@@ -93,31 +77,31 @@ const StyledSearchIcon = styled("span", {
   width: "2rem",
   height: "2rem",
   padding: "8px",
-  marginTop: "1rem",
-  marginLeft: "1rem",
-  color: "$secondary",
-  fill: "$secondary",
-  stroke: "$secondary",
+  color: "$secondary !important",
+  fill: "$secondary !important",
+  stroke: "$secondary !important",
   transition: "$all",
-  cursor: "text",
+  cursor: "pointer",
+
+  svg: {
+    color: "inherit",
+    fill: "inherit",
+    stroke: "inherit",
+  },
 });
 
 const StyledSearchBackButton = styled("button", {
   opacity: "1",
   display: "flex",
   alignItems: "center",
-  borderRadius: "2rem",
-  width: "2rem",
-  height: "2rem",
+  width: "1.25em",
+  height: "1.25em",
   alignSelf: "center",
-  marginTop: "1rem",
-  gap: "0.35rem",
-  backgroundColor: "$accent",
+  margin: "0 0.25rem",
   fill: "$secondary",
   flexShrink: "0",
 
   svg: {
-    padding: "6px",
     color: "inherit",
     fill: "inherit",
   },
@@ -131,32 +115,65 @@ const StyledSearchBackButton = styled("button", {
 const StyledSearchForm = styled("form", {
   display: "flex",
   justifyContent: "space-between",
-  gap: "1rem",
-  width: "100%",
+  transition: "$all",
+  flexGrow: "1",
 
   variants: {
     isPanelExpanded: {
       true: {
         [`${StyledSearchIcon}`]: {
           marginLeft: "0",
+          cursor: "text",
         },
 
-        [`& ${StyledSearchInput}`]: {
-          marginLeft: "0",
-          backgroundColor: "$primary",
-          width: "auto",
-          flexGrow: "1",
-          //
+        [`${StyledSearchInput}`]: {
+          width: "100%",
+          padding: "0 1rem 0 2rem",
+          cursor: "text",
         },
       },
       false: {
-        //
+        "&:hover": {
+          backgroundColor: "$accent !important",
+        },
+
+        [`${StyledSearchIcon}`]: { cursor: "pointer" },
+
+        [`${StyledSearchInput}`]: {
+          cursor: "pointer",
+
+          "&::placeholder": {
+            color: "transparent !important",
+          },
+        },
       },
     },
   },
 });
 
-const StyledSearch = styled("div", {});
+const StyledSearch = styled("div", {
+  display: "flex",
+  alignItems: "center",
+  gap: "0.25rem",
+
+  "&[data-active=true]": {
+    paddingRight: "0.5rem",
+  },
+
+  button: {
+    fontSize: "0.9em",
+    fill: "$secondary",
+    color: "$secondary",
+    stroke: "$secondary",
+
+    svg: {
+      fill: "inherit",
+      color: "inherit",
+      stroke: "inherit",
+      width: "1.25em",
+    },
+  },
+});
 
 export {
   StyledSearch,
