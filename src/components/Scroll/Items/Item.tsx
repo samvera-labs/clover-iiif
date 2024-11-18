@@ -36,7 +36,7 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
   const { state } = React.useContext(ScrollContext);
   const { annotations, vault } = state;
 
-  const canvas: CanvasNormalized | undefined = vault?.get(item);
+  const canvas = vault?.get(item) as CanvasNormalized;
 
   const numItems = annotations?.filter(
     (annotation) => annotation.target === item.id,

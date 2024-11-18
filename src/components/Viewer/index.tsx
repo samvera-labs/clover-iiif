@@ -12,7 +12,7 @@ import {
   PluginConfig,
 } from "src/context/viewer-context";
 
-import { Vault } from "@iiif/vault";
+import { Vault } from "@iiif/helpers/vault";
 import Viewer from "src/components/Viewer/Viewer/Viewer";
 import { createTheme } from "@stitches/react";
 import { getRequest } from "src/lib/xhr";
@@ -99,7 +99,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
 
   /**
    * Retrieve state set by the wrapping <ViewerProvider/> and make
-   * the normalized manifest available from @iiif/vault.
+   * the normalized manifest available from @iiif/helpers/vault.
    */
   const store = useViewerState();
   const { activeCanvas, activeManifest, isLoaded, vault } = store;
@@ -125,7 +125,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   useEffect(() => {
     if (activeManifest)
       vault
-        .loadManifest(activeManifest)
+        .load(activeManifest)
         .then((data: ManifestNormalized) => {
           setManifest(data);
           dispatch({
@@ -196,7 +196,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
 
   /**
    * If an error occurs during manifest fetch process used by
-   * @iiif/vault, vault will not return a manifest
+   * @iiif/helpers/vault, vault will not return a manifest
    * that is fully normalized, and be missing the items property.
    * This being undefined signals that something went wrong and we
    * will render a user-friendly error as a functional component.
@@ -208,7 +208,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   }
 
   /**
-   * If the manifest returned by @iiif/vault does not
+   * If the manifest returned by @iiif/helpers/vault does not
    * contain any canvases, then we'll show an error to the screen. This
    * may be required if the viewer is rendered to preview manifests in
    * repository administration views.
@@ -219,7 +219,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   }
 
   /**
-   * If manifest is normalized by @iiif/vault, we know
+   * If manifest is normalized by @iiif/helpers/vault, we know
    * that the manifest data is retrievable via vault.get() and we
    * will will set the activeCanvas to the first index and render the
    * <Viewer/> component.

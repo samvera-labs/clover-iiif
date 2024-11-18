@@ -6,7 +6,7 @@ import {
   InternationalString,
 } from "@iiif/presentation-3";
 import { IncomingHttpHeaders } from "http";
-import { Vault } from "@iiif/vault";
+import { Vault } from "@iiif/helpers/vault";
 import { deepMerge } from "src/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 

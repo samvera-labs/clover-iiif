@@ -1,10 +1,11 @@
 import * as Collapsible from "@radix-ui/react-collapsible";
 
+import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
+  CanvasNormalized,
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
-  CanvasNormalized,
 } from "@iiif/presentation-3";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -13,16 +14,16 @@ import {
   useViewerState,
 } from "src/context/viewer-context";
 import {
-  getAnnotationResources,
-  getPaintingResource,
-  getContentSearchResources,
-} from "src/hooks/use-iiif";
-import {
   addContentSearchOverlays,
   removeOverlaysFromViewer,
 } from "src/lib/openseadragon-helpers";
+import {
+  getAnnotationResources,
+  getContentSearchResources,
+  getPaintingResource,
+} from "src/hooks/use-iiif";
 
-import { AnnotationResources, AnnotationResource } from "src/types/annotations";
+import { ContentSearchQuery } from "src/types/annotations";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
@@ -32,7 +33,6 @@ import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
 import { media } from "src/styles/stitches.config";
 import { useBodyLocked } from "src/hooks/useBodyLocked";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
-import { ContentSearchQuery } from "src/types/annotations";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
@@ -168,10 +168,10 @@ const Viewer: React.FC<ViewerProps> = ({
     if (!openSeadragonViewer) return;
     if (!contentSearchResource) return;
 
-    const canvas: CanvasNormalized = vault.get({
+    const canvas = vault.get({
       id: activeCanvas,
       type: "Canvas",
-    });
+    }) as CanvasNormalized;
 
     removeOverlaysFromViewer(openSeadragonViewer, "content-search-overlay");
     addContentSearchOverlays(

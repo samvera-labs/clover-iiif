@@ -5,7 +5,7 @@ import {
   invalidAnnotationCanvas,
 } from "../../fixtures/use-iiif/get-canvas-by-criteria";
 
-import { Vault } from "@iiif/vault";
+import { Vault } from "@iiif/helpers/vault";
 import { getCanvasByCriteria } from "./getCanvasByCriteria";
 
 type FnArguments = {

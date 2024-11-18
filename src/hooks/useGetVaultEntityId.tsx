@@ -1,4 +1,4 @@
-import { NormalizedEntity } from "@iiif/vault/*";
+import { NormalizedEntity } from "@iiif/helpers/vault";
 import { useViewerState } from "src/context/viewer-context";
 
 declare type ExtendedNormalizedEntity = NormalizedEntity & { id: string };

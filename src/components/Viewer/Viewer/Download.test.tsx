@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react";
 
 import Download from "./Download";
 import React from "react";
-import { Vault } from "@iiif/vault";
+import { Vault } from "@iiif/helpers/vault";
 import noRenderingManifest from "src/fixtures/viewer/rendering/manifest-without-renderings.json";
 import renderingManifest from "src/fixtures/iiif-cookbook/0046-rendering.json";
 import renderingMultipleManifest from "src/fixtures/viewer/rendering/manifest-with-renderings.json";

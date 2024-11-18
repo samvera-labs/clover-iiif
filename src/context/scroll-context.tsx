@@ -1,8 +1,7 @@
 import { AnnotationNormalized, ManifestNormalized } from "@iiif/presentation-3";
 import React, { Dispatch, createContext, useReducer } from "react";
 
-import { Vault } from "@iiif/vault";
-import { Vault as VaultShape } from "@iiif/vault/dist/index";
+import { Vault } from "@iiif/helpers/vault";
 
 interface StateType {
   annotations?: AnnotationNormalized[];
@@ -18,7 +17,7 @@ interface StateType {
     total: number;
   };
   searchString?: string;
-  vault?: VaultShape;
+  vault?: Vault;
 }
 
 interface ActionType {
@@ -80,7 +79,7 @@ interface ScrollProviderProps {
   options?: {
     offset?: number;
   };
-  vault?: VaultShape;
+  vault?: Vault;
 }
 
 export const ScrollProvider: React.FC<ScrollProviderProps> = (props) => {

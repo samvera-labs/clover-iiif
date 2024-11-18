@@ -40,10 +40,10 @@ export const ContentSearchItem: React.FC<Props> = ({
     OSDImageLoaded,
   } = viewerState;
 
-  const canvas: CanvasNormalized = vault.get({
+  const canvas = vault.get({
     id: activeCanvas,
     type: "Canvas",
-  });
+  }) as CanvasNormalized;
 
   const annotationBody: Array<
     EmbeddedResource & {

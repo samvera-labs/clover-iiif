@@ -1,5 +1,5 @@
 import { CanvasEntity, getCanvasByCriteria } from "./getCanvasByCriteria";
-import { Vault } from "@iiif/vault";
+import { Vault } from "@iiif/helpers/vault";
 import { getThumbnail } from "./getThumbnail";
 import { manifest } from "src/fixtures/use-iiif/get-thumbnail";
 import { type Canvas } from "@iiif/presentation-3";

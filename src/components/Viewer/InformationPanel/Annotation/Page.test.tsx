@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react";
 import { AnnotationPageNormalized } from "@iiif/presentation-3";
 import Page from "./Page";
 import React from "react";
-import { Vault } from "@iiif/vault";
+import { Vault } from "@iiif/helpers/vault";
 import simpleAnnotationManifest from "src/fixtures/iiif-cookbook/simple-annotation.json";
 
 const props: { annotationPage: AnnotationPageNormalized } = {
