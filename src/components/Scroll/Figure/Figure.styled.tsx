@@ -1,4 +1,7 @@
+import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { styled } from "src/styles/stitches.config";
+
+const StyledFigurePlaceholder = styled(AspectRatio, {});
 
 const StyledFigure = styled("figure", {
   figcaption: {
@@ -16,4 +19,4 @@ const StyledFigure = styled("figure", {
   },
 });
 
-export { StyledFigure };
+export { StyledFigure, StyledFigurePlaceholder };

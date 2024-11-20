@@ -8,6 +8,11 @@ interface StateType {
   manifest?: ManifestNormalized;
   options: {
     offset: number;
+    figure: {
+      display: "thumbnail" | "image-viewer";
+      aspectRatio?: number;
+      width?: CSSStyleDeclaration["width"];
+    };
   };
   searchActiveMatch?: string;
   searchMatches?: {
@@ -25,11 +30,16 @@ interface ActionType {
   type: string;
 }
 
-const initialState: StateType = {
+export const initialState: StateType = {
   annotations: [],
   manifest: undefined,
   options: {
     offset: 0,
+    figure: {
+      display: "image-viewer",
+      aspectRatio: 100 / 61.8, // golden ratio
+      width: "38.2%",
+    },
   },
   searchActiveMatch: undefined,
   searchMatches: undefined,
