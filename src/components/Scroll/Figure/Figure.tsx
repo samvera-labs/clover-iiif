@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
+import { ScrollContext, initialState } from "src/context/scroll-context";
+import {
+  StyledFigure,
+  StyledFigurePlaceholder,
+} from "src/components/Scroll/Figure/Figure.styled";
 
 import { CanvasNormalized } from "@iiif/presentation-3";
 import FigureCaption from "src/components/Scroll/Figure/Caption";
-import ImageViewer from "src/components/Scroll/Figure/ImageViewer";
-import { ScrollContext } from "src/context/scroll-context";
-import { StyledFigure } from "src/components/Scroll/Figure/Figure.styled";
+import FigureImageViewer from "src/components/Scroll/Figure/ImageViewer";
+import FigureThumbnail from "./Thumbnail";
 import { getPaintingResource } from "src/hooks/use-iiif";
 
 interface CanvasProps {
@@ -17,7 +21,15 @@ interface CanvasProps {
 
 const ScrollCanvasFigure: React.FC<CanvasProps> = ({ canvas, canvasInfo }) => {
   const { state } = useContext(ScrollContext);
-  const { vault } = state;
+  const { vault, options } = state;
+  const { figure } = options;
+
+  const display = figure.display
+    ? figure.display
+    : initialState.options.figure.display;
+  const aspectRatio = figure.aspectRatio
+    ? figure.aspectRatio
+    : initialState.options.figure.aspectRatio;
 
   const painting = getPaintingResource(vault, canvas.id);
 
@@ -25,9 +37,26 @@ const ScrollCanvasFigure: React.FC<CanvasProps> = ({ canvas, canvasInfo }) => {
 
   return (
     <StyledFigure>
-      {painting?.map((body) => (
-        <ImageViewer body={body} key={body?.id} label={canvas?.label} />
-      ))}
+      {painting?.map((body) => {
+        return (
+          <StyledFigurePlaceholder ratio={aspectRatio}>
+            {display === "thumbnail" && (
+              <FigureThumbnail
+                body={body}
+                label={canvas?.label}
+                key={body?.id}
+              />
+            )}
+            {display === "image-viewer" && (
+              <FigureImageViewer
+                label={canvas?.label}
+                body={body}
+                key={body?.id}
+              />
+            )}
+          </StyledFigurePlaceholder>
+        );
+      })}
       <FigureCaption canvas={canvas} canvasInfo={canvasInfo} />
     </StyledFigure>
   );

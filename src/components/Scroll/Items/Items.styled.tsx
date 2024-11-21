@@ -10,12 +10,12 @@ const StyledItem = styled("article", {
 
 const StyledItemFigure = styled("div", {
   transition: "$all",
-  width: "38.2%",
+  flexShrink: 0,
 });
 
 const StyledItemTextualBodies = styled("div", {
-  width: "61.8%",
   display: "flex",
+  flexGrow: 1,
   flexDirection: "column",
   justifyContent: "flex-start",
 

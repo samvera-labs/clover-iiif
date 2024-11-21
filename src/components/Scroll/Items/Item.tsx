@@ -9,9 +9,9 @@ import {
   StyledItemFigure,
   StyledItemTextualBodies,
 } from "src/components/Scroll/Items/Items.styled";
+import { ScrollContext, initialState } from "src/context/scroll-context";
 
 import React from "react";
-import { ScrollContext } from "src/context/scroll-context";
 import ScrollFigure from "src/components/Scroll/Figure/Figure";
 import ScrollItemBody from "src/components/Scroll/Annotation/Body";
 
@@ -33,7 +33,8 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
   itemNumber,
 }) => {
   const { state } = React.useContext(ScrollContext);
-  const { annotations, vault } = state;
+  const { annotations, vault, options } = state;
+  const { figure } = options;
 
   const canvas = vault?.get(item) as CanvasNormalized;
 
@@ -67,7 +68,14 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
         data-page-number={itemNumber}
         data-last-item={isLastItem}
       >
-        <StyledItemFigure>
+        <StyledItemFigure
+          css={{
+            width: figure.width
+              ? figure.width
+              : initialState.options.figure.width,
+          }}
+          data-width={figure.width}
+        >
           {canvas && <ScrollFigure canvas={canvas} canvasInfo={canvasInfo} />}
         </StyledItemFigure>
         <StyledItemTextualBodies>
