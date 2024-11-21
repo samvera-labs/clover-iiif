@@ -39,20 +39,12 @@ const ScrollCanvasFigure: React.FC<CanvasProps> = ({ canvas, canvasInfo }) => {
     <StyledFigure>
       {painting?.map((body) => {
         return (
-          <StyledFigurePlaceholder ratio={aspectRatio}>
+          <StyledFigurePlaceholder ratio={aspectRatio} key={body?.id}>
             {display === "thumbnail" && (
-              <FigureThumbnail
-                body={body}
-                label={canvas?.label}
-                key={body?.id}
-              />
+              <FigureThumbnail body={body} label={canvas?.label} />
             )}
             {display === "image-viewer" && (
-              <FigureImageViewer
-                label={canvas?.label}
-                body={body}
-                key={body?.id}
-              />
+              <FigureImageViewer label={canvas?.label} body={body} />
             )}
           </StyledFigurePlaceholder>
         );
