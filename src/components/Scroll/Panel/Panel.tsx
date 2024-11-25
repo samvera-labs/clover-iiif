@@ -29,8 +29,8 @@ const ScrollPanel = ({ width, isFixed }) => {
     setPanelExpanded(e);
   }
 
-  const languageFilterable = language?.filterable;
-  const controlsWidth = languageFilterable ? 4.5 : 2;
+  const languageEnabled = language?.enabled;
+  const controlsWidth = languageEnabled ? 4.5 : 2;
 
   return (
     <StyledScrollPanel
@@ -52,7 +52,7 @@ const ScrollPanel = ({ width, isFixed }) => {
         ...fixedStyles,
       }}
     >
-      {!isPanelExpanded && languageFilterable && <ScrollLanguage />}
+      {!isPanelExpanded && languageEnabled && <ScrollLanguage />}
       <StyledScrollSearch>
         <SearchForm
           togglePanel={handlePanel}

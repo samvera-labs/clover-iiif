@@ -5,6 +5,7 @@ import { ManifestNormalized } from "@iiif/presentation-3";
 import ScrollHeader from "src/components/Scroll/Layout/Header";
 import ScrollItems from "src/components/Scroll/Items/Items";
 import { StyledScrollWrapper } from "src/components/Scroll/Layout/Layout.styled";
+import { extractLanguages } from "src/lib/annotation-helpers";
 import useManifestAnnotations from "src/hooks/useManifestAnnotations";
 
 export interface CloverScrollProps {
@@ -16,7 +17,7 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
   const { state, dispatch } = useContext(ScrollContext);
-  const { vault } = state;
+  const { options, vault } = state;
 
   const annotations = useManifestAnnotations(manifest?.items, vault);
 
@@ -32,9 +33,18 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
   }, [iiifContent]);
 
   useEffect(() => {
+    const activeLanguages =
+      options?.language?.defaultLanguages || extractLanguages(annotations);
+
+    console.log(annotations);
+
     dispatch({
       type: "updateAnnotations",
       payload: annotations,
+    });
+    dispatch({
+      type: "updateActiveLanguages",
+      payload: activeLanguages,
     });
   }, [annotations]);
 

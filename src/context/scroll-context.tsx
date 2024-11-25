@@ -20,7 +20,7 @@ interface StateType {
     };
     language?: {
       defaultLanguages?: string[];
-      filterable: boolean;
+      enabled: boolean;
       options?: LanguageOption[];
     };
   };
@@ -52,8 +52,8 @@ export const initialState: StateType = {
       width: "38.2%",
     },
     language: {
-      defaultLanguages: [],
-      filterable: false,
+      defaultLanguages: undefined,
+      enabled: false,
       options: [],
     },
   },
