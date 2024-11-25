@@ -1,10 +1,11 @@
 import React, { CSSProperties, useContext, useRef } from "react";
 import {
-  StyledScrollFixed,
   StyledScrollPanel,
+  StyledScrollSearch,
 } from "src/components/Scroll/Layout/Layout.styled";
 
 import { ScrollContext } from "src/context/scroll-context";
+import ScrollLanguage from "./Language/Language";
 import ScrollSearchResults from "src/components/Scroll/Panel/Search/Search";
 import SearchForm from "src/components/Scroll/Panel/Search/Form";
 import { StyledPanel } from "src/components/Scroll/Panel/Panel.styled";
@@ -33,21 +34,23 @@ const ScrollPanel = ({ width, isFixed }) => {
       ref={scrollAsideRef}
       data-testid="scroll-panel"
       style={{
+        display: isPanelExpanded ? "unset" : "inline-flex",
         left: isPanelExpanded
           ? "unset"
           : isFixed
             ? "unset"
-            : `calc(${width}px - 2rem)`,
+            : `calc(${width}px - 4.5rem)`,
         marginLeft: isPanelExpanded
           ? `-${width}px`
           : isFixed
-            ? "-2rem"
+            ? "-4.5rem"
             : `unset`,
-        width: isPanelExpanded ? width : "2rem",
+        width: isPanelExpanded ? width : "4.5rem",
         ...fixedStyles,
       }}
     >
-      <StyledScrollFixed>
+      {!isPanelExpanded && <ScrollLanguage />}
+      <StyledScrollSearch>
         <SearchForm
           togglePanel={handlePanel}
           isPanelExpanded={isPanelExpanded}
@@ -59,7 +62,7 @@ const ScrollPanel = ({ width, isFixed }) => {
         >
           {isPanelExpanded && <ScrollSearchResults />}
         </StyledPanel>
-      </StyledScrollFixed>
+      </StyledScrollSearch>
     </StyledScrollPanel>
   );
 };

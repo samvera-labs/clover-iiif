@@ -1,19 +1,20 @@
 import { styled } from "src/styles/stitches.config";
 
-const StyledScrollFixed = styled("div", {
+const StyledScrollSearch = styled("div", {
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
+  background: "$primary",
+  filter: "drop-shadow(2px 2px 5px #0002)",
+  borderRadius: "2rem",
 });
 
 const StyledScrollPanel = styled("div", {
   position: "absolute",
   zIndex: 10,
-  background: "$primary",
-  filter: "drop-shadow(2px 2px 5px #0002)",
-  borderRadius: "2rem",
   overflow: "hidden",
   height: "2rem",
+  justifyContent: "space-between",
 });
 
 const StyledScrollHeader = styled("header", {
@@ -39,7 +40,7 @@ const StyledScrollWrapper = styled("section", {
 
 export {
   StyledScrollPanel,
-  StyledScrollFixed,
+  StyledScrollSearch,
   StyledScrollHeader,
   StyledScrollWrapper,
 };
