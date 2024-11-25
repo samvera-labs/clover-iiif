@@ -16,7 +16,7 @@ const ScrollPanel = ({ width, isFixed }) => {
 
   const { state } = useContext(ScrollContext);
   const { options } = state;
-  const { offset } = options;
+  const { offset, language } = options;
 
   const fixedStyles: CSSProperties = isFixed
     ? {
@@ -29,6 +29,9 @@ const ScrollPanel = ({ width, isFixed }) => {
     setPanelExpanded(e);
   }
 
+  const languageFilterable = language?.filterable;
+  const controlsWidth = languageFilterable ? 4.5 : 2;
+
   return (
     <StyledScrollPanel
       ref={scrollAsideRef}
@@ -39,17 +42,17 @@ const ScrollPanel = ({ width, isFixed }) => {
           ? "unset"
           : isFixed
             ? "unset"
-            : `calc(${width}px - 4.5rem)`,
+            : `calc(${width}px - ${controlsWidth}rem)`,
         marginLeft: isPanelExpanded
           ? `-${width}px`
           : isFixed
-            ? "-4.5rem"
+            ? `-${controlsWidth}rem`
             : `unset`,
-        width: isPanelExpanded ? width : "4.5rem",
+        width: isPanelExpanded ? width : `${controlsWidth}rem`,
         ...fixedStyles,
       }}
     >
-      {!isPanelExpanded && <ScrollLanguage />}
+      {!isPanelExpanded && languageFilterable && <ScrollLanguage />}
       <StyledScrollSearch>
         <SearchForm
           togglePanel={handlePanel}

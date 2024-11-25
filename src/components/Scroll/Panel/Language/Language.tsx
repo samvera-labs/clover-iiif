@@ -1,5 +1,9 @@
+import LanguageOption from "./Option";
 import { Popover } from "src/components/UI";
+import { ScrollContext } from "src/context/scroll-context";
 import { StyledScrollLanguage } from "./Language.styled";
+import { extractLanguages } from "src/lib/annotation-helpers";
+import { useContext } from "react";
 
 const LanguageIcon = ({
   title,
@@ -17,6 +21,13 @@ const LanguageIcon = ({
 };
 
 const ScrollLanguage = () => {
+  const { state } = useContext(ScrollContext);
+  const { activeLanguages, annotations } = state;
+
+  const languages = annotations
+    ? (extractLanguages(annotations) as string[])
+    : [];
+
   return (
     <StyledScrollLanguage>
       <Popover>
@@ -27,9 +38,14 @@ const ScrollLanguage = () => {
           />
         </Popover.Trigger>
         <Popover.Content>
-          <div>
-            <h1>Language</h1>
-          </div>
+          <label>Language</label>
+          {languages.map((lang) => (
+            <LanguageOption
+              isChecked={activeLanguages?.includes(lang)}
+              key={lang}
+              lang={lang}
+            />
+          ))}
         </Popover.Content>
       </Popover>
     </StyledScrollLanguage>

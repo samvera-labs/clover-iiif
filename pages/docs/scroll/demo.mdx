@@ -17,5 +17,12 @@ A UI component rendering vertical scrolling articles that output individual Canv
 
 <Scroll
   iiifContent="https://digital.lib.utk.edu/assemble/manifest/civilwar/5756"
-  options={{ offset: 90 }}
+  options={{
+    offset: 90,
+    language: {
+      defaultLanguages: ["en"],
+      filterable: true,
+      options: [{ en: "English" }, { ar: "Arabic" }],
+    },
+  }}
 />

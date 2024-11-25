@@ -3,8 +3,16 @@ import { styled } from "src/styles/stitches.config";
 const highlightColor = "255, 197, 32"; // #FFC520
 
 const TextualBody = styled("div", {
+  opacity: "1",
+
   "&[dir=rtl]": {
     textAlign: "right",
+  },
+
+  "&[data-active-language=false]": {
+    opacity: "0",
+    width: "0",
+    height: "0",
   },
 
   ul: {

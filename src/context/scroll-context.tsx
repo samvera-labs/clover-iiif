@@ -3,7 +3,12 @@ import React, { Dispatch, createContext, useReducer } from "react";
 
 import { Vault } from "@iiif/helpers/vault";
 
+type LanguageOption = {
+  [key: string]: string; // Keys and values are dynamically defined
+};
+
 interface StateType {
+  activeLanguages?: string[];
   annotations?: AnnotationNormalized[];
   manifest?: ManifestNormalized;
   options: {
@@ -12,6 +17,11 @@ interface StateType {
       display: "thumbnail" | "image-viewer";
       aspectRatio?: number;
       width?: CSSStyleDeclaration["width"];
+    };
+    language?: {
+      defaultLanguages?: string[];
+      filterable: boolean;
+      options?: LanguageOption[];
     };
   };
   searchActiveMatch?: string;
@@ -31,6 +41,7 @@ interface ActionType {
 }
 
 export const initialState: StateType = {
+  activeLanguages: undefined,
   annotations: [],
   manifest: undefined,
   options: {
@@ -39,6 +50,11 @@ export const initialState: StateType = {
       display: "image-viewer",
       aspectRatio: 100 / 61.8, // golden ratio
       width: "38.2%",
+    },
+    language: {
+      defaultLanguages: [],
+      filterable: false,
+      options: [],
     },
   },
   searchActiveMatch: undefined,
@@ -53,6 +69,11 @@ function reducer(state: StateType, action: ActionType): StateType {
       return {
         ...state,
         annotations: action.payload,
+      };
+    case "updateActiveLanguages":
+      return {
+        ...state,
+        activeLanguages: action.payload,
       };
     case "updateSearchActiveMatch":
       return {
@@ -83,12 +104,11 @@ export const ScrollContext = createContext<{
 });
 
 interface ScrollProviderProps {
+  activeLanguages?: string[];
   annotations?: AnnotationNormalized[];
   children: React.ReactNode;
   manifest?: ManifestNormalized;
-  options?: {
-    offset?: number;
-  };
+  options?: StateType["options"];
   vault?: Vault;
 }
 
@@ -99,7 +119,14 @@ export const ScrollProvider: React.FC<ScrollProviderProps> = (props) => {
     ...props.options,
   };
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  // Dynamically set the initial activeLanguages based on options.language.defaultLanguages
+  const initialActiveLanguages = options.language?.defaultLanguages || [];
+
+  const [state, dispatch] = useReducer(reducer, {
+    ...initialState,
+    activeLanguages: initialActiveLanguages,
+    options,
+  });
 
   return (
     <ScrollContext.Provider
