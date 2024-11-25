@@ -1,10 +1,11 @@
 import React, { CSSProperties, useContext, useRef } from "react";
 import {
-  StyledScrollFixed,
   StyledScrollPanel,
+  StyledScrollSearch,
 } from "src/components/Scroll/Layout/Layout.styled";
 
 import { ScrollContext } from "src/context/scroll-context";
+import ScrollLanguage from "./Language/Language";
 import ScrollSearchResults from "src/components/Scroll/Panel/Search/Search";
 import SearchForm from "src/components/Scroll/Panel/Search/Form";
 import { StyledPanel } from "src/components/Scroll/Panel/Panel.styled";
@@ -15,7 +16,7 @@ const ScrollPanel = ({ width, isFixed }) => {
 
   const { state } = useContext(ScrollContext);
   const { options } = state;
-  const { offset } = options;
+  const { offset, language } = options;
 
   const fixedStyles: CSSProperties = isFixed
     ? {
@@ -28,26 +29,31 @@ const ScrollPanel = ({ width, isFixed }) => {
     setPanelExpanded(e);
   }
 
+  const languageEnabled = language?.enabled;
+  const controlsWidth = languageEnabled ? 4.5 : 2;
+
   return (
     <StyledScrollPanel
       ref={scrollAsideRef}
       data-testid="scroll-panel"
       style={{
+        display: isPanelExpanded ? "unset" : "inline-flex",
         left: isPanelExpanded
           ? "unset"
           : isFixed
             ? "unset"
-            : `calc(${width}px - 2rem)`,
+            : `calc(${width}px - ${controlsWidth}rem)`,
         marginLeft: isPanelExpanded
           ? `-${width}px`
           : isFixed
-            ? "-2rem"
+            ? `-${controlsWidth}rem`
             : `unset`,
-        width: isPanelExpanded ? width : "2rem",
+        width: isPanelExpanded ? width : `${controlsWidth}rem`,
         ...fixedStyles,
       }}
     >
-      <StyledScrollFixed>
+      {!isPanelExpanded && languageEnabled && <ScrollLanguage />}
+      <StyledScrollSearch>
         <SearchForm
           togglePanel={handlePanel}
           isPanelExpanded={isPanelExpanded}
@@ -59,7 +65,7 @@ const ScrollPanel = ({ width, isFixed }) => {
         >
           {isPanelExpanded && <ScrollSearchResults />}
         </StyledPanel>
-      </StyledScrollFixed>
+      </StyledScrollSearch>
     </StyledScrollPanel>
   );
 };

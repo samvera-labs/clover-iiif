@@ -1,4 +1,5 @@
-import { AnnotationTarget } from "@iiif/presentation-3";
+import { AnnotationNormalized, AnnotationTarget } from "@iiif/presentation-3";
+
 import { ParsedAnnotationTarget } from "src/types/annotations";
 
 export type AnnotationTargetExtended = AnnotationTarget & {
@@ -79,4 +80,22 @@ const parseAnnotationTarget = (target: AnnotationTargetExtended | string) => {
   return parsedTarget;
 };
 
-export { parseAnnotationTarget };
+function extractLanguages(annotations: AnnotationNormalized[]) {
+  const languages = new Set();
+
+  function findLanguage(obj) {
+    if (Array.isArray(obj)) {
+      obj.forEach(findLanguage);
+    } else if (obj && typeof obj === "object") {
+      if (obj.language) {
+        languages.add(obj.language);
+      }
+      Object.values(obj).forEach(findLanguage);
+    }
+  }
+
+  findLanguage(annotations);
+  return Array.from(languages);
+}
+
+export { extractLanguages, parseAnnotationTarget };

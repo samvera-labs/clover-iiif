@@ -41,7 +41,7 @@ type ContentProps = ContentComponentProps &
 
 const Content: React.FC<ContentProps> = (props) => {
   return (
-    <StyledContent {...props}>
+    <StyledContent {...props} sideOffset={5} collisionPadding={21}>
       <StyledArrow />
       <StyledClose>
         <Icon isSmall>

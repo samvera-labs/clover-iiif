@@ -29,7 +29,7 @@ const StyledSearchAnnotations = styled("div", {
     fontSize: "0.9rem",
     lineHeight: "1.1rem",
     textAlign: "left",
-    borderRadius: "6px",
+    borderRadius: "2rem",
     border: "1px solid #6662",
     display: "flex",
     flexDirection: "column",
@@ -135,6 +135,7 @@ const StyledSearchForm = styled("form", {
       false: {
         "&:hover": {
           backgroundColor: "$accent !important",
+          borderRadius: "2rem",
         },
 
         [`${StyledSearchIcon}`]: { cursor: "pointer" },

@@ -46,12 +46,15 @@ const config: IndexOptionsForDocumentSearch<{
 const ScrollSearch = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const { dispatch, state } = useContext(ScrollContext);
-  const { annotations, searchString = "" } = state;
+  const { activeLanguages, annotations, searchString = "" } = state;
 
   const index = new FlexSearch.Document(config);
   const indexIds: string[] = [];
   annotations?.forEach((annotation) => {
     annotation?.body?.forEach((body) => {
+      // @ts-expect-error
+      if (!activeLanguages?.includes(String(body.language))) return;
+
       // @ts-expect-error
       const content = body?.value?.replace(/\n/g, "");
       indexIds.push(body?.id);

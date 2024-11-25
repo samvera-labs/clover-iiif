@@ -33,21 +33,18 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
   itemNumber,
 }) => {
   const { state } = React.useContext(ScrollContext);
-  const { annotations, vault, options } = state;
+  const { activeLanguages, annotations, vault, options } = state;
   const { figure } = options;
 
   const canvas = vault?.get(item) as CanvasNormalized;
 
-  const numItems = annotations?.filter(
-    // @ts-ignore
-    (annotation) => annotation.target?.source?.id === item.id,
-  ).length;
+  const numItems = activeLanguages?.length;
 
   const annotationBody = annotations
     // @ts-ignore
     ?.filter((annotation) => annotation.target?.source?.id === item.id)
     ?.map((annotation) => {
-      return annotation?.body?.map((body, index) => (
+      return annotation?.body.map((body, index) => (
         <ScrollItemBody
           body={body as unknown as EmbeddedResource}
           key={index}

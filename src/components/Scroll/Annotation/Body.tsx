@@ -18,7 +18,7 @@ const ScrollAnnotationBody = ({
   type?: string;
 }) => {
   const { state } = useContext(ScrollContext);
-  const { searchActiveMatch, searchString } = state;
+  const { activeLanguages, searchActiveMatch, searchString } = state;
 
   let value = String(body.value);
 
@@ -65,6 +65,7 @@ const ScrollAnnotationBody = ({
   const isRtl = ["ar"].includes(String(body.language));
   const dir = isRtl ? "rtl" : "ltr";
   const fontSize = isRtl ? "1.3em" : "1em";
+  const lang = String(body.language);
 
   useEffect(() => {
     // Scroll to the active match
@@ -84,17 +85,17 @@ const ScrollAnnotationBody = ({
   if (!innerHtml) return null;
 
   return (
-    <>
-      <TextualBody
-        dangerouslySetInnerHTML={{ __html: innerHtml }}
-        data-body-id={id}
-        data-testid="scroll-item-body"
-        style={{ "--num-items": numItems } as React.CSSProperties}
-        id={id}
-        dir={dir}
-        css={{ fontSize }}
-      />
-    </>
+    <TextualBody
+      dangerouslySetInnerHTML={{ __html: innerHtml }}
+      data-active-language={activeLanguages?.includes(lang)}
+      data-body-id={id}
+      data-testid="scroll-item-body"
+      style={{ "--num-items": numItems } as React.CSSProperties}
+      id={id}
+      dir={dir}
+      css={{ fontSize }}
+      lang={lang}
+    />
   );
 };
 

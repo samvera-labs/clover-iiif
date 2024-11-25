@@ -102,12 +102,13 @@ const MyCustomScroll = () => {
 
 `Scroll` can configured through an `options` prop, which will serve as a object for common options.
 
-| Prop             | Type                  | Required | Default |
-| ---------------- | --------------------- | -------- | ------- |
-| `iiifContent`    | `string`              | Yes      |         |
-| `options`        | `object`              | No       |         |
-| `options.offset` | `number`              | No       | `0`     |
-| `options.figure` | [See Figure](#figure) | No       |         |
+| Prop               | Type                      | Required | Default |
+| ------------------ | ------------------------- | -------- | ------- |
+| `iiifContent`      | `string`                  | Yes      |         |
+| `options`          | `object`                  | No       |         |
+| `options.offset`   | `number`                  | No       | `0`     |
+| `options.figure`   | [See Figure](#figure)     | No       |         |
+| `options.language` | [See Language](#language) | No       |         |
 
 ### Offset
 
@@ -138,6 +139,34 @@ The Scroll component renders a `figure` element for each Canvas. The `options.fi
       aspectRatio: 1,
       display: "thumbnail",
       width: "200px",
+    },
+  }}
+/>
+```
+
+### Language
+
+The `options.language` object allows for the configuration of the language options for the Scroll component. This includes the default languages and language options.
+
+By default, the `options.language` object is not set, and the Scroll component will not display any language options. When the `options.language` object is set, the Scroll component will display a language dropdown that allows users to filter the content by languages within the Manifest annotation body resources. If defaultLanguages are not set, the Scroll component will display all languages available in the Manifest.
+
+The `options.language.options` array should be an array of objects with key-value pairs where the key is the language code and the value is the language name. The language code should match the language code in the Manifest annotation body resources.
+
+| Prop                                | Type                           | Required | Default |
+| ----------------------------------- | ------------------------------ | -------- | ------- |
+| `options.language.defaultLanguages` | `string[]`                     | No       | `[]`    |
+| `options.language.enabled`          | `boolean`                      | Yes      | `false` |
+| `options.language.options`          | `Array<[key: string]: string>` | No       | `[]`    |
+
+```jsx
+<Scroll
+  iiifContent="https://iiif-maktaba.dc.library.northwestern.edu/dc8ff749-adad-42a7-81e0-0eb473ef88a5.json"
+  options={{
+    offset: 90,
+    language: {
+      defaultLanguages: ["en"],
+      enabled: true,
+      options: [{ en: "English" }, { ar: "Arabic" }],
     },
   }}
 />
