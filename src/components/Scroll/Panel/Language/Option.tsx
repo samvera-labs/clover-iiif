@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import {
   StyledScrollLanguageOption,
   StyledScrollLanguageOptionCheckbox,
@@ -5,7 +6,6 @@ import {
 } from "./Language.styled";
 
 import { ScrollContext } from "src/context/scroll-context";
-import { useContext } from "react";
 
 const LanguageOption = ({
   lang,
@@ -37,8 +37,6 @@ const LanguageOption = ({
       payload: updatedLanguages,
     });
   };
-
-  //   console.log({ isChecked, lang });
 
   return (
     <StyledScrollLanguageOption

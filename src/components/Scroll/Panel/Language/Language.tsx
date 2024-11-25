@@ -1,16 +1,17 @@
+import React, { CSSProperties, useContext } from "react";
+
 import LanguageOption from "./Option";
 import { Popover } from "src/components/UI";
 import { ScrollContext } from "src/context/scroll-context";
 import { StyledScrollLanguage } from "./Language.styled";
 import { extractLanguages } from "src/lib/annotation-helpers";
-import { useContext } from "react";
 
 const LanguageIcon = ({
   title,
   style = {},
 }: {
   title: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }) => {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style={style}>
