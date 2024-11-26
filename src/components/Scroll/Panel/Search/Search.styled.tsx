@@ -177,6 +177,8 @@ const StyledSearch = styled("div", {
     fill: "$secondary",
     color: "$secondary",
     stroke: "$secondary",
+    backgroundColor: "transparent",
+    border: "none",
 
     svg: {
       fill: "inherit",
