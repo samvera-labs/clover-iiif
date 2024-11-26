@@ -56,7 +56,6 @@ const StyledSearchInput = styled("input", {
   margin: "0",
   background: "none",
   zIndex: "2",
-  height: "2rem",
   justifyContent: "center",
   display: "flex",
   alignItems: "center",
@@ -71,17 +70,22 @@ const StyledSearchInput = styled("input", {
   width: "2rem",
 });
 
-const StyledSearchIcon = styled("span", {
+const StyledSearchIcon = styled("button", {
   position: "absolute",
   zIndex: "3",
-  width: "2rem",
-  height: "2rem",
-  padding: "8px",
+  border: "none",
   color: "$secondary !important",
   fill: "$secondary !important",
   stroke: "$secondary !important",
   transition: "$all",
   cursor: "pointer",
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "column",
+  borderRadius: "2rem",
+  height: "2rem",
+  width: "2rem",
 
   svg: {
     color: "inherit",
@@ -117,6 +121,7 @@ const StyledSearchForm = styled("form", {
   justifyContent: "space-between",
   transition: "$all",
   flexGrow: "1",
+  height: "2rem",
 
   variants: {
     isPanelExpanded: {

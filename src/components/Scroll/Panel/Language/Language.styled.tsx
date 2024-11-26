@@ -9,13 +9,19 @@ import { styled } from "src/styles/stitches.config";
 
 const StyledScrollLanguage = styled("div", {
   width: "2rem",
+  height: "2rem",
 
   [`${StyledTrigger}`]: {
     background: "$primary",
     width: "inherit",
+    height: "inherit",
     display: "flex",
     justifyContent: "center",
     borderRadius: "2rem",
+    padding: "0",
+    justifyItems: "center",
+    flexDirection: "column",
+    alignItems: "center",
 
     "&:hover": {
       background: "$accent",
@@ -58,6 +64,11 @@ const StyledScrollLanguageOption = styled(Checkbox.Root, {
   alignContent: "center",
   alignItems: "center",
   gap: "0.5rem",
+  backgroundColor: "transparent",
+  border: "none",
+  fontFamily: "inherit",
+  fontSize: "1rem",
+  marginTop: "0.25rem",
 
   "&[data-state='checked']": {
     [`${StyledScrollLanguageOptionCheckbox}`]: {
