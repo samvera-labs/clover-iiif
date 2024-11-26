@@ -74,6 +74,7 @@ const StyledSearchIcon = styled("button", {
   position: "absolute",
   zIndex: "3",
   border: "none",
+  background: "transparent",
   color: "$secondary !important",
   fill: "$secondary !important",
   stroke: "$secondary !important",
@@ -96,14 +97,19 @@ const StyledSearchIcon = styled("button", {
 
 const StyledSearchBackButton = styled("button", {
   opacity: "1",
-  display: "flex",
-  alignItems: "center",
-  width: "1.25em",
-  height: "1.25em",
   alignSelf: "center",
   margin: "0 0.25rem",
   fill: "$secondary",
   flexShrink: "0",
+  border: "none",
+  background: "transparent",
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "column",
+  borderRadius: "2rem",
+  height: "2rem",
+  width: "2rem",
 
   svg: {
     color: "inherit",
