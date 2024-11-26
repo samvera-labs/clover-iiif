@@ -1,10 +1,15 @@
+import React from "react";
 import { StyledSearchAnnotationsResultsLabel } from "./Search.styled";
 
-const SearchAnnotationsResultsLabel = ({
-  activeIndex,
-  searchString,
-  total,
-}) => {
+interface SearchAnnotationsResultsLabelProps {
+  activeIndex: number;
+  searchString: string;
+  total: number;
+}
+
+const SearchAnnotationsResultsLabel: React.FC<
+  SearchAnnotationsResultsLabelProps
+> = ({ activeIndex, searchString, total }) => {
   const message =
     total === 0 ? (
       <>
