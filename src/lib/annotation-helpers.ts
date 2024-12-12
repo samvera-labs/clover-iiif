@@ -8,6 +8,29 @@ export type AnnotationTargetExtended = AnnotationTarget & {
   svg?: string;
 };
 
+const getLanguageDirection = (bcp47Code) => {
+  // Exhaustive list of RTL languages
+  const rtlLanguages = [
+    "ar",
+    "fa",
+    "ur",
+    "ps",
+    "dv",
+    "sd",
+    "ug",
+    "ku",
+    "he",
+    "yi",
+    "jrb",
+    "jpr",
+    "nqo",
+  ];
+
+  // Get the base language from the BCP47 code
+  const baseLang = bcp47Code.split("-")[0]; // Extract the base language
+  return rtlLanguages.includes(baseLang) ? "RTL" : "LTR";
+};
+
 const parseAnnotationTarget = (target: AnnotationTargetExtended | string) => {
   let parsedTarget: ParsedAnnotationTarget = {
     id: typeof target === "string" ? target : target.source,
@@ -98,4 +121,4 @@ function extractLanguages(annotations: AnnotationNormalized[]) {
   return Array.from(languages);
 }
 
-export { extractLanguages, parseAnnotationTarget };
+export { getLanguageDirection, extractLanguages, parseAnnotationTarget };

@@ -1,7 +1,55 @@
 import {
+  getLanguageDirection,
   parseAnnotationTarget,
   AnnotationTargetExtended,
 } from "./annotation-helpers";
+
+describe("getLanguageDirection", () => {
+  it("returns 'RTL' for Arabic", () => {
+    const result = getLanguageDirection("ar");
+    expect(result).toEqual("RTL");
+  });
+  it("returns 'RTL' for Hebrew", () => {
+    const result = getLanguageDirection("he");
+    expect(result).toEqual("RTL");
+  });
+  it("returns 'LTR' for English", () => {
+    const result = getLanguageDirection("en");
+    expect(result).toEqual("LTR");
+  });
+  it("returns 'LTR' for French", () => {
+    const result = getLanguageDirection("fr");
+    expect(result).toEqual("LTR");
+  });
+  it("returns 'RTL' for Persian", () => {
+    const result = getLanguageDirection("fa");
+    expect(result).toEqual("RTL");
+  });
+  it("returns 'RTL' for Urdu", () => {
+    const result = getLanguageDirection("ur");
+    expect(result).toEqual("RTL");
+  });
+  it("returns 'LTR' for Spanish", () => {
+    const result = getLanguageDirection("es");
+    expect(result).toEqual("LTR");
+  });
+  it("returns 'LTR' for German", () => {
+    const result = getLanguageDirection("de");
+    expect(result).toEqual("LTR");
+  });
+  it("returns 'RTL' for Kurdish", () => {
+    const result = getLanguageDirection("ku");
+    expect(result).toEqual("RTL");
+  });
+  it("returns 'RTL' for Pashto", () => {
+    const result = getLanguageDirection("ps");
+    expect(result).toEqual("RTL");
+  });
+  it("returns 'RTL' for Divehi", () => {
+    const result = getLanguageDirection("dv");
+    expect(result).toEqual("RTL");
+  });
+});
 
 describe("parseAnnotationTarget", () => {
   it("handles target strings with xywh", () => {
