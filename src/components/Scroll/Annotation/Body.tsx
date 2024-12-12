@@ -4,6 +4,7 @@ import { EmbeddedResource } from "@iiif/presentation-3";
 import { ScrollContext } from "src/context/scroll-context";
 import { TextualBody } from "src/components/Scroll/Annotation/Body.styled";
 import { getSearchResultSnippet } from "src/lib/search-helpers";
+import { getLanguageDirection } from "src/lib/annotation-helpers";
 import useMarkdown from "@nulib/use-markdown";
 
 const ScrollAnnotationBody = ({
@@ -62,7 +63,7 @@ const ScrollAnnotationBody = ({
   }
 
   const id = [body.id, type].join("-");
-  const isRtl = ["ar"].includes(String(body.language));
+  const isRtl = getLanguageDirection(String(body.language)) === "RTL";
   const dir = isRtl ? "rtl" : "ltr";
   const fontSize = isRtl ? "1.3em" : "1em";
   const lang = String(body.language);
