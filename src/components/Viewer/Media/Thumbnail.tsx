@@ -14,7 +14,7 @@ import { Label } from "src/components/Primitives";
 import React from "react";
 import { convertTime } from "src/lib/utils";
 import { getLabel } from "src/hooks/use-iiif";
-import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 /**
  * Determine appropriate icon by resource type
@@ -70,7 +70,13 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
     >
       <figure>
         <div>
-          {thumbnail?.id && <LazyLoadImage src={thumbnail.id} alt={label as string} loading="lazy" />}
+          {thumbnail?.id && (
+            <LazyLoadImage
+              src={thumbnail.id}
+              alt={label as string}
+              loading="lazy"
+            />
+          )}
 
           <Type>
             <Tag isIcon data-testid="thumbnail-tag">
