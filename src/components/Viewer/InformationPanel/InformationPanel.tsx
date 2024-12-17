@@ -17,6 +17,7 @@ import AnnotationPage from "src/components/Viewer/InformationPanel/Annotation/Pa
 import ContentSearch from "src/components/Viewer/InformationPanel/ContentSearch/ContentSearch";
 import { AnnotationResources, AnnotationResource } from "src/types/annotations";
 import Information from "src/components/Viewer/InformationPanel/About/About";
+import Structure from "src/components/Viewer/InformationPanel/Structure/Structure";
 import {
   InternationalString,
   AnnotationPageNormalized,
@@ -58,6 +59,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   const [activeResource, setActiveResource] = useState<string>();
 
   const renderAbout = informationPanel?.renderAbout;
+  const renderStructure = informationPanel?.renderStructure;
   const renderAnnotation = informationPanel?.renderAnnotation;
   const canvas = vault.get({
     id: activeCanvas,
@@ -106,6 +108,8 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       } else {
         setActiveResource("manifest-about");
       }
+    } else if (renderStructure) {
+      setActiveResource("manifest-structure");
     } else if (renderAbout) {
       setActiveResource("manifest-about");
     } else if (renderContentSearch) {
@@ -120,6 +124,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     activeCanvas,
     activeResource,
     renderAbout,
+    renderStructure,
     renderContentSearch,
     annotationResources,
     contentSearchResource,
@@ -166,6 +171,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             {t("informationPanelTabsAbout")}
           </Trigger>
         )}
+        {renderStructure && (
+          <Trigger value="manifest-structure">
+            {t("informationPanelTabsStructure")}
+          </Trigger>
+        )}
         {renderContentSearch && contentSearchResource && (
           <Trigger value="manifest-content-search">
             <Label label={contentSearchResource.label as InternationalString} />
@@ -192,6 +202,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         {renderAbout && (
           <Content value="manifest-about">
             <Information />
+          </Content>
+        )}
+        {renderStructure && (
+          <Content value="manifest-structure">
+            <Structure />
           </Content>
         )}
         {renderContentSearch && contentSearchResource && (

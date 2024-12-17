@@ -92,6 +92,7 @@ describe("ViewerContent with no Annotation Resources", () => {
             informationPanel: {
               open: false,
               renderAbout: false,
+              renderStructure: false,
               renderToggle: false,
             },
           },
@@ -115,6 +116,7 @@ describe("ViewerContent with Annotation Resources", () => {
             informationPanel: {
               open: false,
               renderAbout: false,
+              renderStructure: false,
               renderToggle: false,
             },
           },
@@ -135,6 +137,7 @@ describe("ViewerContent with Annotation Resources", () => {
           configOptions: {
             informationPanel: {
               open: false,
+              renderStructure: false,
               renderAbout: true,
               renderToggle: true,
             },
@@ -165,6 +168,7 @@ describe("ViewerContent with Annotation Resources", () => {
               ...defaultState.configOptions.informationPanel,
               open: false,
               renderAbout: false,
+              renderStructure: false,
               renderToggle: false,
             },
           },
@@ -204,6 +208,7 @@ describe("ViewerContent with Annotation Resources", () => {
               renderAnnotation: false,
               open: false,
               renderAbout: false,
+              renderStructure: false,
               renderToggle: false,
             },
           },

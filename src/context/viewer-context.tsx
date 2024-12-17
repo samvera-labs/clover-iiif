@@ -33,6 +33,7 @@ export type ViewerConfigOptions = {
   informationPanel?: {
     open?: boolean;
     renderAbout?: boolean;
+    renderStructure?: boolean;
     renderSupplementing?: boolean;
     renderToggle?: boolean;
     renderAnnotation?: boolean;
@@ -109,6 +110,7 @@ const defaultConfigOptions = {
     },
     open: true,
     renderAbout: true,
+    renderStructure: true,
     renderSupplementing: true,
     renderToggle: true,
     renderAnnotation: true,
