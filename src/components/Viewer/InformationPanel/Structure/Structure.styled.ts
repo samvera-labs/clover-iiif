@@ -17,12 +17,12 @@ const StructureContent = styled("div", {
 
   "ul, ol": {
     padding: "0",
-    margin: "0",
+    marginLeft: "1rem",
+    listStyleType: "disc",
 
     li: {
       fontSize: "1rem",
       lineHeight: "1.45em",
-      listStyle: "none",
       margin: "0.25rem 0 0.25rem",
     },
   },
