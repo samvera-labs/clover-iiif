@@ -15,6 +15,11 @@ const StructureContent = styled("div", {
     margin: "1rem 0 0.25rem",
   },
 
+  "a": {
+    color: "Blue",
+    textDecoration: "underline",
+  },
+
   "ul, ol": {
     padding: "0",
     marginLeft: "1rem",
