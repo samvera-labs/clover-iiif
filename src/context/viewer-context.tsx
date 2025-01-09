@@ -161,6 +161,7 @@ export type PluginConfig = {
 export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
+  playerRef?: React.RefObject<HTMLVideoElement>;
   OSDImageLoaded?: boolean;
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
@@ -226,6 +227,7 @@ const expandedAutoScrollOptions = expandAutoScrollOptions(
 export const defaultState: ViewerContextStore = {
   activeCanvas: "",
   activeManifest: "",
+  playerRef: React.createRef<HTMLVideoElement>(),
   OSDImageLoaded: false,
   collection: {},
   configOptions: defaultConfigOptions,
