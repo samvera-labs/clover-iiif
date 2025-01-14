@@ -112,7 +112,7 @@ const Viewer: React.FC<ViewerProps> = ({
 
     if (painting) {
       setIsAudioVideo(
-        ["Sound", "Video"].indexOf(painting[0].type as ExternalResourceTypes) >
+        ["Audio", "Sound", "Video"].indexOf(painting[0].type as ExternalResourceTypes) >
           -1
           ? true
           : false,

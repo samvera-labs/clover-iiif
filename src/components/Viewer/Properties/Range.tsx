@@ -33,7 +33,6 @@ const PropertiesRange: React.FC<PropertiesRangeProps> = ({
       playerRef.current.fastSeek(time);
     }
   };
-  
 
   return (
     <ul>

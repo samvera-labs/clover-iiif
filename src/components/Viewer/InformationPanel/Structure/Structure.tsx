@@ -40,6 +40,7 @@ const Structure: React.FC = () => {
 
     if (!manifest) return <></>;
 
+    // ToDo: Loop through structures to build ToC instead of grabbing the first one
     const tree = rangeToTableOfContentsTree(vault, manifest.structures[0] as any);
     const items = renderRangeList(tree);
 
