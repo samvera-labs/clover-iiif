@@ -1,0 +1,780 @@
+{
+    "@context": [
+      "http://www.w3.org/ns/anno.jsonld",
+      "http://iiif.io/api/presentation/3/context.json"
+    ],
+    "type": "Manifest",
+    "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest",
+    "label": {
+      "eng": [
+        "Concert, 2013, December 05-06"
+      ]
+    },
+    "summary": {
+      "eng": [
+        "A complete program is available in Mendel Music Library.",
+        "Compact discs.",
+        "PUO"
+      ]
+    },
+    "metadata": [
+      {
+        "label": {
+          "eng": [
+            "Author"
+          ]
+        },
+        "value": {
+          "eng": [
+            "Princeton University. Orchestra"
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Contents"
+          ]
+        },
+        "value": {
+          "eng": [
+            "Disc 1. Ballad for Trayvon Martin (world premiere) / A. D. J. Branker -- Teatro di Strada (world premiere) / D. Sanford --",
+            "Disc 2. Overture to Egmont, Op. 84 / L. v. Beethoven -- Symphony no. 9 in E minor, \"New World,\" Op. 95 / A. Dvorak."
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Extent"
+          ]
+        },
+        "value": {
+          "eng": [
+            "2 sounds disc : digital ; 4 3/4 in."
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Identifier"
+          ]
+        },
+        "value": {
+          "eng": [
+            "ark:/88435/v692tc73x"
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Part Of"
+          ]
+        },
+        "value": {
+          "eng": [
+            "puo",
+            "puje"
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Title"
+          ]
+        },
+        "value": {
+          "und": [
+            "Concert, 2013, December 05-06"
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Contributor"
+          ]
+        },
+        "value": {
+          "eng": [
+            "Bowen, Ralph",
+            "Pratt, Michael, 1949-",
+            "Princeton University. Jazz Ensemble"
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Creator"
+          ]
+        },
+        "value": {
+          "eng": [
+            "Princeton University. Orchestra"
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Date"
+          ]
+        },
+        "value": {
+          "eng": [
+            "2013"
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Language"
+          ]
+        },
+        "value": {
+          "eng": [
+            "Undetermined"
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Local Identifier"
+          ]
+        },
+        "value": {
+          "eng": [
+            "7105"
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Publisher"
+          ]
+        },
+        "value": {
+          "eng": [
+            "Princeton, NJ. : Princeton University, Dept. of Music, 2013."
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Call Number"
+          ]
+        },
+        "value": {
+          "eng": [
+            "CD- 2013-12-06",
+            "CD- 2013-12-05"
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Location"
+          ]
+        },
+        "value": {
+          "eng": [
+            "MUSR CD- 2013-12-06",
+            "MUSR CD- 2013-12-05"
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Electronic Locations"
+          ]
+        },
+        "value": {
+          "eng": [
+            {
+              "id": null,
+              "internal_resource": "LabeledURI",
+              "created_at": null,
+              "updated_at": null,
+              "new_record": true,
+              "uri": {
+                "@id": "http://lib-dbserver.princeton.edu/music/programs/2013-12-05.pdf"
+              },
+              "label": "Program."
+            }
+          ]
+        }
+      },
+      {
+        "label": {
+          "eng": [
+            "Member Of Collections"
+          ]
+        },
+        "value": {
+          "eng": [
+            "PU Jazz Ensembles",
+            "PU Orchestra",
+            "Performance Audio Archive Collection",
+            "Music and Performing Arts Collections at Princeton"
+          ]
+        }
+      }
+    ],
+    "rendering": [
+      {
+        "id": "http://arks.princeton.edu/ark:/88435/v692tc73x",
+        "format": "text/html",
+        "type": "Text",
+        "label": {
+          "en": [
+            "View in catalog"
+          ]
+        }
+      }
+    ],
+    "items": [
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/65ca339b-8f04-40d6-8a16-b4e69ba4b22e",
+        "label": {
+          "eng": [
+            "Ballad for Trayvon Martin <i>(world premiere)</i>"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/65ca339b-8f04-40d6-8a16-b4e69ba4b22e/annotation_page/9078490f-9d15-4ccf-9e25-7f3705700ba7",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/65ca339b-8f04-40d6-8a16-b4e69ba4b22e/file/2cae68ce-5545-41f5-8388-e7e5f2d9ca3a/stream.m3u8",
+                  "type": "Audio",
+                  "duration": 568.426,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Ballad for Trayvon Martin <i>(world premiere)</i>"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/65ca339b-8f04-40d6-8a16-b4e69ba4b22e"
+              }
+            ]
+          }
+        ],
+        "local_identifier": "37938",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/65ca339b-8f04-40d6-8a16-b4e69ba4b22e/file/a21aebf8-c34b-405f-a6df-2b62cbca0ae0",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 568.426
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/69a914e7-730d-4907-b622-cffcd2ee5b73",
+        "label": {
+          "eng": [
+            "Teatro di Strada <i>(world premiere)</i>"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/69a914e7-730d-4907-b622-cffcd2ee5b73/annotation_page/d45acb6c-7f1d-42f9-a18f-31c98ba2ad29",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/69a914e7-730d-4907-b622-cffcd2ee5b73/file/526a5fca-6d96-49fb-8532-f8797d748b7c/stream.m3u8",
+                  "type": "Audio",
+                  "duration": 930.293,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Teatro di Strada <i>(world premiere)</i>"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/69a914e7-730d-4907-b622-cffcd2ee5b73"
+              }
+            ]
+          }
+        ],
+        "local_identifier": "37939",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/69a914e7-730d-4907-b622-cffcd2ee5b73/file/b712f1f7-bed4-4bca-bac4-f3d95698fb9e",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 930.293
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/4ec6dac6-2e77-4a3d-8c9b-7d20171eaa16",
+        "label": {
+          "eng": [
+            "Overture to Egmont, op. 84"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/4ec6dac6-2e77-4a3d-8c9b-7d20171eaa16/annotation_page/8255b430-7fce-4988-9078-f8cc486c418c",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/4ec6dac6-2e77-4a3d-8c9b-7d20171eaa16/file/06a8b8b2-ae81-44a9-b1cf-cb3c119209dd/stream.m3u8",
+                  "type": "Audio",
+                  "duration": 617.653,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Overture to Egmont, op. 84"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/4ec6dac6-2e77-4a3d-8c9b-7d20171eaa16"
+              }
+            ]
+          }
+        ],
+        "local_identifier": "37940",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/4ec6dac6-2e77-4a3d-8c9b-7d20171eaa16/file/59c3a0cf-8080-4912-ac34-34719a42479f",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 617.653
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/617203f1-4858-4306-8af4-c970059b281b",
+        "label": {
+          "eng": [
+            "I. Adagio - Allegro molto"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/617203f1-4858-4306-8af4-c970059b281b/annotation_page/aebdc6da-7ddf-4a7a-b9cb-f4b3931927aa",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/617203f1-4858-4306-8af4-c970059b281b/file/816ad0fb-0f30-4dfe-9d58-7e8efaffc0d8/stream.m3u8",
+                  "type": "Audio",
+                  "duration": 651.28,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "I. Adagio - Allegro molto"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/617203f1-4858-4306-8af4-c970059b281b"
+              }
+            ]
+          }
+        ],
+        "local_identifier": "37941",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/617203f1-4858-4306-8af4-c970059b281b/file/6b125809-2967-4da3-80a1-2757c68abba3",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 651.28
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/e685f6e9-6e05-42f2-bab9-9948528c3464",
+        "label": {
+          "eng": [
+            "II. Largo"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/e685f6e9-6e05-42f2-bab9-9948528c3464/annotation_page/4286951c-e275-489c-9403-0721d92f16c0",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/e685f6e9-6e05-42f2-bab9-9948528c3464/file/782d3b88-4516-476b-ab0e-4e29ea560229/stream.m3u8",
+                  "type": "Audio",
+                  "duration": 843.546,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "II. Largo"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/e685f6e9-6e05-42f2-bab9-9948528c3464"
+              }
+            ]
+          }
+        ],
+        "local_identifier": "37942",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/e685f6e9-6e05-42f2-bab9-9948528c3464/file/4817b859-e66a-4f7f-bcdc-b0b77c74dc0e",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 843.546
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/9573f53d-a299-45e6-bded-38fdc007cba7",
+        "label": {
+          "eng": [
+            "III. Scherzo: Molto vivace"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/9573f53d-a299-45e6-bded-38fdc007cba7/annotation_page/bb5ad36b-677c-49af-b489-4e661f3bd462",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/9573f53d-a299-45e6-bded-38fdc007cba7/file/dec803e3-6806-4da5-afa1-9a19a265eb66/stream.m3u8",
+                  "type": "Audio",
+                  "duration": 508.24,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "III. Scherzo: Molto vivace"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/9573f53d-a299-45e6-bded-38fdc007cba7"
+              }
+            ]
+          }
+        ],
+        "local_identifier": "37943",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/9573f53d-a299-45e6-bded-38fdc007cba7/file/c38f2a03-c296-446b-85a9-9e96bf85de08",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 508.24
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/105d8f15-5ef3-4bf7-8d18-b15ea169e186",
+        "label": {
+          "eng": [
+            "IV. Allegro con fuoco"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/105d8f15-5ef3-4bf7-8d18-b15ea169e186/annotation_page/24d5e8d1-13e7-4c5c-94b6-9ca3d9b5f597",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/105d8f15-5ef3-4bf7-8d18-b15ea169e186/file/7d8d7dbc-0c59-440e-9471-9d54f1e7f1c5/stream.m3u8",
+                  "type": "Audio",
+                  "duration": 841.866,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "IV. Allegro con fuoco"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/105d8f15-5ef3-4bf7-8d18-b15ea169e186"
+              }
+            ]
+          }
+        ],
+        "local_identifier": "37944",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/105d8f15-5ef3-4bf7-8d18-b15ea169e186/file/e37ef55e-2176-46eb-9ffb-4577260dfd87",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 841.866
+      }
+    ],
+    "behavior": [
+      "auto-advance"
+    ],
+    "service": [
+      {
+        "@context": "http://universalviewer.io/context.json",
+        "profile": "http://universalviewer.io/ui-extensions-profile",
+        "disableUI": [
+          "mediaDownload"
+        ]
+      }
+    ],
+    "structures": [
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/range/r30315721-790e-4d83-8044-00b60223bda2",
+        "label": {
+          "eng": [
+            "2013-12-05"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Range",
+            "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/range/rd2aeb284-7a68-46fb-a5f6-7b3d443b913f",
+            "label": {
+              "eng": [
+                "Ballad for Trayvon Martin"
+              ]
+            },
+            "items": [
+              {
+                "type": "Range",
+                "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/range/r634474e0-3bf8-4d1d-9ef6-19505f58387b",
+                "label": {
+                  "eng": [
+                    "Ballad for Trayvon Martin <i>(world premiere)</i>"
+                  ]
+                },
+                "items": [
+                  {
+                    "type": "Canvas",
+                    "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/65ca339b-8f04-40d6-8a16-b4e69ba4b22e#t=0,568.426",
+                    "label": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "Range",
+            "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/range/r82b17a22-47ae-490c-9f03-9168c0ae27df",
+            "label": {
+              "eng": [
+                "Teatro di Stada"
+              ]
+            },
+            "items": [
+              {
+                "type": "Range",
+                "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/range/r7d2318d1-2f54-484a-bd49-6599a0378ee5",
+                "label": {
+                  "eng": [
+                    "Teatro di Strada <i>(world premiere)</i>"
+                  ]
+                },
+                "items": [
+                  {
+                    "type": "Canvas",
+                    "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/69a914e7-730d-4907-b622-cffcd2ee5b73#t=0,930.293",
+                    "label": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "Range",
+            "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/range/r8ea6e12f-df14-4bf0-a403-80587238a4e7",
+            "label": {
+              "eng": [
+                "Overture to Egmont, op. 84"
+              ]
+            },
+            "items": [
+              {
+                "type": "Range",
+                "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/range/r9e175773-153c-4c44-ad79-bfe38e9b1ef3",
+                "label": {
+                  "eng": [
+                    "Overture to Egmont, op. 84"
+                  ]
+                },
+                "items": [
+                  {
+                    "type": "Canvas",
+                    "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/4ec6dac6-2e77-4a3d-8c9b-7d20171eaa16#t=0,617.653",
+                    "label": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "Range",
+            "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/range/r781b6e72-0124-454c-a4c1-5d0e5c7acad5",
+            "label": {
+              "eng": [
+                "Symphony No. 9 in E minor: From the New World, op. 95"
+              ]
+            },
+            "items": [
+              {
+                "type": "Range",
+                "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/range/r14bd40f5-7a51-4edb-91dc-d57ce0bea6fc",
+                "label": {
+                  "eng": [
+                    "I. Adagio - Allegro molto"
+                  ]
+                },
+                "items": [
+                  {
+                    "type": "Canvas",
+                    "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/617203f1-4858-4306-8af4-c970059b281b#t=0,651.28",
+                    "label": []
+                  }
+                ]
+              },
+              {
+                "type": "Range",
+                "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/range/rfaac720c-4ec4-46da-930a-8fb6ea20bec4",
+                "label": {
+                  "eng": [
+                    "II. Largo"
+                  ]
+                },
+                "items": [
+                  {
+                    "type": "Canvas",
+                    "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/e685f6e9-6e05-42f2-bab9-9948528c3464#t=0,843.546",
+                    "label": []
+                  }
+                ]
+              },
+              {
+                "type": "Range",
+                "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/range/r89b9c928-2299-4084-92fb-13e02e6b0016",
+                "label": {
+                  "eng": [
+                    "III. Scherzo: Molto vivace"
+                  ]
+                },
+                "items": [
+                  {
+                    "type": "Canvas",
+                    "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/9573f53d-a299-45e6-bded-38fdc007cba7#t=0,508.24",
+                    "label": []
+                  }
+                ]
+              },
+              {
+                "type": "Range",
+                "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/range/r4abec473-b677-4394-9fb1-97e61caf18f0",
+                "label": {
+                  "eng": [
+                    "IV. Allegro con fuoco"
+                  ]
+                },
+                "items": [
+                  {
+                    "type": "Canvas",
+                    "id": "https://figgy.princeton.edu/concern/scanned_resources/ab32bcd8-8586-4c38-8da2-0aaf33d17f57/manifest/canvas/105d8f15-5ef3-4bf7-8d18-b15ea169e186#t=0,841.866",
+                    "label": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "seeAlso": [
+      {
+        "id": "https://figgy.princeton.edu/catalog/ab32bcd8-8586-4c38-8da2-0aaf33d17f57.jsonld",
+        "type": "Dataset",
+        "format": "application/ld+json"
+      },
+      {
+        "id": "https://catalog.princeton.edu/catalog/9982447213506421.marcxml",
+        "type": "Dataset",
+        "format": "text/xml"
+      }
+    ],
+    "rights": "http://rightsstatements.org/vocab/NKC/1.0/",
+    "logo": [
+      {
+        "id": "https://figgy.princeton.edu/pul_logo_icon.png",
+        "type": "Image",
+        "format": "image/png",
+        "height": 100,
+        "width": 120
+      }
+    ]
+  }
