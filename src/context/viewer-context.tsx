@@ -47,6 +47,7 @@ export type ViewerConfigOptions = {
   showDownload?: boolean;
   showIIIFBadge?: boolean;
   showTitle?: boolean;
+  customLoadingComponent?: React.ComponentType;
   withCredentials?: boolean;
   localeText?: {
     contentSearch?: {
