@@ -142,27 +142,28 @@ const MyCustomViewer = () => {
 
 `Viewer` can configured through an `options` prop, which will serve as a object for common options.
 
-| Prop                            | Type                                                                        | Required | Default                                  |
-| ------------------------------- | --------------------------------------------------------------------------- | -------- | ---------------------------------------- |
-| `iiifContent`                   | `string`                                                                    | Yes      |                                          |
-| `iiifContentSearchQuery`        | [See Content Search](#content-search)                                       | No       |                                          |
-| `canvasIdCallback`              | `function`                                                                  | No       |                                          |
-| `customDisplays`                | [See Custom Displays](#custom-displays)                                     | No       |                                          |
-| `customTheme`                   | `object`                                                                    | No       |                                          |
-| `plugins`                       | [See Plugins](#plugins)                                                     | No       |                                          |
-| `options`                       | `object`                                                                    | No       |                                          |
-| `options.background`            | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background) | No       | `transparent`                            |
-| `options.canvasBackgroundColor` | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background) | No       | `#1a1d1e`                                |
-| `options.canvasHeight`          | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/height)     | No       | `500px`                                  |
-| `options.ignoreCaptionLabels`   | `string[]`                                                                  | No       | []                                       |
-| `options.openSeadragon`         | `OpenSeadragon.Options`                                                     | No       |                                          |
-| `options.informationPanel`      | [See Information Panel](#information-panel)                                 | No       |                                          |
-| `options.requestHeaders`        | `IncomingHttpHeaders`                                                       | No       | `{ "Content-Type": "application/json" }` |
-| `options.showDownload`          | `boolean`                                                                   | No       | true                                     |
-| `options.showIIIFBadge`         | `boolean`                                                                   | No       | true                                     |
-| `options.showTitle`             | `boolean`                                                                   | No       | true                                     |
-| `options.withCredentials`       | `boolean`                                                                   | No       | false                                    |
-| `options.contentSearch`         | [See Content Search](#content-search)                                       | No       |                                          |
+| Prop                             | Type                                                                        | Required | Default                                  |
+| -------------------------------- | --------------------------------------------------------------------------- | -------- | ---------------------------------------- |
+| `iiifContent`                    | `string`                                                                    | Yes      |                                          |
+| `iiifContentSearchQuery`         | [See Content Search](#content-search)                                       | No       |                                          |
+| `canvasIdCallback`               | `function`                                                                  | No       |                                          |
+| `customDisplays`                 | [See Custom Displays](#custom-displays)                                     | No       |                                          |
+| `customTheme`                    | `object`                                                                    | No       |                                          |
+| `plugins`                        | [See Plugins](#plugins)                                                     | No       |                                          |
+| `options`                        | `object`                                                                    | No       |                                          |
+| `options.background`             | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background) | No       | `transparent`                            |
+| `options.canvasBackgroundColor`  | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background) | No       | `#1a1d1e`                                |
+| `options.canvasHeight`           | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/height)     | No       | `500px`                                  |
+| `options.ignoreCaptionLabels`    | `string[]`                                                                  | No       | []                                       |
+| `options.openSeadragon`          | `OpenSeadragon.Options`                                                     | No       |                                          |
+| `options.informationPanel`       | [See Information Panel](#information-panel)                                 | No       |                                          |
+| `options.requestHeaders`         | `IncomingHttpHeaders`                                                       | No       | `{ "Content-Type": "application/json" }` |
+| `options.showDownload`           | `boolean`                                                                   | No       | true                                     |
+| `options.showIIIFBadge`          | `boolean`                                                                   | No       | true                                     |
+| `options.showTitle`              | `boolean`                                                                   | No       | true                                     |
+| `options.customLoadingComponent` | `React.ComponentType`                                                       | No       |                                          |
+| `options.withCredentials`        | `boolean`                                                                   | No       | false                                    |
+| `options.contentSearch`          | [See Content Search](#content-search)                                       | No       |                                          |
 
 - Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
 - Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
@@ -487,6 +488,21 @@ return (
     }}
   />
 );
+```
+
+---
+
+### Custom Loading Component
+
+Clients may choose to override the default _loading_ component that displays while the IIIF resource is fetched and loaded into state.
+
+```jsx
+<Viewer
+  iiifContent="https://example.com/manifest/1"
+  options={{
+    customLoadingComponent: () => <>My custom loading component</>,
+  }}
+/>
 ```
 
 ---

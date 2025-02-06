@@ -192,7 +192,14 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * loaded into React.Context as `vault`. Upon completion
    * (error or not) isLoaded will be set to true.
    */
-  if (!isLoaded) return <>Loading</>;
+  if (!isLoaded) {
+    if (options?.customLoadingComponent) {
+      const CustomLoadingComponent = options.customLoadingComponent;
+      return <CustomLoadingComponent />;
+    } else {
+      return <>Loading</>;
+    }
+  }
 
   /**
    * If an error occurs during manifest fetch process used by
