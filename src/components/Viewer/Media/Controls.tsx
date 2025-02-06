@@ -143,7 +143,11 @@ const Controls: React.FC<Props> = ({
             </Button>
           </Direction>
         )}
-        <Button onClick={handleFilterToggle} type="button">
+        <Button
+          onClick={handleFilterToggle}
+          type="button"
+          className="clover-viewer-media-search"
+        >
           {toggleFilter ? (
             <CloseIcon title={t("commonClose")} />
           ) : (
