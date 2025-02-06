@@ -492,6 +492,21 @@ return (
 
 ---
 
+### Custom Loading Component
+
+You may choose to override the default loading component that displays while the manifest is fetched and loaded into state.
+
+```jsx
+<Viewer
+  iiifContent="https://example.com/manifest/1"
+  options={{
+    customLoadingComponent: () => <>My custom loading component</>,
+  }}
+/>
+```
+
+---
+
 ### Custom canvas displays
 
 Clients may wish to use their own display components instead of Clover Viewer's default displays ([OpenSeadragon](https://openseadragon.github.io/) for images and [HTML Video Player](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video) for audio/video). The `Viewer` component allows a client to target individual `canvas` items in a IIIF Manifest by either direct reference to a canvas `id` or `format` (ie. `video/ogg`). See the Type Definition below for `CustomDisplay`, and an example implementation.
