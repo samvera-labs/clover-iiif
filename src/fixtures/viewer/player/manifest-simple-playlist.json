@@ -1,0 +1,1908 @@
+{
+    "@context": [
+      "http://www.w3.org/ns/anno.jsonld",
+      "http://iiif.io/api/presentation/3/context.json"
+    ],
+    "type": "Manifest",
+    "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest",
+    "label": {
+      "eng": [
+        "Playlist: Evita [sound recording] : new Broadway cast recording / [music by Andrew Lloyd Webber ; lyrics by Tim Rice]."
+      ]
+    },
+    "behavior": [
+      "auto-advance"
+    ],
+    "metadata": [
+      {
+        "label": {
+          "eng": [
+            "Title"
+          ]
+        },
+        "value": {
+          "eng": [
+            "Playlist: Evita [sound recording] : new Broadway cast recording / [music by Andrew Lloyd Webber ; lyrics by Tim Rice]."
+          ]
+        }
+      }
+    ],
+    "rendering": [],
+    "items": [
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/9f6ddff9-2f43-4ba4-90e3-d35710bf033b",
+        "label": {
+          "eng": [
+            "Requiem for Evita"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/9f6ddff9-2f43-4ba4-90e3-d35710bf033b/annotation_page/5ba212fb-9168-4838-a845-c864964e5063",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/a8cb1912-6c0a-427a-840f-f90a1e38764f/file/97b1578e-aba9-4300-82fb-42e0d8fc18c7/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 189.44,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Requiem for Evita"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/9f6ddff9-2f43-4ba4-90e3-d35710bf033b"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/a8cb1912-6c0a-427a-840f-f90a1e38764f/file/2f671b25-872d-4608-a489-0b1287b3747d",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 189.44
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/9f4ef6ab-16d5-4d9d-b583-dcac50b0594d",
+        "label": {
+          "eng": [
+            "Oh, What a Circus"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/9f4ef6ab-16d5-4d9d-b583-dcac50b0594d/annotation_page/361b9b5f-58cc-41b2-b56c-ff65b8736bf5",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/e97d1c18-1bbc-4ff3-aaa8-5c7854dc80a3/file/724817f0-d083-4e7a-81dd-3ace2ab12097/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 414.987,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Oh, What a Circus"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/9f4ef6ab-16d5-4d9d-b583-dcac50b0594d"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/e97d1c18-1bbc-4ff3-aaa8-5c7854dc80a3/file/67e23fae-cc81-4a12-a73e-87ad511983de",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 414.987
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/07a80772-af9c-470b-aedf-43890a356e77",
+        "label": {
+          "eng": [
+            "On This Night of a Thousand Stars"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/07a80772-af9c-470b-aedf-43890a356e77/annotation_page/82d62a1b-4afd-4f7f-b2d9-8b0c6ee75dc6",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/49523ca4-6e36-41d4-ab37-959e7615f792/file/d6ee4397-c3c6-42ea-8d7f-1d870c2abd75/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 311.573,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "On This Night of a Thousand Stars"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/07a80772-af9c-470b-aedf-43890a356e77"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/49523ca4-6e36-41d4-ab37-959e7615f792/file/62224684-9eff-425a-9f66-f54ccbd84ac8",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 311.573
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/4b75b245-740d-436d-bd5c-d012f9804d81",
+        "label": {
+          "eng": [
+            "Eva, Beware of the City"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/4b75b245-740d-436d-bd5c-d012f9804d81/annotation_page/8e0d6e82-3c35-4d14-8aa9-17c883ad1723",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/4a8db6c0-476d-44c5-9d3d-fb184f859c34/file/72af07e3-b2b7-4b70-a2f1-363ee107d355/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 120.4,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Eva, Beware of the City"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/4b75b245-740d-436d-bd5c-d012f9804d81"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/4a8db6c0-476d-44c5-9d3d-fb184f859c34/file/18d75a43-7f08-4912-8891-dd5e3033e6f2",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 120.4
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/97d9d773-2f44-4fa8-be8d-f577ec30f141",
+        "label": {
+          "eng": [
+            "Buenos Aires"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/97d9d773-2f44-4fa8-be8d-f577ec30f141/annotation_page/9af2c80e-208e-4180-9092-e0dc3362ddd6",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/b0d6f8ba-758c-43dc-8149-171a279cc49d/file/3e3ea5e2-7028-44e4-a1a8-4a6b832af789/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 291.4,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Buenos Aires"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/97d9d773-2f44-4fa8-be8d-f577ec30f141"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/b0d6f8ba-758c-43dc-8149-171a279cc49d/file/bdb2b29f-35da-46ee-9e87-c9b3af08d827",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 291.4
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/92c5ac25-4eb7-42e9-9085-f9eedf25e401",
+        "label": {
+          "eng": [
+            "Goodnight and Thank You"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/92c5ac25-4eb7-42e9-9085-f9eedf25e401/annotation_page/fa287595-ee51-46cf-a51f-625b7f673f00",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/538bafb7-231f-44ab-aae5-c0b4e17e1514/file/3c8cb296-e4f6-4c46-8ded-95b2d7abe5cb/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 198.68,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Goodnight and Thank You"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/92c5ac25-4eb7-42e9-9085-f9eedf25e401"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/538bafb7-231f-44ab-aae5-c0b4e17e1514/file/8f3c42f4-1675-4640-a8e9-0264bf53082e",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 198.68
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/8d17843c-06d2-42a6-bcc0-9e5b54b9e949",
+        "label": {
+          "eng": [
+            "The Art of the Possible"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/8d17843c-06d2-42a6-bcc0-9e5b54b9e949/annotation_page/b7aa4b06-03cc-46b5-9c94-bac8746511e4",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/1e0c6622-6c45-4707-b8d9-65f466472061/file/571cb783-ed3b-4948-b5ed-934e4b64b7ad/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 194.907,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "The Art of the Possible"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/8d17843c-06d2-42a6-bcc0-9e5b54b9e949"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/1e0c6622-6c45-4707-b8d9-65f466472061/file/45244f14-2dd5-483f-8a65-f412260e168b",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 194.907
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/327016de-14fe-4878-ab41-9a8fc53a89e7",
+        "label": {
+          "eng": [
+            "Charity Concert"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/327016de-14fe-4878-ab41-9a8fc53a89e7/annotation_page/ba1cc0ef-416f-45af-9f4b-a5d8a9e5ab0e",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/0bee7405-21b7-448f-9abc-e0beb19b4b49/file/e175668b-e5ce-4371-b9f4-a1d19d300b9b/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 152.16,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Charity Concert"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/327016de-14fe-4878-ab41-9a8fc53a89e7"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/0bee7405-21b7-448f-9abc-e0beb19b4b49/file/66415830-0605-4d08-9218-7714eddbe70e",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 152.16
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/a3153d38-4b99-4abe-bce8-bbac4283819d",
+        "label": {
+          "eng": [
+            "I'd Be Surprisingly Good For You"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/a3153d38-4b99-4abe-bce8-bbac4283819d/annotation_page/23ed8c1e-7bd3-4fee-865a-32c8f1d9e0ac",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/403d0f78-1656-407f-ad63-052981d296ea/file/df430ea6-aa46-4e2f-96be-38a80c3f8848/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 264.96,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "I'd Be Surprisingly Good For You"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/a3153d38-4b99-4abe-bce8-bbac4283819d"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/403d0f78-1656-407f-ad63-052981d296ea/file/1ede824d-b84a-432a-a3a3-a79866814640",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 264.96
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/45305661-2ab6-4597-aa6e-6c49facdb10f",
+        "label": {
+          "eng": [
+            "Another Suitcase in Another Hall"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/45305661-2ab6-4597-aa6e-6c49facdb10f/annotation_page/ffb64498-e4f8-4866-a497-fccf570dbfff",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/3525ac69-52c0-4309-8054-968364db82b1/file/6e17b42a-b831-434d-82c2-48d07ac41a2c/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 223.613,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Another Suitcase in Another Hall"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/45305661-2ab6-4597-aa6e-6c49facdb10f"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/3525ac69-52c0-4309-8054-968364db82b1/file/7d65ec94-e3f0-4f4d-8665-8d99438db69b",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 223.613
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/c901a5a0-1190-43bc-9058-21494bd0e69e",
+        "label": {
+          "eng": [
+            "Perón's Latest Flame"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/c901a5a0-1190-43bc-9058-21494bd0e69e/annotation_page/de3c8978-1d33-4c66-b2d9-6ad0e1891e6b",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/74aefffe-12d9-4328-8319-6c2349893bd0/file/396ea719-ffa2-48a9-89c6-4e34cb5cbcfc/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 282.533,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Perón's Latest Flame"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/c901a5a0-1190-43bc-9058-21494bd0e69e"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/74aefffe-12d9-4328-8319-6c2349893bd0/file/a9313d04-7981-42da-8fbd-ea5da678b5e9",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 282.533
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/45dfb9f5-2421-4b28-a021-40593bc896b8",
+        "label": {
+          "eng": [
+            "A New Argentina"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/45dfb9f5-2421-4b28-a021-40593bc896b8/annotation_page/e8b089a6-db2f-4699-a086-6f5fde67c081",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/c1592a38-6a6a-475b-9e4f-ea2ab2e8038e/file/99d86952-80fe-45d9-8eb5-c4fea1c73224/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 405.227,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "A New Argentina"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/45dfb9f5-2421-4b28-a021-40593bc896b8"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/c1592a38-6a6a-475b-9e4f-ea2ab2e8038e/file/c60b251d-21cb-40dc-8ffe-2bdc325735a3",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 405.227
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/b5456375-84fd-4bc4-8f84-ef4965554c44",
+        "label": {
+          "eng": [
+            "On the Balcony of the Casa Rosada"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/b5456375-84fd-4bc4-8f84-ef4965554c44/annotation_page/6999d919-f37e-4a94-982d-901dd344e2c6",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/d68dce2a-610e-419f-ae9d-b56a2fbe73c8/file/a5a038f2-7ecc-40d2-a370-970231a39dc3/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 122.613,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "On the Balcony of the Casa Rosada"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/b5456375-84fd-4bc4-8f84-ef4965554c44"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/d68dce2a-610e-419f-ae9d-b56a2fbe73c8/file/996b96ce-e8d7-40bd-aaa4-d5fa637547c0",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 122.613
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/38e18d8c-d206-4ff7-84e0-ca9dd6da493b",
+        "label": {
+          "eng": [
+            "Don't Cry for Me Argentina"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/38e18d8c-d206-4ff7-84e0-ca9dd6da493b/annotation_page/4e8d89be-aba7-4233-b6aa-d8b08d2a9c5a",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/cabe517c-255d-4c50-9c1c-b974c0f7cdba/file/acf4a3f6-8842-4a3a-84a5-36c3b9ed72d4/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 414.133,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Don't Cry for Me Argentina"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/38e18d8c-d206-4ff7-84e0-ca9dd6da493b"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/cabe517c-255d-4c50-9c1c-b974c0f7cdba/file/6ecf4f2a-6108-4e4d-a1bc-c81b64387a2d",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 414.133
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/270bd187-0c03-4ff8-a98a-ad0f22216208",
+        "label": {
+          "eng": [
+            "High Flying, Adored"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/270bd187-0c03-4ff8-a98a-ad0f22216208/annotation_page/412f0a48-5b8b-4d02-9207-bdd3d802ee3c",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/3b8e759c-841d-42f5-b6cf-6282b7eedd04/file/3e3d6d2d-44aa-4b44-b9c2-35dfe2062b37/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 213.907,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "High Flying, Adored"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/270bd187-0c03-4ff8-a98a-ad0f22216208"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/3b8e759c-841d-42f5-b6cf-6282b7eedd04/file/e36a8b0a-f21b-4062-9bf2-404f7e977323",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 213.907
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/056281ac-2ce6-48f4-8236-a0e5f60e49d1",
+        "label": {
+          "eng": [
+            "Rainbow High"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/056281ac-2ce6-48f4-8236-a0e5f60e49d1/annotation_page/2067608c-d19d-49dc-be51-6ecd5449e04c",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/59849aca-170c-4364-b192-af2d4ee1eca6/file/e91ec5ac-d470-48b1-bc81-66d8e18325b8/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 156.987,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Rainbow High"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/056281ac-2ce6-48f4-8236-a0e5f60e49d1"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/59849aca-170c-4364-b192-af2d4ee1eca6/file/c853e188-78c8-48ae-ba33-d3911e55ff4e",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 156.987
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/51f3062e-fdd5-4c2b-acc2-953e5af49c44",
+        "label": {
+          "eng": [
+            "Rainbow Tour"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/51f3062e-fdd5-4c2b-acc2-953e5af49c44/annotation_page/425253a4-0983-406a-ab65-64c0684a76af",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/98714a6b-7741-42bf-a013-fb40228ba9bb/file/987b19de-e18f-4d0b-8b50-96c8179c5330/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 295.68,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Rainbow Tour"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/51f3062e-fdd5-4c2b-acc2-953e5af49c44"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/98714a6b-7741-42bf-a013-fb40228ba9bb/file/8b3edf73-3784-445c-b525-c173e37a99a0",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 295.68
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/b5e676d0-46b1-4d67-9d91-43a2319bfd47",
+        "label": {
+          "eng": [
+            "The Chorus Girl Hasn't Learned the Lines (You'd Like to Hear)"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/b5e676d0-46b1-4d67-9d91-43a2319bfd47/annotation_page/28ea138d-1e68-4f66-8995-6de1cecfbd09",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/6e163b06-9df8-41e8-b658-4cd33e56baad/file/7894295d-fb28-4aaf-a0e0-defcc6904d68/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 138.52,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "The Chorus Girl Hasn't Learned the Lines (You'd Like to Hear)"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/b5e676d0-46b1-4d67-9d91-43a2319bfd47"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/6e163b06-9df8-41e8-b658-4cd33e56baad/file/b9d75f15-0a57-4c43-9683-8b635b9e1a04",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 138.52
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/cb536e2c-3155-40d5-ae9a-adcb1d19cd33",
+        "label": {
+          "eng": [
+            "And the Money Kept Rolling In (and Out)"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/cb536e2c-3155-40d5-ae9a-adcb1d19cd33/annotation_page/2d7b735d-29b0-4d7a-aa21-6a48c22ddc77",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/a3ef67c7-dc4c-42fc-8165-51a1d820ae43/file/fbe298de-5ee7-41cb-adee-d15e181c4966/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 266.68,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "And the Money Kept Rolling In (and Out)"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/cb536e2c-3155-40d5-ae9a-adcb1d19cd33"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/a3ef67c7-dc4c-42fc-8165-51a1d820ae43/file/3c46ccc6-1da5-465a-aff4-a892ee802bb8",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 266.68
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/b0d6b9b6-80b5-426c-b0c9-2a8df3456134",
+        "label": {
+          "eng": [
+            "Santa Evita"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/b0d6b9b6-80b5-426c-b0c9-2a8df3456134/annotation_page/08e231ab-5f67-4146-921e-93006a6cfde3",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/29fbf4a8-6d66-4d62-b373-7ffda8fc7055/file/a712251d-00ad-473c-81a2-22ade2cea876/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 143.68,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Santa Evita"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/b0d6b9b6-80b5-426c-b0c9-2a8df3456134"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/29fbf4a8-6d66-4d62-b373-7ffda8fc7055/file/d2f352e0-e02c-4cdc-99f3-d90844bf9766",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 143.68
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/fedde911-87f2-4a36-8100-e385a7e63f51",
+        "label": {
+          "eng": [
+            "Waltz for Eva and Che"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/fedde911-87f2-4a36-8100-e385a7e63f51/annotation_page/69955922-1a59-4dff-afa9-46108ac01c7d",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/83982353-4add-48a4-8a59-66ae6e9a24ad/file/4ec6d7d6-c7b8-4572-ad2d-baecccc35bca/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 227.453,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Waltz for Eva and Che"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/fedde911-87f2-4a36-8100-e385a7e63f51"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/83982353-4add-48a4-8a59-66ae6e9a24ad/file/d6e46a27-160c-4304-abe4-81e75d07ab62",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 227.453
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/41a9d660-4086-414e-9318-bea8b4fda4d5",
+        "label": {
+          "eng": [
+            "You Must Love Me"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/41a9d660-4086-414e-9318-bea8b4fda4d5/annotation_page/b2379600-652a-4444-94e2-48e6144eef74",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/6f180e26-f52b-45a4-b10d-9fa891104bee/file/ef693107-d6d2-4d09-9753-5fa7a1fea28d/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 134.853,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "You Must Love Me"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/41a9d660-4086-414e-9318-bea8b4fda4d5"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/6f180e26-f52b-45a4-b10d-9fa891104bee/file/00e2e2d1-e27d-4924-a956-67c62478406d",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 134.853
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/ffdddaba-9e81-4edd-813e-9b1502e3d1bd",
+        "label": {
+          "eng": [
+            "She Is a Diamond"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/ffdddaba-9e81-4edd-813e-9b1502e3d1bd/annotation_page/81a02c74-77f4-4121-91fa-4a7c25646f0d",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/f752ce6a-82f9-4ed1-8ea5-3945aef9e054/file/9bab274f-6b64-41c0-84e3-8f06bf897b26/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 150.84,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "She Is a Diamond"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/ffdddaba-9e81-4edd-813e-9b1502e3d1bd"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/f752ce6a-82f9-4ed1-8ea5-3945aef9e054/file/9d430af5-da42-4e18-9dfc-d15d0f07809a",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 150.84
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/771e3200-17c3-4de5-a357-332f122c8976",
+        "label": {
+          "eng": [
+            "Dice are Rolling"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/771e3200-17c3-4de5-a357-332f122c8976/annotation_page/b13e98a7-375e-4acd-8f53-7c8993da57cc",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/8307df72-8f15-4578-8ca7-3c785e72114b/file/b1bb2e38-ec4c-4125-a74e-282c8ce0272f/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 348.227,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Dice are Rolling"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/771e3200-17c3-4de5-a357-332f122c8976"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/8307df72-8f15-4578-8ca7-3c785e72114b/file/f4ee5cca-484d-428d-a5a1-af83ee728667",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 348.227
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/a369ddc7-bd52-4d48-9bc4-34a2c23e0077",
+        "label": {
+          "eng": [
+            "Eva's Final Broadcast"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/a369ddc7-bd52-4d48-9bc4-34a2c23e0077/annotation_page/893e73fc-8167-45b2-bdea-7ad6d0947fb6",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/02e4bb66-0ad0-4814-b364-f1736db3ef88/file/f916b570-cf5d-484e-a032-50a7dfbd58b8/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 145.187,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Eva's Final Broadcast"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/a369ddc7-bd52-4d48-9bc4-34a2c23e0077"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/02e4bb66-0ad0-4814-b364-f1736db3ef88/file/e55118eb-b8fe-4377-9e9f-bbad7ea915de",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 145.187
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/01f08153-88cf-4a88-9a71-fa8079db05fb",
+        "label": {
+          "eng": [
+            "Montage"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/01f08153-88cf-4a88-9a71-fa8079db05fb/annotation_page/12b1c6c7-a7e2-42db-9ba9-8ef3ee5890d3",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/96f67e43-f5fe-4e97-a727-5261bbe4f173/file/f061f504-b8c0-4cc9-a6a3-24af51805429/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 135.12,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Montage"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/01f08153-88cf-4a88-9a71-fa8079db05fb"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/96f67e43-f5fe-4e97-a727-5261bbe4f173/file/9a01bbc9-9e74-4695-aa84-1dd7b673c3a0",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 135.12
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/1ebf8782-60e7-47a0-9d21-aeb4087777de",
+        "label": {
+          "eng": [
+            "Lament"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/1ebf8782-60e7-47a0-9d21-aeb4087777de/annotation_page/0e31cf55-d5ed-4c05-839a-a2fe394c1c40",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/b293ac07-88de-4879-a627-59f005d31d6d/file/2cbf3136-7515-459a-aed5-75bb398c55f8/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 205.307,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "Lament"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/1ebf8782-60e7-47a0-9d21-aeb4087777de"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/b293ac07-88de-4879-a627-59f005d31d6d/file/04ae8806-2ae6-4210-96ee-7981191ab58a",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 205.307
+      },
+      {
+        "type": "Canvas",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/84d3d56d-49c2-434d-8c96-8222b359b088",
+        "label": {
+          "eng": [
+            "No Llores Por Mi Argentina"
+          ]
+        },
+        "items": [
+          {
+            "type": "AnnotationPage",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/84d3d56d-49c2-434d-8c96-8222b359b088/annotation_page/cfaa84ed-593e-4476-a352-9ea44add3e62",
+            "items": [
+              {
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://figgy.princeton.edu/downloads/99ea3284-ce1f-4c98-bf94-5ebb1394a478/file/a76bb7b8-6038-4688-870d-ed34cf0d6acd/stream.m3u8?auth_token=9818712ce51a837629fd2a8bb70c0a77",
+                  "type": "Audio",
+                  "duration": 309.467,
+                  "format": "application/vnd.apple.mpegurl",
+                  "label": {
+                    "eng": [
+                      "No Llores Por Mi Argentina"
+                    ]
+                  }
+                },
+                "target": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/84d3d56d-49c2-434d-8c96-8222b359b088"
+              }
+            ]
+          }
+        ],
+        "viewingHint": "single",
+        "rendering": [
+          {
+            "id": "https://figgy.princeton.edu/downloads/99ea3284-ce1f-4c98-bf94-5ebb1394a478/file/31388361-9268-4f4b-88bf-b40dc3f5d1cf",
+            "format": "audio/x-wav",
+            "type": "Dataset",
+            "label": {
+              "en": [
+                "Download the original file"
+              ]
+            }
+          }
+        ],
+        "duration": 309.467
+      }
+    ],
+    "service": [
+      {
+        "@context": "http://universalviewer.io/context.json",
+        "profile": "http://universalviewer.io/ui-extensions-profile",
+        "disableUI": [
+          "mediaDownload"
+        ]
+      }
+    ],
+    "structures": [
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r96579c67-1f7c-4389-a1fa-4bda0b7b1a60",
+        "label": {
+          "eng": [
+            "Requiem for Evita"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/9f6ddff9-2f43-4ba4-90e3-d35710bf033b#t=0,189.44",
+            "label": [
+              "Requiem for Evita"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r56cdd153-7d17-438a-9846-bb8b2aacf92b",
+        "label": {
+          "eng": [
+            "Oh, What a Circus"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/9f4ef6ab-16d5-4d9d-b583-dcac50b0594d#t=0,414.987",
+            "label": [
+              "Oh, What a Circus"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/re61457d3-3f25-4ebc-af2f-78f668a38c4c",
+        "label": {
+          "eng": [
+            "On This Night of a Thousand Stars"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/07a80772-af9c-470b-aedf-43890a356e77#t=0,311.573",
+            "label": [
+              "On This Night of a Thousand Stars"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/rf129a7ad-5f04-4727-9a7e-c3cc92303ee9",
+        "label": {
+          "eng": [
+            "Eva, Beware of the City"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/4b75b245-740d-436d-bd5c-d012f9804d81#t=0,120.4",
+            "label": [
+              "Eva, Beware of the City"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r7f8331b6-c837-45d3-9274-eeb2ceb10f09",
+        "label": {
+          "eng": [
+            "Buenos Aires"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/97d9d773-2f44-4fa8-be8d-f577ec30f141#t=0,291.4",
+            "label": [
+              "Buenos Aires"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r0f477d1d-fe2e-40f6-8ea7-fcc587a73588",
+        "label": {
+          "eng": [
+            "Goodnight and Thank You"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/92c5ac25-4eb7-42e9-9085-f9eedf25e401#t=0,198.68",
+            "label": [
+              "Goodnight and Thank You"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r383cf620-b79c-4132-ac79-c56138ba213b",
+        "label": {
+          "eng": [
+            "The Art of the Possible"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/8d17843c-06d2-42a6-bcc0-9e5b54b9e949#t=0,194.907",
+            "label": [
+              "The Art of the Possible"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/rfa20c4d8-0587-433b-9081-db577f74dc98",
+        "label": {
+          "eng": [
+            "Charity Concert"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/327016de-14fe-4878-ab41-9a8fc53a89e7#t=0,152.16",
+            "label": [
+              "Charity Concert"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/rae3e4b2a-9e1f-4099-b220-42fe97d0570e",
+        "label": {
+          "eng": [
+            "I'd Be Surprisingly Good For You"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/a3153d38-4b99-4abe-bce8-bbac4283819d#t=0,264.96",
+            "label": [
+              "I'd Be Surprisingly Good For You"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r542cb2c6-abd9-4a82-ba26-e807eea3007c",
+        "label": {
+          "eng": [
+            "Another Suitcase in Another Hall"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/45305661-2ab6-4597-aa6e-6c49facdb10f#t=0,223.613",
+            "label": [
+              "Another Suitcase in Another Hall"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/rf600e504-5b94-44a7-8de2-f729dd3df091",
+        "label": {
+          "eng": [
+            "Perón's Latest Flame"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/c901a5a0-1190-43bc-9058-21494bd0e69e#t=0,282.533",
+            "label": [
+              "Perón's Latest Flame"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r1edb4dc0-5c6f-4938-8320-1abd556356de",
+        "label": {
+          "eng": [
+            "A New Argentina"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/45dfb9f5-2421-4b28-a021-40593bc896b8#t=0,405.227",
+            "label": [
+              "A New Argentina"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/rb97b5734-fad8-42b3-9da5-cdf6725e0115",
+        "label": {
+          "eng": [
+            "On the Balcony of the Casa Rosada"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/b5456375-84fd-4bc4-8f84-ef4965554c44#t=0,122.613",
+            "label": [
+              "On the Balcony of the Casa Rosada"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r1de5addc-ba59-49de-afaf-7cdf71669fa6",
+        "label": {
+          "eng": [
+            "Don't Cry for Me Argentina"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/38e18d8c-d206-4ff7-84e0-ca9dd6da493b#t=0,414.133",
+            "label": [
+              "Don't Cry for Me Argentina"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/rdc50f205-58ee-4b57-99bb-b09c44816be7",
+        "label": {
+          "eng": [
+            "High Flying, Adored"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/270bd187-0c03-4ff8-a98a-ad0f22216208#t=0,213.907",
+            "label": [
+              "High Flying, Adored"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r5c48d1cb-db71-47f7-9270-46f56ac57aaf",
+        "label": {
+          "eng": [
+            "Rainbow High"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/056281ac-2ce6-48f4-8236-a0e5f60e49d1#t=0,156.987",
+            "label": [
+              "Rainbow High"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r0c6bd848-6ea5-4660-8339-7037e872c71f",
+        "label": {
+          "eng": [
+            "Rainbow Tour"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/51f3062e-fdd5-4c2b-acc2-953e5af49c44#t=0,295.68",
+            "label": [
+              "Rainbow Tour"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/reb155f75-44ea-455c-8edb-437442328619",
+        "label": {
+          "eng": [
+            "The Chorus Girl Hasn't Learned the Lines (You'd Like to Hear)"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/b5e676d0-46b1-4d67-9d91-43a2319bfd47#t=0,138.52",
+            "label": [
+              "The Chorus Girl Hasn't Learned the Lines (You'd Like to Hear)"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r80c81c7f-368f-471c-98a2-9f44222af993",
+        "label": {
+          "eng": [
+            "And the Money Kept Rolling In (and Out)"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/cb536e2c-3155-40d5-ae9a-adcb1d19cd33#t=0,266.68",
+            "label": [
+              "And the Money Kept Rolling In (and Out)"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/ra8d541c0-61c7-4afe-ab26-c26cd2814b88",
+        "label": {
+          "eng": [
+            "Santa Evita"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/b0d6b9b6-80b5-426c-b0c9-2a8df3456134#t=0,143.68",
+            "label": [
+              "Santa Evita"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/rbe94b608-7a2d-4b2c-bbf9-926f08cb3623",
+        "label": {
+          "eng": [
+            "Waltz for Eva and Che"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/fedde911-87f2-4a36-8100-e385a7e63f51#t=0,227.453",
+            "label": [
+              "Waltz for Eva and Che"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/ra16d7b62-f46f-4fcf-9bdb-201ca04604cb",
+        "label": {
+          "eng": [
+            "You Must Love Me"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/41a9d660-4086-414e-9318-bea8b4fda4d5#t=0,134.853",
+            "label": [
+              "You Must Love Me"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r8267cddf-2a13-4e27-a7e5-b46e8fccbab6",
+        "label": {
+          "eng": [
+            "She Is a Diamond"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/ffdddaba-9e81-4edd-813e-9b1502e3d1bd#t=0,150.84",
+            "label": [
+              "She Is a Diamond"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r001c7758-8eef-4b05-a695-e2b434b9e250",
+        "label": {
+          "eng": [
+            "Dice are Rolling"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/771e3200-17c3-4de5-a357-332f122c8976#t=0,348.227",
+            "label": [
+              "Dice are Rolling"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r86b96b37-c229-4011-a97e-913aba1c0de6",
+        "label": {
+          "eng": [
+            "Eva's Final Broadcast"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/a369ddc7-bd52-4d48-9bc4-34a2c23e0077#t=0,145.187",
+            "label": [
+              "Eva's Final Broadcast"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r1cacf23f-6cf1-4b48-a307-4bff657f448e",
+        "label": {
+          "eng": [
+            "Montage"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/01f08153-88cf-4a88-9a71-fa8079db05fb#t=0,135.12",
+            "label": [
+              "Montage"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/r70a1d0cb-9e51-4b3f-b429-115daa5a3823",
+        "label": {
+          "eng": [
+            "Lament"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/1ebf8782-60e7-47a0-9d21-aeb4087777de#t=0,205.307",
+            "label": [
+              "Lament"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Range",
+        "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/range/rcf7cb234-0120-497a-ac65-bd4d8a17ed10",
+        "label": {
+          "eng": [
+            "No Llores Por Mi Argentina"
+          ]
+        },
+        "behavior": "top",
+        "items": [
+          {
+            "type": "Canvas",
+            "id": "https://figgy.princeton.edu/concern/playlists/e5893094-baa4-4ae9-956e-7e5861b610ba/manifest/canvas/84d3d56d-49c2-434d-8c96-8222b359b088#t=0,309.467",
+            "label": [
+              "No Llores Por Mi Argentina"
+            ]
+          }
+        ]
+      }
+    ],
+    "seeAlso": [
+      {
+        "id": "https://figgy.princeton.edu/catalog/e5893094-baa4-4ae9-956e-7e5861b610ba.jsonld",
+        "type": "Dataset",
+        "format": "application/ld+json"
+      }
+    ],
+    "logo": [
+      {
+        "id": "https://figgy.princeton.edu/pul_logo_icon.png",
+        "type": "Image",
+        "format": "image/png",
+        "height": 100,
+        "width": 120
+      }
+    ]
+  }

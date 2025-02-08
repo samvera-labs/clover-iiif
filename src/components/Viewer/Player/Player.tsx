@@ -26,10 +26,11 @@ const Player: React.FC<PlayerProps> = ({
 }) => {
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [poster, setPoster] = React.useState<string | undefined>();
-  const playerRef = React.useRef<HTMLVideoElement>(null);
+  // const playerRef = React.useRef<HTMLVideoElement>(null);
   const isAudio = painting?.type === "Sound";
 
   const viewerState: ViewerContextStore = useViewerState();
+  const { playerRef } = viewerState;
   const { activeCanvas, configOptions, vault } = viewerState;
 
   /**
@@ -41,12 +42,14 @@ const Player: React.FC<PlayerProps> = ({
      * Check that IIIF content resource ID exists and
      * we have a reffed <video> for attaching HLS
      */
-    if (!painting.id || !playerRef.current) return;
+    // if (!painting.id || !playerRef.current) return;
+    if (!painting.id) return;
 
     if (playerRef?.current) {
       const video: HTMLVideoElement = playerRef.current;
       video.src = painting.id as string;
       video.load();
+      console.log(playerRef)
     }
 
     /**
@@ -109,7 +112,7 @@ const Player: React.FC<PlayerProps> = ({
         video.currentTime = 0;
       }
     };
-  }, [configOptions.withCredentials, painting.id]);
+  }, [configOptions.withCredentials, playerRef, painting.id]);
 
   useEffect(() => {
     const canvas: CanvasNormalized = vault.get(activeCanvas);

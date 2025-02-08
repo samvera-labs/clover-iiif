@@ -50,7 +50,7 @@
     "build:docs": "next build",
     "clean": "rimraf dist",
     "coverage": "vitest --ui --coverage",
-    "dev": "next dev",
+    "dev": "next dev -p 4001",
     "dev:vite": "vite",
     "lint": "prettier . --check && next lint",
     "prepublishOnly": "npm run build",

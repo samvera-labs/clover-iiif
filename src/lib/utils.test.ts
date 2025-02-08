@@ -40,6 +40,7 @@ test("Test result of deepMerge()", () => {
     informationPanel: {
       open: true,
       renderAbout: true,
+      renderStructure: true,
       renderToggle: true,
     },
   };
@@ -59,6 +60,7 @@ test("Test result of deepMerge()", () => {
     informationPanel: {
       open: true,
       renderAbout: true,
+      renderStructure: true,
       renderToggle: false,
     },
   });

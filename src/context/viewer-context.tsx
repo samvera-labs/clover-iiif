@@ -33,6 +33,7 @@ export type ViewerConfigOptions = {
   informationPanel?: {
     open?: boolean;
     renderAbout?: boolean;
+    renderStructure?: boolean;
     renderSupplementing?: boolean;
     renderToggle?: boolean;
     renderAnnotation?: boolean;
@@ -110,6 +111,7 @@ const defaultConfigOptions = {
     },
     open: true,
     renderAbout: true,
+    renderStructure: true,
     renderSupplementing: true,
     renderToggle: true,
     renderAnnotation: true,
@@ -160,6 +162,7 @@ export type PluginConfig = {
 export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
+  playerRef?: React.RefObject<HTMLVideoElement>;
   OSDImageLoaded?: boolean;
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
@@ -225,6 +228,7 @@ const expandedAutoScrollOptions = expandAutoScrollOptions(
 export const defaultState: ViewerContextStore = {
   activeCanvas: "",
   activeManifest: "",
+  playerRef: React.createRef<HTMLVideoElement>(),
   OSDImageLoaded: false,
   collection: {},
   configOptions: defaultConfigOptions,
