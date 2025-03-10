@@ -66,6 +66,19 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
   const renderContentSearch = informationPanel?.renderContentSearch;
 
+  /**
+   * List of tabs to render in the information panel
+   */
+  const tabList = [
+    ...(renderAbout ? ["manifest-about"] : []),
+    ...(renderContentSearch && searchServiceUrl
+      ? ["manifest-content-search"]
+      : []),
+    ...(renderAnnotation && annotationResources
+      ? annotationResources.map((resource) => resource.id)
+      : []),
+  ];
+
   const { pluginsWithInfoPanel } = setupPlugins(plugins);
 
   function renderPluginInformationPanel(plugin: PluginConfig, i: number) {
@@ -91,41 +104,29 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   }
 
   useEffect(() => {
-    if (activeResource) {
-      return;
-    } else if (informationPanel?.defaultTab) {
-      const validActiveResource = ["manifest-about", "manifest-content-search"];
-      if (canvas.annotations.length > 0) {
-        canvas.annotations.forEach((annotation) =>
-          validActiveResource.push(annotation.id),
-        );
+    /**
+     * If a default tab is set, set the active tab to that value
+     */
+    if (informationPanel?.defaultTab) {
+      switch (informationPanel?.defaultTab) {
+        case "manifest-annotations":
+          if (annotationResources && annotationResources?.length > 0)
+            setActiveResource(annotationResources[0].id);
+          break;
+        case "manifest-content-search":
+          setActiveResource("manifest-content-search");
+          break;
+        default:
+          setActiveResource("manifest-about");
+          break;
       }
-      if (validActiveResource.includes(informationPanel?.defaultTab)) {
-        setActiveResource(informationPanel.defaultTab);
-        // handle cases when user sets defaultTab to an invalid value
-      } else {
-        setActiveResource("manifest-about");
-      }
-    } else if (renderAbout) {
-      setActiveResource("manifest-about");
-    } else if (renderContentSearch) {
-      setActiveResource("manifest-content-search");
-    } else if (annotationResources && annotationResources?.length > 0) {
-      setActiveResource(annotationResources[0].id);
-    } else if (plugins.length > 0) {
-      setActiveResource(plugins[0].id);
+    } else {
+      /**
+       * If no default tab is set, default to the first tab in the list
+       */
+      if (tabList && tabList.length > 0) setActiveResource(tabList[0]);
     }
-  }, [
-    informationPanel?.defaultTab,
-    activeCanvas,
-    activeResource,
-    renderAbout,
-    renderContentSearch,
-    annotationResources,
-    contentSearchResource,
-    canvas?.annotations,
-    plugins,
-  ]);
+  }, []);
 
   function handleScroll() {
     if (!isAutoScrolling) {
