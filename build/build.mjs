@@ -33,6 +33,13 @@ const buildOptions = {
       fileName: "index",
     },
   },
+  share: {
+    lib: {
+      name: "CloverIIIFShare",
+      entry: "./src/components/Share/index.tsx",
+      fileName: "index",
+    },
+  },
   scroll: {
     lib: {
       name: "CloverIIIFScroll",

@@ -1,0 +1,47 @@
+---
+title: Share
+---
+
+import IIIFBadge from "docs/components/IIIFBadge";
+import CloverShare from "docs/components/DynamicImports/Share";
+
+# Share
+
+<IIIFBadge
+  href="https://iiif.io/api/content-state/1.0"
+  text={["Content State"]}
+/>
+
+A UI component working in conjunction with other Clover components that allows users to leverage the [Content State API](https://iiif.io/api/content-state/1.0) to allow users to share a link to a specific view of a resource.
+
+<CloverShare />
+
+## Usage
+
+```jsx
+import Share from "@samvera/clover-iiif/share";
+import Viewer from "@samvera/clover-iiif/viewer";
+
+const options = {
+  showTitle: false,
+  informationPanel: {
+    open: false,
+  },
+};
+
+const iiifContent =
+  "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif";
+
+const url = "https://example.org/item/foo";
+
+return (
+  <div>
+    <Viewer
+      canvasIdCallback={handleCanvasIdCallback}
+      iiifContent={iiifContent}
+      options={options}
+    />
+    <Share />
+  </div>
+);
+```

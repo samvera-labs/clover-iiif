@@ -22,9 +22,12 @@ import {
   getActiveManifest,
 } from "src/lib/iiif";
 import { ContentSearchQuery } from "src/types/annotations";
+import { ContentState } from "@iiif/helpers";
+import { v4 as uuidv4 } from "uuid";
 
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
+  contentStateCallback?: (arg0: ContentState) => void;
   customDisplays?: Array<CustomDisplay>;
   plugins?: Array<PluginConfig>;
   customTheme?: any;
@@ -37,6 +40,7 @@ export interface CloverViewerProps {
 
 const CloverViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback = () => {},
+  contentStateCallback = () => {},
   customDisplays = [],
   plugins = [],
   customTheme,
@@ -80,6 +84,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
       <RenderViewer
         iiifContent={iiifResource}
         canvasIdCallback={canvasIdCallback}
+        contentStateCallback={contentStateCallback}
         customTheme={customTheme}
         options={options}
         iiifContentSearchQuery={iiifContentSearchQuery}
@@ -90,6 +95,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
 
 const RenderViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback,
+  contentStateCallback,
   customTheme,
   iiifContent,
   options,
@@ -121,6 +127,36 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   useEffect(() => {
     if (canvasIdCallback) canvasIdCallback(activeCanvas);
   }, [activeCanvas, canvasIdCallback]);
+
+  /**
+   * On change, pass the activeCanvas up to the wrapping `<App/>`
+   * component to be handed off to a consuming application.
+   */
+  useEffect(() => {
+    const contentStateId = new URL(window.location.href);
+    contentStateId.searchParams.delete("iiif-content");
+    contentStateId.searchParams.set("motivation", "contentState");
+    contentStateId.searchParams.set("id", uuidv4());
+
+    if (contentStateCallback)
+      contentStateCallback({
+        "@context": "http://iiif.io/api/presentation/3/context.json",
+        id: contentStateId.toString(),
+        // @ts-ignore
+        type: "Annotation",
+        motivation: ["contentState"],
+        target: {
+          id: activeCanvas,
+          type: "Canvas",
+          partOf: [
+            {
+              id: activeManifest,
+              type: "Manifest",
+            },
+          ],
+        },
+      });
+  }, [activeCanvas]);
 
   useEffect(() => {
     if (activeManifest)

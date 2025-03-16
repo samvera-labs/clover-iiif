@@ -28,6 +28,11 @@
       "require": "./dist/scroll/index.umd.js",
       "types": "./dist/scroll/index.d.ts"
     },
+    "./share": {
+      "import": "./dist/share/index.mjs",
+      "require": "./dist/share/index.umd.js",
+      "types": "./dist/share/index.d.ts"
+    },
     "./slider": {
       "import": "./dist/slider/index.mjs",
       "require": "./dist/slider/index.umd.js",

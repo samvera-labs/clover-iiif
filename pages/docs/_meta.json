@@ -10,6 +10,7 @@
     "title": "Scroll",
     "type": "doc"
   },
+  "share": "Share",
   "slider": "Slider",
   "viewer": "Viewer",
   "--primitives": {
