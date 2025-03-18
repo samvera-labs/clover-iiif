@@ -1,5 +1,5 @@
 import { ViewerProvider, defaultState } from "src/context/viewer-context";
-import { render, screen } from "@testing-library/react";
+import { render, screen, act, fireEvent } from "@testing-library/react";
 
 import ImageViewer from "src/components/Image";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
@@ -9,9 +9,11 @@ import Player from "src/components/Viewer/Player/Player";
 import React from "react";
 import { Vault } from "@iiif/helpers/vault";
 import { canvasWithPDFs } from "src/fixtures/viewer/custom-display/manifest-complex";
+import { manifestMixedChoices } from "src/fixtures/viewer/choices/manifest-mixed-choices";
 import customDisplayManifest from "public/manifest/custom-displays/pdf-no-placeholder.json";
 import { manifestImage } from "src/fixtures/viewer/manifest-image";
 import { manifestVideo } from "src/fixtures/viewer/manifest-video";
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
 
 const painting: Array<LabeledIIIFExternalWebResource> = [
   {
@@ -62,6 +64,23 @@ vi.mock("src/components/Viewer/Painting/Placeholder");
 vi.mocked(Placeholder).mockReturnValue(
   <div data-testid="painting-placeholder">Placeholder</div>,
 );
+
+vi.mock("src/components/UI/Select", () => ({
+  Select: ({ children, value, onValueChange }) => (
+    <div data-testid="choice-select">
+      <select
+        data-testid="choice-select-dropdown"
+        value={value}
+        onChange={(e) => onValueChange(e.target.value)}
+      >
+        {children}
+      </select>
+    </div>
+  ),
+  SelectOption: ({ value, label }) => (
+    <option value={value}>{label?.en?.[0] || value}</option>
+  ),
+}));
 
 describe("Painting component", () => {
   const vault = new Vault();
@@ -161,6 +180,99 @@ describe("Painting component", () => {
   it.skip("renders the Choice select dropdown", () => {
     render(<Painting {...defaultProps} />);
     expect(screen.queryByTestId("choice-select")).toBeNull();
+  });
+
+  it("handles annotation index change and resets when canvas changes", async () => {
+    await vault.loadManifest("", manifestMixedChoices);
+
+    const playerSpy = vi.fn();
+
+    // Override the mocked components to capture what props they receive
+    vi.mocked(Player).mockImplementation((props) => {
+      playerSpy(props);
+      return <div data-testid="mock-player">Player</div>;
+    });
+
+    const firstCanvas = manifestMixedChoices.items[0];
+    const firstPainting = //@ts-ignore
+      firstCanvas.items[0].items[0].body.items as IIIFExternalWebResource[];
+    const props = {
+      ...defaultProps,
+      isMedia: true,
+      painting: firstPainting,
+      activeCanvas: firstCanvas.id,
+    };
+
+    const { rerender } = render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          vault,
+        }}
+      >
+        <Painting {...props} />
+      </ViewerProvider>,
+    );
+
+    expect(playerSpy).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        painting: expect.objectContaining({
+          id: firstPainting[0].id,
+        }),
+      }),
+    );
+
+    // update the selected value
+    const thirdChoice = firstPainting[2].id;
+    await act(async () => {
+      fireEvent.change(screen.getByTestId("choice-select-dropdown"), {
+        target: {
+          value: thirdChoice,
+        },
+      });
+    });
+
+    expect(playerSpy).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({
+        painting: expect.objectContaining({
+          id: thirdChoice,
+        }),
+      }),
+    );
+
+    // render Painting with a new painting
+    const secondCanvas = manifestMixedChoices.items[1];
+    const secondPainting = secondCanvas.items[0].items[0]
+      .body as IIIFExternalWebResource;
+
+    const newProps = {
+      ...defaultProps,
+      painting: [secondPainting],
+      isMedia: true,
+      activeCanvas: secondCanvas.id,
+    };
+
+    rerender(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          vault,
+        }}
+      >
+        <Painting {...newProps} />
+      </ViewerProvider>,
+    );
+
+    expect(playerSpy).toHaveBeenNthCalledWith(
+      4,
+      expect.objectContaining({
+        painting: expect.objectContaining({
+          id: secondPainting.id,
+        }),
+      }),
+    );
   });
 });
 
