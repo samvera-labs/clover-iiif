@@ -97,6 +97,10 @@ const Painting: React.FC<PaintingProps> = ({
     }
   }, [normalizedCanvas, annotations, openSeadragonViewer, configOptions]);
 
+  useEffect(() => {
+    setAnnotationIndex(0);
+  }, [activeCanvas]);
+
   /** Update OpenSeadragon Viewer in viewer context */
   const handleOpenSeadragonCallback = (viewer) => {
     // @ts-ignore
