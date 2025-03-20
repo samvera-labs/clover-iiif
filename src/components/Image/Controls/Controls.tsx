@@ -7,7 +7,7 @@ import {
 import Button from "src/components/Image/Controls/Button";
 import { CanvasNormalized } from "@iiif/presentation-3";
 import { Options } from "openseadragon";
-import React from "react";
+import React, { useEffect } from "react";
 import { Wrapper } from "src/components/Image/Controls/Controls.styled";
 
 const ZoomIn = () => {
@@ -74,7 +74,7 @@ const Controls = ({
   config: Options;
 }) => {
   const viewerState: ViewerContextStore = useViewerState();
-  const { activeCanvas, plugins, vault } = viewerState;
+  const { activeCanvas, plugins, vault, openSeadragonViewer } = viewerState;
 
   const canvas = vault.get({
     id: activeCanvas,
@@ -98,6 +98,16 @@ const Controls = ({
         );
       });
   }
+
+  useEffect(() => {
+    if (!openSeadragonViewer) return;
+
+    const initialRotation = openSeadragonViewer.viewport.getRotation();
+
+    openSeadragonViewer.addHandler("home", () => {
+      openSeadragonViewer.viewport.setRotation(initialRotation);
+    });
+  }, [openSeadragonViewer]);
 
   return (
     <Wrapper
