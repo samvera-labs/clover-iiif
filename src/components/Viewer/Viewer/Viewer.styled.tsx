@@ -27,6 +27,7 @@ const Main = styled("div", {
 
   "@sm": {
     width: "100%",
+    height: "100%"
   },
 });
 
