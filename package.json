@@ -1,6 +1,6 @@
 {
   "name": "@samvera/clover-iiif",
-  "version": "2.12.3",
+  "version": "2.12.4",
   "description": "Extensible IIIF front-end toolkit and Manifest viewer. Accessible. Composable. Open Source.",
   "files": [
     "dist"
