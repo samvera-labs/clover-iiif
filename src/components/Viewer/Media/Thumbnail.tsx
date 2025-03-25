@@ -4,17 +4,19 @@ import {
 } from "@iiif/presentation-3";
 import {
   Duration,
+  FigureImage,
   Item,
+  Outline,
   Spacer,
   Type,
 } from "src/components/Viewer/Media/Thumbnail.styled";
 import { Icon, Tag } from "src/components/UI";
 
 import { Label } from "src/components/Primitives";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import React from "react";
 import { convertTime } from "src/lib/utils";
 import { getLabel } from "src/hooks/use-iiif";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 /**
  * Determine appropriate icon by resource type
@@ -69,7 +71,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
       value={canvas.id}
     >
       <figure>
-        <div>
+        <FigureImage>
           {thumbnail?.id && (
             <LazyLoadImage
               src={thumbnail.id}
@@ -77,7 +79,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
               loading="lazy"
             />
           )}
-
+          <Outline />
           <Type>
             <Tag isIcon data-testid="thumbnail-tag">
               <Spacer />
@@ -89,7 +91,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
               )}
             </Tag>
           </Type>
-        </div>
+        </FigureImage>
         <figcaption data-testid="fig-caption">
           {canvas.label ? (
             <Label label={canvas.label} />

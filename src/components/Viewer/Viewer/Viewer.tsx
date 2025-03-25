@@ -6,6 +6,7 @@ import {
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
+  Reference,
 } from "@iiif/presentation-3";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -30,6 +31,7 @@ import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
 import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
+import { getVisibleCanvasesFromCanvasId } from "@iiif/helpers";
 import { media } from "src/styles/stitches.config";
 import { useBodyLocked } from "src/hooks/useBodyLocked";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
@@ -74,10 +76,12 @@ const Viewer: React.FC<ViewerProps> = ({
     useState<AnnotationResources>([]);
   const [contentSearchResource, setContentSearchResource] =
     useState<AnnotationResource>();
-
   const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
   const isSmallViewport = useMediaQuery(media.sm);
   const [searchServiceUrl, setSearchServiceUrl] = useState();
+  const [visibleCanvases, setVisibleCanvases] = useState<Reference<"Canvas">[]>(
+    [],
+  );
 
   const setInformationOpen = useCallback(
     (open: boolean) => {
@@ -119,6 +123,16 @@ const Viewer: React.FC<ViewerProps> = ({
       );
       setPainting(painting);
     }
+
+    const visibleCanvases = getVisibleCanvasesFromCanvasId(
+      vault,
+      // @ts-ignore
+      manifest,
+      activeCanvas,
+    );
+
+    if (visibleCanvases) setVisibleCanvases(visibleCanvases);
+
     getAnnotationResources(vault, activeCanvas).then((resources) => {
       if (resources.length > 0) {
         viewerDispatch({
@@ -129,7 +143,13 @@ const Viewer: React.FC<ViewerProps> = ({
       setAnnotationResources(resources);
       setIsInformationPanel(resources.length !== 0);
     });
-  }, [activeCanvas, annotationResources.length, vault, viewerDispatch]);
+  }, [
+    activeCanvas,
+    manifest,
+    annotationResources.length,
+    vault,
+    viewerDispatch,
+  ]);
 
   const hasSearchService = manifest.service.some(
     (service: any) => service.type === "SearchService2",
@@ -211,6 +231,7 @@ const Viewer: React.FC<ViewerProps> = ({
             contentSearchResource={contentSearchResource}
             items={manifest.items}
             isAudioVideo={isAudioVideo}
+            visibleCanvases={visibleCanvases}
           />
         </Collapsible.Root>
       </Wrapper>
