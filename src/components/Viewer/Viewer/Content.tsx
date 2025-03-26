@@ -75,6 +75,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
           annotationResources={annotationResources}
           isMedia={isAudioVideo}
           painting={painting}
+          visibleCanvases={visibleCanvases}
         />
 
         {isAside && (

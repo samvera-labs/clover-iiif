@@ -112,16 +112,17 @@ const Viewer: React.FC<ViewerProps> = ({
   }, [isInformationOpen, isSmallViewport, setIsBodyLocked]);
 
   useEffect(() => {
-    const painting = getPaintingResource(vault, activeCanvas);
+    const canvasPainting = getPaintingResource(vault, activeCanvas);
 
-    if (painting) {
+    if (canvasPainting) {
       setIsAudioVideo(
-        ["Sound", "Video"].indexOf(painting[0].type as ExternalResourceTypes) >
-          -1
+        ["Sound", "Video"].indexOf(
+          canvasPainting[0].type as ExternalResourceTypes,
+        ) > -1
           ? true
           : false,
       );
-      setPainting(painting);
+      setPainting(canvasPainting);
     }
 
     const visibleCanvases = getVisibleCanvasesFromCanvasId(
@@ -131,7 +132,7 @@ const Viewer: React.FC<ViewerProps> = ({
       activeCanvas,
     );
 
-    if (visibleCanvases) setVisibleCanvases(visibleCanvases);
+    setVisibleCanvases(visibleCanvases);
 
     getAnnotationResources(vault, activeCanvas).then((resources) => {
       if (resources.length > 0) {

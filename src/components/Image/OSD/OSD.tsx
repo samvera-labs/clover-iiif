@@ -15,7 +15,7 @@ interface OSDProps {
   _cloverViewerHasPlaceholder: boolean;
   ariaLabel?: string | null;
   config: Options;
-  uri: string | undefined;
+  uri: string[];
   imageType: OpenSeadragonImageTypes;
   openSeadragonCallback?: (viewer: OpenSeadragon.Viewer) => void;
 }
@@ -28,7 +28,8 @@ const OSD: React.FC<OSDProps> = ({
   imageType,
   openSeadragonCallback,
 }) => {
-  const [osdUri, setOsdUri] = useState<string>();
+  const [osdDrawn, setOsdDrawn] = useState(false);
+  const [osdUri, setOsdUri] = useState<string[]>([]);
   const [openSeadragon, setOpenSeadragon] = useState<OpenSeadragon.Viewer>();
   const dispatch: any = useViewerDispatch();
 
@@ -50,32 +51,37 @@ const OSD: React.FC<OSDProps> = ({
   }, [openSeadragon, openSeadragonCallback]);
 
   useEffect(() => {
-    if (openSeadragon && uri !== osdUri) {
+    if (openSeadragon && JSON.stringify(uri) !== JSON.stringify(osdUri)) {
       openSeadragon?.forceRedraw();
       setOsdUri(uri);
     }
   }, [openSeadragon, osdUri, uri]);
 
   useEffect(() => {
-    if (osdUri && openSeadragon) {
+    if (!osdUri.length || !openSeadragon) return;
+
+    openSeadragon.close(); // remove previous images
+
+    const load = async () => {
       switch (imageType) {
         case "simpleImage":
-          openSeadragon?.addSimpleImage({
-            url: osdUri,
+          osdUri.forEach((url) => {
+            openSeadragon.addSimpleImage({ url });
           });
           break;
-        case "tiledImage":
-          getInfoResponse(osdUri).then((tileSource) => {
-            try {
-              if (!tileSource)
-                throw new Error(`No tile source found for ${osdUri}`);
 
-              openSeadragon?.addTiledImage({
+        case "tiledImage":
+          for (let i = 0; i < osdUri.length; i++) {
+            try {
+              const tileSource = await getInfoResponse(osdUri[i]);
+              if (!tileSource)
+                throw new Error(`No tile source for ${osdUri[i]}`);
+
+              openSeadragon.addTiledImage({
                 tileSource,
+                x: i * 1,
+                y: 0,
                 success: () => {
-                  // NOTE: need to check dispatch is a function, because when
-                  // using dev server, dispatch sometimes is set to
-                  // ViewerContext.defaultState object instead of a function
                   if (typeof dispatch === "function") {
                     dispatch({
                       type: "updateOSDImageLoaded",
@@ -84,20 +90,31 @@ const OSD: React.FC<OSDProps> = ({
                   }
                 },
               });
+
+              console.log("Tile source loaded", tileSource);
             } catch (e) {
               console.error(e);
             }
-          });
+          }
           break;
+
         default:
-          openSeadragon?.close();
-          console.warn(
-            `Unable to render ${osdUri} in OpenSeadragon as type: "${imageType}"`,
-          );
+          console.warn(`Unsupported imageType: "${imageType}"`);
           break;
       }
+    };
+
+    load()
+      .then(() => setOsdDrawn(true))
+      .catch((error) => console.error("Error drawing tiles", error));
+  }, [osdUri, imageType, openSeadragon]);
+
+  useEffect(() => {
+    if (osdDrawn) {
+      openSeadragon?.viewport.fitHorizontally(true);
+      openSeadragon?.viewport.fitVertically(true);
     }
-  }, [imageType, osdUri]);
+  }, [osdDrawn]);
 
   return (
     <Wrapper

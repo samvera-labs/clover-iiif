@@ -1,7 +1,15 @@
-import { AnnotationNormalized, CanvasNormalized } from "@iiif/presentation-3";
+import {
+  AnnotationNormalized,
+  CanvasNormalized,
+  Reference,
+} from "@iiif/presentation-3";
 import { PaintingCanvas, PaintingStyled } from "./Painting.styled";
 import React, { useEffect } from "react";
 import { Select, SelectOption } from "src/components/UI/Select";
+import {
+  addOverlaysToViewer,
+  removeOverlaysFromViewer,
+} from "src/lib/openseadragon-helpers";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
 import { AnnotationResources } from "src/types/annotations";
@@ -10,10 +18,7 @@ import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import PaintingPlaceholder from "./Placeholder";
 import Player from "src/components/Viewer/Player/Player";
 import Toggle from "./Toggle";
-import {
-  addOverlaysToViewer,
-  removeOverlaysFromViewer,
-} from "src/lib/openseadragon-helpers";
+import { getPaintingResource } from "src/hooks/use-iiif";
 import { hashCode } from "src/lib/utils";
 
 interface PaintingProps {
@@ -21,6 +26,7 @@ interface PaintingProps {
   annotationResources: AnnotationResources;
   isMedia: boolean;
   painting: LabeledIIIFExternalWebResource[];
+  visibleCanvases: Reference<"Canvas">[];
 }
 
 const Painting: React.FC<PaintingProps> = ({
@@ -28,9 +34,13 @@ const Painting: React.FC<PaintingProps> = ({
   annotationResources,
   isMedia,
   painting,
+  visibleCanvases,
 }) => {
   const [annotationIndex, setAnnotationIndex] = React.useState<number>(0);
   const [isInteractive, setIsInteractive] = React.useState(false);
+  const [imageBody, setImageBody] = React.useState<
+    LabeledIIIFExternalWebResource[]
+  >([]);
   const {
     configOptions,
     customDisplays,
@@ -45,7 +55,7 @@ const Painting: React.FC<PaintingProps> = ({
   const hasPlaceholder = Boolean(placeholderCanvas);
   const hasChoice = Boolean(painting?.length > 1);
   const showPlaceholder = placeholderCanvas && !isInteractive && !isMedia;
-  const instanceId = `${viewerId}-${hashCode(activeCanvas + annotationIndex)}`;
+  const instanceId = `${viewerId}-${hashCode(activeCanvas + annotationIndex + JSON.stringify(visibleCanvases))}`;
 
   const handleToggle = () => setIsInteractive(!isInteractive);
 
@@ -99,7 +109,21 @@ const Painting: React.FC<PaintingProps> = ({
 
   useEffect(() => {
     setAnnotationIndex(0);
-  }, [activeCanvas]);
+
+    if (isMedia) {
+      return;
+    } else {
+      const body = visibleCanvases
+        .map((canvas) => {
+          const canvasId = canvas.id;
+          const painting = getPaintingResource(vault, canvasId);
+          return painting ? painting[annotationIndex] : undefined;
+        })
+        .filter(Boolean) as LabeledIIIFExternalWebResource[];
+
+      setImageBody(body);
+    }
+  }, [activeCanvas, visibleCanvases, isMedia]);
 
   /** Update OpenSeadragon Viewer in viewer context */
   const handleOpenSeadragonCallback = (viewer) => {
@@ -155,7 +179,7 @@ const Painting: React.FC<PaintingProps> = ({
             painting && (
               <ImageViewer
                 _cloverViewerHasPlaceholder={hasPlaceholder}
-                body={painting[annotationIndex]}
+                body={imageBody}
                 instanceId={instanceId}
                 key={instanceId}
                 openSeadragonCallback={handleOpenSeadragonCallback}
