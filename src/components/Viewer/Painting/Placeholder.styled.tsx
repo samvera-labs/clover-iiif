@@ -10,6 +10,7 @@ const PlaceholderStyled = styled("button", {
   width: "100%",
   height: "100%",
   transition: "$all",
+  display: "flex",
 
   "& img": {
     width: "100%",
@@ -17,6 +18,18 @@ const PlaceholderStyled = styled("button", {
     objectFit: "contain",
     color: "transparent",
     transition: "$all",
+  },
+
+  "&[data-is-paged=true]": {
+    "img:first-child": {
+      width: "50%",
+      objectPosition: "100% 0",
+    },
+
+    "img:last-child ": {
+      width: "50%",
+      objectPosition: "0 0",
+    },
   },
 
   variants: {

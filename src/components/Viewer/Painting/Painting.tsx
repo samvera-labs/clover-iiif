@@ -1,10 +1,11 @@
 import {
   AnnotationNormalized,
   CanvasNormalized,
+  InternationalString,
   Reference,
 } from "@iiif/presentation-3";
 import { PaintingCanvas, PaintingStyled } from "./Painting.styled";
-import React, { useEffect } from "react";
+import React, { act, useEffect } from "react";
 import { Select, SelectOption } from "src/components/UI/Select";
 import {
   addOverlaysToViewer,
@@ -41,6 +42,9 @@ const Painting: React.FC<PaintingProps> = ({
   const [imageBody, setImageBody] = React.useState<
     LabeledIIIFExternalWebResource[]
   >([]);
+  const [placeholderItems, setPlaceholderItems] = React.useState<
+    Array<{ id: string; label: InternationalString | null }>
+  >([]);
   const {
     configOptions,
     customDisplays,
@@ -51,10 +55,8 @@ const Painting: React.FC<PaintingProps> = ({
   const dispatch: any = useViewerDispatch();
 
   const normalizedCanvas: CanvasNormalized = vault.get(activeCanvas);
-  const placeholderCanvas = normalizedCanvas?.placeholderCanvas?.id;
-  const hasPlaceholder = Boolean(placeholderCanvas);
+  const showPlaceholder = placeholderItems.length && !isInteractive && !isMedia;
   const hasChoice = Boolean(painting?.length > 1);
-  const showPlaceholder = placeholderCanvas && !isInteractive && !isMedia;
   const instanceId = `${viewerId}-${hashCode(activeCanvas + annotationIndex + JSON.stringify(visibleCanvases))}`;
 
   const handleToggle = () => setIsInteractive(!isInteractive);
@@ -121,9 +123,29 @@ const Painting: React.FC<PaintingProps> = ({
         })
         .filter(Boolean) as LabeledIIIFExternalWebResource[];
 
+      const placeholders = visibleCanvases
+        .map((entry) => {
+          const canvasId = entry.id;
+
+          const canvas: CanvasNormalized = vault.get(canvasId);
+          const placeholderCanvas = canvas?.placeholderCanvas?.id;
+          const hasPlaceholder = Boolean(placeholderCanvas);
+
+          if (hasPlaceholder) {
+            return {
+              id: placeholderCanvas,
+              label: canvas?.label,
+            };
+          } else {
+            return null;
+          }
+        })
+        .filter((canvas) => canvas !== null);
+
       setImageBody(body);
+      setPlaceholderItems(placeholders);
     }
-  }, [activeCanvas, visibleCanvases, isMedia]);
+  }, [activeCanvas, visibleCanvases, isMedia, normalizedCanvas]);
 
   /** Update OpenSeadragon Viewer in viewer context */
   const handleOpenSeadragonCallback = (viewer) => {
@@ -150,18 +172,17 @@ const Painting: React.FC<PaintingProps> = ({
               : configOptions.canvasHeight,
         }}
       >
-        {placeholderCanvas && !isMedia && (
+        {placeholderItems.length && !isMedia && (
           <Toggle
             handleToggle={handleToggle}
             isInteractive={isInteractive}
             isMedia={isMedia}
           />
         )}
-        {showPlaceholder && !isMedia && (
+        {placeholderItems.length && !isMedia && (
           <PaintingPlaceholder
             isMedia={isMedia}
-            label={normalizedCanvas?.label}
-            placeholderCanvas={placeholderCanvas}
+            items={placeholderItems}
             setIsInteractive={setIsInteractive}
           />
         )}
@@ -178,7 +199,7 @@ const Painting: React.FC<PaintingProps> = ({
           ) : (
             painting && (
               <ImageViewer
-                _cloverViewerHasPlaceholder={hasPlaceholder}
+                _cloverViewerHasPlaceholder={Boolean(placeholderItems?.length)}
                 body={imageBody}
                 instanceId={instanceId}
                 key={instanceId}

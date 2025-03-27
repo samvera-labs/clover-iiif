@@ -132,7 +132,7 @@ const Controls: React.FC<Props> = ({
               <PreviousIcon title={t("commonPrevious")} />
             </Button>
             <span>
-              {activeIndex + 1} of {canvasLength}
+              {activeIndex + 1} / {canvasLength}
             </span>
             <Button
               onClick={() => handleCanvasToggle(1)}
