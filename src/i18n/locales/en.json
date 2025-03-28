@@ -9,6 +9,7 @@
   "copyFailure": "Failed",
   "copySuccess": "Copied",
   "informationPanelTabs": "Select",
+  "informationPanelTabsClose": "Viewer",
   "informationPanelTabsAbout": "About",
   "informationPanelTabsAnnotations": "Annotations",
   "informationPanelTabsSearch": "Search",

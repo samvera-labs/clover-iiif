@@ -16,8 +16,6 @@ import { Popover } from "src/components/UI";
 import React from "react";
 import Toggle from "./Toggle";
 import ViewerDownload from "./Download";
-import { media } from "src/styles/stitches.config";
-import { useMediaQuery } from "src/hooks/useMediaQuery";
 import { useTranslation } from "react-i18next";
 
 interface Props {
@@ -37,7 +35,6 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
    */
   const hasOptions =
     showDownload || showIIIFBadge || informationPanel?.renderToggle;
-  const isSmallViewport = useMediaQuery(media.sm);
 
   const { t } = useTranslation();
 
@@ -90,7 +87,7 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
               </PopoverContent>
             </Popover>
           )}
-          {informationPanel?.renderToggle && !isSmallViewport && <Toggle />}
+          {informationPanel?.renderToggle && <Toggle />}
         </HeaderOptions>
       )}
     </Header>

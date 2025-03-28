@@ -31,7 +31,6 @@ import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
 import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
 import { media } from "src/styles/stitches.config";
-import { useBodyLocked } from "src/hooks/useBodyLocked";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
 
 interface ViewerProps {
@@ -75,7 +74,6 @@ const Viewer: React.FC<ViewerProps> = ({
   const [contentSearchResource, setContentSearchResource] =
     useState<AnnotationResource>();
 
-  const [isBodyLocked, setIsBodyLocked] = useBodyLocked(false);
   const isSmallViewport = useMediaQuery(media.sm);
   const [searchServiceUrl, setSearchServiceUrl] = useState();
 
@@ -93,19 +91,9 @@ const Viewer: React.FC<ViewerProps> = ({
     if (configOptions?.informationPanel?.open) {
       setInformationOpen(!isSmallViewport);
     }
-  }, [
-    isSmallViewport,
-    configOptions?.informationPanel?.open,
-    setInformationOpen,
-  ]);
+  }, [isSmallViewport, configOptions?.informationPanel?.open]);
 
-  useEffect(() => {
-    if (!isSmallViewport) {
-      setIsBodyLocked(false);
-      return;
-    }
-    setIsBodyLocked(isInformationOpen);
-  }, [isInformationOpen, isSmallViewport, setIsBodyLocked]);
+  useEffect(() => {}, [isSmallViewport]);
 
   useEffect(() => {
     const painting = getPaintingResource(vault, activeCanvas);
@@ -120,7 +108,7 @@ const Viewer: React.FC<ViewerProps> = ({
       setPainting(painting);
     }
     getAnnotationResources(vault, activeCanvas).then((resources) => {
-      if (resources.length > 0) {
+      if (resources.length > 0 && !isSmallViewport) {
         viewerDispatch({
           type: "updateInformationOpen",
           isInformationOpen: true,
@@ -129,7 +117,13 @@ const Viewer: React.FC<ViewerProps> = ({
       setAnnotationResources(resources);
       setIsInformationPanel(resources.length !== 0);
     });
-  }, [activeCanvas, annotationResources.length, vault, viewerDispatch]);
+  }, [
+    activeCanvas,
+    annotationResources.length,
+    isSmallViewport,
+    vault,
+    viewerDispatch,
+  ]);
 
   const hasSearchService = manifest.service.some(
     (service: any) => service.type === "SearchService2",
@@ -160,7 +154,6 @@ const Viewer: React.FC<ViewerProps> = ({
     ).then((contentSearch) => {
       setContentSearchResource(contentSearch);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchServiceUrl]);
 
   // add overlays for content search
@@ -181,7 +174,6 @@ const Viewer: React.FC<ViewerProps> = ({
       canvas,
       configOptions,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openSeadragonViewer, contentSearchResource]);
 
   return (
@@ -189,7 +181,6 @@ const Viewer: React.FC<ViewerProps> = ({
       <Wrapper
         className={`${theme} clover-viewer`}
         css={{ background: configOptions?.background }}
-        data-body-locked={isBodyLocked}
         data-absolute-position={isAbsolutePosition}
         data-information-panel={isInformationPanel}
         data-information-panel-open={isInformationOpen}

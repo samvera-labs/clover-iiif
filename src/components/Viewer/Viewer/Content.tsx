@@ -6,8 +6,6 @@ import {
 import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
   Aside,
-  CollapsibleContent,
-  CollapsibleTrigger,
   Content,
   Main,
   MediaWrapper,
@@ -17,7 +15,6 @@ import InformationPanel from "src/components/Viewer/InformationPanel/Information
 import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React from "react";
-import { useTranslation } from "react-i18next";
 import { useViewerState } from "src/context/viewer-context";
 
 export interface ViewerContentProps {
@@ -43,7 +40,6 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   items,
   painting,
 }) => {
-  const { t } = useTranslation();
   const { isInformationOpen, configOptions } = useViewerState();
   const { informationPanel } = configOptions;
 
@@ -52,19 +48,22 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
    * there is content (About or Supplementing Resources) to display.
    */
 
-  const isAside = informationPanel?.renderAbout && isInformationOpen;
-
   const isForcedAside =
     informationPanel?.renderAnnotation &&
     annotationResources.length > 0 &&
     !informationPanel.open;
+
+  const isAside =
+    (informationPanel?.renderAbout && isInformationOpen) || isForcedAside;
+
+  const renderToggle = informationPanel?.renderToggle;
 
   return (
     <Content
       className="clover-viewer-content"
       data-testid="clover-viewer-content"
     >
-      <Main>
+      <Main data-aside-active={isAside} data-aside-toggle={renderToggle}>
         <Painting
           activeCanvas={activeCanvas}
           annotationResources={annotationResources}
@@ -72,29 +71,21 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
           painting={painting}
         />
 
-        {isAside && (
-          <CollapsibleTrigger>
-            <span>{t("informationPanelToggle")}</span>
-          </CollapsibleTrigger>
-        )}
-
         {items.length > 1 && (
           <MediaWrapper className="clover-viewer-media-wrapper">
             <Media items={items} activeItem={0} />
           </MediaWrapper>
         )}
       </Main>
-      {(isAside || isForcedAside) && (
-        <Aside>
-          <CollapsibleContent>
-            <InformationPanel
-              activeCanvas={activeCanvas}
-              annotationResources={annotationResources}
-              searchServiceUrl={searchServiceUrl}
-              setContentSearchResource={setContentSearchResource}
-              contentSearchResource={contentSearchResource}
-            />
-          </CollapsibleContent>
+      {isAside && (
+        <Aside data-aside-active={isAside} data-aside-toggle={renderToggle}>
+          <InformationPanel
+            activeCanvas={activeCanvas}
+            annotationResources={annotationResources}
+            searchServiceUrl={searchServiceUrl}
+            setContentSearchResource={setContentSearchResource}
+            contentSearchResource={contentSearchResource}
+          />
         </Aside>
       )}
     </Content>

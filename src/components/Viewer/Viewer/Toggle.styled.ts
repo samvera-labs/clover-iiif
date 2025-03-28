@@ -33,8 +33,28 @@ const StyledThumb = styled(Switch.Thumb, {
   transform: "translateX(6px)",
   willChange: "transform",
 
+  span: {
+    fontFamily: "monospace",
+    fontSize: "0.8333rem",
+    fontWeight: "700",
+    display: "flex",
+    height: "100%",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "$primary",
+    opacity: "0.382",
+    userSelect: "none",
+    pointerEvents: "none",
+  },
+
   '&[data-state="checked"]': {
     transform: "translateX(calc(1.236rem + 6px))",
+
+    span: {
+      opacity: "1",
+      color: "$accent",
+    },
   },
 });
 
