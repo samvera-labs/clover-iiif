@@ -1,6 +1,7 @@
 import { styled } from "src/styles/stitches.config";
 
 const AboutContent = styled("div", {
+  width: "100%",
   padding: " 0 1.618rem 2rem",
   display: "flex",
   flexDirection: "column",

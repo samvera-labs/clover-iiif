@@ -65,6 +65,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   }) as CanvasNormalized;
 
   const renderContentSearch = informationPanel?.renderContentSearch;
+  const renderToggle = informationPanel?.renderToggle;
 
   /**
    * List of tabs to render in the information panel
@@ -102,6 +103,16 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       </Content>
     );
   }
+
+  /**
+   * Close the information panel
+   */
+  const handleInformationPanelClose = () => {
+    dispatch({
+      type: "updateInformationOpen",
+      isInformationOpen: false,
+    });
+  };
 
   useEffect(() => {
     /**
@@ -162,8 +173,19 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         aria-label={t("informationPanelTabs")}
         data-testid="information-panel-list"
       >
+        {renderToggle && (
+          <Trigger
+            value="manifest-back"
+            data-value="manifest-back"
+            onClick={handleInformationPanelClose}
+            as={"button"}
+          >
+            {t("informationPanelTabsClose")}
+          </Trigger>
+        )}
         {renderAbout && (
           <Trigger value="manifest-about">
+            <></>
             {t("informationPanelTabsAbout")}
           </Trigger>
         )}

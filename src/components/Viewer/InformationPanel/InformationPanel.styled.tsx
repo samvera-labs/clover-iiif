@@ -1,5 +1,6 @@
-import React, { ReactNode } from "react";
 import * as Tabs from "@radix-ui/react-tabs";
+
+import React, { ReactNode } from "react";
 
 import { styled } from "src/styles/stitches.config";
 
@@ -47,6 +48,14 @@ const Trigger = styled(Tabs.Trigger, {
   cursor: "pointer",
   fontWeight: 400,
   transition: "$all",
+
+  "&[data-value='manifest-back']": {
+    display: "none;",
+
+    "@sm": {
+      display: "block",
+    },
+  },
 
   "&::after": {
     width: "0",

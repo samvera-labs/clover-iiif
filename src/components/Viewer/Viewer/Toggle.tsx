@@ -1,45 +1,41 @@
 import {
-  Label,
   StyledSwitch,
   StyledThumb,
   StyledToggle,
 } from "src/components/Viewer/Viewer/Toggle.styled";
-import React, { useEffect, useState } from "react";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
+import React from "react";
 import { useTranslation } from "react-i18next";
 
 const Toggle = () => {
-  const { configOptions } = useViewerState();
+  const { isInformationOpen } = useViewerState();
   const dispatch: any = useViewerDispatch();
 
   const { t } = useTranslation();
 
-  const [checked, setChecked] = useState(configOptions?.informationPanel?.open);
-
-  useEffect(() => {
+  const handleOnCheckedChange = (checked) => {
     dispatch({
       type: "updateInformationOpen",
       isInformationOpen: checked,
     });
-  }, [checked, dispatch]);
+  };
 
   return (
     <StyledToggle>
-      <Label htmlFor="information-toggle" css={checked ? { opacity: "1" } : {}}>
-        {t("informationPanelToggle")}
-      </Label>
       <StyledSwitch
-        checked={checked}
-        onCheckedChange={() => setChecked(!checked)}
+        checked={isInformationOpen}
+        onCheckedChange={handleOnCheckedChange}
         id="information-toggle"
         aria-label={t("informationPanelToggle")}
         name="toggled?"
       >
-        <StyledThumb />
+        <StyledThumb>
+          <span>i</span>
+        </StyledThumb>
       </StyledSwitch>
     </StyledToggle>
   );
 };
 
-export default Toggle;
+export default React.memo(Toggle);
