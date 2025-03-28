@@ -1,6 +1,7 @@
 import Image from "src/components/Image";
 import Primitives from "src/components/Primitives";
 import Scroll from "src/components/Scroll";
+import Share from "src/components/Share";
 import Slider from "src/components/Slider";
 import Viewer from "src/components/Viewer";
 import {
@@ -19,6 +20,7 @@ export {
   Image,
   Primitives,
   Scroll,
+  Share,
   Slider,
   Viewer,
   helpers,
