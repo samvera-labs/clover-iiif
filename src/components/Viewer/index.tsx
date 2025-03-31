@@ -12,6 +12,7 @@ import {
   PluginConfig,
 } from "src/context/viewer-context";
 
+import { getManifestSequence } from "@iiif/helpers";
 import { Vault } from "@iiif/helpers/vault";
 import Viewer from "src/components/Viewer/Viewer/Viewer";
 import { createTheme } from "@stitches/react";
@@ -127,10 +128,17 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
       vault
         .load(activeManifest)
         .then((data: ManifestNormalized) => {
+          // ignoring as ManifestNormalized mismatches across helper libraries
+          // @ts-ignore
+          const sequence = getManifestSequence(vault, data);
           setManifest(data);
           dispatch({
             type: "updateActiveCanvas",
             canvasId: getActiveCanvas(iiifContent, data),
+          });
+          dispatch({
+            type: "updateManifestSequence",
+            sequence,
           });
         })
         .catch((error: Error) => {

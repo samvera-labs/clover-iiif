@@ -2,22 +2,22 @@ import {
   Canvas,
   CanvasNormalized,
   ExternalResourceTypes,
+  Reference,
 } from "@iiif/presentation-3";
 import React, { useEffect, useState } from "react";
+import {
+  StyledSequence,
+  StyledSequenceGroup,
+} from "src/components/Viewer/Media/Media.styled";
 import {
   ViewerContextStore,
   useViewerDispatch,
   useViewerState,
 } from "src/context/viewer-context";
-import {
-  getCanvasByCriteria,
-  getLabel,
-  getThumbnail,
-} from "src/hooks/use-iiif";
+import { getCanvasByCriteria, getThumbnail } from "src/hooks/use-iiif";
 
 import { CanvasEntity } from "src/hooks/use-iiif/getCanvasByCriteria";
 import Controls from "src/components/Viewer/Media/Controls";
-import { Group } from "src/components/Viewer/Media/Media.styled";
 import Thumbnail from "src/components/Viewer/Media/Thumbnail";
 import { getResourceType } from "src/hooks/use-iiif/getResourceType";
 import { useTranslation } from "react-i18next";
@@ -25,20 +25,20 @@ import { useTranslation } from "react-i18next";
 interface MediaProps {
   items: Canvas[];
   activeItem: number;
+  visibleCanvases: Reference<"Canvas">[];
 }
 
-const Media: React.FC<MediaProps> = ({ items }) => {
+const Media: React.FC<MediaProps> = ({ items, visibleCanvases }) => {
   const { t } = useTranslation();
   const dispatch: any = useViewerDispatch();
   const state: ViewerContextStore = useViewerState();
-  const { activeCanvas, vault } = state;
+  const { activeCanvas, vault, sequence } = state;
 
   const [filter, setFilter] = useState<string>("");
   const [mediaItems, setMediaItems] = useState<Array<CanvasEntity>>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
-
   const motivation = "painting";
 
   const handleChange = (canvasId: string) => {
@@ -97,7 +97,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
         activeIndex={activeIndex}
         canvasLength={items.length}
       />
-      <Group
+      <StyledSequence
         aria-label={t("media.selectItem")}
         data-testid="media"
         data-active-canvas={items[activeIndex].id}
@@ -105,31 +105,35 @@ const Media: React.FC<MediaProps> = ({ items }) => {
         data-filter={filter}
         ref={scrollRef}
       >
-        {mediaItems
-          .filter((item, key) => {
-            if (!filter) return true;
+        {sequence[1].map((groups, index) => {
+          const isActiveGroup = groups
+            .map((index) => sequence[0][index].id)
+            .includes(activeCanvas);
 
-            if (item.canvas?.label) {
-              const label = getLabel(item.canvas.label);
-              if (Array.isArray(label))
-                return label[0].toLowerCase().includes(filter.toLowerCase());
-            } else {
-              const label = (key + 1).toString();
-              return label.includes(filter);
-            }
-          })
-          .map((item) => (
-            <Thumbnail
-              canvas={item.canvas as CanvasNormalized}
-              canvasIndex={mediaItems.findIndex((el) => el === item)}
-              handleChange={handleChange}
-              isActive={activeCanvas === item?.canvas?.id ? true : false}
-              key={item?.canvas?.id}
-              thumbnail={getThumbnail(vault, item, 200, 200)}
-              type={getResourceType(item.annotations[0])}
-            />
-          ))}
-      </Group>
+          return (
+            <StyledSequenceGroup data-active={isActiveGroup} key={index}>
+              {groups.map((index) => {
+                const id = sequence[0][index].id;
+                const item = mediaItems.find((el) => el?.canvas?.id === id);
+
+                if (!item) return null;
+
+                return (
+                  <Thumbnail
+                    canvas={item.canvas as CanvasNormalized}
+                    canvasIndex={mediaItems.findIndex((el) => el === item)}
+                    handleChange={handleChange}
+                    isActive={activeCanvas === item?.canvas?.id ? true : false}
+                    key={item?.canvas?.id}
+                    thumbnail={getThumbnail(vault, item, 200, 200)}
+                    type={getResourceType(item.annotations[0])}
+                  />
+                );
+              })}
+            </StyledSequenceGroup>
+          );
+        })}
+      </StyledSequence>
     </>
   );
 };
