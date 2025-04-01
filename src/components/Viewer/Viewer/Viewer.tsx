@@ -6,6 +6,7 @@ import {
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
+  Reference,
 } from "@iiif/presentation-3";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -30,6 +31,7 @@ import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
 import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
+import { getVisibleCanvasesFromCanvasId } from "@iiif/helpers";
 import { media } from "src/styles/stitches.config";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
 
@@ -76,6 +78,9 @@ const Viewer: React.FC<ViewerProps> = ({
 
   const isSmallViewport = useMediaQuery(media.sm);
   const [searchServiceUrl, setSearchServiceUrl] = useState();
+  const [visibleCanvases, setVisibleCanvases] = useState<Reference<"Canvas">[]>(
+    [],
+  );
 
   const setInformationOpen = useCallback(
     (open: boolean) => {
@@ -96,17 +101,28 @@ const Viewer: React.FC<ViewerProps> = ({
   useEffect(() => {}, [isSmallViewport]);
 
   useEffect(() => {
-    const painting = getPaintingResource(vault, activeCanvas);
+    const canvasPainting = getPaintingResource(vault, activeCanvas);
 
-    if (painting) {
+    if (canvasPainting) {
       setIsAudioVideo(
-        ["Sound", "Video"].indexOf(painting[0].type as ExternalResourceTypes) >
-          -1
+        ["Sound", "Video"].indexOf(
+          canvasPainting[0].type as ExternalResourceTypes,
+        ) > -1
           ? true
           : false,
       );
-      setPainting(painting);
+      setPainting(canvasPainting);
     }
+
+    const visibleCanvases = getVisibleCanvasesFromCanvasId(
+      vault,
+      // @ts-ignore
+      manifest,
+      activeCanvas,
+    );
+
+    setVisibleCanvases(visibleCanvases);
+
     getAnnotationResources(vault, activeCanvas).then((resources) => {
       if (resources.length > 0 && !isSmallViewport) {
         viewerDispatch({
@@ -121,6 +137,7 @@ const Viewer: React.FC<ViewerProps> = ({
     activeCanvas,
     annotationResources.length,
     isSmallViewport,
+    manifest,
     vault,
     viewerDispatch,
   ]);
@@ -202,6 +219,7 @@ const Viewer: React.FC<ViewerProps> = ({
             contentSearchResource={contentSearchResource}
             items={manifest.items}
             isAudioVideo={isAudioVideo}
+            visibleCanvases={visibleCanvases}
           />
         </Collapsible.Root>
       </Wrapper>

@@ -1,10 +1,11 @@
-import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
-import React, { useReducer } from "react";
-
 import {
   CollectionNormalized,
   InternationalString,
+  Reference,
 } from "@iiif/presentation-3";
+import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
+import React, { useReducer } from "react";
+
 import { IncomingHttpHeaders } from "http";
 import { Vault } from "@iiif/helpers/vault";
 import { deepMerge } from "src/lib/utils";
@@ -170,6 +171,7 @@ export interface ViewerContextStore {
   isInformationOpen: boolean;
   isLoaded: boolean;
   isUserScrolling?: number | undefined;
+  sequence: [Reference<"Canvas">[], number[][]];
   vault: Vault;
   contentSearchVault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer | null;
@@ -189,6 +191,7 @@ export interface ViewerAction {
   isUserScrolling: number | undefined;
   manifestId: string;
   OSDImageLoaded?: boolean;
+  sequence: [Reference<"Canvas">[], number[][]];
   vault: Vault;
   contentSearchVault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer;
@@ -235,6 +238,7 @@ export const defaultState: ViewerContextStore = {
   isInformationOpen: defaultConfigOptions?.informationPanel?.open,
   isLoaded: false,
   isUserScrolling: undefined,
+  sequence: [[], []],
   vault: new Vault(),
   contentSearchVault: new Vault(),
   openSeadragonViewer: null,
@@ -304,6 +308,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         isLoaded: action.isLoaded,
+      };
+    }
+    case "updateManifestSequence": {
+      return {
+        ...state,
+        sequence: action.sequence,
       };
     }
     case "updateUserScrolling": {

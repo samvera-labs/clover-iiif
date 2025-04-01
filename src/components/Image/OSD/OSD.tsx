@@ -9,13 +9,14 @@ import React, { useEffect, useRef, useState } from "react";
 import Controls from "src/components/Image/Controls/Controls";
 import { OpenSeadragonImageTypes } from "src/types/open-seadragon";
 import { getInfoResponse } from "src/lib/iiif";
+import { retry } from "src/lib/retry";
 import { useViewerDispatch } from "src/context/viewer-context";
 
 interface OSDProps {
   _cloverViewerHasPlaceholder: boolean;
   ariaLabel?: string | null;
   config: Options;
-  uri: string | undefined;
+  uri: string[];
   imageType: OpenSeadragonImageTypes;
   openSeadragonCallback?: (viewer: OpenSeadragon.Viewer) => void;
 }
@@ -28,54 +29,81 @@ const OSD: React.FC<OSDProps> = ({
   imageType,
   openSeadragonCallback,
 }) => {
-  const [osdUri, setOsdUri] = useState<string>();
+  const [osdDrawn, setOsdDrawn] = useState<string[]>([]);
+  const [osdUri, setOsdUri] = useState<string[]>([]);
   const [openSeadragon, setOpenSeadragon] = useState<OpenSeadragon.Viewer>();
   const dispatch: any = useViewerDispatch();
-
   const initializeOSD = useRef(false);
 
   useEffect(() => {
     if (!initializeOSD.current) {
       initializeOSD.current = true;
-
       if (!openSeadragon) setOpenSeadragon(OpenSeadragon(config));
     }
-
     return () => openSeadragon?.destroy();
   }, []);
 
   useEffect(() => {
-    if (openSeadragon && openSeadragonCallback)
+    if (openSeadragon && openSeadragonCallback) {
       openSeadragonCallback(openSeadragon);
+    }
   }, [openSeadragon, openSeadragonCallback]);
 
   useEffect(() => {
-    if (openSeadragon && uri !== osdUri) {
-      openSeadragon?.forceRedraw();
+    if (openSeadragon && JSON.stringify(uri) !== JSON.stringify(osdUri)) {
+      openSeadragon.forceRedraw();
       setOsdUri(uri);
     }
   }, [openSeadragon, osdUri, uri]);
 
   useEffect(() => {
-    if (osdUri && openSeadragon) {
+    if (!osdUri.length || !openSeadragon) return;
+
+    openSeadragon.close(); // remove previous images
+
+    const load = async () => {
       switch (imageType) {
         case "simpleImage":
-          openSeadragon?.addSimpleImage({
-            url: osdUri,
+          osdUri.forEach((url) => {
+            openSeadragon.addSimpleImage({ url });
           });
           break;
-        case "tiledImage":
-          getInfoResponse(osdUri).then((tileSource) => {
-            try {
-              if (!tileSource)
-                throw new Error(`No tile source found for ${osdUri}`);
 
-              openSeadragon?.addTiledImage({
+        case "tiledImage": {
+          let height = 1;
+          let x = 0;
+          let baseTileSource;
+
+          for (let i = 0; i < osdUri.length; i++) {
+            const url = osdUri[i];
+            try {
+              const tileSource = await retry(
+                () => getInfoResponse(url),
+                3,
+                1000,
+              );
+
+              if (!tileSource) throw new Error(`No tile source for ${url}`);
+
+              if (i === 0) {
+                baseTileSource = tileSource;
+              } else {
+                const baseItem = openSeadragon.world.getItemAt(0);
+                if (baseItem) {
+                  const baseBounds = baseItem.getBounds();
+                  x = baseBounds.x + baseBounds.width;
+                  height = baseBounds.height;
+                } else {
+                  throw new Error(`No base item found at index 0`);
+                }
+              }
+
+              openSeadragon.addTiledImage({
                 tileSource,
+                x,
+                y: 0,
+                height,
                 success: () => {
-                  // NOTE: need to check dispatch is a function, because when
-                  // using dev server, dispatch sometimes is set to
-                  // ViewerContext.defaultState object instead of a function
                   if (typeof dispatch === "function") {
                     dispatch({
                       type: "updateOSDImageLoaded",
@@ -84,20 +112,31 @@ const OSD: React.FC<OSDProps> = ({
                   }
                 },
               });
+
+              setOsdDrawn((prev) => [...prev, url]);
             } catch (e) {
-              console.error(e);
+              console.error(`Failed to load tile at ${url}:`, e);
             }
-          });
+          }
+
           break;
+        }
+
         default:
-          openSeadragon?.close();
-          console.warn(
-            `Unable to render ${osdUri} in OpenSeadragon as type: "${imageType}"`,
-          );
+          console.warn(`Unsupported imageType: "${imageType}"`);
           break;
       }
+    };
+
+    load().catch((error) => console.error("Error drawing tiles", error));
+  }, [osdUri, imageType, openSeadragon]);
+
+  useEffect(() => {
+    if (osdDrawn) {
+      const bounds = openSeadragon?.world.getHomeBounds();
+      if (bounds) openSeadragon?.viewport.fitBounds(bounds, true);
     }
-  }, [imageType, osdUri]);
+  }, [osdDrawn]);
 
   return (
     <Wrapper

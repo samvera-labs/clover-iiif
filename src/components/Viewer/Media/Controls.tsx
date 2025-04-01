@@ -7,10 +7,11 @@ import {
 } from "src/components/Viewer/Media/Controls.styled";
 import React, { useEffect, useState } from "react";
 
+import { Reference } from "@iiif/presentation-3";
 import useKeyPress from "src/hooks/useKeyPress";
 import { useTranslation } from "react-i18next";
 
-interface Props {
+interface ControlsProps {
   handleCanvasToggle: (arg0: -1 | 1) => void;
   handleFilter: (arg0: string) => void;
   activeIndex: number;
@@ -69,7 +70,7 @@ const SearchIcon = ({ title }: { title: string }) => {
   );
 };
 
-const Controls: React.FC<Props> = ({
+const Controls: React.FC<ControlsProps> = ({
   handleCanvasToggle,
   handleFilter,
   activeIndex,
@@ -132,7 +133,7 @@ const Controls: React.FC<Props> = ({
               <PreviousIcon title={t("commonPrevious")} />
             </Button>
             <span>
-              {activeIndex + 1} of {canvasLength}
+              {activeIndex + 1} / {canvasLength}
             </span>
             <Button
               onClick={() => handleCanvasToggle(1)}
