@@ -60,7 +60,6 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     (informationPanel?.renderAbout && isInformationOpen) || isForcedAside;
 
   const renderToggle = informationPanel?.renderToggle;
-  console.log({ visibleCanvases });
 
   return (
     <Content

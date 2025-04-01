@@ -1,14 +1,12 @@
-import {
-  IIIFExternalWebResource,
-  InternationalString,
-} from "@iiif/presentation-3";
 import React, { useEffect, useState } from "react";
 import { getLabel, getPaintingResource } from "src/hooks/use-iiif";
 
+import { InternationalString } from "@iiif/presentation-3";
 import { PlaceholderStyled } from "./Placeholder.styled";
 import { useViewerState } from "src/context/viewer-context";
 
 interface Props {
+  isActive: boolean;
   isMedia: boolean;
   items: Array<{
     id: string;
@@ -18,6 +16,7 @@ interface Props {
 }
 
 const PaintingPlaceholder: React.FC<Props> = ({
+  isActive,
   isMedia,
   items,
   setIsInteractive,
@@ -36,6 +35,7 @@ const PaintingPlaceholder: React.FC<Props> = ({
   const isPaged = images.length > 1;
 
   useEffect(() => {
+    setImages([]);
     const placeholders = items
       .map((item) => {
         const annotations = getPaintingResource(vault, item.id);
@@ -48,8 +48,8 @@ const PaintingPlaceholder: React.FC<Props> = ({
 
         return {
           src: id,
-          width: width || 500,
-          height: height || 500,
+          width: width || 640,
+          height: height || 640,
           alt: item.label
             ? (getLabel(item.label) as string)
             : "placeholder image",
@@ -62,16 +62,31 @@ const PaintingPlaceholder: React.FC<Props> = ({
     setImages(placeholders);
   }, [items, isPaged]);
 
+  // Calculate the scaled width of each image based on its aspect ratio
+  const scaledWidths = images.map((img) => (img.width / img.height) * 1);
+  const totalScaledWidth = scaledWidths.reduce((a, b) => a + b, 0);
+
   return (
     <PlaceholderStyled
       onClick={() => setIsInteractive(true)}
       isMedia={isMedia}
       className="clover-viewer-placeholder"
-      data-is-paged={isPaged}
+      data-active={isActive}
+      data-paged={isPaged}
     >
-      {images.map((placeholder, index) => (
-        <img {...placeholder} key={index} alt={placeholder.alt} />
-      ))}
+      {images.map((placeholder, index) => {
+        const percentWidth = (scaledWidths[index] / totalScaledWidth) * 100;
+        return (
+          <img
+            {...placeholder}
+            key={index}
+            alt={placeholder.alt}
+            style={{
+              width: `${percentWidth}%`,
+            }}
+          />
+        );
+      })}
     </PlaceholderStyled>
   );
 };

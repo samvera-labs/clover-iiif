@@ -85,6 +85,13 @@ const Media: React.FC<MediaProps> = ({ items, visibleCanvases }) => {
   const handleFilter = (value: string) => setFilter(value);
 
   const handleCanvasToggle = (step: -1 | 1) => {
+    // step needs to now account for sequence[1]
+    const activeGroupIndex = sequence[1].findIndex((group) =>
+      group.includes(activeIndex),
+    );
+
+    console.log("activeGroupIndex", activeGroupIndex);
+
     const canvasEntity = mediaItems[activeIndex + step];
     if (canvasEntity?.canvas) handleChange(canvasEntity.canvas.id);
   };

@@ -172,21 +172,21 @@ const Painting: React.FC<PaintingProps> = ({
               : configOptions.canvasHeight,
         }}
       >
-        {placeholderItems.length && !isMedia && (
+        {Boolean(placeholderItems.length) && !isMedia && (
           <Toggle
             handleToggle={handleToggle}
             isInteractive={isInteractive}
             isMedia={isMedia}
           />
         )}
-        {placeholderItems.length && !isMedia && (
+        {Boolean(placeholderItems?.length) && !isMedia && (
           <PaintingPlaceholder
+            isActive={Boolean(showPlaceholder)}
             isMedia={isMedia}
             items={placeholderItems}
             setIsInteractive={setIsInteractive}
           />
         )}
-
         {/* Standard Viewer displays */}
         {!showPlaceholder &&
           !customDisplay &&
@@ -208,7 +208,6 @@ const Painting: React.FC<PaintingProps> = ({
               />
             )
           ))}
-
         {/* Custom display */}
         {!showPlaceholder && CustomComponent && (
           <CustomComponent

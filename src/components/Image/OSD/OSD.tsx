@@ -9,6 +9,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Controls from "src/components/Image/Controls/Controls";
 import { OpenSeadragonImageTypes } from "src/types/open-seadragon";
 import { getInfoResponse } from "src/lib/iiif";
+import { retry } from "src/lib/retry";
 import { useViewerDispatch } from "src/context/viewer-context";
 
 interface OSDProps {
@@ -28,31 +29,29 @@ const OSD: React.FC<OSDProps> = ({
   imageType,
   openSeadragonCallback,
 }) => {
-  const [osdDrawn, setOsdDrawn] = useState(false);
+  const [osdDrawn, setOsdDrawn] = useState<string[]>([]);
   const [osdUri, setOsdUri] = useState<string[]>([]);
   const [openSeadragon, setOpenSeadragon] = useState<OpenSeadragon.Viewer>();
   const dispatch: any = useViewerDispatch();
-
   const initializeOSD = useRef(false);
 
   useEffect(() => {
     if (!initializeOSD.current) {
       initializeOSD.current = true;
-
       if (!openSeadragon) setOpenSeadragon(OpenSeadragon(config));
     }
-
     return () => openSeadragon?.destroy();
   }, []);
 
   useEffect(() => {
-    if (openSeadragon && openSeadragonCallback)
+    if (openSeadragon && openSeadragonCallback) {
       openSeadragonCallback(openSeadragon);
+    }
   }, [openSeadragon, openSeadragonCallback]);
 
   useEffect(() => {
     if (openSeadragon && JSON.stringify(uri) !== JSON.stringify(osdUri)) {
-      openSeadragon?.forceRedraw();
+      openSeadragon.forceRedraw();
       setOsdUri(uri);
     }
   }, [openSeadragon, osdUri, uri]);
@@ -70,17 +69,40 @@ const OSD: React.FC<OSDProps> = ({
           });
           break;
 
-        case "tiledImage":
+        case "tiledImage": {
+          let height = 1;
+          let x = 0;
+          let baseTileSource;
+
           for (let i = 0; i < osdUri.length; i++) {
+            const url = osdUri[i];
             try {
-              const tileSource = await getInfoResponse(osdUri[i]);
-              if (!tileSource)
-                throw new Error(`No tile source for ${osdUri[i]}`);
+              const tileSource = await retry(
+                () => getInfoResponse(url),
+                3,
+                1000,
+              );
+
+              if (!tileSource) throw new Error(`No tile source for ${url}`);
+
+              if (i === 0) {
+                baseTileSource = tileSource;
+              } else {
+                const baseItem = openSeadragon.world.getItemAt(0);
+                if (baseItem) {
+                  const baseBounds = baseItem.getBounds();
+                  x = baseBounds.x + baseBounds.width;
+                  height = baseBounds.height;
+                } else {
+                  throw new Error(`No base item found at index 0`);
+                }
+              }
 
               openSeadragon.addTiledImage({
                 tileSource,
-                x: i * 1,
+                x,
                 y: 0,
+                height,
                 success: () => {
                   if (typeof dispatch === "function") {
                     dispatch({
@@ -91,12 +113,14 @@ const OSD: React.FC<OSDProps> = ({
                 },
               });
 
-              console.log("Tile source loaded", tileSource);
+              setOsdDrawn((prev) => [...prev, url]);
             } catch (e) {
-              console.error(e);
+              console.error(`Failed to load tile at ${url}:`, e);
             }
           }
+
           break;
+        }
 
         default:
           console.warn(`Unsupported imageType: "${imageType}"`);
@@ -104,15 +128,13 @@ const OSD: React.FC<OSDProps> = ({
       }
     };
 
-    load()
-      .then(() => setOsdDrawn(true))
-      .catch((error) => console.error("Error drawing tiles", error));
+    load().catch((error) => console.error("Error drawing tiles", error));
   }, [osdUri, imageType, openSeadragon]);
 
   useEffect(() => {
     if (osdDrawn) {
-      openSeadragon?.viewport.fitHorizontally(true);
-      openSeadragon?.viewport.fitVertically(true);
+      const bounds = openSeadragon?.world.getHomeBounds();
+      if (bounds) openSeadragon?.viewport.fitBounds(bounds, true);
     }
   }, [osdDrawn]);
 
