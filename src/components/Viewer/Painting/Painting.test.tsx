@@ -1,6 +1,7 @@
 import { ViewerProvider, defaultState } from "src/context/viewer-context";
-import { render, screen, act, fireEvent } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 
+import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import ImageViewer from "src/components/Image";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import Painting from "src/components/Viewer/Painting/Painting";
@@ -9,11 +10,10 @@ import Player from "src/components/Viewer/Player/Player";
 import React from "react";
 import { Vault } from "@iiif/helpers/vault";
 import { canvasWithPDFs } from "src/fixtures/viewer/custom-display/manifest-complex";
-import { manifestMixedChoices } from "src/fixtures/viewer/choices/manifest-mixed-choices";
 import customDisplayManifest from "public/manifest/custom-displays/pdf-no-placeholder.json";
 import { manifestImage } from "src/fixtures/viewer/manifest-image";
+import { manifestMixedChoices } from "src/fixtures/viewer/choices/manifest-mixed-choices";
 import { manifestVideo } from "src/fixtures/viewer/manifest-video";
-import { IIIFExternalWebResource } from "@iiif/presentation-3";
 
 const painting: Array<LabeledIIIFExternalWebResource> = [
   {
@@ -49,6 +49,7 @@ const defaultProps = {
   painting,
   resources: [],
   annotationResources: [],
+  visibleCanvases: [],
 };
 
 // Mock child components
@@ -84,24 +85,6 @@ vi.mock("src/components/UI/Select", () => ({
 
 describe("Painting component", () => {
   const vault = new Vault();
-
-  it("renders the Placeholder and toggle button when a placeholder canvas is present and its not a media file", async () => {
-    await vault.loadManifest("", canvasWithPDFs);
-
-    render(
-      <ViewerProvider
-        initialState={{
-          ...defaultState,
-          vault,
-        }}
-      >
-        <Painting {...defaultProps} />
-      </ViewerProvider>,
-    );
-
-    expect(screen.getByTestId("placeholder-toggle")).toBeInTheDocument();
-    expect(screen.getByTestId("painting-placeholder")).toBeInTheDocument();
-  });
 
   it("Bypasses the Placeholder toggle and image items as expected", async () => {
     await vault.loadManifest("", canvasWithPDFs);

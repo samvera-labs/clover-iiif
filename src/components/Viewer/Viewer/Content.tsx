@@ -2,6 +2,7 @@ import {
   AnnotationPageNormalized,
   Canvas,
   IIIFExternalWebResource,
+  Reference,
 } from "@iiif/presentation-3";
 import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
@@ -28,6 +29,7 @@ export interface ViewerContentProps {
   painting: IIIFExternalWebResource[];
   items: Canvas[];
   isAudioVideo: boolean;
+  visibleCanvases: Reference<"Canvas">[];
 }
 
 const ViewerContent: React.FC<ViewerContentProps> = ({
@@ -39,8 +41,9 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   isAudioVideo,
   items,
   painting,
+  visibleCanvases,
 }) => {
-  const { isInformationOpen, configOptions } = useViewerState();
+  const { isInformationOpen, configOptions, sequence } = useViewerState();
   const { informationPanel } = configOptions;
 
   /**
@@ -69,9 +72,10 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
           annotationResources={annotationResources}
           isMedia={isAudioVideo}
           painting={painting}
+          visibleCanvases={visibleCanvases}
         />
 
-        {items.length > 1 && (
+        {sequence[1].length > 1 && (
           <MediaWrapper className="clover-viewer-media-wrapper">
             <Media items={items} activeItem={0} />
           </MediaWrapper>

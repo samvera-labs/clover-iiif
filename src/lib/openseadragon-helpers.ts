@@ -271,6 +271,7 @@ export const parseSrc = (src: string, isTiledImage: boolean) => {
     imageType,
   };
 };
+
 export function removeOverlaysFromViewer(
   viewer: OpenSeadragon.Viewer,
   overlaySelector: string,
