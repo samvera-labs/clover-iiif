@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 
-import { Group } from "src/components/Viewer/Media/Media.styled";
 import React from "react";
+import { StyledSequence } from "src/components/Viewer/Media/Media.styled";
 import Thumbnail from "src/components/Viewer/Media/Thumbnail";
 import { ThumbnailProps } from "src/components/Viewer/Media/Thumbnail";
 
@@ -64,9 +64,9 @@ describe("Thumbnail component", () => {
   describe("image type", () => {
     beforeEach(() => {
       render(
-        <Group>
+        <StyledSequence>
           <Thumbnail {...props} />
-        </Group>,
+        </StyledSequence>,
       );
     });
 
@@ -97,9 +97,9 @@ describe("Thumbnail component", () => {
 
     it("renders a fallback label for item index + 1", () => {
       render(
-        <Group>
+        <StyledSequence>
           <Thumbnail {...newProps} />
-        </Group>,
+        </StyledSequence>,
       );
       expect(screen.getByTestId("fig-caption")).toHaveTextContent("2");
       expect(screen.getByAltText("2"));
@@ -110,9 +110,9 @@ describe("Thumbnail component", () => {
     it("renders a duration value in the tag for audio type", () => {
       const newProps = { ...props, type: "Sound" };
       render(
-        <Group>
+        <StyledSequence>
           <Thumbnail {...newProps} />
-        </Group>,
+        </StyledSequence>,
       );
       const tag = screen.getByTestId("thumbnail-tag");
       expect(within(tag).getByText("0:00"));
@@ -121,9 +121,9 @@ describe("Thumbnail component", () => {
     it("renders a duration value in the tag for video type", () => {
       const newProps = { ...props, type: "Video" };
       render(
-        <Group>
+        <StyledSequence>
           <Thumbnail {...newProps} />
-        </Group>,
+        </StyledSequence>,
       );
       const tag = screen.getByTestId("thumbnail-tag");
       expect(within(tag).getByText("0:00"));

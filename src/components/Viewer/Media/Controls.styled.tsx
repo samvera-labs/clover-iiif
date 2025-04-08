@@ -76,6 +76,12 @@ const Direction = styled("div", {
     display: "flex",
     margin: "0 0.5rem",
     fontSize: "0.7222rem",
+    fontWeight: "bold",
+    gap: "0.25rem",
+
+    em: {
+      opacity: "0.25",
+    },
   },
 });
 

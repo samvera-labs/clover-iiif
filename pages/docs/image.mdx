@@ -14,7 +14,9 @@ A UI component that renders a _pan and deep-zoom_ Image viewer using [OpenSeadra
 
 <IIIFBadge href="https://iiif.io/api/image/3.0" text={["Image"]} />
 
-<div style={{ height: "38.2vh", minHeight: "450px" }}>
+<div
+  style={{ height: "38.2vh", minHeight: "450px", backgroundColor: "#f0f0f0" }}
+>
   <CloverImage
     body={{
       id: "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/600,/0/default.jpg",
@@ -233,14 +235,14 @@ const MyCustomImage = () => {
 
 Note that while that `src` and `body` are both optional, at least one of them must be provided.
 
-| Prop                    | Type                                                                                | Required |
-| ----------------------- | ----------------------------------------------------------------------------------- | -------- |
-| `body`                  | [IIIF Content Resource](https://iiif.io/api/presentation/3.0/#57-content-resources) | No       |
-| `instanceId`            | `string`                                                                            | No       |
-| `label`                 | `string` or [IIIF Label](https://iiif.io/api/presentation/3.0/#label)               | No       |
-| `src`                   | `string`                                                                            | No       |
-| `openSeadragonCallback` | function                                                                            | No       |
-| `openSeadragonConfig`   | OpenSeadragon.Options                                                               | No       |
+| Prop                    | Type                                                                                                                                 | Required |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | -------- |
+| `body`                  | [`LabeledIIIFExternalWebResource`](https://iiif.io/api/presentation/3.0/#57-content-resources) or `LabeledIIIFExternalWebResource[]` | No       |
+| `instanceId`            | `string`                                                                                                                             | No       |
+| `label`                 | `string` or [IIIF Label](https://iiif.io/api/presentation/3.0/#label)                                                                | No       |
+| `src`                   | `string` or `string[]`                                                                                                               | No       |
+| `openSeadragonCallback` | function                                                                                                                             | No       |
+| `openSeadragonConfig`   | OpenSeadragon.Options                                                                                                                | No       |
 
 ## OpenSeadragon
 
@@ -320,6 +322,38 @@ const MyCustomImage = () => {
   );
 };
 ```
+
+## Multiple Images
+
+Both the `src` and `body` prop can be an array of image URLs or IIIF Image service IDs. This allows you to render multiple images in a single OpenSeadragon instance. If `body` is provided, the resources should be an array of [content resources](#using-the-iiif-annotation-body).
+
+```jsx
+import Image from "@samvera/clover-iiif/image";
+
+const MyCustomImage = () => {
+  return (
+    <Image
+      src={[
+        "https://iiif.dc.library.northwestern.edu/iiif/3/34906273-e661-4cf1-ae20-849c4d21d01c/full/1200,/0/default.jpg",
+        "https://iiif.dc.library.northwestern.edu/iiif/3/cf9f7fc4-c242-4ca9-a77f-25daf355af92/full/1200,/0/default.jpg",
+      ]}
+      label="Michel Kovatchevitch correspondence, postcard"
+    />
+  );
+};
+```
+
+<div
+  style={{ height: "38.2vh", minHeight: "450px", backgroundColor: "#f0f0f0" }}
+>
+  <CloverImage
+    src={[
+      "https://iiif.dc.library.northwestern.edu/iiif/3/34906273-e661-4cf1-ae20-849c4d21d01c/full/1200,/0/default.jpg",
+      "https://iiif.dc.library.northwestern.edu/iiif/3/cf9f7fc4-c242-4ca9-a77f-25daf355af92/full/1200,/0/default.jpg",
+    ]}
+    label="Michel Kovatchevitch correspondence, postcard"
+  />
+</div>
 
 ## Instance ID
 
