@@ -163,8 +163,6 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     setActiveResource(value);
   };
 
-  console.log(activeResource);
-
   return (
     <Wrapper
       data-testid="information-panel"
