@@ -5,8 +5,6 @@ const annotationItemRow: CSS = {
   cursor: "pointer",
   display: "flex",
   width: "100%",
-  justifyContent: "space-between",
-  textAlign: "left",
   margin: "0",
   padding: "0.5rem 1.618rem",
   fontFamily: "inherit",
@@ -31,14 +29,27 @@ const Group = styled("div", {
   width: "100%",
 });
 
-const Item = styled("div", {
-  ...annotationItemRow,
+const StyledAnnotationContent = styled("div", {
+  display: "flex",
+  gap: "1rem",
+  flexDirection: "column",
+  fontSize: "1rem",
+  lineHeight: "1.47em",
+  margin: "0",
 });
 
-const ItemHTMLWrapper = styled("div", {
-  "&:hover": {
-    color: "$accent",
+const Item = styled("div", {
+  ...annotationItemRow,
+
+  [`&[dir=rtl] ${StyledAnnotationContent}`]: {
+    textAlign: "right !important",
   },
 });
 
-export { annotationItemRow, ButtonStyled, Group, Item, ItemHTMLWrapper };
+export {
+  annotationItemRow,
+  ButtonStyled,
+  Group,
+  Item,
+  StyledAnnotationContent,
+};

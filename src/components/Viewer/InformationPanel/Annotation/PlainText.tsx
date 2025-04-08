@@ -1,4 +1,5 @@
-import { ButtonStyled } from "./Item.styled";
+import { ButtonStyled, StyledAnnotationContent } from "./Item.styled";
+
 import React from "react";
 
 type AnnotationItemPlainTextProps = {
@@ -10,7 +11,11 @@ const AnnotationItemPlainText: React.FC<AnnotationItemPlainTextProps> = ({
   value,
   handleClick,
 }) => {
-  return <ButtonStyled onClick={handleClick}>{value}</ButtonStyled>;
+  return (
+    <ButtonStyled onClick={handleClick}>
+      <StyledAnnotationContent dangerouslySetInnerHTML={{ __html: value }} />
+    </ButtonStyled>
+  );
 };
 
 export default AnnotationItemPlainText;

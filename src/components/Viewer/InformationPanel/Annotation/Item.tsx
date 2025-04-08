@@ -12,6 +12,8 @@ import AnnotationItemHTML from "./HTML";
 import AnnotationItemVTT from "./VTT/VTT";
 import { panToTarget } from "src/lib/openseadragon-helpers";
 import AnnotationItemImage from "./Image";
+import AnnotationItemMarkdown from "./Markdown";
+import { getLanguageDirection } from "src/lib/annotation-helpers";
 
 type Props = {
   annotation: AnnotationNormalized;
@@ -36,6 +38,13 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
   const annotationBodyValue =
     annotationBody.find((body) => body.value)?.value || "";
 
+  const annotationBodyLanguage =
+    annotationBody.find((body) => body.language)?.language || "";
+
+  const readingDirection = getLanguageDirection(
+    annotationBodyLanguage,
+  ).toLocaleLowerCase();
+
   const canvas = vault.get({
     id: activeCanvas,
     type: "Canvas",
@@ -47,6 +56,8 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
     const zoomLevel = configOptions.annotationOverlays?.zoomLevel || 1;
     panToTarget(openSeadragonViewer, zoomLevel, target, canvas);
   }
+
+  console.log(annotationBodyLanguage);
 
   function renderItemBody() {
     switch (annotationBodyFormat) {
@@ -60,6 +71,13 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
       case "text/html":
         return (
           <AnnotationItemHTML
+            value={annotationBodyValue}
+            handleClick={handleClick}
+          />
+        );
+      case "text/markdown":
+        return (
+          <AnnotationItemMarkdown
             value={annotationBodyValue}
             handleClick={handleClick}
           />
@@ -92,7 +110,7 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
     }
   }
 
-  return <ItemStyled>{renderItemBody()}</ItemStyled>;
+  return <ItemStyled dir={readingDirection}>{renderItemBody()}</ItemStyled>;
 };
 
 export default AnnotationItem;

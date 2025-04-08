@@ -89,6 +89,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
             searchServiceUrl={searchServiceUrl}
             setContentSearchResource={setContentSearchResource}
             contentSearchResource={contentSearchResource}
+            visibleCanvases={visibleCanvases}
           />
         </Aside>
       )}
