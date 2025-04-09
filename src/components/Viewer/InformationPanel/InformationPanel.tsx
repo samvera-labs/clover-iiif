@@ -21,6 +21,7 @@ import {
   InternationalString,
   AnnotationPageNormalized,
   CanvasNormalized,
+  Reference,
 } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
 import { setupPlugins } from "src/lib/plugin-helpers";
@@ -39,6 +40,7 @@ interface NavigatorProps {
     React.SetStateAction<AnnotationPageNormalized | undefined>
   >;
   contentSearchResource?: AnnotationResource;
+  visibleCanvases: Reference<"Canvas">[];
 }
 
 export const InformationPanel: React.FC<NavigatorProps> = ({
@@ -47,6 +49,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   searchServiceUrl,
   setContentSearchResource,
   contentSearchResource,
+  visibleCanvases,
 }) => {
   const { t } = useTranslation();
   const dispatch: any = useViewerDispatch();
@@ -137,7 +140,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
        */
       if (tabList && tabList.length > 0) setActiveResource(tabList[0]);
     }
-  }, []);
+  }, [activeCanvas]);
 
   function handleScroll() {
     if (!isAutoScrolling) {
