@@ -12,6 +12,7 @@ import {
 } from "src/context/viewer-context";
 import { OsdSvgOverlay } from "src/lib/openseadragon-svg";
 import { parseAnnotationTarget } from "src/lib/annotation-helpers";
+import { getActiveSelector } from "src/lib/iiif";
 
 import { ParsedAnnotationTarget } from "src/types/annotations";
 import { getImageServiceURI } from "src/lib/iiif";
@@ -333,3 +334,47 @@ export function addContentSearchOverlays(
     );
   }
 }
+
+export const handleSelectorZoom = (
+  selector: any,
+  openSeadragonViewer: any,
+  canvas: CanvasNormalized,
+  configOptions: ViewerConfigOptions
+) => {
+  if (!openSeadragonViewer || !selector || !canvas) return;
+
+  // Build target based on selector type
+  let target;
+  if (selector.type === "FragmentSelector" && selector.value) {
+    target = `${canvas.id}#${selector.value}`;
+  } else if (selector.type === "PointSelector") {
+    target = {
+      source: canvas.id,
+      selector: {
+        type: "PointSelector",
+        x: selector.x,
+        y: selector.y
+      }
+    };
+  } else if (selector.type === "SvgSelector") {
+    target = {
+      source: canvas.id,
+      selector: {
+        type: "SvgSelector",
+        value: selector.value
+      }
+    };
+  }
+
+  if (!target) return;
+
+  const parsedTarget = parseAnnotationTarget(target);
+  if (!parsedTarget) return;
+
+  const zoomLevel = configOptions?.annotationOverlays?.zoomLevel || 2;
+  const rect = createOpenSeadragonRect(canvas, parsedTarget, zoomLevel);
+
+  if (rect) {
+    openSeadragonViewer.viewport.fitBounds(rect);
+  }
+};

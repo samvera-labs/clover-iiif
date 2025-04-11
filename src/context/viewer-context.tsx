@@ -161,6 +161,7 @@ export type PluginConfig = {
 export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
+  activeSelector?: string;
   OSDImageLoaded?: boolean;
   collection?: CollectionNormalized | Record<string, never>;
   configOptions: ViewerConfigOptions;
@@ -182,6 +183,7 @@ export interface ViewerContextStore {
 export interface ViewerAction {
   type: string;
   canvasId: string;
+  selector?: string;
   collection: CollectionNormalized;
   configOptions: ViewerConfigOptions;
   isAutoScrollEnabled: boolean;
@@ -228,6 +230,7 @@ const expandedAutoScrollOptions = expandAutoScrollOptions(
 export const defaultState: ViewerContextStore = {
   activeCanvas: "",
   activeManifest: "",
+  activeSelector: undefined,
   OSDImageLoaded: false,
   collection: {},
   configOptions: defaultConfigOptions,
@@ -332,6 +335,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         viewerId: action.viewerId,
+      };
+    }
+    case "updateActiveSelector": {
+      return {
+        ...state,
+        activeSelector: action.selector,
       };
     }
     default: {
