@@ -23,6 +23,7 @@ import {
   getActiveManifest,
 } from "src/lib/iiif";
 import { ContentSearchQuery } from "src/types/annotations";
+import ViewerSkeleton from "./Viewer/ViewerSkeleton";
 
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
@@ -205,7 +206,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
       const CustomLoadingComponent = options.customLoadingComponent;
       return <CustomLoadingComponent />;
     } else {
-      return <>Loading</>;
+      return <ViewerSkeleton options={options} />;
     }
   }
 
