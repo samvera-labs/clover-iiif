@@ -258,7 +258,6 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
       theme={theme}
       key={manifest.id}
       iiifContentSearchQuery={iiifContentSearchQuery}
-      iiifContent={iiifContent}
     />
   );
 };
