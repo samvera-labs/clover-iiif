@@ -40,14 +40,12 @@ interface ViewerProps {
   manifest: ManifestNormalized;
   theme?: unknown;
   iiifContentSearchQuery?: ContentSearchQuery;
-  iiifContent?: string;
 }
 
 const Viewer: React.FC<ViewerProps> = ({
   manifest,
   theme,
-  iiifContentSearchQuery,
-  iiifContent,
+  iiifContentSearchQuery
 }) => {
   /**
    * Viewer State
