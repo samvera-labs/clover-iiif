@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import { AnnotationResources } from "src/types/annotations";
-import AudioVisualizer from "src/components/Viewer/Player/AudioVisualizer";
+import { AudioVisualizerBase } from "src/components/Viewer/Player/AudioVisualizerBase";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
 import Track from "src/components/Viewer/Player/Track";
@@ -31,6 +31,9 @@ const Player: React.FC<PlayerProps> = ({
 
   const viewerState: ViewerContextStore = useViewerState();
   const { activeCanvas, configOptions, vault } = viewerState;
+  const audioVisualizerComponent = configOptions?.audioVisualizer
+    ?.component as AudioVisualizerBase;
+  const audioVisualizerProps = configOptions?.audioVisualizer?.props || {};
 
   /**
    * HLS.js binding for .m3u8 files
@@ -202,7 +205,11 @@ const Player: React.FC<PlayerProps> = ({
         Sorry, your browser doesn&apos;t support embedded videos.
       </video>
 
-      {isAudio && <AudioVisualizer ref={playerRef} />}
+      {isAudio &&
+        React.createElement(audioVisualizerComponent, {
+          ...audioVisualizerProps,
+          ref: playerRef,
+        })}
     </PlayerWrapper>
   );
 };
