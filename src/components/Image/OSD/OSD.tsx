@@ -6,14 +6,20 @@ import {
 import OpenSeadragon, { Options } from "openseadragon";
 import React, { useEffect, useRef, useState } from "react";
 
+import { Annotation } from "@iiif/presentation-3";
 import Controls from "src/components/Image/Controls/Controls";
 import { OpenSeadragonImageTypes } from "src/types/open-seadragon";
 import { getInfoResponse } from "src/lib/iiif";
+import { parseAnnotationTarget } from "src/lib";
 import { retry } from "src/lib/retry";
 import { useViewerDispatch } from "src/context/viewer-context";
 
 interface OSDProps {
   _cloverViewerHasPlaceholder: boolean;
+  annotations?: Array<{
+    annotation: Annotation;
+    targetIndex: number;
+  }>;
   ariaLabel?: string | null;
   config: Options;
   uri: string[];
@@ -39,6 +45,7 @@ const getBaseItemWithRetry = async (
 };
 
 const OSD: React.FC<OSDProps> = ({
+  annotations,
   ariaLabel,
   config,
   uri,
@@ -51,6 +58,8 @@ const OSD: React.FC<OSDProps> = ({
   const [openSeadragon, setOpenSeadragon] = useState<OpenSeadragon.Viewer>();
   const dispatch: any = useViewerDispatch();
   const initializeOSD = useRef(false);
+
+  const annotationClassName = "clover-iiif-image-openseadragon-annotation";
 
   useEffect(() => {
     if (!initializeOSD.current) {
@@ -191,6 +200,165 @@ const OSD: React.FC<OSDProps> = ({
         }
       };
       fitBounds();
+
+      //
+      openSeadragon?.addHandler("canvas-click", (event) => {
+        if (event.originalTarget?.classList?.contains(annotationClassName)) {
+          console.log(event);
+
+          // get rect for clicked item
+          const item = openSeadragon?.world.getItemAt(
+            event.originalEvent.target,
+          );
+          if (item) {
+            const bounds = item.getBounds();
+            const rect = new OpenSeadragon.Rect(
+              bounds.x,
+              bounds.y,
+              bounds.width,
+              bounds.height,
+            );
+            openSeadragon?.viewport.fitBounds(rect, true);
+          }
+          return (event.preventDefaultAction = true);
+        }
+        // return (event.preventDefaultAction = true);
+      });
+
+      openSeadragon?.addHandler("canvas-click", (event) => {
+        return event;
+      });
+
+      function computeX(x, targetIndex) {
+        let computedX = x;
+        if (targetIndex === 0) return computedX;
+
+        // if not targetIndex 0 get width of all previous items
+        while (targetIndex > 0) {
+          const item = openSeadragon?.world
+            .getItemAt(targetIndex - 1)
+            ?.getContentSize().x;
+          if (item) {
+            computedX += item;
+            targetIndex--;
+          } else {
+            break;
+          }
+        }
+        return computedX;
+      }
+
+      if (annotations) {
+        const elements = document.querySelectorAll(`.${annotationClassName}`);
+        if (elements && openSeadragon) {
+          elements.forEach((element) => openSeadragon?.removeOverlay(element));
+        }
+
+        annotations.forEach((entry) => {
+          const { annotation, targetIndex } = entry;
+
+          // helps determines initial scale
+          const scaleIndex = targetIndex; // eventually this could be index of current image
+          const rootWidth = openSeadragon?.world
+            .getItemAt(scaleIndex)
+            ?.getContentSize().x;
+
+          const scale = 1 / rootWidth;
+          const parsedAnnotationTarget = parseAnnotationTarget(
+            annotation?.target,
+          );
+          const label = annotation?.body[0]?.value;
+
+          if (parsedAnnotationTarget?.rect) {
+            const div = document.createElement("button");
+            div.className = annotationClassName;
+            div.style.position = "relative";
+            div.style.backgroundColor = "rgba(255, 0, 0, 0.14)";
+            div.style.border = `none`;
+            div.style.outline = `2px solid transparent`;
+            div.style.boxSizing = "content-box";
+            div.style.borderRadius = "3px";
+            div.style.boxShadow = `0px 0px 0px 5000px transparent`;
+            div.style.transition = "box-shadow 382ms ease-in-out";
+
+            // add tabindex to div
+            div.setAttribute("tabindex", "0");
+            div.setAttribute("role", "button");
+
+            if (label) {
+              div.setAttribute("title", label);
+              div.setAttribute("aria-label", label);
+            }
+
+            div.setAttribute(
+              "aria-describedby",
+              "clover-iiif-image-openseadragon",
+            );
+
+            // add onClick event to div
+            div.addEventListener("mousedown", (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            });
+
+            div.addEventListener("touchstart", (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            });
+
+            div.addEventListener("click", (e) => {
+              e.stopPropagation();
+              e.preventDefault();
+            });
+
+            // add focus AND hover event to div
+            div.addEventListener("focus", (e) => {
+              div.style.backgroundColor = "transparent";
+              div.style.boxShadow = `0px 0px 0px 5000px #6669`;
+              div.style.zIndex = "99999999";
+            });
+
+            div.addEventListener("mouseover", (e) => {
+              div.style.backgroundColor = "transparent";
+              div.style.boxShadow = `0px 0px 0px 5000px #6669`;
+              div.style.zIndex = "99999999";
+            });
+
+            // add blur AND mouseout event to div
+            div.addEventListener("mouseout", (e) => {
+              div.style.backgroundColor = "rgba(255, 0, 0, 0.14)";
+              div.style.outlineColor = `transparent`;
+              div.style.boxShadow = `none`;
+              div.style.zIndex = "0";
+            });
+
+            div.addEventListener("blur", (e) => {
+              div.style.backgroundColor = "rgba(255, 0, 0, 0.14)";
+              div.style.outlineColor = `transparent`;
+              div.style.boxShadow = `none`;
+              div.style.zIndex = "0";
+            });
+
+            const { x, y, w, h } = parsedAnnotationTarget?.rect;
+
+            // if first item, x should be x, if second, x should be x + width of first item, if third item, x should be x + width of first item + width of second item
+            const computedX = computeX(x, targetIndex);
+
+            const rect = new OpenSeadragon.Rect(
+              computedX * scale,
+              y * scale,
+              w * scale,
+              h * scale,
+            );
+
+            openSeadragon?.addOverlay(
+              div,
+              rect,
+              OpenSeadragon.Placement.CENTER,
+            );
+          }
+        });
+      }
     }
   }, [osdDrawn]);
 

@@ -446,7 +446,19 @@
                 "language": "en",
                 "format": "text/plain"
               },
-              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74#xywh=165,261,560,539"
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74#xywh=0,0,500,500"
+            },
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74/annotation-page/0/annotation/1",
+              "type": "Annotation",
+              "motivation": "tagging",
+              "body": {
+                "type": "TextualBody",
+                "value": "I don't know what this is",
+                "language": "en",
+                "format": "text/plain"
+              },
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74#xywh=3650,0,500,500"
             }
           ]
         }

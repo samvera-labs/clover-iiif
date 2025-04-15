@@ -105,7 +105,7 @@ export function createOpenSeadragonRect(
 /**
  * Add a rectangular overlay to an OpenSeadragon viewer
  */
-function addRectangularOverlay(
+export function addRectangularOverlay(
   viewer: OpenSeadragon.Viewer,
   x: number,
   y: number,

@@ -1,4 +1,5 @@
 import {
+  Annotation,
   AnnotationNormalized,
   CanvasNormalized,
   InternationalString,
@@ -19,6 +20,7 @@ import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import PaintingPlaceholder from "./Placeholder";
 import Player from "src/components/Viewer/Player/Player";
 import Toggle from "./Toggle";
+import { a } from "vitest/dist/chunks/suite.B2jumIFP.js";
 import { getPaintingResource } from "src/hooks/use-iiif";
 import { hashCode } from "src/lib/utils";
 
@@ -84,30 +86,31 @@ const Painting: React.FC<PaintingProps> = ({
     return match;
   });
 
-  /** Retrieve annotations from Vault */
-  const annotations: Array<AnnotationNormalized> = [];
-  annotationResources[0]?.items?.forEach((item) => {
-    const annotationResource = vault.get(item.id);
-    annotations.push(annotationResource as unknown as AnnotationNormalized);
-  });
+  /** Retrieve annotations for visible canvases from Vault */
+  const annotations: Array<{
+    annotation: Annotation;
+    targetIndex: number;
+  }> = [];
+  annotationResources?.forEach((page, pageIndex) => {
+    page.items?.forEach((item) => {
+      const normalizedAnnotation = vault.get(item.id);
+      if (normalizedAnnotation) {
+        const annotation = {
+          ...normalizedAnnotation,
+          body: normalizedAnnotation.body.map((body) => {
+            const bodyResource = vault.get(body.id);
+            if (bodyResource) return bodyResource;
+            return body;
+          }),
+        };
 
-  /** Draw annotation overlays */
-  useEffect(() => {
-    if (
-      annotations &&
-      openSeadragonViewer &&
-      configOptions.annotationOverlays?.renderOverlays
-    ) {
-      removeOverlaysFromViewer(openSeadragonViewer, "annotation-overlay");
-      addOverlaysToViewer(
-        openSeadragonViewer,
-        normalizedCanvas,
-        configOptions.annotationOverlays,
-        annotations,
-        "annotation-overlay",
-      );
-    }
-  }, [normalizedCanvas, annotations, openSeadragonViewer, configOptions]);
+        annotations.push({
+          annotation: annotation as Annotation,
+          targetIndex: pageIndex,
+        });
+      }
+    });
+  });
 
   useEffect(() => {
     setAnnotationIndex(0);
@@ -198,6 +201,7 @@ const Painting: React.FC<PaintingProps> = ({
             painting && (
               <ImageViewer
                 _cloverViewerHasPlaceholder={Boolean(placeholderItems?.length)}
+                annotations={annotations}
                 body={imageBody}
                 instanceId={instanceId}
                 key={instanceId}
