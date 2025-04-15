@@ -16,8 +16,8 @@ import {
 } from "src/context/viewer-context";
 import {
   addContentSearchOverlays,
-  removeOverlaysFromViewer,
   handleSelectorZoom,
+  removeOverlaysFromViewer,
 } from "src/lib/openseadragon-helpers";
 import {
   getAnnotationResources,
@@ -45,7 +45,7 @@ interface ViewerProps {
 const Viewer: React.FC<ViewerProps> = ({
   manifest,
   theme,
-  iiifContentSearchQuery
+  iiifContentSearchQuery,
 }) => {
   /**
    * Viewer State
@@ -142,11 +142,15 @@ const Viewer: React.FC<ViewerProps> = ({
         id: activeCanvas,
         type: "Canvas",
       }) as CanvasNormalized;
-      console.log("activeSelector", activeSelector);
 
       // Add a small delay to ensure the image is loaded
       setTimeout(() => {
-        handleSelectorZoom(activeSelector, openSeadragonViewer, canvas, configOptions);
+        handleSelectorZoom(
+          activeSelector,
+          openSeadragonViewer,
+          canvas,
+          configOptions,
+        );
       }, 300);
     }
   }, [

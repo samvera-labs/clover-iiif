@@ -133,22 +133,22 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
           // @ts-ignore
           const sequence = getManifestSequence(vault, data);
           setManifest(data);
-          
+
           const canvasId = getActiveCanvas(iiifContent, data);
           const selector = getActiveSelector(iiifContent);
-          
+
           dispatch({
             type: "updateActiveCanvas",
             canvasId: canvasId,
           });
-          
+
           if (selector) {
             dispatch({
               type: "updateActiveSelector",
               selector: selector,
             });
           }
-          
+
           dispatch({
             type: "updateManifestSequence",
             sequence,
