@@ -6,6 +6,7 @@ import {
   ManifestNormalized,
   Service,
 } from "@iiif/presentation-3";
+
 import { decodeContentState } from "@iiif/helpers";
 
 export const getCanvasResource = (canvas: Canvas) => {
@@ -96,9 +97,10 @@ export const parseIiifContent = (iiifContent: string) => {
         };
         if (json?.id?.includes("#xywh=")) {
           const [canvasId, xywh] = json.id.split("#xywh=");
+          active.canvas = canvasId;
           active.selector = {
             type: "FragmentSelector",
-            value: `xywh=${xywh}`
+            value: `xywh=${xywh}`,
           };
         }
         break;

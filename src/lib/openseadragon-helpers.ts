@@ -12,7 +12,6 @@ import {
 } from "src/context/viewer-context";
 import { OsdSvgOverlay } from "src/lib/openseadragon-svg";
 import { parseAnnotationTarget } from "src/lib/annotation-helpers";
-import { getActiveSelector } from "src/lib/iiif";
 
 import { ParsedAnnotationTarget } from "src/types/annotations";
 import { getImageServiceURI } from "src/lib/iiif";
@@ -339,7 +338,7 @@ export const handleSelectorZoom = (
   selector: any,
   openSeadragonViewer: any,
   canvas: CanvasNormalized,
-  configOptions: ViewerConfigOptions
+  configOptions: ViewerConfigOptions,
 ) => {
   if (!openSeadragonViewer || !selector || !canvas) return;
 
@@ -353,16 +352,16 @@ export const handleSelectorZoom = (
       selector: {
         type: "PointSelector",
         x: selector.x,
-        y: selector.y
-      }
+        y: selector.y,
+      },
     };
   } else if (selector.type === "SvgSelector") {
     target = {
       source: canvas.id,
       selector: {
         type: "SvgSelector",
-        value: selector.value
-      }
+        value: selector.value,
+      },
     };
   }
 
