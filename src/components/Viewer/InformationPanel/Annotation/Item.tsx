@@ -12,6 +12,8 @@ import AnnotationItemHTML from "./HTML";
 import AnnotationItemVTT from "./VTT/VTT";
 import { panToTarget } from "src/lib/openseadragon-helpers";
 import AnnotationItemImage from "./Image";
+import AnnotationItemMarkdown from "./Markdown";
+import { getLanguageDirection } from "src/lib/annotation-helpers";
 
 type Props = {
   annotation: AnnotationNormalized;
@@ -30,11 +32,13 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
     }
   > = annotation.body.map((body) => vault.get(body.id));
 
-  const annotationBodyFormat =
-    annotationBody.find((body) => body.format)?.format || "";
+  // ignore due to `chars` not being defined in annotation bodies
+  // @ts-ignore
+  const { format, language = "en", value = "", chars = "" } = annotationBody[0];
 
-  const annotationBodyValue =
-    annotationBody.find((body) => body.value)?.value || "";
+  const content = value || chars;
+
+  const readingDirection = getLanguageDirection(language).toLocaleLowerCase();
 
   const canvas = vault.get({
     id: activeCanvas,
@@ -49,20 +53,16 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
   }
 
   function renderItemBody() {
-    switch (annotationBodyFormat) {
+    switch (format) {
       case "text/plain":
         return (
-          <AnnotationItemPlainText
-            value={annotationBodyValue}
-            handleClick={handleClick}
-          />
+          <AnnotationItemPlainText value={content} handleClick={handleClick} />
         );
       case "text/html":
+        return <AnnotationItemHTML value={content} handleClick={handleClick} />;
+      case "text/markdown":
         return (
-          <AnnotationItemHTML
-            value={annotationBodyValue}
-            handleClick={handleClick}
-          />
+          <AnnotationItemMarkdown value={content} handleClick={handleClick} />
         );
       case "text/vtt":
         return (
@@ -71,28 +71,25 @@ export const AnnotationItem: React.FC<Props> = ({ annotation }) => {
             vttUri={annotationBody[0].id || ""}
           />
         );
-      case annotationBodyFormat.match(/^image\//)?.input:
+      case format?.match(/^image\//)?.input:
         const imageUri =
           annotationBody.find((body) => !body.id?.includes("vault://"))?.id ||
           "";
         return (
           <AnnotationItemImage
-            caption={annotationBodyValue}
+            caption={value}
             handleClick={handleClick}
             imageUri={imageUri}
           />
         );
       default:
         return (
-          <AnnotationItemPlainText
-            value={annotationBodyValue}
-            handleClick={handleClick}
-          />
+          <AnnotationItemPlainText value={content} handleClick={handleClick} />
         );
     }
   }
 
-  return <ItemStyled>{renderItemBody()}</ItemStyled>;
+  return <ItemStyled dir={readingDirection}>{renderItemBody()}</ItemStyled>;
 };
 
 export default AnnotationItem;

@@ -122,25 +122,22 @@ const Viewer: React.FC<ViewerProps> = ({
     );
 
     setVisibleCanvases(visibleCanvases);
+  }, [activeCanvas, isSmallViewport, manifest, vault, viewerDispatch]);
 
-    getAnnotationResources(vault, activeCanvas).then((resources) => {
-      if (resources.length > 0 && !isSmallViewport) {
-        viewerDispatch({
-          type: "updateInformationOpen",
-          isInformationOpen: true,
-        });
-      }
-      setAnnotationResources(resources);
-      setIsInformationPanel(resources.length !== 0);
-    });
-  }, [
-    activeCanvas,
-    annotationResources.length,
-    isSmallViewport,
-    manifest,
-    vault,
-    viewerDispatch,
-  ]);
+  /**
+   * Get all annotation resources for visible canvases
+   */
+  useEffect(() => {
+    (async () => {
+      const visibleAnnotations = await Promise.all(
+        visibleCanvases.map((canvas) =>
+          getAnnotationResources(vault, canvas.id),
+        ),
+      );
+
+      setAnnotationResources(visibleAnnotations.flat());
+    })();
+  }, [visibleCanvases]);
 
   const hasSearchService = manifest.service.some(
     (service: any) => service.type === "SearchService2",

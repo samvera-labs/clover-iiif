@@ -1,4 +1,5 @@
-import { ItemHTMLWrapper } from "./Item.styled";
+import { ButtonStyled, StyledAnnotationContent } from "./Item.styled";
+
 import React from "react";
 
 type AnnotationItemHTMLProps = {
@@ -11,10 +12,9 @@ const AnnotationItemHTML: React.FC<AnnotationItemHTMLProps> = ({
   handleClick,
 }) => {
   return (
-    <ItemHTMLWrapper
-      dangerouslySetInnerHTML={{ __html: value }}
-      onClick={handleClick}
-    />
+    <ButtonStyled onClick={handleClick}>
+      <StyledAnnotationContent dangerouslySetInnerHTML={{ __html: value }} />
+    </ButtonStyled>
   );
 };
 
