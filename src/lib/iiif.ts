@@ -52,12 +52,12 @@ export const getImageServiceURI = (service: Service[] | undefined) => {
   return imageServiceURI;
 };
 
-const parseIiifContent = (iiifContent: string) => {
+export const parseIiifContent = (iiifContent: string) => {
   let resourceId;
-  let active;
+  let active: any = {};
+
   if (isURL(iiifContent)) {
     resourceId = iiifContent;
-    active = {};
   } else {
     const json = JSON.parse(decodeContentState(iiifContent));
     switch (json?.type) {
@@ -66,25 +66,46 @@ const parseIiifContent = (iiifContent: string) => {
       // https://iiif.io/api/content-state/1.0/#53-multiple-targets-for-a-comparison-view
       // https://iiif.io/api/content-state/1.0/#54-search-results
       case "SpecificResource":
-      case "Range":
-      case "Annotation":
-        resourceId = json?.target.partOf[0].id;
+        resourceId = json?.target?.partOf?.[0]?.id;
         active = {
           manifest: resourceId,
-          canvas: json?.target.id,
+          canvas: json?.target?.id,
         };
+        if (json?.selector) {
+          active.selector = json.selector;
+        }
+        break;
+      case "Range":
+      case "Annotation":
+        resourceId = json?.target?.partOf?.[0]?.id;
+        active = {
+          manifest: resourceId,
+          canvas: json?.target?.id,
+        };
+        if (json?.target?.type === "SpecificResource") {
+          active.selector = json.target.selector;
+        } else if (json?.target?.selector) {
+          active.selector = json.target.selector;
+        }
         break;
       case "Canvas":
-        resourceId = json?.partOf[0].id;
+        resourceId = json?.partOf?.[0]?.id;
         active = {
           manifest: resourceId,
           canvas: json?.id,
         };
+        if (json?.id?.includes("#xywh=")) {
+          const [canvasId, xywh] = json.id.split("#xywh=");
+          active.selector = {
+            type: "FragmentSelector",
+            value: `xywh=${xywh}`
+          };
+        }
         break;
       case "Manifest":
         resourceId = json?.id;
         active = {
-          collection: json?.partOf[0]?.id,
+          collection: json?.partOf?.[0]?.id,
           manifest: json?.id,
         };
         break;
@@ -125,6 +146,11 @@ export const getActiveManifest = (
     .map((manifest) => manifest.id);
   if (manifests.length == 0) return null;
   return manifests.includes(manifest) ? manifest : manifests[0];
+};
+
+export const getActiveSelector = (iiifContent: string) => {
+  const { active } = parseIiifContent(iiifContent);
+  return active.selector;
 };
 
 const isURL = (url: string) => {

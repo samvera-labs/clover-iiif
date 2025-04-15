@@ -16,6 +16,7 @@ import {
 } from "src/context/viewer-context";
 import {
   addContentSearchOverlays,
+  handleSelectorZoom,
   removeOverlaysFromViewer,
 } from "src/lib/openseadragon-helpers";
 import {
@@ -53,6 +54,7 @@ const Viewer: React.FC<ViewerProps> = ({
   const viewerDispatch: any = useViewerDispatch();
   const {
     activeCanvas,
+    activeSelector,
     isInformationOpen,
     vault,
     contentSearchVault,
@@ -133,13 +135,34 @@ const Viewer: React.FC<ViewerProps> = ({
       setAnnotationResources(resources);
       setIsInformationPanel(resources.length !== 0);
     });
+
+    // Handle selector zoom when canvas is drawn
+    if (openSeadragonViewer && activeCanvas && activeSelector) {
+      const canvas = vault.get({
+        id: activeCanvas,
+        type: "Canvas",
+      }) as CanvasNormalized;
+
+      // Add a small delay to ensure the image is loaded
+      setTimeout(() => {
+        handleSelectorZoom(
+          activeSelector,
+          openSeadragonViewer,
+          canvas,
+          configOptions,
+        );
+      }, 300);
+    }
   }, [
     activeCanvas,
+    activeSelector,
     annotationResources.length,
     isSmallViewport,
     manifest,
     vault,
     viewerDispatch,
+    openSeadragonViewer,
+    configOptions,
   ]);
 
   const hasSearchService = manifest.service.some(

@@ -129,7 +129,7 @@ const Inner = styled("div", {
 
 const gradientMask = ["rgba(0, 0, 0, 0) 3px", "rgba(0, 0, 0, 1) 5rem"];
 
-const StyledSplashElement = styled("button", {
+const StyledSplashElement = styled("div", {
   display: "flex",
   flexDirection: "column",
   textAlign: "left",
@@ -144,6 +144,8 @@ const StyledSplashElement = styled("button", {
   minHeight: "165px",
   cursor: "pointer",
   maskImage: `linear-gradient(0deg, ${gradientMask.join(", ")})`,
+  role: "button",
+  tabIndex: 0,
 
   "&::after": {
     content: "",
