@@ -20,14 +20,14 @@ const betaBadgeStyling: CSSProperties = {
   marginLeft: "10px",
 };
 
-const isBeta = ["Scroll"];
+const isBeta = ["Share"];
 
 const TitleComponent: React.FC<TitleComponentProps> = ({ title }) => {
   if (isBeta.includes(title))
     return (
       <span>
         {title}
-        <span style={betaBadgeStyling}>Beta</span>
+        <span style={betaBadgeStyling}>New</span>
       </span>
     );
 
