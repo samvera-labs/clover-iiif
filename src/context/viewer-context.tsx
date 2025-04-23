@@ -4,7 +4,7 @@ import {
   Reference,
 } from "@iiif/presentation-3";
 import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
-import React, { useReducer } from "react";
+import React, { MediaHTMLAttributes, useReducer } from "react";
 
 import { IncomingHttpHeaders } from "http";
 import { Vault } from "@iiif/helpers/vault";
@@ -30,6 +30,7 @@ export type ViewerConfigOptions = {
     searchResultsLimit?: number;
     overlays?: OverlayOptions;
   };
+  crossOrigin?: MediaHTMLAttributes<HTMLVideoElement>["crossOrigin"];
   ignoreCaptionLabels?: string[];
   informationPanel?: {
     open?: boolean;
@@ -101,6 +102,7 @@ const defaultConfigOptions = {
       zoomLevel: 4,
     },
   },
+  crossOrigin: undefined,
   ignoreCaptionLabels: [],
   informationPanel: {
     vtt: {

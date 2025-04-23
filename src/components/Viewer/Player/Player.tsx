@@ -161,7 +161,7 @@ const Player: React.FC<PlayerProps> = ({
         controls
         height={painting.height}
         width={painting.width}
-        crossOrigin="anonymous"
+        crossOrigin={configOptions.crossOrigin}
         poster={poster}
         style={{
           maxHeight: configOptions.canvasHeight,
