@@ -5,7 +5,7 @@ const AboutContent = styled("div", {
   padding: " 0 1.618rem 2rem",
   display: "flex",
   flexDirection: "column",
-  overflow: "scroll",
+  overflow: "auto",
   position: "absolute",
   fontWeight: "400",
   fontSize: "1rem",
@@ -51,10 +51,6 @@ const AboutContent = styled("div", {
   ".manifest-property-title": {
     fontWeight: "700",
     margin: "1rem 0 0.25rem",
-  },
-
-  div: {
-    overflow: "auto",
   },
 
   "ul, ol": {
