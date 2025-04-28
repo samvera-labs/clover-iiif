@@ -5,7 +5,7 @@ const AboutContent = styled("div", {
   padding: " 0 1.618rem 2rem",
   display: "flex",
   flexDirection: "column",
-  overflow: "scroll",
+  overflow: "auto",
   position: "absolute",
   fontWeight: "400",
   fontSize: "1rem",
