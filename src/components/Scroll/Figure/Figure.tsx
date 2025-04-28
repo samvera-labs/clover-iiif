@@ -8,7 +8,6 @@ import {
 import { CanvasNormalized } from "@iiif/presentation-3";
 import FigureCaption from "src/components/Scroll/Figure/Caption";
 import FigureImageViewer from "src/components/Scroll/Figure/ImageViewer";
-import FigureThumbnail from "./Thumbnail";
 import { getPaintingResource } from "src/hooks/use-iiif";
 
 interface CanvasProps {
@@ -27,6 +26,7 @@ const ScrollCanvasFigure: React.FC<CanvasProps> = ({ canvas, canvasInfo }) => {
   const display = figure.display
     ? figure.display
     : initialState.options.figure.display;
+
   const aspectRatio = figure.aspectRatio
     ? figure.aspectRatio
     : initialState.options.figure.aspectRatio;
@@ -40,12 +40,12 @@ const ScrollCanvasFigure: React.FC<CanvasProps> = ({ canvas, canvasInfo }) => {
       {painting?.map((body) => {
         return (
           <StyledFigurePlaceholder ratio={aspectRatio} key={body?.id}>
-            {display === "thumbnail" && (
-              <FigureThumbnail body={body} label={canvas?.label} />
-            )}
-            {display === "image-viewer" && (
-              <FigureImageViewer label={canvas?.label} body={body} />
-            )}
+            <FigureImageViewer
+              body={body}
+              thumbnail={canvas.thumbnail}
+              label={canvas?.label}
+              display={display}
+            />
           </StyledFigurePlaceholder>
         );
       })}
