@@ -53,6 +53,10 @@ const AboutContent = styled("div", {
     margin: "1rem 0 0.25rem",
   },
 
+  div: {
+    overflow: "auto",
+  },
+
   "ul, ol": {
     padding: "0",
     margin: "0",
