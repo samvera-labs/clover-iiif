@@ -31,7 +31,6 @@ Clover IIIF utilizes [vitest](https://vitest.dev/) for unit testing.
 # Run tests
 npm run test
 
-```shell
 # Run coverage report on the tests
 npm run coverage
 ````
