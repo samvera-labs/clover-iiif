@@ -13,7 +13,6 @@ const Wrapper = styled(Tabs.Root, {
   flexShrink: "0",
   position: "relative",
   zIndex: "1",
-  maskImage: `linear-gradient(180deg, rgba(0, 0, 0, 1) calc(100% - 2rem), transparent 100%)`,
 
   "@sm": {
     marginTop: "0.5rem",
