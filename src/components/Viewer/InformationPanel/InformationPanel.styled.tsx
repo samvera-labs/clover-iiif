@@ -23,6 +23,9 @@ const Wrapper = styled(Tabs.Root, {
 
 const List = styled(Tabs.List, {
   display: "flex",
+  flexDirection: "var(--flex-direction)",
+  flexWrap: "var(--flex-wrap)",
+  justifyContent: "var(--justify-content)",
   flexGrow: "0",
   margin: "0 1.618rem",
   borderBottom: "4px solid #6663",

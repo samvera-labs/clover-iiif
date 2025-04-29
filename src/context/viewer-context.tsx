@@ -42,6 +42,7 @@ export type ViewerConfigOptions = {
       autoScroll?: AutoScrollOptions | AutoScrollSettings | boolean;
     };
     renderContentSearch?: boolean;
+    tabLayout?: string;
     defaultTab?: string;
   };
   openSeadragon?: OpenSeadragonOptions;
@@ -117,6 +118,7 @@ const defaultConfigOptions = {
     renderToggle: true,
     renderAnnotation: true,
     renderContentSearch: true,
+    tabLayout: "stack",
   },
   openSeadragon: {},
   requestHeaders: { "Content-Type": "application/json" },
