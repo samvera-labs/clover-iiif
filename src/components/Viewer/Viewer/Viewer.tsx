@@ -165,9 +165,9 @@ const Viewer: React.FC<ViewerProps> = ({
     configOptions,
   ]);
 
-  const hasSearchService = manifest.service.some(
-    (service: any) => service.type === "SearchService2",
-  );
+  const hasSearchService = manifest.service
+    ? manifest.service.some((service: any) => service.type === "SearchService2")
+    : false;
 
   // check if search service exists in the manifest
   useEffect(() => {
