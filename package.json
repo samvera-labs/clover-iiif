@@ -72,6 +72,9 @@
   },
   "homepage": "https://github.com/samvera-labs/clover-iiif#readme",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@iiif/helpers": "^1.2.19",
     "@iiif/parser": "^2.1.4",
     "@nulib/use-markdown": "^0.2.2",
@@ -103,6 +106,8 @@
   "devDependencies": {
     "@iiif/presentation-3": "^1.1.3",
     "@napi-rs/simple-git": "^0.1.19",
+    "@radix-ui/react-accordion": "^1.2.8",
+    "@radix-ui/react-icons": "^1.3.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",

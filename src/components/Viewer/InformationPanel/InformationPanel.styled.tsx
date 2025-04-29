@@ -1,10 +1,10 @@
 import * as Tabs from "@radix-ui/react-tabs";
-
-import React, { ReactNode } from "react";
-
+import * as Accordion from "@radix-ui/react-accordion";
 import { styled } from "src/styles/stitches.config";
+import { keyframes } from "@stitches/react";
+import { ChevronDownIcon } from "@radix-ui/react-icons";
 
-const Wrapper = styled(Tabs.Root, {
+export const Wrapper = styled(Tabs.Root, {
   display: "flex",
   flexDirection: "column",
   width: "100%",
@@ -20,99 +20,80 @@ const Wrapper = styled(Tabs.Root, {
   },
 });
 
-const List = styled(Tabs.List, {
-  display: "flex",
-  flexGrow: "0",
-  margin: "0 1.618rem",
-  borderBottom: "4px solid #6663",
+export const AccordionRoot = styled(Accordion.Root, {
+  borderRadius: "6px",
+  boxShadow: "0 2px 10px var(--black-a4)",
+  width: "300px",
+  overflow: "auto",
+  scrollbarWidth: "thin",
+});
 
-  "@sm": {
-    margin: "0 1rem",
+export const AccordionItem = styled(Accordion.Item, {
+  overflow: "hidden",
+  marginTop: "1px",
+  "&::first-child": {
+    marginTop: "0",
+    borderTopLeftRadius: "4px",
+    borderTopRightRadius: "4px",
+  },
+  "&::last-child": {
+    borderBottomLeftRadius: "4px",
+    borderBottomRightRadius: "4px",
+  },
+  "&::focus-within": {
+    position: "relative",
+    zIndex: "1",
+    boxShadow: "0 0 0 2px var(--mauve-12)",
   },
 });
 
-const Trigger = styled(Tabs.Trigger, {
+export const AccordionChevron = styled(ChevronDownIcon, {
+  color: "var(--violet-10)",
+  transition: "transform 300ms ease-in-out",
+});
+
+export const AccordionHeader = styled(Accordion.Header, {
   display: "flex",
-  position: "relative",
-  padding: "0.5rem 1rem",
-  background: "none",
-  backgroundColor: "transparent",
+});
+
+export const AccordionTrigger = styled(Accordion.Trigger, {
   fontFamily: "inherit",
-  border: "none",
-  opacity: "0.7",
-  fontSize: "1rem",
-  marginRight: "1rem",
-  lineHeight: "1rem",
-  whiteSpace: "nowrap",
-  cursor: "pointer",
-  fontWeight: 400,
-  transition: "$all",
-
-  "&[data-value='manifest-back']": {
-    display: "none;",
-
-    "@sm": {
-      display: "block",
-    },
-  },
-
-  "&::after": {
-    width: "0",
-    height: "4px",
-    content: "",
-    position: "absolute",
-    bottom: "-4px",
-    left: "0",
-    transition: "$all",
-  },
-
-  "&[data-state='active']": {
-    opacity: "1",
-    fontWeight: 700,
-
-    "&::after": {
-      width: "100%",
-      backgroundColor: "$accent",
-    },
-  },
-});
-
-const Content = styled(Tabs.Content, {
+  padding: "0 20px",
+  height: "45px",
+  flex: "1",
   display: "flex",
-  flexGrow: "1",
-  flexShrink: "0",
-  position: "absolute",
-  top: "0",
-  left: "0",
-
-  "&[data-state='active']": {
-    width: "100%",
-    height: "calc(100% - 2rem)",
-    padding: "1.618rem 0",
+  alignItems: "center",
+  justifyContent: "space-between",
+  fontSize: "15px",
+  lineHeight: "1",
+  color: "var(--violet-11)",
+  boxShadow: "0 1px 0 var(--mauve-6)",
+  backgroundColor: "var(--mauve-1)",
+  "&:hover": {
+    backgroundColor: "var(--mauve-2)",
+  },
+  '&[data-state="open"] > .AccordionChevron': {
+    transform: "rotate(180deg)",
   },
 });
 
-interface Scrollable {
-  handleScroll?: (e) => void;
-  children?: ReactNode;
-  className?: string;
-}
-
-const ScrollableComponent: React.FC<Scrollable> = ({
-  handleScroll,
-  children,
-  className,
-}) => (
-  <div className={className} onScroll={handleScroll}>
-    {children}
-  </div>
-);
-
-const Scroll = styled(ScrollableComponent, {
-  position: "relative",
-  height: "100%",
-  width: "100%",
-  overflowY: "scroll",
+const slideDown = keyframes({
+  from: { height: "0" },
+  to: { height: "var(--radix-accordion-content-height)" },
 });
 
-export { Content, List, Scroll, Trigger, Wrapper };
+const slideUp = keyframes({
+  from: { height: "var(--radix-accordion-content-height)" },
+  to: { height: "0" },
+});
+
+export const AccordionContent = styled(Accordion.Content, {
+  color: "var(--mauve-11)",
+  backgroundColor: "var(--mauve-2)",
+  '&[data-state="open"]': {
+    animation: `${slideDown} 300ms ease-in-out`,
+  },
+  '&[data-state="closed"]': {
+    animation: `${slideUp} 300ms ease-in-out`,
+  },
+});

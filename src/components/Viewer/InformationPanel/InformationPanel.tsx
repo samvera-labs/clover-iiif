@@ -1,8 +1,10 @@
 import {
-  Content,
-  List,
-  Scroll,
-  Trigger,
+  AccordionHeader,
+  AccordionTrigger,
+  AccordionRoot,
+  AccordionItem,
+  AccordionContent,
+  AccordionChevron,
   Wrapper,
 } from "src/components/Viewer/InformationPanel/InformationPanel.styled";
 import React, { useEffect, useState } from "react";
@@ -12,6 +14,16 @@ import {
   useViewerState,
   type PluginConfig,
 } from "src/context/viewer-context";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEye,
+  faCircleInfo,
+  faMagnifyingGlass,
+  faList,
+} from "@fortawesome/free-solid-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
+
+library.add(faCircleInfo, faMagnifyingGlass, faList);
 
 import AnnotationPage from "src/components/Viewer/InformationPanel/Annotation/Page";
 import ContentSearch from "src/components/Viewer/InformationPanel/ContentSearch/ContentSearch";
@@ -29,7 +41,7 @@ import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
 import { useTranslation } from "react-i18next";
 
-const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
+// const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
 
 interface NavigatorProps {
   activeCanvas: string;
@@ -51,8 +63,14 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   const { t } = useTranslation();
   const dispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
-  const { isAutoScrolling, isUserScrolling, vault, configOptions, plugins } =
-    viewerState;
+  const {
+    // isAutoScrolling,
+    // isUserScrolling,
+
+    vault,
+    configOptions,
+    plugins,
+  } = viewerState;
   const { informationPanel } = configOptions;
 
   const [activeResource, setActiveResource] = useState<string>();
@@ -91,7 +109,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     }
 
     return (
-      <Content key={i} value={plugin.id}>
+      <AccordionContent key={i}>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <PluginInformationPanelComponent
             {...plugin?.informationPanel?.componentProps}
@@ -100,7 +118,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             useViewerState={useViewerState}
           />
         </ErrorBoundary>
-      </Content>
+      </AccordionContent>
     );
   }
 
@@ -139,22 +157,22 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     }
   }, []);
 
-  function handleScroll() {
-    if (!isAutoScrolling) {
-      clearTimeout(isUserScrolling);
-      const timeout = setTimeout(() => {
-        dispatch({
-          type: "updateUserScrolling",
-          isUserScrolling: undefined,
-        });
-      }, UserScrollTimeout);
+  // function handleScroll() {
+  //   if (!isAutoScrolling) {
+  //     clearTimeout(isUserScrolling);
+  //     const timeout = setTimeout(() => {
+  //       dispatch({
+  //         type: "updateUserScrolling",
+  //         isUserScrolling: undefined,
+  //       });
+  //     }, UserScrollTimeout);
 
-      dispatch({
-        type: "updateUserScrolling",
-        isUserScrolling: timeout,
-      });
-    }
-  }
+  //     dispatch({
+  //       type: "updateUserScrolling",
+  //       isUserScrolling: timeout,
+  //     });
+  //   }
+  // }
 
   const handleValueChange = (value: string) => {
     setActiveResource(value);
@@ -169,77 +187,102 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       value={activeResource}
       className="clover-viewer-information-panel"
     >
-      <List
-        aria-label={t("informationPanelTabs")}
-        data-testid="information-panel-list"
-      >
-        {renderToggle && (
-          <Trigger
-            value="manifest-back"
-            data-value="manifest-back"
-            onClick={handleInformationPanelClose}
-            as={"button"}
-          >
-            {t("informationPanelTabsClose")}
-          </Trigger>
-        )}
-        {renderAbout && (
-          <Trigger value="manifest-about">
-            <></>
-            {t("informationPanelTabsAbout")}
-          </Trigger>
-        )}
-        {renderContentSearch && contentSearchResource && (
-          <Trigger value="manifest-content-search">
-            <Label label={contentSearchResource.label as InternationalString} />
-          </Trigger>
-        )}
-        {renderAnnotation &&
-          annotationResources &&
-          annotationResources.map((resource, i) => (
-            <Trigger key={i} value={resource.id}>
-              <Label label={resource.label as InternationalString} />
-            </Trigger>
-          ))}
-
-        {pluginsWithInfoPanel &&
-          pluginsWithInfoPanel.map((plugin, i) => (
-            <Trigger key={i} value={plugin.id}>
-              <Label
-                label={plugin.informationPanel?.label as InternationalString}
-              />
-            </Trigger>
-          ))}
-      </List>
-      <Scroll handleScroll={handleScroll}>
-        {renderAbout && (
-          <Content value="manifest-about">
-            <Information />
-          </Content>
-        )}
-        {renderContentSearch && contentSearchResource && (
-          <Content value="manifest-content-search">
-            <ContentSearch
-              searchServiceUrl={searchServiceUrl}
-              setContentSearchResource={setContentSearchResource}
-              activeCanvas={activeCanvas}
-              annotationPage={contentSearchResource}
-            />
-          </Content>
-        )}
-        {renderAnnotation &&
-          annotationResources &&
-          annotationResources.map((annotationPage) => (
-            <Content key={annotationPage.id} value={annotationPage.id}>
-              <AnnotationPage annotationPage={annotationPage} />
-            </Content>
-          ))}
-
-        {pluginsWithInfoPanel &&
-          pluginsWithInfoPanel.map((plugin, i) =>
-            renderPluginInformationPanel(plugin, i),
+      {
+        <AccordionRoot type="single" defaultValue="manifest-about" collapsible>
+          {!renderToggle && (
+            <AccordionItem value="manifest-back">
+              <AccordionHeader>
+                <AccordionTrigger
+                  onClick={handleInformationPanelClose}
+                  as={"button"}
+                >
+                  <FontAwesomeIcon icon={faEye} />
+                  {t("informationPanelTabsClose")}
+                </AccordionTrigger>
+              </AccordionHeader>
+            </AccordionItem>
           )}
-      </Scroll>
+
+          {renderAbout && (
+            <AccordionItem value="manifest-about">
+              <AccordionHeader>
+                <AccordionTrigger value="manifest-about">
+                  <FontAwesomeIcon icon={faCircleInfo} />
+                  {t("informationPanelTabsAbout")}
+                  <AccordionChevron className="AccordionChevron" aria-hidden />
+                </AccordionTrigger>
+              </AccordionHeader>
+              <AccordionContent>
+                <Information />
+              </AccordionContent>
+            </AccordionItem>
+          )}
+
+          {renderContentSearch && contentSearchResource && (
+            <AccordionItem value="manifest-content-search">
+              <AccordionHeader>
+                <AccordionTrigger>
+                  <FontAwesomeIcon icon={faMagnifyingGlass} />
+                  <Label
+                    label={contentSearchResource.label as InternationalString}
+                  />
+                  <AccordionChevron className="AccordionChevron" aria-hidden />
+                </AccordionTrigger>
+              </AccordionHeader>
+              <AccordionContent>
+                <ContentSearch
+                  searchServiceUrl={searchServiceUrl}
+                  setContentSearchResource={setContentSearchResource}
+                  activeCanvas={activeCanvas}
+                  annotationPage={contentSearchResource}
+                />
+              </AccordionContent>
+            </AccordionItem>
+          )}
+
+          {renderAnnotation && annotationResources && (
+            <AccordionItem value="manifest-annotations">
+              <AccordionHeader>
+                <AccordionTrigger>
+                  <FontAwesomeIcon icon={faList} />
+                  <Label
+                    label={"Annotations" as unknown as InternationalString}
+                  />
+                  <AccordionChevron className="AccordionChevron" aria-hidden />
+                </AccordionTrigger>
+              </AccordionHeader>
+              {annotationResources &&
+                annotationResources.map((annotationPage) => (
+                  <AccordionContent key={annotationPage.id}>
+                    <AnnotationPage annotationPage={annotationPage} />
+                  </AccordionContent>
+                ))}
+            </AccordionItem>
+          )}
+
+          {pluginsWithInfoPanel &&
+            pluginsWithInfoPanel.map((plugin, i) => (
+              <AccordionItem key={i} value={plugin.id}>
+                <AccordionHeader>
+                  <AccordionTrigger>
+                    <Label
+                      label={
+                        plugin.informationPanel?.label as InternationalString
+                      }
+                    />
+                    <AccordionChevron
+                      className="AccordionChevron"
+                      aria-hidden
+                    />
+                  </AccordionTrigger>
+                </AccordionHeader>
+                <AccordionContent>
+                  {renderPluginInformationPanel(plugin, i)}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+        </AccordionRoot>
+      }
     </Wrapper>
   );
 };
