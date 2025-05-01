@@ -56,6 +56,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   const { informationPanel } = configOptions;
 
   const [activeResource, setActiveResource] = useState<string>();
+  const [tabLayout, setTabLayout] = useState<Record<string, string>>();
 
   const renderAbout = informationPanel?.renderAbout;
   const renderAnnotation = informationPanel?.renderAnnotation;
@@ -160,6 +161,27 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     setActiveResource(value);
   };
 
+  useEffect(() => {
+    if (informationPanel && informationPanel.tabLayout) {
+      let displaySettings = {};
+      switch (informationPanel.tabLayout) {
+        case "row":
+          displaySettings = {
+            "--flex-direction": "row",
+            "--flex-wrap": "wrap",
+            "--justify-content": "space-between",
+          };
+          break;
+        default:
+          displaySettings = {
+            "--flex-direction": "column",
+          };
+          break;
+      }
+      setTabLayout(displaySettings);
+    }
+  }, [informationPanel]);
+
   return (
     <Wrapper
       data-testid="information-panel"
@@ -172,6 +194,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       <List
         aria-label={t("informationPanelTabs")}
         data-testid="information-panel-list"
+        css={tabLayout}
       >
         {renderToggle && (
           <Trigger

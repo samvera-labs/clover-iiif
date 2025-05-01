@@ -209,8 +209,11 @@ The information panel is a collapsible panel that displays information about the
 | `options.informationPanel.renderToggle`        | `boolean`                       | No       | true    |
 | `options.informationPanel.renderContentSearch` | `boolean`                       | No       | true    |
 | `options.informationPanel.defaultTab`          | `string`                        | No       |         |
+| `options.informationPanel.tabLayout`           | `string`                        | No       | stack   |
 
 If `renderAbout` is true, Clover will use the About tab as the default tab. Use `options.informationPanel.defaultTab` to set the default tab.
+
+The `tabLayout` option can be set to either `row` or `stack` to lay out the tabs as necessary.
 
 If you want content search to be the default tab, use `manifest-content-search`
 
@@ -220,6 +223,7 @@ If you want content search to be the default tab, use `manifest-content-search`
   options={{
     informationPanel: {
       defaultTab: "manifest-content-search",
+      tabLayout: "stack",
     },
   }}
 />
