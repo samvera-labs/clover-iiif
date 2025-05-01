@@ -11,6 +11,7 @@ import { styled } from "src/styles/stitches.config";
 
 const StyledSequence = styled(RadioGroup.Root, {
   display: "flex",
+  scrollbarWidth: "thin",
   flexDirection: "row",
   flexGrow: "1",
   overflowX: "scroll",

@@ -6,7 +6,6 @@ const AboutContent = styled("div", {
   display: "flex",
   flexDirection: "column",
   overflow: "auto",
-  position: "absolute",
   fontWeight: "400",
   fontSize: "1rem",
   zIndex: "0",
@@ -66,11 +65,4 @@ const AboutContent = styled("div", {
   },
 });
 
-const AboutStyled = styled("div", {
-  position: "relative",
-  width: "100%",
-  height: "100%",
-  zIndex: "0",
-});
-
-export { AboutContent, AboutStyled };
+export { AboutContent };

@@ -1,7 +1,4 @@
-import {
-  AboutContent,
-  AboutStyled,
-} from "src/components/Viewer/InformationPanel/About/About.styled";
+import { AboutContent } from "src/components/Viewer/InformationPanel/About/About.styled";
 import {
   ContentResource,
   IIIFExternalWebResource,
@@ -69,19 +66,17 @@ const About: React.FC = () => {
   if (!manifest) return <></>;
 
   return (
-    <AboutStyled>
-      <AboutContent>
-        <Thumbnail thumbnail={thumbnail} label={manifest.label} />
-        <Summary summary={manifest.summary} />
-        <Metadata metadata={manifest.metadata} />
-        <RequiredStatement requiredStatement={manifest.requiredStatement} />
-        <Rights rights={manifest.rights} />
-        <Homepage homepage={homepage} />
-        <SeeAlso seeAlso={seeAlso} />
-        <Rendering rendering={rendering} />
-        <Id id={manifest.id} htmlLabel="IIIF Manifest" />
-      </AboutContent>
-    </AboutStyled>
+    <AboutContent>
+      <Thumbnail thumbnail={thumbnail} label={manifest.label} />
+      <Summary summary={manifest.summary} />
+      <Metadata metadata={manifest.metadata} />
+      <RequiredStatement requiredStatement={manifest.requiredStatement} />
+      <Rights rights={manifest.rights} />
+      <Homepage homepage={homepage} />
+      <SeeAlso seeAlso={seeAlso} />
+      <Rendering rendering={rendering} />
+      <Id id={manifest.id} htmlLabel="IIIF Manifest" />
+    </AboutContent>
   );
 };
 
