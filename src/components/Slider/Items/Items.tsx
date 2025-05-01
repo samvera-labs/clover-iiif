@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { CollectionItems } from "@iiif/presentation-3";
 import Item from "./Item";
 import { ItemsStyled } from "src/components/Slider/Items/Items.styled";
+import LazyLoad from "src/components/UI/LazyLoad/LazyLoad";
 
 interface ItemsProps {
   breakpoints?: SwiperBreakpoints;
@@ -74,11 +75,13 @@ const Items: React.FC<ItemsProps> = ({
             data-index={index}
             data-type={item?.type.toLowerCase()}
           >
-            <Item
-              handleItemInteraction={handleItemInteraction}
-              index={index}
-              item={item as SliderItem}
-            />
+            <LazyLoad>
+              <Item
+                handleItemInteraction={handleItemInteraction}
+                index={index}
+                item={item as SliderItem}
+              />
+            </LazyLoad>
           </SwiperSlide>
         ))}
       </Swiper>
