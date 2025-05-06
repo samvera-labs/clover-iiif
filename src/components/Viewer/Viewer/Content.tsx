@@ -2,7 +2,6 @@ import {
   AnnotationPageNormalized,
   Canvas,
   IIIFExternalWebResource,
-  Reference,
 } from "@iiif/presentation-3";
 import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
@@ -29,7 +28,6 @@ export interface ViewerContentProps {
   painting: IIIFExternalWebResource[];
   items: Canvas[];
   isAudioVideo: boolean;
-  visibleCanvases: Reference<"Canvas">[];
 }
 
 const ViewerContent: React.FC<ViewerContentProps> = ({
@@ -41,7 +39,6 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   isAudioVideo,
   items,
   painting,
-  visibleCanvases,
 }) => {
   const { isInformationOpen, configOptions, sequence } = useViewerState();
   const { informationPanel } = configOptions;
@@ -70,9 +67,9 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
         <Painting
           activeCanvas={activeCanvas}
           annotationResources={annotationResources}
+          contentSearchResource={contentSearchResource}
           isMedia={isAudioVideo}
           painting={painting}
-          visibleCanvases={visibleCanvases}
         />
 
         {sequence[1].length > 1 && (

@@ -48,10 +48,12 @@ describe("Page", () => {
       </ViewerProvider>,
     );
 
-    const el = screen.getByTestId("annotation-page");
+    const wrapper = screen.getByTestId("annotation-page");
+    expect(wrapper.querySelector("header")).toBeInTheDocument();
 
-    expect(el).toBeInTheDocument();
-    expect(el.children.length).toBe(1);
+    const items = screen.getByTestId("annotation-page-items");
+    expect(items).toBeInTheDocument();
+    expect(items.children.length).toBe(1);
   });
 
   it("should not render the component if no annotations exist on the canvas", async () => {

@@ -2,11 +2,9 @@ import * as Collapsible from "@radix-ui/react-collapsible";
 
 import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
-  CanvasNormalized,
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
-  Reference,
 } from "@iiif/presentation-3";
 import React, { useCallback, useEffect, useState } from "react";
 import {
@@ -14,11 +12,6 @@ import {
   useViewerDispatch,
   useViewerState,
 } from "src/context/viewer-context";
-import {
-  addContentSearchOverlays,
-  handleSelectorZoom,
-  removeOverlaysFromViewer,
-} from "src/lib/openseadragon-helpers";
 import {
   getAnnotationResources,
   getContentSearchResources,
@@ -54,12 +47,10 @@ const Viewer: React.FC<ViewerProps> = ({
   const viewerDispatch: any = useViewerDispatch();
   const {
     activeCanvas,
-    activeSelector,
     isInformationOpen,
     vault,
-    contentSearchVault,
     configOptions,
-    openSeadragonViewer,
+    visibleCanvases,
   } = viewerState;
 
   const absoluteCanvasHeights = ["100%", "auto"];
@@ -70,7 +61,6 @@ const Viewer: React.FC<ViewerProps> = ({
   /**
    * Local state
    */
-  const [isInformationPanel, setIsInformationPanel] = useState<boolean>(false);
   const [isAudioVideo, setIsAudioVideo] = useState(false);
   const [painting, setPainting] = useState<IIIFExternalWebResource[]>([]);
   const [annotationResources, setAnnotationResources] =
@@ -80,9 +70,6 @@ const Viewer: React.FC<ViewerProps> = ({
 
   const isSmallViewport = useMediaQuery(media.sm);
   const [searchServiceUrl, setSearchServiceUrl] = useState();
-  const [visibleCanvases, setVisibleCanvases] = useState<Reference<"Canvas">[]>(
-    [],
-  );
 
   const setInformationOpen = useCallback(
     (open: boolean) => {
@@ -123,60 +110,43 @@ const Viewer: React.FC<ViewerProps> = ({
       activeCanvas,
     );
 
-    setVisibleCanvases(visibleCanvases);
-
-    getAnnotationResources(vault, activeCanvas).then((resources) => {
-      if (resources.length > 0 && !isSmallViewport) {
-        viewerDispatch({
-          type: "updateInformationOpen",
-          isInformationOpen: true,
-        });
-      }
-      setAnnotationResources(resources);
-      setIsInformationPanel(resources.length !== 0);
+    viewerDispatch({
+      type: "updateVisibleCanvases",
+      visibleCanvases,
     });
+  }, [activeCanvas, isSmallViewport, manifest, vault, viewerDispatch]);
 
-    // Handle selector zoom when canvas is drawn
-    if (openSeadragonViewer && activeCanvas && activeSelector) {
-      const canvas = vault.get({
-        id: activeCanvas,
-        type: "Canvas",
-      }) as CanvasNormalized;
+  /**
+   * Get all annotation resources for visible canvases
+   */
+  useEffect(() => {
+    (async () => {
+      const visibleAnnotations = await Promise.all(
+        visibleCanvases.map((canvas) =>
+          getAnnotationResources(vault, canvas.id),
+        ),
+      );
 
-      // Add a small delay to ensure the image is loaded
-      setTimeout(() => {
-        handleSelectorZoom(
-          activeSelector,
-          openSeadragonViewer,
-          canvas,
-          configOptions,
-        );
-      }, 300);
-    }
-  }, [
-    activeCanvas,
-    activeSelector,
-    annotationResources.length,
-    isSmallViewport,
-    manifest,
-    vault,
-    viewerDispatch,
-    openSeadragonViewer,
-    configOptions,
-  ]);
+      setAnnotationResources(visibleAnnotations.flat());
+    })();
+  }, [visibleCanvases]);
 
-  const hasSearchService = manifest.service
-    ? manifest.service.some((service: any) => service.type === "SearchService2")
-    : false;
+  const hasSearchService = manifest.service.some((service: any) =>
+    ["SearchService1", "SearchService2"].includes(
+      service.type || service["@type"],
+    ),
+  );
 
   // check if search service exists in the manifest
   useEffect(() => {
     if (hasSearchService) {
-      const searchService: any = manifest.service.find(
-        (service: any) => service.type === "SearchService2",
+      const searchService: any = manifest.service.find((service: any) =>
+        ["SearchService1", "SearchService2"].includes(
+          service.type || service["@type"],
+        ),
       );
       if (searchService) {
-        setSearchServiceUrl(searchService.id);
+        setSearchServiceUrl(searchService.id || searchService["@id"]);
       }
     }
   }, [manifest, hasSearchService]);
@@ -187,34 +157,11 @@ const Viewer: React.FC<ViewerProps> = ({
     if (configOptions.informationPanel?.renderContentSearch === false) return;
 
     getContentSearchResources(
-      contentSearchVault,
+      vault,
       searchServiceUrl,
-      configOptions.localeText?.contentSearch?.tabLabel as string,
       iiifContentSearchQuery,
-    ).then((contentSearch) => {
-      setContentSearchResource(contentSearch);
-    });
+    ).then((contentSearch) => setContentSearchResource(contentSearch));
   }, [searchServiceUrl]);
-
-  // add overlays for content search
-  useEffect(() => {
-    if (!openSeadragonViewer) return;
-    if (!contentSearchResource) return;
-
-    const canvas = vault.get({
-      id: activeCanvas,
-      type: "Canvas",
-    }) as CanvasNormalized;
-
-    removeOverlaysFromViewer(openSeadragonViewer, "content-search-overlay");
-    addContentSearchOverlays(
-      contentSearchVault,
-      contentSearchResource,
-      openSeadragonViewer,
-      canvas,
-      configOptions,
-    );
-  }, [openSeadragonViewer, contentSearchResource]);
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -222,7 +169,6 @@ const Viewer: React.FC<ViewerProps> = ({
         className={`${theme} clover-viewer`}
         css={{ background: configOptions?.background }}
         data-absolute-position={isAbsolutePosition}
-        data-information-panel={isInformationPanel}
         data-information-panel-open={isInformationOpen}
       >
         <Collapsible.Root
@@ -242,7 +188,6 @@ const Viewer: React.FC<ViewerProps> = ({
             contentSearchResource={contentSearchResource}
             items={manifest.items}
             isAudioVideo={isAudioVideo}
-            visibleCanvases={visibleCanvases}
           />
         </Collapsible.Root>
       </Wrapper>

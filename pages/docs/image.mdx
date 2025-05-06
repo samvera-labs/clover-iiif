@@ -355,6 +355,155 @@ const MyCustomImage = () => {
   />
 </div>
 
+## Annotations
+
+The `annotations` prop is used to provide a list of web annotations to be rendered on the image. The `annotations` prop accepts an array of objects, each containing an `annotation` and a `targetIndex`. The `annotation` object should contain the IIIF annotation data, and the `targetIndex` should be the index of the target canvas in the `src` array, or `0` if the `src` is a single image.
+
+```jsx {20,32,47,59}
+import Image from "@samvera/clover-iiif/image";
+
+const MyAnnotatedImage = () => {
+  return (
+    <Image
+      src={[
+        "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/full/max/0/default.jpg",
+      ]}
+      label="Patten Gymnasium, Northwestern University, Evanston, Ill."
+      annotations={[
+        {
+          annotation: {
+            id: "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/annotation/0",
+            type: "Annotation",
+            motivation: ["tagging"],
+            body: [
+              {
+                id: "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/annotation/0/body/0",
+                type: "TextualBody",
+                value: "1935 Ford Coupe",
+                language: "en",
+              },
+            ],
+            target: {
+              type: "SpecificResource",
+              source: {
+                id: "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/full/max/0/default.jpg",
+                type: "Canvas",
+              },
+              selector: {
+                type: "FragmentSelector",
+                value: "xywh=1000,1850,1200,600",
+              },
+            },
+          },
+          targetIndex: 0,
+        },
+        {
+          annotation: {
+            id: "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/annotation/1",
+            type: "Annotation",
+            motivation: ["tagging"],
+            body: [
+              {
+                id: "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/annotation/1/body/0",
+                type: "TextualBody",
+                value: "1934 Packard Sedan",
+                language: "en",
+              },
+            ],
+            target: {
+              type: "SpecificResource",
+              source: {
+                id: "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/full/max/0/default.jpg",
+                type: "Canvas",
+              },
+              selector: {
+                type: "FragmentSelector",
+                value: "xywh=2300,1750,1550,800",
+              },
+            },
+          },
+          targetIndex: 0,
+        },
+      ]}
+    />
+  );
+};
+```
+
+In this example, two annotations are provided targeting the `src` image, one for a **1935 Ford Coupe** at coordinates `xywh=1000,1850,1200,600` and another for a **1934 Packard Sedan** at coordinates `xywh=2300,1750,1550,800`.
+
+<div
+  style={{
+    height: "38.2vh",
+    minHeight: "450px",
+    backgroundColor: "#f0f0f0",
+    marginTop: "2rem",
+  }}
+>
+  <CloverImage
+    src={[
+      "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/full/max/0/default.jpg",
+    ]}
+    label="Patten Gymnasium, Northwestern University, Evanston, Ill."
+    annotations={[
+      {
+        annotation: {
+          id: "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/annotation/0",
+          type: "Annotation",
+          motivation: ["tagging"],
+          body: [
+            {
+              id: "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/annotation/0/body/0",
+              type: "TextualBody",
+              value: "1935 Ford Coupe",
+              language: "en",
+            },
+          ],
+          target: {
+            type: "SpecificResource",
+            source: {
+              id: "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/full/max/0/default.jpg",
+              type: "Canvas",
+            },
+            selector: {
+              type: "FragmentSelector",
+              value: "xywh=1000,1850,1200,600",
+            },
+          },
+        },
+        targetIndex: 0,
+      },
+      {
+        annotation: {
+          id: "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/annotation/1",
+          type: "Annotation",
+          motivation: ["tagging"],
+          body: [
+            {
+              id: "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/annotation/1/body/0",
+              type: "TextualBody",
+              value: "1934 Packard Sedan",
+              language: "en",
+            },
+          ],
+          target: {
+            type: "SpecificResource",
+            source: {
+              id: "https://iiif.dc.library.northwestern.edu/iiif/3/f7409acd-e3f9-496a-b733-81f46d4ffa4f/full/max/0/default.jpg",
+              type: "Canvas",
+            },
+            selector: {
+              type: "FragmentSelector",
+              value: "xywh=2300,1750,1550,800",
+            },
+          },
+        },
+        targetIndex: 0,
+      },
+    ]}
+  />
+</div>
+
 ## Instance ID
 
 The `instanceId` prop is used to provide an identifier defined from the consuming application for the OpenSeadragon instance. This is used as the `id` attribute on the viewport element wrapping the OpenSeadragon canvas. `instanceId` is optional and by default the `Image` component will generate a unique identifier.

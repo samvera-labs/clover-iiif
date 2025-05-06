@@ -32,6 +32,45 @@ const Viewport = styled("div", {
   width: "100%",
   height: "100%",
   zIndex: "0",
+
+  ".clover-iiif-image-openseadragon-annotation": {
+    position: "relative",
+    backgroundColor: "transparent",
+    border: "2px solid #0003",
+    boxSizing: "content-box",
+    borderRadius: "3px",
+    boxShadow: "0 0 38vw 38vw transparent",
+    transition: "box-shadow 100ms ease-in-out",
+    zIndex: "0",
+
+    label: {
+      opacity: 0,
+      position: "absolute",
+      lineHeight: "1.47rem",
+      pointerEvents: "none",
+      textAlign: "center",
+      minWidth: "300px",
+      maxWidth: "20vw",
+      padding: "0.5rem",
+      borderRadius: "3px",
+      top: "calc(100% + 0.5rem)",
+      left: "50%",
+      transform: "translate(-50%, 0)",
+      backgroundColor: "$primary",
+      color: "$secondary",
+      transition: "opacity 100ms ease-in-out",
+    },
+
+    "&[data-active=true]": {
+      border: "2px solid $accent !important",
+      boxShadow: "0 0 38vw 38vw #0003",
+      zIndex: "99999999",
+
+      label: {
+        opacity: 1,
+      },
+    },
+  },
 });
 
 const Wrapper = styled("div", {

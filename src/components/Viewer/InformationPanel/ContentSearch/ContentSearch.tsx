@@ -1,9 +1,17 @@
-import React, { useState } from "react";
-import ContentSearchAnnotationPage from "src/components/Viewer/InformationPanel/ContentSearch/Page";
-import { AnnotationPageNormalized } from "@iiif/presentation-3";
-import ContentSearchForm from "src/components/Viewer/InformationPanel/ContentSearch/ContentSearchForm";
+import {
+  AnnotationNormalized,
+  AnnotationPageNormalized,
+} from "@iiif/presentation-3";
+import React, { useEffect, useState } from "react";
+import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
+
+import AnnotationItem from "../Annotation/Item";
 import { AnnotationResource } from "src/types/annotations";
-import { Container } from "./Item.styled";
+import ContentSearchForm from "src/components/Viewer/InformationPanel/ContentSearch/ContentSearchForm";
+import { Group } from "../Annotation/Item.styled";
+import { Label } from "src/components/Primitives";
+import { getPaintingResource } from "src/hooks/use-iiif";
+import { useTranslation } from "react-i18next";
 
 type ContentSearchProps = {
   searchServiceUrl?: string;
@@ -20,21 +28,83 @@ const ContentSearch: React.FC<ContentSearchProps> = ({
   activeCanvas,
   annotationPage,
 }) => {
+  const viewerState: ViewerContextStore = useViewerState();
+  const { vault } = viewerState;
+
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState({});
+
+  useEffect(() => {
+    if (!annotationPage?.items) return;
+
+    const annotations = annotationPage?.items?.map((item) => {
+      return vault.get(item.id) as AnnotationNormalized;
+    });
+
+    // loop through the annotations and group them by their target.source.id
+    const groupedAnnotations = annotations.reduce((acc, annotation) => {
+      // @ts-ignore
+      const targetId = annotation.target.source.id;
+      if (!acc[targetId]) {
+        acc[targetId] = [];
+      }
+      acc[targetId].push(annotation.id);
+      return acc;
+    }, {});
+
+    setResults(groupedAnnotations);
+  }, [annotationPage]);
+
+  let canvas;
 
   return (
-    <Container>
+    <>
       <ContentSearchForm
         searchServiceUrl={searchServiceUrl}
         setContentSearchResource={setContentSearchResource}
         activeCanvas={activeCanvas}
         setLoading={setLoading}
       />
-      {!loading && (
-        <ContentSearchAnnotationPage annotationPage={annotationPage} />
+      {loading ? (
+        <span>{t("contentSearchLoading")}</span>
+      ) : (
+        results &&
+        Object.keys(results).length > 0 &&
+        Object.keys(results).map((key) => {
+          canvas = vault.get(key);
+          return (
+            <Group key={key} data-testid="annotation-page">
+              {canvas && (
+                <header>
+                  <Label label={canvas.label} />
+                </header>
+              )}
+              {results[key].map((annotationId) => {
+                const annotation = vault.get(
+                  annotationId,
+                ) as AnnotationNormalized;
+
+                const painting = getPaintingResource(vault, canvas.id) as any;
+                const targetResource = painting?.[0]?.service
+                  ? painting?.[0]?.service[0]?.id ||
+                    painting?.[0]?.service[0]?.["@id"]
+                  : undefined;
+
+                return (
+                  <AnnotationItem
+                    annotation={annotation}
+                    targetResource={targetResource}
+                    key={annotation.id}
+                    isContentSearch
+                  />
+                );
+              })}
+            </Group>
+          );
+        })
       )}
-      {loading && <span>Loading...</span>}
-    </Container>
+    </>
   );
 };
 

@@ -5,7 +5,7 @@ import {
   Trigger,
   Wrapper,
 } from "src/components/Viewer/InformationPanel/InformationPanel.styled";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   ViewerContextStore,
   useViewerDispatch,
@@ -51,11 +51,15 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   const { t } = useTranslation();
   const dispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
-  const { isAutoScrolling, isUserScrolling, vault, configOptions, plugins } =
-    viewerState;
+  const {
+    informationPanelResource,
+    isAutoScrolling,
+    isUserScrolling,
+    vault,
+    configOptions,
+    plugins,
+  } = viewerState;
   const { informationPanel } = configOptions;
-
-  const [activeResource, setActiveResource] = useState<string>();
 
   const renderAbout = informationPanel?.renderAbout;
   const renderAnnotation = informationPanel?.renderAnnotation;
@@ -66,19 +70,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
   const renderContentSearch = informationPanel?.renderContentSearch;
   const renderToggle = informationPanel?.renderToggle;
-
-  /**
-   * List of tabs to render in the information panel
-   */
-  const tabList = [
-    ...(renderAbout ? ["manifest-about"] : []),
-    ...(renderContentSearch && searchServiceUrl
-      ? ["manifest-content-search"]
-      : []),
-    ...(renderAnnotation && annotationResources
-      ? annotationResources.map((resource) => resource.id)
-      : []),
-  ];
+  const hasAnnotations = Boolean(annotationResources?.length);
 
   const { pluginsWithInfoPanel } = setupPlugins(plugins);
 
@@ -118,24 +110,22 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     /**
      * If a default tab is set, set the active tab to that value
      */
-    if (informationPanel?.defaultTab) {
-      switch (informationPanel?.defaultTab) {
-        case "manifest-annotations":
-          if (annotationResources && annotationResources?.length > 0)
-            setActiveResource(annotationResources[0].id);
-          break;
-        case "manifest-content-search":
-          setActiveResource("manifest-content-search");
-          break;
-        default:
-          setActiveResource("manifest-about");
-          break;
-      }
+    if (
+      [
+        "manifest-about",
+        "manifest-annotations",
+        "manifest-content-search",
+      ].includes(String(informationPanel?.defaultTab))
+    ) {
+      dispatch({
+        type: "updateInformationPanelResource",
+        informationPanelResource: informationPanel?.defaultTab,
+      });
     } else {
-      /**
-       * If no default tab is set, default to the first tab in the list
-       */
-      if (tabList && tabList.length > 0) setActiveResource(tabList[0]);
+      dispatch({
+        type: "updateInformationPanelResource",
+        informationPanelResource: "manifest-about",
+      });
     }
   }, []);
 
@@ -157,16 +147,19 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   }
 
   const handleValueChange = (value: string) => {
-    setActiveResource(value);
+    dispatch({
+      type: "updateInformationPanelResource",
+      informationPanelResource: value,
+    });
   };
 
   return (
     <Wrapper
       data-testid="information-panel"
-      defaultValue={activeResource}
+      defaultValue={informationPanelResource}
       onValueChange={handleValueChange}
       orientation="horizontal"
-      value={activeResource}
+      value={informationPanelResource}
       className="clover-viewer-information-panel"
     >
       <List
@@ -185,22 +178,19 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         )}
         {renderAbout && (
           <Trigger value="manifest-about">
-            <></>
             {t("informationPanelTabsAbout")}
           </Trigger>
         )}
         {renderContentSearch && contentSearchResource && (
           <Trigger value="manifest-content-search">
-            <Label label={contentSearchResource.label as InternationalString} />
+            {t("informationPanelTabsSearch")}
           </Trigger>
         )}
-        {renderAnnotation &&
-          annotationResources &&
-          annotationResources.map((resource, i) => (
-            <Trigger key={i} value={resource.id}>
-              <Label label={resource.label as InternationalString} />
-            </Trigger>
-          ))}
+        {renderAnnotation && hasAnnotations && (
+          <Trigger value="manifest-annotations">
+            {t("informationPanelTabsAnnotations")}
+          </Trigger>
+        )}
 
         {pluginsWithInfoPanel &&
           pluginsWithInfoPanel.map((plugin, i) => (
@@ -227,13 +217,16 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             />
           </Content>
         )}
-        {renderAnnotation &&
-          annotationResources &&
-          annotationResources.map((annotationPage) => (
-            <Content key={annotationPage.id} value={annotationPage.id}>
-              <AnnotationPage annotationPage={annotationPage} />
-            </Content>
-          ))}
+        {renderAnnotation && annotationResources && (
+          <Content value="manifest-annotations">
+            {annotationResources.map((annotationPage) => (
+              <AnnotationPage
+                key={annotationPage.id}
+                annotationPage={annotationPage}
+              />
+            ))}
+          </Content>
+        )}
 
         {pluginsWithInfoPanel &&
           pluginsWithInfoPanel.map((plugin, i) =>

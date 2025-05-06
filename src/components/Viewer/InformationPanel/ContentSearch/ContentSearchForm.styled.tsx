@@ -1,11 +1,36 @@
 import { styled } from "src/styles/stitches.config";
 
 const FormStyled = styled("div", {
-  ".content-search-form": { display: "flex", marginBottom: "1rem" },
+  form: {
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+    gap: "1rem",
+    padding: "0 1.618rem 1.618rem",
 
-  input: {
-    padding: ".25rem",
-    marginRight: "1rem",
+    ".content-search-input": {
+      flexGrow: "1",
+
+      input: {
+        width: "100%",
+        border: "none",
+        backgroundColor: "$secondaryMuted",
+        color: "$primary",
+        marginRight: "1rem",
+        height: "2rem",
+        padding: "0 1rem",
+        borderRadius: "1rem",
+        fontFamily: "inherit",
+        fontSize: "1rem",
+        lineHeight: "1rem",
+        boxShadow: "inset 1px 1px 2px #0001",
+
+        "&::placeholder": {
+          color: "#0006",
+        },
+      },
+    },
   },
 });
 
