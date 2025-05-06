@@ -13,7 +13,7 @@ const Wrapper = styled(Tabs.Root, {
   flexShrink: "0",
   position: "relative",
   zIndex: "1",
-  maskImage: `linear-gradient(180deg, rgba(0, 0, 0, 1) calc(100% - 2rem), transparent 100%)`,
+  maskImage: `linear-gradient(180deg, rgba(0, 0, 0, 1) calc(100% -  2rem), transparent 100%)`,
 
   "@sm": {
     marginTop: "0.5rem",
@@ -25,7 +25,7 @@ const List = styled(Tabs.List, {
   display: "flex",
   flexGrow: "0",
   margin: "0 1.618rem",
-  borderBottom: "4px solid #6663",
+  borderBottom: "5px solid #6663",
 
   "@sm": {
     margin: "0 1rem",
@@ -35,14 +35,13 @@ const List = styled(Tabs.List, {
 const Trigger = styled(Tabs.Trigger, {
   display: "flex",
   position: "relative",
-  padding: "0.5rem 1rem",
+  padding: "0.5rem 1.618rem",
   background: "none",
   backgroundColor: "transparent",
   fontFamily: "inherit",
   border: "none",
   opacity: "0.7",
   fontSize: "1rem",
-  marginRight: "1rem",
   lineHeight: "1rem",
   whiteSpace: "nowrap",
   cursor: "pointer",
@@ -80,6 +79,7 @@ const Trigger = styled(Tabs.Trigger, {
 
 const Content = styled(Tabs.Content, {
   display: "flex",
+  flexDirection: "column",
   flexGrow: "1",
   flexShrink: "0",
   position: "absolute",

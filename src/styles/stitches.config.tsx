@@ -81,7 +81,7 @@ export const theme = {
     pill: "9999px",
   },
   transitions: {
-    all: "all 300ms cubic-bezier(0.16, 1, 0.3, 1)",
+    all: "all 200ms cubic-bezier(0.16, 1, 0.3, 1)",
   },
   zIndices: {
     1: "100",

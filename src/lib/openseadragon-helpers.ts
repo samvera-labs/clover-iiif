@@ -105,7 +105,7 @@ export function createOpenSeadragonRect(
 /**
  * Add a rectangular overlay to an OpenSeadragon viewer
  */
-function addRectangularOverlay(
+export function addRectangularOverlay(
   viewer: OpenSeadragon.Viewer,
   x: number,
   y: number,
@@ -303,7 +303,7 @@ export function panToTarget(openSeadragonViewer, zoomLevel, target, canvas) {
 }
 
 export function addContentSearchOverlays(
-  contentSearchVault: any,
+  vault: any,
   contentSearch: AnnotationPageNormalized,
   openSeadragonViewer,
   canvas: CanvasNormalized,
@@ -314,7 +314,7 @@ export function addContentSearchOverlays(
 
   const annotations: Array<AnnotationNormalized> = [];
   contentSearch.items.forEach((item) => {
-    const annotation = contentSearchVault.get(item.id) as AnnotationNormalized;
+    const annotation = vault.get(item.id) as AnnotationNormalized;
 
     if (typeof annotation.target === "string") {
       if (annotation.target.startsWith(canvas.id)) {

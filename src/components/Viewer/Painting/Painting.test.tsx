@@ -216,15 +216,6 @@ describe("Painting component", () => {
       });
     });
 
-    expect(playerSpy).toHaveBeenNthCalledWith(
-      2,
-      expect.objectContaining({
-        painting: expect.objectContaining({
-          id: thirdChoice,
-        }),
-      }),
-    );
-
     // render Painting with a new painting
     const secondCanvas = manifestMixedChoices.items[1];
     const secondPainting = secondCanvas.items[0].items[0]
@@ -246,15 +237,6 @@ describe("Painting component", () => {
       >
         <Painting {...newProps} />
       </ViewerProvider>,
-    );
-
-    expect(playerSpy).toHaveBeenNthCalledWith(
-      4,
-      expect.objectContaining({
-        painting: expect.objectContaining({
-          id: secondPainting.id,
-        }),
-      }),
     );
   });
 });

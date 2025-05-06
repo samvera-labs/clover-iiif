@@ -1,12 +1,12 @@
+import { Annotation, InternationalString } from "@iiif/presentation-3";
+import OpenSeadragon, { Options } from "openseadragon";
 import { parseImageBody, parseSrc } from "src/lib/openseadragon-helpers";
 
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
-import { InternationalString } from "@iiif/presentation-3";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import OSD from "src/components/Image/OSD/OSD";
 import { OpenSeadragonImageTypes } from "src/types/open-seadragon";
-import { Options } from "openseadragon";
 import React from "react";
 import defaultOpenSeadragonConfig from "src/components/Image/OSD/defaults";
 import { getLabelAsString } from "src/lib/label-helpers";
@@ -14,6 +14,10 @@ import { v4 as uuidv4 } from "uuid";
 
 interface CloverImageProps {
   _cloverViewerHasPlaceholder?: boolean;
+  annotations?: Array<{
+    annotation: Annotation;
+    targetIndex: number;
+  }>;
   body?: LabeledIIIFExternalWebResource | LabeledIIIFExternalWebResource[];
   instanceId?: string;
   isTiledImage?: boolean;
@@ -25,6 +29,7 @@ interface CloverImageProps {
 
 const CloverImage: React.FC<CloverImageProps> = ({
   _cloverViewerHasPlaceholder = false,
+  annotations,
   body,
   instanceId,
   isTiledImage = false,
@@ -67,16 +72,25 @@ const CloverImage: React.FC<CloverImageProps> = ({
 
   if (!uri.length) return null;
 
+  /**
+   * Draw annotations on OpenSeadragon...
+   * ...and return the OpenSeadragon callback
+   */
+  const handleOpenSeadragonCallback = (osd: OpenSeadragon.Viewer) => {
+    openSeadragonCallback?.(osd);
+  };
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <OSD
         _cloverViewerHasPlaceholder={_cloverViewerHasPlaceholder}
+        annotations={annotations}
         ariaLabel={ariaLabel}
         config={config}
         imageType={imageType}
         key={instance}
         uri={uri}
-        openSeadragonCallback={openSeadragonCallback}
+        openSeadragonCallback={handleOpenSeadragonCallback}
       />
     </ErrorBoundary>
   );

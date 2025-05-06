@@ -2,6 +2,7 @@ import { describe, it } from "vitest";
 import { render, screen } from "@testing-library/react";
 
 import { AnnotationResources } from "src/types/annotations";
+import Hls from "hls.js";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import Player from "src/components/Viewer/Player/Player";
 import React from "react";
@@ -9,7 +10,6 @@ import { Vault } from "@iiif/helpers/vault";
 import { ViewerProvider } from "src/context/viewer-context";
 import manifestSimpleAudio from "src/fixtures/viewer/player/manifest-simple-audio.json";
 import manifestStreaming from "src/fixtures/viewer/player/manifest-streaming-audio.json";
-import Hls from "hls.js";
 
 describe("Player component", () => {
   let originalLoad: any;
@@ -71,7 +71,6 @@ describe("Player component", () => {
           isInformationOpen: false,
           isLoaded: false,
           vault,
-          contentSearchVault: new Vault(),
           openSeadragonViewer: null,
         }}
       >
@@ -134,7 +133,6 @@ describe("Player component", () => {
           isLoaded: false,
           vault,
           openSeadragonViewer: null,
-          contentSearchVault: new Vault(),
         }}
       >
         <Player {...props} />
@@ -192,7 +190,6 @@ describe("Player component", () => {
           isInformationOpen: false,
           isLoaded: false,
           vault,
-          contentSearchVault: new Vault(),
           openSeadragonViewer: null,
         }}
       >

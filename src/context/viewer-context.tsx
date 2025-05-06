@@ -124,15 +124,6 @@ const defaultConfigOptions = {
   showIIIFBadge: true,
   showTitle: true,
   withCredentials: false,
-  localeText: {
-    contentSearch: {
-      tabLabel: "Search Results",
-      formPlaceholder: "Enter search words",
-      noSearchResults: "No search results",
-      loading: "Loading...",
-      moreResults: "more results",
-    },
-  },
 };
 
 export type CustomDisplay = {
@@ -169,6 +160,7 @@ export interface ViewerContextStore {
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
   plugins: Array<PluginConfig>;
+  informationPanelResource?: string;
   isAutoScrollEnabled?: boolean;
   isAutoScrolling?: boolean;
   isInformationOpen: boolean;
@@ -176,10 +168,11 @@ export interface ViewerContextStore {
   isUserScrolling?: number | undefined;
   sequence: [Reference<"Canvas">[], number[][]];
   vault: Vault;
-  contentSearchVault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer | null;
   openSeadragonId?: string;
   viewerId?: string;
+  visibleCanvases: Array<Reference<"Canvas">>;
+  visibleAnnotations?: Array<Reference<"Annotation">>;
 }
 
 export interface ViewerAction {
@@ -188,6 +181,7 @@ export interface ViewerAction {
   selector?: string;
   collection: CollectionNormalized;
   configOptions: ViewerConfigOptions;
+  informationPanelResource?: string;
   isAutoScrollEnabled: boolean;
   isAutoScrolling: boolean;
   isInformationOpen: boolean;
@@ -197,9 +191,9 @@ export interface ViewerAction {
   OSDImageLoaded?: boolean;
   sequence: [Reference<"Canvas">[], number[][]];
   vault: Vault;
-  contentSearchVault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer;
   viewerId: string;
+  visibleCanvases: Array<Reference<"Canvas">>;
 }
 
 export function expandAutoScrollOptions(
@@ -245,9 +239,10 @@ export const defaultState: ViewerContextStore = {
   isUserScrolling: undefined,
   sequence: [[], []],
   vault: new Vault(),
-  contentSearchVault: new Vault(),
   openSeadragonViewer: null,
   viewerId: uuidv4(),
+  visibleCanvases: [],
+  visibleAnnotations: [],
 };
 
 const ViewerStateContext =
@@ -309,6 +304,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
         isInformationOpen: action.isInformationOpen,
       };
     }
+    case "updateInformationPanelResource": {
+      return {
+        ...state,
+        informationPanelResource: action.informationPanelResource,
+      };
+    }
     case "updateIsLoaded": {
       return {
         ...state,
@@ -343,6 +344,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         activeSelector: action.selector,
+      };
+    }
+    case "updateVisibleCanvases": {
+      return {
+        ...state,
+        visibleCanvases: action.visibleCanvases,
       };
     }
     default: {

@@ -1,18 +1,18 @@
 import {
+  getAnnotationResources,
+  getContentSearchResources,
+} from "./getAnnotationResources";
+import {
   imagesAnnotations,
   multipleHighlighting,
   nonRectangularPolygon,
   recipe0219captionFile,
+  referencedAnnotations,
   simpleAnnotations,
   simpleTagging,
-  referencedAnnotations,
 } from "src/fixtures/use-iiif/get-annotation-resources";
 
 import { Vault } from "@iiif/helpers/vault";
-import {
-  getAnnotationResources,
-  getContentSearchResources,
-} from "./getAnnotationResources";
 import { manifestNoAnnotations } from "src/fixtures/use-iiif/get-supplementing-resources";
 
 describe("getAnnotationResources method", () => {
@@ -372,12 +372,8 @@ describe("getContentSearchResources", () => {
     const searchUrl =
       "http://localhost:3000/manifest/content-search/search-v1.json";
     const vault = new Vault();
-    const result = await getContentSearchResources(
-      vault,
-      searchUrl,
-      "Search Results",
-    );
+    const result = await getContentSearchResources(vault, searchUrl);
 
-    expect(result).toStrictEqual({ label: { none: ["Search Results"] } });
+    expect(result).toStrictEqual({});
   });
 });

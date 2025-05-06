@@ -1,16 +1,12 @@
 import {
-  AnnotationNormalized,
+  Annotation,
+  AnnotationPageNormalized,
   CanvasNormalized,
   InternationalString,
-  Reference,
 } from "@iiif/presentation-3";
 import { PaintingCanvas, PaintingStyled } from "./Painting.styled";
 import React, { useEffect } from "react";
 import { Select, SelectOption } from "src/components/UI/Select";
-import {
-  addOverlaysToViewer,
-  removeOverlaysFromViewer,
-} from "src/lib/openseadragon-helpers";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
 import { AnnotationResources } from "src/types/annotations";
@@ -25,17 +21,17 @@ import { hashCode } from "src/lib/utils";
 interface PaintingProps {
   activeCanvas: string;
   annotationResources: AnnotationResources;
+  contentSearchResource?: AnnotationPageNormalized;
   isMedia: boolean;
   painting: LabeledIIIFExternalWebResource[];
-  visibleCanvases: Reference<"Canvas">[];
 }
 
 const Painting: React.FC<PaintingProps> = ({
   activeCanvas,
   annotationResources,
+  contentSearchResource,
   isMedia,
   painting,
-  visibleCanvases,
 }) => {
   const [annotationIndex, setAnnotationIndex] = React.useState<number>(0);
   const [isInteractive, setIsInteractive] = React.useState(false);
@@ -48,12 +44,20 @@ const Painting: React.FC<PaintingProps> = ({
   const {
     configOptions,
     customDisplays,
+    informationPanelResource,
     openSeadragonViewer,
     vault,
     viewerId,
+    visibleCanvases,
   } = useViewerState();
-  const dispatch: any = useViewerDispatch();
+  const [annotations, setAnnotations] = React.useState<
+    Array<{
+      annotation: Annotation;
+      targetIndex: number;
+    }>
+  >([]);
 
+  const dispatch: any = useViewerDispatch();
   const normalizedCanvas: CanvasNormalized = vault.get(activeCanvas);
   const showPlaceholder = placeholderItems.length && !isInteractive && !isMedia;
   const hasChoice = Boolean(painting?.length > 1);
@@ -84,34 +88,66 @@ const Painting: React.FC<PaintingProps> = ({
     return match;
   });
 
-  /** Retrieve annotations from Vault */
-  const annotations: Array<AnnotationNormalized> = [];
-  annotationResources[0]?.items?.forEach((item) => {
-    const annotationResource = vault.get(item.id);
-    annotations.push(annotationResource as unknown as AnnotationNormalized);
-  });
-
-  /** Draw annotation overlays */
+  /** Retrieve annotations for visible canvases from Vault */
   useEffect(() => {
-    if (
-      annotations &&
-      openSeadragonViewer &&
-      configOptions.annotationOverlays?.renderOverlays
-    ) {
-      removeOverlaysFromViewer(openSeadragonViewer, "annotation-overlay");
-      addOverlaysToViewer(
-        openSeadragonViewer,
-        normalizedCanvas,
-        configOptions.annotationOverlays,
-        annotations,
-        "annotation-overlay",
-      );
-    }
-  }, [normalizedCanvas, annotations, openSeadragonViewer, configOptions]);
+    const resources: Array<{
+      annotation: Annotation;
+      targetIndex: number;
+    }> = [];
+
+    if (informationPanelResource === "manifest-annotations")
+      annotationResources?.forEach((page, pageIndex) => {
+        page?.items?.forEach((item) => {
+          const normalizedAnnotation = vault.get(item.id);
+          if (normalizedAnnotation) {
+            resources.push({
+              annotation: {
+                ...normalizedAnnotation,
+                body: normalizedAnnotation.body.map((body) => {
+                  const bodyResource = vault.get(body.id);
+                  if (bodyResource) return bodyResource;
+                  return body;
+                }),
+              },
+              targetIndex: pageIndex,
+            });
+          }
+        });
+      });
+
+    if (informationPanelResource === "manifest-content-search")
+      contentSearchResource?.items?.forEach((item) => {
+        const normalizedAnnotation = vault.get(item.id);
+        if (normalizedAnnotation) {
+          const targetIndex = visibleCanvases.findIndex(
+            (canvas) => canvas.id === normalizedAnnotation.target.source.id,
+          );
+
+          if (typeof targetIndex === "number") {
+            resources.push({
+              annotation: {
+                ...normalizedAnnotation,
+                body: normalizedAnnotation.body.map((body) => {
+                  const bodyResource = vault.get(body.id);
+                  if (bodyResource) return bodyResource;
+                  return body;
+                }),
+              },
+              targetIndex: targetIndex,
+            });
+          }
+        }
+      });
+
+    setAnnotations(resources);
+  }, [
+    annotationResources,
+    contentSearchResource,
+    informationPanelResource,
+    visibleCanvases,
+  ]);
 
   useEffect(() => {
-    setAnnotationIndex(0);
-
     if (isMedia) {
       return;
     } else {
@@ -143,7 +179,18 @@ const Painting: React.FC<PaintingProps> = ({
       setImageBody(body);
       setPlaceholderItems(placeholders);
     }
-  }, [activeCanvas, visibleCanvases, isMedia, normalizedCanvas]);
+  }, [
+    annotationIndex,
+    activeCanvas,
+    visibleCanvases,
+    isMedia,
+    normalizedCanvas,
+  ]);
+
+  // resets the annotation index if the visible canvases change
+  useEffect(() => {
+    setAnnotationIndex(0);
+  }, [visibleCanvases]);
 
   /** Update OpenSeadragon Viewer in viewer context */
   const handleOpenSeadragonCallback = (viewer) => {
@@ -198,6 +245,7 @@ const Painting: React.FC<PaintingProps> = ({
             painting && (
               <ImageViewer
                 _cloverViewerHasPlaceholder={Boolean(placeholderItems?.length)}
+                annotations={annotations}
                 body={imageBody}
                 instanceId={instanceId}
                 key={instanceId}

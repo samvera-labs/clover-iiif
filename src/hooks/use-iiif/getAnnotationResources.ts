@@ -1,8 +1,9 @@
 import {
-  AnnotationResources,
   AnnotationResource,
+  AnnotationResources,
   ContentSearchQuery,
 } from "src/types/annotations";
+
 import { CanvasNormalized } from "@iiif/presentation-3";
 
 export const getAnnotationResources = async (
@@ -55,30 +56,21 @@ export const getAnnotationResources = async (
 };
 
 export const getContentSearchResources = async (
-  contentSearchVault: any,
+  vault: any,
   searchUrl: string,
-  tabLabel: string,
   searchQuery?: ContentSearchQuery,
 ): Promise<AnnotationResource> => {
-  if (searchQuery == undefined || searchQuery["q"] == undefined) {
-    // must return a label because Information Panel tab requires a label
-    return { label: { none: [tabLabel] } } as unknown as AnnotationResource;
-  }
-
-  // TODO: handle other query params (e.g. motivation, date, user) defined in
-  // Content Search spec
-  const url = `${searchUrl}?q=${searchQuery["q"].trim()}`;
-
-  let annotationPage;
   try {
-    annotationPage = await contentSearchVault.load(url);
+    if (searchQuery == undefined || searchQuery["q"] == undefined)
+      return {} as AnnotationResource;
+
+    const q = searchQuery["q"].trim();
+    const url = new URL(searchUrl);
+    url.searchParams.set("q", q);
+
+    return await vault.load(url.toString());
   } catch (error) {
-    console.log("Could not load content search.");
+    console.warn("Error in getContentSearchResources:", error);
     return {} as AnnotationResource;
   }
-
-  if (annotationPage.label == undefined) {
-    annotationPage.label = { none: [tabLabel] };
-  }
-  return annotationPage;
 };

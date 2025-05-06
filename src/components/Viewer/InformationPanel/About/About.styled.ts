@@ -31,7 +31,7 @@ const AboutContent = styled("div", {
 
   p: {
     fontSize: "1rem",
-    lineHeight: "1.45em",
+    lineHeight: "1.47em",
     margin: "0",
   },
 
