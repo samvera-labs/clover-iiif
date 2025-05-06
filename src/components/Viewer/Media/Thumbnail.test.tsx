@@ -1,26 +1,42 @@
-import { describe, expect, it, vi } from "vitest";
+// @ts-nocheck
+
+vi.mock("@iiif/helpers/thumbnail", async () => {
+  return {
+    getThumbnail: vi.fn().mockResolvedValue({
+      best: {
+        id: "https://mocked-thumbnail.url/iiif/full/200,200/0/default.jpg",
+      },
+    }),
+  };
+});
+
+vi.mock("src/components/UI/LazyLoad/LazyLoad", () => {
+  return {
+    __esModule: true,
+    default: ({ children, isVisibleCallback, attributes }: any) => {
+      isVisibleCallback(true); // Simulate component becoming visible
+      return <div {...attributes}>{children}</div>;
+    },
+  };
+});
+
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 
 import React from "react";
 import { StyledSequence } from "src/components/Viewer/Media/Media.styled";
 import Thumbnail from "src/components/Viewer/Media/Thumbnail";
 import { ThumbnailProps } from "src/components/Viewer/Media/Thumbnail";
+import { getThumbnail } from "@iiif/helpers/thumbnail";
 
 const props: ThumbnailProps = {
   canvas: {
-    id: "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/bc/70/b8/02/-e/0c/7-/46/96/-a/bb/4-/41/c9/7e/48/cf/26-manifest.json/canvas/20ed0982-2535-4dd9-8481-44ebeee5a161",
+    id: "some-id",
     type: "Canvas",
-    label: {
-      en: ["Big Buck Bunny"],
-    },
+    label: { en: ["Mocked Label"] },
     behavior: [],
     motivation: null,
-    thumbnail: [
-      {
-        id: "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/20ed0982-2535-4dd9-8481-44ebeee5a161/full/!300,300/0/default.jpg",
-        type: "ContentResource",
-      },
-    ],
+    thumbnail: [],
     posterCanvas: null,
     accompanyingCanvas: null,
     placeholderCanvas: null,
@@ -30,12 +46,7 @@ const props: ThumbnailProps = {
     rights: null,
     navDate: null,
     provider: [],
-    items: [
-      {
-        id: "https://iiif.stack.rdc-staging.library.northwestern.edu/public/iiif3/bc/70/b8/02/-e/0c/7-/46/96/-a/bb/4-/41/c9/7e/48/cf/26-manifest.json/canvas/20ed0982-2535-4dd9-8481-44ebeee5a161/annotation_page/1",
-        type: "AnnotationPage",
-      },
-    ],
+    items: [],
     annotations: [],
     seeAlso: [],
     homepage: [],
@@ -49,13 +60,6 @@ const props: ThumbnailProps = {
   },
   canvasIndex: 1,
   isActive: true,
-  thumbnail: {
-    id: "https://iiif.stack.rdc-staging.library.northwestern.edu/iiif/2/posters/20ed0982-2535-4dd9-8481-44ebeee5a161/full/!300,300/0/default.jpg",
-    format: "image/jpeg",
-    type: "Image",
-    width: 200,
-    height: 200,
-  },
   type: "Image",
   handleChange: vi.fn(),
 };
@@ -72,37 +76,95 @@ describe("Thumbnail component", () => {
 
     it("renders", () => {
       const thumbnail = screen.getByTestId("media-thumbnail");
-      expect(thumbnail);
-      expect(thumbnail.hasAttribute("aria-checked")).toBe(true);
+      expect(thumbnail).toBeInTheDocument();
+      expect(thumbnail).toHaveAttribute("aria-checked", "true");
     });
 
     it("renders the proper label", () => {
       expect(screen.getByTestId("fig-caption")).toHaveTextContent(
-        "Big Buck Bunny",
+        "Mocked Label",
       );
     });
 
-    it("displays a thumbnail image element as expected", () => {
-      const img = screen.getByAltText("Big Buck Bunny");
-      expect(img.tagName).toEqual("IMG");
-    });
-
     it("renders a tag on the thumbnail", () => {
-      expect(screen.getByTestId("thumbnail-tag"));
+      expect(screen.getByTestId("thumbnail-tag")).toBeInTheDocument();
     });
   });
 
-  describe("figure missing a label", () => {
-    const newProps = { ...props, canvas: { ...props.canvas, label: null } };
-
-    it("renders a fallback label for item index + 1", () => {
+  describe("image thumbnails", () => {
+    it("displays a thumbnail for canvas with designated thumbnail", async () => {
+      const newProps = {
+        ...props,
+        canvas: {
+          ...props.canvas,
+          thumbnail: [
+            {
+              id: "https://mocked-thumbnail.url/assets/thumbnail.jpg",
+              type: "Image",
+              format: "image/jpeg",
+              width: 200,
+              height: 200,
+            },
+          ],
+        },
+      };
       render(
         <StyledSequence>
           <Thumbnail {...newProps} />
         </StyledSequence>,
       );
-      expect(screen.getByTestId("fig-caption")).toHaveTextContent("2");
-      expect(screen.getByAltText("2"));
+      const lazy = await screen.findByTestId("media-thumbnail-lazyload");
+      expect(lazy).toBeInTheDocument();
+      expect(lazy).toHaveAttribute("data-lazyload", "true");
+
+      const img = await screen.findByTestId("media-thumbnail-image");
+      expect(img).toHaveAttribute(
+        "src",
+        "https://mocked-thumbnail.url/assets/thumbnail.jpg",
+      );
+      expect(img).toHaveAttribute("alt", "Mocked Label");
+    });
+  });
+
+  describe("image thumbnails", () => {
+    it("displays a thumbnail for canvas with designated thumbnail", async () => {
+      const newProps = { ...props };
+      render(
+        <StyledSequence>
+          <Thumbnail {...newProps} />
+        </StyledSequence>,
+      );
+      const lazy = await screen.findByTestId("media-thumbnail-lazyload");
+      expect(lazy).toBeInTheDocument();
+      expect(lazy).toHaveAttribute("data-lazyload", "true");
+
+      const img = await screen.findByTestId("media-thumbnail-image");
+      expect(img).toHaveAttribute(
+        "src",
+        "https://mocked-thumbnail.url/iiif/full/200,200/0/default.jpg",
+      );
+      expect(img).toHaveAttribute("alt", "Mocked Label");
+
+      expect(getThumbnail).toHaveBeenCalled();
+      expect(getThumbnail).toHaveBeenCalledWith(props.canvas, {
+        vault: expect.anything(),
+        dereference: true,
+        width: 200,
+        height: 200,
+      });
+    });
+  });
+
+  describe("figure missing a label", () => {
+    it("renders a fallback label for item index + 1", async () => {
+      const newProps = { ...props, canvas: { ...props.canvas, label: null } };
+      render(
+        <StyledSequence>
+          <Thumbnail {...newProps} />
+        </StyledSequence>,
+      );
+      const fig = await screen.findByTestId("fig-caption");
+      expect(fig).toHaveTextContent("2");
     });
   });
 
@@ -115,7 +177,7 @@ describe("Thumbnail component", () => {
         </StyledSequence>,
       );
       const tag = screen.getByTestId("thumbnail-tag");
-      expect(within(tag).getByText("0:00"));
+      expect(within(tag).getByText("0:00")).toBeInTheDocument();
     });
 
     it("renders a duration value in the tag for video type", () => {
@@ -126,7 +188,7 @@ describe("Thumbnail component", () => {
         </StyledSequence>,
       );
       const tag = screen.getByTestId("thumbnail-tag");
-      expect(within(tag).getByText("0:00"));
+      expect(within(tag).getByText("0:00")).toBeInTheDocument();
     });
   });
 });

@@ -27,6 +27,21 @@ global.ResizeObserver = class ResizeObserver {
   }
 };
 
+class MockIntersectionObserver {
+  constructor(callback: any, options?: any) {
+    this.callback = callback;
+  }
+
+  readonly callback: any;
+
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+  takeRecords = vi.fn();
+}
+
+globalThis.IntersectionObserver = MockIntersectionObserver as any;
+
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
   cleanup();

@@ -1,8 +1,4 @@
 import {
-  CanvasNormalized,
-  IIIFExternalWebResource,
-} from "@iiif/presentation-3";
-import {
   Duration,
   FigureImage,
   Item,
@@ -11,12 +7,15 @@ import {
   Type,
 } from "src/components/Viewer/Media/Thumbnail.styled";
 import { Icon, Tag } from "src/components/UI";
+import React, { useEffect, useState } from "react";
+import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
+import { CanvasNormalized } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import React from "react";
+import LazyLoad from "src/components/UI/LazyLoad/LazyLoad";
 import { convertTime } from "src/lib/utils";
-import { getLabel } from "src/hooks/use-iiif";
+import { getLabelAsString } from "src/lib/label-helpers";
+import { getThumbnail } from "@iiif/helpers/thumbnail";
 
 /**
  * Determine appropriate icon by resource type
@@ -45,7 +44,6 @@ export interface ThumbnailProps {
   canvas: CanvasNormalized;
   canvasIndex: number;
   isActive: boolean;
-  thumbnail?: IIIFExternalWebResource;
   type: string;
   handleChange: (arg0: string) => void;
 }
@@ -54,13 +52,47 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   canvas,
   canvasIndex,
   isActive,
-  thumbnail,
   type,
   handleChange,
 }) => {
+  const [load, setLoad] = useState(false);
+  const [thumbnail, setThumbnail] = useState<string>();
+  const state: ViewerContextStore = useViewerState();
+  const { vault } = state;
+
+  const size = 200;
+
   const label = canvas?.label
-    ? getLabel(canvas.label)
-    : (canvasIndex + 1).toString();
+    ? (getLabelAsString(canvas?.label) as string)
+    : String(canvasIndex + 1);
+
+  useEffect(() => {
+    if (!load) return;
+
+    (async () => {
+      try {
+        // check canvas has a designated thumbnail
+        if (canvas?.thumbnail?.length !== 0) {
+          setThumbnail(canvas?.thumbnail[0]?.id);
+        } else {
+          // if not, attempt to generate a thumbnail
+          const { best } = await getThumbnail(canvas, {
+            vault,
+            dereference: true,
+            width: size,
+            height: size,
+          });
+          setThumbnail(best?.id);
+        }
+      } catch (err) {
+        console.error("Error fetching thumbnail", err);
+      }
+    })();
+  }, [canvas, load]);
+
+  const handleIsVisibleCallback = (isVisible: boolean) => {
+    setLoad(isVisible);
+  };
 
   return (
     <Item
@@ -72,13 +104,22 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
     >
       <figure>
         <FigureImage>
-          {thumbnail?.id && (
-            <LazyLoadImage
-              src={thumbnail.id}
-              alt={label as string}
-              loading="lazy"
-            />
-          )}
+          <LazyLoad
+            isVisibleCallback={handleIsVisibleCallback}
+            attributes={{
+              className: "media-thumbnail-lazyload",
+              "data-lazyload": String(load),
+              "data-testid": "media-thumbnail-lazyload",
+            }}
+          >
+            {thumbnail && (
+              <img
+                alt={label}
+                data-testid="media-thumbnail-image"
+                src={thumbnail}
+              />
+            )}
+          </LazyLoad>
           <Outline />
           <Type>
             <Tag isIcon data-testid="thumbnail-tag">
