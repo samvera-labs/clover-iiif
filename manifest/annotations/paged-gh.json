@@ -1,0 +1,700 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/refs/heads/5204-visible-annotations/public/manifest/annotations/paged-gh.json",
+  "type": "Manifest",
+  "label": {
+    "none": ["[Manuscript notebook]."]
+  },
+  "metadata": [
+    {
+      "label": {
+        "none": ["Alternate Title"]
+      },
+      "value": {
+        "none": [
+          "Forty eight calls",
+          "Vision and the voice",
+          "Liber XIII vel Graduum Montis Abiegni",
+          "John Dee's five books of mystery.",
+          "Liber pyramidos sub figura DXLXXI",
+          "Title in English: Reign over you"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Contributor"]
+      },
+      "value": {
+        "none": ["Dee, John, 1527-1608 (Contributor)"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Creator"]
+      },
+      "value": {
+        "none": ["Crowley, Aleister, 1875-1947"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Date"]
+      },
+      "value": {
+        "none": ["1909"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Department"]
+      },
+      "value": {
+        "none": ["Charles Deering McCormick Library of Special Collections"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Dimensions"]
+      },
+      "value": {
+        "none": ["18 cm"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Genre"]
+      },
+      "value": {
+        "none": ["manuscripts (documents)"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Last Modified"]
+      },
+      "value": {
+        "none": ["2024-07-17T16:20:01.233481Z"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Language"]
+      },
+      "value": {
+        "none": ["Artificial (Other)", "English"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Materials"]
+      },
+      "value": {
+        "none": ["66 leaves, bound : color illustrations"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Notes"]
+      },
+      "value": {
+        "none": [
+          "One leaf of Ms. formulae, laid in. (General Note)",
+          "References: Crowley, Aleister. Commentaries on the Holy Books and other papers. York Beach, Me. : S. Weiser, c1996 ; John Dee's five books of mystery. Boston, Mass. : Weiser Books, 2003, p. 330 ; Vinci, Leo. Gmicalzoma! New York : Regency Press,1976. (General Note)",
+          "Crowley transliterates Dee's Enochian text from the Liber mysteriorum quintus as \"Asney vah nol gadoth adney ox vals ...\"; Dee has \"Arney vah nol gadeth adney ox vals ...\" (General Note)",
+          "\"Perdurabo 4=7, [Ol sonf] 6=5, Christeos Luciftias 5=6\"--Title page verso. (General Note)",
+          "Bound in varnished vellum; title in red; p. 4 of cover in five colors; chiefly in cursive; red and black ink and pencil; last leaf detached; hand-colored illustrations. (General Note)",
+          "Forty-eight keys or calls published as: part II of Liber Chanokh sub figura 84, in Equinox, v. 1, no. 8, September 1912; Titles of the 30 Aethyrs published in Vision and the voice. Dallas : Sangreal Foundation, 1972; Building the <I> published as Liber pyramidos sub figura DXLXXI. San Francisco : Stellar Visions, 1986. Facsimile in Crowley, Aleister. Commentaries on the Holy Books and other papers. York Beach, Me. : S. Weiser, c1996; The Ordeals published in Jedna zvezda na vidiku. Ljubljana : Sol, 1984; Asney vah nol published in John Dee's five books of mystery. Boston, Mass. : Weiser Books, 2003. P. 330, no. 49. (General Note)",
+          "In English and Enochian. (General Note)",
+          "Some text inverted. (General Note)",
+          "Cover title in Enochian; taken from the First Call, \"Ol sonf vorsg goho iad balt lansh calz vonpho ...\" = \"I reign over you saith the God of Justice in power exalted above the Firmament of Wrath.\" (General Note)",
+          "Holograph, signed. (General Note)",
+          "\"Fulfilled Dec 3, 1909\"--Leaf [1], verso. (General Note)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Rights Statement"]
+      },
+      "value": {
+        "none": ["No Copyright - Non-Commercial Use Only "]
+      }
+    },
+    {
+      "label": {
+        "none": ["Subject"]
+      },
+      "value": {
+        "none": [
+          "Equinox (London, England)",
+          "Manuscripts",
+          "Manuscripts, English",
+          "Crowley, Aleister, 1875-1947",
+          "Texts",
+          "Enochian magic",
+          "Enochian language",
+          "Occultism",
+          "Illumination of books and manuscripts"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Table of Contents"]
+      },
+      "value": {
+        "none": [
+          "A ritual of invocation [19 leaves] -- [remainder of text inverted] Forty-eight keys or calls [leaves 3-29] -- The titles of the 30 Aethyrs [leaf 29] -- Ye calle or keye of ye 30 Aethyrs [leaf 30-33] -- The three mighty names of God Almighty, coming forth from the Thirty Aethyrs [leaf 34, verso] -- [Liber pyramidos sub figura DXLXXI, leaves 35-40]. Building the <I>. Initiation followeth. Sealing of the <I> -- Signs of the grades of the A..̇ A..̇ [leaves 40-41] -- [Liber XIII vel Graduum Montis Abiegni. Liber LXV, Cap. V.]. The ordeals [leaves 42-43] -- [Asney vah nol, leaves 44-45] -- Ceremony of the equinox [leaves 46-47]."
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "none": ["Enochian calls and texts"]
+  },
+  "requiredStatement": {
+    "label": {
+      "none": ["Attribution"]
+    },
+    "value": {
+      "none": [
+        "Courtesy of Northwestern University Libraries",
+        "The images on this web site are from material in the collections of the Charles Deering McCormick Library of Special Collections and University Archives of Northwestern University Libraries, are provided for use by its students, faculty and staff, and by other researchers visiting this site, for research consultation and scholarly purposes only. Further distribution and/or any commercial use of the images from this site is not permitted."
+      ]
+    }
+  },
+  "rights": "http://rightsstatements.org/vocab/NoC-NC/1.0/",
+  "thumbnail": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60/thumbnail",
+      "type": "Image",
+      "format": "image/jpeg",
+      "height": 300,
+      "width": 300
+    }
+  ],
+  "seeAlso": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60",
+      "type": "Dataset",
+      "format": "application/json",
+      "label": {
+        "none": ["Northwestern University Libraries Digital Collections API"]
+      }
+    }
+  ],
+  "homepage": [
+    {
+      "id": "https://dc.library.northwestern.edu/items/b52d5d93-a117-43e9-90c7-434fa1212b60",
+      "type": "Text",
+      "format": "text/html",
+      "label": {
+        "none": [
+          "Homepage at Northwestern University Libraries Digital Collections"
+        ]
+      }
+    }
+  ],
+  "partOf": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/collections/6ab4d374-ba2b-4ad3-bc8a-e6613d54c168?as=iiif",
+      "type": "Collection",
+      "label": {
+        "none": ["Manuscripts"]
+      },
+      "summary": {
+        "none": [
+          "Individually cataloged leaves, fragments, and manuscript books from the collections of Northwestern University Libraries."
+        ]
+      }
+    }
+  ],
+  "behavior": ["paged"],
+  "items": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/72",
+      "type": "Canvas",
+      "height": 4169,
+      "width": 2704,
+      "label": {
+        "none": ["crowley_073.tif"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/3/4b760e6f-b76d-4855-bc2c-8d4fb0b7b0a5/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "height": 300,
+          "width": 300,
+          "service": [
+            {
+              "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/4b760e6f-b76d-4855-bc2c-8d4fb0b7b0a5",
+              "@type": "ImageService2",
+              "profile": "http://iiif.io/api/image/2/level2.json"
+            }
+          ]
+        }
+      ],
+      "items": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/72/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/72/annotation/0",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/72",
+              "body": {
+                "id": "https://iiif.dc.library.northwestern.edu/iiif/3/4b760e6f-b76d-4855-bc2c-8d4fb0b7b0a5/full/600,/0/default.jpg",
+                "type": "Image",
+                "format": "image/tiff",
+                "height": 4169,
+                "width": 2704,
+                "label": {
+                  "en": ["crowley_073.tif"]
+                },
+                "service": [
+                  {
+                    "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/4b760e6f-b76d-4855-bc2c-8d4fb0b7b0a5",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/72/annotation-page/0",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/72/annotation-page/0/annotation/0",
+              "type": "Annotation",
+              "motivation": "tagging",
+              "body": {
+                "type": "TextualBody",
+                "value": "Homage to Thee, Lord of the Word! Lord of the Silence, homage is Thee!",
+                "language": "en",
+                "format": "text/plain"
+              },
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/72#xywh=400,1850,1000,450"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/73",
+      "type": "Canvas",
+      "height": 4143,
+      "width": 2793,
+      "label": {
+        "none": ["crowley_074.tif"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/3/61024b41-0b5b-4f9f-9a04-e23d96c1b3ce/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "height": 300,
+          "width": 300,
+          "service": [
+            {
+              "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/61024b41-0b5b-4f9f-9a04-e23d96c1b3ce",
+              "@type": "ImageService2",
+              "profile": "http://iiif.io/api/image/2/level2.json"
+            }
+          ]
+        }
+      ],
+      "items": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/73/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/73/annotation/0",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/73",
+              "body": {
+                "id": "https://iiif.dc.library.northwestern.edu/iiif/3/61024b41-0b5b-4f9f-9a04-e23d96c1b3ce/full/600,/0/default.jpg",
+                "type": "Image",
+                "format": "image/tiff",
+                "height": 4143,
+                "width": 2793,
+                "label": {
+                  "en": ["crowley_074.tif"]
+                },
+                "service": [
+                  {
+                    "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/61024b41-0b5b-4f9f-9a04-e23d96c1b3ce",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/73/annotation-page/0",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/73/annotation-page/0/annotation/0",
+              "type": "Annotation",
+              "motivation": "tagging",
+              "body": {
+                "type": "TextualBody",
+                "value": "Hail, Hoor-Apep! Thou Sword of Steel! Alpha and Delta and Epsilon Met in the Shadow of the Pylon",
+                "language": "en",
+                "format": "text/plain"
+              },
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/73#xywh=650,675,1950,550"
+            },
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/73/annotation-page/0/annotation/1",
+              "type": "Annotation",
+              "motivation": "tagging",
+              "body": {
+                "type": "TextualBody",
+                "value": "Initiation followeth",
+                "language": "en",
+                "format": "text/plain"
+              },
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/73#xywh=250,1850,2450,1075"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74",
+      "type": "Canvas",
+      "height": 4150,
+      "width": 2709,
+      "label": {
+        "none": ["crowley_075.tif"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/3/15bdc234-c2b3-4e5d-bf3f-6a1ec43aa21c/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "height": 300,
+          "width": 300,
+          "service": [
+            {
+              "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/15bdc234-c2b3-4e5d-bf3f-6a1ec43aa21c",
+              "@type": "ImageService2",
+              "profile": "http://iiif.io/api/image/2/level2.json"
+            }
+          ]
+        }
+      ],
+      "items": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74/annotation/0",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74",
+              "body": {
+                "id": "https://iiif.dc.library.northwestern.edu/iiif/3/15bdc234-c2b3-4e5d-bf3f-6a1ec43aa21c/full/600,/0/default.jpg",
+                "type": "Image",
+                "format": "image/tiff",
+                "height": 4150,
+                "width": 2709,
+                "label": {
+                  "en": ["crowley_075.tif"]
+                },
+                "service": [
+                  {
+                    "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/15bdc234-c2b3-4e5d-bf3f-6a1ec43aa21c",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74/annotation-page/0",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74/annotation-page/0/annotation/0",
+              "type": "Annotation",
+              "motivation": "tagging",
+              "body": {
+                "type": "TextualBody",
+                "value": "top left corner",
+                "language": "en",
+                "format": "text/plain"
+              },
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74#xywh=0,0,500,500"
+            },
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74/annotation-page/0/annotation/1",
+              "type": "Annotation",
+              "motivation": "tagging",
+              "body": {
+                "type": "TextualBody",
+                "value": "top right corner",
+                "language": "en",
+                "format": "text/plain"
+              },
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74#xywh=2209,0,500,500"
+            },
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74/annotation-page/0/annotation/2",
+              "type": "Annotation",
+              "motivation": "tagging",
+              "body": {
+                "type": "TextualBody",
+                "value": "bottom left corner",
+                "language": "en",
+                "format": "text/plain"
+              },
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74#xywh=0,3650,500,500"
+            },
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74/annotation-page/0/annotation/3",
+              "type": "Annotation",
+              "motivation": "tagging",
+              "body": {
+                "type": "TextualBody",
+                "value": "bottom right corner",
+                "language": "en",
+                "format": "text/plain"
+              },
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74#xywh=2209,3650,500,500"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/75",
+      "type": "Canvas",
+      "height": 4193,
+      "width": 2844,
+      "label": {
+        "none": ["crowley_076.tif"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/3/578555f4-e47c-4fa5-93f4-369ff9646421/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "height": 300,
+          "width": 300,
+          "service": [
+            {
+              "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/578555f4-e47c-4fa5-93f4-369ff9646421",
+              "@type": "ImageService2",
+              "profile": "http://iiif.io/api/image/2/level2.json"
+            }
+          ]
+        }
+      ],
+      "items": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/75/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/75/annotation/0",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/75",
+              "body": {
+                "id": "https://iiif.dc.library.northwestern.edu/iiif/3/578555f4-e47c-4fa5-93f4-369ff9646421/full/600,/0/default.jpg",
+                "type": "Image",
+                "format": "image/tiff",
+                "height": 4193,
+                "width": 2844,
+                "label": {
+                  "en": ["crowley_076.tif"]
+                },
+                "service": [
+                  {
+                    "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/578555f4-e47c-4fa5-93f4-369ff9646421",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/76",
+      "type": "Canvas",
+      "height": 4195,
+      "width": 2750,
+      "label": {
+        "none": ["crowley_077.tif"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/3/16946860-b996-45f6-a916-fad773c28787/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "height": 300,
+          "width": 300,
+          "service": [
+            {
+              "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/16946860-b996-45f6-a916-fad773c28787",
+              "@type": "ImageService2",
+              "profile": "http://iiif.io/api/image/2/level2.json"
+            }
+          ]
+        }
+      ],
+      "items": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/76/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/76/annotation/0",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/76",
+              "body": {
+                "id": "https://iiif.dc.library.northwestern.edu/iiif/3/16946860-b996-45f6-a916-fad773c28787/full/600,/0/default.jpg",
+                "type": "Image",
+                "format": "image/tiff",
+                "height": 4195,
+                "width": 2750,
+                "label": {
+                  "en": ["crowley_077.tif"]
+                },
+                "service": [
+                  {
+                    "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/16946860-b996-45f6-a916-fad773c28787",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/77",
+      "type": "Canvas",
+      "height": 4160,
+      "width": 2830,
+      "label": {
+        "none": ["crowley_078.tif"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/3/1f085a9e-e7e0-4e9c-b9eb-5c0af813ea5e/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "height": 300,
+          "width": 300,
+          "service": [
+            {
+              "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/1f085a9e-e7e0-4e9c-b9eb-5c0af813ea5e",
+              "@type": "ImageService2",
+              "profile": "http://iiif.io/api/image/2/level2.json"
+            }
+          ]
+        }
+      ],
+      "items": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/77/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/77/annotation/0",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/77",
+              "body": {
+                "id": "https://iiif.dc.library.northwestern.edu/iiif/3/1f085a9e-e7e0-4e9c-b9eb-5c0af813ea5e/full/600,/0/default.jpg",
+                "type": "Image",
+                "format": "image/tiff",
+                "height": 4160,
+                "width": 2830,
+                "label": {
+                  "en": ["crowley_078.tif"]
+                },
+                "service": [
+                  {
+                    "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/1f085a9e-e7e0-4e9c-b9eb-5c0af813ea5e",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "provider": [
+    {
+      "id": "https://www.library.northwestern.edu/",
+      "type": "Agent",
+      "label": {
+        "none": ["Northwestern University Libraries"]
+      },
+      "homepage": [
+        {
+          "id": "https://dc.library.northwestern.edu/",
+          "type": "Text",
+          "label": {
+            "none": [
+              "Northwestern University Libraries Digital Collections Homepage"
+            ]
+          },
+          "format": "text/html",
+          "language": ["en"]
+        }
+      ],
+      "logo": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/2/00000000-0000-0000-0000-000000000003/full/pct:50/0/default.webp",
+          "type": "Image",
+          "format": "image/webp",
+          "height": 139,
+          "width": 1190
+        }
+      ]
+    }
+  ],
+  "logo": [
+    {
+      "id": "https://iiif.dc.library.northwestern.edu/iiif/2/00000000-0000-0000-0000-000000000003/full/pct:50/0/default.webp",
+      "type": "Image",
+      "format": "image/webp",
+      "height": 139,
+      "width": 1190
+    }
+  ]
+}
