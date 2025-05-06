@@ -1,6 +1,6 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
-  "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/refs/heads/5204-visible-annotations/public/manifest/annotations/paged-gh.json",
+  "id": "https://raw.githubusercontent.com/samvera-labs/clover-iiif/refs/heads/main/public/manifest/annotations/paged-gh.json",
   "type": "Manifest",
   "label": {
     "none": ["[Manuscript notebook]."]
