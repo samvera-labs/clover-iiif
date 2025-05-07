@@ -12,7 +12,8 @@ import {
 const AutoScrollDisableTime = 750;
 
 interface Props {
-  label: string;
+  html: string;
+  text: string;
   start: number;
   end: number;
 }
@@ -34,7 +35,7 @@ const findScrollableParent = (
   return null;
 };
 
-const Cue: React.FC<Props> = ({ label, start, end }) => {
+const Cue: React.FC<Props> = ({ html, text, start, end }) => {
   const dispatch: any = useViewerDispatch();
   const {
     configOptions,
@@ -132,9 +133,12 @@ const Cue: React.FC<Props> = ({ label, start, end }) => {
       aria-checked={isActive}
       data-testid="information-panel-cue"
       onClick={handleClick}
-      value={label}
+      value={text}
     >
-      {label}
+      <div
+        className="webvtt-cue"
+        dangerouslySetInnerHTML={{ __html: html }}
+      ></div>
       <strong>{convertTime(start)}</strong>
     </Item>
   );

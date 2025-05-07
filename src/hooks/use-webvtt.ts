@@ -1,14 +1,15 @@
 // @ts-nocheck
 
 import { v4 as uuidv4 } from "uuid";
+import { WebVTT, VTTCue } from "vtt.js";
 
 export interface NodeWebVttCue {
   identifier?: string;
   start: number;
   end: number;
+  html: string;
   text: string;
-  styles?: string;
-  children?: Array<NodeWebVttCue>;
+  align?: "start" | "left" | "center" | "middle" | "end" | "right";
 }
 export interface NodeWebVttCueNested extends NodeWebVttCue {
   children?: Array<NodeWebVttCueNested>;
@@ -26,7 +27,7 @@ const useWebVtt = () => {
 
   /**
    * This function takes an array of NodeWebVttCue items as input, where each item
-   * is an object with properties identifier, start, end, text, and styles. It
+   * is an object with properties identifier, start, end, html, text, and align. It
    * iterates through the array of items and uses a stack to keep track of nested
    * items. It compares the current item's start with the end of the items in the
    * stack. If the current item's start is smaller than the end of the top item
@@ -36,7 +37,9 @@ const useWebVtt = () => {
    * the nestedItems array. The resulting nestedItems array contains the items
    * organized into nested structures based on their start and end values.
    */
-  function createNestedCues(flat: Array<NodeWebVttCue>): Array<NodeWebVttCue> {
+  function createNestedCues(
+    flat: Array<NodeWebVttCue>,
+  ): Array<NodeWebVttCueNested> {
     const nestedItems = [];
     const stack = [];
 
@@ -89,11 +92,40 @@ const useWebVtt = () => {
     return cues.sort((cue1, cue2) => cue1.start - cue2.start);
   }
 
+  function parseVttData(data: string): Promise<Array<NodeWebVttCue>> {
+    return new Promise((resolve, reject) => {
+      const cues: Array<NodeWebVttCue> = [];
+      const parser = new WebVTT.Parser(window, WebVTT.StringDecoder());
+      parser.oncue = (cue: VTTCue) => {
+        const domTree: DocumentFragment = WebVTT.convertCueToDOMTree(
+          window,
+          cue.text,
+        );
+        const html = domTree.firstElementChild?.outerHTML || "&nbsp;";
+        const text = domTree.firstElementChild?.textContent || "";
+
+        cues.push({
+          identifier: uuidv4(),
+          start: cue.startTime,
+          end: cue.endTime,
+          align: cue.align,
+          html,
+          text,
+        });
+      };
+      parser.onflush = () => resolve(cues);
+      parser.onparsingerror = (err) => reject(err);
+      parser.parse(data);
+      parser.flush();
+    });
+  }
+
   return {
     addIdentifiersToParsedCues,
     createNestedCues,
     isChild,
     orderCuesByTime,
+    parseVttData,
   };
 };
 

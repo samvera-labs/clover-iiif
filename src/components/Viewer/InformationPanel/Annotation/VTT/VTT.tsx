@@ -1,14 +1,10 @@
 import React, { useEffect } from "react";
-import useWebVtt, {
-  NodeWebVttCue,
-  NodeWebVttCueNested,
-} from "src/hooks/use-webvtt";
+import useWebVtt, { NodeWebVttCueNested } from "src/hooks/use-webvtt";
 
 import { Group } from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue.styled";
 import { InternationalString } from "@iiif/presentation-3";
 import Menu from "src/components/Viewer/InformationPanel/Menu";
 import { getLabel } from "src/hooks/use-iiif";
-import { parse } from "node-webvtt";
 
 type AnnotationItemVTTProps = {
   label: InternationalString | undefined;
@@ -20,7 +16,7 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
   vttUri,
 }) => {
   const [cues, setCues] = React.useState<Array<NodeWebVttCueNested>>([]);
-  const { createNestedCues, orderCuesByTime } = useWebVtt();
+  const { createNestedCues, orderCuesByTime, parseVttData } = useWebVtt();
   const [isNetworkError, setIsNetworkError] = React.useState<Error>();
 
   useEffect(
@@ -34,11 +30,11 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
         })
           .then((response) => response.text())
           .then((data) => {
-            const flatCues = parse(data)
-              .cues as unknown as Array<NodeWebVttCue>;
-            const orderedCues = orderCuesByTime(flatCues);
-            const nestedCues = createNestedCues(orderedCues);
-            setCues(nestedCues);
+            parseVttData(data).then((flatCues) => {
+              const orderedCues = orderCuesByTime(flatCues);
+              const nestedCues = createNestedCues(orderedCues);
+              setCues(nestedCues);
+            });
           })
           .catch((error) => {
             console.error(vttUri, error.toString());
