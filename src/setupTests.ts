@@ -28,7 +28,7 @@ global.ResizeObserver = class ResizeObserver {
 };
 
 class MockIntersectionObserver {
-  constructor(callback: any, options?: any) {
+  constructor(callback: any) {
     this.callback = callback;
   }
 
