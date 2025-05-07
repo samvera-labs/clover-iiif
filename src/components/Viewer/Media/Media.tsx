@@ -14,11 +14,11 @@ import {
   useViewerDispatch,
   useViewerState,
 } from "src/context/viewer-context";
-import { getCanvasByCriteria, getThumbnail } from "src/hooks/use-iiif";
 
 import { CanvasEntity } from "src/hooks/use-iiif/getCanvasByCriteria";
 import Controls from "src/components/Viewer/Media/Controls";
 import Thumbnail from "src/components/Viewer/Media/Thumbnail";
+import { getCanvasByCriteria } from "src/hooks/use-iiif";
 import { getLabelAsString } from "src/lib/label-helpers";
 import { getResourceType } from "src/hooks/use-iiif/getResourceType";
 import { useTranslation } from "react-i18next";
@@ -157,7 +157,6 @@ const Media: React.FC<MediaProps> = ({ items }) => {
                         activeCanvas === item?.canvas?.id ? true : false
                       }
                       key={item?.canvas?.id}
-                      thumbnail={getThumbnail(vault, item, 200, 200)}
                       type={getResourceType(item.annotations[0])}
                     />
                   );

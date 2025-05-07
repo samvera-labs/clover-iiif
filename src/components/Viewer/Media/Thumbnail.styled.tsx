@@ -39,13 +39,22 @@ const FigureImage = styled("div", {
   width: "inherit",
   height: "100px",
   overflow: "hidden",
+  borderRadius: "3px",
+
+  ".media-thumbnail-lazyload": {
+    width: "100%",
+    height: "100%",
+    borderRadius: "3px",
+  },
 
   img: {
     width: "100%",
     height: "100%",
     objectFit: "cover",
+    objectPosition: "top center",
     filter: "blur(0)",
     transform: "scale3d(1, 1, 1)",
+    borderRadius: "3px",
     transition: "$all",
     color: "transparent",
   },
