@@ -1,4 +1,5 @@
 import {
+  AnnotationNormalized,
   Canvas,
   CollectionNormalized,
   IIIFExternalWebResource,
@@ -139,7 +140,7 @@ export const getActiveCanvas = (
 
 export const getActiveManifest = (
   iiifContent: string,
-  collection: CollectionNormalized,
+  iiifResource: CollectionNormalized | AnnotationNormalized,
 ) => {
   const { active } = parseIiifContent(iiifContent);
   const manifest = active.manifest;

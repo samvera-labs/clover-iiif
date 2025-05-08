@@ -1,5 +1,9 @@
 import "src/i18n/config";
-import { CollectionNormalized, ManifestNormalized } from "@iiif/presentation-3";
+import {
+  AnnotationNormalized,
+  CollectionNormalized,
+  ManifestNormalized,
+} from "@iiif/presentation-3";
 import React, { useEffect, useState } from "react";
 import {
   type ViewerConfigOptions,
@@ -106,7 +110,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   const store = useViewerState();
   const { activeCanvas, activeManifest, isLoaded, vault } = store;
   const [iiifResource, setIiifResource] = useState<
-    CollectionNormalized | ManifestNormalized
+    CollectionNormalized | ManifestNormalized | AnnotationNormalized
   >();
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
@@ -174,6 +178,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     vault
       .load(containerURI)
       .then((data: CollectionNormalized | ManifestNormalized) => {
+        console.log(data);
         setIiifResource(data);
       })
       .catch((error: Error) => {
@@ -184,27 +189,37 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   }, [dispatch, iiifContent, options, vault]);
 
   useEffect(() => {
-    if (iiifResource?.type === "Collection") {
-      dispatch({
-        type: "updateCollection",
-        collection: iiifResource,
-      });
+    if (!iiifResource) return;
 
-      const manifestFromContentState = getActiveManifest(
-        iiifContent,
-        iiifResource,
-      );
-      if (manifestFromContentState) {
+    const { motivation, type } = iiifResource;
+
+    switch (type) {
+      case "Collection":
+        dispatch({
+          type: "updateCollection",
+          collection: iiifResource,
+        });
+
+        const manifestFromContentState = getActiveManifest(
+          iiifContent,
+          iiifResource,
+        );
+        if (manifestFromContentState) {
+          dispatch({
+            type: "updateActiveManifest",
+            manifestId: manifestFromContentState,
+          });
+        }
+        break;
+      case "Manifest":
         dispatch({
           type: "updateActiveManifest",
-          manifestId: manifestFromContentState,
+          manifestId: iiifResource.id,
         });
-      }
-    } else if (iiifResource?.type === "Manifest") {
-      dispatch({
-        type: "updateActiveManifest",
-        manifestId: iiifResource.id,
-      });
+        break;
+      case "Annotation":
+        console.log("annotation");
+        break;
     }
   }, [dispatch, iiifContent, iiifResource]);
 
