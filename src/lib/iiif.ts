@@ -1,5 +1,4 @@
 import {
-  AnnotationNormalized,
   Canvas,
   CollectionNormalized,
   IIIFExternalWebResource,
@@ -54,73 +53,81 @@ export const getImageServiceURI = (service: Service[] | undefined) => {
   return imageServiceURI;
 };
 
-export const parseIiifContent = (iiifContent: string) => {
+export const parseContentStateJson = (json) => {
   let resourceId;
   let active: any = {};
 
+  console.log("json", json);
+
+  switch (json?.type) {
+    // https://iiif.io/api/content-state/1.0/#51-a-region-of-a-canvas-in-a-manifest
+    // https://iiif.io/api/content-state/1.0/#52-start-playing-at-a-point-in-a-recording
+    // https://iiif.io/api/content-state/1.0/#53-multiple-targets-for-a-comparison-view
+    // https://iiif.io/api/content-state/1.0/#54-search-results
+    case "SpecificResource":
+      resourceId = json?.target?.partOf?.[0]?.id;
+      active = {
+        manifest: resourceId,
+        canvas: json?.target?.id,
+      };
+      if (json?.selector) {
+        active.selector = json.selector;
+      }
+      break;
+    case "Range":
+    case "Annotation":
+      const targetSource = json?.target?.source || json?.target;
+      active = {
+        manifest: targetSource?.partOf?.[0]?.id,
+        canvas: targetSource?.id,
+      };
+      if (json?.target?.type === "SpecificResource") {
+        active.selector = json.target?.selector;
+      } else if (json?.target?.selector) {
+        active.selector = json.target?.selector;
+      }
+      break;
+    case "Canvas":
+      resourceId = json?.partOf?.[0]?.id;
+      active = {
+        manifest: resourceId,
+        canvas: json?.id,
+      };
+      if (json?.id?.includes("#xywh=")) {
+        const [canvasId, xywh] = json.id.split("#xywh=");
+        active.canvas = canvasId;
+        active.selector = {
+          type: "FragmentSelector",
+          value: `xywh=${xywh}`,
+        };
+      }
+      break;
+    case "Manifest":
+      resourceId = json?.id;
+      active = {
+        collection: json?.partOf?.[0]?.id,
+        manifest: json?.id,
+      };
+      break;
+    case "Collection":
+      resourceId = json?.id;
+      active = {
+        collection: resourceId,
+      };
+      break;
+  }
+  console.log({ active });
+  return { resourceId, active };
+};
+
+export const parseIiifContent = (iiifContent: string) => {
   if (isURL(iiifContent)) {
-    resourceId = iiifContent;
+    return { resourceId: iiifContent, active: {} };
   } else {
     const json = JSON.parse(decodeContentState(iiifContent));
-    switch (json?.type) {
-      // https://iiif.io/api/content-state/1.0/#51-a-region-of-a-canvas-in-a-manifest
-      // https://iiif.io/api/content-state/1.0/#52-start-playing-at-a-point-in-a-recording
-      // https://iiif.io/api/content-state/1.0/#53-multiple-targets-for-a-comparison-view
-      // https://iiif.io/api/content-state/1.0/#54-search-results
-      case "SpecificResource":
-        resourceId = json?.target?.partOf?.[0]?.id;
-        active = {
-          manifest: resourceId,
-          canvas: json?.target?.id,
-        };
-        if (json?.selector) {
-          active.selector = json.selector;
-        }
-        break;
-      case "Range":
-      case "Annotation":
-        resourceId = json?.target?.partOf?.[0]?.id;
-        active = {
-          manifest: resourceId,
-          canvas: json?.target?.id,
-        };
-        if (json?.target?.type === "SpecificResource") {
-          active.selector = json.target.selector;
-        } else if (json?.target?.selector) {
-          active.selector = json.target.selector;
-        }
-        break;
-      case "Canvas":
-        resourceId = json?.partOf?.[0]?.id;
-        active = {
-          manifest: resourceId,
-          canvas: json?.id,
-        };
-        if (json?.id?.includes("#xywh=")) {
-          const [canvasId, xywh] = json.id.split("#xywh=");
-          active.canvas = canvasId;
-          active.selector = {
-            type: "FragmentSelector",
-            value: `xywh=${xywh}`,
-          };
-        }
-        break;
-      case "Manifest":
-        resourceId = json?.id;
-        active = {
-          collection: json?.partOf?.[0]?.id,
-          manifest: json?.id,
-        };
-        break;
-      case "Collection":
-        resourceId = json?.id;
-        active = {
-          collection: resourceId,
-        };
-        break;
-    }
+    const data = parseContentStateJson(json);
+    return { resourceId: data?.resourceId, active: data?.active };
   }
-  return { resourceId, active };
 };
 
 export const decodeContentStateContainerURI = (iiifContent: string) => {
@@ -138,9 +145,9 @@ export const getActiveCanvas = (
   return canvases.includes(canvas) ? canvas : canvases[0];
 };
 
-export const getActiveManifest = (
+export const getActiveManifestFromCollection = (
   iiifContent: string,
-  iiifResource: CollectionNormalized | AnnotationNormalized,
+  collection: CollectionNormalized,
 ) => {
   const { active } = parseIiifContent(iiifContent);
   const manifest = active.manifest;

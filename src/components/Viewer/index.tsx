@@ -24,8 +24,9 @@ import { getRequest } from "src/lib/xhr";
 import {
   decodeContentStateContainerURI,
   getActiveCanvas,
-  getActiveManifest,
+  getActiveManifestFromCollection,
   getActiveSelector,
+  parseContentStateJson,
 } from "src/lib/iiif";
 import { ContentSearchQuery } from "src/types/annotations";
 
@@ -108,7 +109,8 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * the normalized manifest available from @iiif/helpers/vault.
    */
   const store = useViewerState();
-  const { activeCanvas, activeManifest, isLoaded, vault } = store;
+  const { activeCanvas, activeManifest, activeSelector, isLoaded, vault } =
+    store;
   const [iiifResource, setIiifResource] = useState<
     CollectionNormalized | ManifestNormalized | AnnotationNormalized
   >();
@@ -138,8 +140,10 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
           const sequence = getManifestSequence(vault, data);
           setManifest(data);
 
-          const canvasId = getActiveCanvas(iiifContent, data);
-          const selector = getActiveSelector(iiifContent);
+          const canvasId = activeCanvas || getActiveCanvas(iiifContent, data);
+          const selector = activeSelector || getActiveSelector(iiifContent);
+
+          console.log("activeCanvas", activeCanvas);
 
           dispatch({
             type: "updateActiveCanvas",
@@ -191,19 +195,34 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   useEffect(() => {
     if (!iiifResource) return;
 
-    const { motivation, type } = iiifResource;
-
-    switch (type) {
+    switch (iiifResource.type) {
+      case "Annotation":
+        if (
+          iiifResource?.motivation &&
+          (Array.isArray(iiifResource?.motivation)
+            ? iiifResource?.motivation.includes("contentState")
+            : iiifResource?.motivation === "content-state")
+        ) {
+          const { active } = parseContentStateJson(iiifResource);
+          dispatch({
+            type: "updateActiveManifest",
+            manifestId: active.manifest,
+          });
+          dispatch({
+            type: "updateActiveCanvas",
+            canvasId: active.canvas,
+          });
+        }
+        break;
       case "Collection":
+        const manifestFromContentState = getActiveManifestFromCollection(
+          iiifContent,
+          iiifResource as CollectionNormalized,
+        );
         dispatch({
           type: "updateCollection",
           collection: iiifResource,
         });
-
-        const manifestFromContentState = getActiveManifest(
-          iiifContent,
-          iiifResource,
-        );
         if (manifestFromContentState) {
           dispatch({
             type: "updateActiveManifest",
@@ -216,9 +235,6 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
           type: "updateActiveManifest",
           manifestId: iiifResource.id,
         });
-        break;
-      case "Annotation":
-        console.log("annotation");
         break;
     }
   }, [dispatch, iiifContent, iiifResource]);
