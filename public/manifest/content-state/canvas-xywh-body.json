@@ -1,0 +1,22 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://localhost:3000/manifest/content-state/canvas-xywh-body.json",
+  "type": "Annotation",
+  "motivation": ["contentState"],
+  "target": {
+    "id": "https://api.dc.library.northwestern.edu/api/v2/works/58856b92-4950-4353-ab73-b49bdffaed5b?as=iiif/canvas/2#xywh=930,1200,1500,770",
+    "type": "Canvas",
+    "partOf": [
+      {
+        "id": "https://api.dc.library.northwestern.edu/api/v2/works/58856b92-4950-4353-ab73-b49bdffaed5b?as=iiif",
+        "type": "Manifest"
+      }
+    ]
+  },
+  "body": {
+    "type": "TextualBody",
+    "value": "The Great London Success</br> <em><strong>LES CLOCHES DE CORNEVILLE</strong></em></br> Music by Planquette.",
+    "format": "text/html",
+    "language": ["en"]
+  }
+}

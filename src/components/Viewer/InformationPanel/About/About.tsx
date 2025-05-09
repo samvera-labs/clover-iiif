@@ -18,7 +18,7 @@ import {
   Summary,
   Thumbnail,
 } from "src/components/Viewer/Properties";
-import React, { useEffect, useState } from "react";
+import React, { act, useEffect, useState } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import { PrimitivesExternalWebResource } from "src/types/primitives";
@@ -38,6 +38,9 @@ const About: React.FC = () => {
 
   useEffect(() => {
     const data: ManifestNormalized = vault.get(activeManifest);
+
+    if (!data) return;
+
     setManifest(data);
 
     if (data.homepage?.length > 0)

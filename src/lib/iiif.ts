@@ -57,8 +57,6 @@ export const parseContentStateJson = (json) => {
   let resourceId;
   let active: any = {};
 
-  console.log("json", json);
-
   switch (json?.type) {
     // https://iiif.io/api/content-state/1.0/#51-a-region-of-a-canvas-in-a-manifest
     // https://iiif.io/api/content-state/1.0/#52-start-playing-at-a-point-in-a-recording
@@ -77,14 +75,15 @@ export const parseContentStateJson = (json) => {
     case "Range":
     case "Annotation":
       const targetSource = json?.target?.source || json?.target;
+      const targetSelector = json?.target?.selector;
       active = {
         manifest: targetSource?.partOf?.[0]?.id,
         canvas: targetSource?.id,
       };
       if (json?.target?.type === "SpecificResource") {
-        active.selector = json.target?.selector;
+        active.selector = targetSelector;
       } else if (json?.target?.selector) {
-        active.selector = json.target?.selector;
+        active.selector = targetSelector;
       }
       break;
     case "Canvas":

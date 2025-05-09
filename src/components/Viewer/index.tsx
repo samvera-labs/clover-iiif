@@ -16,7 +16,7 @@ import {
   PluginConfig,
 } from "src/context/viewer-context";
 
-import { getManifestSequence } from "@iiif/helpers";
+import { encodeContentState, getManifestSequence } from "@iiif/helpers";
 import { Vault } from "@iiif/helpers/vault";
 import Viewer from "src/components/Viewer/Viewer/Viewer";
 import { createTheme } from "@stitches/react";
@@ -181,10 +181,9 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     const containerURI = decodeContentStateContainerURI(iiifContent);
     vault
       .load(containerURI)
-      .then((data: CollectionNormalized | ManifestNormalized) => {
-        console.log(data);
-        setIiifResource(data);
-      })
+      .then((data: CollectionNormalized | ManifestNormalized) =>
+        setIiifResource(data),
+      )
       .catch((error: Error) => {
         console.error(
           `The IIIF resource ${iiifContent} failed to load: ${error}`,
@@ -203,6 +202,12 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
             ? iiifResource?.motivation.includes("contentState")
             : iiifResource?.motivation === "content-state")
         ) {
+          const encodedContentState = encodeContentState(
+            JSON.stringify(iiifResource),
+          );
+
+          console.log("encodedContentState", encodedContentState);
+
           const { active } = parseContentStateJson(iiifResource);
           dispatch({
             type: "updateActiveManifest",
@@ -211,6 +216,10 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
           dispatch({
             type: "updateActiveCanvas",
             canvasId: active.canvas,
+          });
+          dispatch({
+            type: "updateContentStateAnnotation",
+            contentStateAnnotation: iiifResource,
           });
         }
         break;

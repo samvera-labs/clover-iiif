@@ -284,7 +284,7 @@ const OSD: React.FC<OSDProps> = ({
           annotation?.target,
         );
 
-        const label = annotation?.body[0]?.value;
+        const label = annotation?.body ? annotation?.body[0]?.value : undefined;
 
         if (parsedAnnotationTarget?.rect) {
           const { x, y, w, h } = parsedAnnotationTarget?.rect;

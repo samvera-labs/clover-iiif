@@ -1,0 +1,22 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://localhost:3000/manifest/content-state/annotations-integrated.json",
+  "type": "Annotation",
+  "motivation": ["contentState"],
+  "target": {
+    "id": "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif/canvas/74#xywh=100,650,750,1700",
+    "type": "Canvas",
+    "partOf": [
+      {
+        "id": "http://localhost:3000/manifest/annotations/paged.json",
+        "type": "Manifest"
+      }
+    ]
+  },
+  "body": {
+    "type": "TextualBody",
+    "value": "This is possibly Set-Typhoon, an important adversarial god-form in Crowley’s system. See Thelemic holy text, The Book of the Law.",
+    "format": "text/html",
+    "language": ["none"]
+  }
+}

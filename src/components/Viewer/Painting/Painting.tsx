@@ -44,6 +44,7 @@ const Painting: React.FC<PaintingProps> = ({
   const {
     configOptions,
     customDisplays,
+    contentStateAnnotation,
     informationPanelResource,
     openSeadragonViewer,
     vault,
@@ -59,7 +60,11 @@ const Painting: React.FC<PaintingProps> = ({
 
   const dispatch: any = useViewerDispatch();
   const normalizedCanvas: CanvasNormalized = vault.get(activeCanvas);
-  const showPlaceholder = placeholderItems.length && !isInteractive && !isMedia;
+  const showPlaceholder =
+    placeholderItems.length &&
+    !isInteractive &&
+    !isMedia &&
+    !contentStateAnnotation;
   const hasChoice = Boolean(painting?.length > 1);
   const instanceId = `${viewerId}-${hashCode(activeCanvas + annotationIndex + JSON.stringify(visibleCanvases))}`;
 
@@ -95,7 +100,7 @@ const Painting: React.FC<PaintingProps> = ({
       targetIndex: number;
     }> = [];
 
-    if (informationPanelResource === "manifest-annotations")
+    if (informationPanelResource === "manifest-annotations") {
       annotationResources?.forEach((page, pageIndex) => {
         page?.items?.forEach((item) => {
           const normalizedAnnotation = vault.get(item.id);
@@ -115,7 +120,25 @@ const Painting: React.FC<PaintingProps> = ({
         });
       });
 
-    if (informationPanelResource === "manifest-content-search")
+      if (contentStateAnnotation) {
+        resources.push({
+          annotation: {
+            ...contentStateAnnotation,
+            body: contentStateAnnotation?.body?.map((body) => {
+              const bodyResource = vault.get(body.id);
+              if (bodyResource) return bodyResource;
+              return body;
+            }),
+          },
+          targetIndex: visibleCanvases.findIndex(
+            (canvas) => canvas.id === contentStateAnnotation.target.source.id,
+          ),
+        });
+        console.log("contentStateAnnotation", contentStateAnnotation);
+      }
+    }
+
+    if (informationPanelResource === "manifest-content-search") {
       contentSearchResource?.items?.forEach((item) => {
         const normalizedAnnotation = vault.get(item.id);
         if (normalizedAnnotation) {
@@ -138,11 +161,13 @@ const Painting: React.FC<PaintingProps> = ({
           }
         }
       });
+    }
 
     setAnnotations(resources);
   }, [
     annotationResources,
     contentSearchResource,
+    contentStateAnnotation,
     informationPanelResource,
     visibleCanvases,
   ]);
@@ -205,6 +230,8 @@ const Painting: React.FC<PaintingProps> = ({
 
   const CustomComponent = customDisplay?.display
     ?.component as unknown as React.ElementType;
+
+  console.log(annotations);
 
   return (
     <PaintingStyled className="clover-viewer-painting">

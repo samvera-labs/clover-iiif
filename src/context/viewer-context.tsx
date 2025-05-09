@@ -1,4 +1,5 @@
 import {
+  AnnotationNormalized,
   CollectionNormalized,
   InternationalString,
   Reference,
@@ -157,6 +158,7 @@ export interface ViewerContextStore {
   activeSelector?: string;
   OSDImageLoaded?: boolean;
   collection?: CollectionNormalized | Record<string, never>;
+  contentStateAnnotation?: AnnotationNormalized;
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
   plugins: Array<PluginConfig>;
@@ -181,6 +183,7 @@ export interface ViewerAction {
   selector?: string;
   collection: CollectionNormalized;
   configOptions: ViewerConfigOptions;
+  contentStateAnnotation?: AnnotationNormalized;
   informationPanelResource?: string;
   isAutoScrollEnabled: boolean;
   isAutoScrolling: boolean;
@@ -296,6 +299,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         configOptions: deepMerge(state.configOptions, action.configOptions),
+      };
+    }
+    case "updateContentStateAnnotation": {
+      return {
+        ...state,
+        contentStateAnnotation: action.contentStateAnnotation,
       };
     }
     case "updateInformationOpen": {
