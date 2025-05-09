@@ -1,5 +1,9 @@
 import "src/i18n/config";
-import { CollectionNormalized, ManifestNormalized } from "@iiif/presentation-3";
+import {
+  AnnotationNormalized,
+  CollectionNormalized,
+  ManifestNormalized,
+} from "@iiif/presentation-3";
 import React, { useEffect, useState } from "react";
 import {
   type ViewerConfigOptions,
@@ -12,7 +16,7 @@ import {
   PluginConfig,
 } from "src/context/viewer-context";
 
-import { getManifestSequence } from "@iiif/helpers";
+import { encodeContentState, getManifestSequence } from "@iiif/helpers";
 import { Vault } from "@iiif/helpers/vault";
 import Viewer from "src/components/Viewer/Viewer/Viewer";
 import { createTheme } from "@stitches/react";
@@ -20,8 +24,9 @@ import { getRequest } from "src/lib/xhr";
 import {
   decodeContentStateContainerURI,
   getActiveCanvas,
-  getActiveManifest,
+  getActiveManifestFromCollection,
   getActiveSelector,
+  parseContentStateJson,
 } from "src/lib/iiif";
 import { ContentSearchQuery } from "src/types/annotations";
 
@@ -104,9 +109,10 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * the normalized manifest available from @iiif/helpers/vault.
    */
   const store = useViewerState();
-  const { activeCanvas, activeManifest, isLoaded, vault } = store;
+  const { activeCanvas, activeManifest, activeSelector, isLoaded, vault } =
+    store;
   const [iiifResource, setIiifResource] = useState<
-    CollectionNormalized | ManifestNormalized
+    CollectionNormalized | ManifestNormalized | AnnotationNormalized
   >();
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
@@ -134,8 +140,10 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
           const sequence = getManifestSequence(vault, data);
           setManifest(data);
 
-          const canvasId = getActiveCanvas(iiifContent, data);
-          const selector = getActiveSelector(iiifContent);
+          const canvasId = activeCanvas || getActiveCanvas(iiifContent, data);
+          const selector = activeSelector || getActiveSelector(iiifContent);
+
+          console.log("activeCanvas", activeCanvas);
 
           dispatch({
             type: "updateActiveCanvas",
@@ -173,9 +181,9 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     const containerURI = decodeContentStateContainerURI(iiifContent);
     vault
       .load(containerURI)
-      .then((data: CollectionNormalized | ManifestNormalized) => {
-        setIiifResource(data);
-      })
+      .then((data: CollectionNormalized | ManifestNormalized) =>
+        setIiifResource(data),
+      )
       .catch((error: Error) => {
         console.error(
           `The IIIF resource ${iiifContent} failed to load: ${error}`,
@@ -184,27 +192,59 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   }, [dispatch, iiifContent, options, vault]);
 
   useEffect(() => {
-    if (iiifResource?.type === "Collection") {
-      dispatch({
-        type: "updateCollection",
-        collection: iiifResource,
-      });
+    if (!iiifResource) return;
 
-      const manifestFromContentState = getActiveManifest(
-        iiifContent,
-        iiifResource,
-      );
-      if (manifestFromContentState) {
+    switch (iiifResource.type) {
+      case "Annotation":
+        if (
+          iiifResource?.motivation &&
+          (Array.isArray(iiifResource?.motivation)
+            ? iiifResource?.motivation.includes("contentState")
+            : iiifResource?.motivation === "content-state")
+        ) {
+          const encodedContentState = encodeContentState(
+            JSON.stringify(iiifResource),
+          );
+
+          console.log("encodedContentState", encodedContentState);
+
+          const { active } = parseContentStateJson(iiifResource);
+          dispatch({
+            type: "updateActiveManifest",
+            manifestId: active.manifest,
+          });
+          dispatch({
+            type: "updateActiveCanvas",
+            canvasId: active.canvas,
+          });
+          dispatch({
+            type: "updateContentStateAnnotation",
+            contentStateAnnotation: iiifResource,
+          });
+        }
+        break;
+      case "Collection":
+        const manifestFromContentState = getActiveManifestFromCollection(
+          iiifContent,
+          iiifResource as CollectionNormalized,
+        );
+        dispatch({
+          type: "updateCollection",
+          collection: iiifResource,
+        });
+        if (manifestFromContentState) {
+          dispatch({
+            type: "updateActiveManifest",
+            manifestId: manifestFromContentState,
+          });
+        }
+        break;
+      case "Manifest":
         dispatch({
           type: "updateActiveManifest",
-          manifestId: manifestFromContentState,
+          manifestId: iiifResource.id,
         });
-      }
-    } else if (iiifResource?.type === "Manifest") {
-      dispatch({
-        type: "updateActiveManifest",
-        manifestId: iiifResource.id,
-      });
+        break;
     }
   }, [dispatch, iiifContent, iiifResource]);
 
