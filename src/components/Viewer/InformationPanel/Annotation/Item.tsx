@@ -3,6 +3,7 @@ import {
   EmbeddedResource,
   InternationalString,
 } from "@iiif/presentation-3";
+import React, { useEffect } from "react";
 import {
   ViewerContextStore,
   useViewerDispatch,
@@ -15,19 +16,20 @@ import AnnotationItemMarkdown from "./Markdown";
 import AnnotationItemPlainText from "./PlainText";
 import AnnotationItemVTT from "./VTT/VTT";
 import { Item as ItemStyled } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
-import React from "react";
 import { getLanguageDirection } from "src/lib/annotation-helpers";
 
 type Props = {
   annotation: AnnotationNormalized;
   targetResource?: string;
   isContentSearch?: boolean;
+  isContentState?: boolean;
 };
 
 export const AnnotationItem: React.FC<Props> = ({
   annotation,
   targetResource,
   isContentSearch,
+  isContentState,
 }) => {
   const { target } = annotation;
 
@@ -54,13 +56,22 @@ export const AnnotationItem: React.FC<Props> = ({
     EmbeddedResource & {
       label?: InternationalString;
     }
-  > = annotation.body.map((body) => vault.get(body.id));
+  > = annotation?.body
+    ? annotation?.body?.map((body) => vault.get(body.id))
+    : [];
 
   // ignore due to `chars` not being defined in annotation bodies
-  // @ts-ignore
-  const { format, language = "en", value = "", chars = "" } = annotationBody[0];
-  const content = value || chars;
-  const readingDirection = getLanguageDirection(language).toLocaleLowerCase();
+  const {
+    format = "text/plain",
+    language = "none",
+    value = "",
+    // @ts-ignore
+    chars = "",
+  } = annotationBody[0] ? annotationBody[0] : {};
+  const content = value || chars || "None";
+  const readingDirection = language
+    ? getLanguageDirection(language).toLocaleLowerCase()
+    : "LTR";
 
   function handleOverlayZoom() {
     const overlay = openSeadragonViewer?.getOverlayById(annotation.id);
@@ -80,12 +91,28 @@ export const AnnotationItem: React.FC<Props> = ({
     }
   }
 
+  useEffect(() => {
+    if (!openSeadragonViewer || !isContentState) return;
+
+    const intervalId = setInterval(() => {
+      const overlay = openSeadragonViewer?.getOverlayById(annotation.id);
+      if (overlay) {
+        handleOverlayZoom();
+        openSeadragonViewer.container.className = "clover-iiif-content-state";
+        clearInterval(intervalId);
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [openSeadragonViewer, isContentState]);
+
   function handleClick(e) {
     e.preventDefault();
     e.stopPropagation();
 
     // @ts-ignore
-    const targetCanvas = annotation?.target?.source.id;
+    const targetSource = annotation?.target?.source || annotation?.target;
+    const targetCanvas = targetSource?.id;
     const isVisibleCanvas = visibleCanvases
       .map((canvas) => canvas.id)
       .includes(targetCanvas);
@@ -142,7 +169,11 @@ export const AnnotationItem: React.FC<Props> = ({
   }
 
   return (
-    <ItemStyled dir={readingDirection} data-format={format}>
+    <ItemStyled
+      dir={readingDirection}
+      data-format={format}
+      data-content={content}
+    >
       <span
         style={{
           backgroundImage: `url(${thumbnail})`,

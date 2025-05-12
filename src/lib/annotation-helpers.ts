@@ -9,6 +9,8 @@ export type AnnotationTargetExtended = AnnotationTarget & {
 };
 
 const getLanguageDirection = (bcp47Code) => {
+  if (!bcp47Code) return "LTR"; // Default to LTR if no code is provided
+
   // Exhaustive list of RTL languages
   const rtlLanguages = [
     "ar",
@@ -27,7 +29,11 @@ const getLanguageDirection = (bcp47Code) => {
   ];
 
   // Get the base language from the BCP47 code
-  const baseLang = bcp47Code.split("-")[0]; // Extract the base language
+  // bcp is an array?
+
+  const baseLang = Array.isArray(bcp47Code)
+    ? bcp47Code[0]?.split("-")[0]
+    : bcp47Code?.split("-")[0]; // Extract the base language
   return rtlLanguages.includes(baseLang) ? "RTL" : "LTR";
 };
 

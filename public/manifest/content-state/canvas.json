@@ -1,0 +1,16 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://localhost:3000/manifest/content-state/canvas.json",
+  "type": "Annotation",
+  "motivation": ["contentState"],
+  "target": {
+    "id": "https://api.dc.library.northwestern.edu/api/v2/works/58856b92-4950-4353-ab73-b49bdffaed5b?as=iiif/canvas/2",
+    "type": "Canvas",
+    "partOf": [
+      {
+        "id": "https://api.dc.library.northwestern.edu/api/v2/works/58856b92-4950-4353-ab73-b49bdffaed5b?as=iiif",
+        "type": "Manifest"
+      }
+    ]
+  }
+}

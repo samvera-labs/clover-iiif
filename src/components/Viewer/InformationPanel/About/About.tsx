@@ -38,6 +38,9 @@ const About: React.FC = () => {
 
   useEffect(() => {
     const data: ManifestNormalized = vault.get(activeManifest);
+
+    if (!data) return;
+
     setManifest(data);
 
     if (data.homepage?.length > 0)

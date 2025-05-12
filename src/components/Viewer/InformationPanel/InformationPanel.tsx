@@ -28,6 +28,7 @@ import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 
 import { ErrorBoundary } from "react-error-boundary";
 import { useTranslation } from "react-i18next";
+import ContentStateAnnotationPage from "./ContentState/Page";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
 
@@ -52,6 +53,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   const dispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
   const {
+    contentStateAnnotation,
     informationPanelResource,
     isAutoScrolling,
     isUserScrolling,
@@ -70,7 +72,15 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
   const renderContentSearch = informationPanel?.renderContentSearch;
   const renderToggle = informationPanel?.renderToggle;
-  const hasAnnotations = Boolean(annotationResources?.length);
+  const contentStateAnnotationSource =
+    // @ts-ignore
+    contentStateAnnotation?.target?.source || contentStateAnnotation?.target;
+  const hasContentStateAnnotation =
+    Boolean(contentStateAnnotation) &&
+    // @ts-ignore
+    contentStateAnnotationSource.id === activeCanvas;
+  const hasAnnotations =
+    Boolean(annotationResources?.length) || hasContentStateAnnotation;
 
   const { pluginsWithInfoPanel } = setupPlugins(plugins);
 
@@ -121,6 +131,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         type: "updateInformationPanelResource",
         informationPanelResource: informationPanel?.defaultTab,
       });
+    } else if (hasContentStateAnnotation) {
+      dispatch({
+        type: "updateInformationPanelResource",
+        informationPanelResource: "manifest-annotations",
+      });
     } else {
       dispatch({
         type: "updateInformationPanelResource",
@@ -128,6 +143,15 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (!hasAnnotations) {
+      dispatch({
+        type: "updateInformationPanelResource",
+        informationPanelResource: "manifest-about",
+      });
+    }
+  }, [hasAnnotations]);
 
   function handleScroll() {
     if (!isAutoScrolling) {
@@ -219,6 +243,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         )}
         {renderAnnotation && annotationResources && (
           <Content value="manifest-annotations">
+            {contentStateAnnotation && hasContentStateAnnotation && (
+              <ContentStateAnnotationPage
+                contentStateAnnotation={contentStateAnnotation}
+              />
+            )}
             {annotationResources.map((annotationPage) => (
               <AnnotationPage
                 key={annotationPage.id}
