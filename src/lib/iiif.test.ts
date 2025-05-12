@@ -1,6 +1,8 @@
-import { CollectionNormalized, ManifestNormalized } from "@iiif/presentation-3";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { decodeContentStateContainerURI, getActiveCanvas } from "src/lib/iiif";
 
+import { ManifestNormalized } from "@iiif/presentation-3";
 import { encodeContentState } from "@iiif/helpers";
 import { expect } from "vitest";
 
@@ -17,6 +19,7 @@ const collection2 =
 // fixtures
 const manifestURI = manifest1;
 const collectionURI = collection2;
+
 const canvasContentState = encodeContentState(
   JSON.stringify({
     id: canvas1,
@@ -29,6 +32,7 @@ const canvasContentState = encodeContentState(
     ],
   }),
 );
+
 const manifestContentState = encodeContentState(
   JSON.stringify({
     id: manifest2,
@@ -41,6 +45,7 @@ const manifestContentState = encodeContentState(
     ],
   }),
 );
+
 const canvasAnnotationContentState = encodeContentState(
   JSON.stringify({
     id: "https://example.org/import/1",
@@ -65,6 +70,7 @@ const emptyPartOfContentState = encodeContentState(
     partOf: [],
   }),
 );
+
 const emptyPartOfContentState2 = encodeContentState(
   JSON.stringify({
     id: collection2,
@@ -83,6 +89,8 @@ const pseudoManifest = {
     },
   ],
 };
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const badCanvasId = encodeContentState(
   JSON.stringify({
     id: "https://example.org/notInManifest",
