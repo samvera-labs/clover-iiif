@@ -30,6 +30,12 @@ const Group = styled("div", {
     margin: "0 1.618rem 0.5rem ",
     fontWeight: 700,
     fontSize: "0.8333rem",
+
+    em: {
+      fontStyle: "normal",
+      fontWeight: 400,
+      opacity: 0.7,
+    },
   },
   paddingBottom: "1rem",
   marginBottom: "1rem",
@@ -72,6 +78,19 @@ const Item = styled("div", {
     flexShrink: "0",
     borderRadius: "3px",
     marginTop: "0.25rem",
+  },
+
+  "&[data-content='None']": {
+    button: {
+      div: {
+        opacity: "0.7",
+      },
+      "&:hover, &:focus": {
+        div: {
+          opacity: "1",
+        },
+      },
+    },
   },
 
   [`&[dir=rtl] ${StyledAnnotationContent}`]: {

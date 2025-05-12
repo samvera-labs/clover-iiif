@@ -1,11 +1,8 @@
-import { encodeContentState } from "@iiif/helpers";
-import {
-  decodeContentStateContainerURI,
-  getActiveCanvas,
-  getActiveManifest,
-} from "src/lib/iiif";
-import { expect } from "vitest";
 import { CollectionNormalized, ManifestNormalized } from "@iiif/presentation-3";
+import { decodeContentStateContainerURI, getActiveCanvas } from "src/lib/iiif";
+
+import { encodeContentState } from "@iiif/helpers";
+import { expect } from "vitest";
 
 // URIs for fixtures
 const canvas1 =
@@ -132,70 +129,7 @@ test("iiifContent as Collection URI", () => {
   expect(containerURI).toBe(collection2);
 });
 
-test("iiifContent as annotation body with Canvas partOf Manifest", () => {
-  const containerURI = decodeContentStateContainerURI(canvasContentState);
-  expect(containerURI).toBe(manifest1);
-  const canvasURI = getActiveCanvas(
-    canvasContentState,
-    pseudoManifest as ManifestNormalized,
-  );
-  expect(canvasURI).toBe(canvas1);
-});
-
-test("iiifContent as annotation body with Manifest partOf Collection", () => {
-  const containerURI = decodeContentStateContainerURI(manifestContentState);
-  expect(containerURI).toBe(collection2);
-  const manifestURI = getActiveManifest(
-    manifestContentState,
-    pseudoCollection as CollectionNormalized,
-  );
-  expect(manifestURI).toBe(manifest2);
-});
-
-test("iiifContent as complete annotation with Canvas partOf Manifest", () => {
-  const containerURI = decodeContentStateContainerURI(
-    canvasAnnotationContentState,
-  );
-  expect(containerURI).toBe(manifest1);
-  const canvasURI = getActiveCanvas(
-    canvasAnnotationContentState,
-    pseudoManifest as ManifestNormalized,
-  );
-  expect(canvasURI).toBe(canvas1);
-});
-
-test("iiifContent with Manifest, partOf empty", () => {
-  const containerURI = decodeContentStateContainerURI(emptyPartOfContentState);
-  expect(containerURI).toBe(manifest1);
-  const canvasURI = getActiveCanvas(
-    emptyPartOfContentState,
-    pseudoManifest as ManifestNormalized,
-  );
-  expect(canvasURI).toBe(canvas1);
-});
-
-test("iiifContent with Collection, partOf empty", () => {
-  const containerURI = decodeContentStateContainerURI(emptyPartOfContentState2);
-  expect(containerURI).toBe(collection2);
-  const manifestURI = getActiveManifest(
-    emptyPartOfContentState2,
-    pseudoCollection as CollectionNormalized,
-  );
-  expect(manifestURI).toBe(manifest2);
-});
-
 test("getActiveCanvas validates Canvas exists in Manifest", () => {
-  const canvasId = getActiveCanvas(
-    badCanvasId,
-    pseudoManifest as ManifestNormalized,
-  );
+  const canvasId = getActiveCanvas(pseudoManifest as ManifestNormalized);
   expect(canvasId).toBe(canvas1);
-});
-
-test("getActiveManifest validates Manifest exists in Collection", () => {
-  const manifestId = getActiveManifest(
-    badManifestId,
-    pseudoCollection as CollectionNormalized,
-  );
-  expect(manifestId).toBe(manifest2);
 });

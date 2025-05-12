@@ -1,5 +1,9 @@
 import "src/i18n/config";
-import { CollectionNormalized, ManifestNormalized } from "@iiif/presentation-3";
+import {
+  AnnotationNormalized,
+  CollectionNormalized,
+  ManifestNormalized,
+} from "@iiif/presentation-3";
 import React, { useEffect, useState } from "react";
 import {
   type ViewerConfigOptions,
@@ -20,8 +24,8 @@ import { getRequest } from "src/lib/xhr";
 import {
   decodeContentStateContainerURI,
   getActiveCanvas,
-  getActiveManifest,
-  getActiveSelector,
+  getActiveManifestFromCollection,
+  parseContentStateJson,
 } from "src/lib/iiif";
 import { ContentSearchQuery } from "src/types/annotations";
 
@@ -106,7 +110,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   const store = useViewerState();
   const { activeCanvas, activeManifest, isLoaded, vault } = store;
   const [iiifResource, setIiifResource] = useState<
-    CollectionNormalized | ManifestNormalized
+    CollectionNormalized | ManifestNormalized | AnnotationNormalized
   >();
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
@@ -129,26 +133,22 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
       vault
         .load(activeManifest)
         .then((data: ManifestNormalized) => {
-          // ignoring as ManifestNormalized mismatches across helper libraries
-          // @ts-ignore
-          const sequence = getManifestSequence(vault, data);
+          if (!data) return;
+
           setManifest(data);
 
-          const canvasId = getActiveCanvas(iiifContent, data);
-          const selector = getActiveSelector(iiifContent);
+          /**
+           * ignoring as ManifestNormalized mismatches across helper libraries
+           */
+
+          // @ts-ignore
+          const sequence = getManifestSequence(vault, data);
+          const canvasId = activeCanvas || getActiveCanvas(data);
 
           dispatch({
             type: "updateActiveCanvas",
             canvasId: canvasId,
           });
-
-          if (selector) {
-            dispatch({
-              type: "updateActiveSelector",
-              selector: selector,
-            });
-          }
-
           dispatch({
             type: "updateManifestSequence",
             sequence,
@@ -170,41 +170,92 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
       type: "updateConfigOptions",
       configOptions: options,
     });
-    const containerURI = decodeContentStateContainerURI(iiifContent);
-    vault
-      .load(containerURI)
-      .then((data: CollectionNormalized | ManifestNormalized) => {
+
+    const loadResource = async () => {
+      if (!iiifContent) return;
+
+      const contentState = decodeContentStateContainerURI(iiifContent);
+      try {
+        const data:
+          | ManifestNormalized
+          | CollectionNormalized
+          | AnnotationNormalized
+          | undefined = await vault.load(contentState);
         setIiifResource(data);
-      })
-      .catch((error: Error) => {
-        console.error(
-          `The IIIF resource ${iiifContent} failed to load: ${error}`,
-        );
-      });
+      } catch (error) {
+        if (!contentState || !contentState.id)
+          console.error(`Failed to load resource: ${error}`);
+
+        /**
+         * because Content State annotations may be ephemeral, we
+         * need to handle cases where `id` is not dereferenceable
+         * and side-load the resource from a decoded json object.
+         */
+        if (
+          contentState?.id &&
+          contentState?.type === "Annotation" &&
+          contentState?.motivation?.includes("contentState")
+        ) {
+          const data: AnnotationNormalized | undefined = await vault.loadSync(
+            contentState.id,
+            contentState,
+          );
+          if (data) setIiifResource(data);
+        }
+      }
+    };
+
+    loadResource();
   }, [dispatch, iiifContent, options, vault]);
 
   useEffect(() => {
-    if (iiifResource?.type === "Collection") {
-      dispatch({
-        type: "updateCollection",
-        collection: iiifResource,
-      });
+    if (!iiifResource) return;
 
-      const manifestFromContentState = getActiveManifest(
-        iiifContent,
-        iiifResource,
-      );
-      if (manifestFromContentState) {
+    switch (iiifResource.type) {
+      case "Annotation":
+        if (
+          iiifResource?.motivation &&
+          (Array.isArray(iiifResource?.motivation)
+            ? iiifResource?.motivation.includes("contentState")
+            : iiifResource?.motivation === "content-state")
+        ) {
+          const { active } = parseContentStateJson(iiifResource);
+
+          dispatch({
+            type: "updateActiveManifest",
+            manifestId: active.manifest,
+          });
+          dispatch({
+            type: "updateActiveCanvas",
+            canvasId: active.canvas,
+          });
+          dispatch({
+            type: "updateContentStateAnnotation",
+            contentStateAnnotation: iiifResource,
+          });
+        }
+        break;
+      case "Collection":
+        const manifestId = getActiveManifestFromCollection(
+          iiifResource as CollectionNormalized,
+        );
+        dispatch({
+          type: "updateCollection",
+          collection: iiifResource,
+        });
+        if (manifestId) {
+          dispatch({
+            type: "updateActiveManifest",
+            manifestId: manifestId,
+          });
+        }
+        break;
+      case "Manifest":
         dispatch({
           type: "updateActiveManifest",
-          manifestId: manifestFromContentState,
+          manifestId: iiifResource.id,
         });
-      }
-    } else if (iiifResource?.type === "Manifest") {
-      dispatch({
-        type: "updateActiveManifest",
-        manifestId: iiifResource.id,
-      });
+        break;
     }
   }, [dispatch, iiifContent, iiifResource]);
 

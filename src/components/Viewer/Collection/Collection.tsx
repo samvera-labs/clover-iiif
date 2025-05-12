@@ -14,6 +14,10 @@ const Collection: React.FC = () => {
 
   const handleValueChange = (manifestId: string) => {
     dispatch({
+      type: "updateActiveCanvas",
+      canvasId: undefined,
+    });
+    dispatch({
       type: "updateActiveManifest",
       manifestId: manifestId,
     });
