@@ -28,6 +28,7 @@ import {
   parseContentStateJson,
 } from "src/lib/iiif";
 import { ContentSearchQuery } from "src/types/annotations";
+import { contentStateSpecificResource } from "src/lib/content-state";
 
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
@@ -201,6 +202,20 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
             contentState,
           );
           if (data) setIiifResource(data);
+        } else if (
+          contentState?.id &&
+          ["Canvas", "Manifest"].includes(contentState?.type)
+        ) {
+          /**
+           * If the resource is a Canvas or Manifest, we need to account for an implied content state
+           * annotation, see https://iiif.io/api/content-state/1.0/#225-limitations-of-simple-uris
+           */
+          const data = await vault.loadSync(contentState.id, contentState);
+          if (data)
+            setIiifResource({
+              ...contentStateSpecificResource,
+              target: contentState,
+            });
         }
       }
     };

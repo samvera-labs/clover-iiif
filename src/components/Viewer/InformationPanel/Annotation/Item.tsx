@@ -111,7 +111,8 @@ export const AnnotationItem: React.FC<Props> = ({
     e.stopPropagation();
 
     // @ts-ignore
-    const targetCanvas = annotation?.target?.source.id;
+    const targetSource = annotation?.target?.source || annotation?.target;
+    const targetCanvas = targetSource?.id;
     const isVisibleCanvas = visibleCanvases
       .map((canvas) => canvas.id)
       .includes(targetCanvas);
