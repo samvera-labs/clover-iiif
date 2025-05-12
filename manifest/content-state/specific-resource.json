@@ -1,0 +1,29 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://localhost:3000/manifest/content-state/specific-resource.json",
+  "type": "Annotation",
+  "motivation": ["contentState", "tagging"],
+  "target": {
+    "type": "SpecificResource",
+    "source": {
+      "id": "https://www.artic.edu/iiif/2/2fa24f36-cc26-41b6-4b49-12bba2a6c1c8",
+      "type": "Canvas",
+      "partOf": [
+        {
+          "id": "https://api.artic.edu/api/v1/artworks/89503/manifest.json",
+          "type": "Manifest"
+        }
+      ]
+    },
+    "selector": {
+      "type": "FragmentSelector",
+      "value": "xywh=3450,2500,1600,1200"
+    }
+  },
+  "body": {
+    "type": "TextualBody",
+    "value": "Mount Fuji",
+    "format": "text/plain",
+    "language": ["none"]
+  }
+}
