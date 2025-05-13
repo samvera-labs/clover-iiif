@@ -113,7 +113,8 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * the normalized manifest available from @iiif/helpers/vault.
    */
   const store = useViewerState();
-  const { activeCanvas, activeManifest, isLoaded, vault } = store;
+  const { activeCanvas, activeManifest, activeSelector, isLoaded, vault } =
+    store;
   const [iiifResource, setIiifResource] = useState<
     CollectionNormalized | ManifestNormalized | AnnotationNormalized
   >();
@@ -149,6 +150,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
               },
             ],
           },
+          selector: activeSelector,
         },
       };
       contentStateCallback({
@@ -156,7 +158,13 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
         encoded: encodeContentState(JSON.stringify(json)),
       });
     }
-  }, [activeManifest, activeCanvas, canvasIdCallback, contentStateCallback]);
+  }, [
+    activeCanvas,
+    activeManifest,
+    activeSelector,
+    canvasIdCallback,
+    contentStateCallback,
+  ]);
 
   useEffect(() => {
     if (activeManifest)

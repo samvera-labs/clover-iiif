@@ -1,7 +1,11 @@
 import { AnnotationNormalized, CanvasNormalized } from "@iiif/presentation-3";
 import Hls, { HlsConfig } from "hls.js";
 import React, { useEffect } from "react";
-import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
+import {
+  ViewerContextStore,
+  useViewerDispatch,
+  useViewerState,
+} from "src/context/viewer-context";
 
 import { AnnotationResources } from "src/types/annotations";
 import AudioVisualizer from "src/components/Viewer/Player/AudioVisualizer";
@@ -29,8 +33,9 @@ const Player: React.FC<PlayerProps> = ({
   const playerRef = React.useRef<HTMLVideoElement>(null);
   const isAudio = painting?.type === "Sound";
 
+  const viewerDispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
-  const { activeCanvas, configOptions, vault } = viewerState;
+  const { activeCanvas, activeSelector, configOptions, vault } = viewerState;
 
   /**
    * HLS.js binding for .m3u8 files
@@ -134,15 +139,48 @@ const Player: React.FC<PlayerProps> = ({
   }, [activeCanvas, currentTime, vault]);
 
   useEffect(() => {
-    if (playerRef?.current) {
-      const video: HTMLVideoElement = playerRef.current;
-      video?.addEventListener("timeupdate", () =>
-        setCurrentTime(video.currentTime),
-      );
+    const video = playerRef?.current;
+    if (!video) return;
 
-      return () => document.removeEventListener("timeupdate", () => {});
-    }
-  }, []);
+    let intervalId: NodeJS.Timeout | null = null;
+    let hasStartedInterval = false;
+
+    const onTimeUpdate = () => {
+      if (!hasStartedInterval) {
+        hasStartedInterval = true;
+        intervalId = setInterval(() => {
+          if (video && !video.paused && !video.ended) {
+            setCurrentTime(video.currentTime);
+            viewerDispatch({
+              type: "updateActiveSelector",
+              selector: {
+                type: "PointSelector",
+                t: Math.round(video.currentTime),
+              },
+            });
+          }
+        }, 1000);
+      }
+
+      if (video && video.paused) {
+        setCurrentTime(video.currentTime);
+        viewerDispatch({
+          type: "updateActiveSelector",
+          selector: {
+            type: "PointSelector",
+            t: Math.round(video.currentTime),
+          },
+        });
+      }
+    };
+
+    video.addEventListener("timeupdate", onTimeUpdate);
+
+    return () => {
+      video.removeEventListener("timeupdate", onTimeUpdate);
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [playerRef]);
 
   return (
     <PlayerWrapper
