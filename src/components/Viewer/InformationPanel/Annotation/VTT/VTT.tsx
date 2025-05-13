@@ -11,15 +11,19 @@ import { getLabel } from "src/hooks/use-iiif";
 import { parse } from "node-webvtt";
 
 type AnnotationItemVTTProps = {
+  inlineCues?: NodeWebVttCueNested[];
   label: InternationalString | undefined;
-  vttUri: string;
+  vttUri?: string;
 };
 
 const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
+  inlineCues,
   label,
   vttUri,
 }) => {
-  const [cues, setCues] = React.useState<Array<NodeWebVttCueNested>>([]);
+  const [cues, setCues] = React.useState<Array<NodeWebVttCueNested>>(
+    inlineCues ? inlineCues : [],
+  );
   const { createNestedCues, orderCuesByTime } = useWebVtt();
   const [isNetworkError, setIsNetworkError] = React.useState<Error>();
 

@@ -1,6 +1,6 @@
 import { AnnotationNormalized, CanvasNormalized } from "@iiif/presentation-3";
 import Hls, { HlsConfig } from "hls.js";
-import React, { useEffect } from "react";
+import React, { act, useEffect } from "react";
 import {
   ViewerContextStore,
   useViewerDispatch,
@@ -14,6 +14,7 @@ import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
 import Track from "src/components/Viewer/Player/Track";
 import { getPaintingResource } from "src/hooks/use-iiif";
 import { hlsMimeTypes } from "src/lib/hls";
+import { retry } from "src/lib/retry";
 
 // Set referrer header as a NU domain: ie. meadow.rdc-staging.library.northwestern.edu
 
@@ -35,7 +36,8 @@ const Player: React.FC<PlayerProps> = ({
 
   const viewerDispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
-  const { activeCanvas, activeSelector, configOptions, vault } = viewerState;
+  const { activeCanvas, configOptions, contentStateAnnotation, vault } =
+    viewerState;
 
   /**
    * HLS.js binding for .m3u8 files
@@ -181,6 +183,55 @@ const Player: React.FC<PlayerProps> = ({
       if (intervalId) clearInterval(intervalId);
     };
   }, [playerRef]);
+
+  /**
+   * Update to video to content state annotation selector
+   */
+  useEffect(() => {
+    if (contentStateAnnotation) {
+      const video = playerRef?.current;
+      if (!video) return;
+
+      // @ts-ignore
+      const { type, t, value } = contentStateAnnotation?.target?.selector;
+      const targetSource =
+        // @ts-ignore
+        contentStateAnnotation?.target?.source ||
+        contentStateAnnotation?.target;
+
+      /**
+       * Return if we are not on the canvas targeted by the
+       * content state annotation
+       */
+      if (targetSource.id !== activeCanvas) return;
+
+      /**
+       * If the content state annotation is a PointSelector
+       * and we are on the active canvas, set the current time
+       * of the video to the t value of the annotation.
+       */
+      if (t && type === "PointSelector") {
+        setCurrentTime(t);
+        video.currentTime = t;
+      }
+
+      /**
+       * If the content state annotation is a FragmentSelector
+       * and we are on the active canvas, set the current time
+       * of the video to the first fragment value of the annotation.
+       * Note: this does not account for end time, only start time.
+       * This is a limitation of the current implementation.
+       */
+      if (type === "FragmentSelector" && value) {
+        const timeFragment = value.split("=")[1];
+        if (!timeFragment) return;
+        const startValue = timeFragment.split(",")[0];
+
+        setCurrentTime(startValue);
+        video.currentTime = startValue;
+      }
+    }
+  }, [playerRef, contentStateAnnotation]);
 
   return (
     <PlayerWrapper
