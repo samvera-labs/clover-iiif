@@ -16,7 +16,7 @@ import {
   PluginConfig,
 } from "src/context/viewer-context";
 
-import { getManifestSequence } from "@iiif/helpers";
+import { encodeContentState, getManifestSequence } from "@iiif/helpers";
 import { Vault } from "@iiif/helpers/vault";
 import Viewer from "src/components/Viewer/Viewer/Viewer";
 import { createTheme } from "@stitches/react";
@@ -32,6 +32,7 @@ import { contentStateSpecificResource } from "src/lib/content-state";
 
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
+  contentStateCallback?: (iiifContentState: object) => void;
   customDisplays?: Array<CustomDisplay>;
   plugins?: Array<PluginConfig>;
   customTheme?: any;
@@ -43,7 +44,8 @@ export interface CloverViewerProps {
 }
 
 const CloverViewer: React.FC<CloverViewerProps> = ({
-  canvasIdCallback = () => {},
+  canvasIdCallback,
+  contentStateCallback,
   customDisplays = [],
   plugins = [],
   customTheme,
@@ -87,6 +89,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
       <RenderViewer
         iiifContent={iiifResource}
         canvasIdCallback={canvasIdCallback}
+        contentStateCallback={contentStateCallback}
         customTheme={customTheme}
         options={options}
         iiifContentSearchQuery={iiifContentSearchQuery}
@@ -97,6 +100,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
 
 const RenderViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback,
+  contentStateCallback,
   customTheme,
   iiifContent,
   options,
@@ -126,8 +130,33 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * component to be handed off to a consuming application.
    */
   useEffect(() => {
-    if (canvasIdCallback) canvasIdCallback(activeCanvas);
-  }, [activeCanvas, canvasIdCallback]);
+    if (canvasIdCallback) {
+      canvasIdCallback(activeCanvas);
+    }
+
+    if (contentStateCallback) {
+      const json = {
+        ...contentStateSpecificResource,
+        target: {
+          type: "SpecificResource",
+          source: {
+            id: activeCanvas,
+            type: "Canvas",
+            partOf: [
+              {
+                id: activeManifest,
+                type: "Manifest",
+              },
+            ],
+          },
+        },
+      };
+      contentStateCallback({
+        json,
+        encoded: encodeContentState(JSON.stringify(json)),
+      });
+    }
+  }, [activeManifest, activeCanvas, canvasIdCallback, contentStateCallback]);
 
   useEffect(() => {
     if (activeManifest)

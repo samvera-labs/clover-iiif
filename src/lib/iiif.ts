@@ -118,6 +118,8 @@ export const parseIiifContent = (iiifContent: string) => {
   if (isURL(iiifContent)) {
     return { resourceId: iiifContent };
   } else {
+    const decodedContent = decodeContentState(iiifContent);
+    console.log("Decoded content", decodedContent);
     const json = JSON.parse(decodeContentState(iiifContent));
     const { active } = parseContentStateJson(json);
 

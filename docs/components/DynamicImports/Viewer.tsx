@@ -36,8 +36,13 @@ const CloverViewer = ({
 
   const background = isDark() ? "rgb(17, 17, 17)" : "#fff";
 
+  const handleContentStateCallback = (json) => {
+    console.log("Content state callback", json);
+  };
+
   return (
     <Viewer
+      contentStateCallback={handleContentStateCallback}
       iiifContent={iiifResource}
       iiifContentSearchQuery={iiifContentSearchQuery}
       options={{ ...options, background }}
