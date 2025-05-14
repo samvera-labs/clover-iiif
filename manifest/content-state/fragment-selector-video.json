@@ -1,0 +1,24 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://localhost:3000/manifest/content-state/fragment-selector-video.json",
+  "type": "Annotation",
+  "motivation": ["contentState"],
+  "target": {
+    "type": "SpecificResource",
+    "source": {
+      "id": "https://iiif.io/api/cookbook/recipe/0065-opera-multiple-canvases/canvas/1",
+      "type": "Canvas",
+      "partOf": [
+        {
+          "id": "https://iiif.io/api/cookbook/recipe/0065-opera-multiple-canvases/manifest.json",
+          "type": "Manifest"
+        }
+      ]
+    },
+    "selector": {
+      "type": "FragmentSelector",
+      "value": "t=350,470"
+    }
+  },
+  "body": []
+}
