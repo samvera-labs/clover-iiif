@@ -158,7 +158,7 @@ const Player: React.FC<PlayerProps> = ({
               },
             });
           }
-        }, 1000);
+        }, 500);
       }
 
       if (video && video.paused) {
@@ -176,10 +176,10 @@ const Player: React.FC<PlayerProps> = ({
     video.addEventListener("timeupdate", onTimeUpdate);
 
     return () => {
-      video.removeEventListener("timeupdate", onTimeUpdate);
+      video?.removeEventListener("timeupdate", onTimeUpdate);
       if (intervalId) clearInterval(intervalId);
     };
-  }, [playerRef]);
+  }, [painting.id, activeCanvas]);
 
   /**
    * Update to video to content state annotation selector
@@ -244,6 +244,7 @@ const Player: React.FC<PlayerProps> = ({
         id="clover-iiif-video"
         key={painting.id}
         ref={playerRef}
+        data-src={painting.id}
         controls
         height={painting.height}
         width={painting.width}

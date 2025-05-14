@@ -15,6 +15,7 @@
     }
   },
   "content-state": {
+    "display": "hidden",
     "theme": {
       "layout": "full",
       "sidebar": false

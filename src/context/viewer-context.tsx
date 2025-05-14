@@ -9,7 +9,6 @@ import React, { MediaHTMLAttributes, useEffect, useReducer } from "react";
 
 import { IncomingHttpHeaders } from "http";
 import { Vault } from "@iiif/helpers/vault";
-import { W } from "node_modules/@iiif/helpers/dist/vault-actions-FZxiP2q-";
 import { deepMerge } from "src/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 
@@ -407,6 +406,10 @@ const ViewerProvider: React.FC<ViewerProviderProps> = ({
           },
         });
       });
+
+      return () => {
+        openSeadragonViewer.removeAllHandlers("update-viewport");
+      };
     }
   }, [openSeadragonViewer]);
 

@@ -133,6 +133,16 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   if (customTheme) theme = createTheme("custom", customTheme);
 
   /**
+   * Update activeSelector when the canvas or manifest changes.
+   */
+  useEffect(() => {
+    dispatch({
+      type: "updateActiveSelector",
+      selector: undefined,
+    });
+  }, [activeCanvas, activeManifest]);
+
+  /**
    * On change, pass the activeCanvas up to the wrapping `<App/>`
    * component to be handed off to a consuming application.
    */
