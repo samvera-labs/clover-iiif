@@ -40,17 +40,29 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   items,
   painting,
 }) => {
-  const { isInformationOpen, configOptions, sequence } = useViewerState();
+  const {
+    contentStateAnnotation,
+    isInformationOpen,
+    configOptions,
+    sequence,
+    visibleCanvases,
+  } = useViewerState();
   const { informationPanel } = configOptions;
 
   /**
    * The information panel should be rendered if toggled true and if
-   * there is content (About or Supplementing Resources) to display.
+   * there is content (About or Annotations Resources) to display.
    */
+  const visibleCanvasesIds = visibleCanvases.map((canvas) => canvas.id);
+
+  const hasAnnotations =
+    annotationResources.length > 0 ||
+    // @ts-ignore
+    visibleCanvasesIds.includes(contentStateAnnotation?.target?.source?.id);
 
   const isForcedAside =
+    hasAnnotations &&
     informationPanel?.renderAnnotation &&
-    annotationResources.length > 0 &&
     !informationPanel.open;
 
   const isAside =
