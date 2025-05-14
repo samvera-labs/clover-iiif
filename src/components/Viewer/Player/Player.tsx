@@ -14,9 +14,6 @@ import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
 import Track from "src/components/Viewer/Player/Track";
 import { getPaintingResource } from "src/hooks/use-iiif";
 import { hlsMimeTypes } from "src/lib/hls";
-import { retry } from "src/lib/retry";
-
-// Set referrer header as a NU domain: ie. meadow.rdc-staging.library.northwestern.edu
 
 interface PlayerProps {
   allSources: LabeledIIIFExternalWebResource[];

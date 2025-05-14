@@ -113,8 +113,14 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * the normalized manifest available from @iiif/helpers/vault.
    */
   const store = useViewerState();
-  const { activeCanvas, activeManifest, activeSelector, isLoaded, vault } =
-    store;
+  const {
+    activeCanvas,
+    activeManifest,
+    activeSelector,
+    isLoaded,
+    vault,
+    visibleCanvases,
+  } = store;
   const [iiifResource, setIiifResource] = useState<
     CollectionNormalized | ManifestNormalized | AnnotationNormalized
   >();
@@ -141,7 +147,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
         target: {
           type: "SpecificResource",
           source: {
-            id: activeCanvas,
+            id: visibleCanvases[0]?.id || activeCanvas,
             type: "Canvas",
             partOf: [
               {
@@ -164,6 +170,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     activeSelector,
     canvasIdCallback,
     contentStateCallback,
+    visibleCanvases,
   ]);
 
   useEffect(() => {

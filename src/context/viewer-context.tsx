@@ -5,10 +5,11 @@ import {
   Reference,
 } from "@iiif/presentation-3";
 import OpenSeadragon, { Options as OpenSeadragonOptions } from "openseadragon";
-import React, { MediaHTMLAttributes, useReducer } from "react";
+import React, { MediaHTMLAttributes, useEffect, useReducer } from "react";
 
 import { IncomingHttpHeaders } from "http";
 import { Vault } from "@iiif/helpers/vault";
+import { W } from "node_modules/@iiif/helpers/dist/vault-actions-FZxiP2q-";
 import { deepMerge } from "src/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 
@@ -379,6 +380,35 @@ const ViewerProvider: React.FC<ViewerProviderProps> = ({
   const [state, dispatch] = useReducer<
     React.Reducer<ViewerContextStore, ViewerAction>
   >(viewerReducer, initialState);
+
+  const { openSeadragonViewer } = state;
+
+  useEffect(() => {
+    if (openSeadragonViewer) {
+      openSeadragonViewer.addHandler("update-viewport", () => {
+        const osd = openSeadragonViewer.viewport;
+        const bounds = osd.getBounds();
+        const rect = osd.viewportToImageRectangle(bounds);
+
+        // for each value, round to the nearest integer
+        const xywh = [
+          Math.round(rect.x),
+          Math.round(rect.y),
+          Math.round(rect.width),
+          Math.round(rect.height),
+        ];
+
+        const value = `xywh=${xywh.join(",")}`;
+        dispatch({
+          type: "updateActiveSelector",
+          selector: {
+            type: "FragmentSelector",
+            value,
+          },
+        });
+      });
+    }
+  }, [openSeadragonViewer]);
 
   return (
     <ViewerStateContext.Provider value={state}>
