@@ -41,6 +41,7 @@ const Painting: React.FC<PaintingProps> = ({
   const [placeholderItems, setPlaceholderItems] = React.useState<
     Array<{ id: string; label: InternationalString | null }>
   >([]);
+  const [toggleCount, setToggleCount] = React.useState(0);
   const {
     configOptions,
     customDisplays,
@@ -58,17 +59,20 @@ const Painting: React.FC<PaintingProps> = ({
     }>
   >([]);
 
+  const hasContentStateAnnotation =
+    Boolean(contentStateAnnotation) &&
+    Boolean(activeCanvas === contentStateAnnotation?.target?.source?.id);
+
   const dispatch: any = useViewerDispatch();
   const normalizedCanvas: CanvasNormalized = vault.get(activeCanvas);
-  const showPlaceholder =
-    placeholderItems.length &&
-    !isInteractive &&
-    !isMedia &&
-    !contentStateAnnotation;
+  const showPlaceholder = placeholderItems.length && !isInteractive && !isMedia;
   const hasChoice = Boolean(painting?.length > 1);
-  const instanceId = `${viewerId}-${hashCode(activeCanvas + annotationIndex + JSON.stringify(visibleCanvases))}`;
+  const instanceId = `${viewerId}-${hashCode(activeCanvas + annotationIndex + JSON.stringify(visibleCanvases) + toggleCount)}`;
 
-  const handleToggle = () => setIsInteractive(!isInteractive);
+  const handleToggle = () => {
+    setIsInteractive(!isInteractive);
+    setToggleCount((prev) => prev + 1);
+  };
 
   const handleChoiceChange = (value) => {
     const index = painting.findIndex((resource) => resource.id === value);
@@ -92,6 +96,29 @@ const Painting: React.FC<PaintingProps> = ({
     }
     return match;
   });
+
+  useEffect(() => {
+    if (hasContentStateAnnotation && showPlaceholder && toggleCount === 0) {
+      handleToggle();
+    }
+  }, [hasContentStateAnnotation, showPlaceholder]);
+
+  /**
+   * If placeholder is toggled, this resets active
+   * selector and openSeadragon instance in context
+   */
+  useEffect(() => {
+    if (showPlaceholder) {
+      dispatch({
+        type: "updateOpenSeadragonViewer",
+        openSeadragonViewer: undefined,
+      });
+      dispatch({
+        type: "updateActiveSelector",
+        selector: undefined,
+      });
+    }
+  }, [showPlaceholder]);
 
   /** Retrieve annotations for visible canvases from Vault */
   useEffect(() => {
@@ -223,8 +250,12 @@ const Painting: React.FC<PaintingProps> = ({
 
   /** Update OpenSeadragon Viewer in viewer context */
   const handleOpenSeadragonCallback = (viewer) => {
-    // @ts-ignore
-    if (viewer && openSeadragonViewer?.id !== `openseadragon-${instanceId}`) {
+    if (
+      viewer &&
+      !showPlaceholder &&
+      // @ts-ignore
+      openSeadragonViewer?.id !== `openseadragon-${instanceId}`
+    ) {
       dispatch({
         type: "updateOpenSeadragonViewer",
         openSeadragonViewer: viewer,

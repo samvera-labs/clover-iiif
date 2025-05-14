@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-
-import { AutoScrollOptions } from "src/context/viewer-context";
-import { Item } from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue.styled";
-import { convertTime } from "src/lib/utils";
 import {
   ViewerContextStore,
   useViewerDispatch,
   useViewerState,
 } from "src/context/viewer-context";
+
+import { AutoScrollOptions } from "src/context/viewer-context";
+import { Item } from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue.styled";
+import { convertTime } from "src/lib/utils";
 
 const AutoScrollDisableTime = 750;
 
@@ -134,7 +134,7 @@ const Cue: React.FC<Props> = ({ label, start, end }) => {
       onClick={handleClick}
       value={label}
     >
-      {label}
+      <span>{label}</span>
       <strong>{convertTime(start)}</strong>
     </Item>
   );

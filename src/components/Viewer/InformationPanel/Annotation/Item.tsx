@@ -16,6 +16,7 @@ import AnnotationItemMarkdown from "./Markdown";
 import AnnotationItemPlainText from "./PlainText";
 import AnnotationItemVTT from "./VTT/VTT";
 import { Item as ItemStyled } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
+import { NodeWebVttCueNested } from "src/hooks/use-webvtt";
 import { getLanguageDirection } from "src/lib/annotation-helpers";
 
 type Props = {
@@ -34,8 +35,26 @@ export const AnnotationItem: React.FC<Props> = ({
   const { target } = annotation;
 
   // @ts-ignore
+  const selectorType = target?.selector?.type;
+
+  // @ts-ignore
   const xywh = target?.selector?.value?.split("=")[1] || "full";
   const [w, h] = xywh !== "full" ? xywh?.split(",").slice(2) : [100, 100];
+
+  const inlineCues: NodeWebVttCueNested[] | undefined =
+    // @ts-ignore
+    selectorType === "PointSelector" && target?.selector?.t
+      ? [
+          {
+            // @ts-ignore
+            start: target?.selector?.t,
+            end: 0,
+            text: " ",
+            styles: "",
+            children: [],
+          },
+        ]
+      : undefined;
 
   const computeSize = (w: number, h: number) => {
     const maxSize = 100;
@@ -62,12 +81,15 @@ export const AnnotationItem: React.FC<Props> = ({
 
   // ignore due to `chars` not being defined in annotation bodies
   const {
-    format = "text/plain",
+    format = selectorType === "PointSelector" ? "text/vtt" : "text/plain",
     language = "none",
     value = "",
     // @ts-ignore
     chars = "",
   } = annotationBody[0] ? annotationBody[0] : {};
+
+  const label = annotationBody[0]?.label || { none: ["t"] };
+
   const content = value || chars || "None";
   const readingDirection = language
     ? getLanguageDirection(language).toLocaleLowerCase()
@@ -146,8 +168,9 @@ export const AnnotationItem: React.FC<Props> = ({
       case "text/vtt":
         return (
           <AnnotationItemVTT
-            label={annotationBody[0].label}
-            vttUri={annotationBody[0].id || ""}
+            inlineCues={inlineCues}
+            label={label}
+            vttUri={annotationBody[0]?.id || undefined}
           />
         );
       case format?.match(/^image\//)?.input:

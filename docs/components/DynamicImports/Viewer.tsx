@@ -22,12 +22,14 @@ const CloverViewer = ({
   customDisplays,
   iiifContentSearchQuery,
   plugins,
+  contentStateCallback,
 }: {
   iiifContent: string;
   options?: ViewerConfigOptions;
   customDisplays?: Array<CustomDisplay>;
   iiifContentSearchQuery?: ContentSearchQuery;
   plugins?: Array<PluginConfig>;
+  contentStateCallback?: (json: any) => void;
 }) => {
   const router = useRouter();
   const iiifResource = router.query["iiif-content"]
@@ -38,6 +40,7 @@ const CloverViewer = ({
 
   return (
     <Viewer
+      contentStateCallback={contentStateCallback}
       iiifContent={iiifResource}
       iiifContentSearchQuery={iiifContentSearchQuery}
       options={{ ...options, background }}

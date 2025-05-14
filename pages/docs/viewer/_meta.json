@@ -13,5 +13,13 @@
       "sidebar": false,
       "layout": "full"
     }
+  },
+  "content-state": {
+    "display": "hidden",
+    "theme": {
+      "layout": "full",
+      "sidebar": false
+    },
+    "title": "Content State"
   }
 }
