@@ -400,6 +400,7 @@ const ViewerProvider: React.FC<ViewerProviderProps> = ({
         const value = `xywh=${xywh.join(",")}`;
         dispatch({
           type: "updateActiveSelector",
+          // @ts-ignore
           selector: {
             type: "FragmentSelector",
             value,

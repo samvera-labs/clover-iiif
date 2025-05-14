@@ -1,6 +1,6 @@
 import { AnnotationNormalized, CanvasNormalized } from "@iiif/presentation-3";
 import Hls, { HlsConfig } from "hls.js";
-import React, { act, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   ViewerContextStore,
   useViewerDispatch,

@@ -61,6 +61,7 @@ const Painting: React.FC<PaintingProps> = ({
 
   const hasContentStateAnnotation =
     Boolean(contentStateAnnotation) &&
+    // @ts-ignore
     Boolean(activeCanvas === contentStateAnnotation?.target?.source?.id);
 
   const dispatch: any = useViewerDispatch();
