@@ -154,7 +154,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
 
     if (contentStateCallback) {
       const targetSourceId = visibleCanvases[0]?.id || activeCanvas;
-      const annotationId = `${activeManifest}/state/${hashCode(targetSourceId + JSON.stringify(activeSelector))}}`;
+      const annotationId = `${activeManifest}/state/${hashCode(targetSourceId + JSON.stringify(activeSelector))}`;
 
       const json = {
         ...contentStateSpecificResource,
