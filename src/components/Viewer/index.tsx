@@ -29,6 +29,7 @@ import {
 } from "src/lib/iiif";
 import { ContentSearchQuery } from "src/types/annotations";
 import { contentStateSpecificResource } from "src/lib/content-state";
+import { hashCode } from "src/lib/utils";
 
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
@@ -152,12 +153,16 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     }
 
     if (contentStateCallback) {
+      const targetSourceId = visibleCanvases[0]?.id || activeCanvas;
+      const annotationId = `${activeManifest}/state/${hashCode(targetSourceId + JSON.stringify(activeSelector))}}`;
+
       const json = {
         ...contentStateSpecificResource,
+        id: annotationId,
         target: {
           type: "SpecificResource",
           source: {
-            id: visibleCanvases[0]?.id || activeCanvas,
+            id: targetSourceId,
             type: "Canvas",
             partOf: [
               {
