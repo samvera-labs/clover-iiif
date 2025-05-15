@@ -1,0 +1,25 @@
+.informationPanel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  flex-grow: 1;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 1) calc(100% - 2rem),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 1) calc(100% - 2rem),
+    transparent 100%
+  );
+
+  // @sm {
+  //   marginTop: "0.5rem",
+  //   boxShadow: "none",
+  // },
+}

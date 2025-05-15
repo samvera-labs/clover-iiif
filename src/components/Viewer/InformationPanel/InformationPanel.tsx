@@ -3,9 +3,10 @@ import {
   List,
   Scroll,
   Trigger,
-  Wrapper,
+  // Wrapper,
 } from "src/components/Viewer/InformationPanel/InformationPanel.styled";
 import React, { useEffect } from "react";
+import * as Tabs from "@radix-ui/react-tabs";
 import {
   ViewerContextStore,
   useViewerDispatch,
@@ -29,6 +30,7 @@ import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
 import { useTranslation } from "react-i18next";
 import ContentStateAnnotationPage from "./ContentState/Page";
+import styles from "./Style/informationPanel.module.scss";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
 
@@ -178,13 +180,13 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   };
 
   return (
-    <Wrapper
+    <Tabs.Root
       data-testid="information-panel"
       defaultValue={informationPanelResource}
       onValueChange={handleValueChange}
       orientation="horizontal"
       value={informationPanelResource}
-      className="clover-viewer-information-panel"
+      className={styles.informationPanel}
     >
       <List
         aria-label={t("informationPanelTabs")}
@@ -262,7 +264,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             renderPluginInformationPanel(plugin, i),
           )}
       </Scroll>
-    </Wrapper>
+    </Tabs.Root>
   );
 };
 
