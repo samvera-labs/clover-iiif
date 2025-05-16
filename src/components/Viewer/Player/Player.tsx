@@ -190,7 +190,8 @@ const Player: React.FC<PlayerProps> = ({
       if (!video) return;
 
       // @ts-ignore
-      const { type, t, value } = contentStateAnnotation?.target?.selector;
+      const selector = contentStateAnnotation?.target?.selector;
+      const { type, t, value } = selector || {};
       const targetSource =
         // @ts-ignore
         contentStateAnnotation?.target?.source ||

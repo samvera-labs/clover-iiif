@@ -15,8 +15,9 @@ export const Item = styled(RadioGroup.Item, {
   textAlign: "left",
   flexGrow: 1,
   margin: 0,
+  marginLeft: "-1rem",
   padding: "0.618rem 1rem",
-  width: "100%",
+  width: "calc(100% + 2rem)",
   fontSize: "1rem",
 
   strong: {

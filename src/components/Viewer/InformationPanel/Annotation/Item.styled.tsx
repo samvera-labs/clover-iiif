@@ -11,6 +11,7 @@ const annotationItemRow: CSS = {
   color: "inherit",
   background: "none",
   borderRadius: "3px",
+  border: "none",
 };
 
 const ButtonStyled = styled("button", {
