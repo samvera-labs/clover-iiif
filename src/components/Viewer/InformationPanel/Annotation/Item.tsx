@@ -196,6 +196,7 @@ export const AnnotationItem: React.FC<Props> = ({
       dir={readingDirection}
       data-format={format}
       data-content={content}
+      className="clover-iiif-annotation-item"
     >
       <span
         style={{
