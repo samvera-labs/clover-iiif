@@ -1,5 +1,3 @@
-import * as Collapsible from "@radix-ui/react-collapsible";
-
 import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
   ExternalResourceTypes,
@@ -24,10 +22,11 @@ import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
-import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
+import { Aside, Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
 import { getVisibleCanvasesFromCanvasId } from "@iiif/helpers";
 import { media } from "src/styles/stitches.config";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
+import InformationPanel from "../InformationPanel/InformationPanel";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
@@ -51,12 +50,15 @@ const Viewer: React.FC<ViewerProps> = ({
     vault,
     configOptions,
     visibleCanvases,
+    contentStateAnnotation,
   } = viewerState;
 
   const absoluteCanvasHeights = ["100%", "auto"];
   const isAbsolutePosition =
     configOptions?.canvasHeight &&
     absoluteCanvasHeights.includes(configOptions?.canvasHeight);
+
+  const { informationPanel } = configOptions;
 
   /**
    * Local state
@@ -163,6 +165,23 @@ const Viewer: React.FC<ViewerProps> = ({
     ).then((contentSearch) => setContentSearchResource(contentSearch));
   }, [searchServiceUrl]);
 
+  const visibleCanvasesIds = visibleCanvases.map((canvas) => canvas.id);
+
+  const hasAnnotations =
+    annotationResources.length > 0 ||
+    // @ts-ignore
+    visibleCanvasesIds.includes(contentStateAnnotation?.target?.source?.id);
+
+  const isForcedAside =
+    hasAnnotations &&
+    informationPanel?.renderAnnotation &&
+    !informationPanel.open;
+
+  const isAside =
+    (informationPanel?.renderAbout && isInformationOpen) || isForcedAside;
+
+  const renderToggle = informationPanel?.renderToggle;
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Wrapper
@@ -171,25 +190,36 @@ const Viewer: React.FC<ViewerProps> = ({
         data-absolute-position={isAbsolutePosition}
         data-information-panel-open={isInformationOpen}
       >
-        <Collapsible.Root
+        {/* <Collapsible.Root
           open={isInformationOpen}
           onOpenChange={setInformationOpen}
-        >
-          <ViewerHeader
-            manifestLabel={manifest.label as InternationalString}
-            manifestId={manifest.id}
-          />
-          <ViewerContent
-            activeCanvas={activeCanvas}
-            painting={painting}
-            annotationResources={annotationResources}
-            searchServiceUrl={searchServiceUrl}
-            setContentSearchResource={setContentSearchResource}
-            contentSearchResource={contentSearchResource}
-            items={manifest.items}
-            isAudioVideo={isAudioVideo}
-          />
-        </Collapsible.Root>
+        > */}
+        <ViewerHeader
+          manifestLabel={manifest.label as InternationalString}
+          manifestId={manifest.id}
+        />
+        <ViewerContent
+          activeCanvas={activeCanvas}
+          painting={painting}
+          annotationResources={annotationResources}
+          searchServiceUrl={searchServiceUrl}
+          setContentSearchResource={setContentSearchResource}
+          contentSearchResource={contentSearchResource}
+          items={manifest.items}
+          isAudioVideo={isAudioVideo}
+        />
+        {isAside && (
+          <Aside data-aside-active={isAside} data-aside-toggle={renderToggle}>
+            <InformationPanel
+              activeCanvas={activeCanvas}
+              annotationResources={annotationResources}
+              searchServiceUrl={searchServiceUrl}
+              setContentSearchResource={setContentSearchResource}
+              contentSearchResource={contentSearchResource}
+            />
+          </Aside>
+        )}
+        {/* </Collapsible.Root> */}
       </Wrapper>
     </ErrorBoundary>
   );

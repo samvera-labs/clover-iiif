@@ -5,13 +5,11 @@ import {
 } from "@iiif/presentation-3";
 import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
-  Aside,
   Content,
   Main,
   MediaWrapper,
 } from "src/components/Viewer/Viewer/Viewer.styled";
 
-import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
 import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React from "react";
@@ -33,8 +31,6 @@ export interface ViewerContentProps {
 const ViewerContent: React.FC<ViewerContentProps> = ({
   activeCanvas,
   annotationResources,
-  searchServiceUrl,
-  setContentSearchResource,
   contentSearchResource,
   isAudioVideo,
   items,
@@ -48,7 +44,6 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     visibleCanvases,
   } = useViewerState();
   const { informationPanel } = configOptions;
-
   /**
    * The information panel should be rendered if toggled true and if
    * there is content (About or Annotations Resources) to display.
@@ -90,17 +85,6 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
           </MediaWrapper>
         )}
       </Main>
-      {isAside && (
-        <Aside data-aside-active={isAside} data-aside-toggle={renderToggle}>
-          <InformationPanel
-            activeCanvas={activeCanvas}
-            annotationResources={annotationResources}
-            searchServiceUrl={searchServiceUrl}
-            setContentSearchResource={setContentSearchResource}
-            contentSearchResource={contentSearchResource}
-          />
-        </Aside>
-      )}
     </Content>
   );
 };
