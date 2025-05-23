@@ -1,14 +1,18 @@
 import * as Collapsible from "@radix-ui/react-collapsible";
 
-import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
 } from "@iiif/presentation-3";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   ViewerContextStore,
+  setAnnotationResources,
+  setContentSearchResource,
+  setIsAudioVideo,
+  setPainting,
+  setSearchServiceUrl,
   useViewerDispatch,
   useViewerState,
 } from "src/context/viewer-context";
@@ -21,7 +25,6 @@ import {
 import { ContentSearchQuery } from "src/types/annotations";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
-import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
 import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
@@ -51,6 +54,7 @@ const Viewer: React.FC<ViewerProps> = ({
     vault,
     configOptions,
     visibleCanvases,
+    searchServiceUrl,
   } = viewerState;
 
   const absoluteCanvasHeights = ["100%", "auto"];
@@ -58,18 +62,7 @@ const Viewer: React.FC<ViewerProps> = ({
     configOptions?.canvasHeight &&
     absoluteCanvasHeights.includes(configOptions?.canvasHeight);
 
-  /**
-   * Local state
-   */
-  const [isAudioVideo, setIsAudioVideo] = useState(false);
-  const [painting, setPainting] = useState<IIIFExternalWebResource[]>([]);
-  const [annotationResources, setAnnotationResources] =
-    useState<AnnotationResources>([]);
-  const [contentSearchResource, setContentSearchResource] =
-    useState<AnnotationResource>();
-
   const isSmallViewport = useMediaQuery(media.sm);
-  const [searchServiceUrl, setSearchServiceUrl] = useState();
 
   const setInformationOpen = useCallback(
     (open: boolean) => {
@@ -179,16 +172,7 @@ const Viewer: React.FC<ViewerProps> = ({
             manifestLabel={manifest.label as InternationalString}
             manifestId={manifest.id}
           />
-          <ViewerContent
-            activeCanvas={activeCanvas}
-            painting={painting}
-            annotationResources={annotationResources}
-            searchServiceUrl={searchServiceUrl}
-            setContentSearchResource={setContentSearchResource}
-            contentSearchResource={contentSearchResource}
-            items={manifest.items}
-            isAudioVideo={isAudioVideo}
-          />
+          <ViewerContent />
         </Collapsible.Root>
       </Wrapper>
     </ErrorBoundary>
