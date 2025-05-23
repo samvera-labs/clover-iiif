@@ -1,0 +1,105 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://localhost:3000/manifest/styled-captions/manifest.json",
+  "type": "Manifest",
+  "label": {
+    "en": [
+      "Apollo 11: The Eagle Has Landed"
+    ]
+  },
+  "description": {
+    "en": [
+      "Apollo 11 lunar landing audio, featuring Neil Armstrong (mission commander), Buzz Aldrin (lunar module pilot), and Charlie Duke (CAPCOM)."
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Title"
+        ]
+      },
+      "value": {
+        "en": [
+          "Apollo 11: The Eagle Has Landed"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Description"
+        ]
+      },
+      "value": {
+        "en": [
+          "Apollo 11 lunar landing audio, featuring Neil Armstrong (mission commander), Buzz Aldrin (lunar module pilot), and Charlie Duke (CAPCOM)."
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Date"
+        ]
+      },
+      "value": {
+        "en": [
+          "1969-07-20"
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "http://localhost:3000/manifest/styled-captions/manifest.json/canvas",
+      "type": "Canvas",
+      "duration": 11.520,
+      "items": [
+        {
+          "id": "http://localhost:3000/manifest/styled-captions/manifest.json/canvas/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http://localhost:3000/manifest/styled-captions/manifest.json/canvas/page/annotation1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "http://localhost:3000/media/audio/a11_touchdown.m4a",
+                "type": "Sound",
+                "duration": 11.520,
+                "format": "audio/mp4"
+              },
+              "target": "http://localhost:3000/manifest/styled-captions/manifest.json/canvas"
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "http://localhost:3000/manifest/styled-captions/manifest.json/canvas/page2",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http://localhost:3000/manifest/styled-captions/manifest.json/canvas/page2/a1",
+              "type": "Annotation",
+              "motivation": "supplementing",
+              "body": {
+                "id": "http://localhost:3000/manifest/styled-captions/a11_touchdown.vtt",
+                "type": "Text",
+                "format": "text/vtt",
+                "label": {
+                  "en": [
+                    "Captions in WebVTT format"
+                  ]
+                },
+                "language": "en"
+              },
+              "target": "http://localhost:3000/manifest/styled-captions/manifest.json/canvas"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

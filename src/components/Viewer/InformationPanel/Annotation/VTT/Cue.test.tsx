@@ -8,7 +8,7 @@ describe("Information panel cue component", () => {
   it("renders", () => {
     render(
       <Group>
-        <Cue label="Text" start={107} end={150} />
+        <Cue html="<div>Text</div>" text="Text" start={107} end={150} />
       </Group>,
     );
     const cue = screen.getByTestId("information-panel-cue");
