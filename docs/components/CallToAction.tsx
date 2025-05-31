@@ -8,16 +8,20 @@ type StyledCallToActionVariants = VariantProps<typeof StyledCallToAction>;
 interface CallToActionProps {
   href: string;
   text: string;
+  id?: HTMLElement["id"];
+  target?: HTMLAnchorElement["target"];
 }
 
 const CallToAction: React.FC<
   CallToActionProps & StyledCallToActionVariants
-> = ({ href, size, text }) => {
+> = ({ href, size, text, id, target }) => {
   return (
     <StyledCallToAction
       className="nx-bg-primary-400/10"
       href={href}
       size={size}
+      id={id}
+      target={target}
     >
       {text} <span>→</span>
     </StyledCallToAction>

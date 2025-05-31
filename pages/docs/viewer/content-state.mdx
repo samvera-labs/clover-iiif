@@ -86,10 +86,20 @@ This is a helper page to demonstrate the retrieving the current IIIF Content Sta
 
 ### Current Content State
 
-This section displays the raw JSON and base64 encoded JSON of the IIIF Content State for this Viewer instance. <a href="#" id="content-state-preview">Preview</a> the current content state of the Viewer component, which
+This section displays the raw JSON and base64 encoded JSON of the IIIF Content State for this Viewer instance. Preview the current content state of the Viewer component, which
 includes information about the currently displayed canvas, zoom level, and other
 relevant details. This can be useful for debugging or for saving the state of
 the viewer.
+
+<div style={{ marginTop: "1rem" }}>
+  <CallToAction
+    href="/docs/viewer"
+    text="Preview Content State"
+    size="small"
+    id="content-state-preview"
+    target="_blank"
+  />
+</div>
 
 <div
   style={{
@@ -113,7 +123,7 @@ the viewer.
         fontSize: "0.833rem",
         resize: "none",
       }}
-      placeholder='Enter any body text here to see how it is displayed in the viewer'
+      placeholder='Enter any body text here to see how it is displayed in the viewer. Note that character lenghts longer than a few hundred characters may not display correctly in the viewer due to limitations in browser maxchar lengths.'
     ></textarea>
   </div>
   <div style={{ width: "33.33%" }}>
