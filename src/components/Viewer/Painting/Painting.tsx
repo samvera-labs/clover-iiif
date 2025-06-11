@@ -320,6 +320,7 @@ const Painting: React.FC<PaintingProps> = ({
           <CustomComponent
             id={activeCanvas}
             annotationBody={painting[annotationIndex]}
+            hooks={{ useViewerDispatch, useViewerState }}
             {...customDisplay?.display.componentProps}
           />
         )}

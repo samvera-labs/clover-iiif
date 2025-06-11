@@ -155,6 +155,7 @@ export type PluginConfig = {
 export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
+  activePlayer: HTMLVideoElement | HTMLAudioElement | null;
   activeSelector?: string;
   OSDImageLoaded?: boolean;
   collection?: CollectionNormalized | Record<string, never>;
@@ -192,6 +193,7 @@ export interface ViewerAction {
   isUserScrolling: number | undefined;
   manifestId: string;
   OSDImageLoaded?: boolean;
+  player: HTMLVideoElement | HTMLAudioElement | null;
   sequence: [Reference<"Canvas">[], number[][]];
   vault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer;
@@ -229,6 +231,7 @@ const expandedAutoScrollOptions = expandAutoScrollOptions(
 export const defaultState: ViewerContextStore = {
   activeCanvas: "",
   activeManifest: "",
+  activePlayer: null,
   activeSelector: undefined,
   OSDImageLoaded: false,
   collection: {},
@@ -269,6 +272,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         activeManifest: action.manifestId,
+      };
+    }
+    case "updateActivePlayer": {
+      return {
+        ...state,
+        activePlayer: action.player,
       };
     }
     case "updateOSDImageLoaded": {

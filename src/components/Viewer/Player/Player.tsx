@@ -49,6 +49,10 @@ const Player: React.FC<PlayerProps> = ({
 
     if (playerRef?.current) {
       const video: HTMLVideoElement = playerRef.current;
+      viewerDispatch({
+        type: "updateActivePlayer",
+        player: video,
+      });
       video.src = painting.id as string;
       video.load();
     }
@@ -113,7 +117,12 @@ const Player: React.FC<PlayerProps> = ({
         video.currentTime = 0;
       }
     };
-  }, [configOptions.withCredentials, painting.id]);
+  }, [
+    configOptions.withCredentials,
+    painting.id,
+    painting.format,
+    viewerDispatch,
+  ]);
 
   useEffect(() => {
     const canvas: CanvasNormalized = vault.get(activeCanvas);

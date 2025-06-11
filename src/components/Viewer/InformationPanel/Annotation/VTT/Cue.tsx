@@ -38,6 +38,7 @@ const findScrollableParent = (
 const Cue: React.FC<Props> = ({ html, text, start, end }) => {
   const dispatch: any = useViewerDispatch();
   const {
+    activePlayer,
     configOptions,
     isAutoScrollEnabled,
     isUserScrolling,
@@ -48,9 +49,7 @@ const Cue: React.FC<Props> = ({ html, text, start, end }) => {
   const [isActive, updateIsActive] = useState(false);
   const ref = useRef<HTMLButtonElement>(null);
 
-  const video = document.getElementById(
-    "clover-iiif-video",
-  ) as HTMLVideoElement;
+  const video = activePlayer as HTMLVideoElement;
 
   useEffect(() => {
     video?.addEventListener("timeupdate", () => {
