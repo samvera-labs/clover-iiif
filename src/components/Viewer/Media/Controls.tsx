@@ -113,7 +113,10 @@ const Controls: React.FC<ControlsProps> = ({
     handleFilter(event.target.value);
 
   return (
-    <Wrapper isToggle={toggleFilter}>
+    <Wrapper 
+      isToggle={toggleFilter} 
+      className="clover-viewer-media-controls"
+    >
       <Form>
         {toggleFilter && (
           <Input
@@ -123,7 +126,7 @@ const Controls: React.FC<ControlsProps> = ({
           />
         )}
         {!toggleFilter && (
-          <Direction>
+          <Direction className="clover-viewer-media-navigation">
             <Button
               onClick={() => handleCanvasToggle(-1)}
               disabled={isPreviousDisabled}

@@ -184,6 +184,15 @@ describe("ViewerContent with Annotation Resources", () => {
         initialState={{
           ...defaultState,
           isInformationOpen: false,
+          configOptions: {
+            informationPanel: {
+              ...defaultState.configOptions.informationPanel,
+              renderAnnotation: false,
+              open: false,
+              renderAbout: false,
+              renderToggle: false,
+            },
+          },
         }}
       >
         <ViewerContent {...propsWithAnnotationResources} />
