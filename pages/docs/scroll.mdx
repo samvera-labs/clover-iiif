@@ -18,8 +18,15 @@ A UI component rendering a vertical scrolling articles that output individual Ca
 ---
 
 <Scroll
-  iiifContent="https://digital.lib.utk.edu/assemble/manifest/civilwar/5390"
-  options={{ offset: 90 }}
+  iiifContent="https://iiif-maktaba.dc.library.northwestern.edu/dc8ff749-adad-42a7-81e0-0eb473ef88a5.json"
+  options={{
+    offset: 90,
+    language: {
+      defaultLanguages: ["en"],
+      enabled: true,
+      options: [{ en: "English" }, { ar: "Arabic" }],
+    },
+  }}
 />
 
 ## Features

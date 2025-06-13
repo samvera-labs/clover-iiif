@@ -48,14 +48,24 @@ import "swiper/css/pagination";
   </SplashElement>
   <SplashElement
     text="Scroll"
-    css={{ height: "860px" }}
+    css={{ height: "600px" }}
     component={
-      <Scroll iiifContent="https://digital.lib.utk.edu/assemble/manifest/civilwar/5390" />
+      <Scroll
+        iiifContent="https://iiif-maktaba.dc.library.northwestern.edu/dc8ff749-adad-42a7-81e0-0eb473ef88a5.json"
+        options={{
+          offset: 90,
+          language: {
+            defaultLanguages: ["en"],
+            enabled: true,
+            options: [{ en: "English" }, { ar: "Arabic" }],
+          },
+        }} 
+      /> 
     }
     href="docs/scroll"
   >
     ```jsx
-    <Scroll iiifContent="https://digital.lib.utk.edu/assemble/manifest/civilwar/5390" />
+    <Scroll iiifContent="https://iiif-maktaba.dc.library.northwestern.edu/dc8ff749-adad-42a7-81e0-0eb473ef88a5.json" />
     ```
   </SplashElement>
   <SplashElement
