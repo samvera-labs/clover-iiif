@@ -10,10 +10,10 @@ const Menu: React.FC<MenuProps> = ({ items }) => {
   return (
     <MenuStyled>
       {items.map((item) => {
-        const { text, start, end, children, identifier } = item;
+        const { html, text, start, end, children, identifier } = item;
         return (
           <li key={identifier}>
-            <Cue label={text} start={start} end={end} />
+            <Cue html={html} text={text} start={start} end={end} />
             {children && <Menu items={children} />}
           </li>
         );

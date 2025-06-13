@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 // todo: set this as a constant somewhere?
 const defaultIiifContent =
-  "http://localhost:3000/manifest/annotations/commenting.json";
+  "https://iiif-maktaba.dc.library.northwestern.edu/dc8ff749-adad-42a7-81e0-0eb473ef88a5.json";
 
 const Scroll = dynamic(() => import("src/components/Scroll"), {
   ssr: false,

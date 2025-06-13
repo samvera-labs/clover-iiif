@@ -81,19 +81,6 @@ const Item = styled("div", {
     marginTop: "0.25rem",
   },
 
-  "&[data-content='None']": {
-    button: {
-      div: {
-        opacity: "0.7",
-      },
-      "&:hover, &:focus": {
-        div: {
-          opacity: "1",
-        },
-      },
-    },
-  },
-
   [`&[dir=rtl] ${StyledAnnotationContent}`]: {
     textAlign: "right !important",
   },

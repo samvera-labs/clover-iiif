@@ -57,8 +57,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
 
   const isForcedAside =
     hasAnnotations &&
-    informationPanel?.renderAnnotation &&
-    !informationPanel.open;
+    informationPanel?.renderAnnotation
 
   const isAside =
     (informationPanel?.renderAbout && isInformationOpen) || isForcedAside;

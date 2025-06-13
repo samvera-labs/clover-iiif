@@ -41,21 +41,6 @@ export const AnnotationItem: React.FC<Props> = ({
   const xywh = target?.selector?.value?.split("=")[1] || "full";
   const [w, h] = xywh !== "full" ? xywh?.split(",").slice(2) : [100, 100];
 
-  const inlineCues: NodeWebVttCueNested[] | undefined =
-    // @ts-ignore
-    selectorType === "PointSelector" && target?.selector?.t
-      ? [
-          {
-            // @ts-ignore
-            start: target?.selector?.t,
-            end: 0,
-            text: " ",
-            styles: "",
-            children: [],
-          },
-        ]
-      : undefined;
-
   const computeSize = (w: number, h: number) => {
     const maxSize = 100;
     const ratio = Math.max(w, h);
@@ -88,12 +73,30 @@ export const AnnotationItem: React.FC<Props> = ({
     chars = "",
   } = annotationBody[0] ? annotationBody[0] : {};
 
+  const renderFormat = selectorType === "PointSelector" ? "text/vtt" : format;
+
   const label = annotationBody[0]?.label || { none: ["t"] };
 
   const content = value || chars || "None";
   const readingDirection = language
     ? getLanguageDirection(language).toLocaleLowerCase()
     : "LTR";
+
+  const inlineCues: NodeWebVttCueNested[] | undefined =
+    // @ts-ignore
+    selectorType === "PointSelector" && target?.selector?.t
+      ? [
+          {
+            // @ts-ignore
+            start: target?.selector?.t,
+            end: 0,
+            html: content,
+            text: content,
+            styles: "",
+            children: [],
+          },
+        ]
+      : undefined;
 
   function handleOverlayZoom() {
     const overlay = openSeadragonViewer?.getOverlayById(annotation.id);
@@ -150,7 +153,7 @@ export const AnnotationItem: React.FC<Props> = ({
   }
 
   function renderItemBody() {
-    switch (format) {
+    switch (renderFormat) {
       case "text/plain":
         return (
           <AnnotationItemPlainText
@@ -190,6 +193,8 @@ export const AnnotationItem: React.FC<Props> = ({
         );
     }
   }
+
+  if (!format) return;
 
   return (
     <ItemStyled
