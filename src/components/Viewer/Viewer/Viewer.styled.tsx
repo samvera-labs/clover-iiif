@@ -21,8 +21,6 @@ const Main = styled("div", {
   height: "100%",
 
   "&[data-aside-active='true']": {
-    width: "61.8%",
-
     "@sm": {
       width: "0",
       opacity: "0",
@@ -41,12 +39,10 @@ const Aside = styled("aside", {
   display: "flex",
   flexGrow: "1",
   flexShrink: "0",
-  width: "0",
+  width: "100%",
   maxHeight: "100%",
 
   "&[data-aside-active='true']": {
-    width: "38.2%",
-
     "@sm": {
       width: "100%",
     },
@@ -60,8 +56,11 @@ const Aside = styled("aside", {
 });
 
 const Wrapper = styled("div", {
-  display: "flex",
-  flexDirection: "column",
+  display: "grid",
+  gridAutoColumns: "auto",
+  gridAutoRows: "auto",
+  gridTemplateRows: "auto 1fr",
+  gridTemplateColumns: "1fr 38%",
   fontSmooth: "auto",
   webkitFontSmoothing: "antialiased",
 

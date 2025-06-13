@@ -55,6 +55,8 @@ const ManifestLabel = styled("span", {
 });
 
 const Header = styled("header", {
+  gridRow: "1",
+  gridColumn: "1/3",
   display: "flex",
   backgroundColor: "transparent !important",
   justifyContent: "space-between",
