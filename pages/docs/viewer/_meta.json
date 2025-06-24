@@ -20,5 +20,13 @@
       "sidebar": false
     },
     "title": "Content State"
+  },
+  "prefetched": {
+    "display": "hidden",
+    "theme": {
+      "layout": "full",
+      "sidebar": false
+    },
+    "title": "Prefetched Content"
   }
 }

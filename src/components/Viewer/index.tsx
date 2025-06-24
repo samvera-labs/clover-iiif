@@ -37,7 +37,7 @@ export interface CloverViewerProps {
   customDisplays?: Array<CustomDisplay>;
   plugins?: Array<PluginConfig>;
   customTheme?: any;
-  iiifContent: string;
+  iiifContent: string | object;
   id?: string;
   manifestId?: string;
   options?: ViewerConfigOptions;
@@ -123,7 +123,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     visibleCanvases,
   } = store;
   const [iiifResource, setIiifResource] = useState<
-    CollectionNormalized | ManifestNormalized | AnnotationNormalized
+    CollectionNormalized | ManifestNormalized | AnnotationNormalized | undefined
   >();
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
@@ -240,7 +240,10 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
           | ManifestNormalized
           | CollectionNormalized
           | AnnotationNormalized
-          | undefined = await vault.load(contentState);
+          | undefined =
+          typeof contentState === "object" && contentState?.id
+            ? await vault.loadSync(contentState?.id, contentState)
+            : await vault.load(contentState);
         setIiifResource(data);
       } catch (error) {
         if (!contentState || !contentState.id)
