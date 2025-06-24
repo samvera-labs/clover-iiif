@@ -15,6 +15,45 @@ export const handleContentStateCallback = ({ encoded, json }) => {
   });
 };
 
+export const prefetchedManifestJson = {
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  id: "https://iiif.io/api/cookbook/recipe/0001-mvm-image/manifest.json",
+  type: "Manifest",
+  label: {
+    en: ["Single Image Example"],
+  },
+  items: [
+    {
+      id: "https://iiif.io/api/cookbook/recipe/0001-mvm-image/canvas/p1",
+      type: "Canvas",
+      height: 1800,
+      width: 1200,
+      items: [
+        {
+          id: "https://iiif.io/api/cookbook/recipe/0001-mvm-image/page/p1/1",
+          type: "AnnotationPage",
+          items: [
+            {
+              id: "https://iiif.io/api/cookbook/recipe/0001-mvm-image/annotation/p0001-image",
+              type: "Annotation",
+              motivation: "painting",
+              body: {
+                id: "http://iiif.io/api/presentation/2.1/example/fixtures/resources/page1-full.png",
+                type: "Image",
+                format: "image/png",
+                height: 1800,
+                width: 1200,
+              },
+              target:
+                "https://iiif.io/api/cookbook/recipe/0001-mvm-image/canvas/p1",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
 # Viewer
 
 A UI component that renders a multicanvas IIIF item viewer with pan-zoom support for `Image` via [OpenSeadragon](https://openseadragon.github.io/) and `Video` and `Sound` content resources using the [HTML video element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video).
@@ -91,7 +130,9 @@ Render `Viewer` with a IIIF Manifest or Collection URI. The only required prop i
     ```
   </Tab>
   <Tab>
-    <Viewer iiifContent="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif" />
+    <div style={{ position: "relative", height: "500px", zIndex: "0" }}>
+      <Viewer iiifContent="https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif" />
+    </div>
   </Tab>
 </Tabs>
 
@@ -123,6 +164,64 @@ The Viewer can also be implemented in Vanilla Javascript by use of a web compone
   </Tab>
 </Tabs>
 
+### React (prefetched Manifest)
+
+In some use cases, applications may wish to prefetch a IIIF Manifest or Collection and pass it as a JSON object to the `Viewer` component. This can be done by passing the JSON object directly to the `iiifContent` prop.
+
+```jsx
+const prefetchedManifestJson = {
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  id: "https://iiif.io/api/cookbook/recipe/0001-mvm-image/manifest.json",
+  type: "Manifest",
+  label: {
+    en: ["Single Image Example"],
+  },
+  items: [
+    {
+      id: "https://iiif.io/api/cookbook/recipe/0001-mvm-image/canvas/p1",
+      type: "Canvas",
+      height: 1800,
+      width: 1200,
+      items: [
+        {
+          id: "https://iiif.io/api/cookbook/recipe/0001-mvm-image/page/p1/1",
+          type: "AnnotationPage",
+          items: [
+            {
+              id: "https://iiif.io/api/cookbook/recipe/0001-mvm-image/annotation/p0001-image",
+              type: "Annotation",
+              motivation: "painting",
+              body: {
+                id: "http://iiif.io/api/presentation/2.1/example/fixtures/resources/page1-full.png",
+                type: "Image",
+                format: "image/png",
+                height: 1800,
+                width: 1200,
+              },
+              target:
+                "https://iiif.io/api/cookbook/recipe/0001-mvm-image/canvas/p1",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+```
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx
+    <Viewer iiifContent={prefetchedManifestJson} />
+    ```
+  </Tab>
+  <Tab>
+    <div style={{ position: "relative", height: "500px", zIndex: "0" }}>
+      <Viewer iiifContent={prefetchedManifestJson} />
+    </div>
+  </Tab>
+</Tabs>
+
 ### Next.js
 
 Implementation with Next.js requires a [dynamic import](https://nextjs.org/docs/advanced-features/dynamic-import) utilizing `next/dynamic`. This is due to Next's node compilation method creating issue with an `OpenSeadragon` (a dependency of Clover IIIF) assumption of a browser `document` object.
@@ -151,7 +250,7 @@ const MyCustomViewer = () => {
 
 | Prop                             | Type                                                                                                                                             | Required | Default                                  |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ---------------------------------------- |
-| `iiifContent`                    | `string`                                                                                                                                         | Yes      |                                          |
+| `iiifContent`                    | `string` as URI, or JSON `object` as `Manifest` or `Collection`                                                                                  | Yes      |                                          |
 | `iiifContentSearchQuery`         | [See Content Search](#content-search)                                                                                                            | No       |                                          |
 | `canvasIdCallback`               | `function`                                                                                                                                       | No       |                                          |
 | `contentStateCallback`           | [See IIIF Content State](#iiif-content-state)                                                                                                    | No       |                                          |
