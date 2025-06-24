@@ -7,6 +7,7 @@ import {
   Service,
 } from "@iiif/presentation-3";
 
+import { convertPresentation2 } from "@iiif/parser/presentation-2";
 import { decodeContentState } from "@iiif/helpers";
 
 export const getCanvasResource = (canvas: Canvas) => {
@@ -19,6 +20,14 @@ export const getCanvasResource = (canvas: Canvas) => {
       }
     }
   }
+};
+
+export const getContextAsArray = (json) => {
+  const context = Array.isArray(json["@context"])
+    ? json["@context"]
+    : [json["@context"]];
+
+  return context.map((uri) => uri?.replace("http://", "https://"));
 };
 
 export const getInfoResponse = (id: string) =>
@@ -114,9 +123,56 @@ export const parseContentStateJson = (json) => {
   return { resourceId, active };
 };
 
-export const parseIiifContent = (iiifContent: string) => {
-  if (isURL(iiifContent)) {
+export const upgradeIiifContent = (json: any): any => {
+  const validContexts = [
+    "https://iiif.io/api/presentation/2/context.json",
+    "https://iiif.io/api/presentation/3/context.json",
+  ];
+  const contextError = new TypeError(
+    `The IIIF content may not be a valid IIIF resource: ${validContexts.join(", ")}`,
+  );
+
+  if (!json["@context"]) console.warn(contextError);
+
+  const context = getContextAsArray(json);
+
+  try {
+    if (context.includes(validContexts[0])) {
+      const upgradedIiifContent = convertPresentation2(json);
+      /**
+       * Check if the upgraded content has the required properties.
+       * If not, throw an error to indicate that the content is not valid.
+       */
+      if (
+        !upgradedIiifContent ||
+        !upgradedIiifContent.id ||
+        !upgradedIiifContent.type
+      ) {
+        throw contextError;
+      }
+
+      return upgradedIiifContent;
+    } else if (context.includes(validContexts[1])) {
+      return json;
+    } else {
+      throw contextError;
+    }
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
+export const parseIiifContent = (iiifContent) => {
+  if (typeof iiifContent === "string" && isURL(iiifContent)) {
     return { resourceId: iiifContent };
+    // check if iiifContent is a JSON object
+  } else if (typeof iiifContent === "object") {
+    const upgradedIiifContent = upgradeIiifContent(iiifContent);
+
+    return {
+      resourceId: upgradedIiifContent?.id,
+      resourceObject: upgradedIiifContent,
+    };
   } else {
     const json = JSON.parse(decodeContentState(iiifContent));
     const { active } = parseContentStateJson(json);
@@ -125,7 +181,9 @@ export const parseIiifContent = (iiifContent: string) => {
   }
 };
 
-export const decodeContentStateContainerURI = (iiifContent: string) => {
+export const decodeContentStateContainerURI = (
+  iiifContent: string | object,
+) => {
   const { resourceId, resourceObject } = parseIiifContent(iiifContent);
   return resourceObject || resourceId;
 };
