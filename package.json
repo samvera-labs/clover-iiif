@@ -57,7 +57,7 @@
     "prettier": "prettier . --check",
     "prettier:fix": "prettier --write .",
     "start": "next start",
-    "test": "vitest",
+    "test": "vitest --bail 1",
     "typecheck": "tsc --incremental --noEmit",
     "prepare": "husky install"
   },
@@ -85,6 +85,7 @@
     "@radix-ui/react-switch": "^1.1.1",
     "@radix-ui/react-tabs": "^1.1.1",
     "@stitches/react": "^1.2.8",
+    "fix": "^0.0.6",
     "flexsearch": "^0.7.43",
     "hls.js": "^1.5.17",
     "i18next": "^23.16.5",

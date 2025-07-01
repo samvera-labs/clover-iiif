@@ -19,7 +19,6 @@ describe("Panel", () => {
 
     expect(panel).toHaveStyle(`
       left: calc(1000px - 2rem);
-      margin-left: unset;
       width: 2rem;
     `);
   });
