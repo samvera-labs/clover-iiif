@@ -68,9 +68,6 @@ importers:
       openseadragon:
         specifier: ^4.1.1
         version: 4.1.1
-      pnpm:
-        specifier: ^10.12.4
-        version: 10.12.4
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -3819,11 +3816,6 @@ packages:
   pipe@0.0.2:
     resolution: {integrity: sha512-67s0/X7rv2PX1sl64FQqC0qQuSpd1tv8Wh6c+U1lprj6Q7NxDYulCxZTbVbDvc/HSpZLYh7Oo821xReXSCZikQ==}
     engines: {node: '>=0.4.8'}
-
-  pnpm@10.12.4:
-    resolution: {integrity: sha512-Xqiw3u2U7WhpHJutTJVUknBcXuuKh++GvGLHSiawN7CP+VcPEIsuTb0d0akYb+qSXlJ/FBxkjoWvRWMQdGgBhA==}
-    engines: {node: '>=18.12'}
-    hasBin: true
 
   possible-typed-array-names@1.0.0:
     resolution: {integrity: sha512-d7Uw+eZoloe0EHDIYoe+bQ5WXnGMOpmiZFTuMWCwpjzzkL2nTjcKiAk4hh8TjnGye2TwWOk3UXucZ+3rbmBa8Q==}
@@ -9130,8 +9122,6 @@ snapshots:
   pidtree@0.6.0: {}
 
   pipe@0.0.2: {}
-
-  pnpm@10.12.4: {}
 
   possible-typed-array-names@1.0.0: {}
 
