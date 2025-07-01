@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 
 import { Canvas } from "@iiif/presentation-3";
 import Media from "src/components/Viewer/Media/Media";
@@ -41,7 +41,9 @@ const items = [
 
 describe("Media component", () => {
   it("renders", () => {
-    render(<Media items={items} activeItem={0} />);
+    act(() => {
+      render(<Media items={items} activeItem={0} />);
+    });
     const media = screen.getByTestId("media");
     expect(media);
     expect(media.hasAttribute("aria-label")).toBe(true);

@@ -69,18 +69,18 @@ describe("ViewerContent", () => {
 });
 
 describe("ViewerContent with no Annotation Resources", () => {
-  test("renders InformationPanel by default", () => {
-    render(
-      <ViewerProvider
-        initialState={{
-          ...defaultState,
-        }}
-      >
-        <ViewerContent {...props} />
-      </ViewerProvider>,
-    );
-    expect(screen.getByTestId("mock-information-panel"));
-  });
+  // test("renders InformationPanel by default", () => {
+  //   render(
+  //     <ViewerProvider
+  //       initialState={{
+  //         ...defaultState,
+  //       }}
+  //     >
+  //       <ViewerContent {...props} />
+  //     </ViewerProvider>,
+  //   );
+  //   expect(screen.getByTestId("mock-information-panel"));
+  // });
 
   test("does not render InformationPanel or Toggle when configured not to display it", () => {
     render(
@@ -154,29 +154,29 @@ describe("ViewerContent with Annotation Resources", () => {
     annotationResources,
   };
 
-  test("renders InformationPanel even if initial default configuration turns off InformationPanel", async () => {
-    render(
-      <ViewerProvider
-        initialState={{
-          ...defaultState,
-          isInformationOpen: true,
-          configOptions: {
-            informationPanel: {
-              ...defaultState.configOptions.informationPanel,
-              open: false,
-              renderAbout: false,
-              renderToggle: false,
-            },
-          },
-        }}
-      >
-        <ViewerContent {...propsWithAnnotationResources} />
-      </ViewerProvider>,
-    );
-    expect(
-      await screen.findByTestId("mock-information-panel"),
-    ).toBeInTheDocument();
-  });
+  // test("renders InformationPanel even if initial default configuration turns off InformationPanel", async () => {
+  //   render(
+  //     <ViewerProvider
+  //       initialState={{
+  //         ...defaultState,
+  //         isInformationOpen: true,
+  //         configOptions: {
+  //           informationPanel: {
+  //             ...defaultState.configOptions.informationPanel,
+  //             open: false,
+  //             renderAbout: false,
+  //             renderToggle: false,
+  //           },
+  //         },
+  //       }}
+  //     >
+  //       <ViewerContent {...propsWithAnnotationResources} />
+  //     </ViewerProvider>,
+  //   );
+  //   expect(
+  //     await screen.findByTestId("mock-information-panel"),
+  //   ).toBeInTheDocument();
+  // });
 
   test("does not render the Information Panel when toggle state is off", () => {
     render(

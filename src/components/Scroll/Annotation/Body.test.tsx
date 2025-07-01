@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 
 import Body from "./Body";
 import { EmbeddedResource } from "@iiif/presentation-3";
@@ -13,11 +13,11 @@ const body: EmbeddedResource = {
 };
 
 describe("Body", () => {
-  it("should render plain text line breaks as HTML breaks", () => {
+  it("should render plain text line breaks as HTML breaks", async () => {
     render(<Body body={body} />);
-
-    const renderedBody = screen.getByTestId("scroll-item-body");
-
+    const renderedBody = await act(async () =>
+      screen.getByTestId("scroll-item-body"),
+    );
     expect(renderedBody).toBeInTheDocument();
     expect(renderedBody.innerHTML).toBe(
       "This is sample body content. <br> Second line of body. <br> Third line of body.",

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 
 import LazyLoad from "./LazyLoad"; // adjust path as needed
 import React from "react";
@@ -31,11 +31,15 @@ describe("LazyLoad", () => {
   });
 
   it("renders children once visible", async () => {
-    render(
-      <LazyLoad>
-        <div>Lazy Content</div>
-      </LazyLoad>,
-    );
+    await act(async () => {
+      render(
+        <LazyLoad>
+          <div>
+            <div>Lazy Content</div>
+          </div>
+        </LazyLoad>,
+      );
+    });
 
     // Wait for the next tick so the setTimeout and callback can run
     await new Promise((resolve) => setTimeout(resolve, 10));
