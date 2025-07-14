@@ -17,11 +17,11 @@ describe("Panel", () => {
     const searchForm = screen.getByTestId("scroll-panel-search-form");
     expect(searchForm).toBeInTheDocument();
 
-    expect(panel).toHaveStyle(`
-      left: calc(1000px - 2rem);
-      margin-left: unset;
-      width: 2rem;
-    `);
+    const computed = getComputedStyle(panel);
+
+    expect(computed.left).toBe("calc(1000px - 2rem)");
+    expect(computed.marginLeft).toBe("");
+    expect(computed.width).toBe("2rem");
   });
 
   it("should adjust styles if isFixed ", () => {
