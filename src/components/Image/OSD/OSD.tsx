@@ -18,10 +18,7 @@ import { useViewerDispatch } from "src/context/viewer-context";
 
 interface OSDProps {
   _cloverViewerHasPlaceholder: boolean;
-  annotations?: Array<{
-    annotation: Annotation;
-    targetIndex: number;
-  }>;
+  annotations?: Array<{ annotation: Annotation; targetIndex: number }>;
   ariaLabel?: string | null;
   config: Options;
   uri: string[];
@@ -59,15 +56,19 @@ const OSD: React.FC<OSDProps> = ({
   const [osdUri, setOsdUri] = useState<string[]>([]);
   const [openSeadragon, setOpenSeadragon] = useState<OpenSeadragon.Viewer>();
   const [srcDimensions, setSrcDimensions] = useState<
-    Array<{
-      width: number;
-      height: number;
-    }>
+    Array<{ width: number; height: number }>
   >([]);
   const dispatch: any = useViewerDispatch();
   const initializeOSD = useRef(false);
 
   const annotationClassName = "clover-iiif-image-openseadragon-annotation";
+
+  /**
+   * check the OSD config for scrollToZoom setting
+   */
+  const disableScrollToZoom = Boolean(
+    config.gestureSettingsMouse.scrollToZoom === false,
+  );
 
   useEffect(() => {
     if (!initializeOSD.current) {
@@ -84,9 +85,19 @@ const OSD: React.FC<OSDProps> = ({
   useEffect(() => {
     if (openSeadragon && JSON.stringify(uri) !== JSON.stringify(osdUri)) {
       openSeadragon.forceRedraw();
+
+      /**
+       * If scrollToZoom is explicitly set to false, we
+       * should allow browser's default scroll behavior
+       */
+      if (disableScrollToZoom)
+        openSeadragon.addHandler("canvas-scroll", function (event) {
+          event.preventDefault = false;
+        });
+
       setOsdUri(uri);
     }
-  }, [openSeadragon, osdUri, uri]);
+  }, [disableScrollToZoom, openSeadragon, osdUri, uri]);
 
   useEffect(() => {
     if (!osdUri.length || !openSeadragon) return;
@@ -114,10 +125,7 @@ const OSD: React.FC<OSDProps> = ({
               await img.decode();
               setSrcDimensions((prev) => [
                 ...prev,
-                {
-                  width: img?.width,
-                  height: img?.height,
-                },
+                { width: img?.width, height: img?.height },
               ]);
             }
 
