@@ -74,7 +74,7 @@
   "dependencies": {
     "@iiif/helpers": "^1.2.19",
     "@iiif/parser": "^2.1.4",
-    "@nulib/use-markdown": "^0.2.2",
+    "@nulib/use-markdown": "^0.2.3",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-collapsible": "^1.1.1",
