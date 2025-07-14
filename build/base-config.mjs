@@ -9,7 +9,10 @@ export function defineConfig(options, key) {
       lib: { ...options.lib },
       minify: "esbuild",
       rollupOptions: {
-        external: [...Object.keys(pkg.dependencies || {})],
+        external: [
+          ...Object.keys(pkg.dependencies || {}),
+          ...Object.keys(pkg.peerDependencies || {})
+        ],
         output: {
           globals: {
             react: "React",
