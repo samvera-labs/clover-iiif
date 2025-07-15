@@ -103,7 +103,7 @@ const defaultConfigOptions = {
       zoomLevel: 4,
     },
   },
-  crossOrigin: undefined,
+  crossOrigin: "anonymous",
   ignoreCaptionLabels: [],
   informationPanel: {
     vtt: {
