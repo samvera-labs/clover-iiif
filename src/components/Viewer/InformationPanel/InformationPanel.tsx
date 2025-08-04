@@ -212,7 +212,8 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         )}
         {renderAnnotation && hasAnnotations && (
           <Trigger value="manifest-annotations">
-            {t("informationPanelTabsAnnotations")}
+            {informationPanel?.annotationTabLabel ||
+              t("informationPanelTabsAnnotations")}
           </Trigger>
         )}
 

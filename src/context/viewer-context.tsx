@@ -44,6 +44,7 @@ export type ViewerConfigOptions = {
     };
     renderContentSearch?: boolean;
     defaultTab?: string;
+    annotationTabLabel?: string;
   };
   openSeadragon?: OpenSeadragonOptions;
   requestHeaders?: IncomingHttpHeaders;

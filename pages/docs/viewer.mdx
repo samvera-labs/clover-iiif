@@ -316,6 +316,7 @@ The information panel is a collapsible panel that displays information about the
 | `options.informationPanel.renderToggle`        | `boolean`                       | No       | true    |
 | `options.informationPanel.renderContentSearch` | `boolean`                       | No       | true    |
 | `options.informationPanel.defaultTab`          | `string`                        | No       |         |
+| `options.informationPanel.annotationTabLabel`  | `string`                        | No       |         |
 
 If `renderAbout` is true, Clover will use the About tab as the default tab. Use `options.informationPanel.defaultTab` to set the default tab.
 
@@ -638,12 +639,14 @@ Additional CSS classes are made available on structural HTML elements in the Vie
 - Each WebVTT Cue is rendered inside a `<div class="webvtt-cue"/>` element.
 
 - The following inline formatting tags are passed through without alteration:
+
   - Bold (`<b/>`)
   - Italic (`<i/>`)
   - Underline (`<u/>`)
   - [Ruby](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/ruby) (`<ruby/>`) and [Ruby Text](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/rt) (`<rt/>`)
 
 - Several WebVTT-specific tags are processed in special ways:
+
   - Voice Tags (e.g., `<v speaker>Caption</v>`) are wrapped in `<span title="speaker"/>` and can be styled using the CSS selector `.webvtt-cue span[title="speaker"]`
   - Class Tags (e.g., `<c.classToAdd>Caption</c>`) are wrapped in `<span class="classtoAdd"/>` and can be styled using the CSS selector `.webvtt-cue span.classToAdd`
   - Language Tags (e.g., `<lang.en-US>English Caption</lang>`) are handled the same as Class Tags - wrapped in `<span class="en-US"/>` and can be styled using the CSS selector `.webvtt-cue span.en-US`
