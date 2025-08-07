@@ -5,10 +5,6 @@ import { I18NextTestingProvider } from "src/lib/testing-helpers/i18n";
 import Menu from "src/components/Viewer/InformationPanel/Menu";
 import React from "react";
 
-// Required to prevent an annoying but harmless error while running this test
-import { VTTCue } from "vtt.js";
-window.VTTCue = VTTCue;
-
 vi.mock("src/components/Viewer/InformationPanel/Menu");
 vi.mocked(Menu).mockReturnValue(<div>Menu Component</div>);
 

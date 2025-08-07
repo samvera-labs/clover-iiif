@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import { v4 as uuidv4 } from "uuid";
-import { WebVTT, VTTCue } from "vtt.js";
+import * as webvtt from "node-webvtt";
 
 export interface NodeWebVttCue {
   identifier?: string;
@@ -93,31 +93,65 @@ const useWebVtt = () => {
     return cues.sort((cue1, cue2) => cue1.start - cue2.start);
   }
 
+  // Replace VTT-style <tag.class1.class1 annotation> with
+  // HTML-style <tag class="class1 class2" title="annotation">
+  function normalizeVttTags(text) {
+    const result = text.replace(
+      /<(c|v|i|b|u|lang|ruby)(?:\.([^\s>]+))?(?:\s([^>]+))?>/g,
+      (match, tag, classes, title) => {
+        const e = document.createElement(tag);
+        if (classes) {
+          e.className = classes.replace(/\./g, " ");
+        }
+        if (title?.length > 0) {
+          e.title = title;
+        }
+        return e.outerHTML.replace(new RegExp(`</${tag}>$`), "");
+      },
+    );
+    console.log("normalizeVttTags", result);
+    return result;
+  }
+
+  function createSpans(element: Element) {
+    for (const child of element.children) {
+      createSpans(child);
+    }
+    if (element.localName === "c" || element.localName === "v") {
+      const el = document.createElement("span");
+      for (const attr of element.attributes) {
+        el.setAttribute(attr.name, attr.value);
+      }
+      el.innerHTML = element.innerHTML;
+      element.parentNode?.replaceChild(el, element);
+    }
+  }
+
+  function htmlCue(text): string {
+    const cueText = normalizeVttTags(text);
+    const el = document.createElement("div");
+    el.innerHTML = cueText;
+    createSpans(el);
+    return el.innerHTML;
+  }
+
   function parseVttData(data: string): Promise<Array<NodeWebVttCue>> {
     return new Promise((resolve, reject) => {
-      const cues: Array<NodeWebVttCue> = [];
-      const parser = new WebVTT.Parser(window, WebVTT.StringDecoder());
-      parser.oncue = (cue: VTTCue) => {
-        const domTree: DocumentFragment = WebVTT.convertCueToDOMTree(
-          window,
-          cue.text,
-        );
-        const html = domTree.innerHTML || "&nbsp;";
-        const text = domTree.textContent || "";
+      const parsed = webvtt.parse(data);
+      if (parsed.errors && parsed.errors.length) {
+        reject(parsed.errors);
+      }
 
-        cues.push({
-          identifier: uuidv4(),
-          start: cue.startTime,
-          end: cue.endTime,
+      resolve(
+        parsed.cues.map((cue) => ({
+          identifier: cue.identifier || uuidv4(),
+          start: cue.start,
+          end: cue.end,
           align: cue.align,
-          html,
-          text,
-        });
-      };
-      parser.onflush = () => resolve(cues);
-      parser.onparsingerror = (err) => reject(err);
-      parser.parse(data);
-      parser.flush();
+          html: htmlCue(cue.text),
+          text: cue.text || "",
+        })),
+      );
     });
   }
 

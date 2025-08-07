@@ -96,8 +96,7 @@
     "react-lazy-load-image-component": "^1.6.2",
     "sanitize-html": "^2.13.1",
     "swiper": "^9.0.0",
-    "uuid": "^9.0.1",
-    "vtt.js": "^0.13.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@iiif/presentation-3": "^1.1.3",
