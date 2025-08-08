@@ -79,7 +79,7 @@ const defaultAutoScrollSettings: AutoScrollSettings = {
   block: "center",
 };
 
-const defaultConfigOptions = {
+const defaultConfigOptions: ViewerConfigOptions = {
   annotationOverlays: {
     backgroundColor: "#6666ff",
     borderColor: "#000099",
@@ -205,9 +205,8 @@ export interface ViewerAction {
 export function expandAutoScrollOptions(
   value: AutoScrollOptions | AutoScrollSettings | boolean | undefined,
 ): AutoScrollOptions {
-  let result: AutoScrollOptions = {
-    ...defaultConfigOptions.informationPanel.vtt.autoScroll,
-  };
+  let result: AutoScrollOptions = defaultConfigOptions?.informationPanel?.vtt
+    ?.autoScroll as AutoScrollOptions;
   if (typeof value === "object") {
     result = "enabled" in value ? value : { enabled: true, settings: value };
   }
@@ -241,7 +240,7 @@ export const defaultState: ViewerContextStore = {
   plugins: [],
   isAutoScrollEnabled: expandedAutoScrollOptions.enabled,
   isAutoScrolling: false,
-  isInformationOpen: defaultConfigOptions?.informationPanel?.open,
+  isInformationOpen: defaultConfigOptions?.informationPanel?.open || true,
   isLoaded: false,
   isUserScrolling: undefined,
   sequence: [[], []],
