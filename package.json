@@ -58,6 +58,8 @@
     "prettier:fix": "prettier --write .",
     "start": "next start",
     "test": "vitest",
+    "e2e": "playwright test",
+    "e2e:install": "playwright install --with-deps",
     "typecheck": "tsc --incremental --noEmit",
     "prepare": "husky install"
   },
@@ -153,3 +155,4 @@
     }
   }
 }
+    "@playwright/test": "^1.47.2",
