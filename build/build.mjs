@@ -102,6 +102,10 @@ const buildOptions = {
       value.lib.entry,
       "--no-check",
     ]);
+
+    // Copy React shims alongside each subpackage output for ESM default compatibility
+    fs.copyFileSync("build/shims/react-shim.mjs", `${DIST}/${key}/react-shim.mjs`);
+    fs.copyFileSync("build/shims/react-dom-shim.mjs", `${DIST}/${key}/react-dom-shim.mjs`);
   }
 
   // build web components

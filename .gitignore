@@ -25,3 +25,14 @@ dist/tsconfig.tsbuildinfo
 tmp
 .env.local
 tsconfig.tsbuildinfo
+
+# examples (sidecar apps)
+examples/**/.next
+examples/**/node_modules
+examples/**/out
+examples/**/.vercel
+examples/**/.turbo
+examples/**/dist
+examples/**/.cache
+examples/**/coverage
+examples/**/html

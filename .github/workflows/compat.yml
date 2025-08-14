@@ -1,0 +1,129 @@
+name: React/Next Compatibility
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  next15-react19:
+    name: Next 15 + React 19 (examples/next-react19)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install root deps
+        run: npm ci
+
+      - name: Build library
+        run: npm run build
+
+      - name: Pack library
+        id: pack
+        run: |
+          PKG_TGZ=$(npm pack --silent)
+          echo "pkg_tgz=$PKG_TGZ" >> $GITHUB_OUTPUT
+
+      - name: Install example deps
+        working-directory: examples/next-react19
+        run: |
+          npm i --no-audit --no-fund next@15 react@19 react-dom@19
+          npm i --no-audit --no-fund --no-save "../../${{ steps.pack.outputs.pkg_tgz }}"
+
+      - name: Build example
+        working-directory: examples/next-react19
+        run: npm run build
+
+      - name: Start example (background)
+        working-directory: examples/next-react19
+        run: |
+          nohup npm run start -- -p 3000 >/dev/null 2>&1 &
+          echo $! > .server_pid
+
+      - name: Curl homepage
+        working-directory: examples/next-react19
+        run: |
+          for i in {1..60}; do
+            if curl -sf http://localhost:3000 >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl -sSf http://localhost:3000 | grep -q "Clover IIIF Compatibility Check"
+          echo "OK: homepage rendered expected content"
+
+      
+
+      - name: Stop example
+        if: always()
+        working-directory: examples/next-react19
+        run: |
+          kill $(cat .server_pid) || true
+
+  next14-react18:
+    name: Next 14.2.18 + React 18 (examples/next-react18)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install root deps
+        run: npm ci
+
+      - name: Build library
+        run: npm run build
+
+      - name: Pack library
+        id: pack
+        run: |
+          PKG_TGZ=$(npm pack --silent)
+          echo "pkg_tgz=$PKG_TGZ" >> $GITHUB_OUTPUT
+
+      - name: Install example deps
+        working-directory: examples/next-react18
+        run: |
+          npm i --no-audit --no-fund next@14.2.18 react@18.3.1 react-dom@18.3.1
+          npm i --no-audit --no-fund --no-save "../../${{ steps.pack.outputs.pkg_tgz }}"
+
+      - name: Build example
+        working-directory: examples/next-react18
+        run: npm run build
+
+      - name: Start example (background)
+        working-directory: examples/next-react18
+        run: |
+          nohup npm run start -- -p 3000 >/dev/null 2>&1 &
+          echo $! > .server_pid
+
+      - name: Curl homepage
+        working-directory: examples/next-react18
+        run: |
+          for i in {1..60}; do
+            if curl -sf http://localhost:3000 >/dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl -sSf http://localhost:3000 | grep -q "Clover IIIF Compatibility Check"
+          echo "OK: homepage rendered expected content"
+
+      
+
+      - name: Stop example
+        if: always()
+        working-directory: examples/next-react18
+        run: |
+          kill $(cat .server_pid) || true

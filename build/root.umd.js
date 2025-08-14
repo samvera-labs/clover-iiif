@@ -1,3 +1,4 @@
+"use client";
 // @ts-nocheck
 
 const Image = require("./image");

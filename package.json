@@ -5,7 +5,7 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/index.umd.js",
+  "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "exports": {
     ".": {
@@ -137,8 +137,19 @@
     "vitest": "^2.1.5"
   },
   "peerDependencies": {
-    "react": ">=18.2.0 <20",
-    "react-dom": ">=18.2.0 <20",
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0",
     "swiper": "^9.0.0"
+  },
+  "typesVersions": {
+    "*": {
+      "viewer": ["dist/viewer/index.d.ts"],
+      "image": ["dist/image/index.d.ts"],
+      "primitives": ["dist/primitives/index.d.ts"],
+      "scroll": ["dist/scroll/index.d.ts"],
+      "slider": ["dist/slider/index.d.ts"],
+      "helpers": ["dist/helpers/index.d.ts"],
+      "*": ["dist/index.d.ts"]
+    }
   }
 }
