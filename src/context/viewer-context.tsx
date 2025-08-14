@@ -240,7 +240,8 @@ export const defaultState: ViewerContextStore = {
   plugins: [],
   isAutoScrollEnabled: expandedAutoScrollOptions.enabled,
   isAutoScrolling: false,
-  isInformationOpen: defaultConfigOptions?.informationPanel?.open || true,
+  // Respect explicit false; default to true only when undefined
+  isInformationOpen: defaultConfigOptions?.informationPanel?.open ?? true,
   isLoaded: false,
   isUserScrolling: undefined,
   sequence: [[], []],

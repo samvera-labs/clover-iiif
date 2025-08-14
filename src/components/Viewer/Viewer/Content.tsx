@@ -60,9 +60,13 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     // @ts-ignore
     visibleCanvasesIds.includes(contentStateAnnotation?.target?.source?.id);
 
+  // Only force the aside open for annotations when no toggle is rendered.
+  // If a toggle is visible, it must control open/close behavior.
   const isForcedAside =
     hasAnnotations &&
-    informationPanel?.renderAnnotation
+    informationPanel?.renderAnnotation &&
+    informationPanel?.renderToggle === false &&
+    isInformationOpen;
 
   const isAside =
     (informationPanel?.renderAbout && isInformationOpen) || isForcedAside;
