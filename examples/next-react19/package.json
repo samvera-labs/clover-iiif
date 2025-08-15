@@ -2,6 +2,7 @@
   "name": "compat-next-react",
   "private": true,
   "version": "0.0.0",
+  "packageManager": "npm@10",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

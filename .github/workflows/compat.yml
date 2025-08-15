@@ -3,11 +3,11 @@ name: Compatibility + E2E
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   examples:
-    name: Build once, test both examples
+    name: React 18 and 19 Compatibility
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -55,7 +55,7 @@ jobs:
       - name: React 19 - run Playwright tests
         env:
           BASE_URL: http://localhost:3000
-          CI: '1'
+          CI: "1"
         run: npx playwright test
 
       - name: React 19 - stop example
@@ -83,7 +83,7 @@ jobs:
       - name: React 18 - run Playwright tests
         env:
           BASE_URL: http://localhost:3001
-          CI: '1'
+          CI: "1"
         run: npx playwright test
 
       - name: React 18 - stop example

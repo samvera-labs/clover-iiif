@@ -8,6 +8,7 @@
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "exports": {
+    "./package.json": "./package.json",
     ".": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.umd.js",
@@ -74,6 +75,9 @@
   },
   "homepage": "https://github.com/samvera-labs/clover-iiif#readme",
   "packageManager": "npm@10",
+  "engines": {
+    "node": ">=20.5.0"
+  },
   "dependencies": {
     "@iiif/helpers": "^1.2.19",
     "@iiif/parser": "^2.1.4",
