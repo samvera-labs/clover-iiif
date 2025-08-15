@@ -24,8 +24,8 @@ jobs:
           node-version: "20"
           cache: "npm"
 
-      - name: Install packages
-        run: npm ci
+      - name: Install packages (allow peer mismatch)
+        run: npm ci --legacy-peer-deps
 
       - name: Run tests
         run: npm test

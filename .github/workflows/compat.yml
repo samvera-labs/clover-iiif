@@ -19,8 +19,8 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Install root deps
-        run: npm ci
+      - name: Install root deps (allow peer mismatch)
+        run: npm ci --legacy-peer-deps
 
       - name: Build library
         run: npm run build
