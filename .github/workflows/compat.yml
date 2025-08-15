@@ -70,7 +70,7 @@ jobs:
         env:
           BASE_URL: http://localhost:3000
           CI: "1"
-        run: npx playwright test
+        run: npx playwright test e2e/compat.spec.ts
 
       - name: React 19 - stop example
         if: always()
@@ -107,7 +107,7 @@ jobs:
         env:
           BASE_URL: http://localhost:3001
           CI: "1"
-        run: npx playwright test
+        run: npx playwright test e2e/compat.spec.ts
 
       - name: React 18 - stop example
         if: always()
