@@ -6,8 +6,8 @@ on:
     branches: [ main ]
 
 jobs:
-  next15-react19:
-    name: Next 15 + React 19 (examples/next-react19)
+  examples:
+    name: Build once, test both examples
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,100 +31,62 @@ jobs:
         run: |
           # Capture only the tarball filename (last line), stripping any CRs
           PKG_TGZ=$(npm pack --silent | tail -n 1 | tr -d '\r')
-          {
-            echo "pkg_tgz<<EOF"
-            echo "$PKG_TGZ"
-            echo EOF
-          } >> "$GITHUB_OUTPUT"
+          echo "PKG_TGZ=$PKG_TGZ" >> "$GITHUB_ENV"
 
-      - name: Install example deps
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: React 19 - install deps
         working-directory: examples/next-react19
         run: |
           npm i --no-audit --no-fund next@15 react@19 react-dom@19
-          npm i --no-audit --no-fund --no-save "../../${{ steps.pack.outputs.pkg_tgz }}"
+          npm i --no-audit --no-fund --no-save "../../${{ env.PKG_TGZ }}"
 
-      - name: Build example
+      - name: React 19 - build example
         working-directory: examples/next-react19
         run: npm run build
 
-      - name: Start example (background)
+      - name: React 19 - start example (background)
         working-directory: examples/next-react19
         run: |
           nohup npm run start -- -p 3000 >/dev/null 2>&1 &
           echo $! > .server_pid
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
-      - name: Run Playwright smoke tests
+      - name: React 19 - run Playwright tests
         env:
           BASE_URL: http://localhost:3000
           CI: '1'
         run: npx playwright test
 
-      - name: Stop example
+      - name: React 19 - stop example
         if: always()
         working-directory: examples/next-react19
         run: |
           kill $(cat .server_pid) || true
 
-  next14-react18:
-    name: Next 14.2.18 + React 18 (examples/next-react18)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install root deps
-        run: npm ci
-
-      - name: Build library
-        run: npm run build
-
-      - name: Pack library
-        id: pack
-        shell: bash
-        run: |
-          # Capture only the tarball filename (last line), stripping any CRs
-          PKG_TGZ=$(npm pack --silent | tail -n 1 | tr -d '\r')
-          {
-            echo "pkg_tgz<<EOF"
-            echo "$PKG_TGZ"
-            echo EOF
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Install example deps
+      - name: React 18 - install deps
         working-directory: examples/next-react18
         run: |
           npm i --no-audit --no-fund next@14.2.18 react@18.3.1 react-dom@18.3.1
-          npm i --no-audit --no-fund --no-save "../../${{ steps.pack.outputs.pkg_tgz }}"
+          npm i --no-audit --no-fund --no-save "../../${{ env.PKG_TGZ }}"
 
-      - name: Build example
+      - name: React 18 - build example
         working-directory: examples/next-react18
         run: npm run build
 
-      - name: Start example (background)
+      - name: React 18 - start example (background)
         working-directory: examples/next-react18
         run: |
-          nohup npm run start -- -p 3000 >/dev/null 2>&1 &
+          nohup npm run start -- -p 3001 >/dev/null 2>&1 &
           echo $! > .server_pid
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
-      - name: Run Playwright smoke tests
+      - name: React 18 - run Playwright tests
         env:
-          BASE_URL: http://localhost:3000
+          BASE_URL: http://localhost:3001
           CI: '1'
         run: npx playwright test
 
-      - name: Stop example
+      - name: React 18 - stop example
         if: always()
         working-directory: examples/next-react18
         run: |
