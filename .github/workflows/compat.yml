@@ -104,14 +104,12 @@ jobs:
         run: |
           python3 -m http.server 3002 >/dev/null 2>&1 & echo $! > .server_pid
 
-      - name: Check plain HTML WC example
-        run: |
-          for i in {1..30}; do
-            if curl -sf http://localhost:3002 >/dev/null; then break; fi
-            sleep 1
-          done
-          curl -sSf http://localhost:3002 | grep -q "Clover WC Plain HTML"
-          echo "OK: plain HTML WC example served"
+      - name: Run Playwright test against HTML WC example
+        working-directory: playwright
+        env:
+          BASE_URL: http://localhost:3002
+          CI: "1"
+        run: npx playwright test e2e/wc.spec.ts
 
       - name: Stop plain HTML example
         if: always()
