@@ -37,23 +37,23 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: React 19 - install deps
-        working-directory: compatibility/next-react19
+        working-directory: playwright/next-react19
         run: |
           npm i --no-audit --no-fund next@15 react@19 react-dom@19
           npm i --no-audit --no-fund --no-save "../../${{ env.PKG_TGZ }}"
 
       - name: React 19 - build example
-        working-directory: compatibility/next-react19
+        working-directory: playwright/next-react19
         run: npm run build
 
       - name: React 19 - start example (background)
-        working-directory: compatibility/next-react19
+        working-directory: playwright/next-react19
         run: |
           nohup npm run start -- -p 3000 >/dev/null 2>&1 &
           echo $! > .server_pid
 
       - name: React 19 - run Playwright tests
-        working-directory: compatibility
+        working-directory: playwright
         env:
           BASE_URL: http://localhost:3000
           CI: "1"
@@ -61,28 +61,28 @@ jobs:
 
       - name: React 19 - stop example
         if: always()
-        working-directory: compatibility/next-react19
+        working-directory: playwright/next-react19
         run: |
           kill $(cat .server_pid) || true
 
       - name: React 18 - install deps
-        working-directory: compatibility/next-react18
+        working-directory: playwright/next-react18
         run: |
           npm i --no-audit --no-fund next@14.2.18 react@18.3.1 react-dom@18.3.1
           npm i --no-audit --no-fund --no-save "../../${{ env.PKG_TGZ }}"
 
       - name: React 18 - build example
-        working-directory: compatibility/next-react18
+        working-directory: playwright/next-react18
         run: npm run build
 
       - name: React 18 - start example (background)
-        working-directory: compatibility/next-react18
+        working-directory: playwright/next-react18
         run: |
           nohup npm run start -- -p 3001 >/dev/null 2>&1 &
           echo $! > .server_pid
 
       - name: React 18 - run Playwright tests
-        working-directory: compatibility
+        working-directory: playwright
         env:
           BASE_URL: http://localhost:3001
           CI: "1"
@@ -90,6 +90,6 @@ jobs:
 
       - name: React 18 - stop example
         if: always()
-        working-directory: compatibility/next-react18
+        working-directory: playwright/next-react18
         run: |
           kill $(cat .server_pid) || true
