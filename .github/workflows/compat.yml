@@ -27,9 +27,14 @@ jobs:
 
       - name: Pack library
         id: pack
+        shell: bash
         run: |
           PKG_TGZ=$(npm pack --silent)
-          echo "pkg_tgz=$PKG_TGZ" >> $GITHUB_OUTPUT
+          {
+            echo "pkg_tgz<<EOF"
+            echo "$PKG_TGZ"
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
 
       - name: Install example deps
         working-directory: examples/next-react19
@@ -83,9 +88,14 @@ jobs:
 
       - name: Pack library
         id: pack
+        shell: bash
         run: |
           PKG_TGZ=$(npm pack --silent)
-          echo "pkg_tgz=$PKG_TGZ" >> $GITHUB_OUTPUT
+          {
+            echo "pkg_tgz<<EOF"
+            echo "$PKG_TGZ"
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
 
       - name: Install example deps
         working-directory: examples/next-react18
