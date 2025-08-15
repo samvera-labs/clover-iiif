@@ -13,15 +13,10 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     include: ["./src/**/*.{test,tests,spec}.{js,mjs,cjs,ts,tsx,mts,cts}"],
-    reporters: ["default", "html"],
+    reporters: ["default"],
     setupFiles: "./src/setupTests.ts",
-    // Run tests in a single thread to avoid intermittent tinypool recursion
-    // issues seen in some CI environments with Node 20.
-    pool: 'threads',
-    poolOptions: {
-      threads: {
-        singleThread: true,
-      },
-    },
+    // Avoid Node worker thread pool; use forked processes instead for stability in CI
+    pool: 'forks',
+    maxConcurrency: 1,
   },
 });
