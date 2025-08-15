@@ -205,12 +205,49 @@ export interface ViewerAction {
 export function expandAutoScrollOptions(
   value: AutoScrollOptions | AutoScrollSettings | boolean | undefined,
 ): AutoScrollOptions {
-  let result: AutoScrollOptions = defaultConfigOptions?.informationPanel?.vtt
-    ?.autoScroll as AutoScrollOptions;
-  if (typeof value === "object") {
-    result = "enabled" in value ? value : { enabled: true, settings: value };
+  // Get safe defaults, avoiding potential undefined values
+  const getDefaults = (): AutoScrollOptions => {
+    const configDefaults = defaultConfigOptions?.informationPanel?.vtt?.autoScroll as AutoScrollOptions;
+    return configDefaults || {
+      enabled: true,
+      settings: defaultAutoScrollSettings,
+    };
+  };
+
+  const defaults = getDefaults();
+
+  // Handle each input type explicitly
+  if (value === undefined || value === null) {
+    return {
+      enabled: defaults.enabled,
+      settings: { ...defaults.settings },
+    };
   }
-  if (value === false) result.enabled = false;
+
+  if (typeof value === "boolean") {
+    return {
+      enabled: value,
+      settings: { ...defaults.settings },
+    };
+  }
+
+  // Handle object types: AutoScrollOptions vs AutoScrollSettings
+  if ("enabled" in value) {
+    // It's AutoScrollOptions - use both enabled flag and settings
+    const options = value as AutoScrollOptions;
+    return {
+      enabled: options.enabled,
+      settings: { ...options.settings },
+    };
+  }
+
+  // It's AutoScrollSettings - enable auto-scroll and use provided settings
+  const settings = value as AutoScrollSettings;
+  const result = {
+    enabled: true,
+    settings: { ...settings },
+  };
+
   validateAutoScrollSettings(result.settings);
   return result;
 }
@@ -240,7 +277,8 @@ export const defaultState: ViewerContextStore = {
   plugins: [],
   isAutoScrollEnabled: expandedAutoScrollOptions.enabled,
   isAutoScrolling: false,
-  isInformationOpen: defaultConfigOptions?.informationPanel?.open || true,
+  // Respect explicit false; default to true only when undefined
+  isInformationOpen: defaultConfigOptions?.informationPanel?.open ?? true,
   isLoaded: false,
   isUserScrolling: undefined,
   sequence: [[], []],
