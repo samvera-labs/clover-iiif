@@ -29,7 +29,8 @@ jobs:
         id: pack
         shell: bash
         run: |
-          PKG_TGZ=$(npm pack --silent)
+          # Capture only the tarball filename (last line), stripping any CRs
+          PKG_TGZ=$(npm pack --silent | tail -n 1 | tr -d '\r')
           {
             echo "pkg_tgz<<EOF"
             echo "$PKG_TGZ"
@@ -90,7 +91,8 @@ jobs:
         id: pack
         shell: bash
         run: |
-          PKG_TGZ=$(npm pack --silent)
+          # Capture only the tarball filename (last line), stripping any CRs
+          PKG_TGZ=$(npm pack --silent | tail -n 1 | tr -d '\r')
           {
             echo "pkg_tgz<<EOF"
             echo "$PKG_TGZ"
