@@ -27,11 +27,7 @@ jobs:
 
       - name: Copy web component UMD into examples
         run: |
-          mkdir -p playwright/next-react19/public
-          mkdir -p playwright/next-react18/public
           mkdir -p playwright/html
-          cp dist/web-components/index.umd.js playwright/next-react19/public/wc.js
-          cp dist/web-components/index.umd.js playwright/next-react18/public/wc.js
           cp dist/web-components/index.umd.js playwright/html/wc.js
 
       - name: Pack library
@@ -68,11 +64,6 @@ jobs:
           CI: "1"
         run: npx playwright test
 
-      - name: React 19 - check WC registration
-        run: |
-          curl -sSf http://localhost:3000/wc >/dev/null
-          echo "OK: /wc served"
-
       - name: React 19 - stop example
         if: always()
         working-directory: playwright/next-react19
@@ -101,11 +92,6 @@ jobs:
           BASE_URL: http://localhost:3001
           CI: "1"
         run: npx playwright test
-
-      - name: React 18 - check WC registration
-        run: |
-          curl -sSf http://localhost:3001/wc >/dev/null
-          echo "OK: /wc served"
 
       - name: React 18 - stop example
         if: always()
