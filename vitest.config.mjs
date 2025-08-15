@@ -15,5 +15,13 @@ export default defineConfig({
     include: ["./src/**/*.{test,tests,spec}.{js,mjs,cjs,ts,tsx,mts,cts}"],
     reporters: ["default", "html"],
     setupFiles: "./src/setupTests.ts",
+    // Run tests in a single thread to avoid intermittent tinypool recursion
+    // issues seen in some CI environments with Node 20.
+    pool: 'threads',
+    poolOptions: {
+      threads: {
+        singleThread: true,
+      },
+    },
   },
 });
