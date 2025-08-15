@@ -9,7 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "next": "^15.0.0",
+    "next": "^15.4.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "@samvera/clover-iiif": "file:../.."
