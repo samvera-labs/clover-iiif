@@ -25,6 +25,15 @@ jobs:
       - name: Build library
         run: npm run build
 
+      - name: Copy web component UMD into examples
+        run: |
+          mkdir -p playwright/next-react19/public
+          mkdir -p playwright/next-react18/public
+          mkdir -p playwright/html
+          cp dist/web-components/index.umd.js playwright/next-react19/public/wc.js
+          cp dist/web-components/index.umd.js playwright/next-react18/public/wc.js
+          cp dist/web-components/index.umd.js playwright/html/wc.js
+
       - name: Pack library
         id: pack
         shell: bash
@@ -52,12 +61,17 @@ jobs:
           nohup npm run start -- -p 3000 >/dev/null 2>&1 &
           echo $! > .server_pid
 
-      - name: React 19 - run Playwright tests
+      - name: React 19 - run Playwright tests (app home)
         working-directory: playwright
         env:
           BASE_URL: http://localhost:3000
           CI: "1"
         run: npx playwright test
+
+      - name: React 19 - check WC registration
+        run: |
+          curl -sSf http://localhost:3000/wc >/dev/null
+          echo "OK: /wc served"
 
       - name: React 19 - stop example
         if: always()
@@ -81,15 +95,40 @@ jobs:
           nohup npm run start -- -p 3001 >/dev/null 2>&1 &
           echo $! > .server_pid
 
-      - name: React 18 - run Playwright tests
+      - name: React 18 - run Playwright tests (app home)
         working-directory: playwright
         env:
           BASE_URL: http://localhost:3001
           CI: "1"
         run: npx playwright test
 
+      - name: React 18 - check WC registration
+        run: |
+          curl -sSf http://localhost:3001/wc >/dev/null
+          echo "OK: /wc served"
+
       - name: React 18 - stop example
         if: always()
         working-directory: playwright/next-react18
+        run: |
+          kill $(cat .server_pid) || true
+
+      - name: Serve plain HTML example (background)
+        working-directory: playwright/html
+        run: |
+          python3 -m http.server 3002 >/dev/null 2>&1 & echo $! > .server_pid
+
+      - name: Check plain HTML WC example
+        run: |
+          for i in {1..30}; do
+            if curl -sf http://localhost:3002 >/dev/null; then break; fi
+            sleep 1
+          done
+          curl -sSf http://localhost:3002 | grep -q "Clover WC Plain HTML"
+          echo "OK: plain HTML WC example served"
+
+      - name: Stop plain HTML example
+        if: always()
+        working-directory: playwright/html
         run: |
           kill $(cat .server_pid) || true
