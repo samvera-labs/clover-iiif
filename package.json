@@ -117,7 +117,7 @@
     "@vitejs/plugin-react": "^4.3.3",
     "@vitest/coverage-v8": "^2.1.5",
     "@vitest/ui": "^2.1.5",
-    "@playwright/test": "^1.47.2",
+    "@playwright/test": "^1.54.2",
     "cross-fetch": "^4.0.0",
     "dts-bundle-generator": "8.0.1",
     "eslint-config-next": "14.1.0",
