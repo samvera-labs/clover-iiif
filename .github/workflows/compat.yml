@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node 20
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 20.5.0
           cache: npm
 
       - name: Install root deps (allow peer mismatch)
