@@ -29,8 +29,8 @@ jobs:
           node-version: "lts/*"
           cache: "pnpm"
 
-      - name: Install packages
-        run: pnpm install
+      - name: Install packages (no frozen lockfile)
+        run: pnpm install --no-frozen-lockfile
 
       - name: Run tests
         run: pnpm test

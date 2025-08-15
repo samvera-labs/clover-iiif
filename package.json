@@ -73,6 +73,7 @@
     "url": "https://github.com/samvera-labs/clover-iiif/issues"
   },
   "homepage": "https://github.com/samvera-labs/clover-iiif#readme",
+  "packageManager": "npm@10",
   "dependencies": {
     "@iiif/helpers": "^1.2.19",
     "@iiif/parser": "^2.1.4",
