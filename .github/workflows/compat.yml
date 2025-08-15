@@ -57,6 +57,14 @@ jobs:
           nohup npm run start -- -p 3000 >/dev/null 2>&1 &
           echo $! > .server_pid
 
+      - name: Wait for React 19 example to be ready
+        run: |
+          for i in {1..60}; do
+            if curl -sf http://localhost:3000 >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          echo "Server did not start in time" && exit 1
+
       - name: React 19 - run Playwright tests (app home)
         working-directory: playwright
         env:
@@ -86,6 +94,14 @@ jobs:
           nohup npm run start -- -p 3001 >/dev/null 2>&1 &
           echo $! > .server_pid
 
+      - name: Wait for React 18 example to be ready
+        run: |
+          for i in {1..60}; do
+            if curl -sf http://localhost:3001 >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          echo "Server did not start in time" && exit 1
+
       - name: React 18 - run Playwright tests (app home)
         working-directory: playwright
         env:
@@ -103,6 +119,14 @@ jobs:
         working-directory: playwright/html
         run: |
           python3 -m http.server 3002 >/dev/null 2>&1 & echo $! > .server_pid
+
+      - name: Wait for HTML example to be ready
+        run: |
+          for i in {1..30}; do
+            if curl -sf http://localhost:3002 >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          echo "HTML server did not start in time" && exit 1
 
       - name: Run Playwright test against HTML WC example
         working-directory: playwright
