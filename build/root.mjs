@@ -1,3 +1,4 @@
+"use client";
 import Image from "./image";
 import Primitives from "./primitives";
 import Scroll from "./scroll";

@@ -15,22 +15,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
-          cache: "pnpm"
+          node-version: 20
+          cache: "npm"
 
       - name: Install
-        run: pnpm install
+        run: npm ci --legacy-peer-deps
 
       - name: Build
-        run: pnpm run build:docs
+        run: npm run build:docs
 
       - name: Bypass Jekyll
         run: touch ./out/.nojekyll
