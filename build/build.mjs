@@ -110,6 +110,7 @@ const buildOptions = {
 
   // build web components
   await build({
+    publicDir: false,
     resolve: {
       alias: {
         react: "preact/compat",

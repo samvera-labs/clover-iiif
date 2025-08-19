@@ -31,6 +31,8 @@ function isExternal(id) {
 
 export function defineConfig(options, key) {
   return {
+    // Prevent Vite from copying ./public into each package outDir
+    publicDir: false,
     resolve: {
       alias: {
         // Ensure our bundles don’t rely on default exports from React/DOM
