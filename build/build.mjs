@@ -122,7 +122,7 @@ const buildOptions = {
       jsxInject: `import { h, Fragment as PFrag } from 'preact'`,
     },
     build: {
-      sourcemap: true,
+      sourcemap: false,
       outDir: `${DIST}/web-components`,
       lib: {
         entry: "src/web-components/index.ts",

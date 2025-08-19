@@ -46,7 +46,7 @@ export function defineConfig(options, key) {
     define: { "process.env.NODE_ENV": '"production"' },
     build: {
       outDir: `dist/${key}`,
-      sourcemap: true,
+      sourcemap: false,
       lib: { ...options.lib },
       minify: "esbuild",
       rollupOptions: {
