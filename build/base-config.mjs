@@ -61,6 +61,11 @@ export function defineConfig(options, key) {
             "react/jsx-dev-runtime": "jsxDevRuntime",
             "react-dom/client": "ReactDOMClient",
           },
+          // Rewrite external React imports to our local shim that provides a default export
+          paths: {
+            react: "./react-shim.mjs",
+            "react-dom": "./react-dom-shim.mjs",
+          },
           exports: "named",
           inlineDynamicImports: true,
         },
