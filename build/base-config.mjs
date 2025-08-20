@@ -35,10 +35,8 @@ export function defineConfig(options, key) {
     publicDir: false,
     resolve: {
       alias: {
-        // Ensure our bundles don’t rely on default exports from React/DOM
-        react: path.resolve(process.cwd(), "build/shims/react-shim.mjs"),
-        "react-dom": path.resolve(process.cwd(), "build/shims/react-dom-shim.mjs"),
-        // Ensure all references (ESM or CJS) to the JSX runtime resolve to a passthrough shim
+        // Keep JSX runtime aligned to React version; leave main react/react-dom unmapped
+        // so we can rewrite them per-format via Rollup output.paths.
         "react/jsx-runtime": path.resolve(process.cwd(), "build/shims/jsx-runtime-shim.mjs"),
         "react/jsx-dev-runtime": path.resolve(process.cwd(), "build/shims/jsx-runtime-shim.mjs"),
       },
@@ -51,24 +49,34 @@ export function defineConfig(options, key) {
       minify: "esbuild",
       rollupOptions: {
         external: isExternal,
-        output: {
-          // Ensure client components are marked explicitly for Next.js / RSC environments
-          banner: '"use client";',
-          globals: {
-            react: "React",
-            "react-dom": "ReactDOM",
-            "react/jsx-runtime": "jsxRuntime",
-            "react/jsx-dev-runtime": "jsxDevRuntime",
-            "react-dom/client": "ReactDOMClient",
+        output: [
+          {
+            // ESM output
+            format: "es",
+            entryFileNames: () => `index.mjs`,
+            banner: '"use client";',
+            // Rewrite externals to local ESM shim files
+            paths: {
+              react: "./react-shim.mjs",
+              "react-dom": "./react-dom-shim.mjs",
+            },
+            exports: "named",
+            inlineDynamicImports: true,
           },
-          // Rewrite external React imports to our local shim that provides a default export
-          paths: {
-            react: "./react-shim.mjs",
-            "react-dom": "./react-dom-shim.mjs",
+          {
+            // CJS output
+            format: "cjs",
+            entryFileNames: () => `index.cjs`,
+            banner: '"use client";',
+            // Rewrite externals to local CJS shim files
+            paths: {
+              react: "./react-shim.cjs",
+              "react-dom": "./react-dom-shim.cjs",
+            },
+            exports: "named",
+            inlineDynamicImports: true,
           },
-          exports: "named",
-          inlineDynamicImports: true,
-        },
+        ],
         treeshake: true,
       },
     },

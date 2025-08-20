@@ -5,44 +5,48 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.umd.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     },
     "./image": {
+      "types": "./dist/image/index.d.ts",
       "import": "./dist/image/index.mjs",
-      "require": "./dist/image/index.umd.js",
-      "types": "./dist/image/index.d.ts"
+      "require": "./dist/image/index.cjs"
     },
     "./primitives": {
+      "types": "./dist/primitives/index.d.ts",
       "import": "./dist/primitives/index.mjs",
-      "require": "./dist/primitives/index.umd.js",
-      "types": "./dist/primitives/index.d.ts"
+      "require": "./dist/primitives/index.cjs"
     },
     "./scroll": {
+      "types": "./dist/scroll/index.d.ts",
       "import": "./dist/scroll/index.mjs",
-      "require": "./dist/scroll/index.umd.js",
-      "types": "./dist/scroll/index.d.ts"
+      "require": "./dist/scroll/index.cjs"
     },
     "./slider": {
+      "types": "./dist/slider/index.d.ts",
       "import": "./dist/slider/index.mjs",
-      "require": "./dist/slider/index.umd.js",
-      "types": "./dist/slider/index.d.ts"
+      "require": "./dist/slider/index.cjs"
     },
     "./viewer": {
+      "types": "./dist/viewer/index.d.ts",
       "import": "./dist/viewer/index.mjs",
-      "require": "./dist/viewer/index.umd.js",
-      "types": "./dist/viewer/index.d.ts"
+      "require": "./dist/viewer/index.cjs"
     },
     "./helpers": {
+      "types": "./dist/helpers/index.d.ts",
       "import": "./dist/helpers/index.mjs",
-      "require": "./dist/helpers/index.umd.js",
-      "types": "./dist/helpers/index.d.ts"
+      "require": "./dist/helpers/index.cjs"
+    },
+    "./react-shim": {
+      "import": "./dist/react-shim.mjs",
+      "require": "./dist/react-shim.cjs"
     }
   },
   "types": "./dist/index.d.ts",
