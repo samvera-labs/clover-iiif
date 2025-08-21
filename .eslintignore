@@ -4,6 +4,7 @@
 dist
 node_modules
 out
+playwright
 public/script.js
 public/script.js.map
 public/index.html

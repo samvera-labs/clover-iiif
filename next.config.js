@@ -13,6 +13,10 @@ module.exports = (phase) => {
     images: {
       unoptimized: true,
     },
+    // Skip ESLint during the docs build; we run lint separately.
+    eslint: {
+      ignoreDuringBuilds: true,
+    },
     output: "export",
   });
 };
