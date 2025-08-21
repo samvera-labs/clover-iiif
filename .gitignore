@@ -11,6 +11,13 @@ public/script.js.map
 public/index.html
 coverage/
 html/
+# Allow Playwright HTML fixture directory
+!playwright/html/
+!playwright/html/**
+# Ignore generated UMD copy used by WC test
+playwright/html/wc.js
+test-results/
+playwright-report/
 
 # OS
 .DS_Store
@@ -25,3 +32,14 @@ dist/tsconfig.tsbuildinfo
 tmp
 .env.local
 tsconfig.tsbuildinfo
+
+# examples (sidecar apps)
+examples/**/.next
+examples/**/node_modules
+examples/**/out
+examples/**/.vercel
+examples/**/.turbo
+examples/**/dist
+examples/**/.cache
+examples/**/coverage
+examples/**/html
