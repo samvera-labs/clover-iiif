@@ -82,6 +82,19 @@ const buildOptions = {
     });
   });
 
+  // also write a CJS-friendly root entry that mirrors the UMD wrapper
+  fs.readFile(`./build/root.umd.js`, "utf8", (err, data) => {
+    if (err) throw err;
+
+    if (!fs.existsSync(DIST)) {
+      fs.mkdirSync(DIST);
+    }
+
+    fs.writeFile(`${DIST}/index.cjs`, data, (err) => {
+      if (err) throw err;
+    });
+  });
+
   // output types
   await execa("./node_modules/.bin/dts-bundle-generator", [
     `--out-file=${DIST}/index.d.ts`,
@@ -102,10 +115,23 @@ const buildOptions = {
       value.lib.entry,
       "--no-check",
     ]);
+
+    // Copy React shims alongside each subpackage output for ESM/CJS default compatibility
+    fs.copyFileSync("build/shims/react-shim.mjs", `${DIST}/${key}/react-shim.mjs`);
+    fs.copyFileSync("build/shims/react-dom-shim.mjs", `${DIST}/${key}/react-dom-shim.mjs`);
+    fs.copyFileSync("build/shims/react-shim.cjs", `${DIST}/${key}/react-shim.cjs`);
+    fs.copyFileSync("build/shims/react-dom-shim.cjs", `${DIST}/${key}/react-dom-shim.cjs`);
   }
+
+  // Copy react shims to the root dist for top-level entry usage
+  fs.copyFileSync("build/shims/react-shim.mjs", `${DIST}/react-shim.mjs`);
+  fs.copyFileSync("build/shims/react-dom-shim.mjs", `${DIST}/react-dom-shim.mjs`);
+  fs.copyFileSync("build/shims/react-shim.cjs", `${DIST}/react-shim.cjs`);
+  fs.copyFileSync("build/shims/react-dom-shim.cjs", `${DIST}/react-dom-shim.cjs`);
 
   // build web components
   await build({
+    publicDir: false,
     resolve: {
       alias: {
         react: "preact/compat",
@@ -117,7 +143,7 @@ const buildOptions = {
       jsxInject: `import { h, Fragment as PFrag } from 'preact'`,
     },
     build: {
-      sourcemap: true,
+      sourcemap: false,
       outDir: `${DIST}/web-components`,
       lib: {
         entry: "src/web-components/index.ts",

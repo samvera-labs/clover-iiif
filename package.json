@@ -1,47 +1,52 @@
 {
   "name": "@samvera/clover-iiif",
-  "version": "2.19.2",
+  "version": "2.19.7-canary.0",
   "description": "Extensible IIIF front-end toolkit and Manifest viewer. Accessible. Composable. Open Source.",
   "files": [
     "dist"
   ],
-  "main": "./dist/index.umd.js",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "exports": {
+    "./package.json": "./package.json",
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.umd.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.cjs"
     },
     "./image": {
+      "types": "./dist/image/index.d.ts",
       "import": "./dist/image/index.mjs",
-      "require": "./dist/image/index.umd.js",
-      "types": "./dist/image/index.d.ts"
+      "require": "./dist/image/index.cjs"
     },
     "./primitives": {
+      "types": "./dist/primitives/index.d.ts",
       "import": "./dist/primitives/index.mjs",
-      "require": "./dist/primitives/index.umd.js",
-      "types": "./dist/primitives/index.d.ts"
+      "require": "./dist/primitives/index.cjs"
     },
     "./scroll": {
+      "types": "./dist/scroll/index.d.ts",
       "import": "./dist/scroll/index.mjs",
-      "require": "./dist/scroll/index.umd.js",
-      "types": "./dist/scroll/index.d.ts"
+      "require": "./dist/scroll/index.cjs"
     },
     "./slider": {
+      "types": "./dist/slider/index.d.ts",
       "import": "./dist/slider/index.mjs",
-      "require": "./dist/slider/index.umd.js",
-      "types": "./dist/slider/index.d.ts"
+      "require": "./dist/slider/index.cjs"
     },
     "./viewer": {
+      "types": "./dist/viewer/index.d.ts",
       "import": "./dist/viewer/index.mjs",
-      "require": "./dist/viewer/index.umd.js",
-      "types": "./dist/viewer/index.d.ts"
+      "require": "./dist/viewer/index.cjs"
     },
     "./helpers": {
+      "types": "./dist/helpers/index.d.ts",
       "import": "./dist/helpers/index.mjs",
-      "require": "./dist/helpers/index.umd.js",
-      "types": "./dist/helpers/index.d.ts"
+      "require": "./dist/helpers/index.cjs"
+    },
+    "./react-shim": {
+      "import": "./dist/react-shim.mjs",
+      "require": "./dist/react-shim.cjs"
     }
   },
   "types": "./dist/index.d.ts",
@@ -58,6 +63,10 @@
     "prettier:fix": "prettier --write .",
     "start": "next start",
     "test": "vitest",
+    "test:ci": "vitest run",
+    "e2e": "playwright test --config=playwright/playwright.config.ts",
+    "e2e:install": "playwright install --with-deps",
+    "e2e:html": "BASE_URL=http://localhost:3002 WEB_SERVER_CMD=\"python3 -m http.server 3002 --directory playwright/html\" playwright test e2e/wc.spec.ts --config=playwright/playwright.config.ts",
     "typecheck": "tsc --incremental --noEmit",
     "prepare": "husky install"
   },
@@ -71,6 +80,10 @@
     "url": "https://github.com/samvera-labs/clover-iiif/issues"
   },
   "homepage": "https://github.com/samvera-labs/clover-iiif#readme",
+  "packageManager": "npm@10",
+  "engines": {
+    "node": ">=20.10.0"
+  },
   "dependencies": {
     "@iiif/helpers": "^1.2.19",
     "@iiif/parser": "^2.1.4",
@@ -102,18 +115,18 @@
     "@iiif/presentation-3": "^1.1.3",
     "@napi-rs/simple-git": "^0.1.19",
     "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
     "@types/flexsearch": "^0.7.6",
     "@types/node": "20.11.16",
     "@types/openseadragon": "^3.0.10",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
     "@types/sanitize-html": "^2.13.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@vitejs/plugin-react": "^4.3.3",
-    "@vitest/coverage-v8": "^2.1.5",
-    "@vitest/ui": "^2.1.5",
+    "@vitest/coverage-v8": "2.1.5",
+    "@vitest/ui": "2.1.5",
+    "@playwright/test": "^1.54.2",
     "cross-fetch": "^4.0.0",
     "dts-bundle-generator": "8.0.1",
     "eslint-config-next": "14.1.0",
@@ -127,6 +140,8 @@
     "nextra-theme-docs": "^2.13.4",
     "preact": "^10.24.3",
     "prettier": "^3.3.3",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "rimraf": "^6.0.1",
@@ -134,11 +149,36 @@
     "typescript": "^5.6.3",
     "vite": "^5.4.11",
     "vite-tsconfig-paths": "^4.3.2",
-    "vitest": "^2.1.5"
+    "vitest": "2.1.5"
   },
   "peerDependencies": {
-    "react": ">=18.2.0 <20",
-    "react-dom": ">=18.2.0 <20",
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0",
     "swiper": "^9.0.0"
+  },
+  "typesVersions": {
+    "*": {
+      "viewer": [
+        "dist/viewer/index.d.ts"
+      ],
+      "image": [
+        "dist/image/index.d.ts"
+      ],
+      "primitives": [
+        "dist/primitives/index.d.ts"
+      ],
+      "scroll": [
+        "dist/scroll/index.d.ts"
+      ],
+      "slider": [
+        "dist/slider/index.d.ts"
+      ],
+      "helpers": [
+        "dist/helpers/index.d.ts"
+      ],
+      "*": [
+        "dist/index.d.ts"
+      ]
+    }
   }
 }
