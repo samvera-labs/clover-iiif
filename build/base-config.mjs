@@ -1,6 +1,6 @@
 import tsconfigPaths from "vite-tsconfig-paths";
 import path from "node:path";
-import pkg from "../package.json" assert { type: "json" };
+import pkg from "../package.json" with { type: "json" };
 
 // Only externalize peer dependencies by default. Runtime deps remain bundled
 // to avoid forcing consumers to install transitive packages explicitly.

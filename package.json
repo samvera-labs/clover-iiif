@@ -64,7 +64,7 @@
     "start": "next start",
     "test": "vitest",
     "test:ci": "vitest run",
-    "e2e": "playwright test",
+    "e2e": "playwright test --config=playwright/playwright.config.ts",
     "e2e:install": "playwright install --with-deps",
     "e2e:html": "BASE_URL=http://localhost:3002 WEB_SERVER_CMD=\"python3 -m http.server 3002 --directory playwright/html\" playwright test e2e/wc.spec.ts --config=playwright/playwright.config.ts",
     "typecheck": "tsc --incremental --noEmit",
