@@ -1,6 +1,7 @@
 import {
   AnnotationNormalized,
   CollectionNormalized,
+  IIIFExternalWebResource,
   InternationalString,
   Reference,
 } from "@iiif/presentation-3";
@@ -11,6 +12,7 @@ import { IncomingHttpHeaders } from "http";
 import { Vault } from "@iiif/helpers/vault";
 import { deepMerge } from "src/lib/utils";
 import { v4 as uuidv4 } from "uuid";
+import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 
 export type AutoScrollSettings = {
   behavior: string; // ScrollBehavior ("auto" | "instant" | "smooth")
@@ -24,6 +26,7 @@ export type AutoScrollOptions = {
 
 export type ViewerConfigOptions = {
   annotationOverlays?: OverlayOptions;
+  annotationResources: AnnotationResources;
   background?: string;
   canvasBackgroundColor?: string;
   canvasHeight?: string;
@@ -89,6 +92,7 @@ const defaultConfigOptions: ViewerConfigOptions = {
     renderOverlays: true,
     zoomLevel: 2,
   },
+  annotationResources: [],
   background: "transparent",
   canvasBackgroundColor: "#6662",
   canvasHeight: "500px",
@@ -158,18 +162,23 @@ export interface ViewerContextStore {
   activeManifest: string;
   activePlayer: HTMLVideoElement | HTMLAudioElement | null;
   activeSelector?: string;
+  annotationResources: AnnotationResources;
   OSDImageLoaded?: boolean;
   collection?: CollectionNormalized | Record<string, never>;
   contentStateAnnotation?: AnnotationNormalized;
+  contentSearchResource?: AnnotationResource;
   configOptions: ViewerConfigOptions;
   customDisplays: Array<CustomDisplay>;
+  painting?: Array<IIIFExternalWebResource>;
   plugins: Array<PluginConfig>;
   informationPanelResource?: string;
+  isAudioVideo: boolean;
   isAutoScrollEnabled?: boolean;
   isAutoScrolling?: boolean;
   isInformationOpen: boolean;
   isLoaded: boolean;
   isUserScrolling?: number | undefined;
+  searchServiceUrl?: string;
   sequence: [Reference<"Canvas">[], number[][]];
   vault: Vault;
   openSeadragonViewer: OpenSeadragon.Viewer | null;
@@ -201,6 +210,22 @@ export interface ViewerAction {
   viewerId: string;
   visibleCanvases: Array<Reference<"Canvas">>;
 }
+
+export const setIsAudioVideo = (mediaType: boolean) =>
+  (defaultState.isAudioVideo = mediaType);
+
+export const setContentSearchResource = (
+  annotationResource: AnnotationResource,
+) => (defaultState.contentSearchResource = annotationResource);
+
+export const setSearchServiceUrl = (url: string) =>
+  (defaultState.searchServiceUrl = url);
+
+export const setAnnotationResources = (resources: AnnotationResources) =>
+  (defaultState.annotationResources = resources);
+
+export const setPainting = (painting: IIIFExternalWebResource[]) =>
+  (defaultState.painting = painting);
 
 export function expandAutoScrollOptions(
   value: AutoScrollOptions | AutoScrollSettings | boolean | undefined,
@@ -270,11 +295,13 @@ export const defaultState: ViewerContextStore = {
   activeManifest: "",
   activePlayer: null,
   activeSelector: undefined,
+  annotationResources: [],
   OSDImageLoaded: false,
   collection: {},
   configOptions: defaultConfigOptions,
   customDisplays: [],
   plugins: [],
+  isAudioVideo: false,
   isAutoScrollEnabled: expandedAutoScrollOptions.enabled,
   isAutoScrolling: false,
   // Respect explicit false; default to true only when undefined
@@ -282,6 +309,7 @@ export const defaultState: ViewerContextStore = {
   isLoaded: false,
   isUserScrolling: undefined,
   sequence: [[], []],
+  searchServiceUrl: undefined,
   vault: new Vault(),
   openSeadragonViewer: null,
   viewerId: uuidv4(),
