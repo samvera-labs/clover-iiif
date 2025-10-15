@@ -114,42 +114,41 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     });
   };
 
-  useEffect(() => {
-    /**
-     * If a default tab is set, set the active tab to that value
-     */
-    if (
-      [
-        "manifest-about",
-        "manifest-annotations",
-        "manifest-content-search",
-      ].includes(String(informationPanel?.defaultTab))
-    ) {
-      dispatch({
-        type: "updateInformationPanelResource",
-        informationPanelResource: informationPanel?.defaultTab,
-      });
-    } else if (hasContentStateAnnotation) {
-      dispatch({
-        type: "updateInformationPanelResource",
-        informationPanelResource: "manifest-annotations",
-      });
-    } else {
-      dispatch({
-        type: "updateInformationPanelResource",
-        informationPanelResource: "manifest-about",
-      });
-    }
-  }, []);
+	useEffect(() => {
+		const availableTabs: string[] = [];
+		if (renderAbout) availableTabs.push("manifest-about");
+		if (renderAnnotation && annotationResources && annotationResources.length > 0) availableTabs.push("manifest-annotations");
+		if (renderContentSearch && contentSearchResource) availableTabs.push("manifest-content-search");
+		if (pluginsWithInfoPanel && pluginsWithInfoPanel.length > 0) {
+			availableTabs.push(...pluginsWithInfoPanel.map(p => p.id));
+		}
 
-  useEffect(() => {
-    if (!hasAnnotations) {
-      dispatch({
-        type: "updateInformationPanelResource",
-        informationPanelResource: "manifest-about",
-      });
-    }
-  }, [hasAnnotations]);
+		if (informationPanel?.defaultTab && availableTabs.includes(String(informationPanel.defaultTab))) {
+			dispatch({
+				type: "updateInformationPanelResource",
+				informationPanelResource: informationPanel.defaultTab,
+			});
+		} else if (availableTabs.length > 0) {
+			// Otherwise, use the first available tab
+			dispatch({
+				type: "updateInformationPanelResource",
+				informationPanelResource: availableTabs[0],
+			});
+		} else {
+			// If no tabs are available, just default to 'about' - perhaps this should be different?
+			dispatch({
+				type: "updateInformationPanelResource",
+				informationPanelResource: "manifest-about",
+			});
+		}
+	}, [
+		renderAbout,
+		renderAnnotation,
+		annotationResources,
+		renderContentSearch,
+		contentSearchResource,
+		informationPanel?.defaultTab,
+	]);
 
   function handleScroll() {
     if (!isAutoScrolling) {

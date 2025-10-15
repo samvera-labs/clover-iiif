@@ -16,6 +16,8 @@ import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React from "react";
 import { useViewerState } from "src/context/viewer-context";
+
+import { hasAnyPanel } from "src/lib/information-panel-helpers";
 import { setupPlugins } from "src/lib/plugin-helpers";
 
 export interface ViewerContentProps {
@@ -42,40 +44,26 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   painting,
 }) => {
   const {
-    contentStateAnnotation,
     isInformationOpen,
     configOptions,
     sequence,
-    visibleCanvases,
     plugins,
   } = useViewerState();
   const { informationPanel } = configOptions;
 
-  /**
-   * The information panel should be rendered if toggled true and if
-   * there is content (About or Annotations Resources) to display.
-   */
-  const visibleCanvasesIds = visibleCanvases.map((canvas) => canvas.id);
+  const { pluginsWithInfoPanel } = setupPlugins(plugins);
 
-  const hasAnnotations =
-    annotationResources.length > 0 ||
-    // @ts-ignore
-    visibleCanvasesIds.includes(contentStateAnnotation?.target?.source?.id);
-
-  // Only force the aside open for annotations when no toggle is rendered.
-  // If a toggle is visible, it must control open/close behavior.
-  const isForcedAside =
-    hasAnnotations &&
-    informationPanel?.renderAnnotation &&
-    informationPanel?.renderToggle === false &&
-    isInformationOpen;
-
-  const isAside =
-    (informationPanel?.renderAbout && isInformationOpen) || isForcedAside;
+  const hasPanel = hasAnyPanel({
+    renderAbout: informationPanel?.renderAbout,
+    renderAnnotation: informationPanel?.renderAnnotation,
+    annotationResources,
+    renderContentSearch: informationPanel?.renderContentSearch,
+    contentSearchResource,
+    pluginsWithInfoPanel,
+  });
 
   const renderToggle = informationPanel?.renderToggle;
-
-  const { pluginsWithInfoPanel } = setupPlugins(plugins);
+  const isAside = hasPanel && isInformationOpen;
 
   return (
     <Content
