@@ -23,7 +23,6 @@ import {
   CanvasNormalized,
 } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
-import { setupPlugins } from "src/lib/plugin-helpers";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 
 import { ErrorBoundary } from "react-error-boundary";
@@ -40,6 +39,7 @@ interface NavigatorProps {
     React.SetStateAction<AnnotationPageNormalized | undefined>
   >;
   contentSearchResource?: AnnotationResource;
+	pluginsWithInfoPanel?: PluginConfig[];
 }
 
 export const InformationPanel: React.FC<NavigatorProps> = ({
@@ -48,6 +48,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   searchServiceUrl,
   setContentSearchResource,
   contentSearchResource,
+	pluginsWithInfoPanel,
 }) => {
   const { t } = useTranslation();
   const dispatch: any = useViewerDispatch();
@@ -59,7 +60,6 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     isUserScrolling,
     vault,
     configOptions,
-    plugins,
   } = viewerState;
   const { informationPanel } = configOptions;
 
@@ -81,8 +81,6 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     contentStateAnnotationSource.id === activeCanvas;
   const hasAnnotations =
     Boolean(annotationResources?.length) || hasContentStateAnnotation;
-
-  const { pluginsWithInfoPanel } = setupPlugins(plugins);
 
   function renderPluginInformationPanel(plugin: PluginConfig, i: number) {
     const PluginInformationPanelComponent = plugin?.informationPanel

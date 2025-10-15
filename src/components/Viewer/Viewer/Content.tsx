@@ -16,6 +16,7 @@ import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React from "react";
 import { useViewerState } from "src/context/viewer-context";
+import { setupPlugins } from "src/lib/plugin-helpers";
 
 export interface ViewerContentProps {
   activeCanvas: string;
@@ -46,6 +47,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     configOptions,
     sequence,
     visibleCanvases,
+    plugins,
   } = useViewerState();
   const { informationPanel } = configOptions;
 
@@ -72,6 +74,8 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     (informationPanel?.renderAbout && isInformationOpen) || isForcedAside;
 
   const renderToggle = informationPanel?.renderToggle;
+
+  const { pluginsWithInfoPanel } = setupPlugins(plugins);
 
   return (
     <Content
@@ -101,6 +105,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
             searchServiceUrl={searchServiceUrl}
             setContentSearchResource={setContentSearchResource}
             contentSearchResource={contentSearchResource}
+						pluginsWithInfoPanel={pluginsWithInfoPanel}
           />
         </Aside>
       )}
