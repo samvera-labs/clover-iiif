@@ -29,6 +29,8 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useTranslation } from "react-i18next";
 import ContentStateAnnotationPage from "./ContentState/Page";
 
+import { getAvailableTabs } from "src/lib/information-panel-helpers";
+
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
 
 interface NavigatorProps {
@@ -115,13 +117,14 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   };
 
 	useEffect(() => {
-		const availableTabs: string[] = [];
-		if (renderAbout) availableTabs.push("manifest-about");
-		if (renderAnnotation && annotationResources && annotationResources.length > 0) availableTabs.push("manifest-annotations");
-		if (renderContentSearch && contentSearchResource) availableTabs.push("manifest-content-search");
-		if (pluginsWithInfoPanel && pluginsWithInfoPanel.length > 0) {
-			availableTabs.push(...pluginsWithInfoPanel.map(p => p.id));
-		}
+		const availableTabs = getAvailableTabs({
+			renderAbout,
+			renderAnnotation,
+			annotationResources,
+			renderContentSearch,
+			contentSearchResource,
+			pluginsWithInfoPanel,
+		});
 
 		if (informationPanel?.defaultTab && availableTabs.includes(String(informationPanel.defaultTab))) {
 			dispatch({
