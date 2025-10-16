@@ -15,6 +15,7 @@ export interface CloverScrollProps {
 
 const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
   const [manifest, setManifest] = useState<ManifestNormalized>();
+  const [hasDefinedLanguages, setHasDefinedLanguages] = useState(false);
 
   const { state, dispatch } = useContext(ScrollContext);
   const { options, vault } = state;
@@ -33,10 +34,12 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
   }, [iiifContent]);
 
   useEffect(() => {
-    const activeLanguages =
-      options?.language?.defaultLanguages || extractLanguages(annotations);
+    const extractedLanguages = extractLanguages(annotations);
+    const activeLanguages = !extractedLanguages.length
+      ? []
+      : options?.language?.defaultLanguages || extractedLanguages;
 
-    console.log(annotations);
+    setHasDefinedLanguages(Boolean(extractedLanguages.length));
 
     dispatch({
       type: "updateAnnotations",
@@ -54,7 +57,10 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
     <StyledScrollWrapper>
       {manifest && (
         <>
-          <ScrollHeader label={manifest?.label} />
+          <ScrollHeader
+            label={manifest?.label}
+            hasDefinedLanguages={hasDefinedLanguages}
+          />
           <ScrollItems items={manifest.items} />
         </>
       )}

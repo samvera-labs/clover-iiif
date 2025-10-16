@@ -88,7 +88,9 @@ const ScrollAnnotationBody = ({
   return (
     <TextualBody
       dangerouslySetInnerHTML={{ __html: innerHtml }}
-      data-active-language={activeLanguages?.includes(lang)}
+      data-active-language={
+        !activeLanguages?.length || activeLanguages?.includes(lang)
+      }
       data-body-id={id}
       data-testid="scroll-item-body"
       style={{ "--num-items": numItems } as React.CSSProperties}

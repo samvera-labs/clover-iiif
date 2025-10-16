@@ -8,9 +8,13 @@ import { StyledScrollHeader } from "src/components/Scroll/Layout/Layout.styled";
 
 interface ScrollHeaderProps {
   label: InternationalString | string | null;
+  hasDefinedLanguages: boolean;
 }
 
-const ScrollHeader: React.FC<ScrollHeaderProps> = ({ label }) => {
+const ScrollHeader: React.FC<ScrollHeaderProps> = ({
+  label,
+  hasDefinedLanguages,
+}) => {
   const { state } = useContext(ScrollContext);
   const { options } = state;
   const { offset } = options;
@@ -70,7 +74,11 @@ const ScrollHeader: React.FC<ScrollHeaderProps> = ({ label }) => {
         className="clover-scroll-header-label"
       />
       <div>
-        <ScrollPanel width={headerWidth} isFixed={isFixed} />
+        <ScrollPanel
+          width={headerWidth}
+          isFixed={isFixed}
+          hasDefinedLanguages={hasDefinedLanguages}
+        />
       </div>
     </StyledScrollHeader>
   );

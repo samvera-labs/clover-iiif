@@ -10,7 +10,7 @@ import ScrollSearchResults from "src/components/Scroll/Panel/Search/Search";
 import SearchForm from "src/components/Scroll/Panel/Search/Form";
 import { StyledPanel } from "src/components/Scroll/Panel/Panel.styled";
 
-const ScrollPanel = ({ width, isFixed }) => {
+const ScrollPanel = ({ width, isFixed, hasDefinedLanguages }) => {
   const scrollAsideRef = useRef<HTMLDivElement>(null);
   const [isPanelExpanded, setPanelExpanded] = React.useState(false);
 
@@ -52,7 +52,9 @@ const ScrollPanel = ({ width, isFixed }) => {
         ...fixedStyles,
       }}
     >
-      {!isPanelExpanded && languageEnabled && <ScrollLanguage />}
+      {!isPanelExpanded && languageEnabled && hasDefinedLanguages && (
+        <ScrollLanguage />
+      )}
       <StyledScrollSearch>
         <SearchForm
           togglePanel={handlePanel}
