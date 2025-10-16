@@ -18,7 +18,7 @@ const config: DocsThemeConfig = {
 
   banner: {
     // tada icon and react 19 support notification
-    text: "🎉 React 19 support is here! Clover IIIF v3.0.0 will can work with the latest React frameworks.",
+    text: "🎉 React 19 support is here! Clover IIIF v3.0.0 works with the latest React frameworks.",
     dismissible: true,
   },
   footer: {
