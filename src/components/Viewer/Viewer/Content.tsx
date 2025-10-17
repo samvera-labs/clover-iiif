@@ -1,24 +1,25 @@
+import React from "react";
 import {
   AnnotationPageNormalized,
   Canvas,
   IIIFExternalWebResource,
 } from "@iiif/presentation-3";
-import { AnnotationResource, AnnotationResources } from "src/types/annotations";
+
+import { useViewerState } from "src/context/viewer-context";
+import { hasAnyPanel } from "src/lib/information-panel-helpers";
+import { setupPlugins } from "src/lib/plugin-helpers";
+
 import {
   Aside,
   Content,
   Main,
   MediaWrapper,
-} from "src/components/Viewer/Viewer/Viewer.styled";
-
-import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
-import Media from "src/components/Viewer/Media/Media";
+} from "../Viewer/Viewer.styled";
+import InformationPanel from "../InformationPanel/InformationPanel";
 import Painting from "../Painting/Painting";
-import React from "react";
-import { useViewerState } from "src/context/viewer-context";
+import Media from "../Media/Media";
 
-import { hasAnyPanel } from "src/lib/information-panel-helpers";
-import { setupPlugins } from "src/lib/plugin-helpers";
+import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 
 export interface ViewerContentProps {
   activeCanvas: string;
