@@ -118,10 +118,8 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
 	useEffect(() => {
 		const availableTabs = getAvailableTabs({
-			renderAbout,
-			renderAnnotation,
+			informationPanel,
 			annotationResources,
-			renderContentSearch,
 			contentSearchResource,
 			pluginsWithInfoPanel,
 		});

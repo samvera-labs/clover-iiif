@@ -1,31 +1,27 @@
 export function hasAnyPanel({
-	renderAbout,
-	renderAnnotation,
-	renderContentSearch,
-	pluginsWithInfoPanel,
+	informationPanel,
 	annotationResources,
 	contentSearchResource,
+	pluginsWithInfoPanel
 }) {
 	return (
-		!!renderAbout ||
-		(renderAnnotation && annotationResources && annotationResources.length > 0) ||
-		(renderContentSearch && !!contentSearchResource) ||
+		!!informationPanel?.renderAbout ||
+		(informationPanel?.renderAnnotation && annotationResources && annotationResources.length > 0) ||
+		(informationPanel?.renderContentSearch && !!contentSearchResource) ||
 		(pluginsWithInfoPanel && pluginsWithInfoPanel.length > 0)
 	);
 }
 
 export function getAvailableTabs({
-	renderAbout,
-	renderAnnotation,
-	renderContentSearch,
-	pluginsWithInfoPanel,
+	informationPanel,
 	annotationResources,
 	contentSearchResource,
+	pluginsWithInfoPanel,
 }) {
 	const tabs: string[] = [];
-	if (renderAbout) tabs.push("manifest-about");
-	if (renderAnnotation && annotationResources && annotationResources.length > 0) tabs.push("manifest-annotations");
-	if (renderContentSearch && !!contentSearchResource) tabs.push("manifest-content-search");
+	if (informationPanel?.renderAbout) tabs.push("manifest-about");
+	if (informationPanel?.renderAnnotation && annotationResources && annotationResources.length > 0) tabs.push("manifest-annotations");
+	if (informationPanel?.renderContentSearch && !!contentSearchResource) tabs.push("manifest-content-search");
 	if (pluginsWithInfoPanel && pluginsWithInfoPanel.length > 0) {
 		tabs.push(...pluginsWithInfoPanel.map((p) => String(p.id)));
 	}

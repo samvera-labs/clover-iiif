@@ -54,10 +54,8 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   const { pluginsWithInfoPanel } = setupPlugins(plugins);
 
   const hasPanel = hasAnyPanel({
-    renderAbout: informationPanel?.renderAbout,
-    renderAnnotation: informationPanel?.renderAnnotation,
+		informationPanel: informationPanel,
     annotationResources,
-    renderContentSearch: informationPanel?.renderContentSearch,
     contentSearchResource,
     pluginsWithInfoPanel,
   });
