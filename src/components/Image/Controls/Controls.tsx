@@ -9,6 +9,7 @@ import { CanvasNormalized } from "@iiif/presentation-3";
 import { Options } from "openseadragon";
 import React, { useEffect } from "react";
 import { Wrapper } from "src/components/Image/Controls/Controls.styled";
+import { useTranslation } from "react-i18next";
 
 const ZoomIn = () => {
   return (
@@ -73,6 +74,7 @@ const Controls = ({
   _cloverViewerHasPlaceholder: boolean;
   config: Options;
 }) => {
+  const { t } = useTranslation();
   const viewerState: ViewerContextStore = useViewerState();
   const { activeCanvas, plugins, vault, openSeadragonViewer } = viewerState;
 
@@ -116,31 +118,40 @@ const Controls = ({
     >
       {config.showZoomControl && (
         <>
-          <Button id={config.zoomInButton as string} label="zoom in">
+          <Button id={config.zoomInButton as string} label={t("imageZoomIn")}>
             <ZoomIn />
           </Button>
-          <Button id={config.zoomOutButton as string} label="zoom out">
+          <Button id={config.zoomOutButton as string} label={t("imageZoomOut")}>
             <ZoomOut />
           </Button>
         </>
       )}
       {config.showFullPageControl && (
-        <Button id={config.fullPageButton as string} label="full page">
+        <Button
+          id={config.fullPageButton as string}
+          label={t("imageFullScreen")}
+        >
           <ZoomFullScreen />
         </Button>
       )}
       {config.showRotationControl && (
         <>
-          <Button id={config.rotateRightButton as string} label="rotate right">
+          <Button
+            id={config.rotateRightButton as string}
+            label={t("imageRotateRight")}
+          >
             <Rotate />
           </Button>
-          <Button id={config.rotateLeftButton as string} label="rotate left">
+          <Button
+            id={config.rotateLeftButton as string}
+            label={t("imageRotateLeft")}
+          >
             <Rotate />
           </Button>
         </>
       )}
       {config.showHomeControl && (
-        <Button id={config.homeButton as string} label="reset">
+        <Button id={config.homeButton as string} label={t("imageResetZoom")}>
           <Reset />
         </Button>
       )}
