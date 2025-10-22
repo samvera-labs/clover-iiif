@@ -68,44 +68,8 @@ describe("ViewerContent", () => {
   });
 });
 
-describe("ViewerContent with no Annotation Resources", () => {
-  test("renders InformationPanel by default", () => {
-    render(
-      <ViewerProvider
-        initialState={{
-          ...defaultState,
-        }}
-      >
-        <ViewerContent {...props} />
-      </ViewerProvider>,
-    );
-    expect(screen.getByTestId("mock-information-panel"));
-  });
-
-  test("does not render InformationPanel or Toggle when configured not to display it", () => {
-    render(
-      <ViewerProvider
-        initialState={{
-          ...defaultState,
-          isInformationOpen: false,
-          configOptions: {
-            informationPanel: {
-              open: false,
-              renderAbout: false,
-              renderToggle: false,
-            },
-          },
-        }}
-      >
-        <ViewerContent {...props} />
-      </ViewerProvider>,
-    );
-    expect(screen.queryByTestId("mock-information-panel")).toBeNull();
-  });
-});
-
-describe("ViewerContent with Annotation Resources", () => {
-  test("renders Annotations in InformationPanel even if initial default configuration turns off InformationPanel", () => {
+describe("ViewerContent InformationPanel visibility", () => {
+  test("does not render InformationPanel when no tabs are configured", () => {
     render(
       <ViewerProvider
         initialState={{
@@ -113,29 +77,7 @@ describe("ViewerContent with Annotation Resources", () => {
           isInformationOpen: true,
           configOptions: {
             informationPanel: {
-              open: false,
               renderAbout: false,
-              renderToggle: false,
-            },
-          },
-        }}
-      >
-        <ViewerContent {...props} />
-      </ViewerProvider>,
-    );
-    expect(screen.queryByTestId("mock-information-panel")).toBeNull();
-  });
-
-  test("renders the InformationPanel as closed when configured to do so", () => {
-    render(
-      <ViewerProvider
-        initialState={{
-          ...defaultState,
-          isInformationOpen: false,
-          configOptions: {
-            informationPanel: {
-              open: false,
-              renderAbout: true,
               renderToggle: true,
             },
           },
@@ -146,15 +88,8 @@ describe("ViewerContent with Annotation Resources", () => {
     );
     expect(screen.queryByTestId("mock-information-panel")).toBeNull();
   });
-});
 
-describe("ViewerContent with Annotation Resources", () => {
-  const propsWithAnnotationResources = {
-    ...props,
-    annotationResources,
-  };
-
-  test("renders InformationPanel even if initial default configuration turns off InformationPanel", async () => {
+  test("renders InformationPanel when About tab is enabled and panel is open", () => {
     render(
       <ViewerProvider
         initialState={{
@@ -162,10 +97,29 @@ describe("ViewerContent with Annotation Resources", () => {
           isInformationOpen: true,
           configOptions: {
             informationPanel: {
-              ...defaultState.configOptions.informationPanel,
-              open: false,
+              renderAbout: true,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...props} />
+      </ViewerProvider>,
+    );
+    expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
+  });
+
+  test("renders InformationPanel when Annotation tab is enabled and annotation resources exist and panel is open", () => {
+    const propsWithAnnotationResources = { ...props, annotationResources };
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: true,
+          configOptions: {
+            informationPanel: {
               renderAbout: false,
-              renderToggle: false,
+              renderAnnotation: true,
+              renderToggle: true,
             },
           },
         }}
@@ -173,12 +127,66 @@ describe("ViewerContent with Annotation Resources", () => {
         <ViewerContent {...propsWithAnnotationResources} />
       </ViewerProvider>,
     );
-    expect(
-      await screen.findByTestId("mock-information-panel"),
-    ).toBeInTheDocument();
+    expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
   });
 
-  test("does not render the Information Panel when toggle state is off", () => {
+  test("renders InformationPanel when Content Search tab is enabled and resource exists and panel is open", () => {
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: true,
+          configOptions: {
+            informationPanel: {
+              renderAbout: false,
+              renderAnnotation: false,
+              renderContentSearch: true,
+              renderToggle: true,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...props} contentSearchResource={annotationResources[0]} />
+      </ViewerProvider>,
+    );
+    expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
+  });
+
+test("renders InformationPanel when there is a tabbed plugin enabled", () => {
+  const pluginWithPanel = [
+    {
+      id: "DemoPlugin",
+      informationPanel: {
+        label: { en: ["Demo Panel"] },
+        component: () => <div>Demo Plugin Panel</div>,
+      },
+    },
+  ];
+
+  render(
+    <ViewerProvider
+      initialState={{
+        ...defaultState,
+        isInformationOpen: true,
+        plugins: pluginWithPanel,
+        configOptions: {
+          informationPanel: {
+            renderAbout: false,
+            renderAnnotation: false,
+            renderContentSearch: false,
+            renderToggle: true,
+          },
+        },
+      }}
+    >
+      <ViewerContent {...props} />
+    </ViewerProvider>
+  );
+
+  expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
+});
+
+  test("does not render InformationPanel if panel is closed, even if tabs are present", () => {
     render(
       <ViewerProvider
         initialState={{
@@ -186,39 +194,13 @@ describe("ViewerContent with Annotation Resources", () => {
           isInformationOpen: false,
           configOptions: {
             informationPanel: {
-              ...defaultState.configOptions.informationPanel,
-              renderAnnotation: false,
-              open: false,
-              renderAbout: false,
-              renderToggle: false,
+              renderAbout: true,
+              renderToggle: true,
             },
           },
         }}
       >
-        <ViewerContent {...propsWithAnnotationResources} />
-      </ViewerProvider>,
-    );
-    expect(screen.queryByTestId("mock-information-panel")).toBeNull();
-  });
-
-  test("does not render the Information Panel if configured to hide Information Pane and hide annotations", () => {
-    render(
-      <ViewerProvider
-        initialState={{
-          ...defaultState,
-          isInformationOpen: true,
-          configOptions: {
-            informationPanel: {
-              ...defaultState.configOptions.informationPanel,
-              renderAnnotation: false,
-              open: false,
-              renderAbout: false,
-              renderToggle: false,
-            },
-          },
-        }}
-      >
-        <ViewerContent {...propsWithAnnotationResources} />
+        <ViewerContent {...props} />
       </ViewerProvider>,
     );
     expect(screen.queryByTestId("mock-information-panel")).toBeNull();
