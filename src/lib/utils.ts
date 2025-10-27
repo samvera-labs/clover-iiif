@@ -36,6 +36,10 @@ export const deepMerge = (target, source) => {
   }
 
   for (const key in source) {
+    if (!source.hasOwnProperty(key)) { continue; }
+    if (key === "__proto__" || key === "constructor" || key === "prototype") {
+      continue;
+    }
     if (
       typeof source[key] === "object" &&
       source[key] !== null &&
