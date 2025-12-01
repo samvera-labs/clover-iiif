@@ -10,7 +10,7 @@ import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 import Collection from "src/components/Viewer/Collection/Collection";
 import CopyText from "src/components/Viewer/CopyText";
 import IIIFBadge from "src/components/Viewer/Viewer/IIIFBadge";
-import { InternationalString } from "@iiif/presentation-3";
+import { InternationalString, ManifestNormalized } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
 import { Popover } from "src/components/UI";
 import React from "react";
@@ -18,14 +18,13 @@ import Toggle from "./Toggle";
 import ViewerDownload from "./Download";
 import { useTranslation } from "react-i18next";
 
-interface Props {
-  manifestId: string;
-  manifestLabel: InternationalString;
-}
-
-const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
+const ViewerHeader: React.FC = () => {
   const viewerState: ViewerContextStore = useViewerState();
-  const { collection, configOptions } = viewerState;
+  const { collection, configOptions, activeManifest, vault } = viewerState;
+
+  const manifest: ManifestNormalized = vault.get(activeManifest),
+    manifestLabel = (manifest.label ?? "") as InternationalString,
+    manifestId = manifest.id;
 
   const { informationPanel, showDownload, showIIIFBadge, showTitle } =
     configOptions;
