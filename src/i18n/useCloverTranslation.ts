@@ -11,7 +11,7 @@ function getFallbackValue(key: string) {
 }
 
 export function useCloverTranslation(namespace = CLOVER_I18N_NAMESPACE) {
-  const translation = useTranslation(namespace);
+  const translation = useTranslation(namespace as any);
   const { t } = translation;
 
   const safeTranslate = useCallback(
