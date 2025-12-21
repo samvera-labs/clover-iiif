@@ -21,7 +21,7 @@ import Thumbnail from "src/components/Viewer/Media/Thumbnail";
 import { getCanvasByCriteria } from "src/hooks/use-iiif";
 import { getLabelAsString } from "src/lib/label-helpers";
 import { getResourceType } from "src/hooks/use-iiif/getResourceType";
-import { useTranslation } from "react-i18next";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 interface MediaProps {
   items: Canvas[];
@@ -29,7 +29,7 @@ interface MediaProps {
 }
 
 const Media: React.FC<MediaProps> = ({ items }) => {
-  const { t } = useTranslation();
+  const { t } = useCloverTranslation();
   const dispatch: any = useViewerDispatch();
   const state: ViewerContextStore = useViewerState();
   const { activeCanvas, vault, sequence } = state;

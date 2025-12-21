@@ -16,7 +16,7 @@ import { Popover } from "src/components/UI";
 import React from "react";
 import Toggle from "./Toggle";
 import ViewerDownload from "./Download";
-import { useTranslation } from "react-i18next";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 interface Props {
   manifestId: string;
@@ -36,7 +36,7 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
   const hasOptions =
     showDownload || showIIIFBadge || informationPanel?.renderToggle;
 
-  const { t } = useTranslation();
+  const { t } = useCloverTranslation();
 
   return (
     <Header className="clover-viewer-header">

@@ -8,6 +8,40 @@ const PEER_NAMES = new Set([
   ...Object.keys(pkg.peerDependencies || {}),
 ]);
 
+// Runtime dependencies that should always remain external to avoid
+// bundling large libraries (OpenSeadragon, Swiper, IIIF helpers, etc.).
+const FORCED_EXTERNALS = new Set([
+  "@iiif/helpers",
+  "@iiif/parser",
+  "i18next",
+  "react-i18next",
+  "i18next-browser-languagedetector",
+  "openseadragon",
+  "swiper",
+]);
+
+function getPackageName(id) {
+  if (!id) return null;
+  if (id.startsWith("\0")) return null;
+  if (id.startsWith(".")) return null;
+  if (id[0] === "@") {
+    return id.split("/", 2).join("/");
+  }
+  if (id.startsWith("/") || /node_modules[/\\]/.test(id)) {
+    const parts = id.split(/[/\\]/);
+    const nodeModulesIndex = parts.lastIndexOf("node_modules");
+    if (nodeModulesIndex !== -1) {
+      const scope = parts[nodeModulesIndex + 1];
+      if (!scope) return null;
+      if (scope.startsWith("@")) {
+        return `${scope}/${parts[nodeModulesIndex + 2]}`;
+      }
+      return scope;
+    }
+  }
+  return id.split("/", 1)[0];
+}
+
 // Rollup external predicate that also catches React subpaths
 function isExternal(id) {
   if (!id) return false;
@@ -25,7 +59,9 @@ function isExternal(id) {
     return true;
   }
   // Map an import id to a package name (@scope/name or name)
-  const name = id[0] === "@" ? id.split("/", 2).join("/") : id.split("/", 1)[0];
+  const name = getPackageName(id);
+  if (!name) return false;
+  if (FORCED_EXTERNALS.has(name)) return true;
   return PEER_NAMES.has(name);
 }
 

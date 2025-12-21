@@ -27,7 +27,7 @@ import { setupPlugins } from "src/lib/plugin-helpers";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 
 import { ErrorBoundary } from "react-error-boundary";
-import { useTranslation } from "react-i18next";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 import ContentStateAnnotationPage from "./ContentState/Page";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
@@ -49,7 +49,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   setContentSearchResource,
   contentSearchResource,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useCloverTranslation();
   const dispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
   const {

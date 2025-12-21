@@ -1,6 +1,6 @@
 import React from "react";
 import { ToggleStyled } from "./Painting.styled";
-import { useTranslation } from "react-i18next";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 interface ToggleProps {
   handleToggle: () => void;
@@ -51,7 +51,7 @@ const Toggle: React.FC<ToggleProps> = ({
   isInteractive,
   isMedia,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useCloverTranslation();
 
   return (
     <ToggleStyled

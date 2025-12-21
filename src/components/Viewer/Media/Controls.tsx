@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useState } from "react";
 
 import useKeyPress from "src/hooks/useKeyPress";
-import { useTranslation } from "react-i18next";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 interface ControlsProps {
   handleCanvasToggle: (arg0: -1 | 1) => void;
@@ -79,7 +79,7 @@ const Controls: React.FC<ControlsProps> = ({
   const [isNextDisabled, setIsNextDisabled] = useState<boolean>(false);
   const [isPreviousDisabled, setIsPreviousDisabled] = useState<boolean>(false);
 
-  const { t } = useTranslation();
+  const { t } = useCloverTranslation();
 
   useEffect(() => {
     activeIndex === 0

@@ -9,7 +9,7 @@ import { CanvasNormalized } from "@iiif/presentation-3";
 import { Options } from "openseadragon";
 import React, { useEffect } from "react";
 import { Wrapper } from "src/components/Image/Controls/Controls.styled";
-import { useTranslation } from "react-i18next";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 const ZoomIn = () => {
   return (
@@ -74,7 +74,7 @@ const Controls = ({
   _cloverViewerHasPlaceholder: boolean;
   config: Options;
 }) => {
-  const { t } = useTranslation();
+  const { t } = useCloverTranslation();
   const viewerState: ViewerContextStore = useViewerState();
   const { activeCanvas, plugins, vault, openSeadragonViewer } = viewerState;
 

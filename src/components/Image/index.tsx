@@ -1,5 +1,3 @@
-import "src/i18n/config";
-
 import { Annotation, InternationalString } from "@iiif/presentation-3";
 import OpenSeadragon, { Options } from "openseadragon";
 import { parseImageBody, parseSrc } from "src/lib/openseadragon-helpers";

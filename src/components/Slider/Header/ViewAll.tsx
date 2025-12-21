@@ -1,7 +1,7 @@
 import { Homepage } from "src/components/Primitives";
 import React from "react";
 import { styled } from "src/styles/stitches.config";
-import { useTranslation } from "react-i18next";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 const ViewAllStyled = styled(Homepage, {
   display: "flex",
@@ -32,7 +32,7 @@ const ViewAllStyled = styled(Homepage, {
 });
 
 const ViewAll = (props) => {
-  const { t } = useTranslation();
+  const { t } = useCloverTranslation();
 
   return <ViewAllStyled {...props}>{t("commonViewAll")}</ViewAllStyled>;
 };
