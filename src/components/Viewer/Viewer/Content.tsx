@@ -1,10 +1,4 @@
 import {
-  AnnotationPageNormalized,
-  Canvas,
-  IIIFExternalWebResource,
-} from "@iiif/presentation-3";
-import { AnnotationResource, AnnotationResources } from "src/types/annotations";
-import {
   Aside,
   Content,
   Main,
@@ -15,39 +9,30 @@ import InformationPanel from "src/components/Viewer/InformationPanel/Information
 import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React from "react";
-import { useViewerState } from "src/context/viewer-context";
-
-export interface ViewerContentProps {
-  activeCanvas: string;
-  annotationResources: AnnotationResources;
-  searchServiceUrl?: string;
-  setContentSearchResource: React.Dispatch<
-    React.SetStateAction<AnnotationPageNormalized | undefined>
-  >;
-  contentSearchResource?: AnnotationResource;
-  painting: IIIFExternalWebResource[];
-  items: Canvas[];
-  isAudioVideo: boolean;
-}
-
-const ViewerContent: React.FC<ViewerContentProps> = ({
-  activeCanvas,
-  annotationResources,
-  searchServiceUrl,
+import {
   setContentSearchResource,
-  contentSearchResource,
-  isAudioVideo,
-  items,
-  painting,
-}) => {
+  useViewerState,
+} from "src/context/viewer-context";
+
+const ViewerContent: React.FC = () => {
   const {
     contentStateAnnotation,
     isInformationOpen,
     configOptions,
     sequence,
     visibleCanvases,
+    activeCanvas,
+    activeManifest,
+    annotationResources,
+    searchServiceUrl,
+    painting,
+    contentSearchResource,
+    vault,
+    isAudioVideo,
   } = useViewerState();
   const { informationPanel } = configOptions;
+
+  const { items } = vault.get(activeManifest);
 
   /**
    * The information panel should be rendered if toggled true and if
@@ -84,9 +69,8 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
           annotationResources={annotationResources}
           contentSearchResource={contentSearchResource}
           isMedia={isAudioVideo}
-          painting={painting}
+          painting={painting!}
         />
-
         {sequence[1].length > 1 && (
           <MediaWrapper className="clover-viewer-media-wrapper">
             <Media items={items} activeItem={0} />
