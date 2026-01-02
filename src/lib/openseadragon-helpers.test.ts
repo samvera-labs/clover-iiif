@@ -20,7 +20,7 @@ const mockedOsdSvgOverlay = OsdSvgOverlay as Mock;
 
 describe("addOverlaysToViewer", () => {
   afterEach(() => {
-    vi.restoreAllMocks();
+    vi.resetAllMocks();
   });
 
   function createAnnotations(target1): AnnotationNormalized[] {
