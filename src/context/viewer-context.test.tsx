@@ -6,7 +6,7 @@ import {
   useViewerDispatch,
   useViewerState,
 } from "./viewer-context";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 
 import React from "react";
 
@@ -14,7 +14,13 @@ describe("Viewer Context", () => {
   test("should render default state for the Provider", () => {
     function ChildComponent() {
       const state = useViewerState();
-      return <div>{JSON.stringify(state)}</div>;
+      const subset = {
+        activeCanvas: state.activeCanvas,
+        activeManifest: state.activeManifest,
+        configOptions: state.configOptions,
+        isInformationOpen: state.isInformationOpen,
+      };
+      return <div data-testid="state-subset">{JSON.stringify(subset)}</div>;
     }
 
     render(
@@ -22,7 +28,64 @@ describe("Viewer Context", () => {
         <ChildComponent />
       </ViewerProvider>,
     );
-    expect(screen.getByText(JSON.stringify(defaultState))).toBeInTheDocument();
+
+    const parsed = JSON.parse(
+      screen.getByTestId("state-subset").textContent || "{}",
+    );
+    const expected = JSON.parse(
+      JSON.stringify({
+        activeCanvas: defaultState.activeCanvas,
+        activeManifest: defaultState.activeManifest,
+        configOptions: defaultState.configOptions,
+        isInformationOpen: defaultState.isInformationOpen,
+      }),
+    );
+
+    expect(parsed).toEqual(expected);
+  });
+
+  test("keeps config options isolated per provider", async () => {
+    const ConfigConsumer = ({
+      testId,
+      showTitle,
+    }: {
+      testId: string;
+      showTitle: boolean;
+    }) => {
+      const state = useViewerState();
+      const dispatch: any = useViewerDispatch();
+
+      React.useEffect(() => {
+        dispatch({
+          type: "updateConfigOptions",
+          configOptions: {
+            showTitle,
+          },
+        });
+      }, [dispatch, showTitle]);
+
+      return (
+        <div data-testid={testId}>
+          {String(Boolean(state.configOptions.showTitle))}
+        </div>
+      );
+    };
+
+    render(
+      <>
+        <ViewerProvider>
+          <ConfigConsumer testId="viewer-a" showTitle={false} />
+        </ViewerProvider>
+        <ViewerProvider>
+          <ConfigConsumer testId="viewer-b" showTitle={true} />
+        </ViewerProvider>
+      </>,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId("viewer-a").textContent).toBe("false");
+      expect(screen.getByTestId("viewer-b").textContent).toBe("true");
+    });
   });
 
   test("Updates the state via dispatch", async () => {

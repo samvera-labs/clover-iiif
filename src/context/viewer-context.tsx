@@ -128,6 +128,30 @@ const defaultConfigOptions: ViewerConfigOptions = {
   withCredentials: false,
 };
 
+const cloneViewerConfigOptions = (
+  options: ViewerConfigOptions = defaultConfigOptions,
+): ViewerConfigOptions => {
+  return cloneValue(options) as ViewerConfigOptions;
+};
+
+function cloneValue(value: unknown): unknown {
+  if (Array.isArray(value)) {
+    return value.map((item) => cloneValue(item));
+  }
+
+  if (value && typeof value === "object") {
+    return Object.entries(value as Record<string, unknown>).reduce(
+      (acc, [key, val]) => {
+        acc[key] = cloneValue(val);
+        return acc;
+      },
+      {} as Record<string, unknown>,
+    );
+  }
+
+  return value;
+}
+
 export type CustomDisplay = {
   display: {
     component: React.ElementType;
@@ -265,14 +289,14 @@ const expandedAutoScrollOptions = expandAutoScrollOptions(
   defaultConfigOptions?.informationPanel?.vtt?.autoScroll,
 );
 
-export const defaultState: ViewerContextStore = {
+export const createDefaultState = (): ViewerContextStore => ({
   activeCanvas: "",
   activeManifest: "",
   activePlayer: null,
   activeSelector: undefined,
   OSDImageLoaded: false,
   collection: {},
-  configOptions: defaultConfigOptions,
+  configOptions: cloneViewerConfigOptions(),
   customDisplays: [],
   plugins: [],
   isAutoScrollEnabled: expandedAutoScrollOptions.enabled,
@@ -287,7 +311,9 @@ export const defaultState: ViewerContextStore = {
   viewerId: uuidv4(),
   visibleCanvases: [],
   visibleAnnotations: [],
-};
+});
+
+export const defaultState: ViewerContextStore = createDefaultState();
 
 const ViewerStateContext =
   React.createContext<ViewerContextStore>(defaultState);
@@ -343,9 +369,13 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       };
     }
     case "updateConfigOptions": {
+      const mergedConfigOptions = deepMerge(
+        cloneViewerConfigOptions(state.configOptions),
+        action.configOptions,
+      );
       return {
         ...state,
-        configOptions: deepMerge(state.configOptions, action.configOptions),
+        configOptions: mergedConfigOptions,
       };
     }
     case "updateContentStateAnnotation": {
@@ -420,12 +450,29 @@ interface ViewerProviderProps {
 }
 
 const ViewerProvider: React.FC<ViewerProviderProps> = ({
-  initialState = defaultState,
+  initialState,
   children,
 }) => {
   const [state, dispatch] = useReducer<
-    React.Reducer<ViewerContextStore, ViewerAction>
-  >(viewerReducer, initialState);
+    React.Reducer<ViewerContextStore, ViewerAction>,
+    ViewerContextStore | undefined
+  >(
+    viewerReducer,
+    initialState,
+    (initArg?: ViewerContextStore) => {
+      if (initArg) {
+        return {
+          ...initArg,
+          configOptions: cloneViewerConfigOptions(
+            initArg.configOptions ?? defaultConfigOptions,
+          ),
+          viewerId: initArg.viewerId ?? uuidv4(),
+        };
+      }
+
+      return createDefaultState();
+    },
+  );
 
   const { openSeadragonViewer } = state;
 
