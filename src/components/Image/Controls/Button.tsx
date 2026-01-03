@@ -9,7 +9,13 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ className, id, label, children }) => {
-  const dataButton = label.toLowerCase().replace(/\s/g, "-");
+  // Extract button type from id (e.g., "rotateLeft-abc123" → "rotate-left")
+  // This ensures data-button is language-independent for CSS selectors
+  const buttonType = id.split("-")[0];
+  const dataButton = buttonType
+    .replace(/([A-Z])/g, "-$1")
+    .toLowerCase()
+    .replace(/^-/, "");
   return (
     <Item
       id={id}
