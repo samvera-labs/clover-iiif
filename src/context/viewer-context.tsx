@@ -177,6 +177,12 @@ export type PluginConfig = {
   };
 };
 
+export type ViewingDirection =
+  | "left-to-right"
+  | "right-to-left"
+  | "top-to-bottom"
+  | "bottom-to-top";
+
 export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
@@ -193,9 +199,11 @@ export interface ViewerContextStore {
   isAutoScrolling?: boolean;
   isInformationOpen: boolean;
   isLoaded: boolean;
+  isPaged: boolean;
   isUserScrolling?: number | undefined;
   sequence: [Reference<"Canvas">[], number[][]];
   vault: Vault;
+  viewingDirection: ViewingDirection;
   openSeadragonViewer: OpenSeadragon.Viewer | null;
   openSeadragonId?: string;
   viewerId?: string;
@@ -215,12 +223,14 @@ export interface ViewerAction {
   isAutoScrolling: boolean;
   isInformationOpen: boolean;
   isLoaded: boolean;
+  isPaged: boolean;
   isUserScrolling: number | undefined;
   manifestId: string;
   OSDImageLoaded?: boolean;
   player: HTMLVideoElement | HTMLAudioElement | null;
   sequence: [Reference<"Canvas">[], number[][]];
   vault: Vault;
+  viewingDirection: ViewingDirection;
   openSeadragonViewer: OpenSeadragon.Viewer;
   viewerId: string;
   visibleCanvases: Array<Reference<"Canvas">>;
@@ -304,9 +314,11 @@ export const createDefaultState = (): ViewerContextStore => ({
   // Respect explicit false; default to true only when undefined
   isInformationOpen: defaultConfigOptions?.informationPanel?.open ?? true,
   isLoaded: false,
+  isPaged: false,
   isUserScrolling: undefined,
   sequence: [[], []],
   vault: new Vault(),
+  viewingDirection: "left-to-right",
   openSeadragonViewer: null,
   viewerId: uuidv4(),
   visibleCanvases: [],
@@ -436,6 +448,18 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         visibleCanvases: action.visibleCanvases,
+      };
+    }
+    case "updateViewingDirection": {
+      return {
+        ...state,
+        viewingDirection: action.viewingDirection,
+      };
+    }
+    case "updateIsPaged": {
+      return {
+        ...state,
+        isPaged: action.isPaged,
       };
     }
     default: {

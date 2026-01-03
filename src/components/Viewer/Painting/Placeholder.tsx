@@ -5,6 +5,11 @@ import { InternationalString } from "@iiif/presentation-3";
 import { PlaceholderStyled } from "./Placeholder.styled";
 import { useViewerState } from "src/context/viewer-context";
 
+/**
+ * Note: The items array passed to this component is already ordered
+ * correctly for RTL paged content by the parent Painting component.
+ */
+
 interface Props {
   isActive: boolean;
   isMedia: boolean;

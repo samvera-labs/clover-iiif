@@ -7,7 +7,7 @@ import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import Player from "src/components/Viewer/Player/Player";
 import React from "react";
 import { Vault } from "@iiif/helpers/vault";
-import { ViewerProvider } from "src/context/viewer-context";
+import { ViewerProvider, defaultState } from "src/context/viewer-context";
 import manifestSimpleAudio from "src/fixtures/viewer/player/manifest-simple-audio.json";
 import manifestStreaming from "src/fixtures/viewer/player/manifest-streaming-audio.json";
 
@@ -60,18 +60,12 @@ describe("Player component", () => {
     render(
       <ViewerProvider
         initialState={{
+          ...defaultState,
           activeCanvas:
             "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/d2a423b1-6b5e-45cb-9956-46a99cd62cfd?as=iiif/canvas/access/0",
           activeManifest:
             "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/d2a423b1-6b5e-45cb-9956-46a99cd62cfd?as=iiif",
-          collection: {},
-          configOptions: {},
-          customDisplays: [],
-          plugins: [],
-          isInformationOpen: false,
-          isLoaded: false,
           vault,
-          openSeadragonViewer: null,
         }}
       >
         <Player {...props} />
@@ -121,18 +115,12 @@ describe("Player component", () => {
     render(
       <ViewerProvider
         initialState={{
+          ...defaultState,
           activeCanvas:
             "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/d2a423b1-6b5e-45cb-9956-46a99cd62cfd?as=iiif/canvas/access/0",
           activeManifest:
             "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/d2a423b1-6b5e-45cb-9956-46a99cd62cfd?as=iiif",
-          collection: {},
-          configOptions: {},
-          customDisplays: [],
-          plugins: [],
-          isInformationOpen: false,
-          isLoaded: false,
           vault,
-          openSeadragonViewer: null,
         }}
       >
         <Player {...props} />
@@ -179,18 +167,12 @@ describe("Player component", () => {
     render(
       <ViewerProvider
         initialState={{
+          ...defaultState,
           activeCanvas:
             "https://iiif.io/api/cookbook/recipe/0002-mvm-audio/canvas",
           activeManifest:
             "https://iiif.io/api/cookbook/recipe/0002-mvm-audio/manifest.json",
-          collection: {},
-          configOptions: {},
-          customDisplays: [],
-          plugins: [],
-          isInformationOpen: false,
-          isLoaded: false,
           vault,
-          openSeadragonViewer: null,
         }}
       >
         <Player {...props} />
