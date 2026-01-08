@@ -1,11 +1,10 @@
-const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
+import { PHASE_DEVELOPMENT_SERVER } from 'next/constants.js';
 
-const withNextra = require("nextra")({
-  theme: "nextra-theme-docs",
-  themeConfig: "./theme.config.tsx",
-});
+import nextra from 'nextra';
 
-module.exports = (phase) => {
+const withNextra = nextra({});
+
+export default (phase) => {
   const isDev = phase === PHASE_DEVELOPMENT_SERVER;
 
   return withNextra({
