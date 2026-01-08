@@ -47,11 +47,19 @@ const Painting: React.FC<PaintingProps> = ({
     customDisplays,
     contentStateAnnotation,
     informationPanelResource,
+    isPaged,
     openSeadragonViewer,
     vault,
     viewerId,
+    viewingDirection,
     visibleCanvases,
   } = useViewerState();
+
+  /**
+   * Determine if canvases should be displayed in reverse order
+   * for right-to-left viewing direction when behavior is paged
+   */
+  const isRtlPaged = isPaged && viewingDirection === "right-to-left";
   const [annotations, setAnnotations] = React.useState<
     Array<{
       annotation: Annotation;
@@ -208,7 +216,15 @@ const Painting: React.FC<PaintingProps> = ({
     if (isMedia) {
       return;
     } else {
-      const body = visibleCanvases
+      /**
+       * For RTL paged content, we reverse the order of visible canvases
+       * so that the rightmost canvas appears on the left side of the display
+       */
+      const orderedCanvases = isRtlPaged
+        ? [...visibleCanvases].reverse()
+        : visibleCanvases;
+
+      const body = orderedCanvases
         .map((canvas) => {
           const canvasId = canvas.id;
           const painting = getPaintingResource(vault, canvasId);
@@ -216,7 +232,7 @@ const Painting: React.FC<PaintingProps> = ({
         })
         .filter(Boolean) as LabeledIIIFExternalWebResource[];
 
-      const placeholders = visibleCanvases
+      const placeholders = orderedCanvases
         .map((entry) => {
           const canvasId = entry.id;
 
@@ -239,6 +255,7 @@ const Painting: React.FC<PaintingProps> = ({
   }, [
     annotationIndex,
     activeCanvas,
+    isRtlPaged,
     visibleCanvases,
     isMedia,
     normalizedCanvas,

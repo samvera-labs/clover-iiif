@@ -15,6 +15,7 @@ interface ControlsProps {
   handleFilter: (arg0: string) => void;
   activeIndex: number;
   canvasLength: number;
+  isRtlPaged?: boolean;
 }
 
 const PreviousIcon = ({ title }: { title: string }) => {
@@ -74,6 +75,7 @@ const Controls: React.FC<ControlsProps> = ({
   handleFilter,
   activeIndex,
   canvasLength,
+  isRtlPaged = false,
 }) => {
   const [toggleFilter, setToggleFilter] = useState<boolean>(false);
   const [isNextDisabled, setIsNextDisabled] = useState<boolean>(false);
@@ -126,24 +128,48 @@ const Controls: React.FC<ControlsProps> = ({
           />
         )}
         {!toggleFilter && (
-          <Direction className="clover-viewer-media-navigation">
-            <Button
-              onClick={() => handleCanvasToggle(-1)}
-              disabled={isPreviousDisabled}
-              type="button"
-            >
-              <PreviousIcon title={t("commonPrevious")} />
-            </Button>
-            <span>
-              {activeIndex + 1} <em>/</em> {canvasLength}
-            </span>
-            <Button
-              onClick={() => handleCanvasToggle(1)}
-              disabled={isNextDisabled}
-              type="button"
-            >
-              <NextIcon title={t("commonNext")} />
-            </Button>
+          <Direction className="clover-viewer-media-navigation" data-rtl-paged={isRtlPaged}>
+            {isRtlPaged ? (
+              <>
+                <Button
+                  onClick={() => handleCanvasToggle(1)}
+                  disabled={isNextDisabled}
+                  type="button"
+                >
+                  <PreviousIcon title={t("commonNext")} />
+                </Button>
+                <span>
+                  {activeIndex + 1} <em>/</em> {canvasLength}
+                </span>
+                <Button
+                  onClick={() => handleCanvasToggle(-1)}
+                  disabled={isPreviousDisabled}
+                  type="button"
+                >
+                  <NextIcon title={t("commonPrevious")} />
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  onClick={() => handleCanvasToggle(-1)}
+                  disabled={isPreviousDisabled}
+                  type="button"
+                >
+                  <PreviousIcon title={t("commonPrevious")} />
+                </Button>
+                <span>
+                  {activeIndex + 1} <em>/</em> {canvasLength}
+                </span>
+                <Button
+                  onClick={() => handleCanvasToggle(1)}
+                  disabled={isNextDisabled}
+                  type="button"
+                >
+                  <NextIcon title={t("commonNext")} />
+                </Button>
+              </>
+            )}
           </Direction>
         )}
         <Button
