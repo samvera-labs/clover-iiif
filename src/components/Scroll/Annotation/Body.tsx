@@ -9,12 +9,10 @@ import useMarkdown from "@nulib/use-markdown";
 
 const ScrollAnnotationBody = ({
   body,
-  numItems = 1,
   stringLength,
   type = "content",
 }: {
   body: EmbeddedResource;
-  numItems?: number;
   stringLength?: number;
   type?: string;
 }) => {
@@ -93,7 +91,6 @@ const ScrollAnnotationBody = ({
       }
       data-body-id={id}
       data-testid="scroll-item-body"
-      style={{ "--num-items": numItems } as React.CSSProperties}
       id={id}
       dir={dir}
       css={{ fontSize }}

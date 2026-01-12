@@ -23,13 +23,19 @@ const StyledItemTextualBodies = styled("div", {
     display: "flex",
     flexDirection: "row",
     gap: "2.618rem",
-
-    "> div": {
-      width: "calc(100% / var(--num-items))",
-      boxSizing: "border-box",
-    },
+    width: "100%",
   },
 });
+
+const StyledLanguageColumn = styled("div", {
+  width: "calc(100% / var(--num-items, 1))",
+  boxSizing: "border-box",
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+  minWidth: 0,
+});
+
 
 const PageBreak = styled("hr", {
   margin: "0",
@@ -85,5 +91,6 @@ export {
   StyledItem,
   StyledItemFigure,
   StyledItemTextualBodies,
+  StyledLanguageColumn,
   PageBreak,
 };

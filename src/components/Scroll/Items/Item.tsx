@@ -8,6 +8,7 @@ import {
   StyledItem,
   StyledItemFigure,
   StyledItemTextualBodies,
+  StyledLanguageColumn,
 } from "src/components/Scroll/Items/Items.styled";
 import { ScrollContext, initialState } from "src/context/scroll-context";
 
@@ -38,20 +39,87 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
 
   const canvas = vault?.get(item) as CanvasNormalized;
 
-  const numItems = activeLanguages?.length;
+  const canvasAnnotations =
+    annotations
+      // @ts-ignore
+      ?.filter((annotation) => annotation.target?.source?.id === item.id) || [];
 
-  const annotationBody = annotations
-    // @ts-ignore
-    ?.filter((annotation) => annotation.target?.source?.id === item.id)
-    ?.map((annotation) => {
-      return annotation?.body.map((body, index) => (
-        <ScrollItemBody
-          body={body as unknown as EmbeddedResource}
-          key={index}
-          numItems={numItems}
-        />
-      ));
-    });
+  const resolveBodyLanguage = (body: EmbeddedResource): string | undefined => {
+    const { language } = body as { language?: string | string[] };
+    if (!language) return undefined;
+    if (Array.isArray(language)) return language[0];
+    return String(language);
+  };
+
+  const languageGroups = canvasAnnotations.reduce(
+    (
+      accumulator,
+      annotation,
+    ): Record<
+      string,
+      {
+        label?: string;
+        bodies: EmbeddedResource[];
+      }
+    > => {
+      annotation?.body?.forEach((body) => {
+        const embeddedBody = body as EmbeddedResource;
+        if (!embeddedBody) return;
+
+        const languageValue = resolveBodyLanguage(embeddedBody);
+        const key = languageValue || "__undefined__";
+
+        if (!accumulator[key]) {
+          accumulator[key] = {
+            label: languageValue,
+            bodies: [],
+          };
+        }
+
+        accumulator[key].bodies.push(embeddedBody);
+      });
+
+      return accumulator;
+    },
+    {},
+  );
+
+  const languageOrder = Object.keys(languageGroups);
+  const hasLanguageFilter = Boolean(activeLanguages?.length);
+  const languagesToRender = hasLanguageFilter
+    ? languageOrder.filter((key) => {
+        const language = languageGroups[key].label;
+        if (!language) return false;
+        return activeLanguages?.includes(language);
+      })
+    : languageOrder;
+
+  const languageColumns = languagesToRender.map((key) => {
+    const group = languageGroups[key];
+    if (!group) return null;
+    const heading = group.label || "Unspecified";
+    const langAttribute = group.label ? group.label : undefined;
+
+    return (
+      <StyledLanguageColumn
+        key={key}
+        data-language={heading}
+        lang={langAttribute}
+      >
+        {group.bodies.map((body, index) => (
+          <ScrollItemBody
+            body={body}
+            key={`${body.id || key}-${index}`}
+          />
+        ))}
+      </StyledLanguageColumn>
+    );
+  });
+
+  const visibleColumns = languageColumns.filter(
+    (column): column is JSX.Element => Boolean(column),
+  );
+  const columnCount = visibleColumns.length || 1;
 
   const canvasInfo = {
     current: itemNumber,
@@ -76,7 +144,13 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
           {canvas && <ScrollFigure canvas={canvas} canvasInfo={canvasInfo} />}
         </StyledItemFigure>
         <StyledItemTextualBodies>
-          <div>{annotationBody?.length ? annotationBody : <p>[Blank]</p>}</div>
+          <div
+            style={{ "--num-items": columnCount } as React.CSSProperties}
+            data-columns={columnCount}
+            data-testid="scroll-item-language-columns"
+          >
+            {visibleColumns.length ? visibleColumns : <p>[Blank]</p>}
+          </div>
         </StyledItemTextualBodies>
       </StyledItem>
       {hasItemBreak && <PageBreak aria-label="Page Break" />}

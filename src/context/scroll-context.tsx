@@ -30,7 +30,7 @@ export interface ScrollOptions {
   annotations?: ScrollAnnotationsOptions;
 }
 
-interface StateType {
+export interface StateType {
   activeLanguages?: string[];
   annotations?: AnnotationNormalized[];
   manifest?: ManifestNormalized;
