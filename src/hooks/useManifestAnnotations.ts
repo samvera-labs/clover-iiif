@@ -6,7 +6,9 @@ import {
 } from "@iiif/presentation-3";
 import { useEffect, useState } from "react";
 
-const useManifestAnnotations = (items, vault) => {
+import { filterAnnotationsByMotivation } from "src/lib/annotation-helpers";
+
+const useManifestAnnotations = (items, vault, allowedMotivations?: string[]) => {
   const [processedAnnotations, setProcessedAnnotations] = useState<
     AnnotationNormalized[]
   >([]);
@@ -49,8 +51,13 @@ const useManifestAnnotations = (items, vault) => {
       [],
     );
 
-    setProcessedAnnotations(uniqueAnnotations);
-  }, [items, vault]);
+    const filteredAnnotations = filterAnnotationsByMotivation(
+      uniqueAnnotations,
+      allowedMotivations,
+    );
+
+    setProcessedAnnotations(filteredAnnotations);
+  }, [items, vault, allowedMotivations]);
 
   return processedAnnotations;
 };

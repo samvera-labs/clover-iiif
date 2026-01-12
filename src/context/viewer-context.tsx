@@ -24,6 +24,9 @@ export type AutoScrollOptions = {
 
 export type ViewerConfigOptions = {
   annotationOverlays?: OverlayOptions;
+  annotations?: {
+    motivations?: string[];
+  };
   background?: string;
   canvasBackgroundColor?: string;
   canvasHeight?: string;
@@ -88,6 +91,9 @@ const defaultConfigOptions: ViewerConfigOptions = {
     opacity: "0.5",
     renderOverlays: true,
     zoomLevel: 2,
+  },
+  annotations: {
+    motivations: undefined,
   },
   background: "transparent",
   canvasBackgroundColor: "#6662",

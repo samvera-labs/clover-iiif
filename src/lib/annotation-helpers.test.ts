@@ -1,8 +1,11 @@
 import {
   getLanguageDirection,
   parseAnnotationTarget,
+  filterAnnotationsByMotivation,
   AnnotationTargetExtended,
 } from "./annotation-helpers";
+
+import { manifestAnnotationsMotivations } from "src/fixtures/viewer/annotations/manifest-motivations";
 
 describe("getLanguageDirection", () => {
   it("returns 'RTL' for Arabic", () => {
@@ -156,5 +159,46 @@ describe("parseAnnotationTarget", () => {
       },
     };
     expect(result).toEqual(expected);
+  });
+});
+
+describe("filterAnnotationsByMotivation", () => {
+  const textualAnnotations = manifestAnnotationsMotivations.items
+    .flatMap((canvas) => canvas.annotations || [])
+    .flatMap((page) => page.items || []);
+
+  const totalAnnotations = textualAnnotations.length;
+  const commentingCount = textualAnnotations.filter(
+    (annotation) => annotation.motivation === "commenting",
+  ).length;
+  const taggingCount = textualAnnotations.filter(
+    (annotation) => annotation.motivation === "tagging",
+  ).length;
+
+  it("returns all annotations when motivations option is omitted", () => {
+    const filtered = filterAnnotationsByMotivation(textualAnnotations);
+    expect(filtered).toHaveLength(totalAnnotations);
+  });
+
+  it("returns all annotations when multiple motivations are provided", () => {
+    const filtered = filterAnnotationsByMotivation(textualAnnotations, [
+      "commenting",
+      "tagging",
+    ]);
+    expect(filtered).toHaveLength(totalAnnotations);
+  });
+
+  it("returns only annotations that match a single motivation", () => {
+    const filtered = filterAnnotationsByMotivation(textualAnnotations, [
+      "tagging",
+    ]);
+    expect(filtered).toHaveLength(taggingCount);
+    expect(filtered.every((annotation) => annotation.motivation === "tagging"))
+      .toBe(true);
+  });
+
+  it("returns no annotations when motivations are explicitly empty", () => {
+    const filtered = filterAnnotationsByMotivation(textualAnnotations, []);
+    expect(filtered).toHaveLength(0);
   });
 });

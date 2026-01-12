@@ -7,23 +7,34 @@ type LanguageOption = {
   [key: string]: string; // Keys and values are dynamically defined
 };
 
+export interface ScrollFigureOptions {
+  display?: "thumbnail" | "image-viewer";
+  aspectRatio?: number;
+  width?: CSSStyleDeclaration["width"];
+}
+
+export interface ScrollLanguageOptions {
+  defaultLanguages?: string[];
+  enabled?: boolean;
+  options?: LanguageOption[];
+}
+
+export interface ScrollAnnotationsOptions {
+  motivations?: string[];
+}
+
+export interface ScrollOptions {
+  offset?: number;
+  figure?: ScrollFigureOptions;
+  language?: ScrollLanguageOptions;
+  annotations?: ScrollAnnotationsOptions;
+}
+
 interface StateType {
   activeLanguages?: string[];
   annotations?: AnnotationNormalized[];
   manifest?: ManifestNormalized;
-  options: {
-    offset: number;
-    figure: {
-      display: "thumbnail" | "image-viewer";
-      aspectRatio?: number;
-      width?: CSSStyleDeclaration["width"];
-    };
-    language?: {
-      defaultLanguages?: string[];
-      enabled: boolean;
-      options?: LanguageOption[];
-    };
-  };
+  options: ScrollOptions;
   searchActiveMatch?: string;
   searchMatches?: {
     matches: {
@@ -55,6 +66,9 @@ export const initialState: StateType = {
       defaultLanguages: undefined,
       enabled: false,
       options: [],
+    },
+    annotations: {
+      motivations: undefined,
     },
   },
   searchActiveMatch: undefined,
@@ -108,15 +122,27 @@ interface ScrollProviderProps {
   annotations?: AnnotationNormalized[];
   children: React.ReactNode;
   manifest?: ManifestNormalized;
-  options?: StateType["options"];
+  options?: ScrollOptions;
   vault?: Vault;
 }
 
 export const ScrollProvider: React.FC<ScrollProviderProps> = (props) => {
   const { children, manifest } = props;
-  const options = {
+  const options: ScrollOptions = {
     ...initialState.options,
     ...props.options,
+    figure: {
+      ...initialState.options.figure,
+      ...props.options?.figure,
+    },
+    language: {
+      ...initialState.options.language,
+      ...props.options?.language,
+    },
+    annotations: {
+      ...initialState.options.annotations,
+      ...props.options?.annotations,
+    },
   };
 
   // Dynamically set the initial activeLanguages based on options.language.defaultLanguages

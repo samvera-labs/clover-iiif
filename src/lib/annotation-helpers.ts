@@ -109,6 +109,42 @@ const parseAnnotationTarget = (target: AnnotationTargetExtended | string) => {
   return parsedTarget;
 };
 
+function normalizeMotivations(
+  motivation?: string | string[] | null,
+): string[] {
+  if (!motivation) return [];
+  return Array.isArray(motivation) ? motivation : [motivation];
+}
+
+function annotationMatchesMotivations(
+  annotation?: { motivation?: string | string[] | null },
+  allowedMotivations?: string[],
+): boolean {
+  if (!annotation) return false;
+  if (!allowedMotivations) return true;
+  if (allowedMotivations.length === 0) return false;
+
+  const annotationMotivations = normalizeMotivations(annotation.motivation);
+  if (annotationMotivations.length === 0) return false;
+
+  return annotationMotivations.some((motivation) =>
+    allowedMotivations.includes(motivation),
+  );
+}
+
+function filterAnnotationsByMotivation<T extends { motivation?: string | string[] | null }>(
+  annotations: Array<T | undefined>,
+  allowedMotivations?: string[],
+): T[] {
+  if (!annotations || annotations.length === 0) return [];
+  if (!allowedMotivations) return annotations.filter(Boolean) as T[];
+  if (allowedMotivations.length === 0) return [];
+
+  return annotations.filter((annotation) =>
+    annotationMatchesMotivations(annotation, allowedMotivations),
+  ) as T[];
+}
+
 function extractLanguages(annotations: AnnotationNormalized[]) {
   const languages = new Set();
 
@@ -127,4 +163,10 @@ function extractLanguages(annotations: AnnotationNormalized[]) {
   return Array.from(languages);
 }
 
-export { getLanguageDirection, extractLanguages, parseAnnotationTarget };
+export {
+  getLanguageDirection,
+  extractLanguages,
+  parseAnnotationTarget,
+  filterAnnotationsByMotivation,
+  annotationMatchesMotivations,
+};

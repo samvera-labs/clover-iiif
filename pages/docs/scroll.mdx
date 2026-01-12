@@ -109,13 +109,14 @@ const MyCustomScroll = () => {
 
 `Scroll` can configured through an `options` prop, which will serve as a object for common options.
 
-| Prop               | Type                      | Required | Default |
-| ------------------ | ------------------------- | -------- | ------- |
-| `iiifContent`      | `string`                  | Yes      |         |
-| `options`          | `object`                  | No       |         |
-| `options.offset`   | `number`                  | No       | `0`     |
-| `options.figure`   | [See Figure](#figure)     | No       |         |
-| `options.language` | [See Language](#language) | No       |         |
+| Prop                  | Type                         | Required | Default         |
+| --------------------- | ---------------------------- | -------- | --------------- |
+| `iiifContent`         | `string`                     | Yes      |                 |
+| `options`             | `object`                     | No       |                 |
+| `options.offset`      | `number`                     | No       | `0`             |
+| `options.figure`      | [See Figure](#figure)        | No       |                 |
+| `options.language`    | [See Language](#language)    | No       |                 |
+| `options.annotations` | `{ motivations?: string[] }` | No       | All motivations |
 
 ### Offset
 
@@ -174,6 +175,21 @@ The `options.language.options` array should be an array of objects with key-valu
       defaultLanguages: ["en"],
       enabled: true,
       options: [{ en: "English" }, { ar: "Arabic" }],
+    },
+  }}
+/>
+```
+
+### Annotation Motivations
+
+Control which annotation motivations the Scroll experience renders by providing `options.annotations.motivations`. Clover filters every manifest annotation so only allowed motivations are surfaced in the scrolling articles, search panel, and language extraction. Omit the option to display every available motivation.
+
+```jsx
+<Scroll
+  iiifContent="https://digital.lib.utk.edu/assemble/manifest/civilwar/5390"
+  options={{
+    annotations: {
+      motivations: ["commenting"],
     },
   }}
 />

@@ -1,5 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { ScrollContext, ScrollProvider } from "src/context/scroll-context";
+import {
+  ScrollContext,
+  ScrollProvider,
+  type ScrollOptions,
+} from "src/context/scroll-context";
 
 import { ManifestNormalized } from "@iiif/presentation-3";
 import ScrollHeader from "src/components/Scroll/Layout/Header";
@@ -10,7 +14,7 @@ import useManifestAnnotations from "src/hooks/useManifestAnnotations";
 
 export interface CloverScrollProps {
   iiifContent: string;
-  options;
+  options?: ScrollOptions;
 }
 
 const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
@@ -20,7 +24,11 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
   const { state, dispatch } = useContext(ScrollContext);
   const { options, vault } = state;
 
-  const annotations = useManifestAnnotations(manifest?.items, vault);
+  const annotations = useManifestAnnotations(
+    manifest?.items,
+    vault,
+    options?.annotations?.motivations,
+  );
 
   useEffect(() => {
     if (!vault) return;

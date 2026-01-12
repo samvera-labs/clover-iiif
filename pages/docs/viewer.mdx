@@ -265,6 +265,7 @@ const MyCustomViewer = () => {
 | `options.ignoreCaptionLabels`    | `string[]`                                                                                                                                       | No       | []                                       |
 | `options.openSeadragon`          | `OpenSeadragon.Options`                                                                                                                          | No       |                                          |
 | `options.informationPanel`       | [See Information Panel](#information-panel)                                                                                                      | No       |                                          |
+| `options.annotations`            | `{ motivations?: string[] }`                                                                                                                     | No       | All motivations                          |
 | `options.requestHeaders`         | `IncomingHttpHeaders`                                                                                                                            | No       | `{ "Content-Type": "application/json" }` |
 | `options.showDownload`           | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.showIIIFBadge`          | `boolean`                                                                                                                                        | No       | true                                     |
@@ -276,6 +277,21 @@ const MyCustomViewer = () => {
 - Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
 - Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
 - Option `options.openSeadragon` will grant you ability to override the [OpenSeadragon default options](https://openseadragon.github.io/docs/OpenSeadragon.html#.Options) set within the Clover IIIF Viewer to adjust touch and mouse gesture settings and various other configurations.
+
+### Annotation Motivations
+
+Limit which textual annotations render inside the Information Panel by specifying the motivations to display. When set, Clover filters each manifest annotation page and only renders annotations whose [`motivation`](https://iiif.io/api/presentation/3.0/#values-for-motivation) matches the provided list. Leave undefined (the default) to render every motivation.
+
+```jsx
+<Viewer
+  iiifContent="https://example.org/iiif/manifest"
+  options={{
+    annotations: {
+      motivations: ["commenting", "transcribing"],
+    },
+  }}
+/>
+```
 
 ### Canvas Height
 
