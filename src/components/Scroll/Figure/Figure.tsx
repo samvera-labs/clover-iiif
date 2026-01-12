@@ -21,15 +21,15 @@ interface CanvasProps {
 const ScrollCanvasFigure: React.FC<CanvasProps> = ({ canvas, canvasInfo }) => {
   const { state } = useContext(ScrollContext);
   const { vault, options } = state;
-  const { figure } = options;
+  const figureOptions = options.figure || {};
 
-  const display = figure.display
-    ? figure.display
-    : initialState.options.figure.display;
+  const display =
+    figureOptions.display ||
+    initialState.options.figure?.display ||
+    "image-viewer";
 
-  const aspectRatio = figure.aspectRatio
-    ? figure.aspectRatio
-    : initialState.options.figure.aspectRatio;
+  const aspectRatio =
+    figureOptions.aspectRatio || initialState.options.figure?.aspectRatio || 100 / 61.8;
 
   const painting = getPaintingResource(vault, canvas.id);
 

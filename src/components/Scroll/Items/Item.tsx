@@ -35,7 +35,9 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
 }) => {
   const { state } = React.useContext(ScrollContext);
   const { activeLanguages, annotations, vault, options } = state;
-  const { figure } = options;
+  const figureOptions = options.figure || {};
+  const figureWidth =
+    figureOptions.width || initialState.options.figure?.width || "38.2%";
 
   const canvas = vault?.get(item) as CanvasNormalized;
 
@@ -63,7 +65,7 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
       }
     > => {
       annotation?.body?.forEach((body) => {
-        const embeddedBody = body as EmbeddedResource;
+        const embeddedBody = body as unknown as EmbeddedResource;
         if (!embeddedBody) return;
 
         const languageValue = resolveBodyLanguage(embeddedBody);
@@ -135,11 +137,9 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
       >
         <StyledItemFigure
           css={{
-            width: figure.width
-              ? figure.width
-              : initialState.options.figure.width,
+            width: figureWidth,
           }}
-          data-width={figure.width}
+          data-width={figureWidth}
         >
           {canvas && <ScrollFigure canvas={canvas} canvasInfo={canvasInfo} />}
         </StyledItemFigure>

@@ -19,52 +19,41 @@ const canvasReference = {
 } as Reference<"Canvas">;
 
 const buildAnnotations = () => {
-  const normalizedCanvas = vault.get(canvasReference);
-  if (!normalizedCanvas?.annotations) return [];
+  return (canvas.annotations || []).flatMap((page) => {
+    const items = page?.items || [];
 
-  const annotations = [];
-
-  normalizedCanvas.annotations.forEach((annotationPageRef: any) => {
-    const annotationPage = vault.get(annotationPageRef);
-    const annotationItems = annotationPage?.items || [];
-
-    annotationItems.forEach((annotationRef: any) => {
-      const normalizedAnnotation = vault.get(annotationRef);
-      if (!normalizedAnnotation) return;
-
-      const bodies = (normalizedAnnotation.body || [])
-        .map((bodyRef: any) => {
-          const bodyResource = bodyRef?.id ? vault.get(bodyRef.id) : bodyRef;
-          return bodyResource || bodyRef;
-        })
-        .filter(Boolean);
-
-      annotations.push({
-        ...normalizedAnnotation,
-        body: bodies,
-      });
-    });
+    return items.map((annotation) => ({
+      ...annotation,
+      body: Array.isArray(annotation.body)
+        ? (annotation.body as any[])
+        : [annotation.body],
+      target: {
+        type: "SpecificResource",
+        source: {
+          id: canvas.id,
+          type: "Canvas",
+        },
+      },
+    }));
   });
-
-  return annotations;
 };
 
 const vault = new Vault();
-let annotationsFromVault: any[] = [];
 
 beforeAll(async () => {
   await vault.loadManifest(
     "https://example.org/iiif/manifest/language-columns",
     scrollSingleCanvasLanguages as any,
   );
-  annotationsFromVault = buildAnnotations();
 });
+
+const annotationFixtures = buildAnnotations();
 
 const renderItem = (stateOverrides: Partial<StateType> = {}) => {
   const contextValue = {
     state: {
       ...initialState,
-      annotations: annotationsFromVault,
+      annotations: annotationFixtures,
       vault,
       ...stateOverrides,
     },
