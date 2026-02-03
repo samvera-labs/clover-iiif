@@ -1,6 +1,9 @@
 import { AnnotationNormalized, AnnotationTarget } from "@iiif/presentation-3";
 
-import { ParsedAnnotationTarget } from "src/types/annotations";
+import {
+  AnnotationWithEmbeddedBodies,
+  ParsedAnnotationTarget,
+} from "src/types/annotations";
 
 export type AnnotationTargetExtended = AnnotationTarget & {
   selector?: any;
@@ -145,7 +148,9 @@ function filterAnnotationsByMotivation<T extends { motivation?: string | string[
   ) as T[];
 }
 
-function extractLanguages(annotations: AnnotationNormalized[]) {
+function extractLanguages(
+  annotations: AnnotationNormalized[] | AnnotationWithEmbeddedBodies[],
+) {
   const languages = new Set();
 
   function findLanguage(obj) {

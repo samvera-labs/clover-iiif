@@ -8,6 +8,7 @@ import {
 import { useEffect, useState } from "react";
 
 import { filterAnnotationsByMotivation } from "src/lib/annotation-helpers";
+import { AnnotationWithEmbeddedBodies } from "src/types/annotations";
 
 const useManifestAnnotations = (
   items,
@@ -15,7 +16,7 @@ const useManifestAnnotations = (
   allowedMotivations?: string[],
 ) => {
   const [processedAnnotations, setProcessedAnnotations] = useState<
-    AnnotationNormalized[]
+    AnnotationWithEmbeddedBodies[]
   >([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -49,7 +50,7 @@ const useManifestAnnotations = (
 
     const buildAnnotations = async () => {
       setIsLoading(true);
-      const allAnnotations: AnnotationNormalized[] = [];
+      const allAnnotations: AnnotationWithEmbeddedBodies[] = [];
 
       for (const canvasRef of items || []) {
         const canvas: CanvasNormalized = vault.get(canvasRef);
@@ -73,30 +74,45 @@ const useManifestAnnotations = (
               const annotation: AnnotationNormalized = vault.get(annotationRef);
               if (!annotation) return;
 
-              const resolvedBodies = (annotation.body || [])
-                .map((bodyRef) => {
+              type BodyReference =
+                | Reference<"ContentResource">
+                | EmbeddedResource
+                | string;
+
+              const isEmbeddedTextualBody = (
+                body: BodyReference,
+              ): body is EmbeddedResource => {
+                return (
+                  typeof body === "object" &&
+                  body !== null &&
+                  "type" in body &&
+                  body.type === "TextualBody"
+                );
+              };
+
+              const resolvedBodies = (annotation.body as BodyReference[] | undefined)
+                ?.map((bodyRef) => {
                   if (!bodyRef) return undefined;
 
-                  const hasReferenceId =
-                    typeof bodyRef === "string" ||
-                    (typeof bodyRef === "object" &&
-                      Boolean((bodyRef as Reference<"ContentResource">).id));
-
-                  if (hasReferenceId) {
-                    const resolvedBody = vault.get(
-                      bodyRef as Reference<"ContentResource">,
-                    );
-                    if (resolvedBody) return resolvedBody;
+                  if (isEmbeddedTextualBody(bodyRef)) {
+                    return bodyRef;
                   }
 
-                  return bodyRef as EmbeddedResource;
+                  const resolvedBody = vault.get(
+                    bodyRef as Reference<"ContentResource">,
+                  ) as EmbeddedResource | undefined;
+
+                  return resolvedBody;
                 })
                 .filter((body): body is EmbeddedResource => Boolean(body));
 
-              allAnnotations.push({
-                ...annotation,
+              const { body: _unused, ...annotationWithoutBody } = annotation;
+              const annotationWithEmbeddedBody: AnnotationWithEmbeddedBodies = {
+                ...annotationWithoutBody,
                 body: resolvedBodies,
-              });
+              };
+
+              allAnnotations.push(annotationWithEmbeddedBody);
             },
           );
         }
@@ -106,8 +122,15 @@ const useManifestAnnotations = (
        * Removes duplicate annotations if they exist
        */
       const uniqueAnnotations = allAnnotations.reduce(
-        (accumulator: AnnotationNormalized[], current: AnnotationNormalized) => {
-          if (!accumulator.some((a: AnnotationNormalized) => a.id === current.id))
+        (
+          accumulator: AnnotationWithEmbeddedBodies[],
+          current: AnnotationWithEmbeddedBodies,
+        ) => {
+          if (
+            !accumulator.some(
+              (a: AnnotationWithEmbeddedBodies) => a.id === current.id,
+            )
+          )
             accumulator.push(current);
           return accumulator;
         },
