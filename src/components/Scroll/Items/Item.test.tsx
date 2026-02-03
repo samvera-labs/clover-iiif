@@ -27,13 +27,6 @@ const buildAnnotations = () => {
       body: Array.isArray(annotation.body)
         ? (annotation.body as any[])
         : [annotation.body],
-      target: {
-        type: "SpecificResource",
-        source: {
-          id: canvas.id,
-          type: "Canvas",
-        },
-      },
     }));
   });
 };

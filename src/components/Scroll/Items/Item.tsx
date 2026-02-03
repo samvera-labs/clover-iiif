@@ -1,4 +1,5 @@
 import {
+  AnnotationTarget,
   CanvasNormalized,
   EmbeddedResource,
   Reference,
@@ -42,10 +43,42 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
 
   const canvas = vault?.get(item) as CanvasNormalized;
 
+  const stripFragment = (targetId: string) => targetId.split("#")[0];
+
+  const getTargetCanvasId = (
+    target: AnnotationTarget | string | undefined,
+  ): string | undefined => {
+    if (!target) return undefined;
+
+    if (typeof target === "string") {
+      return stripFragment(target);
+    }
+
+    const targetSource = target?.source;
+
+    if (typeof targetSource === "string") {
+      return stripFragment(targetSource);
+    }
+
+    if (targetSource && typeof targetSource === "object" && "id" in targetSource) {
+      const sourceId = targetSource.id;
+      if (typeof sourceId === "string") {
+        return stripFragment(sourceId);
+      }
+    }
+
+    if ("id" in target && typeof target.id === "string") {
+      return stripFragment(target.id);
+    }
+
+    return undefined;
+  };
+
   const canvasAnnotations =
-    annotations
-      // @ts-ignore
-      ?.filter((annotation) => annotation.target?.source?.id === item.id) || [];
+    annotations?.filter((annotation) => {
+      const annotationTargetId = getTargetCanvasId(annotation.target);
+      return annotationTargetId === item.id;
+    }) || [];
 
   const resolveBodyLanguage = (body: EmbeddedResource): string | undefined => {
     const { language } = body as { language?: string | string[] };

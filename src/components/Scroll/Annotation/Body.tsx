@@ -5,7 +5,7 @@ import { ScrollContext } from "src/context/scroll-context";
 import { TextualBody } from "src/components/Scroll/Annotation/Body.styled";
 import { getSearchResultSnippet } from "src/lib/search-helpers";
 import { getLanguageDirection } from "src/lib/annotation-helpers";
-import useMarkdown from "@nulib/use-markdown";
+import useMarkdown from "src/hooks/useMarkdown";
 
 const ScrollAnnotationBody = ({
   body,
