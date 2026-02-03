@@ -33,6 +33,7 @@ export interface ScrollOptions {
 export interface StateType {
   activeLanguages?: string[];
   annotations?: AnnotationNormalized[];
+  annotationsLoading: boolean;
   manifest?: ManifestNormalized;
   options: ScrollOptions;
   searchActiveMatch?: string;
@@ -54,6 +55,7 @@ interface ActionType {
 export const initialState: StateType = {
   activeLanguages: undefined,
   annotations: [],
+  annotationsLoading: false,
   manifest: undefined,
   options: {
     offset: 0,
@@ -83,6 +85,11 @@ function reducer(state: StateType, action: ActionType): StateType {
       return {
         ...state,
         annotations: action.payload,
+      };
+    case "updateAnnotationsLoading":
+      return {
+        ...state,
+        annotationsLoading: action.payload,
       };
     case "updateActiveLanguages":
       return {

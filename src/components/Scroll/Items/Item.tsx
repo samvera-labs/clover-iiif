@@ -34,7 +34,8 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
   itemNumber,
 }) => {
   const { state } = React.useContext(ScrollContext);
-  const { activeLanguages, annotations, vault, options } = state;
+  const { activeLanguages, annotations, annotationsLoading, vault, options } =
+    state;
   const figureOptions = options.figure || {};
   const figureWidth =
     figureOptions.width || initialState.options.figure?.width || "38.2%";
@@ -149,7 +150,9 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
             data-columns={columnCount}
             data-testid="scroll-item-language-columns"
           >
-            {visibleColumns.length ? visibleColumns : <p>[Blank]</p>}
+            {visibleColumns.length
+              ? visibleColumns
+              : !annotationsLoading && <p>[Blank]</p>}
           </div>
         </StyledItemTextualBodies>
       </StyledItem>

@@ -24,7 +24,7 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
   const { state, dispatch } = useContext(ScrollContext);
   const { options, vault } = state;
 
-  const annotations = useManifestAnnotations(
+  const { annotations, isLoading: annotationsLoading } = useManifestAnnotations(
     manifest?.items,
     vault,
     options?.annotations?.motivations,
@@ -58,6 +58,13 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
       payload: activeLanguages,
     });
   }, [annotations]);
+
+  useEffect(() => {
+    dispatch({
+      type: "updateAnnotationsLoading",
+      payload: annotationsLoading,
+    });
+  }, [annotationsLoading]);
 
   if (!manifest) return null;
 
