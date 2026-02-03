@@ -2,6 +2,7 @@ import {
   AnnotationNormalized,
   AnnotationPageNormalized,
   CanvasNormalized,
+  EmbeddedResource,
   Reference,
 } from "@iiif/presentation-3";
 import { useEffect, useState } from "react";
@@ -70,12 +71,32 @@ const useManifestAnnotations = (
           annotationPage?.items?.forEach(
             (annotationRef: Reference<"Annotation">) => {
               const annotation: AnnotationNormalized = vault.get(annotationRef);
-              if (annotation) {
-                allAnnotations.push({
-                  ...annotation,
-                  body: annotation?.body?.map((bodyRef) => vault.get(bodyRef)),
-                });
-              }
+              if (!annotation) return;
+
+              const resolvedBodies = (annotation.body || [])
+                .map((bodyRef) => {
+                  if (!bodyRef) return undefined;
+
+                  const hasReferenceId =
+                    typeof bodyRef === "string" ||
+                    (typeof bodyRef === "object" &&
+                      Boolean((bodyRef as Reference<"ContentResource">).id));
+
+                  if (hasReferenceId) {
+                    const resolvedBody = vault.get(
+                      bodyRef as Reference<"ContentResource">,
+                    );
+                    if (resolvedBody) return resolvedBody;
+                  }
+
+                  return bodyRef as EmbeddedResource;
+                })
+                .filter((body): body is EmbeddedResource => Boolean(body));
+
+              allAnnotations.push({
+                ...annotation,
+                body: resolvedBodies,
+              });
             },
           );
         }
