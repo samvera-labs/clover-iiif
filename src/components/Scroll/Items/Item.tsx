@@ -3,6 +3,7 @@ import {
   CanvasNormalized,
   EmbeddedResource,
   Reference,
+  W3CAnnotationTarget,
 } from "@iiif/presentation-3";
 import {
   PageBreak,
@@ -44,30 +45,54 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
   const canvas = vault?.get(item) as CanvasNormalized;
 
   const stripFragment = (targetId: string) => targetId.split("#")[0];
+  const hasSourceProperty = (value: unknown): value is { source?: unknown } => {
+    return typeof value === "object" && value !== null && "source" in value;
+  };
+  const hasIdProperty = (value: unknown): value is { id: string } => {
+    return (
+      typeof value === "object" &&
+      value !== null &&
+      "id" in value &&
+      typeof (value as { id?: unknown }).id === "string"
+    );
+  };
 
   const getTargetCanvasId = (
-    target: AnnotationTarget | string | undefined,
+    target:
+      | AnnotationTarget
+      | AnnotationTarget[]
+      | W3CAnnotationTarget
+      | W3CAnnotationTarget[]
+      | string
+      | undefined,
   ): string | undefined => {
     if (!target) return undefined;
+
+    if (Array.isArray(target)) {
+      for (const entry of target) {
+        const resolvedId = getTargetCanvasId(entry);
+        if (resolvedId) return resolvedId;
+      }
+      return undefined;
+    }
 
     if (typeof target === "string") {
       return stripFragment(target);
     }
 
-    const targetSource = target?.source;
+    if (hasSourceProperty(target)) {
+      const targetSource = target.source;
 
-    if (typeof targetSource === "string") {
-      return stripFragment(targetSource);
-    }
+      if (typeof targetSource === "string") {
+        return stripFragment(targetSource);
+      }
 
-    if (targetSource && typeof targetSource === "object" && "id" in targetSource) {
-      const sourceId = targetSource.id;
-      if (typeof sourceId === "string") {
-        return stripFragment(sourceId);
+      if (hasIdProperty(targetSource)) {
+        return stripFragment(targetSource.id);
       }
     }
 
-    if ("id" in target && typeof target.id === "string") {
+    if (hasIdProperty(target)) {
       return stripFragment(target.id);
     }
 
