@@ -5,12 +5,20 @@ import {
   type ScrollOptions,
 } from "src/context/scroll-context";
 
-import { ManifestNormalized } from "@iiif/presentation-3";
+import {
+  AnnotationNormalized,
+  AnnotationPageNormalized,
+  CanvasNormalized,
+  ManifestNormalized,
+  Reference,
+} from "@iiif/presentation-3";
 import ScrollHeader from "src/components/Scroll/Layout/Header";
 import ScrollItems from "src/components/Scroll/Items/Items";
 import { StyledScrollWrapper } from "src/components/Scroll/Layout/Layout.styled";
-import { extractLanguages } from "src/lib/annotation-helpers";
-import useManifestAnnotations from "src/hooks/useManifestAnnotations";
+import {
+  extractLanguages,
+  filterAnnotationsByMotivation,
+} from "src/lib/annotation-helpers";
 
 export interface CloverScrollProps {
   iiifContent: string;
@@ -22,13 +30,7 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
   const [hasDefinedLanguages, setHasDefinedLanguages] = useState(false);
 
   const { state, dispatch } = useContext(ScrollContext);
-  const { options, vault } = state;
-
-  const { annotations, isLoading: annotationsLoading } = useManifestAnnotations(
-    manifest?.items,
-    vault,
-    options?.annotations?.motivations,
-  );
+  const { options, vault, annotations } = state;
 
   useEffect(() => {
     if (!vault) return;
@@ -39,12 +41,122 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
       .catch((error: Error) =>
         console.error(`Manifest ${iiifContent} failed to load: ${error}`),
       );
-  }, [iiifContent]);
+  }, [iiifContent, vault]);
 
   useEffect(() => {
-    if (annotations === undefined) return;
+    if (!vault) {
+      dispatch({ type: "updateAnnotations", payload: undefined });
+      dispatch({ type: "updateAnnotationsLoading", payload: false });
+      return;
+    }
 
-    const extractedLanguages = extractLanguages(annotations || []);
+    if (!manifest?.items) {
+      dispatch({ type: "updateAnnotations", payload: [] });
+      dispatch({ type: "updateAnnotationsLoading", payload: false });
+      return;
+    }
+
+    let isActive = true;
+
+    const loadReferencedAnnotationPage = async (
+      annotationPageRef: Reference<"AnnotationPage">,
+    ): Promise<AnnotationPageNormalized | undefined> => {
+      const annotationPageId =
+        typeof annotationPageRef === "string"
+          ? annotationPageRef
+          : annotationPageRef?.id;
+
+      if (!annotationPageId) return undefined;
+
+      try {
+        const loadedPage = (await vault.load(
+          annotationPageId,
+        )) as AnnotationPageNormalized | undefined;
+        return loadedPage;
+      } catch (error) {
+        console.warn(
+          `AnnotationPage ${annotationPageId} failed to load: ${error}`,
+        );
+        return undefined;
+      }
+    };
+
+    const buildAnnotations = async () => {
+      dispatch({ type: "updateAnnotationsLoading", payload: true });
+      const allAnnotations: AnnotationNormalized[] = [];
+
+      for (const canvasRef of manifest.items || []) {
+        const canvas = vault.get(canvasRef) as CanvasNormalized | undefined;
+        if (!canvas?.annotations) continue;
+
+        for (const annotationPageRef of canvas.annotations) {
+          let annotationPage = vault.get(
+            annotationPageRef,
+          ) as AnnotationPageNormalized | undefined;
+
+          if (!annotationPage?.items?.length) {
+            const referencedPage =
+              await loadReferencedAnnotationPage(annotationPageRef);
+
+            if (referencedPage?.items?.length) {
+              annotationPage = referencedPage;
+            }
+          }
+
+          annotationPage?.items?.forEach(
+            (annotationRef: Reference<"Annotation">) => {
+              const annotation = vault.get(
+                annotationRef,
+              ) as AnnotationNormalized | undefined;
+              if (!annotation) return;
+              allAnnotations.push(annotation);
+            },
+          );
+        }
+      }
+
+      const uniqueAnnotations = allAnnotations.reduce(
+        (
+          accumulator: AnnotationNormalized[],
+          current: AnnotationNormalized,
+        ) => {
+          if (!accumulator.some((a) => a.id === current.id)) {
+            accumulator.push(current);
+          }
+          return accumulator;
+        },
+        [],
+      );
+
+      const filteredAnnotations = filterAnnotationsByMotivation(
+        uniqueAnnotations,
+        options?.annotations?.motivations,
+      );
+
+      if (isActive) {
+        dispatch({ type: "updateAnnotations", payload: filteredAnnotations });
+      }
+    };
+
+    buildAnnotations().finally(() => {
+      if (isActive) {
+        dispatch({ type: "updateAnnotationsLoading", payload: false });
+      }
+    });
+
+    return () => {
+      isActive = false;
+    };
+  }, [manifest, vault, options?.annotations?.motivations, dispatch]);
+
+  useEffect(() => {
+    if (!vault) return;
+    if (annotations === undefined) {
+      setHasDefinedLanguages(false);
+      return;
+    }
+
+    const extractedLanguages = extractLanguages(annotations || [], vault);
     const activeLanguages = !extractedLanguages.length
       ? []
       : options?.language?.defaultLanguages || extractedLanguages;
@@ -52,21 +164,10 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
     setHasDefinedLanguages(Boolean(extractedLanguages.length));
 
     dispatch({
-      type: "updateAnnotations",
-      payload: annotations,
-    });
-    dispatch({
       type: "updateActiveLanguages",
       payload: activeLanguages,
     });
-  }, [annotations]);
-
-  useEffect(() => {
-    dispatch({
-      type: "updateAnnotationsLoading",
-      payload: annotationsLoading,
-    });
-  }, [annotationsLoading]);
+  }, [annotations, vault, options?.language?.defaultLanguages, dispatch]);
 
   if (!manifest) return null;
 

@@ -1,8 +1,7 @@
-import { ManifestNormalized } from "@iiif/presentation-3";
+import { AnnotationNormalized, ManifestNormalized } from "@iiif/presentation-3";
 import React, { Dispatch, createContext, useReducer } from "react";
 
 import { Vault } from "@iiif/helpers/vault";
-import { AnnotationWithEmbeddedBodies } from "src/types/annotations";
 
 type LanguageOption = {
   [key: string]: string; // Keys and values are dynamically defined
@@ -33,7 +32,7 @@ export interface ScrollOptions {
 
 export interface StateType {
   activeLanguages?: string[];
-  annotations?: AnnotationWithEmbeddedBodies[];
+  annotations?: AnnotationNormalized[];
   annotationsLoading: boolean;
   manifest?: ManifestNormalized;
   options: ScrollOptions;
@@ -127,7 +126,7 @@ export const ScrollContext = createContext<{
 
 interface ScrollProviderProps {
   activeLanguages?: string[];
-  annotations?: AnnotationWithEmbeddedBodies[];
+  annotations?: AnnotationNormalized[];
   children: React.ReactNode;
   manifest?: ManifestNormalized;
   options?: ScrollOptions;

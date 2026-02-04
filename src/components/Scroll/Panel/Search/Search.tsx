@@ -1,10 +1,11 @@
 import FlexSearch, { IndexOptionsForDocumentSearch } from "flexsearch";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 
 import { AnnotationFlattened } from "src/types/annotations";
 import { ScrollContext } from "src/context/scroll-context";
 import SearchAnnotationsResultsLabel from "./ResultsLabel";
 import { StyledSearch } from "src/components/Scroll/Panel/Search/Search.styled";
+import { resolveAnnotationBodies } from "src/lib/annotation-helpers";
 
 const ArrowIcon = ({
   title,
@@ -51,12 +52,20 @@ type SearchMatchResult = {
 const ScrollSearch = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const { dispatch, state } = useContext(ScrollContext);
-  const { activeLanguages, annotations, searchString = "" } = state;
+  const { activeLanguages, annotations, searchString = "", vault } = state;
+
+  const annotationBodies = useMemo(() => {
+    if (!annotations) return [];
+    return annotations.map((annotation) => ({
+      annotation,
+      bodies: resolveAnnotationBodies(annotation, vault),
+    }));
+  }, [annotations, vault]);
 
   const index = new FlexSearch.Document(config);
   const indexIds: string[] = [];
-  annotations?.forEach((annotation) => {
-    annotation?.body?.forEach((body) => {
+  annotationBodies.forEach(({ bodies }) => {
+    bodies.forEach((body) => {
       if (!body?.id || !body?.value) return;
 
       const language = body.language ? String(body.language) : undefined;
@@ -110,23 +119,23 @@ const ScrollSearch = () => {
   }, [activeIndex, searchString]);
 
   function mapAnnotationBodies(array): AnnotationFlattened[] {
-    if (!annotations?.length) return [];
+    if (!annotationBodies.length) return [];
 
     return array
       .map((id) => {
         if (!id) return undefined;
 
-        const sourceAnnotation = annotations.find((annotation) =>
-          annotation.body?.some((body) => body?.id === id),
+        const entry = annotationBodies.find((item) =>
+          item.bodies.some((body) => body?.id === id),
         );
 
-        if (!sourceAnnotation) return undefined;
+        if (!entry) return undefined;
 
-        const targetBody = sourceAnnotation.body?.find((body) => body?.id === id);
+        const targetBody = entry.bodies.find((body) => body?.id === id);
         if (!targetBody) return undefined;
 
         return {
-          ...sourceAnnotation,
+          ...entry.annotation,
           body: targetBody,
         } as AnnotationFlattened;
       })

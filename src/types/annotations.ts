@@ -1,6 +1,5 @@
 import {
   Annotation,
-  AnnotationNormalized,
   AnnotationPageNormalized,
   EmbeddedResource,
 } from "@iiif/presentation-3";
@@ -28,10 +27,6 @@ interface AnnotationFlattened extends Annotation {
   body: EmbeddedResource;
 }
 
-type AnnotationWithEmbeddedBodies = Omit<AnnotationNormalized, "body"> & {
-  body?: EmbeddedResource[];
-};
-
 type ContentSearchQuery = {
   q: string;
   motivation?: string;
@@ -41,7 +36,6 @@ type ContentSearchQuery = {
 
 export type {
   AnnotationFlattened,
-  AnnotationWithEmbeddedBodies,
   AnnotationResources,
   AnnotationResource,
   ParsedAnnotationTarget,

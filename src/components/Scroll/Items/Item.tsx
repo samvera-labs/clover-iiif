@@ -17,6 +17,7 @@ import { ScrollContext, initialState } from "src/context/scroll-context";
 import React from "react";
 import ScrollFigure from "src/components/Scroll/Figure/Figure";
 import ScrollItemBody from "src/components/Scroll/Annotation/Body";
+import { resolveAnnotationBodies } from "src/lib/annotation-helpers";
 
 interface ScrollItemProps {
   hasItemBreak: boolean;
@@ -123,11 +124,10 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
         bodies: EmbeddedResource[];
       }
     > => {
-      annotation?.body?.forEach((body) => {
-        const embeddedBody = body as unknown as EmbeddedResource;
-        if (!embeddedBody) return;
+      const resolvedBodies = resolveAnnotationBodies(annotation, vault);
 
-        const languageValue = resolveBodyLanguage(embeddedBody);
+      resolvedBodies.forEach((body) => {
+        const languageValue = resolveBodyLanguage(body);
         const key = languageValue || "__undefined__";
 
         if (!accumulator[key]) {
@@ -137,7 +137,7 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
           };
         }
 
-        accumulator[key].bodies.push(embeddedBody);
+        accumulator[key].bodies.push(body);
       });
 
       return accumulator;
@@ -183,8 +183,6 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
     current: itemNumber,
     total: itemCount,
   };
-
-  console.log({ visibleColumns });
 
   return (
     <>

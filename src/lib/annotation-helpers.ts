@@ -1,9 +1,11 @@
-import { AnnotationNormalized, AnnotationTarget } from "@iiif/presentation-3";
-
 import {
-  AnnotationWithEmbeddedBodies,
-  ParsedAnnotationTarget,
-} from "src/types/annotations";
+  AnnotationNormalized,
+  AnnotationTarget,
+  EmbeddedResource,
+} from "@iiif/presentation-3";
+import { Vault } from "@iiif/helpers/vault";
+
+import { ParsedAnnotationTarget } from "src/types/annotations";
 
 export type AnnotationTargetExtended = AnnotationTarget & {
   selector?: any;
@@ -112,6 +114,44 @@ const parseAnnotationTarget = (target: AnnotationTargetExtended | string) => {
   return parsedTarget;
 };
 
+type AnnotationBodySource = {
+  body?: unknown;
+};
+
+const resolveAnnotationBodies = (
+  annotation?: AnnotationBodySource,
+  vault?: Vault,
+): EmbeddedResource[] => {
+  if (!annotation?.body) return [];
+
+  const bodies = Array.isArray(annotation.body)
+    ? annotation.body
+    : [annotation.body];
+
+  return bodies
+    .map((body) => {
+      if (!body) return undefined;
+
+      if (typeof body === "string") {
+        return vault?.get(body) as EmbeddedResource;
+      }
+
+      if (typeof body === "object") {
+        if ("value" in body || "language" in body || body?.["type"] === "TextualBody") {
+          return body as EmbeddedResource;
+        }
+
+        const referenceId = (body as { id?: string }).id;
+        if (referenceId && vault) {
+          return vault.get(referenceId) as EmbeddedResource;
+        }
+      }
+
+      return undefined;
+    })
+    .filter((body): body is EmbeddedResource => Boolean(body));
+};
+
 function normalizeMotivations(
   motivation?: string | string[] | null,
 ): string[] {
@@ -149,22 +189,45 @@ function filterAnnotationsByMotivation<T extends { motivation?: string | string[
 }
 
 function extractLanguages(
-  annotations: AnnotationNormalized[] | AnnotationWithEmbeddedBodies[],
+  annotations: Array<AnnotationNormalized | AnnotationBodySource>,
+  vault?: Vault,
 ) {
-  const languages = new Set();
+  if (!annotations || annotations.length === 0) return [];
 
-  function findLanguage(obj) {
+  const languages = new Set<string>();
+
+  const addLanguage = (language: unknown) => {
+    if (!language) return;
+    if (Array.isArray(language)) {
+      language.forEach(addLanguage);
+      return;
+    }
+    if (typeof language === "string") {
+      languages.add(language);
+    }
+  };
+
+  function findLanguage(obj: unknown) {
     if (Array.isArray(obj)) {
       obj.forEach(findLanguage);
     } else if (obj && typeof obj === "object") {
-      if (obj.language) {
-        languages.add(obj.language);
+      const record = obj as Record<string, unknown>;
+      if ("language" in record) {
+        addLanguage(record.language);
       }
-      Object.values(obj).forEach(findLanguage);
+      Object.values(record).forEach(findLanguage);
     }
   }
 
-  findLanguage(annotations);
+  const normalizedAnnotations = vault
+    ? annotations.map((annotation) => {
+        const resolvedBodies = resolveAnnotationBodies(annotation, vault);
+        if (!resolvedBodies.length) return annotation;
+        return { ...annotation, body: resolvedBodies };
+      })
+    : annotations;
+
+  findLanguage(normalizedAnnotations);
   return Array.from(languages);
 }
 
@@ -174,4 +237,5 @@ export {
   parseAnnotationTarget,
   filterAnnotationsByMotivation,
   annotationMatchesMotivations,
+  resolveAnnotationBodies,
 };
