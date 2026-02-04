@@ -42,7 +42,9 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
   }, [iiifContent]);
 
   useEffect(() => {
-    const extractedLanguages = extractLanguages(annotations);
+    if (annotations === undefined) return;
+
+    const extractedLanguages = extractLanguages(annotations || []);
     const activeLanguages = !extractedLanguages.length
       ? []
       : options?.language?.defaultLanguages || extractedLanguages;

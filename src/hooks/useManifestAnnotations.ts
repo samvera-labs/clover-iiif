@@ -16,12 +16,22 @@ const useManifestAnnotations = (
   allowedMotivations?: string[],
 ) => {
   const [processedAnnotations, setProcessedAnnotations] = useState<
-    AnnotationWithEmbeddedBodies[]
-  >([]);
-  const [isLoading, setIsLoading] = useState(false);
+    AnnotationWithEmbeddedBodies[] | undefined
+  >(undefined);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!vault) return;
+    if (!vault || !items) {
+      setProcessedAnnotations(undefined);
+      setIsLoading(false);
+      return;
+    }
+
+    if (!items.length) {
+      setProcessedAnnotations([]);
+      setIsLoading(false);
+      return;
+    }
 
     let isActive = true;
 
@@ -49,6 +59,7 @@ const useManifestAnnotations = (
 
     const buildAnnotations = async () => {
       setIsLoading(true);
+      setProcessedAnnotations(undefined);
       const allAnnotations: AnnotationWithEmbeddedBodies[] = [];
 
       for (const canvasRef of items || []) {
@@ -62,8 +73,6 @@ const useManifestAnnotations = (
           if (!annotationPage?.items?.length) {
             const referencedPage =
               await loadReferencedAnnotationPage(annotationPageRef);
-
-            console.log({ referencedPage });
 
             if (referencedPage?.items?.length) {
               annotationPage = referencedPage;

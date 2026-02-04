@@ -66,11 +66,11 @@ describe("useManifestAnnotations", () => {
       useManifestAnnotations(items, vault, undefined),
     );
 
-    await waitFor(() => expect(result.current.annotations).toHaveLength(1));
+    await waitFor(() => expect(result.current.annotations?.length).toBe(1));
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
     expect(vault.load).toHaveBeenCalledWith(annotationPageRef.id);
-    expect(result.current.annotations[0].id).toBe(annotationRef.id);
+    expect(result.current.annotations?.[0]?.id).toBe(annotationRef.id);
   });
 
   it("preserves inline textual bodies when Vault cannot resolve a reference", async () => {
@@ -144,9 +144,11 @@ describe("useManifestAnnotations", () => {
       useManifestAnnotations(items, vault, undefined),
     );
 
-    await waitFor(() => expect(result.current.annotations).toHaveLength(1));
+    await waitFor(() => expect(result.current.annotations?.length).toBe(1));
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
-    expect(result.current.annotations[0].body?.[0]?.value).toBe("Inline body");
+    expect(result.current.annotations?.[0]?.body?.[0]?.value).toBe(
+      "Inline body",
+    );
   });
 });

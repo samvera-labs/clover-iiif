@@ -36,7 +36,6 @@ const StyledLanguageColumn = styled("div", {
   minWidth: 0,
 });
 
-
 const PageBreak = styled("hr", {
   margin: "0",
   borderColor: "transparent",
@@ -48,26 +47,13 @@ const PageBreak = styled("hr", {
   display: "flex",
   justifyContent: "flex-end",
 
-  "&::before": {
-    content: "attr(aria-label)",
-    position: "absolute",
-    right: "1.618rem",
-    bottom: "0",
-    zIndex: 1,
-    display: "flex",
-    fontSize: "0.7222rem",
-    fontWeight: "400",
-    lineHeight: "1rem",
-    background: "inherit",
-    opacity: 0.7,
-  },
-
   "&::after": {
     content: "",
     width: "calc(100% -  2.618em)",
+    bottom: "0",
     position: "absolute",
     zIndex: 0,
-    height: "1px",
+    height: "2px",
     background: "#6662",
   },
 });

@@ -55,8 +55,8 @@ interface ActionType {
 
 export const initialState: StateType = {
   activeLanguages: undefined,
-  annotations: [],
-  annotationsLoading: false,
+  annotations: undefined,
+  annotationsLoading: true,
   manifest: undefined,
   options: {
     offset: 0,
