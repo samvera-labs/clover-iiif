@@ -36,9 +36,8 @@ const useManifestAnnotations = (
       if (!annotationPageId) return undefined;
 
       try {
-        const loadedPage: AnnotationPageNormalized = await vault.load(
-          annotationPageId,
-        );
+        const loadedPage: AnnotationPageNormalized =
+          await vault.load(annotationPageId);
         return loadedPage;
       } catch (error) {
         console.warn(
@@ -61,9 +60,11 @@ const useManifestAnnotations = (
             vault.get(annotationPageRef);
 
           if (!annotationPage?.items?.length) {
-            const referencedPage = await loadReferencedAnnotationPage(
-              annotationPageRef,
-            );
+            const referencedPage =
+              await loadReferencedAnnotationPage(annotationPageRef);
+
+            console.log({ referencedPage });
+
             if (referencedPage?.items?.length) {
               annotationPage = referencedPage;
             }
@@ -90,7 +91,9 @@ const useManifestAnnotations = (
                 );
               };
 
-              const resolvedBodies = (annotation.body as BodyReference[] | undefined)
+              const resolvedBodies = (
+                annotation.body as BodyReference[] | undefined
+              )
                 ?.map((bodyRef) => {
                   if (!bodyRef) return undefined;
 

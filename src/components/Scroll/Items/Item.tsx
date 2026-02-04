@@ -168,10 +168,7 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
         lang={langAttribute}
       >
         {group.bodies.map((body, index) => (
-          <ScrollItemBody
-            body={body}
-            key={`${body.id || key}-${index}`}
-          />
+          <ScrollItemBody body={body} key={`${body.id || key}-${index}`} />
         ))}
       </StyledLanguageColumn>
     );
@@ -186,6 +183,8 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
     current: itemNumber,
     total: itemCount,
   };
+
+  console.log({ visibleColumns });
 
   return (
     <>
@@ -210,7 +209,7 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
           >
             {visibleColumns.length
               ? visibleColumns
-              : !annotationsLoading && <p>[Blank]</p>}
+              : !annotationsLoading && <></>}
           </div>
         </StyledItemTextualBodies>
       </StyledItem>
