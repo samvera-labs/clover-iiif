@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { ErrorBoundary } from "react-error-boundary";
 
@@ -21,6 +21,7 @@ import AnnotationPage from "./Annotation/Page";
 import ContentSearch from "./ContentSearch/ContentSearch";
 import Information from "./About/About";
 import ContentStateAnnotationPage from "./ContentState/Page";
+import { annotationMatchesMotivations } from "src/lib/annotation-helpers";
 
 import { Label } from "src/components/Primitives";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
@@ -33,6 +34,7 @@ import {
 	InternationalString,
 	AnnotationPageNormalized,
 	CanvasNormalized,
+	AnnotationNormalized
 } from "@iiif/presentation-3";
 
 import { getAvailableTabs } from "src/lib/information-panel-helpers";
@@ -80,6 +82,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
 	const renderContentSearch = informationPanel?.renderContentSearch;
 	const renderToggle = informationPanel?.renderToggle;
+	const allowedAnnotationMotivations = configOptions?.annotations?.motivations;
 	const contentStateAnnotationSource =
 		// @ts-ignore
 		contentStateAnnotation?.target?.source || contentStateAnnotation?.target;
@@ -87,8 +90,37 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 		Boolean(contentStateAnnotation) &&
 		// @ts-ignore
 		contentStateAnnotationSource.id === activeCanvas;
+	const filteredAnnotationResources = useMemo(() => {
+		if (!annotationResources) return [];
+		if (!allowedAnnotationMotivations)
+			return annotationResources;
+
+		return annotationResources
+			.map((annotationPage) => {
+				if (!annotationPage?.items?.length) return null;
+
+				const filteredItems = annotationPage.items.filter((item) => {
+					const annotation = vault.get(item.id) as
+						| AnnotationNormalized
+						| undefined;
+					return annotationMatchesMotivations(
+						annotation,
+						allowedAnnotationMotivations,
+					);
+				});
+
+				if (!filteredItems.length) return null;
+
+				return {
+					...annotationPage,
+					items: filteredItems,
+				};
+			})
+			.filter(Boolean) as AnnotationResources;
+	}, [annotationResources, allowedAnnotationMotivations, vault]);
+
 	const hasAnnotations =
-		Boolean(annotationResources?.length) || hasContentStateAnnotation;
+		Boolean(filteredAnnotationResources?.length) || hasContentStateAnnotation;
 
 	function renderPluginInformationPanel(plugin: PluginConfig, i: number) {
 		const PluginInformationPanelComponent = plugin?.informationPanel
@@ -238,14 +270,14 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 						/>
 					</Content>
 				)}
-				{renderAnnotation && annotationResources && (
+				{renderAnnotation && hasAnnotations && filteredAnnotationResources && (
 					<Content value="manifest-annotations">
 						{contentStateAnnotation && hasContentStateAnnotation && (
 							<ContentStateAnnotationPage
 								contentStateAnnotation={contentStateAnnotation}
 							/>
 						)}
-						{annotationResources.map((annotationPage) => (
+						{filteredAnnotationResources.map((annotationPage) => (
 							<AnnotationPage
 								key={annotationPage.id}
 								annotationPage={annotationPage}
