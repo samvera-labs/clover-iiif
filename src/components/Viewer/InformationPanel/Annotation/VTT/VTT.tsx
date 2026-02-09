@@ -27,12 +27,17 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
     () => {
       if (!inlineCues && vttUri) {
         fetch(vttUri, {
+          redirect: 'follow',
           headers: {
-            "Content-Type": "text/plain",
-            Accept: "application/json",
+            Accept: "text/vtt, text/plain, */*",
           },
         })
-          .then((response) => response.text())
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.text();
+          })
           .then((data) => {
             parseVttData(data).then((flatCues) => {
               const orderedCues = orderCuesByTime(flatCues);

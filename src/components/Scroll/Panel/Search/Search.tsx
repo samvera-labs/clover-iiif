@@ -1,10 +1,11 @@
 import FlexSearch, { IndexOptionsForDocumentSearch } from "flexsearch";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 
 import { AnnotationFlattened } from "src/types/annotations";
 import { ScrollContext } from "src/context/scroll-context";
 import SearchAnnotationsResultsLabel from "./ResultsLabel";
 import { StyledSearch } from "src/components/Scroll/Panel/Search/Search.styled";
+import { resolveAnnotationBodies } from "src/lib/annotation-helpers";
 
 const ArrowIcon = ({
   title,
@@ -43,23 +44,42 @@ const config: IndexOptionsForDocumentSearch<{
   },
 };
 
+type SearchMatchResult = {
+  total: number;
+  matches: Array<Record<string, string[]>>;
+};
+
 const ScrollSearch = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const { dispatch, state } = useContext(ScrollContext);
-  const { activeLanguages, annotations, searchString = "" } = state;
+  const { activeLanguages, annotations, searchString = "", vault } = state;
+
+  const annotationBodies = useMemo(() => {
+    if (!annotations) return [];
+    return annotations.map((annotation) => ({
+      annotation,
+      bodies: resolveAnnotationBodies(annotation, vault),
+    }));
+  }, [annotations, vault]);
 
   const index = new FlexSearch.Document(config);
   const indexIds: string[] = [];
-  annotations?.forEach((annotation) => {
-    annotation?.body?.forEach((body) => {
-      // @ts-expect-error
-      if (!activeLanguages?.includes(String(body.language))) return;
+  annotationBodies.forEach(({ bodies }) => {
+    bodies.forEach((body) => {
+      if (!body?.id || !body?.value) return;
 
-      // @ts-expect-error
-      const content = body?.value?.replace(/\n/g, "");
-      indexIds.push(body?.id);
+      const language = body.language ? String(body.language) : undefined;
+      if (
+        activeLanguages?.length &&
+        (!language || !activeLanguages.includes(language))
+      ) {
+        return;
+      }
+
+      const content = body.value.replace(/\n/g, "");
+      indexIds.push(body.id);
       index.add({
-        id: body?.id,
+        id: body.id,
         content,
       });
     });
@@ -99,35 +119,49 @@ const ScrollSearch = () => {
   }, [activeIndex, searchString]);
 
   function mapAnnotationBodies(array): AnnotationFlattened[] {
-    return array.map((id) => {
-      return annotations
-        ?.filter((annotation) => {
-          return annotation.body.find((body) => body.id === id);
-        })
-        .map((annotation) => {
-          const bodyIndex = annotation.body.findIndex((body) => body.id === id);
-          return {
-            ...annotation,
-            body: annotation.body[bodyIndex],
-          };
-        })
-        .shift();
-    });
+    if (!annotationBodies.length) return [];
+
+    return array
+      .map((id) => {
+        if (!id) return undefined;
+
+        const entry = annotationBodies.find((item) =>
+          item.bodies.some((body) => body?.id === id),
+        );
+
+        if (!entry) return undefined;
+
+        const targetBody = entry.bodies.find((body) => body?.id === id);
+        if (!targetBody) return undefined;
+
+        return {
+          ...entry.annotation,
+          body: targetBody,
+        } as AnnotationFlattened;
+      })
+      .filter((annotation): annotation is AnnotationFlattened => Boolean(annotation));
   }
 
-  function findMatches(annotations, searchString) {
+  function findMatches(
+    annotations: AnnotationFlattened[],
+    searchString: string,
+  ): SearchMatchResult {
+    if (!searchString) {
+      return { total: 0, matches: [] };
+    }
+
     const regex = new RegExp(searchString, "gi");
-    const result = { total: 0, matches: [] };
+    const result: SearchMatchResult = { total: 0, matches: [] };
 
     annotations.forEach((annotation) => {
-      const bodyId = annotation.body.id;
-      const bodyValue = annotation.body.value;
+      const bodyId = annotation.body?.id;
+      const bodyValue = annotation.body?.value;
+      if (!bodyId || !bodyValue) return;
+
       const matchArray: string[] = [];
       let matchCount = 0;
 
       let match;
-
-      console.log(match);
 
       while ((match = regex.exec(bodyValue)) !== null) {
         matchCount++;
@@ -136,7 +170,6 @@ const ScrollSearch = () => {
 
       if (matchCount > 0) {
         result.total += matchCount;
-        // @ts-ignore
         result.matches.push({ [bodyId]: matchArray });
       }
     });

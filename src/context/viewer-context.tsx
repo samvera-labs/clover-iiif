@@ -24,6 +24,9 @@ export type AutoScrollOptions = {
 
 export type ViewerConfigOptions = {
   annotationOverlays?: OverlayOptions;
+  annotations?: {
+    motivations?: string[];
+  };
   background?: string;
   canvasBackgroundColor?: string;
   canvasHeight?: string;
@@ -89,6 +92,9 @@ const defaultConfigOptions: ViewerConfigOptions = {
     renderOverlays: true,
     zoomLevel: 2,
   },
+  annotations: {
+    motivations: undefined,
+  },
   background: "transparent",
   canvasBackgroundColor: "#6662",
   canvasHeight: "500px",
@@ -128,6 +134,30 @@ const defaultConfigOptions: ViewerConfigOptions = {
   withCredentials: false,
 };
 
+const cloneViewerConfigOptions = (
+  options: ViewerConfigOptions = defaultConfigOptions,
+): ViewerConfigOptions => {
+  return cloneValue(options) as ViewerConfigOptions;
+};
+
+function cloneValue(value: unknown): unknown {
+  if (Array.isArray(value)) {
+    return value.map((item) => cloneValue(item));
+  }
+
+  if (value && typeof value === "object") {
+    return Object.entries(value as Record<string, unknown>).reduce(
+      (acc, [key, val]) => {
+        acc[key] = cloneValue(val);
+        return acc;
+      },
+      {} as Record<string, unknown>,
+    );
+  }
+
+  return value;
+}
+
 export type CustomDisplay = {
   display: {
     component: React.ElementType;
@@ -153,6 +183,12 @@ export type PluginConfig = {
   };
 };
 
+export type ViewingDirection =
+  | "left-to-right"
+  | "right-to-left"
+  | "top-to-bottom"
+  | "bottom-to-top";
+
 export interface ViewerContextStore {
   activeCanvas: string;
   activeManifest: string;
@@ -169,9 +205,11 @@ export interface ViewerContextStore {
   isAutoScrolling?: boolean;
   isInformationOpen: boolean;
   isLoaded: boolean;
+  isPaged: boolean;
   isUserScrolling?: number | undefined;
   sequence: [Reference<"Canvas">[], number[][]];
   vault: Vault;
+  viewingDirection: ViewingDirection;
   openSeadragonViewer: OpenSeadragon.Viewer | null;
   openSeadragonId?: string;
   viewerId?: string;
@@ -191,12 +229,14 @@ export interface ViewerAction {
   isAutoScrolling: boolean;
   isInformationOpen: boolean;
   isLoaded: boolean;
+  isPaged: boolean;
   isUserScrolling: number | undefined;
   manifestId: string;
   OSDImageLoaded?: boolean;
   player: HTMLVideoElement | HTMLAudioElement | null;
   sequence: [Reference<"Canvas">[], number[][]];
   vault: Vault;
+  viewingDirection: ViewingDirection;
   openSeadragonViewer: OpenSeadragon.Viewer;
   viewerId: string;
   visibleCanvases: Array<Reference<"Canvas">>;
@@ -265,14 +305,14 @@ const expandedAutoScrollOptions = expandAutoScrollOptions(
   defaultConfigOptions?.informationPanel?.vtt?.autoScroll,
 );
 
-export const defaultState: ViewerContextStore = {
+export const createDefaultState = (): ViewerContextStore => ({
   activeCanvas: "",
   activeManifest: "",
   activePlayer: null,
   activeSelector: undefined,
   OSDImageLoaded: false,
   collection: {},
-  configOptions: defaultConfigOptions,
+  configOptions: cloneViewerConfigOptions(),
   customDisplays: [],
   plugins: [],
   isAutoScrollEnabled: expandedAutoScrollOptions.enabled,
@@ -280,14 +320,18 @@ export const defaultState: ViewerContextStore = {
   // Respect explicit false; default to true only when undefined
   isInformationOpen: defaultConfigOptions?.informationPanel?.open ?? true,
   isLoaded: false,
+  isPaged: false,
   isUserScrolling: undefined,
   sequence: [[], []],
   vault: new Vault(),
+  viewingDirection: "left-to-right",
   openSeadragonViewer: null,
   viewerId: uuidv4(),
   visibleCanvases: [],
   visibleAnnotations: [],
-};
+});
+
+export const defaultState: ViewerContextStore = createDefaultState();
 
 const ViewerStateContext =
   React.createContext<ViewerContextStore>(defaultState);
@@ -343,9 +387,13 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       };
     }
     case "updateConfigOptions": {
+      const mergedConfigOptions = deepMerge(
+        cloneViewerConfigOptions(state.configOptions),
+        action.configOptions,
+      );
       return {
         ...state,
-        configOptions: deepMerge(state.configOptions, action.configOptions),
+        configOptions: mergedConfigOptions,
       };
     }
     case "updateContentStateAnnotation": {
@@ -408,6 +456,18 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
         visibleCanvases: action.visibleCanvases,
       };
     }
+    case "updateViewingDirection": {
+      return {
+        ...state,
+        viewingDirection: action.viewingDirection,
+      };
+    }
+    case "updateIsPaged": {
+      return {
+        ...state,
+        isPaged: action.isPaged,
+      };
+    }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
     }
@@ -420,12 +480,29 @@ interface ViewerProviderProps {
 }
 
 const ViewerProvider: React.FC<ViewerProviderProps> = ({
-  initialState = defaultState,
+  initialState,
   children,
 }) => {
   const [state, dispatch] = useReducer<
-    React.Reducer<ViewerContextStore, ViewerAction>
-  >(viewerReducer, initialState);
+    React.Reducer<ViewerContextStore, ViewerAction>,
+    ViewerContextStore | undefined
+  >(
+    viewerReducer,
+    initialState,
+    (initArg?: ViewerContextStore) => {
+      if (initArg) {
+        return {
+          ...initArg,
+          configOptions: cloneViewerConfigOptions(
+            initArg.configOptions ?? defaultConfigOptions,
+          ),
+          viewerId: initArg.viewerId ?? uuidv4(),
+        };
+      }
+
+      return createDefaultState();
+    },
+  );
 
   const { openSeadragonViewer } = state;
 

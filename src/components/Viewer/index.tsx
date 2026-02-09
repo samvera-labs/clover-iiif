@@ -1,4 +1,3 @@
-import "src/i18n/config";
 import {
   AnnotationNormalized,
   CollectionNormalized,
@@ -212,6 +211,27 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
           dispatch({
             type: "updateManifestSequence",
             sequence,
+          });
+
+          /**
+           * Extract viewingDirection from manifest (defaults to left-to-right)
+           * and check if behavior includes "paged"
+           */
+          // @ts-ignore - viewingDirection exists on IIIF manifest but may not be typed
+          const viewingDirection = data.viewingDirection || "left-to-right";
+          // @ts-ignore - behavior exists on IIIF manifest but may not be typed
+          const behavior = data.behavior || [];
+          const isPaged = Array.isArray(behavior)
+            ? behavior.includes("paged")
+            : behavior === "paged";
+
+          dispatch({
+            type: "updateViewingDirection",
+            viewingDirection,
+          });
+          dispatch({
+            type: "updateIsPaged",
+            isPaged,
           });
         })
         .catch((error: Error) => {

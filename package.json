@@ -1,6 +1,6 @@
 {
   "name": "@samvera/clover-iiif",
-  "version": "3.0.0",
+  "version": "3.3.8",
   "description": "Extensible IIIF front-end toolkit and Manifest viewer. Accessible. Composable. Open Source.",
   "files": [
     "dist"
@@ -43,6 +43,11 @@
       "types": "./dist/helpers/index.d.ts",
       "import": "./dist/helpers/index.mjs",
       "require": "./dist/helpers/index.cjs"
+    },
+    "./i18n": {
+      "types": "./dist/i18n/index.d.ts",
+      "import": "./dist/i18n/index.mjs",
+      "require": "./dist/i18n/index.cjs"
     },
     "./react-shim": {
       "import": "./dist/react-shim.mjs",
@@ -87,7 +92,6 @@
   "dependencies": {
     "@iiif/helpers": "^1.2.19",
     "@iiif/parser": "^2.1.4",
-    "@nulib/use-markdown": "^0.2.3",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
     "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-collapsible": "^1.1.1",
@@ -107,25 +111,33 @@
     "react-error-boundary": "^4.1.2",
     "react-i18next": "^15.1.1",
     "react-lazy-load-image-component": "^1.6.2",
+    "rehype-raw": "^7.0.0",
+    "rehype-stringify": "^10.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
     "sanitize-html": "^2.13.1",
     "swiper": "^9.0.0",
+    "unified": "^11.0.5",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@iiif/presentation-3": "^1.1.3",
-    "@testing-library/jest-dom": "^6.6.3",
+    "@playwright/test": "^1.54.2",
     "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
     "@types/flexsearch": "^0.7.6",
     "@types/node": "20.11.16",
     "@types/openseadragon": "^3.0.10",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
     "@types/sanitize-html": "^2.13.0",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@vitejs/plugin-react": "^4.3.3",
     "@vitest/coverage-v8": "2.1.5",
     "@vitest/ui": "2.1.5",
-    "@playwright/test": "^1.54.2",
     "cross-fetch": "^4.0.0",
     "dts-bundle-generator": "8.0.1",
     "eslint-config-next": "14.1.0",
@@ -139,8 +151,6 @@
     "nextra-theme-docs": "^2.13.4",
     "preact": "^10.24.3",
     "prettier": "^3.3.3",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "rimraf": "^6.0.1",
@@ -174,6 +184,9 @@
       ],
       "helpers": [
         "dist/helpers/index.d.ts"
+      ],
+      "i18n": [
+        "dist/i18n/index.d.ts"
       ],
       "*": [
         "dist/index.d.ts"

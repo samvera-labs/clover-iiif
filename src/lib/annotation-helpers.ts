@@ -1,4 +1,9 @@
-import { AnnotationNormalized, AnnotationTarget } from "@iiif/presentation-3";
+import {
+  AnnotationNormalized,
+  AnnotationTarget,
+  EmbeddedResource,
+} from "@iiif/presentation-3";
+import { Vault } from "@iiif/helpers/vault";
 
 import { ParsedAnnotationTarget } from "src/types/annotations";
 
@@ -109,22 +114,128 @@ const parseAnnotationTarget = (target: AnnotationTargetExtended | string) => {
   return parsedTarget;
 };
 
-function extractLanguages(annotations: AnnotationNormalized[]) {
-  const languages = new Set();
+type AnnotationBodySource = {
+  body?: unknown;
+};
 
-  function findLanguage(obj) {
+const resolveAnnotationBodies = (
+  annotation?: AnnotationBodySource,
+  vault?: Vault,
+): EmbeddedResource[] => {
+  if (!annotation?.body) return [];
+
+  const bodies = Array.isArray(annotation.body)
+    ? annotation.body
+    : [annotation.body];
+
+  return bodies
+    .map((body) => {
+      if (!body) return undefined;
+
+      if (typeof body === "string") {
+        return vault?.get(body) as EmbeddedResource;
+      }
+
+      if (typeof body === "object") {
+        if ("value" in body || "language" in body || body?.["type"] === "TextualBody") {
+          return body as EmbeddedResource;
+        }
+
+        const referenceId = (body as { id?: string }).id;
+        if (referenceId && vault) {
+          return vault.get(referenceId) as EmbeddedResource;
+        }
+      }
+
+      return undefined;
+    })
+    .filter((body): body is EmbeddedResource => Boolean(body));
+};
+
+function normalizeMotivations(
+  motivation?: string | string[] | null,
+): string[] {
+  if (!motivation) return [];
+  return Array.isArray(motivation) ? motivation : [motivation];
+}
+
+function annotationMatchesMotivations(
+  annotation?: { motivation?: string | string[] | null },
+  allowedMotivations?: string[],
+): boolean {
+  if (!annotation) return false;
+  if (!allowedMotivations) return true;
+  if (allowedMotivations.length === 0) return false;
+
+  const annotationMotivations = normalizeMotivations(annotation.motivation);
+  if (annotationMotivations.length === 0) return false;
+
+  return annotationMotivations.some((motivation) =>
+    allowedMotivations.includes(motivation),
+  );
+}
+
+function filterAnnotationsByMotivation<T extends { motivation?: string | string[] | null }>(
+  annotations: Array<T | undefined>,
+  allowedMotivations?: string[],
+): T[] {
+  if (!annotations || annotations.length === 0) return [];
+  if (!allowedMotivations) return annotations.filter(Boolean) as T[];
+  if (allowedMotivations.length === 0) return [];
+
+  return annotations.filter((annotation) =>
+    annotationMatchesMotivations(annotation, allowedMotivations),
+  ) as T[];
+}
+
+function extractLanguages(
+  annotations: Array<AnnotationNormalized | AnnotationBodySource>,
+  vault?: Vault,
+) {
+  if (!annotations || annotations.length === 0) return [];
+
+  const languages = new Set<string>();
+
+  const addLanguage = (language: unknown) => {
+    if (!language) return;
+    if (Array.isArray(language)) {
+      language.forEach(addLanguage);
+      return;
+    }
+    if (typeof language === "string") {
+      languages.add(language);
+    }
+  };
+
+  function findLanguage(obj: unknown) {
     if (Array.isArray(obj)) {
       obj.forEach(findLanguage);
     } else if (obj && typeof obj === "object") {
-      if (obj.language) {
-        languages.add(obj.language);
+      const record = obj as Record<string, unknown>;
+      if ("language" in record) {
+        addLanguage(record.language);
       }
-      Object.values(obj).forEach(findLanguage);
+      Object.values(record).forEach(findLanguage);
     }
   }
 
-  findLanguage(annotations);
+  const normalizedAnnotations = vault
+    ? annotations.map((annotation) => {
+        const resolvedBodies = resolveAnnotationBodies(annotation, vault);
+        if (!resolvedBodies.length) return annotation;
+        return { ...annotation, body: resolvedBodies };
+      })
+    : annotations;
+
+  findLanguage(normalizedAnnotations);
   return Array.from(languages);
 }
 
-export { getLanguageDirection, extractLanguages, parseAnnotationTarget };
+export {
+  getLanguageDirection,
+  extractLanguages,
+  parseAnnotationTarget,
+  filterAnnotationsByMotivation,
+  annotationMatchesMotivations,
+  resolveAnnotationBodies,
+};

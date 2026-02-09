@@ -25,10 +25,10 @@ const LanguageIcon = ({
 
 const ScrollLanguage = () => {
   const { state } = useContext(ScrollContext);
-  const { activeLanguages, annotations } = state;
+  const { activeLanguages, annotations, vault } = state;
 
   const languages = annotations
-    ? (extractLanguages(annotations) as string[])
+    ? (extractLanguages(annotations, vault) as string[])
     : [];
 
   return (

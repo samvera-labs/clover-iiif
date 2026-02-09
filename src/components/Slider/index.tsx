@@ -1,4 +1,3 @@
-import "src/i18n/config";
 import {
   CollectionItems,
   CollectionNormalized,

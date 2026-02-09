@@ -1,5 +1,6 @@
 import React from "react";
 import { ToggleStyled } from "./Painting.styled";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 interface ToggleProps {
   handleToggle: () => void;
@@ -7,7 +8,7 @@ interface ToggleProps {
   isMedia: boolean;
 }
 
-const CloseIcon = () => {
+const CloseIcon = ({ label }: { label: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -16,13 +17,13 @@ const CloseIcon = () => {
       viewBox="0 0 512 512"
       role="img"
     >
-      <title id="close-svg-title">close</title>
+      <title id="close-svg-title">{label}</title>
       <path d="M289.94 256l95-95A24 24 0 00351 127l-95 95-95-95a24 24 0 00-34 34l95 95-95 95a24 24 0 1034 34l95-95 95 95a24 24 0 0034-34z" />
     </svg>
   );
 };
 
-const OpenIcon = ({ isMedia }: { isMedia: boolean }) => {
+const OpenIcon = ({ isMedia, label }: { isMedia: boolean; label: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +32,7 @@ const OpenIcon = ({ isMedia }: { isMedia: boolean }) => {
       viewBox="0 0 512 512"
       role="img"
     >
-      <title id="open-svg-title">open</title>
+      <title id="open-svg-title">{label}</title>
 
       {isMedia ? (
         <path d="M133 440a35.37 35.37 0 01-17.5-4.67c-12-6.8-19.46-20-19.46-34.33V111c0-14.37 7.46-27.53 19.46-34.33a35.13 35.13 0 0135.77.45l247.85 148.36a36 36 0 010 61l-247.89 148.4A35.5 35.5 0 01133 440z" />
@@ -50,6 +51,8 @@ const Toggle: React.FC<ToggleProps> = ({
   isInteractive,
   isMedia,
 }) => {
+  const { t } = useCloverTranslation();
+
   return (
     <ToggleStyled
       onClick={handleToggle}
@@ -57,7 +60,11 @@ const Toggle: React.FC<ToggleProps> = ({
       isMedia={isMedia}
       data-testid="placeholder-toggle"
     >
-      {isInteractive ? <CloseIcon /> : <OpenIcon isMedia={isMedia} />}
+      {isInteractive ? (
+        <CloseIcon label={t("commonClose")} />
+      ) : (
+        <OpenIcon isMedia={isMedia} label={t("commonOpen")} />
+      )}
     </ToggleStyled>
   );
 };

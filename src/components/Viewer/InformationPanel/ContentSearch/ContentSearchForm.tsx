@@ -7,7 +7,7 @@ import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 import { AnnotationPageNormalized } from "@iiif/presentation-3";
 import { AnnotationResource } from "src/types/annotations";
 import { getContentSearchResources } from "src/hooks/use-iiif";
-import { useTranslation } from "react-i18next";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 type Props = {
   searchServiceUrl?: string;
@@ -23,7 +23,7 @@ const SearchContent: React.FC<Props> = ({
   setContentSearchResource,
   setLoading,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useCloverTranslation();
   const [searchTerms, setSearchTerms] = useState<string | undefined>();
 
   const viewerState: ViewerContextStore = useViewerState();

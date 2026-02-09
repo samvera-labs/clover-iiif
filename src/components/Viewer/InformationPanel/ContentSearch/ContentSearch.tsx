@@ -11,7 +11,7 @@ import ContentSearchForm from "src/components/Viewer/InformationPanel/ContentSea
 import { Group } from "../Annotation/Item.styled";
 import { Label } from "src/components/Primitives";
 import { getPaintingResource } from "src/hooks/use-iiif";
-import { useTranslation } from "react-i18next";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 type ContentSearchProps = {
   searchServiceUrl?: string;
@@ -31,7 +31,7 @@ const ContentSearch: React.FC<ContentSearchProps> = ({
   const viewerState: ViewerContextStore = useViewerState();
   const { vault } = viewerState;
 
-  const { t } = useTranslation();
+  const { t } = useCloverTranslation();
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState({});
 

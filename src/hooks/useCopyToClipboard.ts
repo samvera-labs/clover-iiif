@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 
-import { useTranslation } from "react-i18next";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 export const useCopyToClipboard = (
   text: string,
   notifyTimeout = 2500,
 ): [string, () => void] => {
-  const { t } = useTranslation();
+  const { t } = useCloverTranslation();
 
   const [copyStatus, setCopyStatus] = useState("");
   const copy = useCallback(() => {
@@ -14,7 +14,7 @@ export const useCopyToClipboard = (
       () => setCopyStatus(t("copySuccess")),
       () => setCopyStatus(t("copyFailure")),
     );
-  }, [text]);
+  }, [t, text]);
 
   useEffect(() => {
     if (!copyStatus) return;
@@ -22,7 +22,7 @@ export const useCopyToClipboard = (
     const timeoutId = setTimeout(() => setCopyStatus(""), notifyTimeout);
 
     return () => clearTimeout(timeoutId);
-  }, [copyStatus]);
+  }, [copyStatus, notifyTimeout]);
 
   return [copyStatus, copy];
 };

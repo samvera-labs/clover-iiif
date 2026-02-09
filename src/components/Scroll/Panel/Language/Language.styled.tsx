@@ -33,6 +33,8 @@ const StyledScrollLanguage = styled("div", {
   },
 
   [`${StyledContent}`]: {
+    background: "$primary",
+
     "> label": {
       fontSize: "0.8333rem",
       display: "flex",

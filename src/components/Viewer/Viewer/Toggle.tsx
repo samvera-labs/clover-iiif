@@ -6,13 +6,13 @@ import {
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
 import React from "react";
-import { useTranslation } from "react-i18next";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 const Toggle = () => {
   const { isInformationOpen } = useViewerState();
   const dispatch: any = useViewerDispatch();
 
-  const { t } = useTranslation();
+  const { t } = useCloverTranslation();
 
   const handleOnCheckedChange = (checked) => {
     dispatch({

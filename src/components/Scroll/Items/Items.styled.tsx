@@ -23,12 +23,17 @@ const StyledItemTextualBodies = styled("div", {
     display: "flex",
     flexDirection: "row",
     gap: "2.618rem",
-
-    "> div": {
-      width: "calc(100% / var(--num-items))",
-      boxSizing: "border-box",
-    },
+    width: "100%",
   },
+});
+
+const StyledLanguageColumn = styled("div", {
+  width: "calc(100% / var(--num-items, 1))",
+  boxSizing: "border-box",
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+  minWidth: 0,
 });
 
 const PageBreak = styled("hr", {
@@ -42,26 +47,13 @@ const PageBreak = styled("hr", {
   display: "flex",
   justifyContent: "flex-end",
 
-  "&::before": {
-    content: "attr(aria-label)",
-    position: "absolute",
-    right: "1.618rem",
-    bottom: "0",
-    zIndex: 1,
-    display: "flex",
-    fontSize: "0.7222rem",
-    fontWeight: "400",
-    lineHeight: "1rem",
-    background: "inherit",
-    opacity: 0.7,
-  },
-
   "&::after": {
     content: "",
     width: "calc(100% -  2.618em)",
+    bottom: "0",
     position: "absolute",
     zIndex: 0,
-    height: "1px",
+    height: "2px",
     background: "#6662",
   },
 });
@@ -85,5 +77,6 @@ export {
   StyledItem,
   StyledItemFigure,
   StyledItemTextualBodies,
+  StyledLanguageColumn,
   PageBreak,
 };

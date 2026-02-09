@@ -19,6 +19,13 @@ const buildOptions = {
       fileName: "index",
     },
   },
+  i18n: {
+    lib: {
+      name: "CloverIIIFI18n",
+      entry: "./src/i18n/index.ts",
+      fileName: "index",
+    },
+  },
   viewer: {
     lib: {
       name: "CloverIIIFViewer",

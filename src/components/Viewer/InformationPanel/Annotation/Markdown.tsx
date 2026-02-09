@@ -1,7 +1,7 @@
 import { ButtonStyled, StyledAnnotationContent } from "./Item.styled";
 
 import React from "react";
-import useMarkdown from "@nulib/use-markdown";
+import useMarkdown from "src/hooks/useMarkdown";
 
 type AnnotationItemPlainTextProps = {
   value: string;

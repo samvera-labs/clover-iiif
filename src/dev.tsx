@@ -26,8 +26,11 @@ import {
 import React, { useEffect, useState } from "react";
 
 import ReactDOM from "react-dom/client";
+import { initCloverI18n } from "src/i18n/config";
 import Slider from "src/components/Slider";
 import Viewer from "src/components/Viewer";
+
+initCloverI18n();
 
 const App = () => {
   const [manifest, setManifest] = useState<Manifest>();

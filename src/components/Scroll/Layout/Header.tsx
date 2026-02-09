@@ -2,18 +2,23 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { InternationalString } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
-import { ScrollContext } from "src/context/scroll-context";
+import { ScrollContext, initialState } from "src/context/scroll-context";
 import ScrollPanel from "../Panel/Panel";
 import { StyledScrollHeader } from "src/components/Scroll/Layout/Layout.styled";
 
 interface ScrollHeaderProps {
   label: InternationalString | string | null;
+  hasDefinedLanguages: boolean;
 }
 
-const ScrollHeader: React.FC<ScrollHeaderProps> = ({ label }) => {
+const ScrollHeader: React.FC<ScrollHeaderProps> = ({
+  label,
+  hasDefinedLanguages,
+}) => {
   const { state } = useContext(ScrollContext);
   const { options } = state;
-  const { offset } = options;
+  const scrollOffset =
+    options.offset ?? initialState.options.offset ?? 0;
 
   const headerRef = useRef<HTMLElement | null>(null);
   const [headerWidth, setHeaderWidth] = useState<number>(0);
@@ -50,7 +55,7 @@ const ScrollHeader: React.FC<ScrollHeaderProps> = ({ label }) => {
       const rect = element.getBoundingClientRect();
 
       // Determine if the header is at the top of the viewport
-      if (rect.top <= offset) {
+      if (rect.top <= scrollOffset) {
         setIsFixed(true);
       } else {
         setIsFixed(false);
@@ -70,7 +75,11 @@ const ScrollHeader: React.FC<ScrollHeaderProps> = ({ label }) => {
         className="clover-scroll-header-label"
       />
       <div>
-        <ScrollPanel width={headerWidth} isFixed={isFixed} />
+        <ScrollPanel
+          width={headerWidth}
+          isFixed={isFixed}
+          hasDefinedLanguages={hasDefinedLanguages}
+        />
       </div>
     </StyledScrollHeader>
   );

@@ -43,7 +43,7 @@ describe("Header component", () => {
       screen.getByRole("link", { name: /edward s. curtis/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /commonViewAll/i }),
+      screen.getByRole("link", { name: /view all/i }),
     ).toBeInTheDocument();
   });
 

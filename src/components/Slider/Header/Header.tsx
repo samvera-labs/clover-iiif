@@ -7,7 +7,7 @@ import React, { useEffect, useState } from "react";
 import { NextIcon } from "src/components/Slider/Icons/NextIcon";
 import { PreviousIcon } from "src/components/Slider/Icons/PrevIcon";
 import ViewAll from "./ViewAll";
-import { useTranslation } from "react-i18next";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 interface HeaderProps {
   homepage?: ContentResource[];
@@ -22,7 +22,7 @@ const Header: React.FC<HeaderProps> = ({
   label,
   summary,
 }) => {
-  const { t } = useTranslation();
+  const { t } = useCloverTranslation();
   const [hasHomepage, setHasHomepage] = useState<boolean>(false);
 
   useEffect(() => {

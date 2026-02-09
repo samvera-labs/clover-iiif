@@ -5,16 +5,14 @@ import { ScrollContext } from "src/context/scroll-context";
 import { TextualBody } from "src/components/Scroll/Annotation/Body.styled";
 import { getSearchResultSnippet } from "src/lib/search-helpers";
 import { getLanguageDirection } from "src/lib/annotation-helpers";
-import useMarkdown from "@nulib/use-markdown";
+import useMarkdown from "src/hooks/useMarkdown";
 
 const ScrollAnnotationBody = ({
   body,
-  numItems = 1,
   stringLength,
   type = "content",
 }: {
   body: EmbeddedResource;
-  numItems?: number;
   stringLength?: number;
   type?: string;
 }) => {
@@ -88,10 +86,11 @@ const ScrollAnnotationBody = ({
   return (
     <TextualBody
       dangerouslySetInnerHTML={{ __html: innerHtml }}
-      data-active-language={activeLanguages?.includes(lang)}
+      data-active-language={
+        !activeLanguages?.length || activeLanguages?.includes(lang)
+      }
       data-body-id={id}
       data-testid="scroll-item-body"
-      style={{ "--num-items": numItems } as React.CSSProperties}
       id={id}
       dir={dir}
       css={{ fontSize }}

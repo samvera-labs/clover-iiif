@@ -21,7 +21,7 @@ import Thumbnail from "src/components/Viewer/Media/Thumbnail";
 import { getCanvasByCriteria } from "src/hooks/use-iiif";
 import { getLabelAsString } from "src/lib/label-helpers";
 import { getResourceType } from "src/hooks/use-iiif/getResourceType";
-import { useTranslation } from "react-i18next";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 interface MediaProps {
   items: Canvas[];
@@ -29,10 +29,15 @@ interface MediaProps {
 }
 
 const Media: React.FC<MediaProps> = ({ items }) => {
-  const { t } = useTranslation();
+  const { t } = useCloverTranslation();
   const dispatch: any = useViewerDispatch();
   const state: ViewerContextStore = useViewerState();
-  const { activeCanvas, vault, sequence } = state;
+  const { activeCanvas, isPaged, vault, sequence, viewingDirection } = state;
+
+  /**
+   * Determine if RTL paged navigation should be used
+   */
+  const isRtlPaged = isPaged && viewingDirection === "right-to-left";
 
   const [filter, setFilter] = useState<string>("");
   const [mediaItems, setMediaItems] = useState<Array<CanvasEntity>>([]);
@@ -110,6 +115,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
         handleCanvasToggle={handleCanvasToggle}
         activeIndex={activeIndex}
         canvasLength={items.length}
+        isRtlPaged={isRtlPaged}
       />
       <StyledSequence
         aria-label={t("media.selectItem")}
@@ -117,7 +123,9 @@ const Media: React.FC<MediaProps> = ({ items }) => {
         data-active-canvas={items[activeIndex].id}
         data-canvas-length={items.length}
         data-filter={filter}
+        data-rtl-paged={isRtlPaged}
         ref={scrollRef}
+        style={{ direction: isRtlPaged ? "rtl" : "ltr" }}
       >
         {sequence[1]
           .filter((groups) => {
