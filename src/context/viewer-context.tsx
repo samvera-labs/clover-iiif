@@ -65,6 +65,13 @@ export type ViewerConfigOptions = {
       moreResults?: string;
     };
   };
+  /**
+   * Language code (BCP 47) for displaying IIIF metadata labels and values.
+   * Used to select the appropriate translation from InternationalString objects.
+   * Example: "en", "nl", "zh", "fr-CA"
+   * If not set or the language is not available, falls back to the first available language.
+   */
+  language?: string;
 };
 
 export type OverlayOptions = {

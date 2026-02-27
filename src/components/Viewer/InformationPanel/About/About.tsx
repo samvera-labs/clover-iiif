@@ -25,7 +25,8 @@ import { PrimitivesExternalWebResource } from "src/types/primitives";
 
 const About: React.FC = () => {
   const viewerState: ViewerContextStore = useViewerState();
-  const { activeManifest, vault } = viewerState;
+  const { activeManifest, vault, configOptions } = viewerState;
+  const { language } = configOptions;
 
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
@@ -74,10 +75,10 @@ const About: React.FC = () => {
   return (
     <AboutStyled>
       <AboutContent>
-        <Thumbnail thumbnail={thumbnail} label={manifest.label} />
-        <Summary summary={manifest.summary} />
-        <Metadata metadata={manifest.metadata} />
-        <RequiredStatement requiredStatement={manifest.requiredStatement} />
+        <Thumbnail thumbnail={thumbnail} label={manifest.label} language={language} />
+        <Summary summary={manifest.summary} language={language} />
+        <Metadata metadata={manifest.metadata} language={language} />
+        <RequiredStatement requiredStatement={manifest.requiredStatement} language={language} />
         <Rights rights={manifest.rights} />
         <Homepage homepage={homepage} />
         <SeeAlso seeAlso={seeAlso} />
