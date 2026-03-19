@@ -5,13 +5,13 @@ import register from "src/lib/preact-custom-element/preact-custom-element";
 
 interface CloverImageAttributes {
   "aria-label"?: string;
-  "is-tiled-image"?: boolean;
+  "is-tiled-image"?: boolean | string;
   src: string;
 }
 
 interface CloverImageWCProps {
   "aria-label"?: string;
-  "is-tiled-image": boolean;
+  "is-tiled-image"?: boolean | string;
   src: string;
   __registerPublicApi: (component: HTMLElement) => void;
 }
