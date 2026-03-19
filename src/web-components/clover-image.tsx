@@ -35,7 +35,13 @@ const CloverImageWebComponent: FC<
     }
   }, [props, props.__registerPublicApi]);
 
-  return <Image label={ariaLabel} isTiledImage={isTiledImage} src={src} />;
+  return (
+    <Image
+      label={ariaLabel}
+      isTiledImage={isTiledImage === true || isTiledImage === "true"}
+      src={src}
+    />
+  );
 };
 
 const cloverViewerWCProps = ["aria-label", "src", "is-tiled-image"];
