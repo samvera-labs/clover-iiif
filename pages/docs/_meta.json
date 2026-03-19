@@ -6,10 +6,7 @@
     "title": "IIIF Components"
   },
   "image": "Image",
-  "scroll": {
-    "title": "Scroll",
-    "type": "doc"
-  },
+  "scroll": "Scroll",
   "slider": "Slider",
   "viewer": "Viewer",
   "--primitives": {

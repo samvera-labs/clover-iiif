@@ -1,10 +1,6 @@
 // @ts-nocheck
 
-import {
-  Navigator,
-  Viewport,
-  Wrapper,
-} from "src/components/Image/Image.styled";
+import * as imageStyles from "src/components/Image/Image.css";
 import OpenSeadragon, { Options, Overlay } from "openseadragon";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -389,29 +385,31 @@ const OSD: React.FC<OSDProps> = ({
   }
 
   return (
-    <Wrapper
-      className="clover-iiif-image-openseadragon"
+    <div
+      className={`${imageStyles.wrapper} clover-iiif-image-openseadragon`}
       data-testid="clover-iiif-image-openseadragon"
       data-openseadragon-instance={config.id}
-      hasNavigator={config.showNavigator}
+      data-has-navigator={config.showNavigator}
     >
       <Controls
         _cloverViewerHasPlaceholder={_cloverViewerHasPlaceholder}
         config={config}
       />
       {config.showNavigator && (
-        <Navigator
+        <div
+          className={imageStyles.navigator}
           id={config.navigatorId}
           data-testid="clover-iiif-image-openseadragon-navigator"
         />
       )}
-      <Viewport
+      <div
+        className={imageStyles.viewport}
         id={config.id}
         data-testid="clover-iiif-image-openseadragon-viewport"
         role="img"
         {...(ariaLabel && { "aria-label": ariaLabel })}
       />
-    </Wrapper>
+    </div>
   );
 };
 
