@@ -1,14 +1,14 @@
 import Cue from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue";
-import { MenuStyled } from "src/components/Viewer/InformationPanel/Menu.styled";
 import { NodeWebVttCueNested } from "src/hooks/use-webvtt";
 import React from "react";
+import { menuList } from "./Menu.css";
 
 interface MenuProps {
   items: Array<NodeWebVttCueNested>;
 }
 const Menu: React.FC<MenuProps> = ({ items }) => {
   return (
-    <MenuStyled>
+    <ul className={menuList}>
       {items.map((item) => {
         const { html, text, start, end, children, identifier } = item;
         return (
@@ -18,7 +18,7 @@ const Menu: React.FC<MenuProps> = ({ items }) => {
           </li>
         );
       })}
-    </MenuStyled>
+    </ul>
   );
 };
 export default Menu;

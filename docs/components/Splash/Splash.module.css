@@ -1,0 +1,60 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.splash {
+  max-width: 90rem;
+  width: 100%;
+  padding: 1rem;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.grid {
+  display: flex;
+  gap: 2rem;
+}
+
+.grid > div {
+  flex-shrink: 0;
+  flex-grow: 1;
+}
+
+.grid aside {
+  flex-shrink: 1;
+  flex-grow: 0;
+  width: 38.2%;
+}
+
+@media (max-width: 64rem) {
+  .splash {
+    padding: 1rem 4rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .splash {
+    padding: 0 3rem 3rem;
+  }
+}
+
+@media (max-width: 30rem) {
+  .splash {
+    padding: 0 1rem 3rem;
+  }
+}
+
+@media (max-width: 64rem) {
+  .grid {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .grid aside {
+    flex-shrink: 0;
+    flex-grow: 1;
+    width: 100%;
+  }
+}

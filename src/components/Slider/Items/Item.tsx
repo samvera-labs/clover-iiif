@@ -1,10 +1,10 @@
-import { Anchor, ItemStyled } from "./Item.styled";
 import React, { MouseEvent, useState } from "react";
 
 import Figure from "src/components/Slider/Figure/Figure";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import Placeholder from "./Placeholder";
 import { SliderItem } from "src/types/slider";
+import { sliderItem, sliderItemAnchor } from "./Items.css";
 
 interface ItemProps {
   handleItemInteraction?: (item: SliderItem) => void;
@@ -40,8 +40,9 @@ const Item: React.FC<ItemProps> = ({ handleItemInteraction, index, item }) => {
   };
 
   return (
-    <ItemStyled data-testid="slider-item">
-      <Anchor
+    <div className={sliderItem} data-testid="slider-item">
+      <a
+        className={sliderItemAnchor}
         data-testid="slider-item-anchor"
         href={href}
         onClick={handleAnchorClick}
@@ -61,8 +62,8 @@ const Item: React.FC<ItemProps> = ({ handleItemInteraction, index, item }) => {
           summary={item.summary}
           thumbnail={thumbnail}
         />
-      </Anchor>
-    </ItemStyled>
+      </a>
+    </div>
   );
 };
 

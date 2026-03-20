@@ -4,10 +4,10 @@ import {
   CanvasNormalized,
   InternationalString,
 } from "@iiif/presentation-3";
-import { PaintingCanvas, PaintingStyled } from "./Painting.styled";
 import React, { useEffect } from "react";
 import { Select, SelectOption } from "src/components/UI/Select";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
+import { paintingCanvas, paintingRoot } from "./Painting.css";
 
 import { AnnotationResources } from "src/types/annotations";
 import ImageViewer from "src/components/Image";
@@ -285,8 +285,9 @@ const Painting: React.FC<PaintingProps> = ({
     ?.component as unknown as React.ElementType;
 
   return (
-    <PaintingStyled className="clover-viewer-painting">
-      <PaintingCanvas
+    <div className={`${paintingRoot} clover-viewer-painting`}>
+      <div
+        className={paintingCanvas}
         style={{
           backgroundColor: configOptions.canvasBackgroundColor,
           height:
@@ -341,24 +342,27 @@ const Painting: React.FC<PaintingProps> = ({
             {...customDisplay?.display.componentProps}
           />
         )}
-      </PaintingCanvas>
+      </div>
 
-      {hasChoice && (
+      {hasChoice && painting && (
         <Select
           value={painting[annotationIndex]?.id}
           onValueChange={handleChoiceChange}
           maxHeight={"200px"}
         >
-          {painting?.map((resource) => (
-            <SelectOption
-              value={resource?.id}
-              key={resource?.id}
-              label={resource?.label}
-            />
-          ))}
+          {painting.map((resource) => {
+            if (!resource?.id || !resource?.label) return null;
+            return (
+              <SelectOption
+                value={resource.id}
+                key={resource.id}
+                label={resource.label}
+              />
+            );
+          })}
         </Select>
       )}
-    </PaintingStyled>
+    </div>
   );
 };
 

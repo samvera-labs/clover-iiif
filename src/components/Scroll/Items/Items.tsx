@@ -2,7 +2,7 @@ import React from "react";
 import { Reference } from "@iiif/presentation-3";
 import ScrollItem from "src/components/Scroll/Items/Item";
 import { ScrollContext } from "src/context/scroll-context";
-import { StyledScrollItems } from "src/components/Scroll/Items/Items.styled";
+import { scrollItems } from "src/components/Scroll/Items/Items.css";
 import LazyLoad from "src/components/UI/LazyLoad/LazyLoad";
 
 const ScrollItems = ({ items }: { items: Reference<"Canvas">[] }) => {
@@ -13,7 +13,7 @@ const ScrollItems = ({ items }: { items: Reference<"Canvas">[] }) => {
   if (!annotationsReady) return null;
 
   return (
-    <StyledScrollItems>
+    <div className={scrollItems}>
       {items.map((item, index) => {
         const itemNumber = index + 1;
         const isLastItem = itemNumber === items.length;
@@ -31,7 +31,7 @@ const ScrollItems = ({ items }: { items: Reference<"Canvas">[] }) => {
           </LazyLoad>
         );
       })}
-    </StyledScrollItems>
+    </div>
   );
 };
 

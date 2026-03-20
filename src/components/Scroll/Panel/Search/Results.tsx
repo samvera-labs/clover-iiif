@@ -1,8 +1,8 @@
 import {
-  StyledSearchAnnotationInformation,
-  StyledSearchAnnotations,
-  StyledSearchTag,
-} from "src/components/Scroll/Panel/Search/Search.styled";
+  searchAnnotationInformation,
+  searchAnnotations,
+  searchTag,
+} from "src/components/Scroll/Panel/Search/Search.css";
 
 import { AnnotationFlattened } from "src/types/annotations";
 import React from "react";
@@ -27,10 +27,10 @@ const ScrollSearchResultsButton = ({
       onClick={() => handleScrollToId(bodyId)}
       key={bodyId}
     >
-      <StyledSearchAnnotationInformation>
-        <StyledSearchTag>{annotation.motivation}</StyledSearchTag>
+      <div className={searchAnnotationInformation}>
+        <span className={searchTag}>{annotation.motivation}</span>
         <span>{annotation?.body?.language}</span>
-      </StyledSearchAnnotationInformation>
+      </div>
       <ScrollAnnotationBody
         body={annotation.body}
         stringLength={144}
@@ -49,7 +49,7 @@ const ScrollSearchResults = ({
   };
 }) => {
   return (
-    <StyledSearchAnnotations>
+    <div className={searchAnnotations}>
       {results.found.map((annotation) => (
         <ScrollSearchResultsButton
           annotation={annotation}
@@ -63,7 +63,7 @@ const ScrollSearchResults = ({
           key={annotation.id}
         />
       ))}
-    </StyledSearchAnnotations>
+    </div>
   );
 };
 

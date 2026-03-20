@@ -1,13 +1,21 @@
 import { ContentResource, InternationalString } from "@iiif/presentation-3";
-import { ControlStyled, Icon } from "./Control.styled";
-import { HeaderContent, HeaderControls, HeaderStyled } from "./Header.styled";
 import { Homepage, Label, Summary } from "src/components/Primitives";
-import React, { useEffect, useState } from "react";
+import { PrimitivesExternalWebResource } from "src/types/primitives";
+import React from "react";
 
 import { NextIcon } from "src/components/Slider/Icons/NextIcon";
 import { PreviousIcon } from "src/components/Slider/Icons/PrevIcon";
 import ViewAll from "./ViewAll";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
+import {
+  sliderControlButton,
+  sliderControlIcon,
+  sliderHeader,
+  sliderHeaderContent,
+  sliderHeaderControls,
+  sliderHeaderLabel,
+  sliderHeaderSummary,
+} from "./Header.css";
 
 interface HeaderProps {
   homepage?: ContentResource[];
@@ -23,32 +31,29 @@ const Header: React.FC<HeaderProps> = ({
   summary,
 }) => {
   const { t } = useCloverTranslation();
-  const [hasHomepage, setHasHomepage] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (homepage && homepage?.length > 0) setHasHomepage(true);
-  }, [homepage]);
+  const normalizedHomepage =
+    homepage as unknown as PrimitivesExternalWebResource[] | undefined;
+  const hasHomepage = Boolean(normalizedHomepage?.length);
 
   return (
-    <HeaderStyled data-testid="slider-header">
-      <HeaderContent>
-        {hasHomepage ? (
+    <div className={sliderHeader} data-testid="slider-header">
+      <div className={sliderHeaderContent}>
+        {hasHomepage && normalizedHomepage ? (
           <Homepage
-            // @ts-ignore
-            homepage={homepage}
+            homepage={normalizedHomepage}
             className="clover-slider-header-homepage"
           >
             <Label
               label={label}
               as="span"
-              className="clover-slider-header-label"
+              className={`${sliderHeaderLabel} clover-slider-header-label`}
             />
           </Homepage>
         ) : (
           <Label
             label={label}
             as="span"
-            className="clover-slider-header-label"
+            className={`${sliderHeaderLabel} clover-slider-header-label`}
           />
         )}
 
@@ -56,35 +61,37 @@ const Header: React.FC<HeaderProps> = ({
           <Summary
             summary={summary}
             as="span"
-            className="clover-slider-header-summary"
+            className={`${sliderHeaderSummary} clover-slider-header-summary`}
           />
         )}
-      </HeaderContent>
-      <HeaderControls>
-        <ControlStyled
-          className={`clover-slider-previous-${instance}`}
+      </div>
+      <div className={sliderHeaderControls}>
+        <button
+          className={`${sliderControlButton} clover-slider-previous-${instance}`}
           aria-label={t("commonPrevious")}
+          type="button"
         >
-          <Icon>
+          <span className={sliderControlIcon}>
             <PreviousIcon />
-          </Icon>
-        </ControlStyled>
-        <ControlStyled
-          className={`clover-slider-next-${instance}`}
+          </span>
+        </button>
+        <button
+          className={`${sliderControlButton} clover-slider-next-${instance}`}
           aria-label={t("commonNext")}
+          type="button"
         >
-          <Icon>
+          <span className={sliderControlIcon}>
             <NextIcon />
-          </Icon>
-        </ControlStyled>
-        {hasHomepage && (
+          </span>
+        </button>
+        {hasHomepage && normalizedHomepage && (
           <ViewAll
-            homepage={homepage}
+            homepage={normalizedHomepage}
             className="clover-slider-header-view-all"
           />
         )}
-      </HeaderControls>
-    </HeaderStyled>
+      </div>
+    </div>
   );
 };
 

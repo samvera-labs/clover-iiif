@@ -1,13 +1,9 @@
-import {
-  DownloadButton,
-  DownloadContent,
-} from "src/components/Viewer/Viewer/Download.styled";
-
 import { Icon } from "src/components/UI/Icon/Icon";
 import { Popover } from "src/components/UI";
 import React from "react";
 import { RenderingItem } from "src/types/presentation-3";
 import useViewerDownload from "src/hooks/useViewerDownload";
+import { downloadButton, downloadContent } from "./Download.css";
 
 const ViewerDownload = () => {
   const { allPages, individualPages } = useViewerDownload();
@@ -23,12 +19,12 @@ const ViewerDownload = () => {
 
   return (
     <Popover>
-      <DownloadButton data-testid="download-button">
+      <Popover.Trigger className={downloadButton} data-testid="download-button">
         <Icon>
           <Icon.Download />
         </Icon>
-      </DownloadButton>
-      <DownloadContent data-testid="download-content">
+      </Popover.Trigger>
+      <Popover.Content className={downloadContent} data-testid="download-content">
         {individualPages.length > 0 && (
           <>
             <h3>Individual Pages</h3>
@@ -58,7 +54,7 @@ const ViewerDownload = () => {
             </ul>
           </>
         )}
-      </DownloadContent>
+      </Popover.Content>
     </Popover>
   );
 };

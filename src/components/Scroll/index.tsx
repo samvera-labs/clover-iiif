@@ -14,7 +14,7 @@ import {
 } from "@iiif/presentation-3";
 import ScrollHeader from "src/components/Scroll/Layout/Header";
 import ScrollItems from "src/components/Scroll/Items/Items";
-import { StyledScrollWrapper } from "src/components/Scroll/Layout/Layout.styled";
+import { scrollWrapper } from "src/components/Scroll/Layout/Layout.css";
 import {
   extractLanguages,
   filterAnnotationsByMotivation,
@@ -172,7 +172,7 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
   if (!manifest) return null;
 
   return (
-    <StyledScrollWrapper>
+    <section className={scrollWrapper}>
       {manifest && (
         <>
           <ScrollHeader
@@ -182,7 +182,7 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
           <ScrollItems items={manifest.items} />
         </>
       )}
-    </StyledScrollWrapper>
+    </section>
   );
 };
 

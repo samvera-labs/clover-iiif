@@ -2,10 +2,11 @@ import React, { useContext, useEffect } from "react";
 
 import { EmbeddedResource } from "@iiif/presentation-3";
 import { ScrollContext } from "src/context/scroll-context";
-import { TextualBody } from "src/components/Scroll/Annotation/Body.styled";
+import { textualBody } from "src/components/Scroll/Annotation/Body.css";
 import { getSearchResultSnippet } from "src/lib/search-helpers";
 import { getLanguageDirection } from "src/lib/annotation-helpers";
 import useMarkdown from "src/hooks/useMarkdown";
+import { vars } from "src/styles/theme.css";
 
 const ScrollAnnotationBody = ({
   body,
@@ -63,7 +64,7 @@ const ScrollAnnotationBody = ({
   const id = [body.id, type].join("-");
   const isRtl = getLanguageDirection(String(body.language)) === "RTL";
   const dir = isRtl ? "rtl" : "ltr";
-  const fontSize = isRtl ? "1.3em" : "1em";
+  const fontSize = isRtl ? vars.fontSizes[5] : vars.fontSizes[4];
   const lang = String(body.language);
 
   useEffect(() => {
@@ -84,7 +85,8 @@ const ScrollAnnotationBody = ({
   if (!innerHtml) return null;
 
   return (
-    <TextualBody
+    <div
+      className={textualBody}
       dangerouslySetInnerHTML={{ __html: innerHtml }}
       data-active-language={
         !activeLanguages?.length || activeLanguages?.includes(lang)
@@ -93,7 +95,7 @@ const ScrollAnnotationBody = ({
       data-testid="scroll-item-body"
       id={id}
       dir={dir}
-      css={{ fontSize }}
+      style={{ fontSize }}
       lang={lang}
     />
   );

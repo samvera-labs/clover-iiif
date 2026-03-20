@@ -255,7 +255,7 @@ const MyCustomViewer = () => {
 | `canvasIdCallback`               | `function`                                                                                                                                       | No       |                                          |
 | `contentStateCallback`           | [See IIIF Content State](#iiif-content-state)                                                                                                    | No       |                                          |
 | `customDisplays`                 | [See Custom Displays](#custom-displays)                                                                                                          | No       |                                          |
-| `customTheme`                    | `object`                                                                                                                                         | No       |                                          |
+| `customTheme`                    | Partial theme token overrides (see [Custom Theme](#custom-theme))                                                                               | No       |                                          |
 | `plugins`                        | [See Plugins](#plugins)                                                                                                                          | No       |                                          |
 | `options`                        | `object`                                                                                                                                         | No       |                                          |
 | `options.background`             | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background)                                                                      | No       | `transparent`                            |
@@ -596,7 +596,7 @@ export default function App() {
 
 ### Custom Theme
 
-You may choose to override the base theme by setting optional colors and fonts. Naming conventions for colors are limited to those shown in the config example below.
+Override any of Clover's design tokens by passing a `customTheme` object. Each key maps to a CSS custom property (`colors.foreground` → `--colors-foreground`), so anything you provide becomes available to every component. Legacy `primary`/`secondary` keys still work and are automatically mapped to the new `foreground`/`background` tokens.
 
 ```jsx
 const iiifContent =
@@ -605,32 +605,25 @@ const iiifContent =
 const customTheme = {
   colors: {
     /**
-     * Black and dark grays in a light theme.
-     * All must contrast to 4.5 or greater with `secondary`.
+     * Foreground (text, icons) should contrast with every background token.
      */
-    primary: "#37474F",
-    primaryMuted: "#546E7A",
-    primaryAlt: "#263238",
+    foreground: "#37474F",
+    foregroundMuted: "#546E7A",
+    foregroundAlt: "#263238",
 
     /**
-     * Key brand color(s).
-     * `accent` must contrast to 4.5 or greater with `secondary`.
+     * Accent is reserved for actionable elements (buttons, toggles, focus states).
      */
     accent: "#C62828",
     accentMuted: "#E57373",
     accentAlt: "#B71C1C",
 
     /**
-     * White and light grays in a light theme.
-     * All must must contrast to 4.5 or greater with `primary` and  `accent`.
+     * Background surfaces live behind content. Each one must meet WCAG contrast against `foreground` and `accent`.
      */
-    secondary: "#FFFFFF",
-    secondaryMuted: "#ECEFF1",
-    secondaryAlt: "#CFD8DC",
-  },
-  fonts: {
-    sans: "'Helvetica Neue', sans-serif",
-    display: "Optima, Georgia, Arial, sans-serif",
+    background: "#FFFFFF",
+    backgroundMuted: "#ECEFF1",
+    backgroundAlt: "#CFD8DC",
   },
 };
 
@@ -910,10 +903,11 @@ export default function PluginButton(props) {
     <button
       onClick={clickHandler}
       style={{
-        backgroundColor: "var(--colors-primary)",
-        borderRadius: "2rem",
+        backgroundColor: "var(--colors-accent)",
+        color: "var(--colors-background)",
+        borderRadius: "var(--radii-round)",
         width: "2rem",
-        margin: "0px 0px 0px 0.618rem",
+        marginInlineStart: "var(--space-3)",
       }}
     >
       <b>P</b>

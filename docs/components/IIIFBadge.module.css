@@ -1,0 +1,13 @@
+.badge {
+  display: inline-flex;
+  flex-direction: column;
+  text-decoration: none;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.badgeContent {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

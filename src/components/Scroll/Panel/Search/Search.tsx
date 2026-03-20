@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import { AnnotationFlattened } from "src/types/annotations";
 import { ScrollContext } from "src/context/scroll-context";
 import SearchAnnotationsResultsLabel from "./ResultsLabel";
-import { StyledSearch } from "src/components/Scroll/Panel/Search/Search.styled";
+import { searchContainer } from "src/components/Scroll/Panel/Search/Search.css";
 import { resolveAnnotationBodies } from "src/lib/annotation-helpers";
 
 const ArrowIcon = ({
@@ -188,7 +188,7 @@ const ScrollSearch = () => {
     );
 
   return (
-    <StyledSearch data-active={Boolean(searchString)}>
+    <div className={searchContainer} data-active={Boolean(searchString)}>
       {searchString && (
         <SearchAnnotationsResultsLabel
           activeIndex={activeIndex}
@@ -198,18 +198,18 @@ const ScrollSearch = () => {
       )}
       {searchMatches?.total !== 0 && (
         <>
-          <button onClick={handlePrevious}>
+          <button onClick={handlePrevious} type="button">
             <ArrowIcon
               title="previous"
               style={{ transform: "rotate(90deg)" }}
             />
           </button>
-          <button onClick={handleNext}>
+          <button onClick={handleNext} type="button">
             <ArrowIcon title="next" style={{ transform: "rotate(270deg)" }} />
           </button>
         </>
       )}
-    </StyledSearch>
+    </div>
   );
 };
 

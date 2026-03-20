@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import { CollectionItems } from "@iiif/presentation-3";
 import Item from "./Item";
-import { ItemsStyled } from "src/components/Slider/Items/Items.styled";
+import { sliderItems } from "src/components/Slider/Items/Items.css";
 import LazyLoad from "src/components/UI/LazyLoad/LazyLoad";
 
 interface ItemsProps {
@@ -52,7 +52,7 @@ const Items: React.FC<ItemsProps> = ({
   const itemsRef = useRef<HTMLDivElement>(null);
 
   return (
-    <ItemsStyled ref={itemsRef}>
+    <div className={sliderItems} ref={itemsRef}>
       <Swiper
         // @ts-ignore
         a11y={{
@@ -85,7 +85,7 @@ const Items: React.FC<ItemsProps> = ({
           </SwiperSlide>
         ))}
       </Swiper>
-    </ItemsStyled>
+    </div>
   );
 };
 

@@ -15,9 +15,9 @@ import AnnotationItemImage from "./Image";
 import AnnotationItemMarkdown from "./Markdown";
 import AnnotationItemPlainText from "./PlainText";
 import AnnotationItemVTT from "./VTT/VTT";
-import { Item as ItemStyled } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
 import { NodeWebVttCueNested } from "src/hooks/use-webvtt";
 import { getLanguageDirection } from "src/lib/annotation-helpers";
+import { annotationContent, annotationItem, annotationItemRow } from "./Annotation.css";
 
 type Props = {
   annotation: AnnotationNormalized;
@@ -197,11 +197,11 @@ export const AnnotationItem: React.FC<Props> = ({
   if (!format) return;
 
   return (
-    <ItemStyled
-      dir={readingDirection}
-      data-format={format}
+    <div
+      className={`${annotationItemRow} ${annotationItem} clover-iiif-annotation-item`}
       data-content={content}
-      className="clover-iiif-annotation-item"
+      data-format={format}
+      dir={readingDirection}
     >
       <span
         style={{
@@ -211,7 +211,7 @@ export const AnnotationItem: React.FC<Props> = ({
         }}
       ></span>
       {renderItemBody()}
-    </ItemStyled>
+    </div>
   );
 };
 

@@ -1,15 +1,15 @@
 import { render, screen } from "@testing-library/react";
 
 import Cue from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue";
-import { Group } from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue.styled";
 import React from "react";
+import * as RadioGroup from "@radix-ui/react-radio-group";
 
 describe("Information panel cue component", () => {
   it("renders", () => {
     render(
-      <Group>
+      <RadioGroup.Root>
         <Cue html="<div>Text</div>" text="Text" start={107} end={150} />
-      </Group>,
+      </RadioGroup.Root>,
     );
     const cue = screen.getByTestId("information-panel-cue");
     expect(cue);

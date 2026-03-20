@@ -4,7 +4,7 @@ import { InternationalString } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
 import { ScrollContext, initialState } from "src/context/scroll-context";
 import ScrollPanel from "../Panel/Panel";
-import { StyledScrollHeader } from "src/components/Scroll/Layout/Layout.styled";
+import { scrollHeader } from "src/components/Scroll/Layout/Layout.css";
 
 interface ScrollHeaderProps {
   label: InternationalString | string | null;
@@ -69,7 +69,7 @@ const ScrollHeader: React.FC<ScrollHeaderProps> = ({
   }, []);
 
   return (
-    <StyledScrollHeader ref={headerRef}>
+    <header className={scrollHeader} ref={headerRef}>
       <Label
         label={label as InternationalString}
         className="clover-scroll-header-label"
@@ -81,7 +81,7 @@ const ScrollHeader: React.FC<ScrollHeaderProps> = ({
           hasDefinedLanguages={hasDefinedLanguages}
         />
       </div>
-    </StyledScrollHeader>
+    </header>
   );
 };
 

@@ -1,10 +1,3 @@
-import {
-  Header,
-  HeaderOptions,
-  IIIFBadgeButton,
-  ManifestLabel,
-  PopoverContent,
-} from "./Header.styled";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import Collection from "src/components/Viewer/Collection/Collection";
@@ -17,6 +10,13 @@ import React from "react";
 import Toggle from "./Toggle";
 import ViewerDownload from "./Download";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
+import {
+  viewerBadgeButton,
+  viewerHeader,
+  viewerHeaderOptions,
+  viewerManifestLabel,
+  viewerPopoverContent,
+} from "./Header.css";
 
 interface Props {
   manifestId: string;
@@ -39,23 +39,25 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
   const { t } = useCloverTranslation();
 
   return (
-    <Header className="clover-viewer-header">
+    <header className={`${viewerHeader} clover-viewer-header`}>
       {collection?.items ? (
         <Collection />
       ) : (
-        <ManifestLabel className={!showTitle ? "visually-hidden" : ""}>
+        <span
+          className={`${viewerManifestLabel} ${!showTitle ? "visually-hidden" : ""}`.trim()}
+        >
           {showTitle && <Label label={manifestLabel} className="label" />}
-        </ManifestLabel>
+        </span>
       )}
       {hasOptions && (
-        <HeaderOptions>
+        <div className={viewerHeaderOptions}>
           {showDownload && <ViewerDownload />}
           {showIIIFBadge && (
             <Popover>
-              <IIIFBadgeButton>
+              <Popover.Trigger className={viewerBadgeButton}>
                 <IIIFBadge title={t("commonShare")} />
-              </IIIFBadgeButton>
-              <PopoverContent>
+              </Popover.Trigger>
+              <Popover.Content className={viewerPopoverContent}>
                 {collection?.items && (
                   <button
                     onClick={(e) => {
@@ -84,13 +86,13 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
                   textPrompt={t("shareManifestCopy")}
                   textToCopy={manifestId}
                 />
-              </PopoverContent>
+              </Popover.Content>
             </Popover>
           )}
           {informationPanel?.renderToggle && <Toggle />}
-        </HeaderOptions>
+        </div>
       )}
-    </Header>
+    </header>
   );
 };
 

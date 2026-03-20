@@ -14,17 +14,19 @@ vi.mock("src/components/UI/LazyLoad/LazyLoad", () => {
   return {
     __esModule: true,
     default: ({ children, isVisibleCallback, attributes }: any) => {
-      isVisibleCallback(true); // Simulate component becoming visible
+      React.useEffect(() => {
+        isVisibleCallback(true);
+      }, [isVisibleCallback]);
       return <div {...attributes}>{children}</div>;
     },
   };
 });
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { render, screen, within } from "@testing-library/react";
+import { act, render, screen, within } from "@testing-library/react";
 
 import React from "react";
-import { StyledSequence } from "src/components/Viewer/Media/Media.styled";
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import Thumbnail from "src/components/Viewer/Media/Thumbnail";
 import { ThumbnailProps } from "src/components/Viewer/Media/Thumbnail";
 import { getThumbnail } from "@iiif/helpers/thumbnail";
@@ -64,13 +66,18 @@ const props: ThumbnailProps = {
   handleChange: vi.fn(),
 };
 
+const renderThumbnail = async (ui: React.ReactElement) => {
+  render(ui);
+  await act(async () => {});
+};
+
 describe("Thumbnail component", () => {
   describe("image type", () => {
-    beforeEach(() => {
-      render(
-        <StyledSequence>
+    beforeEach(async () => {
+      await renderThumbnail(
+        <RadioGroup.Root>
           <Thumbnail {...props} />
-        </StyledSequence>,
+        </RadioGroup.Root>,
       );
     });
 
@@ -108,10 +115,10 @@ describe("Thumbnail component", () => {
           ],
         },
       };
-      render(
-        <StyledSequence>
+      await renderThumbnail(
+        <RadioGroup.Root>
           <Thumbnail {...newProps} />
-        </StyledSequence>,
+        </RadioGroup.Root>,
       );
       const lazy = await screen.findByTestId("media-thumbnail-lazyload");
       expect(lazy).toBeInTheDocument();
@@ -129,10 +136,10 @@ describe("Thumbnail component", () => {
   describe("image thumbnails", () => {
     it("displays a thumbnail for canvas with designated thumbnail", async () => {
       const newProps = { ...props };
-      render(
-        <StyledSequence>
+      await renderThumbnail(
+        <RadioGroup.Root>
           <Thumbnail {...newProps} />
-        </StyledSequence>,
+        </RadioGroup.Root>,
       );
       const lazy = await screen.findByTestId("media-thumbnail-lazyload");
       expect(lazy).toBeInTheDocument();
@@ -158,10 +165,10 @@ describe("Thumbnail component", () => {
   describe("figure missing a label", () => {
     it("renders a fallback label for item index + 1", async () => {
       const newProps = { ...props, canvas: { ...props.canvas, label: null } };
-      render(
-        <StyledSequence>
+      await renderThumbnail(
+        <RadioGroup.Root>
           <Thumbnail {...newProps} />
-        </StyledSequence>,
+        </RadioGroup.Root>,
       );
       const fig = await screen.findByTestId("fig-caption");
       expect(fig).toHaveTextContent("2");
@@ -169,23 +176,23 @@ describe("Thumbnail component", () => {
   });
 
   describe("audio and video thumbnail types", () => {
-    it("renders a duration value in the tag for audio type", () => {
+    it("renders a duration value in the tag for audio type", async () => {
       const newProps = { ...props, type: "Sound" };
-      render(
-        <StyledSequence>
+      await renderThumbnail(
+        <RadioGroup.Root>
           <Thumbnail {...newProps} />
-        </StyledSequence>,
+        </RadioGroup.Root>,
       );
       const tag = screen.getByTestId("thumbnail-tag");
       expect(within(tag).getByText("0:00")).toBeInTheDocument();
     });
 
-    it("renders a duration value in the tag for video type", () => {
+    it("renders a duration value in the tag for video type", async () => {
       const newProps = { ...props, type: "Video" };
-      render(
-        <StyledSequence>
+      await renderThumbnail(
+        <RadioGroup.Root>
           <Thumbnail {...newProps} />
-        </StyledSequence>,
+        </RadioGroup.Root>,
       );
       const tag = screen.getByTestId("thumbnail-tag");
       expect(within(tag).getByText("0:00")).toBeInTheDocument();

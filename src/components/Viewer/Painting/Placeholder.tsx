@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { getLabel, getPaintingResource } from "src/hooks/use-iiif";
 
 import { InternationalString } from "@iiif/presentation-3";
-import { PlaceholderStyled } from "./Placeholder.styled";
 import { useViewerState } from "src/context/viewer-context";
+import { paintingPlaceholder } from "./Painting.css";
 
 /**
  * Note: The items array passed to this component is already ordered
@@ -74,12 +74,13 @@ const PaintingPlaceholder: React.FC<Props> = ({
   const totalScaledWidth = scaledWidths.reduce((a, b) => a + b, 0);
 
   return (
-    <PlaceholderStyled
+    <button
       onClick={() => setIsInteractive(true)}
-      isMedia={isMedia}
-      className="clover-viewer-placeholder"
+      className={`${paintingPlaceholder} clover-viewer-placeholder`}
       data-active={isActive}
       data-paged={isPaged}
+      data-media={isMedia}
+      type="button"
     >
       {images.map((placeholder, index) => {
         const percentWidth = (scaledWidths[index] / totalScaledWidth) * 100;
@@ -94,7 +95,7 @@ const PaintingPlaceholder: React.FC<Props> = ({
           />
         );
       })}
-    </PlaceholderStyled>
+    </button>
   );
 };
 

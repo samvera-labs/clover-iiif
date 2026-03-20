@@ -1,7 +1,13 @@
 import * as AspectRatio from "@radix-ui/react-aspect-ratio";
 
-import { Controls, Label, Overlay, PreviewStyled } from "./Preview.styled";
 import React, { useEffect, useState } from "react";
+import {
+  preview,
+  previewControls,
+  previewLabel,
+  previewOverlay,
+  previewVisible,
+} from "./Preview.css";
 
 import { Manifest } from "@iiif/presentation-3";
 import { NextIcon } from "src/components/Slider/Icons/NextIcon";
@@ -34,11 +40,18 @@ const Preview: React.FC<PreviewProps> = ({
   }, [activeCanvas, canvasCount, canvasCurrent, manifest]);
 
   return (
-    <PreviewStyled isFocused={isFocused}>
+    <div
+      className={[preview, isFocused ? previewVisible : null]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <AspectRatio.Root ratio={1 / 1}>
         {manifest && (
-          <Overlay>
-            <Controls onClick={(e) => e.preventDefault()}>
+          <div className={previewOverlay}>
+            <div
+              className={previewControls}
+              onClick={(e) => e.preventDefault()}
+            >
               <button
                 // @ts-ignore
                 onClick={() => handleActiveCanvas(-1)}
@@ -56,14 +69,14 @@ const Preview: React.FC<PreviewProps> = ({
               >
                 <NextIcon />
               </button>
-            </Controls>
-            <Label onClick={(e) => e.preventDefault()}>
+            </div>
+            <div className={previewLabel} onClick={(e) => e.preventDefault()}>
               {canvasCurrent} of {canvasCount}
-            </Label>
-          </Overlay>
+            </div>
+          </div>
         )}
       </AspectRatio.Root>
-    </PreviewStyled>
+    </div>
   );
 };
 

@@ -1,11 +1,11 @@
-import {
-  Button,
-  Direction,
-  Form,
-  Input,
-  Wrapper,
-} from "src/components/Viewer/Media/Controls.styled";
 import React, { useEffect, useState } from "react";
+import {
+  controlsButton,
+  controlsDirection,
+  controlsForm,
+  controlsInput,
+  controlsWrapper,
+} from "src/components/Viewer/Media/Controls.css";
 
 import useKeyPress from "src/hooks/useKeyPress";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
@@ -115,76 +115,84 @@ const Controls: React.FC<ControlsProps> = ({
     handleFilter(event.target.value);
 
   return (
-    <Wrapper 
-      isToggle={toggleFilter} 
-      className="clover-viewer-media-controls"
+    <div
+      className={`${controlsWrapper} clover-viewer-media-controls`}
+      data-filter-active={toggleFilter ? "true" : undefined}
     >
-      <Form>
+      <div className={controlsForm}>
         {toggleFilter && (
-          <Input
+          <input
+            className={controlsInput}
             autoFocus
             onChange={handleFilterChange}
             placeholder={t("commonSearchPlaceholder")}
           />
         )}
         {!toggleFilter && (
-          <Direction className="clover-viewer-media-navigation" data-rtl-paged={isRtlPaged}>
+          <div
+            className={`${controlsDirection} clover-viewer-media-navigation`}
+            data-rtl-paged={isRtlPaged}
+          >
             {isRtlPaged ? (
               <>
-                <Button
+                <button
+                  className={controlsButton}
                   onClick={() => handleCanvasToggle(1)}
                   disabled={isNextDisabled}
                   type="button"
                 >
                   <PreviousIcon title={t("commonNext")} />
-                </Button>
+                </button>
                 <span>
                   {activeIndex + 1} <em>/</em> {canvasLength}
                 </span>
-                <Button
+                <button
+                  className={controlsButton}
                   onClick={() => handleCanvasToggle(-1)}
                   disabled={isPreviousDisabled}
                   type="button"
                 >
                   <NextIcon title={t("commonPrevious")} />
-                </Button>
+                </button>
               </>
             ) : (
               <>
-                <Button
+                <button
+                  className={controlsButton}
                   onClick={() => handleCanvasToggle(-1)}
                   disabled={isPreviousDisabled}
                   type="button"
                 >
                   <PreviousIcon title={t("commonPrevious")} />
-                </Button>
+                </button>
                 <span>
                   {activeIndex + 1} <em>/</em> {canvasLength}
                 </span>
-                <Button
+                <button
+                  className={controlsButton}
                   onClick={() => handleCanvasToggle(1)}
                   disabled={isNextDisabled}
                   type="button"
                 >
                   <NextIcon title={t("commonNext")} />
-                </Button>
+                </button>
               </>
             )}
-          </Direction>
+          </div>
         )}
-        <Button
+        <button
           onClick={handleFilterToggle}
           type="button"
-          className="clover-viewer-media-search"
+          className={`${controlsButton} clover-viewer-media-search`}
         >
           {toggleFilter ? (
             <CloseIcon title={t("commonClose")} />
           ) : (
             <SearchIcon title={t("commonSearch")} />
           )}
-        </Button>
-      </Form>
-    </Wrapper>
+        </button>
+      </div>
+    </div>
   );
 };
 

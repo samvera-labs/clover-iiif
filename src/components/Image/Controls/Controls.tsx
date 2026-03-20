@@ -8,7 +8,10 @@ import Button from "src/components/Image/Controls/Button";
 import { CanvasNormalized } from "@iiif/presentation-3";
 import { Options } from "openseadragon";
 import React, { useEffect } from "react";
-import { Wrapper } from "src/components/Image/Controls/Controls.styled";
+import {
+  controlsWrapper,
+  controlsWrapperWithPlaceholder,
+} from "src/components/Image/Controls/Controls.css";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 const ZoomIn = () => {
@@ -112,9 +115,14 @@ const Controls = ({
   }, [openSeadragonViewer]);
 
   return (
-    <Wrapper
+    <div
       data-testid="clover-iiif-image-openseadragon-controls"
-      hasPlaceholder={_cloverViewerHasPlaceholder}
+      className={[
+        controlsWrapper,
+        _cloverViewerHasPlaceholder ? controlsWrapperWithPlaceholder : null,
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
       {config.showZoomControl && (
         <>
@@ -151,12 +159,15 @@ const Controls = ({
         </>
       )}
       {config.showHomeControl && (
-        <Button id={config.homeButton as string} label={t("imageResetZoom")}>
+        <Button
+          id={config.homeButton as string}
+          label={t("imageResetZoom")}
+        >
           <Reset />
         </Button>
       )}
       {renderPlugins()}
-    </Wrapper>
+    </div>
   );
 };
 

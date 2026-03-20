@@ -1,11 +1,7 @@
 import React from "react";
-import { styled } from "src/styles/stitches.config";
 import { getLabelAsString } from "src/lib/label-helpers";
 import { PrimitivesSeeAlso } from "src/types/primitives";
 import { sanitizeAttributes } from "src/lib/html-element";
-
-const StyledSeeAlso = styled("li", {});
-const StyledWrapper = styled("ul", {});
 
 const SeeAlso: React.FC<PrimitivesSeeAlso> = (props) => {
   const { as, seeAlso } = props;
@@ -14,25 +10,25 @@ const SeeAlso: React.FC<PrimitivesSeeAlso> = (props) => {
    * Create attributes and remove React props
    */
   const remove = ["as", "seeAlso"];
-  const attributes = sanitizeAttributes(props, remove);
+  const linkAttributes = sanitizeAttributes(props, remove);
+  const List = (as ?? "ul") as React.ElementType;
 
   return (
-    <StyledWrapper as={as}>
-      {seeAlso &&
-        seeAlso.map((resource) => {
-          const label = getLabelAsString(
-            resource.label,
-            attributes.lang,
-          ) as string;
-          return (
-            <StyledSeeAlso key={resource.id}>
-              <a href={resource.id} {...attributes}>
-                {label ? label : resource.id}
-              </a>
-            </StyledSeeAlso>
-          );
-        })}
-    </StyledWrapper>
+    <List>
+      {seeAlso?.map((resource) => {
+        const label = getLabelAsString(
+          resource.label,
+          linkAttributes.lang,
+        ) as string;
+        return (
+          <li key={resource.id}>
+            <a href={resource.id} {...linkAttributes}>
+              {label ? label : resource.id}
+            </a>
+          </li>
+        );
+      })}
+    </List>
   );
 };
 

@@ -5,11 +5,11 @@ import {
 } from "@iiif/presentation-3";
 import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
-  Aside,
-  Content,
-  Main,
-  MediaWrapper,
-} from "src/components/Viewer/Viewer/Viewer.styled";
+  viewerAside,
+  viewerContent,
+  viewerMain,
+  viewerMediaWrapper,
+} from "src/components/Viewer/Viewer/Viewer.css";
 
 import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
 import Media from "src/components/Viewer/Media/Media";
@@ -74,11 +74,15 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   const renderToggle = informationPanel?.renderToggle;
 
   return (
-    <Content
-      className="clover-viewer-content"
+    <div
+      className={`${viewerContent} clover-viewer-content`}
       data-testid="clover-viewer-content"
     >
-      <Main data-aside-active={isAside} data-aside-toggle={renderToggle}>
+      <div
+        className={viewerMain}
+        data-aside-active={isAside}
+        data-aside-toggle={renderToggle}
+      >
         <Painting
           activeCanvas={activeCanvas}
           annotationResources={annotationResources}
@@ -88,13 +92,19 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
         />
 
         {sequence[1].length > 1 && (
-          <MediaWrapper className="clover-viewer-media-wrapper">
+          <div
+            className={`${viewerMediaWrapper} clover-viewer-media-wrapper`}
+          >
             <Media items={items} activeItem={0} />
-          </MediaWrapper>
+          </div>
         )}
-      </Main>
+      </div>
       {isAside && (
-        <Aside data-aside-active={isAside} data-aside-toggle={renderToggle}>
+        <aside
+          className={viewerAside}
+          data-aside-active={isAside}
+          data-aside-toggle={renderToggle}
+        >
           <InformationPanel
             activeCanvas={activeCanvas}
             annotationResources={annotationResources}
@@ -102,9 +112,9 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
             setContentSearchResource={setContentSearchResource}
             contentSearchResource={contentSearchResource}
           />
-        </Aside>
+        </aside>
       )}
-    </Content>
+    </div>
   );
 };
 

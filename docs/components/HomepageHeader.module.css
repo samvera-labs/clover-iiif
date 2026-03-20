@@ -1,0 +1,55 @@
+.wrapper {
+  position: relative;
+  z-index: 0;
+}
+
+.gradient {
+  top: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 0;
+  mask-image: linear-gradient(180deg, transparent 61.8%, rgba(0, 0, 0, 1) 100%);
+}
+
+.header {
+  position: relative;
+  max-width: 90rem;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+  z-index: 1;
+}
+
+.headline {
+  display: inline-flex;
+  font-size: 3.8rem;
+  font-weight: 800;
+  letter-spacing: -0.12rem;
+  line-height: 1;
+  padding: 3rem 0 1rem 0;
+}
+
+.subtitle {
+  font-size: 1.47rem;
+  line-height: 1.6;
+  opacity: 0.7;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 64rem) {
+  .headline {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 64rem) {
+  .header {
+    padding: 0 3rem 3rem;
+  }
+}
+
+@media (max-width: 48rem) {
+  .header {
+    padding: 0 1rem 3rem;
+  }
+}

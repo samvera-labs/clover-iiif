@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import useWebVtt, { NodeWebVttCueNested } from "src/hooks/use-webvtt";
-
-import { Group } from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue.styled";
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import { InternationalString } from "@iiif/presentation-3";
 import Menu from "src/components/Viewer/InformationPanel/Menu";
 import { getLabel } from "src/hooks/use-iiif";
+import { cueGroup } from "./Cue.css";
 
 type AnnotationItemVTTProps = {
   inlineCues?: NodeWebVttCueNested[];
@@ -56,7 +56,8 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
   ); // NOTE: Do not include createNestedCues and orderCuesByTime in the dependency array as it will cause an infinite loop
 
   return (
-    <Group
+    <RadioGroup.Root
+      className={cueGroup}
       data-testid="annotation-item-vtt"
       aria-label={`${getLabel(label as InternationalString)}`}
     >
@@ -66,7 +67,7 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
         </div>
       )}
       <Menu items={cues} />
-    </Group>
+    </RadioGroup.Root>
   );
 };
 

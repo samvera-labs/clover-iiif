@@ -1,8 +1,7 @@
 /* eslint-disable react/display-name */
 
 import React, { useCallback } from "react";
-
-import { AudioVisualizerWrapper } from "src/components/Viewer/Player/AudioVisualizer.styled";
+import { audioVisualizerCanvas } from "src/components/Viewer/Player/Player.css";
 
 const AudioVisualizer = React.forwardRef(
   (_props, ref: React.RefObject<HTMLVideoElement>) => {
@@ -78,7 +77,13 @@ const AudioVisualizer = React.forwardRef(
       }
     }
 
-    return <AudioVisualizerWrapper ref={canvasRef} role="presentation" />;
+    return (
+      <canvas
+        className={audioVisualizerCanvas}
+        ref={canvasRef}
+        role="presentation"
+      />
+    );
   },
 );
 

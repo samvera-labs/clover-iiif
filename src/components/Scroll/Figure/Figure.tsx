@@ -1,9 +1,10 @@
+import * as AspectRatio from "@radix-ui/react-aspect-ratio";
 import React, { useContext } from "react";
 import { ScrollContext, initialState } from "src/context/scroll-context";
 import {
-  StyledFigure,
-  StyledFigurePlaceholder,
-} from "src/components/Scroll/Figure/Figure.styled";
+  scrollFigure,
+  scrollFigurePlaceholder,
+} from "src/components/Scroll/Figure/Figure.css";
 
 import { CanvasNormalized } from "@iiif/presentation-3";
 import FigureCaption from "src/components/Scroll/Figure/Caption";
@@ -36,21 +37,23 @@ const ScrollCanvasFigure: React.FC<CanvasProps> = ({ canvas, canvasInfo }) => {
   if (!painting) return null;
 
   return (
-    <StyledFigure>
-      {painting?.map((body) => {
-        return (
-          <StyledFigurePlaceholder ratio={aspectRatio} key={body?.id}>
-            <FigureImageViewer
-              body={body}
-              thumbnail={canvas.thumbnail}
-              label={canvas?.label}
-              display={display}
-            />
-          </StyledFigurePlaceholder>
-        );
-      })}
+    <figure className={scrollFigure}>
+      {painting?.map((body) => (
+        <AspectRatio.Root
+          className={scrollFigurePlaceholder}
+          ratio={aspectRatio}
+          key={body?.id}
+        >
+          <FigureImageViewer
+            body={body}
+            thumbnail={canvas.thumbnail}
+            label={canvas?.label}
+            display={display}
+          />
+        </AspectRatio.Root>
+      ))}
       <FigureCaption canvas={canvas} canvasInfo={canvasInfo} />
-    </StyledFigure>
+    </figure>
   );
 };
 
