@@ -6,47 +6,47 @@
     "dist"
   ],
   "main": "./dist/index.cjs",
-  "module": "./dist/index.mjs",
+  "module": "./dist/index.with-styles.mjs",
   "exports": {
     "./package.json": "./package.json",
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
+      "import": "./dist/index.with-styles.mjs",
       "require": "./dist/index.cjs"
     },
     "./image": {
       "types": "./dist/image/index.d.ts",
-      "import": "./dist/image/index.mjs",
+      "import": "./dist/image/index.with-styles.mjs",
       "require": "./dist/image/index.cjs"
     },
     "./primitives": {
       "types": "./dist/primitives/index.d.ts",
-      "import": "./dist/primitives/index.mjs",
+      "import": "./dist/primitives/index.with-styles.mjs",
       "require": "./dist/primitives/index.cjs"
     },
     "./scroll": {
       "types": "./dist/scroll/index.d.ts",
-      "import": "./dist/scroll/index.mjs",
+      "import": "./dist/scroll/index.with-styles.mjs",
       "require": "./dist/scroll/index.cjs"
     },
     "./slider": {
       "types": "./dist/slider/index.d.ts",
-      "import": "./dist/slider/index.mjs",
+      "import": "./dist/slider/index.with-styles.mjs",
       "require": "./dist/slider/index.cjs"
     },
     "./viewer": {
       "types": "./dist/viewer/index.d.ts",
-      "import": "./dist/viewer/index.mjs",
+      "import": "./dist/viewer/index.with-styles.mjs",
       "require": "./dist/viewer/index.cjs"
     },
     "./helpers": {
       "types": "./dist/helpers/index.d.ts",
-      "import": "./dist/helpers/index.mjs",
+      "import": "./dist/helpers/index.with-styles.mjs",
       "require": "./dist/helpers/index.cjs"
     },
     "./i18n": {
       "types": "./dist/i18n/index.d.ts",
-      "import": "./dist/i18n/index.mjs",
+      "import": "./dist/i18n/index.with-styles.mjs",
       "require": "./dist/i18n/index.cjs"
     },
     "./react-shim": {

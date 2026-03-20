@@ -2,6 +2,7 @@ import { build } from "vite";
 import { defineConfig } from "./base-config.mjs";
 import { execa } from "execa";
 import fs from "fs";
+import path from "node:path";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 const buildOptions = {
@@ -47,13 +48,61 @@ const buildOptions = {
       fileName: "index",
     }
   },
-  'helpers': {
+  helpers: {
     lib: {
       name: "CloverIIIFHelpers",
       entry: "./src/lib/index.ts",
       fileName: "index",
     },
   },
+};
+
+const CLIENT_PREAMBLE = '"use client";';
+
+const createWithStylesEntrypoint = (distRoot, key) => {
+  const packageDir = path.join(distRoot, key);
+  if (!fs.existsSync(packageDir)) return;
+
+  const cssPath = path.join(packageDir, "style.css");
+  const hasCss = fs.existsSync(cssPath);
+  const esmLines = [CLIENT_PREAMBLE];
+
+  if (hasCss) {
+    esmLines.push('import "./style.css";');
+  }
+
+  esmLines.push('export * from "./index.mjs";');
+  esmLines.push('export { default } from "./index.mjs";');
+
+  fs.writeFileSync(
+    path.join(packageDir, "index.with-styles.mjs"),
+    esmLines.join("\n") + "\n",
+  );
+};
+
+const createRootWithStylesEntrypoint = (distRoot) => {
+  const entries = [
+    { identifier: "Image", target: "./image/index.with-styles.mjs" },
+    { identifier: "Primitives", target: "./primitives/index.with-styles.mjs" },
+    { identifier: "Scroll", target: "./scroll/index.with-styles.mjs" },
+    { identifier: "Slider", target: "./slider/index.with-styles.mjs" },
+    { identifier: "Viewer", target: "./viewer/index.with-styles.mjs" },
+    { identifier: "Helpers", target: "./helpers/index.with-styles.mjs" },
+  ];
+
+  const lines = [CLIENT_PREAMBLE];
+  for (const { identifier, target } of entries) {
+    lines.push(`import ${identifier} from "${target}";`);
+  }
+
+  lines.push("", "export {");
+  entries.forEach(({ identifier }, index) => {
+    const suffix = index === entries.length - 1 ? "" : ",";
+    lines.push(`  ${identifier}${suffix}`);
+  });
+  lines.push("};", "", "export default Viewer;");
+
+  fs.writeFileSync(path.join(distRoot, "index.with-styles.mjs"), lines.join("\n") + "\n");
 };
 
 (async () => {
@@ -128,7 +177,11 @@ const buildOptions = {
     fs.copyFileSync("build/shims/react-dom-shim.mjs", `${DIST}/${key}/react-dom-shim.mjs`);
     fs.copyFileSync("build/shims/react-shim.cjs", `${DIST}/${key}/react-shim.cjs`);
     fs.copyFileSync("build/shims/react-dom-shim.cjs", `${DIST}/${key}/react-dom-shim.cjs`);
+
+    createWithStylesEntrypoint(DIST, key);
   }
+
+  createRootWithStylesEntrypoint(DIST);
 
   // Copy react shims to the root dist for top-level entry usage
   fs.copyFileSync("build/shims/react-shim.mjs", `${DIST}/react-shim.mjs`);
