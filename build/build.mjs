@@ -68,7 +68,22 @@ const createWithStylesEntrypoint = (distRoot, key) => {
   const esmLines = [CLIENT_PREAMBLE];
 
   if (hasCss) {
-    esmLines.push('import "./style.css";');
+    const cssContent = fs.readFileSync(cssPath, "utf8");
+    const serializedCss = JSON.stringify(cssContent);
+    const styleId = `clover-iiif-${key}-styles`;
+
+    esmLines.push(
+      `const STYLE_ID = "${styleId}";`,
+      `const CSS_TEXT = ${serializedCss};`,
+      'const registry = (globalThis.__CLOVER_STYLES__ = globalThis.__CLOVER_STYLES__ || {});',
+      'registry[STYLE_ID] = CSS_TEXT;',
+      'if (typeof document !== "undefined" && !document.getElementById(STYLE_ID)) {',
+      '  const style = document.createElement("style");',
+      '  style.id = STYLE_ID;',
+      '  style.textContent = CSS_TEXT;',
+      '  (document.head || document.body || document.documentElement).appendChild(style);',
+      '}',
+    );
   }
 
   esmLines.push('export * from "./index.mjs";');
@@ -103,6 +118,84 @@ const createRootWithStylesEntrypoint = (distRoot) => {
   lines.push("};", "", "export default Viewer;");
 
   fs.writeFileSync(path.join(distRoot, "index.with-styles.mjs"), lines.join("\n") + "\n");
+};
+
+const createStyleRegistryModule = (distRoot) => {
+  const registryHelper =
+    "const getRegistry = () => (globalThis.__CLOVER_STYLES__ = globalThis.__CLOVER_STYLES__ || {});";
+  const esmLines = [
+    registryHelper,
+    "export const getCloverStyleElements = () => Object.entries(getRegistry()).map(([id, css]) => ({ id, css }));",
+    "export const injectCloverStyles = (targetDocument = typeof document !== 'undefined' ? document : undefined) => {",
+    "  if (!targetDocument) return;",
+    "  getCloverStyleElements().forEach(({ id, css }) => {",
+    "    if (targetDocument.getElementById && targetDocument.getElementById(id)) return;",
+    "    const style = targetDocument.createElement ? targetDocument.createElement('style') : null;",
+    "    if (!style) return;",
+    "    style.id = id;",
+    "    style.textContent = css;",
+    "    if (targetDocument.head && targetDocument.head.appendChild) {",
+    "      targetDocument.head.appendChild(style);",
+    "    } else if (targetDocument.appendChild) {",
+    "      targetDocument.appendChild(style);",
+    "    }",
+    "  });",
+    "};",
+  ];
+
+  fs.writeFileSync(
+    path.join(distRoot, "style-registry.mjs"),
+    esmLines.join("\n") + "\n",
+  );
+
+  const cjsLines = [
+    '"use strict";',
+    registryHelper,
+    "const getCloverStyleElements = () => Object.entries(getRegistry()).map(([id, css]) => ({ id, css }));",
+    "const injectCloverStyles = (targetDocument = typeof document !== 'undefined' ? document : undefined) => {",
+    "  if (!targetDocument) return;",
+    "  getCloverStyleElements().forEach(({ id, css }) => {",
+    "    if (targetDocument.getElementById && targetDocument.getElementById(id)) return;",
+    "    const style = targetDocument.createElement ? targetDocument.createElement('style') : null;",
+    "    if (!style) return;",
+    "    style.id = id;",
+    "    style.textContent = css;",
+    "    if (targetDocument.head && targetDocument.head.appendChild) {",
+    "      targetDocument.head.appendChild(style);",
+    "    } else if (targetDocument.appendChild) {",
+    "      targetDocument.appendChild(style);",
+    "    }",
+    "  });",
+    "};",
+    "module.exports = {",
+    "  getCloverStyleElements,",
+    "  injectCloverStyles,",
+    "};",
+  ];
+
+  fs.writeFileSync(
+    path.join(distRoot, "style-registry.cjs"),
+    cjsLines.join("\n") + "\n",
+  );
+
+  const dtsLines = [
+    "export interface CloverStyleElement {",
+    "  id: string;",
+    "  css: string;",
+    "}",
+    "export declare const getCloverStyleElements: () => CloverStyleElement[];",
+    "export declare const injectCloverStyles: (targetDocument?: {",
+    "  head?: { appendChild(node: any): void };",
+    "  appendChild?(node: any): void;",
+    "  getElementById?(id: string): any;",
+    "  createElement?(tag: string): any;",
+    "} | null) => void;",
+  ];
+
+  fs.writeFileSync(
+    path.join(distRoot, "style-registry.d.ts"),
+    dtsLines.join("\n") + "\n",
+  );
 };
 
 (async () => {
@@ -182,6 +275,7 @@ const createRootWithStylesEntrypoint = (distRoot) => {
   }
 
   createRootWithStylesEntrypoint(DIST);
+  createStyleRegistryModule(DIST);
 
   // Copy react shims to the root dist for top-level entry usage
   fs.copyFileSync("build/shims/react-shim.mjs", `${DIST}/react-shim.mjs`);

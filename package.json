@@ -49,6 +49,11 @@
       "import": "./dist/i18n/index.with-styles.mjs",
       "require": "./dist/i18n/index.cjs"
     },
+    "./styles": {
+      "types": "./dist/style-registry.d.ts",
+      "import": "./dist/style-registry.mjs",
+      "require": "./dist/style-registry.cjs"
+    },
     "./react-shim": {
       "import": "./dist/react-shim.mjs",
       "require": "./dist/react-shim.cjs"
@@ -190,6 +195,9 @@
       ],
       "i18n": [
         "dist/i18n/index.d.ts"
+      ],
+      "styles": [
+        "dist/style-registry.d.ts"
       ],
       "*": [
         "dist/index.d.ts"
