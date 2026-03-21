@@ -5,10 +5,7 @@ import {
   InternationalString,
 } from "@iiif/presentation-3";
 import React, { useEffect, useState } from "react";
-import {
-  StyledSequence,
-  StyledSequenceGroup,
-} from "src/components/Viewer/Media/Media.styled";
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import {
   ViewerContextStore,
   useViewerDispatch,
@@ -22,6 +19,7 @@ import { getCanvasByCriteria } from "src/hooks/use-iiif";
 import { getLabelAsString } from "src/lib/label-helpers";
 import { getResourceType } from "src/hooks/use-iiif/getResourceType";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
+import { mediaSequence, mediaSequenceGroup } from "./Media.css";
 
 interface MediaProps {
   items: Canvas[];
@@ -117,7 +115,8 @@ const Media: React.FC<MediaProps> = ({ items }) => {
         canvasLength={items.length}
         isRtlPaged={isRtlPaged}
       />
-      <StyledSequence
+      <RadioGroup.Root
+        className={mediaSequence}
         aria-label={t("media.selectItem")}
         data-testid="media"
         data-active-canvas={items[activeIndex].id}
@@ -149,7 +148,11 @@ const Media: React.FC<MediaProps> = ({ items }) => {
               .includes(activeCanvas);
 
             return (
-              <StyledSequenceGroup data-active={isActiveGroup} key={index}>
+              <div
+                className={mediaSequenceGroup}
+                data-active={isActiveGroup}
+                key={index}
+              >
                 {groups.map((index) => {
                   const id = sequence[0][index].id;
                   const item = mediaItems.find((el) => el?.canvas?.id === id);
@@ -169,10 +172,10 @@ const Media: React.FC<MediaProps> = ({ items }) => {
                     />
                   );
                 })}
-              </StyledSequenceGroup>
+              </div>
             );
           })}
-      </StyledSequence>
+      </RadioGroup.Root>
     </>
   );
 };

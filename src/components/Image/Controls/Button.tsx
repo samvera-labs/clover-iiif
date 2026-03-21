@@ -1,4 +1,4 @@
-import { Item } from "src/components/Image/Controls/Button.styled";
+import { controlButton } from "src/components/Image/Controls/Controls.css";
 import React from "react";
 
 interface ButtonProps {
@@ -16,12 +16,15 @@ const Button: React.FC<ButtonProps> = ({ className, id, label, children }) => {
     .replace(/([A-Z])/g, "-$1")
     .toLowerCase()
     .replace(/^-/, "");
+  const classes = [controlButton, className].filter(Boolean).join(" ");
   return (
-    <Item
+    <button
       id={id}
-      className={className}
+      className={classes}
       data-testid="openseadragon-button"
       data-button={dataButton}
+      type="button"
+      aria-label={label}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +37,7 @@ const Button: React.FC<ButtonProps> = ({ className, id, label, children }) => {
         <title id={`${id}-svg-title`}>{label}</title>
         {children}
       </svg>
-    </Item>
+    </button>
   );
 };
 

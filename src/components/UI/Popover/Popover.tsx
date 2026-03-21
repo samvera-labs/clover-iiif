@@ -1,14 +1,13 @@
-import { CSS, VariantProps } from "src/styles/stitches.config";
-import {
-  StyledArrow,
-  StyledClose,
-  StyledContent,
-  StyledPopover,
-  StyledTrigger,
-} from "./Popover.styled";
+import * as PopoverPrimitive from "@radix-ui/react-popover";
 
 import { Icon } from "../Icon/Icon";
 import React from "react";
+import {
+  popoverArrow,
+  popoverClose,
+  popoverContent,
+  popoverTrigger,
+} from "./Popover.css";
 
 /**
  *
@@ -18,11 +17,16 @@ type TriggerShape = {
   "aria-controls"?: string;
 };
 
-type TriggerComponentProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
-type TriggerProps = TriggerComponentProps & TriggerShape & { css?: CSS };
+type TriggerProps = React.ComponentProps<typeof PopoverPrimitive.Trigger> &
+  TriggerShape;
 
-const Trigger: React.FC<TriggerProps> = (props) => {
-  return <StyledTrigger {...props}>{props.children}</StyledTrigger>;
+const Trigger: React.FC<TriggerProps> = ({ children, className, ...rest }) => {
+  const classes = [popoverTrigger, className].filter(Boolean).join(" ");
+  return (
+    <PopoverPrimitive.Trigger {...rest} className={classes}>
+      {children}
+    </PopoverPrimitive.Trigger>
+  );
 };
 
 /**
@@ -33,23 +37,35 @@ type ContentShape = {
   id?: string;
 };
 
-type ContentComponentProps = React.HTMLAttributes<HTMLDivElement>;
-type ContentVariants = VariantProps<typeof StyledContent>;
-type ContentProps = ContentComponentProps &
-  ContentShape &
-  ContentVariants & { css?: CSS };
+type ContentProps = React.ComponentProps<typeof PopoverPrimitive.Content> &
+  ContentShape;
 
-const Content: React.FC<ContentProps> = (props) => {
+const Content: React.FC<ContentProps> = ({
+  children,
+  className,
+  collisionPadding = 21,
+  sideOffset = 5,
+  ...rest
+}) => {
+  const classes = [popoverContent, className].filter(Boolean).join(" ");
+
   return (
-    <StyledContent {...props} sideOffset={5} collisionPadding={21}>
-      <StyledArrow />
-      <StyledClose>
+    <PopoverPrimitive.Content
+      {...rest}
+      className={classes}
+      collisionPadding={collisionPadding}
+      sideOffset={sideOffset}
+    >
+      <PopoverPrimitive.Arrow
+        className={["popover-arrow", popoverArrow].join(" ")}
+      />
+      <PopoverPrimitive.Close className={popoverClose} aria-label="Close">
         <Icon isSmall>
           <Icon.Close />
         </Icon>
-      </StyledClose>
-      {props.children}
-    </StyledContent>
+      </PopoverPrimitive.Close>
+      {children}
+    </PopoverPrimitive.Content>
   );
 };
 
@@ -61,14 +77,17 @@ type PopoverShape = {
 };
 
 interface PopoverComposition {
-  Content: React.FC<ContentShape & ContentVariants>;
-  Trigger: React.FC<TriggerShape>;
+  Content: React.FC<ContentProps>;
+  Trigger: React.FC<TriggerProps>;
 }
 
-type PopoverProps = PopoverShape & { css?: CSS };
+type PopoverProps = PopoverPrimitive.PopoverProps & PopoverShape;
 
-const Popover: React.FC<PopoverProps> & PopoverComposition = ({ children }) => {
-  return <StyledPopover>{children}</StyledPopover>;
+const Popover: React.FC<PopoverProps> & PopoverComposition = ({
+  children,
+  ...rest
+}) => {
+  return <PopoverPrimitive.Root {...rest}>{children}</PopoverPrimitive.Root>;
 };
 
 Popover.Trigger = Trigger;

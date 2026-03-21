@@ -1,16 +1,18 @@
 import * as AspectRatio from "@radix-ui/react-aspect-ratio";
 
-import {
-  Description,
-  FigureStyled,
-  Placeholder,
-  Title,
-  Width,
-} from "./Figure.styled";
-import React, { useRef } from "react";
+import React from "react";
 
 import { InternationalString } from "@iiif/presentation-3";
 import { Thumbnail } from "src/components/Primitives";
+import {
+  sliderCaption,
+  sliderDescription,
+  sliderFigure,
+  sliderFigureFocused,
+  sliderPlaceholder,
+  sliderTitle,
+} from "./Figure.css";
+import { Label, Summary } from "src/components/Primitives";
 
 interface FigureProps {
   label: InternationalString;
@@ -26,25 +28,26 @@ const Figure: React.FC<FigureProps> = ({
   summary,
   thumbnail,
 }) => {
-  const widthRef = useRef<HTMLDivElement>(null);
-
   return (
-    <FigureStyled isFocused={isFocused}>
+    <figure
+      className={[sliderFigure, isFocused ? sliderFigureFocused : null]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <AspectRatio.Root ratio={1 / 1}>
-        <Width ref={widthRef} />
-        <Placeholder>
+        <div className={sliderPlaceholder}>
           <Thumbnail
             altAsLabel={label}
             thumbnail={thumbnail}
             data-testid="figure-thumbnail"
           />
-        </Placeholder>
+        </div>
       </AspectRatio.Root>
-      <figcaption>
-        <Title label={label} />
-        {summary && <Description summary={summary} />}
+      <figcaption className={sliderCaption}>
+        <Label label={label} className={sliderTitle} />
+        {summary && <Summary summary={summary} className={sliderDescription} />}
       </figcaption>
-    </FigureStyled>
+    </figure>
   );
 };
 

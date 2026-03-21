@@ -1,38 +1,19 @@
-import { StyledIcon } from "../Icon/Icon.styled";
-import { styled } from "src/styles/stitches.config";
+import React from "react";
+import { tag } from "./Tag.css";
 
-export const Tag = styled("div", {
-  // Reset
-  boxSizing: "border-box",
+export interface TagProps extends React.HTMLAttributes<HTMLDivElement> {
+  isIcon?: boolean;
+}
 
-  // Custom
-  display: "inline-flex",
-  alignItems: "center",
-  borderRadius: "2px",
-  padding: "$1",
-  marginBottom: "$2",
-  marginRight: "$2",
-  backgroundColor: "$lightGrey",
-  color: "$richBlack50",
-  textTransform: "uppercase",
-  fontSize: "$2",
-  objectFit: "contain",
-  lineHeight: "1em !important",
+export const Tag: React.FC<TagProps> = ({ isIcon, className, ...rest }) => {
+  const classes = [tag, className].filter(Boolean).join(" ");
 
-  "&:last-child": {
-    marginRight: "0",
-  },
-
-  [`${StyledIcon}`]: {
-    position: "absolute",
-    left: "$1",
-    height: "$3",
-    width: "$3",
-  },
-
-  variants: {
-    isIcon: {
-      true: { position: "relative", paddingLeft: "$5" },
-    },
-  },
-});
+  return (
+    <div
+      {...rest}
+      className={classes}
+      data-has-icon={isIcon ? "true" : undefined}
+      data-ui-tag="true"
+    />
+  );
+};

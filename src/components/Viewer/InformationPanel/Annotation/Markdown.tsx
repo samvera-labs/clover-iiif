@@ -1,7 +1,6 @@
-import { ButtonStyled, StyledAnnotationContent } from "./Item.styled";
-
 import React from "react";
 import useMarkdown from "src/hooks/useMarkdown";
+import { annotationButton, annotationContent } from "./Annotation.css";
 
 type AnnotationItemPlainTextProps = {
   value: string;
@@ -15,11 +14,12 @@ const AnnotationItemMarkdown: React.FC<AnnotationItemPlainTextProps> = ({
   const markdownContent = useMarkdown(value);
 
   return (
-    <ButtonStyled onClick={handleClick}>
-      <StyledAnnotationContent
+    <button className={annotationButton} onClick={handleClick}>
+      <div
+        className={annotationContent}
         dangerouslySetInnerHTML={{ __html: markdownContent.html }}
       />
-    </ButtonStyled>
+    </button>
   );
 };
 

@@ -1,4 +1,5 @@
 import tsconfigPaths from "vite-tsconfig-paths";
+import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 import path from "node:path";
 import pkg from "../package.json" with { type: "json" };
 
@@ -116,6 +117,6 @@ export function defineConfig(options, key) {
         treeshake: true,
       },
     },
-    plugins: [tsconfigPaths()],
+    plugins: [tsconfigPaths(), vanillaExtractPlugin()],
   };
 }

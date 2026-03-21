@@ -1,11 +1,4 @@
-import {
-  Duration,
-  FigureImage,
-  Item,
-  Outline,
-  Spacer,
-  Type,
-} from "src/components/Viewer/Media/Thumbnail.styled";
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import { Icon, Tag } from "src/components/UI";
 import React, { useEffect, useState } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
@@ -16,6 +9,14 @@ import LazyLoad from "src/components/UI/LazyLoad/LazyLoad";
 import { convertTime } from "src/lib/utils";
 import { getLabelAsString } from "src/lib/label-helpers";
 import { getThumbnail } from "@iiif/helpers/thumbnail";
+import {
+  thumbnailDuration,
+  thumbnailFigureImage,
+  thumbnailItem,
+  thumbnailOutline,
+  thumbnailSpacer,
+  thumbnailType,
+} from "./Thumbnail.css";
 
 /**
  * Determine appropriate icon by resource type
@@ -95,7 +96,8 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   };
 
   return (
-    <Item
+    <RadioGroup.Item
+      className={thumbnailItem}
       aria-checked={isActive}
       data-testid="media-thumbnail"
       data-canvas={canvasIndex}
@@ -103,7 +105,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
       value={canvas.id}
     >
       <figure>
-        <FigureImage>
+        <div className={thumbnailFigureImage}>
           <LazyLoad
             isVisibleCallback={handleIsVisibleCallback}
             attributes={{
@@ -120,19 +122,21 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
               />
             )}
           </LazyLoad>
-          <Outline />
-          <Type>
+          <span className={thumbnailOutline} />
+          <span className={thumbnailType}>
             <Tag isIcon data-testid="thumbnail-tag">
-              <Spacer />
+              <span className={thumbnailSpacer} />
               <Icon aria-label={type}>
                 <IconPath type={type} />
               </Icon>
               {["Video", "Sound"].includes(type) && (
-                <Duration>{convertTime(canvas.duration as number)}</Duration>
+                <span className={thumbnailDuration}>
+                  {convertTime(canvas.duration as number)}
+                </span>
               )}
             </Tag>
-          </Type>
-        </FigureImage>
+          </span>
+        </div>
         <figcaption data-testid="fig-caption">
           {canvas.label ? (
             <Label label={canvas.label} />
@@ -141,7 +145,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
           )}
         </figcaption>
       </figure>
-    </Item>
+    </RadioGroup.Item>
   );
 };
 

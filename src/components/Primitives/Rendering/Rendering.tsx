@@ -1,11 +1,7 @@
 import React from "react";
-import { styled } from "src/styles/stitches.config";
 import { getLabelAsString } from "src/lib/label-helpers";
 import { PrimitivesRendering } from "src/types/primitives";
 import { sanitizeAttributes } from "src/lib/html-element";
-
-const StyledRendering = styled("li", {});
-const StyledWrapper = styled("ul", {});
 
 const Rendering: React.FC<PrimitivesRendering> = (props) => {
   const { as, rendering } = props;
@@ -14,25 +10,25 @@ const Rendering: React.FC<PrimitivesRendering> = (props) => {
    * Create attributes and remove React props
    */
   const remove = ["as", "rendering"];
-  const attributes = sanitizeAttributes(props, remove);
+  const linkAttributes = sanitizeAttributes(props, remove);
+  const List = (as ?? "ul") as React.ElementType;
 
   return (
-    <StyledWrapper as={as}>
-      {rendering &&
-        rendering.map((resource) => {
-          const label = getLabelAsString(
-            resource.label,
-            attributes.lang,
-          ) as string;
-          return (
-            <StyledRendering key={resource.id}>
-              <a href={resource.id} {...attributes} target="_blank">
-                {label ? label : resource.id}
-              </a>
-            </StyledRendering>
-          );
-        })}
-    </StyledWrapper>
+    <List>
+      {rendering?.map((resource) => {
+        const label = getLabelAsString(
+          resource.label,
+          linkAttributes.lang,
+        ) as string;
+        return (
+          <li key={resource.id}>
+            <a href={resource.id} {...linkAttributes} target="_blank">
+              {label ? label : resource.id}
+            </a>
+          </li>
+        );
+      })}
+    </List>
   );
 };
 

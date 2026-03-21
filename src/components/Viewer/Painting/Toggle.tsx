@@ -1,6 +1,6 @@
 import React from "react";
-import { ToggleStyled } from "./Painting.styled";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
+import { paintingToggle } from "./Painting.css";
 
 interface ToggleProps {
   handleToggle: () => void;
@@ -54,18 +54,20 @@ const Toggle: React.FC<ToggleProps> = ({
   const { t } = useCloverTranslation();
 
   return (
-    <ToggleStyled
+    <button
+      className={paintingToggle}
       onClick={handleToggle}
-      isInteractive={isInteractive}
-      isMedia={isMedia}
+      data-interactive={isInteractive}
+      data-media={isMedia}
       data-testid="placeholder-toggle"
+      type="button"
     >
       {isInteractive ? (
         <CloseIcon label={t("commonClose")} />
       ) : (
         <OpenIcon isMedia={isMedia} label={t("commonOpen")} />
       )}
-    </ToggleStyled>
+    </button>
   );
 };
 

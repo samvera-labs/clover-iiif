@@ -6,10 +6,14 @@ import {
   Image,
   Video,
 } from "src/components/UI/Icons";
-import { type CSS, type VariantProps } from "src/styles/stitches.config";
 
 import React from "react";
-import { StyledIcon } from "./Icon.styled";
+import {
+  iconBase,
+  iconSizeLarge,
+  iconSizeMedium,
+  iconSizeSmall,
+} from "./Icon.css";
 
 /**
  * Define SVG sub element <title>
@@ -39,22 +43,41 @@ interface IconComposition {
   Video: React.FC;
 }
 
-type VariantComponentProps = React.SVGAttributes<SVGElement>;
-type IconVariants = VariantProps<typeof StyledIcon>;
-type IconProps = VariantComponentProps &
-  IconVariants & { css?: CSS } & IconShape;
+type IconProps = React.SVGAttributes<SVGSVGElement> &
+  IconShape & {
+    isLarge?: boolean;
+    isMedium?: boolean;
+    isSmall?: boolean;
+  };
 
-const Icon: React.FC<IconProps> & IconComposition = (props) => {
+const Icon: React.FC<IconProps> & IconComposition = ({
+  children,
+  className,
+  isLarge,
+  isMedium,
+  isSmall,
+  ...rest
+}) => {
+  const sizeClass = isLarge
+    ? iconSizeLarge
+    : isMedium
+      ? iconSizeMedium
+      : isSmall
+        ? iconSizeSmall
+        : undefined;
+  const classes = [iconBase, sizeClass, className].filter(Boolean).join(" ");
+
   return (
-    <StyledIcon
-      {...props}
+    <svg
+      {...rest}
+      className={classes}
       data-testid="icon-svg"
       role="img"
       viewBox="0 0 512 512"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {props.children}
-    </StyledIcon>
+      {children}
+    </svg>
   );
 };
 

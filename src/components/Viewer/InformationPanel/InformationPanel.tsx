@@ -1,10 +1,4 @@
-import {
-  Content,
-  List,
-  Scroll,
-  Trigger,
-  Wrapper,
-} from "src/components/Viewer/InformationPanel/InformationPanel.styled";
+import * as Tabs from "@radix-ui/react-tabs";
 import React, { useEffect, useMemo } from "react";
 import {
   ViewerContextStore,
@@ -31,6 +25,13 @@ import { ErrorBoundary } from "react-error-boundary";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 import ContentStateAnnotationPage from "./ContentState/Page";
 import { annotationMatchesMotivations } from "src/lib/annotation-helpers";
+import {
+  infoPanelContent,
+  infoPanelList,
+  infoPanelRoot,
+  infoPanelScroll,
+  infoPanelTrigger,
+} from "./InformationPanel.css";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
 
@@ -124,7 +125,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     }
 
     return (
-      <Content key={i} value={plugin.id}>
+      <Tabs.Content
+        className={infoPanelContent}
+        key={i}
+        value={plugin.id}
+      >
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <PluginInformationPanelComponent
             {...plugin?.informationPanel?.componentProps}
@@ -133,7 +138,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             useViewerState={useViewerState}
           />
         </ErrorBoundary>
-      </Content>
+      </Tabs.Content>
     );
   }
 
@@ -209,72 +214,82 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   };
 
   return (
-    <Wrapper
+    <Tabs.Root
+      className={`${infoPanelRoot} clover-viewer-information-panel`}
       data-testid="information-panel"
       defaultValue={informationPanelResource}
       onValueChange={handleValueChange}
       orientation="horizontal"
       value={informationPanelResource}
-      className="clover-viewer-information-panel"
     >
-      <List
+      <Tabs.List
         aria-label={t("informationPanelTabs")}
+        className={infoPanelList}
         data-testid="information-panel-list"
       >
         {renderToggle && (
-          <Trigger
-            value="manifest-back"
+          <Tabs.Trigger
+            className={infoPanelTrigger}
             data-value="manifest-back"
             onClick={handleInformationPanelClose}
-            as={"button"}
+            value="manifest-back"
           >
             {t("informationPanelTabsClose")}
-          </Trigger>
+          </Tabs.Trigger>
         )}
         {renderAbout && (
-          <Trigger value="manifest-about">
+          <Tabs.Trigger className={infoPanelTrigger} value="manifest-about">
             {t("informationPanelTabsAbout")}
-          </Trigger>
+          </Tabs.Trigger>
         )}
         {renderContentSearch && contentSearchResource && (
-          <Trigger value="manifest-content-search">
+          <Tabs.Trigger
+            className={infoPanelTrigger}
+            value="manifest-content-search"
+          >
             {t("informationPanelTabsSearch")}
-          </Trigger>
+          </Tabs.Trigger>
         )}
         {renderAnnotation && hasAnnotations && (
-          <Trigger value="manifest-annotations">
+          <Tabs.Trigger
+            className={infoPanelTrigger}
+            value="manifest-annotations"
+          >
             {informationPanel?.annotationTabLabel ||
               t("informationPanelTabsAnnotations")}
-          </Trigger>
+          </Tabs.Trigger>
         )}
 
-        {pluginsWithInfoPanel &&
-          pluginsWithInfoPanel.map((plugin, i) => (
-            <Trigger key={i} value={plugin.id}>
-              <Label
-                label={plugin.informationPanel?.label as InternationalString}
-              />
-            </Trigger>
-          ))}
-      </List>
-      <Scroll handleScroll={handleScroll}>
+        {pluginsWithInfoPanel?.map((plugin, i) => (
+          <Tabs.Trigger className={infoPanelTrigger} key={i} value={plugin.id}>
+            <Label label={plugin.informationPanel?.label as InternationalString} />
+          </Tabs.Trigger>
+        ))}
+      </Tabs.List>
+      <div className={infoPanelScroll} onScroll={handleScroll}>
         {renderAbout && (
-          <Content value="manifest-about">
+          <Tabs.Content className={infoPanelContent} value="manifest-about">
             <Information />
-          </Content>
+          </Tabs.Content>
         )}
         {renderContentSearch && contentSearchResource && (
-          <Content value="manifest-content-search">
+          <Tabs.Content
+            className={infoPanelContent}
+            value="manifest-content-search"
+          >
             <ContentSearch
               searchServiceUrl={searchServiceUrl}
               setContentSearchResource={setContentSearchResource}
               activeCanvas={activeCanvas}
               annotationPage={contentSearchResource}
             />
-          </Content>
+          </Tabs.Content>
         )}
         {renderAnnotation && hasAnnotations && filteredAnnotationResources && (
-          <Content value="manifest-annotations">
+          <Tabs.Content
+            className={infoPanelContent}
+            value="manifest-annotations"
+          >
             {contentStateAnnotation && hasContentStateAnnotation && (
               <ContentStateAnnotationPage
                 contentStateAnnotation={contentStateAnnotation}
@@ -286,15 +301,14 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
                 annotationPage={annotationPage}
               />
             ))}
-          </Content>
+          </Tabs.Content>
         )}
 
-        {pluginsWithInfoPanel &&
-          pluginsWithInfoPanel.map((plugin, i) =>
-            renderPluginInformationPanel(plugin, i),
-          )}
-      </Scroll>
-    </Wrapper>
+        {pluginsWithInfoPanel?.map((plugin, i) =>
+          renderPluginInformationPanel(plugin, i),
+        )}
+      </div>
+    </Tabs.Root>
   );
 };
 

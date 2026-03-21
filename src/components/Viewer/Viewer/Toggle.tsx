@@ -1,12 +1,14 @@
-import {
-  StyledSwitch,
-  StyledThumb,
-  StyledToggle,
-} from "src/components/Viewer/Viewer/Toggle.styled";
+import * as Switch from "@radix-ui/react-switch";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
 import React from "react";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
+import {
+  toggleForm,
+  toggleSwitch,
+  toggleThumb,
+  toggleThumbLabel,
+} from "./Toggle.css";
 
 const Toggle = () => {
   const { isInformationOpen } = useViewerState();
@@ -22,19 +24,19 @@ const Toggle = () => {
   };
 
   return (
-    <StyledToggle>
-      <StyledSwitch
+    <form className={toggleForm}>
+      <Switch.Root
         checked={isInformationOpen}
         onCheckedChange={handleOnCheckedChange}
         id="information-toggle"
         aria-label={t("informationPanelToggle")}
-        name="toggled?"
+        className={toggleSwitch}
       >
-        <StyledThumb>
-          <span>i</span>
-        </StyledThumb>
-      </StyledSwitch>
-    </StyledToggle>
+        <Switch.Thumb className={toggleThumb}>
+          <span className={toggleThumbLabel}>i</span>
+        </Switch.Thumb>
+      </Switch.Root>
+    </form>
   );
 };
 

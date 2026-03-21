@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledSearchAnnotationsResultsLabel } from "./Search.styled";
+import { searchResultsLabel } from "./Search.css";
 
 interface SearchAnnotationsResultsLabelProps {
   activeIndex: number;
@@ -21,11 +21,7 @@ const SearchAnnotationsResultsLabel: React.FC<
       </>
     );
 
-  return (
-    <StyledSearchAnnotationsResultsLabel>
-      {message}
-    </StyledSearchAnnotationsResultsLabel>
-  );
+  return <div className={searchResultsLabel}>{message}</div>;
 };
 
 export default SearchAnnotationsResultsLabel;

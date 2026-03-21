@@ -4,9 +4,6 @@ import { PrimitivesRequiredStatement } from "src/types/primitives";
 import React from "react";
 import { getRealPropertyValue } from "src/lib/utils";
 import { sanitizeAttributes } from "src/lib/html-element";
-import { styled } from "src/styles/stitches.config";
-
-const StyledRequiredStatement = styled("dl", {});
 
 const RequiredStatement: React.FC<PrimitivesRequiredStatement> = (props) => {
   const { as, requiredStatement } = props;
@@ -20,6 +17,7 @@ const RequiredStatement: React.FC<PrimitivesRequiredStatement> = (props) => {
    */
   const remove = ["as", "customValueDelimiter", "requiredStatement"];
   const attributes = sanitizeAttributes(props, remove);
+  const Component = (as ?? "dl") as React.ElementType;
 
   return (
     <PrimitivesProvider
@@ -27,9 +25,9 @@ const RequiredStatement: React.FC<PrimitivesRequiredStatement> = (props) => {
         ? { initialState: { delimiter: delimiter as string } }
         : undefined)}
     >
-      <StyledRequiredStatement as={as} {...attributes}>
+      <Component {...attributes}>
         <MetadataItem item={requiredStatement} lang={attributes.lang} />
-      </StyledRequiredStatement>
+      </Component>
     </PrimitivesProvider>
   );
 };

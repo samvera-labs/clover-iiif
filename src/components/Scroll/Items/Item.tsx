@@ -5,14 +5,15 @@ import {
   Reference,
   W3CAnnotationTarget,
 } from "@iiif/presentation-3";
-import {
-  PageBreak,
-  StyledItem,
-  StyledItemFigure,
-  StyledItemTextualBodies,
-  StyledLanguageColumn,
-} from "src/components/Scroll/Items/Items.styled";
 import { ScrollContext, initialState } from "src/context/scroll-context";
+import {
+  languageColumn,
+  languageColumns as languageColumnsWrapper,
+  pageBreak,
+  scrollItem,
+  scrollItemFigure,
+  scrollItemTextualBodies,
+} from "src/components/Scroll/Items/Items.css";
 
 import React from "react";
 import ScrollFigure from "src/components/Scroll/Figure/Figure";
@@ -155,14 +156,15 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
       })
     : languageOrder;
 
-  const languageColumns = languagesToRender.map((key) => {
+  const renderedLanguageColumns = languagesToRender.map((key) => {
     const group = languageGroups[key];
     if (!group) return null;
     const heading = group.label || "Unspecified";
     const langAttribute = group.label ? group.label : undefined;
 
     return (
-      <StyledLanguageColumn
+      <div
+        className={languageColumn}
         key={key}
         data-language={heading}
         lang={langAttribute}
@@ -170,11 +172,11 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
         {group.bodies.map((body, index) => (
           <ScrollItemBody body={body} key={`${body.id || key}-${index}`} />
         ))}
-      </StyledLanguageColumn>
+      </div>
     );
   });
 
-  const visibleColumns = languageColumns.filter(
+  const visibleColumns = renderedLanguageColumns.filter(
     (column): column is JSX.Element => Boolean(column),
   );
   const columnCount = visibleColumns.length || 1;
@@ -186,21 +188,24 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
 
   return (
     <>
-      <StyledItem
+      <article
+        className={scrollItem}
         data-page-break={hasItemBreak}
         data-page-number={itemNumber}
         data-last-item={isLastItem}
       >
-        <StyledItemFigure
-          css={{
+        <div
+          className={scrollItemFigure}
+          style={{
             width: figureWidth,
           }}
           data-width={figureWidth}
         >
           {canvas && <ScrollFigure canvas={canvas} canvasInfo={canvasInfo} />}
-        </StyledItemFigure>
-        <StyledItemTextualBodies>
+        </div>
+        <div className={scrollItemTextualBodies}>
           <div
+            className={languageColumnsWrapper}
             style={{ "--num-items": columnCount } as React.CSSProperties}
             data-columns={columnCount}
             data-testid="scroll-item-language-columns"
@@ -209,9 +214,9 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
               ? visibleColumns
               : !annotationsLoading && <></>}
           </div>
-        </StyledItemTextualBodies>
-      </StyledItem>
-      {hasItemBreak && <PageBreak aria-label="Page Break" />}
+        </div>
+      </article>
+      {hasItemBreak && <hr aria-label="Page Break" className={pageBreak} />}
     </>
   );
 };

@@ -24,20 +24,20 @@ import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
-import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
+import { viewerRoot, viewerWrapper } from "src/components/Viewer/Viewer/Viewer.css";
 import { getVisibleCanvasesFromCanvasId } from "@iiif/helpers";
-import { media } from "src/styles/stitches.config";
+import { mediaQueries } from "src/styles/theme.css";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
-  theme?: unknown;
+  themeStyles?: React.CSSProperties;
   iiifContentSearchQuery?: ContentSearchQuery;
 }
 
 const Viewer: React.FC<ViewerProps> = ({
   manifest,
-  theme,
+  themeStyles,
   iiifContentSearchQuery,
 }) => {
   /**
@@ -68,7 +68,7 @@ const Viewer: React.FC<ViewerProps> = ({
   const [contentSearchResource, setContentSearchResource] =
     useState<AnnotationResource>();
 
-  const isSmallViewport = useMediaQuery(media.sm);
+  const isSmallViewport = useMediaQuery(mediaQueries.sm);
   const [searchServiceUrl, setSearchServiceUrl] = useState();
 
   const setInformationOpen = useCallback(
@@ -163,15 +163,21 @@ const Viewer: React.FC<ViewerProps> = ({
     ).then((contentSearch) => setContentSearchResource(contentSearch));
   }, [searchServiceUrl]);
 
+  const inlineStyles: React.CSSProperties = {
+    ...(themeStyles ?? {}),
+    background: configOptions?.background,
+  };
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Wrapper
-        className={`${theme} clover-viewer`}
-        css={{ background: configOptions?.background }}
+      <div
+        className={`clover-viewer ${viewerWrapper}`}
+        style={inlineStyles}
         data-absolute-position={isAbsolutePosition}
         data-information-panel-open={isInformationOpen}
       >
         <Collapsible.Root
+          className={viewerRoot}
           open={isInformationOpen}
           onOpenChange={setInformationOpen}
         >
@@ -190,7 +196,7 @@ const Viewer: React.FC<ViewerProps> = ({
             isAudioVideo={isAudioVideo}
           />
         </Collapsible.Root>
-      </Wrapper>
+      </div>
     </ErrorBoundary>
   );
 };

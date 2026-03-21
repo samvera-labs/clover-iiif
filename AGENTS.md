@@ -1,43 +1,22 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- Source lives in `src/` with key modules:
-  - `components/{Image,Primitives,Scroll,Slider,Viewer}`: published entry points.
-  - `lib/`, `hooks/`, `context/`, `i18n/`, `web-components/`.
-- Documentation site uses Next.js/Nextra in `pages/` and `docs/`.
-- Build output goes to `dist/`; static assets in `public/`.
-- Tests are colocated near code as `*.test.ts|tsx` (see `vitest.config.mjs`).
+Source lives in `src/`, with publishable entry points inside `components/{Image,Primitives,Scroll,Slider,Viewer}` plus shared utilities in `lib/`, `hooks/`, `context/`, `i18n/`, and `web-components/`. Docs are powered by Nextra/Next in `pages/` and `docs/`, build artifacts land in `dist/`, static assets go in `public/`, and tests sit beside the code they cover as `ComponentName.test.tsx`.
 
 ## Build, Test, and Development Commands
-- `npm run dev`: start the docs site locally at `http://localhost:3000`.
-- `npm run build`: build the library (Vite-based, writes to `dist/`).
-- `npm run build:docs`: build the Next.js docs site.
-- `npm run test`: run unit tests (Vitest/JSDOM).
-- `npm run coverage`: run tests with coverage reports (text/json/html).
-- `npm run lint`: Prettier check + `next lint`.
-- `npm run typecheck`: TypeScript project checks.
+Use `npm run dev` to spin up the docs site at `http://localhost:3000` while iterating on components, and `npm run build` to produce the Vite library bundle in `dist/`. `npm run build:docs` compiles the Next.js docs, `npm run test` plus `npm run coverage` exercise Vitest with HTML/JSON reports, and `npm run lint` / `npm run typecheck` gate formatting (Prettier + `next lint`) and TypeScript checks respectively.
 
 ## Coding Style & Naming Conventions
-- Language: TypeScript + React (Next for docs; Preact for UMD WC build).
-- Formatting: Prettier (semicolons enabled). Use `npm run prettier:fix` to format.
-- Linting: ESLint with `next/core-web-vitals` and `@typescript-eslint` rules.
-- Naming: React components in PascalCase, files `*.tsx`; utilities in camelCase `*.ts`.
-- Paths: TS path aliases enabled via `vite-tsconfig-paths`.
+The codebase is TypeScript-first with React for docs and Preact for the web-component build; keep components in PascalCase `*.tsx`, utilities in camelCase `*.ts`, and exported hooks prefixed with `use`. Run `npm run prettier:fix` before committing, honor ESLint (`next/core-web-vitals`, `@typescript-eslint`), and rely on the `vite-tsconfig-paths` aliasing to avoid brittle relative imports. All CSS decisions must follow `skills/css-styling.md`—backgrounds and other colors always use design tokens and should only apply when contrast demands it.
 
 ## Testing Guidelines
-- Framework: Vitest with JSDOM and Testing Library (`src/setupTests.ts`).
-- Include tests alongside code: `ComponentName.test.tsx`, `util.test.ts`.
-- Coverage: v8 provider; reporters text/json/html. Run `npm run coverage`.
-- Prefer user-centric tests; avoid brittle DOM snapshots.
+Vitest with the JSDOM environment (initialized in `src/setupTests.ts`) is the required test harness, so prefer Testing Library patterns that read like user actions. Co-locate specs with their targets (`Viewer.test.tsx`, `manifest.util.test.ts`), avoid DOM snapshots when a query + assertion suffices, and track coverage via `npm run coverage` to keep the v8 reports healthy.
 
 ## Commit & Pull Request Guidelines
-- Branch from `main`; keep PRs focused and small.
-- Commits: concise, imperative (“Fix slider scroll behavior”); reference issues `#123`.
-- PRs: include description, linked issues, and screenshots/GIFs for UI changes.
-- Required: `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build` must pass.
-- Update docs (`docs/` or `pages/`) when changing public APIs or behavior.
+Branch from `main`, keep changes scoped, and write imperative commit messages such as `Fix slider scroll behavior` or `Docs: clarify IIIF setup`; reference GitHub issues as `#123` when applicable. PRs must describe the change, link issues, include screenshots or GIFs for UI shifts, and pass `npm run lint`, `npm run typecheck`, `npm run test`, and `npm run build` before requesting review.
 
 ## Environment & Tooling
-- Node: `20.5.0` (see `.tool-versions`).
-- Husky/lint-staged run formatting and lint checks on commit.
-- When working with IIIF resources, verify CORS in local examples.
+Develop against Node `20.5.0` (`.tool-versions`), allow Husky/lint-staged to run format + lint hooks, and verify third-party IIIF manifests for CORS when testing in examples. When publishing, double-check that `dist/` contains the expected modules and that docs previews reflect the new behavior.
+
+## Skills Directory
+Reference `skills/` whenever you need deeper implementation guidance. Currently, `skills/css-styling.md` defines how every component consumes design tokens (no hardcoded backgrounds, minimal defaults, CSS variables for overrides); expand this directory with future skills so agents have a single source for repeatable decisions.

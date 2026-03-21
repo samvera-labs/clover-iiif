@@ -6,8 +6,9 @@ import {
 } from "src/context/viewer-context";
 
 import { AutoScrollOptions } from "src/context/viewer-context";
-import { Item } from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue.styled";
 import { convertTime } from "src/lib/utils";
+import * as RadioGroup from "@radix-ui/react-radio-group";
+import { cueItem } from "./Cue.css";
 
 const AutoScrollDisableTime = 750;
 
@@ -127,7 +128,8 @@ const Cue: React.FC<Props> = ({ html, text, start, end }) => {
   };
 
   return (
-    <Item
+    <RadioGroup.Item
+      className={cueItem}
       ref={ref}
       aria-checked={isActive}
       data-testid="information-panel-cue"
@@ -139,7 +141,7 @@ const Cue: React.FC<Props> = ({ html, text, start, end }) => {
         dangerouslySetInnerHTML={{ __html: html }}
       ></div>
       <strong>{convertTime(start)}</strong>
-    </Item>
+    </RadioGroup.Item>
   );
 };
 

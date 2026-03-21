@@ -1,20 +1,12 @@
-import {
-  SelectProps as RadixSelectProps,
-  SelectGroup,
-  SelectIcon,
-  SelectPortal,
-  SelectScrollDownButton,
-  SelectScrollUpButton,
-  SelectValue,
-  SelectViewport,
-} from "@radix-ui/react-select";
+import * as SelectPrimitive from "@radix-ui/react-select";
+import type { SelectProps as RadixSelectProps } from "@radix-ui/react-select";
 import React, { ReactNode } from "react";
 import {
-  StyledSelect,
-  StyledSelectButton,
-  StyledSelectContent,
-  StyledSelectLabel,
-} from "src/components/UI/Select/Select.styled";
+  selectContent,
+  selectLabel,
+  selectRoot,
+  selectTrigger,
+} from "src/components/UI/Select/Select.css";
 
 import Icon from "./Icon";
 import { InternationalString } from "@iiif/presentation-3";
@@ -35,39 +27,50 @@ const Select: React.FC<SelectProps> = ({
   maxHeight,
   onValueChange,
   value,
+  ...rest
 }) => {
   return (
-    <StyledSelect onValueChange={onValueChange} value={value}>
-      <StyledSelectButton data-testid="select-button">
-        <SelectValue data-testid="select-button-value" />
-        <SelectIcon>
-          <Icon direction="down" title="select" />
-        </SelectIcon>
-      </StyledSelectButton>
-      <SelectPortal>
-        <StyledSelectContent
-          css={{ maxHeight: `${maxHeight} !important` }}
-          data-testid="select-content"
+    <SelectPrimitive.Root
+      onValueChange={onValueChange}
+      value={value}
+      {...rest}
+    >
+      <div className={selectRoot}>
+        <SelectPrimitive.Trigger
+          className={selectTrigger}
+          data-testid="select-button"
         >
-          <SelectScrollUpButton>
-            <Icon direction="up" title="scroll up for more" />
-          </SelectScrollUpButton>
-          <SelectViewport>
-            <SelectGroup>
-              {label && (
-                <StyledSelectLabel>
-                  <Label data-testid="select-label" label={label} />
-                </StyledSelectLabel>
-              )}
-              {children}
-            </SelectGroup>
-          </SelectViewport>
-          <SelectScrollDownButton>
-            <Icon direction="down" title="scroll down for more" />
-          </SelectScrollDownButton>
-        </StyledSelectContent>
-      </SelectPortal>
-    </StyledSelect>
+          <SelectPrimitive.Value data-testid="select-button-value" />
+          <SelectPrimitive.Icon>
+            <Icon direction="down" title="select" />
+          </SelectPrimitive.Icon>
+        </SelectPrimitive.Trigger>
+        <SelectPrimitive.Portal>
+          <SelectPrimitive.Content
+            className={selectContent}
+            data-testid="select-content"
+            style={{ maxHeight }}
+          >
+            <SelectPrimitive.ScrollUpButton>
+              <Icon direction="up" title="scroll up for more" />
+            </SelectPrimitive.ScrollUpButton>
+            <SelectPrimitive.Viewport>
+              <SelectPrimitive.Group>
+                {label && (
+                  <SelectPrimitive.Label className={selectLabel}>
+                    <Label data-testid="select-label" label={label} />
+                  </SelectPrimitive.Label>
+                )}
+                {children}
+              </SelectPrimitive.Group>
+            </SelectPrimitive.Viewport>
+            <SelectPrimitive.ScrollDownButton>
+              <Icon direction="down" title="scroll down for more" />
+            </SelectPrimitive.ScrollDownButton>
+          </SelectPrimitive.Content>
+        </SelectPrimitive.Portal>
+      </div>
+    </SelectPrimitive.Root>
   );
 };
 

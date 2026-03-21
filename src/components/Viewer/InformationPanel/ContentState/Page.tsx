@@ -2,10 +2,10 @@ import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import AnnotationItem from "src/components/Viewer/InformationPanel/Annotation/Item";
 import { AnnotationNormalized } from "@iiif/presentation-3";
-import { Group } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
 import { Label } from "src/components/Primitives";
 import React from "react";
 import { getPaintingResource } from "src/hooks/use-iiif";
+import { annotationGroup } from "../Annotation/Annotation.css";
 
 type Props = {
   contentStateAnnotation: AnnotationNormalized;
@@ -29,7 +29,7 @@ export const ContentStateAnnotationPage: React.FC<Props> = ({
     : undefined;
 
   return (
-    <Group data-testid="annotation-page">
+    <div className={annotationGroup} data-testid="annotation-page">
       {canvas && (
         <header>
           <Label label={canvas.label} /> <em>(Shared)</em>
@@ -43,7 +43,7 @@ export const ContentStateAnnotationPage: React.FC<Props> = ({
           isContentState={true}
         />
       </div>
-    </Group>
+    </div>
   );
 };
 

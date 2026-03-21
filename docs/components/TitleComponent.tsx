@@ -20,10 +20,14 @@ const betaBadgeStyling: CSSProperties = {
   marginLeft: "10px",
 };
 
-const isBeta = ["Scroll"];
+const isBeta: string[] = [];
 
-const TitleComponent: React.FC<TitleComponentProps> = ({ title }) => {
-  if (isBeta.includes(title))
+const TitleComponent: React.FC<TitleComponentProps> = ({
+  title,
+}: {
+  title?: string;
+}) => {
+  if (title && isBeta.includes(title))
     return (
       <span>
         {title}

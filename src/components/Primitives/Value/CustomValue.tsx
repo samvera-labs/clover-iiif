@@ -2,16 +2,14 @@ import React, { Fragment, cloneElement } from "react";
 
 import { PrimitivesCustomValue } from "src/types/primitives";
 import { getLabelEntries } from "src/lib/label-helpers";
-import { styled } from "src/styles/stitches.config";
 import { usePrimitivesContext } from "src/context/primitives-context";
-
-const StyledCustomValue = styled("span", {});
 
 const CustomValue: React.FC<PrimitivesCustomValue> = ({
   as = "dd",
   customValueContent,
   lang,
   value,
+  ...rest
 }) => {
   const { delimiter } = usePrimitivesContext();
 
@@ -21,13 +19,15 @@ const CustomValue: React.FC<PrimitivesCustomValue> = ({
     });
   });
 
+  const Component = (as ?? "dd") as React.ElementType;
+
   return (
-    <StyledCustomValue as={as} lang={lang}>
+    <Component lang={lang} {...rest}>
       {entries?.map((entry, index) => [
         index > 0 && `${delimiter}`,
         <Fragment key={index}>{entry}</Fragment>,
       ])}
-    </StyledCustomValue>
+    </Component>
   );
 };
 

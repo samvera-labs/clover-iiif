@@ -15,7 +15,6 @@ const config: DocsThemeConfig = {
     defaultTheme: "system",
   },
   docsRepositoryBase: "https://github.com/samvera-labs/clover-iiif",
-
   banner: {
     // tada icon and react 19 support notification
     text: "🎉 React 19 support is here! Clover IIIF v3.0.0 works with the latest React frameworks.",

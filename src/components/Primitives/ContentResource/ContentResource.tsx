@@ -4,10 +4,8 @@ import Hls from "hls.js";
 import { PrimitivesContentResource } from "src/types/primitives";
 import { getLabelAsString } from "src/lib/label-helpers";
 import { sanitizeAttributes } from "src/lib/html-element";
-import { styled } from "src/styles/stitches.config";
 import { useGetImageResource } from "src/hooks/useGetImageResource";
-
-const StyledResource = styled("img", { objectFit: "cover" });
+import { contentResourceMedia } from "./ContentResource.css";
 
 const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
   const mediaRef = useRef(null);
@@ -20,7 +18,10 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
    * Create attributes and remove React props
    */
   const remove = ["contentResource", "altAsLabel"];
-  const attributes = sanitizeAttributes(props, remove);
+  const attributes = sanitizeAttributes(
+    props,
+    remove,
+  ) as React.HTMLAttributes<HTMLElement> & { className?: string };
 
   const { type, id, width = 200, height = 200, duration } = contentResource;
 
@@ -112,22 +113,36 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
 
   switch (type) {
     case "Image":
+      const imageStyle = {
+        ...(attributes.style as React.CSSProperties),
+        width,
+        height,
+      };
+      const imageClassName = [contentResourceMedia, attributes.className]
+        .filter(Boolean)
+        .join(" ");
       return (
-        <StyledResource
-          as="img"
+        <img
           alt={alt}
-          css={{ width: width, height: height }}
           key={id}
           src={imgSrc}
           {...attributes}
+          className={imageClassName}
+          style={imageStyle}
         />
       );
 
     case "Video":
+      const videoStyle = {
+        ...(attributes.style as React.CSSProperties),
+        width,
+        height,
+      };
+      const videoClassName = [contentResourceMedia, attributes.className]
+        .filter(Boolean)
+        .join(" ");
       return (
-        <StyledResource
-          as="video"
-          css={{ width: width, height: height }}
+        <video
           disablePictureInPicture
           key={id}
           loop
@@ -135,6 +150,9 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
           onPause={playLoop}
           ref={mediaRef}
           src={id}
+          {...attributes}
+          className={videoClassName}
+          style={videoStyle}
         />
       );
 

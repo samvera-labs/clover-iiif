@@ -3,7 +3,7 @@ import {
   CollectionNormalized,
   ManifestNormalized,
 } from "@iiif/presentation-3";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   type ViewerConfigOptions,
   ViewerProvider,
@@ -18,7 +18,6 @@ import {
 import { encodeContentState, getManifestSequence } from "@iiif/helpers";
 import { Vault } from "@iiif/helpers/vault";
 import Viewer from "src/components/Viewer/Viewer/Viewer";
-import { createTheme } from "@stitches/react";
 import { getRequest } from "src/lib/xhr";
 import {
   decodeContentStateContainerURI,
@@ -29,13 +28,17 @@ import {
 import { ContentSearchQuery } from "src/types/annotations";
 import { contentStateSpecificResource } from "src/lib/content-state";
 import { hashCode } from "src/lib/utils";
+import {
+  CustomTheme,
+  customThemeToCssVars,
+} from "src/styles/custom-theme";
 
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
   contentStateCallback?: (iiifContentState: object) => void;
   customDisplays?: Array<CustomDisplay>;
   plugins?: Array<PluginConfig>;
-  customTheme?: any;
+  customTheme?: CustomTheme;
   iiifContent: string | object;
   id?: string;
   manifestId?: string;
@@ -126,11 +129,9 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   >();
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
-  /**
-   * Overrides the baseline stitches theme when set.
-   */
-  let theme = {};
-  if (customTheme) theme = createTheme("custom", customTheme);
+  const themeStyles = useMemo(() => customThemeToCssVars(customTheme), [
+    customTheme,
+  ]);
 
   /**
    * Update activeSelector when the canvas or manifest changes.
@@ -403,7 +404,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   return (
     <Viewer
       manifest={manifest}
-      theme={theme}
+      themeStyles={themeStyles}
       key={manifest.id}
       iiifContentSearchQuery={iiifContentSearchQuery}
     />

@@ -1,14 +1,18 @@
 import React, { CSSProperties, useContext, useRef } from "react";
 import {
-  StyledScrollPanel,
-  StyledScrollSearch,
-} from "src/components/Scroll/Layout/Layout.styled";
+  scrollPanel,
+  scrollSearch,
+} from "src/components/Scroll/Layout/Layout.css";
 
 import { ScrollContext } from "src/context/scroll-context";
 import ScrollLanguage from "./Language/Language";
 import ScrollSearchResults from "src/components/Scroll/Panel/Search/Search";
 import SearchForm from "src/components/Scroll/Panel/Search/Form";
-import { StyledPanel } from "src/components/Scroll/Panel/Panel.styled";
+import {
+  panelResults,
+  panelResultsCollapsed,
+  panelResultsExpanded,
+} from "src/components/Scroll/Panel/Panel.css";
 
 const ScrollPanel = ({ width, isFixed, hasDefinedLanguages }) => {
   const scrollAsideRef = useRef<HTMLDivElement>(null);
@@ -33,7 +37,8 @@ const ScrollPanel = ({ width, isFixed, hasDefinedLanguages }) => {
   const controlsWidth = languageEnabled ? 4.5 : 2;
 
   return (
-    <StyledScrollPanel
+    <div
+      className={scrollPanel}
       ref={scrollAsideRef}
       data-testid="scroll-panel"
       style={{
@@ -55,20 +60,25 @@ const ScrollPanel = ({ width, isFixed, hasDefinedLanguages }) => {
       {!isPanelExpanded && languageEnabled && hasDefinedLanguages && (
         <ScrollLanguage />
       )}
-      <StyledScrollSearch>
+      <div className={scrollSearch}>
         <SearchForm
           togglePanel={handlePanel}
           isPanelExpanded={isPanelExpanded}
         />
-        <StyledPanel
+        <div
           data-testid="scroll-panel-results"
           data-panel-expanded={isPanelExpanded}
-          isPanelExpanded={isPanelExpanded}
+          className={[
+            panelResults,
+            isPanelExpanded ? panelResultsExpanded : panelResultsCollapsed,
+          ]
+            .filter(Boolean)
+            .join(" ")}
         >
           {isPanelExpanded && <ScrollSearchResults />}
-        </StyledPanel>
-      </StyledScrollSearch>
-    </StyledScrollPanel>
+        </div>
+      </div>
+    </div>
   );
 };
 
