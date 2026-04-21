@@ -1,19 +1,15 @@
 import { styled } from "src/styles/stitches.config";
 
 const AnimationControlsWrapper = styled("div", {
-  position: "absolute",
-  bottom: "1rem",
-  left: "50%",
-  transform: "translateX(-50%)",
   display: "flex",
+  alignSelf: "center",
+  flexShrink: "0",
   alignItems: "center",
   gap: "0.25rem",
-  backgroundColor: "$accentAlt",
   borderRadius: "2rem",
   boxShadow: "5px 5px 5px #0003",
   color: "$secondary",
   padding: "0",
-  zIndex: "$1",
 });
 
 const AnimationButton = styled("button", {
@@ -25,21 +21,21 @@ const AnimationButton = styled("button", {
   padding: "0",
   margin: "0",
   borderRadius: "2rem",
-  backgroundColor: "$accent",
   color: "$secondary",
   cursor: "pointer",
   transition: "$all",
   flexShrink: "0",
+  opacity: "0.75",
 
   svg: {
-    height: "60%",
-    width: "60%",
-    padding: "20%",
+    height: "52%",
+    width: "52%",
+    padding: "24%",
     fill: "$secondary",
     stroke: "$secondary",
     opacity: "1",
-    filter: "drop-shadow(5px 5px 5px #000D)",
-    boxSizing: "border-box",
+    boxSizing: "content-box",
+    display: "block",
     transition: "$all",
   },
 
@@ -47,6 +43,14 @@ const AnimationButton = styled("button", {
     backgroundColor: "transparent",
     boxShadow: "none",
     svg: { opacity: "0.25" },
+  },
+
+  "&:not(:disabled):hover": {
+    opacity: "1",
+
+    svg: {
+      opacity: "1",
+    },
   },
 });
 
@@ -57,6 +61,7 @@ const AnimationCounter = styled("span", {
   fontWeight: "bold",
   gap: "0.25rem",
   whiteSpace: "nowrap",
+  fontFamily: "monospace",
 
   em: {
     opacity: "0.25",

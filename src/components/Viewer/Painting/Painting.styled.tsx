@@ -25,7 +25,8 @@ const PaintingStyled = styled("div", {
 
 const PaintingCanvas = styled("div", {
   width: "100%",
-  height: "100%",
+  flexGrow: "1",
+  minHeight: "0",
 });
 
 const AnimationFrameImage = styled("img", {

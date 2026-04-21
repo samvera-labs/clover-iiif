@@ -355,10 +355,9 @@ const Painting: React.FC<PaintingProps> = ({
       <PaintingCanvas
         style={{
           backgroundColor: configOptions.canvasBackgroundColor,
-          height:
-            configOptions.canvasHeight === "auto"
-              ? "100%"
-              : configOptions.canvasHeight,
+          ...(configOptions.canvasHeight !== "auto" && {
+            height: configOptions.canvasHeight,
+          }),
         }}
       >
         {Boolean(placeholderItems.length) && !isMedia && (
@@ -405,28 +404,27 @@ const Painting: React.FC<PaintingProps> = ({
             {...customDisplay?.display.componentProps}
           />
         )}
-        {isAnimationMode && !isMedia && !showPlaceholder && (
-          <AnimationControls
-            frameIndex={annotationIndex}
-            isPlaying={isPlaying}
-            playbackRate={playbackRate}
-            totalFrames={totalFrames}
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
-            onPrevFrame={() => {
-              setIsPlaying(false);
-              setAnnotationIndex((prev) => Math.max(0, prev - 1));
-            }}
-            onNextFrame={() => {
-              setIsPlaying(false);
-              setAnnotationIndex((prev) =>
-                Math.min(totalFrames - 1, prev + 1),
-              );
-            }}
-            onSetPlaybackRate={setPlaybackRate}
-          />
-        )}
       </PaintingCanvas>
+
+      {isAnimationMode && !isMedia && !showPlaceholder && (
+        <AnimationControls
+          frameIndex={annotationIndex}
+          isPlaying={isPlaying}
+          playbackRate={playbackRate}
+          totalFrames={totalFrames}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onPrevFrame={() => {
+            setIsPlaying(false);
+            setAnnotationIndex((prev) => Math.max(0, prev - 1));
+          }}
+          onNextFrame={() => {
+            setIsPlaying(false);
+            setAnnotationIndex((prev) => Math.min(totalFrames - 1, prev + 1));
+          }}
+          onSetPlaybackRate={setPlaybackRate}
+        />
+      )}
 
       {hasChoice && (
         <Select
