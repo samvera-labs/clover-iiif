@@ -13,7 +13,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Select, SelectOption } from "src/components/UI/Select";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
-import AnimationControls from "./AnimationControls";
+import AnimationControls, { AnimationBar } from "./AnimationControls";
 import { AnnotationResources } from "src/types/annotations";
 import ImageViewer from "src/components/Image";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
@@ -99,10 +99,11 @@ const Painting: React.FC<PaintingProps> = ({
   // Animation mode requires auto-advance AND temporal annotation targets (#t=).
   // A canvas with auto-advance + choice annotations is not animation mode —
   // it just auto-advances after its duration with the choice select still visible.
-  const hasTemporalAnnotations = useMemo(
-    () => getAnimationFrames(vault, activeCanvas).length > 0,
+  const animationFrames = useMemo(
+    () => getAnimationFrames(vault, activeCanvas),
     [vault, activeCanvas],
   );
+  const hasTemporalAnnotations = animationFrames.length > 0;
   const isAnimationMode = hasTemporalAnnotations;
   const hasChoice = Boolean(painting?.length > 1) && !isAnimationMode;
 
@@ -181,6 +182,11 @@ const Painting: React.FC<PaintingProps> = ({
   const handleChoiceChange = (value) => {
     const index = painting.findIndex((resource) => resource.id === value);
     setAnnotationIndex(index);
+  };
+
+  const handleFrameChange = (value: string) => {
+    setIsPlaying(false);
+    setAnnotationIndex(parseInt(value, 10));
   };
 
   const customDisplay = customDisplays.find((customDisplay) => {
@@ -419,26 +425,41 @@ const Painting: React.FC<PaintingProps> = ({
         )}
       </PaintingCanvas>
 
-      {isAnimationMode && !isMedia && !showPlaceholder && (
-        <AnimationControls
-          frameIndex={annotationIndex}
-          isPlaying={isPlaying}
-          isRepeat={isRepeat}
-          playbackRate={playbackRate}
-          totalFrames={totalFrames}
-          onPlay={() => setIsPlaying(true)}
-          onPause={() => setIsPlaying(false)}
-          onPrevFrame={() => {
-            setIsPlaying(false);
-            setAnnotationIndex((prev) => Math.max(0, prev - 1));
-          }}
-          onNextFrame={() => {
-            setIsPlaying(false);
-            setAnnotationIndex((prev) => Math.min(totalFrames - 1, prev + 1));
-          }}
-          onToggleRepeat={() => setIsRepeat((prev) => !prev)}
-          onSetPlaybackRate={setPlaybackRate}
-        />
+      {isAnimationMode && !showPlaceholder && (
+        <AnimationBar>
+          <AnimationControls
+            frameIndex={annotationIndex}
+            isPlaying={isPlaying}
+            isRepeat={isRepeat}
+            playbackRate={playbackRate}
+            totalFrames={totalFrames}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            onPrevFrame={() => {
+              setIsPlaying(false);
+              setAnnotationIndex((prev) => Math.max(0, prev - 1));
+            }}
+            onNextFrame={() => {
+              setIsPlaying(false);
+              setAnnotationIndex((prev) => Math.min(totalFrames - 1, prev + 1));
+            }}
+            onToggleRepeat={() => setIsRepeat((prev) => !prev)}
+            onSetPlaybackRate={setPlaybackRate}
+          />
+          {/* <Select
+            value={String(annotationIndex)}
+            onValueChange={handleFrameChange}
+            maxHeight={"200px"}
+          >
+            {animationFrames.map((frame, index) => (
+              <SelectOption
+                value={String(index)}
+                key={index}
+                label={frame.label ?? { none: [String(index + 1)] }}
+              />
+            ))}
+          </Select> */}
+        </AnimationBar>
       )}
 
       {hasChoice && (

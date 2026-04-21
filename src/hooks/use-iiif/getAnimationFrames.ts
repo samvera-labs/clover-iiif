@@ -1,10 +1,15 @@
-import { AnnotationPageNormalized, CanvasNormalized } from "@iiif/presentation-3";
+import {
+  AnnotationPageNormalized,
+  CanvasNormalized,
+  InternationalString,
+} from "@iiif/presentation-3";
 
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { parseAnnotationTarget } from "src/lib/annotation-helpers";
 
 export interface AnimationFrame {
   body: LabeledIIIFExternalWebResource;
+  label: InternationalString | null;
   startTime: number;
   endTime: number;
   duration: number;
@@ -47,6 +52,7 @@ export const getAnimationFrames = (
 
     frames.push({
       body: body as LabeledIIIFExternalWebResource,
+      label: annotation.label ?? null,
       startTime,
       endTime,
       duration: endTime - startTime,

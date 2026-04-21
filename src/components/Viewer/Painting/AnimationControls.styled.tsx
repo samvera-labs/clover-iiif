@@ -1,5 +1,17 @@
 import { styled } from "src/styles/stitches.config";
 
+const AnimationBar = styled("div", {
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  gap: "0.5rem",
+
+  "@sm": {
+    flexDirection: "column",
+    alignItems: "flex-start",
+  },
+});
+
 const AnimationControlsWrapper = styled("div", {
   display: "flex",
   flexShrink: "0",
@@ -7,12 +19,8 @@ const AnimationControlsWrapper = styled("div", {
   gap: "0.25rem",
   borderRadius: "2rem",
   color: "$secondary",
-  position: "absolute",
-  zIndex: 100,
-  bottom: "1rem",
   backgroundColor: "#111C",
   padding: "0 0.5rem 0 0.25rem",
-  left: "1rem",
 });
 
 const AnimationButton = styled("button", {
@@ -80,4 +88,9 @@ const AnimationCounter = styled("span", {
   },
 });
 
-export { AnimationButton, AnimationControlsWrapper, AnimationCounter };
+export {
+  AnimationBar,
+  AnimationButton,
+  AnimationControlsWrapper,
+  AnimationCounter,
+};

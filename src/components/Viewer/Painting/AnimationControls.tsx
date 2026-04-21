@@ -1,8 +1,11 @@
 import {
+  AnimationBar,
   AnimationButton,
   AnimationControlsWrapper,
   AnimationCounter,
 } from "./AnimationControls.styled";
+
+export { AnimationBar };
 
 import React from "react";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
