@@ -21,5 +21,10 @@
   "shareCollectionJson": "Näytä kokoelma",
   "shareCollectionCopy": "Kopioi kokoelman osoite",
   "shareManifestJson": "Näytä manifesti",
-  "shareManifestCopy": "Kopioi manifestin osoite"
+  "shareManifestCopy": "Kopioi manifestin osoite",
+  "canvasAnimationPlay": "Toista",
+  "canvasAnimationPause": "Keskeytä",
+  "canvasAnimationPreviousFrame": "Edellinen ruutu",
+  "canvasAnimationNextFrame": "Seuraava ruutu",
+  "canvasAnimationSpeed": "Nopeus"
 }

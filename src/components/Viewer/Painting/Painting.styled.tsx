@@ -28,4 +28,11 @@ const PaintingCanvas = styled("div", {
   height: "100%",
 });
 
-export { PaintingCanvas, PaintingStyled, ToggleStyled };
+const AnimationFrameImage = styled("img", {
+  width: "100%",
+  height: "100%",
+  objectFit: "contain",
+  display: "block",
+});
+
+export { AnimationFrameImage, PaintingCanvas, PaintingStyled, ToggleStyled };

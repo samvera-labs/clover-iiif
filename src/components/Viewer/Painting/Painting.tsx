@@ -4,17 +4,24 @@ import {
   CanvasNormalized,
   InternationalString,
 } from "@iiif/presentation-3";
-import { PaintingCanvas, PaintingStyled } from "./Painting.styled";
-import React, { useEffect } from "react";
+import {
+  AnimationFrameImage,
+  PaintingCanvas,
+  PaintingStyled,
+} from "./Painting.styled";
+import React, { useEffect, useMemo, useState } from "react";
 import { Select, SelectOption } from "src/components/UI/Select";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
+import AnimationControls from "./AnimationControls";
 import { AnnotationResources } from "src/types/annotations";
 import ImageViewer from "src/components/Image";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import PaintingPlaceholder from "./Placeholder";
 import Player from "src/components/Viewer/Player/Player";
 import Toggle from "./Toggle";
+import { getAnimationFrames } from "src/hooks/use-iiif/getAnimationFrames";
+import { getCanvasBehavior } from "src/hooks/use-iiif/getCanvasBehavior";
 import { getPaintingResource } from "src/hooks/use-iiif";
 import { hashCode } from "src/lib/utils";
 
@@ -33,15 +40,18 @@ const Painting: React.FC<PaintingProps> = ({
   isMedia,
   painting,
 }) => {
-  const [annotationIndex, setAnnotationIndex] = React.useState<number>(0);
-  const [isInteractive, setIsInteractive] = React.useState(false);
-  const [imageBody, setImageBody] = React.useState<
-    LabeledIIIFExternalWebResource[]
-  >([]);
-  const [placeholderItems, setPlaceholderItems] = React.useState<
+  const [annotationIndex, setAnnotationIndex] = useState<number>(0);
+  const [isInteractive, setIsInteractive] = useState(false);
+  const [imageBody, setImageBody] = useState<LabeledIIIFExternalWebResource[]>(
+    [],
+  );
+  const [placeholderItems, setPlaceholderItems] = useState<
     Array<{ id: string; label: InternationalString | null }>
   >([]);
-  const [toggleCount, setToggleCount] = React.useState(0);
+  const [toggleCount, setToggleCount] = useState(0);
+  const [playbackRate, setPlaybackRate] = useState(1);
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const {
     configOptions,
     customDisplays,
@@ -49,18 +59,15 @@ const Painting: React.FC<PaintingProps> = ({
     informationPanelResource,
     isPaged,
     openSeadragonViewer,
+    sequence,
     vault,
     viewerId,
     viewingDirection,
     visibleCanvases,
   } = useViewerState();
 
-  /**
-   * Determine if canvases should be displayed in reverse order
-   * for right-to-left viewing direction when behavior is paged
-   */
   const isRtlPaged = isPaged && viewingDirection === "right-to-left";
-  const [annotations, setAnnotations] = React.useState<
+  const [annotations, setAnnotations] = useState<
     Array<{
       annotation: Annotation;
       targetIndex: number;
@@ -74,9 +81,84 @@ const Painting: React.FC<PaintingProps> = ({
 
   const dispatch: any = useViewerDispatch();
   const normalizedCanvas: CanvasNormalized = vault.get(activeCanvas);
+
+  const { isAutoAdvance, isRepeat } = getCanvasBehavior(vault, activeCanvas);
+  const canvasDuration = normalizedCanvas?.duration ?? 0;
+  const totalFrames = painting?.length ?? 0;
+
+  // Animation mode requires auto-advance AND temporal annotation targets (#t=).
+  // A canvas with auto-advance + choice annotations is not animation mode —
+  // it just auto-advances after its duration with the choice select still visible.
+  const hasTemporalAnnotations = useMemo(
+    () => getAnimationFrames(vault, activeCanvas).length > 0,
+    [vault, activeCanvas],
+  );
+  const isAnimationMode = isAutoAdvance && hasTemporalAnnotations;
+  const hasChoice = Boolean(painting?.length > 1) && !isAnimationMode;
+
+  const frameInterval =
+    isAnimationMode && canvasDuration > 0 && totalFrames > 0
+      ? (canvasDuration / totalFrames / playbackRate) * 1000
+      : 0;
+
+  // Start playing automatically when entering animation mode
+  useEffect(() => {
+    if (isAnimationMode) setIsPlaying(true);
+  }, [isAnimationMode]);
+
+  // Preload all frames so subsequent loops are smooth
+  useEffect(() => {
+    if (!isAnimationMode) return;
+    painting.forEach((resource) => {
+      const img = new window.Image();
+      img.src = resource.id;
+    });
+  }, [isAnimationMode, painting]);
+
+  // Advance annotationIndex on each frame interval
+  useEffect(() => {
+    if (!isAnimationMode || !isPlaying || frameInterval <= 0) return;
+
+    const timer = setTimeout(() => {
+      setAnnotationIndex((prev) => {
+        const next = prev + 1;
+        if (next >= totalFrames) {
+          if (isRepeat) return 0;
+          setIsPlaying(false);
+          const allCanvases = sequence[0];
+          const currentIdx = allCanvases.findIndex(
+            (c) => c.id === activeCanvas,
+          );
+          if (currentIdx >= 0 && currentIdx < allCanvases.length - 1) {
+            dispatch({
+              type: "updateActiveCanvas",
+              canvasId: allCanvases[currentIdx + 1].id,
+            });
+          }
+          return prev;
+        }
+        return next;
+      });
+    }, frameInterval);
+
+    return () => clearTimeout(timer);
+  }, [
+    isAnimationMode,
+    isPlaying,
+    annotationIndex,
+    frameInterval,
+    totalFrames,
+    isRepeat,
+    sequence,
+    activeCanvas,
+    dispatch,
+  ]);
+
   const showPlaceholder = placeholderItems.length && !isInteractive && !isMedia;
-  const hasChoice = Boolean(painting?.length > 1);
-  const instanceId = `${viewerId}-${hashCode(activeCanvas + annotationIndex + JSON.stringify(visibleCanvases) + toggleCount)}`;
+  // Exclude annotationIndex from instanceId so OSD stays mounted when the
+  // user changes a choice or the animation advances frames. OSD swaps images
+  // via its uri-change effect rather than remounting, preserving zoom state.
+  const instanceId = `${viewerId}-${hashCode(activeCanvas + JSON.stringify(visibleCanvases) + toggleCount)}`;
 
   const handleToggle = () => {
     setIsInteractive(!isInteractive);
@@ -88,9 +170,6 @@ const Painting: React.FC<PaintingProps> = ({
     setAnnotationIndex(index);
   };
 
-  /**
-   * Determine whether a custom display should be used for the current canvas.
-   */
   const customDisplay = customDisplays.find((customDisplay) => {
     let match = false;
     const { canvasId, paintingFormat } = customDisplay.target;
@@ -112,10 +191,6 @@ const Painting: React.FC<PaintingProps> = ({
     }
   }, [hasContentStateAnnotation, showPlaceholder]);
 
-  /**
-   * If placeholder is toggled, this resets active
-   * selector and openSeadragon instance in context
-   */
   useEffect(() => {
     if (showPlaceholder) {
       dispatch({
@@ -129,7 +204,6 @@ const Painting: React.FC<PaintingProps> = ({
     }
   }, [showPlaceholder]);
 
-  /** Retrieve annotations for visible canvases from Vault */
   useEffect(() => {
     const resources: Array<{
       annotation: Annotation;
@@ -213,45 +287,39 @@ const Painting: React.FC<PaintingProps> = ({
   ]);
 
   useEffect(() => {
-    if (isMedia) {
-      return;
-    } else {
-      /**
-       * For RTL paged content, we reverse the order of visible canvases
-       * so that the rightmost canvas appears on the left side of the display
-       */
-      const orderedCanvases = isRtlPaged
-        ? [...visibleCanvases].reverse()
-        : visibleCanvases;
+    if (isMedia) return;
 
-      const body = orderedCanvases
-        .map((canvas) => {
-          const canvasId = canvas.id;
-          const painting = getPaintingResource(vault, canvasId);
-          return painting ? painting[annotationIndex] : undefined;
-        })
-        .filter(Boolean) as LabeledIIIFExternalWebResource[];
+    const orderedCanvases = isRtlPaged
+      ? [...visibleCanvases].reverse()
+      : visibleCanvases;
 
-      const placeholders = orderedCanvases
-        .map((entry) => {
-          const canvasId = entry.id;
+    const body = orderedCanvases
+      .map((canvas) => {
+        const canvasId = canvas.id;
+        const painting = getPaintingResource(vault, canvasId);
+        return painting ? painting[annotationIndex] : undefined;
+      })
+      .filter(Boolean) as LabeledIIIFExternalWebResource[];
 
-          const canvas: CanvasNormalized = vault.get(canvasId);
-          const placeholderCanvas = canvas?.placeholderCanvas?.id;
-          const hasPlaceholder = Boolean(placeholderCanvas);
+    const placeholders = orderedCanvases
+      .map((entry) => {
+        const canvasId = entry.id;
 
-          if (!hasPlaceholder || !placeholderCanvas) return null;
+        const canvas: CanvasNormalized = vault.get(canvasId);
+        const placeholderCanvas = canvas?.placeholderCanvas?.id;
+        const hasPlaceholder = Boolean(placeholderCanvas);
 
-          return {
-            id: placeholderCanvas,
-            label: canvas?.label,
-          };
-        })
-        .filter((item) => item !== null);
+        if (!hasPlaceholder || !placeholderCanvas) return null;
 
-      setImageBody(body);
-      setPlaceholderItems(placeholders);
-    }
+        return {
+          id: placeholderCanvas,
+          label: canvas?.label,
+        };
+      })
+      .filter((item) => item !== null);
+
+    setImageBody(body);
+    setPlaceholderItems(placeholders);
   }, [
     annotationIndex,
     activeCanvas,
@@ -261,12 +329,10 @@ const Painting: React.FC<PaintingProps> = ({
     normalizedCanvas,
   ]);
 
-  // resets the annotation index if the visible canvases change
   useEffect(() => {
     setAnnotationIndex(0);
   }, [visibleCanvases]);
 
-  /** Update OpenSeadragon Viewer in viewer context */
   const handleOpenSeadragonCallback = (viewer) => {
     if (
       viewer &&
@@ -310,7 +376,6 @@ const Painting: React.FC<PaintingProps> = ({
             setIsInteractive={setIsInteractive}
           />
         )}
-        {/* Standard Viewer displays */}
         {!showPlaceholder &&
           !customDisplay &&
           (isMedia ? (
@@ -332,13 +397,33 @@ const Painting: React.FC<PaintingProps> = ({
               />
             )
           ))}
-        {/* Custom display */}
         {!showPlaceholder && CustomComponent && (
           <CustomComponent
             id={activeCanvas}
             annotationBody={painting[annotationIndex]}
             hooks={{ useViewerDispatch, useViewerState }}
             {...customDisplay?.display.componentProps}
+          />
+        )}
+        {isAnimationMode && !isMedia && !showPlaceholder && (
+          <AnimationControls
+            frameIndex={annotationIndex}
+            isPlaying={isPlaying}
+            playbackRate={playbackRate}
+            totalFrames={totalFrames}
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+            onPrevFrame={() => {
+              setIsPlaying(false);
+              setAnnotationIndex((prev) => Math.max(0, prev - 1));
+            }}
+            onNextFrame={() => {
+              setIsPlaying(false);
+              setAnnotationIndex((prev) =>
+                Math.min(totalFrames - 1, prev + 1),
+              );
+            }}
+            onSetPlaybackRate={setPlaybackRate}
           />
         )}
       </PaintingCanvas>

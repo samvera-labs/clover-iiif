@@ -21,5 +21,10 @@
   "shareCollectionJson": "Sjå samlinga",
   "shareCollectionCopy": "Kopiér samlingas URL",
   "shareManifestJson": "Sjå manifestet",
-  "shareManifestCopy": "Kopiér manifestets URL"
+  "shareManifestCopy": "Kopiér manifestets URL",
+  "canvasAnimationPlay": "Spel av",
+  "canvasAnimationPause": "Pause",
+  "canvasAnimationPreviousFrame": "Førre bilete",
+  "canvasAnimationNextFrame": "Neste bilete",
+  "canvasAnimationSpeed": "Hastigheit"
 }

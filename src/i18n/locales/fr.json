@@ -28,5 +28,10 @@
   "shareCollectionJson": "Afficher la collection",
   "shareCollectionCopy": "Copier l’URL de la collection",
   "shareManifestJson": "Afficher le manifeste",
-  "shareManifestCopy": "Copier l’URL du manifeste"
+  "shareManifestCopy": "Copier l’URL du manifeste",
+  "canvasAnimationPlay": "Lire",
+  "canvasAnimationPause": "Pause",
+  "canvasAnimationPreviousFrame": "Image précédente",
+  "canvasAnimationNextFrame": "Image suivante",
+  "canvasAnimationSpeed": "Vitesse"
 }

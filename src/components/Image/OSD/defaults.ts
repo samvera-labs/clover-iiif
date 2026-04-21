@@ -25,6 +25,7 @@ function defaultOpenSeadragonConfiguration(
       pinchToZoom: true,
       scrollToZoom: false,
     },
+    preserveViewport: true,
   };
 }
 

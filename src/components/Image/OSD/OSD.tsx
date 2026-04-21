@@ -60,6 +60,7 @@ const OSD: React.FC<OSDProps> = ({
   >([]);
   const dispatch: any = useViewerDispatch();
   const initializeOSD = useRef(false);
+  const isFirstImageLoad = useRef(true);
 
   const annotationClassName = "clover-iiif-image-openseadragon-annotation";
 
@@ -218,7 +219,10 @@ const OSD: React.FC<OSDProps> = ({
   }, [osdUri, imageType, openSeadragon]);
 
   useEffect(() => {
-    if (osdDrawn) {
+    if (!osdDrawn.length) return;
+
+    if (isFirstImageLoad.current) {
+      isFirstImageLoad.current = false;
       const maxRetries = 3;
       let attempts = 0;
       const fitBounds = () => {
@@ -232,9 +236,10 @@ const OSD: React.FC<OSDProps> = ({
         }
       };
       fitBounds();
+    }
 
-      // handles zoom to annotation on click
-      openSeadragon?.addHandler("canvas-click", (event) => {
+    // handles zoom to annotation on click
+    openSeadragon?.addHandler("canvas-click", (event) => {
         const overlay: Overlay = openSeadragon?.getOverlayById(
           event.originalTarget.id,
         );
@@ -251,7 +256,6 @@ const OSD: React.FC<OSDProps> = ({
           return (event.preventDefaultAction = true);
         }
       });
-    }
   }, [osdDrawn]);
 
   useEffect(() => {
