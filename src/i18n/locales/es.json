@@ -33,5 +33,6 @@
   "canvasAnimationPause": "Pausar",
   "canvasAnimationPreviousFrame": "Fotograma anterior",
   "canvasAnimationNextFrame": "Fotograma siguiente",
+  "canvasAnimationRepeat": "Repetir",
   "canvasAnimationSpeed": "Velocidad"
 }

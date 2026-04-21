@@ -26,5 +26,6 @@
   "canvasAnimationPause": "Keskeytä",
   "canvasAnimationPreviousFrame": "Edellinen ruutu",
   "canvasAnimationNextFrame": "Seuraava ruutu",
+  "canvasAnimationRepeat": "Toista uudelleen",
   "canvasAnimationSpeed": "Nopeus"
 }

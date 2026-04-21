@@ -26,5 +26,6 @@
   "canvasAnimationPause": "Pause",
   "canvasAnimationPreviousFrame": "Forrige bilde",
   "canvasAnimationNextFrame": "Neste bilde",
+  "canvasAnimationRepeat": "Gjenta",
   "canvasAnimationSpeed": "Hastighet"
 }

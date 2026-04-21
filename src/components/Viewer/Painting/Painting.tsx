@@ -51,8 +51,10 @@ const Painting: React.FC<PaintingProps> = ({
   const [toggleCount, setToggleCount] = useState(0);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isRepeat, setIsRepeat] = useState(false);
 
   const {
+    activeManifest,
     configOptions,
     customDisplays,
     contentStateAnnotation,
@@ -82,7 +84,15 @@ const Painting: React.FC<PaintingProps> = ({
   const dispatch: any = useViewerDispatch();
   const normalizedCanvas: CanvasNormalized = vault.get(activeCanvas);
 
-  const { isAutoAdvance, isRepeat } = getCanvasBehavior(vault, activeCanvas);
+  const {
+    isAutoAdvance,
+    isManifestAutoAdvance,
+    isRepeat: behaviorIsRepeat,
+  } = getCanvasBehavior(vault, activeCanvas, activeManifest);
+
+  useEffect(() => {
+    setIsRepeat(behaviorIsRepeat);
+  }, [activeCanvas, behaviorIsRepeat]);
   const canvasDuration = normalizedCanvas?.duration ?? 0;
   const totalFrames = painting?.length ?? 0;
 
@@ -93,7 +103,7 @@ const Painting: React.FC<PaintingProps> = ({
     () => getAnimationFrames(vault, activeCanvas).length > 0,
     [vault, activeCanvas],
   );
-  const isAnimationMode = isAutoAdvance && hasTemporalAnnotations;
+  const isAnimationMode = hasTemporalAnnotations;
   const hasChoice = Boolean(painting?.length > 1) && !isAnimationMode;
 
   const frameInterval =
@@ -101,10 +111,10 @@ const Painting: React.FC<PaintingProps> = ({
       ? (canvasDuration / totalFrames / playbackRate) * 1000
       : 0;
 
-  // Start playing automatically when entering animation mode
+  // Auto-play only when auto-advance is set; otherwise show controls paused
   useEffect(() => {
-    if (isAnimationMode) setIsPlaying(true);
-  }, [isAnimationMode]);
+    if (isAnimationMode && isAutoAdvance) setIsPlaying(true);
+  }, [isAnimationMode, isAutoAdvance]);
 
   // Preload all frames so subsequent loops are smooth
   useEffect(() => {
@@ -125,15 +135,17 @@ const Painting: React.FC<PaintingProps> = ({
         if (next >= totalFrames) {
           if (isRepeat) return 0;
           setIsPlaying(false);
-          const allCanvases = sequence[0];
-          const currentIdx = allCanvases.findIndex(
-            (c) => c.id === activeCanvas,
-          );
-          if (currentIdx >= 0 && currentIdx < allCanvases.length - 1) {
-            dispatch({
-              type: "updateActiveCanvas",
-              canvasId: allCanvases[currentIdx + 1].id,
-            });
+          if (isManifestAutoAdvance) {
+            const allCanvases = sequence[0];
+            const currentIdx = allCanvases.findIndex(
+              (c) => c.id === activeCanvas,
+            );
+            if (currentIdx >= 0 && currentIdx < allCanvases.length - 1) {
+              dispatch({
+                type: "updateActiveCanvas",
+                canvasId: allCanvases[currentIdx + 1].id,
+              });
+            }
           }
           return prev;
         }
@@ -149,6 +161,7 @@ const Painting: React.FC<PaintingProps> = ({
     frameInterval,
     totalFrames,
     isRepeat,
+    isManifestAutoAdvance,
     sequence,
     activeCanvas,
     dispatch,
@@ -410,6 +423,7 @@ const Painting: React.FC<PaintingProps> = ({
         <AnimationControls
           frameIndex={annotationIndex}
           isPlaying={isPlaying}
+          isRepeat={isRepeat}
           playbackRate={playbackRate}
           totalFrames={totalFrames}
           onPlay={() => setIsPlaying(true)}
@@ -422,6 +436,7 @@ const Painting: React.FC<PaintingProps> = ({
             setIsPlaying(false);
             setAnnotationIndex((prev) => Math.min(totalFrames - 1, prev + 1));
           }}
+          onToggleRepeat={() => setIsRepeat((prev) => !prev)}
           onSetPlaybackRate={setPlaybackRate}
         />
       )}

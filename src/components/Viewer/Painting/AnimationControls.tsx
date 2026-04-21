@@ -35,24 +35,37 @@ const NextFrameIcon = ({ title }: { title: string }) => (
   </svg>
 );
 
+const RepeatIcon = ({ title }: { title: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <title>{title}</title>
+    <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" d="M320 120l48 48-48 48"/>
+    <path d="M352 168H144a80.24 80.24 0 00-80 80v16M192 392l-48-48 48-48" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32"/>
+    <path d="M160 344h208a80.24 80.24 0 0080-80v-16" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32"/>
+  </svg>
+);
+
 interface AnimationControlsProps {
   frameIndex: number;
   isPlaying: boolean;
+  isRepeat: boolean;
   totalFrames: number;
   onPlay: () => void;
   onPause: () => void;
   onPrevFrame: () => void;
   onNextFrame: () => void;
+  onToggleRepeat: () => void;
 }
 
 const AnimationControls: React.FC<AnimationControlsProps> = ({
   frameIndex,
   isPlaying,
+  isRepeat,
   totalFrames,
   onPlay,
   onPause,
   onPrevFrame,
   onNextFrame,
+  onToggleRepeat,
 }) => {
   const { t } = useCloverTranslation();
 
@@ -77,6 +90,16 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
         ) : (
           <PlayIcon title={t("canvasAnimationPlay")} />
         )}
+      </AnimationButton>
+
+      <AnimationButton
+        onClick={onToggleRepeat}
+        type="button"
+        aria-label={t("canvasAnimationRepeat")}
+        aria-pressed={isRepeat}
+        data-active={isRepeat}
+      >
+        <RepeatIcon title={t("canvasAnimationRepeat")} />
       </AnimationButton>
 
       <AnimationButton

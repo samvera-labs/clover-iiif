@@ -26,5 +26,6 @@
   "canvasAnimationPause": "Pause",
   "canvasAnimationPreviousFrame": "Førre bilete",
   "canvasAnimationNextFrame": "Neste bilete",
+  "canvasAnimationRepeat": "Gjenta",
   "canvasAnimationSpeed": "Hastigheit"
 }

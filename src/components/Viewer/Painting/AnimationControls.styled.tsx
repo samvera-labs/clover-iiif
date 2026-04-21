@@ -2,14 +2,17 @@ import { styled } from "src/styles/stitches.config";
 
 const AnimationControlsWrapper = styled("div", {
   display: "flex",
-  alignSelf: "center",
   flexShrink: "0",
   alignItems: "center",
   gap: "0.25rem",
   borderRadius: "2rem",
-  boxShadow: "5px 5px 5px #0003",
   color: "$secondary",
-  padding: "0",
+  position: "absolute",
+  zIndex: 100,
+  bottom: "1rem",
+  backgroundColor: "#111C",
+  padding: "0 0.5rem 0 0.25rem",
+  left: "1rem",
 });
 
 const AnimationButton = styled("button", {
@@ -25,7 +28,7 @@ const AnimationButton = styled("button", {
   cursor: "pointer",
   transition: "$all",
   flexShrink: "0",
-  opacity: "0.75",
+  opacity: "0.5",
 
   svg: {
     height: "52%",
@@ -50,6 +53,14 @@ const AnimationButton = styled("button", {
 
     svg: {
       opacity: "1",
+    },
+  },
+
+  "&[data-active=true]": {
+    opacity: "1",
+    svg: {
+      opacity: "1",
+      path: { strokeWidth: "56" },
     },
   },
 });
