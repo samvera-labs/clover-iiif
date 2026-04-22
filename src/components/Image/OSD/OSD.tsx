@@ -103,7 +103,18 @@ const OSD: React.FC<OSDProps> = ({
   useEffect(() => {
     if (!osdUri.length || !openSeadragon) return;
 
-    openSeadragon.close(); // remove previous images
+    // For multi-image (paged) views, close immediately — bounds calculation
+    // in getBaseItemWithRetry requires a clean world. For single images, capture
+    // old items and remove them only after the new image loads, eliminating the
+    // blank flash between frames.
+    const itemsToRemove = [];
+    if (osdUri.length > 1) {
+      openSeadragon.close();
+    } else {
+      for (let i = 0; i < openSeadragon.world.getItemCount(); i++) {
+        itemsToRemove.push(openSeadragon.world.getItemAt(i));
+      }
+    }
 
     const load = async () => {
       switch (imageType) {
@@ -147,6 +158,9 @@ const OSD: React.FC<OSDProps> = ({
                 y: 0,
                 height,
                 success: () => {
+                  itemsToRemove.forEach((item) =>
+                    openSeadragon.world.removeItem(item),
+                  );
                   setOsdDrawn((prev) => [...prev, url]);
                   if (typeof dispatch === "function") {
                     dispatch({
@@ -193,6 +207,9 @@ const OSD: React.FC<OSDProps> = ({
                 y: 0,
                 height,
                 success: () => {
+                  itemsToRemove.forEach((item) =>
+                    openSeadragon.world.removeItem(item),
+                  );
                   setOsdDrawn((prev) => [...prev, url]);
                   if (typeof dispatch === "function") {
                     dispatch({
