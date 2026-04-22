@@ -142,12 +142,12 @@ const buildOptions = {
     resolve: {
       alias: {
         react: "preact/compat",
+        "react/jsx-runtime": "preact/jsx-runtime",
       },
     },
     esbuild: {
-      jsxFactory: "h",
-      jsxFragment: "PFrag",
-      jsxInject: `import { h, Fragment as PFrag } from 'preact'`,
+      jsx: "automatic",
+      jsxImportSource: "preact",
     },
     build: {
       sourcemap: false,
