@@ -103,18 +103,38 @@ const OSD: React.FC<OSDProps> = ({
   useEffect(() => {
     if (!osdUri.length || !openSeadragon) return;
 
-    // For multi-image (paged) views, close immediately — bounds calculation
-    // in getBaseItemWithRetry requires a clean world. For single images, capture
-    // old items and remove them only after the new image loads, eliminating the
-    // blank flash between frames.
+    // Only defer old-image removal for a true one-for-one swap: exactly 1 image
+    // currently in the world and exactly 1 new image being loaded. This eliminates
+    // the blank flash on single-image swaps (animation frames, canvas navigation)
+    // while keeping the original close() behaviour for every other case (initial
+    // load, multi-image/paged views, count mismatches).
     const itemsToRemove = [];
-    if (osdUri.length > 1) {
+    const isSingleImageSwap =
+      openSeadragon.world.getItemCount() === 1 && osdUri.length === 1;
+    if (!isSingleImageSwap) {
       openSeadragon.close();
     } else {
-      for (let i = 0; i < openSeadragon.world.getItemCount(); i++) {
-        itemsToRemove.push(openSeadragon.world.getItemAt(i));
-      }
+      itemsToRemove.push(openSeadragon.world.getItemAt(0));
     }
+
+    const expectedCount = osdUri.length;
+    let loadedCount = 0;
+
+    const fitBoundsOnAllLoaded = () => {
+      loadedCount++;
+      if (!isFirstImageLoad.current || loadedCount < expectedCount) return;
+      isFirstImageLoad.current = false;
+      const maxRetries = 3;
+      let attempts = 0;
+      const tryFit = () => {
+        if (attempts >= maxRetries) return;
+        const bounds = openSeadragon?.world.getHomeBounds();
+        if (bounds) openSeadragon?.viewport.fitBounds(bounds, true);
+        attempts++;
+        setTimeout(tryFit, 50);
+      };
+      tryFit();
+    };
 
     const load = async () => {
       switch (imageType) {
@@ -161,6 +181,7 @@ const OSD: React.FC<OSDProps> = ({
                   itemsToRemove.forEach((item) =>
                     openSeadragon.world.removeItem(item),
                   );
+                  fitBoundsOnAllLoaded();
                   setOsdDrawn((prev) => [...prev, url]);
                   if (typeof dispatch === "function") {
                     dispatch({
@@ -210,6 +231,7 @@ const OSD: React.FC<OSDProps> = ({
                   itemsToRemove.forEach((item) =>
                     openSeadragon.world.removeItem(item),
                   );
+                  fitBoundsOnAllLoaded();
                   setOsdDrawn((prev) => [...prev, url]);
                   if (typeof dispatch === "function") {
                     dispatch({
@@ -237,23 +259,6 @@ const OSD: React.FC<OSDProps> = ({
 
   useEffect(() => {
     if (!osdDrawn.length) return;
-
-    if (isFirstImageLoad.current) {
-      isFirstImageLoad.current = false;
-      const maxRetries = 3;
-      let attempts = 0;
-      const fitBounds = () => {
-        if (attempts < maxRetries) {
-          const bounds = openSeadragon?.world.getHomeBounds();
-          if (bounds) {
-            openSeadragon?.viewport.fitBounds(bounds, true);
-          }
-          attempts++;
-          setTimeout(fitBounds, 50);
-        }
-      };
-      fitBounds();
-    }
 
     // handles zoom to annotation on click
     openSeadragon?.addHandler("canvas-click", (event) => {
