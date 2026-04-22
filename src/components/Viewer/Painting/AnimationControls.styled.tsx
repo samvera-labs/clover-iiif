@@ -5,6 +5,7 @@ const AnimationBar = styled("div", {
   flexDirection: "row",
   alignItems: "center",
   gap: "0.5rem",
+  position: "relative",
 
   "@sm": {
     flexDirection: "column",
@@ -16,11 +17,9 @@ const AnimationControlsWrapper = styled("div", {
   display: "flex",
   flexShrink: "0",
   alignItems: "center",
-  gap: "0.25rem",
   borderRadius: "2rem",
-  color: "$secondary",
-  backgroundColor: "#111C",
-  padding: "0 0.5rem 0 0.25rem",
+  position: "absolute",
+  right: "0.5rem",
 });
 
 const AnimationButton = styled("button", {
@@ -32,19 +31,19 @@ const AnimationButton = styled("button", {
   padding: "0",
   margin: "0",
   borderRadius: "2rem",
-  color: "$secondary",
+  color: "$accent",
   cursor: "pointer",
   transition: "$all",
   flexShrink: "0",
-  opacity: "0.5",
+  opacity: "1",
 
   svg: {
-    height: "52%",
-    width: "52%",
-    padding: "24%",
-    fill: "$secondary",
-    stroke: "$secondary",
+    height: "50%",
+    width: "50%",
+    padding: "25%",
     opacity: "1",
+    fill: "$accent",
+    stroke: "$accent",
     boxSizing: "content-box",
     display: "block",
     transition: "$all",
@@ -53,7 +52,7 @@ const AnimationButton = styled("button", {
   "&:disabled": {
     backgroundColor: "transparent",
     boxShadow: "none",
-    svg: { opacity: "0.25" },
+    svg: { opacity: "0.25", color: "$accent", stroke: "$accent" },
   },
 
   "&:not(:disabled):hover": {
@@ -61,6 +60,8 @@ const AnimationButton = styled("button", {
 
     svg: {
       opacity: "1",
+      color: "$accent",
+      stroke: "$accent",
     },
   },
 
@@ -68,6 +69,7 @@ const AnimationButton = styled("button", {
     opacity: "1",
     svg: {
       opacity: "1",
+      color: "$accent",
       path: { strokeWidth: "56" },
     },
   },
@@ -75,12 +77,12 @@ const AnimationButton = styled("button", {
 
 const AnimationCounter = styled("span", {
   display: "flex",
-  margin: "0 0.25rem",
   fontSize: "0.7222rem",
-  fontWeight: "bold",
   gap: "0.25rem",
+  fontWeight: "bold",
   whiteSpace: "nowrap",
-  fontFamily: "monospace",
+  letterSpacing: "0",
+  marginRight: "0.5rem",
 
   em: {
     opacity: "0.25",

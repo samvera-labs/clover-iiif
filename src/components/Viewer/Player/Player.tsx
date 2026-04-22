@@ -18,23 +18,28 @@ import { hlsMimeTypes } from "src/lib/hls";
 interface PlayerProps {
   allSources: LabeledIIIFExternalWebResource[];
   annotationResources: AnnotationResources;
+  onEnded?: () => void;
   painting: LabeledIIIFExternalWebResource;
 }
 
 const Player: React.FC<PlayerProps> = ({
   allSources,
   annotationResources,
+  onEnded,
   painting,
 }) => {
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [poster, setPoster] = React.useState<string | undefined>();
   const playerRef = React.useRef<HTMLVideoElement>(null);
-  const isAudio = painting?.type === "Sound";
+  const onEndedRef = React.useRef(onEnded);
+  React.useEffect(() => { onEndedRef.current = onEnded; }, [onEnded]);
 
   const viewerDispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
-  const { activeCanvas, configOptions, contentStateAnnotation, vault } =
+
+  const { activeCanvas, configOptions, contentStateAnnotation, isMediaPlaying, vault } =
     viewerState;
+  const isAudio = painting?.type === "Sound";
 
   /**
    * HLS.js binding for .m3u8 files
@@ -182,13 +187,47 @@ const Player: React.FC<PlayerProps> = ({
       }
     };
 
+    const onEndedHandler = () => onEndedRef.current?.();
+
     video.addEventListener("timeupdate", onTimeUpdate);
+    video.addEventListener("ended", onEndedHandler);
 
     return () => {
       video?.removeEventListener("timeupdate", onTimeUpdate);
+      video?.removeEventListener("ended", onEndedHandler);
       if (intervalId) clearInterval(intervalId);
     };
   }, [painting.id, activeCanvas]);
+
+  // Auto-play when mounting a new source if media was already playing
+  useEffect(() => {
+    const video = playerRef.current;
+    if (!video || !isMediaPlaying) return;
+
+    const onCanPlay = () => video.play().catch(() => {});
+    video.addEventListener("canplay", onCanPlay, { once: true });
+    return () => video.removeEventListener("canplay", onCanPlay);
+  }, [painting.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Keep isMediaPlaying context in sync with actual playback state
+  useEffect(() => {
+    const video = playerRef.current;
+    if (!video) return;
+
+    const onPlay = () =>
+      viewerDispatch({ type: "updateIsMediaPlaying", isMediaPlaying: true });
+    const onPause = () => {
+      if (!video.ended)
+        viewerDispatch({ type: "updateIsMediaPlaying", isMediaPlaying: false });
+    };
+
+    video.addEventListener("play", onPlay);
+    video.addEventListener("pause", onPause);
+    return () => {
+      video.removeEventListener("play", onPlay);
+      video.removeEventListener("pause", onPause);
+    };
+  }, [painting.id, viewerDispatch]);
 
   /**
    * Update to video to content state annotation selector

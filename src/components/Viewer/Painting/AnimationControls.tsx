@@ -41,39 +41,90 @@ const NextFrameIcon = ({ title }: { title: string }) => (
 const RepeatIcon = ({ title }: { title: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
     <title>{title}</title>
-    <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32" d="M320 120l48 48-48 48"/>
-    <path d="M352 168H144a80.24 80.24 0 00-80 80v16M192 392l-48-48 48-48" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32"/>
-    <path d="M160 344h208a80.24 80.24 0 0080-80v-16" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="32"/>
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="32"
+      d="M320 120l48 48-48 48"
+    />
+    <path
+      d="M352 168H144a80.24 80.24 0 00-80 80v16M192 392l-48-48 48-48"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="32"
+    />
+    <path
+      d="M160 344h208a80.24 80.24 0 0080-80v-16"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="32"
+    />
   </svg>
 );
 
+function formatTime(seconds: number): string {
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  const tenths = Math.floor((seconds % 1) * 10);
+  return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}.${tenths}`;
+}
+
 interface AnimationControlsProps {
+  duration: number;
   frameIndex: number;
   isPlaying: boolean;
   isRepeat: boolean;
+  playbackRate: number;
   totalFrames: number;
   onPlay: () => void;
   onPause: () => void;
   onPrevFrame: () => void;
   onNextFrame: () => void;
   onToggleRepeat: () => void;
+  onSetPlaybackRate: (rate: number) => void;
 }
 
 const AnimationControls: React.FC<AnimationControlsProps> = ({
+  duration,
   frameIndex,
   isPlaying,
   isRepeat,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  playbackRate,
   totalFrames,
   onPlay,
   onPause,
   onPrevFrame,
   onNextFrame,
   onToggleRepeat,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onSetPlaybackRate,
 }) => {
   const { t } = useCloverTranslation();
 
+  const frameDuration = totalFrames > 0 ? duration / totalFrames : 0;
+  const elapsed = frameIndex * frameDuration;
+
   return (
     <AnimationControlsWrapper className="clover-viewer-animation-controls">
+      <AnimationCounter>
+        {duration > 0 ? (
+          <>
+            {formatTime(elapsed)} <em>/</em> {formatTime(duration)}
+          </>
+        ) : (
+          <>
+            {frameIndex + 1} <em>/</em> {totalFrames}
+          </>
+        )}
+      </AnimationCounter>
+
       <AnimationButton
         onClick={onPrevFrame}
         disabled={frameIndex === 0}
@@ -86,7 +137,9 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
       <AnimationButton
         onClick={isPlaying ? onPause : onPlay}
         type="button"
-        aria-label={isPlaying ? t("canvasAnimationPause") : t("canvasAnimationPlay")}
+        aria-label={
+          isPlaying ? t("canvasAnimationPause") : t("canvasAnimationPlay")
+        }
       >
         {isPlaying ? (
           <PauseIcon title={t("canvasAnimationPause")} />
@@ -113,10 +166,6 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
       >
         <NextFrameIcon title={t("canvasAnimationNextFrame")} />
       </AnimationButton>
-
-      <AnimationCounter>
-        {frameIndex + 1} <em>/</em> {totalFrames}
-      </AnimationCounter>
     </AnimationControlsWrapper>
   );
 };

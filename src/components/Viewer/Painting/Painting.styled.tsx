@@ -8,7 +8,6 @@ const PaintingStyled = styled("div", {
   flexDirection: "column",
   flexGrow: "1",
   flexShrink: "1",
-  gap: "1rem",
   zIndex: "0",
   overflow: "hidden",
 

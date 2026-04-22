@@ -121,6 +121,7 @@ const Painting: React.FC<PaintingProps> = ({
   useEffect(() => {
     if (!isAnimationMode) return;
     painting.forEach((resource) => {
+      if (!resource.id) return;
       const img = new window.Image();
       img.src = resource.id;
     });
@@ -401,6 +402,25 @@ const Painting: React.FC<PaintingProps> = ({
               allSources={painting}
               painting={painting[annotationIndex]}
               annotationResources={annotationResources}
+              onEnded={
+                isManifestAutoAdvance
+                  ? () => {
+                      const allCanvases = sequence[0];
+                      const currentIdx = allCanvases.findIndex(
+                        (c) => c.id === activeCanvas,
+                      );
+                      if (
+                        currentIdx >= 0 &&
+                        currentIdx < allCanvases.length - 1
+                      ) {
+                        dispatch({
+                          type: "updateActiveCanvas",
+                          canvasId: allCanvases[currentIdx + 1].id,
+                        });
+                      }
+                    }
+                  : undefined
+              }
             />
           ) : (
             painting && (
@@ -427,7 +447,21 @@ const Painting: React.FC<PaintingProps> = ({
 
       {isAnimationMode && !showPlaceholder && (
         <AnimationBar>
+          <Select
+            value={String(annotationIndex)}
+            onValueChange={handleFrameChange}
+            maxHeight={"200px"}
+          >
+            {animationFrames.map((frame, index) => (
+              <SelectOption
+                value={String(index)}
+                key={index}
+                label={frame.label ?? { none: [String(index + 1)] }}
+              />
+            ))}
+          </Select>
           <AnimationControls
+            duration={canvasDuration}
             frameIndex={annotationIndex}
             isPlaying={isPlaying}
             isRepeat={isRepeat}
@@ -446,19 +480,6 @@ const Painting: React.FC<PaintingProps> = ({
             onToggleRepeat={() => setIsRepeat((prev) => !prev)}
             onSetPlaybackRate={setPlaybackRate}
           />
-          {/* <Select
-            value={String(annotationIndex)}
-            onValueChange={handleFrameChange}
-            maxHeight={"200px"}
-          >
-            {animationFrames.map((frame, index) => (
-              <SelectOption
-                value={String(index)}
-                key={index}
-                label={frame.label ?? { none: [String(index + 1)] }}
-              />
-            ))}
-          </Select> */}
         </AnimationBar>
       )}
 

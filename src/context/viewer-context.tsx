@@ -205,6 +205,7 @@ export interface ViewerContextStore {
   isAutoScrolling?: boolean;
   isInformationOpen: boolean;
   isLoaded: boolean;
+  isMediaPlaying: boolean;
   isPaged: boolean;
   isUserScrolling?: number | undefined;
   sequence: [Reference<"Canvas">[], number[][]];
@@ -229,6 +230,7 @@ export interface ViewerAction {
   isAutoScrolling: boolean;
   isInformationOpen: boolean;
   isLoaded: boolean;
+  isMediaPlaying?: boolean;
   isPaged: boolean;
   isUserScrolling: number | undefined;
   manifestId: string;
@@ -320,6 +322,7 @@ export const createDefaultState = (): ViewerContextStore => ({
   // Respect explicit false; default to true only when undefined
   isInformationOpen: defaultConfigOptions?.informationPanel?.open ?? true,
   isLoaded: false,
+  isMediaPlaying: false,
   isPaged: false,
   isUserScrolling: undefined,
   sequence: [[], []],
@@ -418,6 +421,12 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         isLoaded: action.isLoaded,
+      };
+    }
+    case "updateIsMediaPlaying": {
+      return {
+        ...state,
+        isMediaPlaying: action.isMediaPlaying ?? false,
       };
     }
     case "updateManifestSequence": {
