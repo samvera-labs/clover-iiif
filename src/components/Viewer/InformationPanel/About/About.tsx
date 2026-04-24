@@ -74,7 +74,11 @@ const About: React.FC = () => {
   return (
     <AboutStyled>
       <AboutContent>
-        <Thumbnail thumbnail={thumbnail} label={manifest.label} />
+        <Thumbnail
+          thumbnail={thumbnail}
+          label={manifest.label}
+          objectFit="contain"
+        />
         <Summary summary={manifest.summary} />
         <Metadata metadata={manifest.metadata} />
         <RequiredStatement requiredStatement={manifest.requiredStatement} />

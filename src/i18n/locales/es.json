@@ -28,5 +28,11 @@
   "shareCollectionJson": "Ver colección",
   "shareCollectionCopy": "Copiar URL de la colección",
   "shareManifestJson": "Ver manifiesto",
-  "shareManifestCopy": "Copiar URL del manifiesto"
+  "shareManifestCopy": "Copiar URL del manifiesto",
+  "canvasAnimationPlay": "Reproducir",
+  "canvasAnimationPause": "Pausar",
+  "canvasAnimationPreviousFrame": "Fotograma anterior",
+  "canvasAnimationNextFrame": "Fotograma siguiente",
+  "canvasAnimationRepeat": "Repetir",
+  "canvasAnimationSpeed": "Velocidad"
 }

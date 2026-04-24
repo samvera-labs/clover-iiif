@@ -1,1 +1,8 @@
-{}
+{
+  "canvasAnimationPlay": "Reproduzir",
+  "canvasAnimationPause": "Pausar",
+  "canvasAnimationPreviousFrame": "Fotograma anterior",
+  "canvasAnimationNextFrame": "Próximo fotograma",
+  "canvasAnimationRepeat": "Repetir",
+  "canvasAnimationSpeed": "Velocidade"
+}

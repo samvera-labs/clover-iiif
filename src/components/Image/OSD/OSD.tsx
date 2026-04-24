@@ -60,6 +60,7 @@ const OSD: React.FC<OSDProps> = ({
   >([]);
   const dispatch: any = useViewerDispatch();
   const initializeOSD = useRef(false);
+  const isFirstImageLoad = useRef(true);
 
   const annotationClassName = "clover-iiif-image-openseadragon-annotation";
 
@@ -102,7 +103,38 @@ const OSD: React.FC<OSDProps> = ({
   useEffect(() => {
     if (!osdUri.length || !openSeadragon) return;
 
-    openSeadragon.close(); // remove previous images
+    // Only defer old-image removal for a true one-for-one swap: exactly 1 image
+    // currently in the world and exactly 1 new image being loaded. This eliminates
+    // the blank flash on single-image swaps (animation frames, canvas navigation)
+    // while keeping the original close() behaviour for every other case (initial
+    // load, multi-image/paged views, count mismatches).
+    const itemsToRemove = [];
+    const isSingleImageSwap =
+      openSeadragon.world.getItemCount() === 1 && osdUri.length === 1;
+    if (!isSingleImageSwap) {
+      openSeadragon.close();
+    } else {
+      itemsToRemove.push(openSeadragon.world.getItemAt(0));
+    }
+
+    const expectedCount = osdUri.length;
+    let loadedCount = 0;
+
+    const fitBoundsOnAllLoaded = () => {
+      loadedCount++;
+      if (!isFirstImageLoad.current || loadedCount < expectedCount) return;
+      isFirstImageLoad.current = false;
+      const maxRetries = 3;
+      let attempts = 0;
+      const tryFit = () => {
+        if (attempts >= maxRetries) return;
+        const bounds = openSeadragon?.world.getHomeBounds();
+        if (bounds) openSeadragon?.viewport.fitBounds(bounds, true);
+        attempts++;
+        setTimeout(tryFit, 50);
+      };
+      tryFit();
+    };
 
     const load = async () => {
       switch (imageType) {
@@ -146,6 +178,10 @@ const OSD: React.FC<OSDProps> = ({
                 y: 0,
                 height,
                 success: () => {
+                  itemsToRemove.forEach((item) =>
+                    openSeadragon.world.removeItem(item),
+                  );
+                  fitBoundsOnAllLoaded();
                   setOsdDrawn((prev) => [...prev, url]);
                   if (typeof dispatch === "function") {
                     dispatch({
@@ -192,6 +228,10 @@ const OSD: React.FC<OSDProps> = ({
                 y: 0,
                 height,
                 success: () => {
+                  itemsToRemove.forEach((item) =>
+                    openSeadragon.world.removeItem(item),
+                  );
+                  fitBoundsOnAllLoaded();
                   setOsdDrawn((prev) => [...prev, url]);
                   if (typeof dispatch === "function") {
                     dispatch({
@@ -218,23 +258,10 @@ const OSD: React.FC<OSDProps> = ({
   }, [osdUri, imageType, openSeadragon]);
 
   useEffect(() => {
-    if (osdDrawn) {
-      const maxRetries = 3;
-      let attempts = 0;
-      const fitBounds = () => {
-        if (attempts < maxRetries) {
-          const bounds = openSeadragon?.world.getHomeBounds();
-          if (bounds) {
-            openSeadragon?.viewport.fitBounds(bounds, true);
-          }
-          attempts++;
-          setTimeout(fitBounds, 50);
-        }
-      };
-      fitBounds();
+    if (!osdDrawn.length) return;
 
-      // handles zoom to annotation on click
-      openSeadragon?.addHandler("canvas-click", (event) => {
+    // handles zoom to annotation on click
+    openSeadragon?.addHandler("canvas-click", (event) => {
         const overlay: Overlay = openSeadragon?.getOverlayById(
           event.originalTarget.id,
         );
@@ -251,7 +278,6 @@ const OSD: React.FC<OSDProps> = ({
           return (event.preventDefaultAction = true);
         }
       });
-    }
   }, [osdDrawn]);
 
   useEffect(() => {

@@ -188,61 +188,72 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   ]);
 
   useEffect(() => {
-    if (activeManifest)
-      vault
-        .load(activeManifest)
-        .then((data: ManifestNormalized) => {
-          if (!data) return;
+    if (!activeManifest) return;
 
-          setManifest(data);
+    // When a manifest's internal `id` differs from the URL it was fetched from,
+    // vault stores the entity under the internal id but tracks the *request* under
+    // the fetch URL. A subsequent vault.load(internalId) finds no request entry
+    // and tries to fetch from the internal id as a URL, which may not resolve.
+    // Check vault.get first — it looks directly in entities and handles this case.
+    const existingManifest = vault.get(activeManifest) as ManifestNormalized | null;
+    const manifestLoader: Promise<ManifestNormalized> =
+      existingManifest && Array.isArray((existingManifest as any).items)
+        ? Promise.resolve(existingManifest)
+        : (vault.load(activeManifest) as Promise<ManifestNormalized>);
 
-          /**
-           * ignoring as ManifestNormalized mismatches across helper libraries
-           */
+    manifestLoader
+      .then((data: ManifestNormalized) => {
+        if (!data) return;
 
-          // @ts-ignore
-          const sequence = getManifestSequence(vault, data);
-          const canvasId = activeCanvas || getActiveCanvas(data);
+        setManifest(data);
 
-          dispatch({
-            type: "updateActiveCanvas",
-            canvasId: canvasId,
-          });
-          dispatch({
-            type: "updateManifestSequence",
-            sequence,
-          });
+        /**
+         * ignoring as ManifestNormalized mismatches across helper libraries
+         */
 
-          /**
-           * Extract viewingDirection from manifest (defaults to left-to-right)
-           * and check if behavior includes "paged"
-           */
-          // @ts-ignore - viewingDirection exists on IIIF manifest but may not be typed
-          const viewingDirection = data.viewingDirection || "left-to-right";
-          // @ts-ignore - behavior exists on IIIF manifest but may not be typed
-          const behavior = data.behavior || [];
-          const isPaged = Array.isArray(behavior)
-            ? behavior.includes("paged")
-            : behavior === "paged";
+        // @ts-ignore
+        const sequence = getManifestSequence(vault, data);
+        const canvasId = activeCanvas || getActiveCanvas(data);
 
-          dispatch({
-            type: "updateViewingDirection",
-            viewingDirection,
-          });
-          dispatch({
-            type: "updateIsPaged",
-            isPaged,
-          });
-        })
-        .catch((error: Error) => {
-          console.error(`Manifest failed to load: ${error}`);
-        })
-        .finally(() => {
-          dispatch({
-            type: "updateIsLoaded",
-            isLoaded: true,
-          });
+        dispatch({
+          type: "updateActiveCanvas",
+          canvasId: canvasId,
         });
+        dispatch({
+          type: "updateManifestSequence",
+          sequence,
+        });
+
+        /**
+         * Extract viewingDirection from manifest (defaults to left-to-right)
+         * and check if behavior includes "paged"
+         */
+        // @ts-ignore - viewingDirection exists on IIIF manifest but may not be typed
+        const viewingDirection = data.viewingDirection || "left-to-right";
+        // @ts-ignore - behavior exists on IIIF manifest but may not be typed
+        const behavior = data.behavior || [];
+        const isPaged = Array.isArray(behavior)
+          ? behavior.includes("paged")
+          : behavior === "paged";
+
+        dispatch({
+          type: "updateViewingDirection",
+          viewingDirection,
+        });
+        dispatch({
+          type: "updateIsPaged",
+          isPaged,
+        });
+      })
+      .catch((error: Error) => {
+        console.error(`Manifest failed to load: ${error}`);
+      })
+      .finally(() => {
+        dispatch({
+          type: "updateIsLoaded",
+          isLoaded: true,
+        });
+      });
   }, [iiifContent, activeManifest, dispatch, vault]);
 
   useEffect(() => {

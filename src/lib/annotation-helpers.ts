@@ -62,8 +62,9 @@ const parseAnnotationTarget = (target: AnnotationTargetExtended | string) => {
           },
         };
       }
-    } else if (target.includes("#t=")) {
-      const parts = target.split("#t=");
+    } else if (target.includes("#t=") || target.includes("&t=")) {
+      const separator = target.includes("#t=") ? "#t=" : "&t=";
+      const parts = target.split(separator);
       if (parts && parts[1]) {
         parsedTarget = {
           id: parts[0],
@@ -86,11 +87,12 @@ const parseAnnotationTarget = (target: AnnotationTargetExtended | string) => {
         svg: target.selector.value,
       };
     } else if (target.selector?.type === "FragmentSelector") {
-      if (
-        target.selector?.value.includes("xywh=") &&
-        target.source.type == "Canvas" &&
-        target.source.id
-      ) {
+      const sourceId =
+        typeof target.source === "string"
+          ? target.source
+          : target.source?.id;
+
+      if (target.selector?.value.includes("xywh=") && sourceId) {
         const parts = target.selector?.value.split("xywh=");
         if (parts && parts[1]) {
           const [x, y, w, h] = parts[1]
@@ -98,14 +100,30 @@ const parseAnnotationTarget = (target: AnnotationTargetExtended | string) => {
             .map((value) => Number(value));
 
           parsedTarget = {
-            id: target.source.id,
-            rect: {
-              x,
-              y,
-              w,
-              h,
-            },
+            id: sourceId,
+            rect: { x, y, w, h },
           };
+        }
+      } else if (target.selector?.value.includes("t=") && sourceId) {
+        const parts = target.selector.value.split("t=");
+        if (parts && parts[1]) {
+          parsedTarget = {
+            id: sourceId,
+            t: parts[1],
+          };
+        }
+      }
+    } else {
+      // Vault normalizes "&t=" query-param style targets to SpecificResource
+      // without a selector (it only splits on "#"). Extract time from source.id.
+      const sourceId =
+        typeof target.source === "string"
+          ? target.source
+          : target.source?.id;
+      if (sourceId?.includes("&t=")) {
+        const parts = sourceId.split("&t=");
+        if (parts[1]) {
+          parsedTarget = { id: parts[0], t: parts[1] };
         }
       }
     }
