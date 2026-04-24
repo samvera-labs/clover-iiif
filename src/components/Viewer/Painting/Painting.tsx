@@ -9,11 +9,16 @@ import {
   PaintingCanvas,
   PaintingStyled,
 } from "./Painting.styled";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Select, SelectOption } from "src/components/UI/Select";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
-import AnimationControls, { AnimationBar } from "./AnimationControls";
+import AnimationControls, {
+  AnimationBar,
+  AnimationControlsRow,
+  AnimationThumbnailButton,
+  AnimationThumbnailStrip,
+} from "./AnimationControls";
 import { AnnotationResources } from "src/types/annotations";
 import ImageViewer from "src/components/Image";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
@@ -189,6 +194,14 @@ const Painting: React.FC<PaintingProps> = ({
     setIsPlaying(false);
     setAnnotationIndex(parseInt(value, 10));
   };
+
+  const activeThumbnailRef = useCallback(
+    (node: HTMLButtonElement | null) => {
+      if (node)
+        node.scrollIntoView({ inline: "nearest", block: "nearest", behavior: "smooth" });
+    },
+    [annotationIndex],
+  );
 
   const customDisplay = customDisplays.find((customDisplay) => {
     let match = false;
@@ -447,39 +460,58 @@ const Painting: React.FC<PaintingProps> = ({
 
       {isAnimationMode && !showPlaceholder && (
         <AnimationBar>
-          <Select
-            value={String(annotationIndex)}
-            onValueChange={handleFrameChange}
-            maxHeight={"200px"}
-          >
+          <AnimationThumbnailStrip>
             {animationFrames.map((frame, index) => (
-              <SelectOption
-                value={String(index)}
+              <AnimationThumbnailButton
                 key={index}
-                label={frame.label ?? { none: [String(index + 1)] }}
-              />
+                ref={index === annotationIndex ? activeThumbnailRef : undefined}
+                data-active={index === annotationIndex}
+                type="button"
+                aria-label={`Frame ${index + 1}`}
+                onClick={() => {
+                  setIsPlaying(false);
+                  setAnnotationIndex(index);
+                }}
+              >
+                <img src={frame.body.id} alt="" />
+              </AnimationThumbnailButton>
             ))}
-          </Select>
-          <AnimationControls
-            duration={canvasDuration}
-            frameIndex={annotationIndex}
-            isPlaying={isPlaying}
-            isRepeat={isRepeat}
-            playbackRate={playbackRate}
-            totalFrames={totalFrames}
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
-            onPrevFrame={() => {
-              setIsPlaying(false);
-              setAnnotationIndex((prev) => Math.max(0, prev - 1));
-            }}
-            onNextFrame={() => {
-              setIsPlaying(false);
-              setAnnotationIndex((prev) => Math.min(totalFrames - 1, prev + 1));
-            }}
-            onToggleRepeat={() => setIsRepeat((prev) => !prev)}
-            onSetPlaybackRate={setPlaybackRate}
-          />
+          </AnimationThumbnailStrip>
+          <AnimationControlsRow>
+            <Select
+              value={String(annotationIndex)}
+              onValueChange={handleFrameChange}
+              maxHeight={"200px"}
+            >
+              {animationFrames.map((frame, index) => (
+                <SelectOption
+                  value={String(index)}
+                  key={index}
+                  label={frame.label ?? { none: [String(index + 1)] }}
+                />
+              ))}
+            </Select>
+            <AnimationControls
+              duration={canvasDuration}
+              frameIndex={annotationIndex}
+              isPlaying={isPlaying}
+              isRepeat={isRepeat}
+              playbackRate={playbackRate}
+              totalFrames={totalFrames}
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+              onPrevFrame={() => {
+                setIsPlaying(false);
+                setAnnotationIndex((prev) => Math.max(0, prev - 1));
+              }}
+              onNextFrame={() => {
+                setIsPlaying(false);
+                setAnnotationIndex((prev) => Math.min(totalFrames - 1, prev + 1));
+              }}
+              onToggleRepeat={() => setIsRepeat((prev) => !prev)}
+              onSetPlaybackRate={setPlaybackRate}
+            />
+          </AnimationControlsRow>
         </AnimationBar>
       )}
 

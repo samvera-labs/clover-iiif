@@ -2,10 +2,15 @@ import { styled } from "src/styles/stitches.config";
 
 const AnimationBar = styled("div", {
   display: "flex",
+  flexDirection: "column",
+  gap: "0.3rem",
+});
+
+const AnimationControlsRow = styled("div", {
+  display: "flex",
   flexDirection: "row",
   alignItems: "center",
   gap: "0.5rem",
-  position: "relative",
 
   "@sm": {
     flexDirection: "column",
@@ -18,8 +23,7 @@ const AnimationControlsWrapper = styled("div", {
   flexShrink: "0",
   alignItems: "center",
   borderRadius: "2rem",
-  position: "absolute",
-  right: "0.5rem",
+  marginLeft: "auto",
 });
 
 const AnimationButton = styled("button", {
@@ -90,9 +94,52 @@ const AnimationCounter = styled("span", {
   },
 });
 
+const AnimationThumbnailStrip = styled("div", {
+  display: "flex",
+  flexDirection: "row",
+  paddingTop: "0.25rem",
+  gap: "0.25rem",
+  overflowX: "auto",
+  alignItems: "center",
+  scrollbarWidth: "none",
+
+  "&::-webkit-scrollbar": {
+    display: "none",
+  },
+});
+
+const AnimationThumbnailButton = styled("button", {
+  display: "flex",
+  flexShrink: "0",
+  padding: "0",
+  margin: "0",
+  background: "none",
+  cursor: "pointer",
+  border: "none",
+  outline: "2px solid transparent",
+  outlineOffset: "-3px",
+  borderRadius: "2px",
+  opacity: "0.75",
+  transition: "$all",
+
+  img: {
+    display: "block",
+    height: "61.8px",
+    borderRadius: "2px",
+  },
+
+  "&[data-active=true]": {
+    outline: "3px solid $accent",
+    opacity: "1",
+  },
+});
+
 export {
   AnimationBar,
   AnimationButton,
+  AnimationControlsRow,
   AnimationControlsWrapper,
   AnimationCounter,
+  AnimationThumbnailButton,
+  AnimationThumbnailStrip,
 };
