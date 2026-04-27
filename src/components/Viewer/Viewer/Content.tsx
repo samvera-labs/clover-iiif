@@ -25,6 +25,8 @@ export interface ViewerContentProps {
     React.SetStateAction<AnnotationPageNormalized | undefined>
   >;
   contentSearchResource?: AnnotationResource;
+  contentSearchCallback?: (query: string) => void;
+  initialSearchQuery?: string;
   painting: IIIFExternalWebResource[];
   items: Canvas[];
   isAudioVideo: boolean;
@@ -36,6 +38,8 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   searchServiceUrl,
   setContentSearchResource,
   contentSearchResource,
+  contentSearchCallback,
+  initialSearchQuery,
   isAudioVideo,
   items,
   painting,
@@ -101,6 +105,8 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
             searchServiceUrl={searchServiceUrl}
             setContentSearchResource={setContentSearchResource}
             contentSearchResource={contentSearchResource}
+            contentSearchCallback={contentSearchCallback}
+            initialSearchQuery={initialSearchQuery}
           />
         </Aside>
       )}

@@ -33,6 +33,7 @@ import { hashCode } from "src/lib/utils";
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
   contentStateCallback?: (iiifContentState: object) => void;
+  contentSearchCallback?: (query: string) => void;
   customDisplays?: Array<CustomDisplay>;
   plugins?: Array<PluginConfig>;
   customTheme?: any;
@@ -46,6 +47,7 @@ export interface CloverViewerProps {
 const CloverViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback,
   contentStateCallback,
+  contentSearchCallback,
   customDisplays = [],
   plugins = [],
   customTheme,
@@ -90,6 +92,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
         iiifContent={iiifResource}
         canvasIdCallback={canvasIdCallback}
         contentStateCallback={contentStateCallback}
+        contentSearchCallback={contentSearchCallback}
         customTheme={customTheme}
         options={options}
         iiifContentSearchQuery={iiifContentSearchQuery}
@@ -101,6 +104,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
 const RenderViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback,
   contentStateCallback,
+  contentSearchCallback,
   customTheme,
   iiifContent,
   options,
@@ -417,6 +421,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
       theme={theme}
       key={manifest.id}
       iiifContentSearchQuery={iiifContentSearchQuery}
+      contentSearchCallback={contentSearchCallback}
     />
   );
 };
