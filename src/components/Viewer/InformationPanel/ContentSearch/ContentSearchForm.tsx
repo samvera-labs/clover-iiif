@@ -27,12 +27,11 @@ const SearchContent: React.FC<Props> = ({
   const [searchTerms, setSearchTerms] = useState<string | undefined>();
 
   const viewerState: ViewerContextStore = useViewerState();
-  const { openSeadragonViewer, vault } = viewerState;
+  const { vault } = viewerState;
 
   async function searchSubmitHandler(e) {
     e.preventDefault();
 
-    if (!openSeadragonViewer) return;
     if (!searchServiceUrl) return;
     if (!searchTerms || searchTerms.trim() === "") {
       setContentSearchResource({} as unknown as AnnotationPageNormalized);
@@ -59,12 +58,8 @@ const SearchContent: React.FC<Props> = ({
   return (
     <FormStyled>
       <Form.Root onSubmit={searchSubmitHandler} className="content-search-form">
-        <Form.Field
-          className="content-search-input"
-          name="searchTerms"
-          onChange={handleChange}
-        >
-          <Form.Control placeholder={placeholder} />
+        <Form.Field className="content-search-input" name="searchTerms">
+          <Form.Control placeholder={placeholder} onChange={handleChange} />
         </Form.Field>
 
         <Form.Submit asChild>
