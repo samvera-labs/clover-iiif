@@ -16,15 +16,19 @@ type Props = {
   >;
   activeCanvas: string;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  contentSearchCallback?: (query: string) => void;
+  initialSearchQuery?: string;
 };
 
 const SearchContent: React.FC<Props> = ({
   searchServiceUrl,
   setContentSearchResource,
   setLoading,
+  contentSearchCallback,
+  initialSearchQuery,
 }) => {
   const { t } = useCloverTranslation();
-  const [searchTerms, setSearchTerms] = useState<string | undefined>();
+  const [searchTerms, setSearchTerms] = useState<string | undefined>(initialSearchQuery);
 
   const viewerState: ViewerContextStore = useViewerState();
   const { vault } = viewerState;
@@ -50,7 +54,9 @@ const SearchContent: React.FC<Props> = ({
 
   const handleChange = (e: any) => {
     e.preventDefault();
-    setSearchTerms(e.target.value);
+    const query = e.target.value;
+    setSearchTerms(query);
+    contentSearchCallback?.(query);
   };
 
   const placeholder = t("contentSearchPlaceholder");
@@ -59,7 +65,11 @@ const SearchContent: React.FC<Props> = ({
     <FormStyled>
       <Form.Root onSubmit={searchSubmitHandler} className="content-search-form">
         <Form.Field className="content-search-input" name="searchTerms">
-          <Form.Control placeholder={placeholder} onChange={handleChange} />
+          <Form.Control
+            placeholder={placeholder}
+            defaultValue={initialSearchQuery}
+            onChange={handleChange}
+          />
         </Form.Field>
 
         <Form.Submit asChild>

@@ -42,6 +42,8 @@ interface NavigatorProps {
     React.SetStateAction<AnnotationPageNormalized | undefined>
   >;
   contentSearchResource?: AnnotationResource;
+  contentSearchCallback?: (query: string) => void;
+  initialSearchQuery?: string;
 }
 
 export const InformationPanel: React.FC<NavigatorProps> = ({
@@ -50,6 +52,8 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   searchServiceUrl,
   setContentSearchResource,
   contentSearchResource,
+  contentSearchCallback,
+  initialSearchQuery,
 }) => {
   const { t } = useCloverTranslation();
   const dispatch: any = useViewerDispatch();
@@ -270,6 +274,8 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
               setContentSearchResource={setContentSearchResource}
               activeCanvas={activeCanvas}
               annotationPage={contentSearchResource}
+              contentSearchCallback={contentSearchCallback}
+              initialSearchQuery={initialSearchQuery}
             />
           </Content>
         )}

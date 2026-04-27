@@ -20,6 +20,8 @@ type ContentSearchProps = {
   >;
   activeCanvas: string;
   annotationPage: AnnotationResource;
+  contentSearchCallback?: (query: string) => void;
+  initialSearchQuery?: string;
 };
 
 const ContentSearch: React.FC<ContentSearchProps> = ({
@@ -27,6 +29,8 @@ const ContentSearch: React.FC<ContentSearchProps> = ({
   setContentSearchResource,
   activeCanvas,
   annotationPage,
+  contentSearchCallback,
+  initialSearchQuery,
 }) => {
   const viewerState: ViewerContextStore = useViewerState();
   const { vault } = viewerState;
@@ -65,6 +69,8 @@ const ContentSearch: React.FC<ContentSearchProps> = ({
         setContentSearchResource={setContentSearchResource}
         activeCanvas={activeCanvas}
         setLoading={setLoading}
+        contentSearchCallback={contentSearchCallback}
+        initialSearchQuery={initialSearchQuery}
       />
       {loading ? (
         <span>{t("contentSearchLoading")}</span>
