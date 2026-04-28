@@ -24,13 +24,6 @@
       }
     }
   ],
-  "thumbnail": [
-    {
-      "id": "https://samvera-labs.github.io/clover-iiif/manifest/interactive-2d/plate-number-700-buffalo-galloping.gif",
-      "type": "Image",
-      "format": "image/gif"
-    }
-  ],
   "items": [
     {
       "id": "http://localhost:5001/iiif/plate-number-700-buffalo-galloping.json/canvas/static",
