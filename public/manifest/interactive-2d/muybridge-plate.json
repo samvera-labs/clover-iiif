@@ -26,7 +26,7 @@
   ],
   "thumbnail": [
     {
-      "id": "http://localhost:5001/images/thumbnails/plate-number-700-buffalo-galloping.gif",
+      "id": "https://samvera-labs.github.io/clover-iiif/manifest/interactive-2d/plate-number-700-buffalo-galloping.gif",
       "type": "Image",
       "format": "image/gif"
     }
@@ -36,7 +36,7 @@
       "id": "http://localhost:5001/iiif/plate-number-700-buffalo-galloping.json/canvas/static",
       "type": "Canvas",
       "label": {
-        "en": ["Plate Number 700. Buffalo galloping"]
+        "en": ["Original Plate"]
       },
       "height": 2454,
       "width": 3808,
@@ -100,7 +100,7 @@
       "id": "http://localhost:5001/iiif/plate-number-700-buffalo-galloping.json/canvas/animation",
       "type": "Canvas",
       "label": {
-        "en": ["Plate Number 700. Buffalo galloping"]
+        "en": ["Animation of Plate Frames"]
       },
       "height": 534,
       "width": 918,
@@ -120,7 +120,7 @@
                 "type": "Annotation",
                 "motivation": "painting",
                 "body": {
-                  "id": "http://localhost:5001/images/thumbnails/plate-number-700-buffalo-galloping.gif",
+                  "id": "https://samvera-labs.github.io/clover-iiif/manifest/interactive-2d/plate-number-700-buffalo-galloping.gif",
                   "type": "Image",
                   "format": "image/gif",
                   "width": 918,
