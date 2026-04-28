@@ -1,0 +1,119 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://collections.st-andrews.ac.uk/595692/manifest",
+  "type": "Manifest",
+  "label": {
+    "en": ["Stereoscopic views by Underwood and Underwood"]
+  },
+  "requiredStatement": {
+    "label": {
+      "en": ["Attribution"]
+    },
+    "value": {
+      "en": [
+        "Image courtesy of University of St Andrews Libraries and Museums."
+      ]
+    }
+  },
+  "homepage": [
+    {
+      "id": "https://collections.st-andrews.ac.uk/series/stereoscopic-views-by-underwood-and-underwood/595692",
+      "type": "Text",
+      "label": {
+        "en": ["Stereoscopic views by Underwood and Underwood"]
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "https://collections.st-andrews.ac.uk/595692/manifest/canvas/365934",
+      "type": "Canvas",
+      "label": {
+        "none": ["Original Stereograph"]
+      },
+      "width": 6798,
+      "height": 3390,
+      "thumbnail": [
+        {
+          "id": "https://collections.st-andrews.ac.uk/media/365934/365934.thumb.jpg",
+          "type": "Image",
+          "width": 100,
+          "height": 100
+        }
+      ],
+      "items": [
+        {
+          "id": "https://collections.st-andrews.ac.uk/595692/manifest/canvas/365934/annotation-page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://collections.st-andrews.ac.uk/595692/manifest/canvas/365934/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://collections.st-andrews.ac.uk/595692/manifest/canvas/365934",
+              "body": {
+                "id": "https://collections.st-andrews.ac.uk/iiif/2/365934~365934/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "width": 6798,
+                "height": 3390,
+                "service": [
+                  {
+                    "id": "https://collections.st-andrews.ac.uk/iiif/2/365934~365934",
+                    "type": "ImageService2",
+                    "profile": "level1"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://collections.st-andrews.ac.uk/595692/manifest/canvas/365934/animation",
+      "type": "Canvas",
+      "label": {
+        "en": ["Stereograph Animation"]
+      },
+      "height": 2795,
+      "width": 2970,
+      "duration": 0.4,
+      "behavior": ["auto-advance", "repeat"],
+      "items": [
+        {
+          "id": "https://collections.st-andrews.ac.uk/595692/manifest/canvas/365934/animation/page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://collections.st-andrews.ac.uk/595692/manifest/canvas/365934/animation/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://collections.st-andrews.ac.uk/595692/manifest/canvas/365934#t=0,0.2",
+              "body": {
+                "id": "https://collections.st-andrews.ac.uk/iiif/2/365934~365934/600,110,2795,2970/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "width": 2795,
+                "height": 2970
+              }
+            },
+            {
+              "id": "https://collections.st-andrews.ac.uk/595692/manifest/canvas/365934/animation/annotation/2",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://collections.st-andrews.ac.uk/595692/manifest/canvas/365934#t=0.2,0.4",
+              "body": {
+                "id": "https://collections.st-andrews.ac.uk/iiif/2/365934~365934/3450,110,2795,2970/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "width": 2795,
+                "height": 2970
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
