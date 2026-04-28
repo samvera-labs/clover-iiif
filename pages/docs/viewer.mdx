@@ -270,6 +270,7 @@ const MyCustomViewer = () => {
 | `options.showDownload`           | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.showIIIFBadge`          | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.showTitle`              | `boolean`                                                                                                                                        | No       | true                                     |
+| `options.thumbnails`             | [See Thumbnails](#thumbnails)                                                                                                                    | No       |                                          |
 | `options.customLoadingComponent` | `React.ComponentType`                                                                                                                            | No       |                                          |
 | `options.withCredentials`        | `boolean`                                                                                                                                        | No       | false                                    |
 | `options.contentSearch`          | [See Content Search](#content-search)                                                                                                            | No       |                                          |
@@ -502,6 +503,29 @@ By default, Clover's content search will draw light red boxes in the image viewe
 
 When you click on the list of search results, Clover will pan and zoom to the location of that search result. You can set the zoom level using `options.contentSearch.overlays.zoomLevel`. A small zoom level will zoom in real close; a large zoom level will zoom in less.
 
+### Thumbnails
+
+Control how the thumbnail strip below the viewer is rendered for multi-canvas Manifests.
+
+| Prop                       | Type                           | Required | Default |
+| -------------------------- | ------------------------------ | -------- | ------- |
+| `options.thumbnails.style` | `"auto" \| "icons"`            | No       | `auto`  |
+| `options.thumbnails.icon`  | `string` (URL to SVG or image) | No       |         |
+
+- `auto` (default) — render image thumbnails for each canvas.
+- `icons` — render a small icon (Image / Sound / Video) per canvas. Useful when canvas thumbnails look identical at small sizes or to save vertical space.
+
+When `style` is `icons`, pass `options.thumbnails.icon` as a URL (typically to an SVG) to override the default icon. The same icon is used for every canvas.
+
+```jsx
+const options = {
+  thumbnails: {
+    style: "icons",
+    icon: "/icons/triangle.svg",
+  },
+};
+```
+
 ### Deprecated Options
 
 | Prop                            | In Favor Of                             | Deprecated |
@@ -655,14 +679,12 @@ Additional CSS classes are made available on structural HTML elements in the Vie
 - Each WebVTT Cue is rendered inside a `<div class="webvtt-cue"/>` element.
 
 - The following inline formatting tags are passed through without alteration:
-
   - Bold (`<b/>`)
   - Italic (`<i/>`)
   - Underline (`<u/>`)
   - [Ruby](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/ruby) (`<ruby/>`) and [Ruby Text](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/rt) (`<rt/>`)
 
 - Several WebVTT-specific tags are processed in special ways:
-
   - Voice Tags (e.g., `<v speaker>Caption</v>`) are wrapped in `<span title="speaker"/>` and can be styled using the CSS selector `.webvtt-cue span[title="speaker"]`
   - Class Tags (e.g., `<c.classToAdd>Caption</c>`) are wrapped in `<span class="classtoAdd"/>` and can be styled using the CSS selector `.webvtt-cue span.classToAdd`
   - Language Tags (e.g., `<lang.en-US>English Caption</lang>`) are handled the same as Class Tags - wrapped in `<span class="en-US"/>` and can be styled using the CSS selector `.webvtt-cue span.en-US`

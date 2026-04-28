@@ -28,6 +28,7 @@ import { StyledSequence } from "src/components/Viewer/Media/Media.styled";
 import Thumbnail from "src/components/Viewer/Media/Thumbnail";
 import { ThumbnailProps } from "src/components/Viewer/Media/Thumbnail";
 import { getThumbnail } from "@iiif/helpers/thumbnail";
+import { ViewerProvider, defaultState } from "src/context/viewer-context";
 
 const props: ThumbnailProps = {
   canvas: {
@@ -165,6 +166,50 @@ describe("Thumbnail component", () => {
       );
       const fig = await screen.findByTestId("fig-caption");
       expect(fig).toHaveTextContent("2");
+    });
+  });
+
+  describe("icons style", () => {
+    it("renders icon instead of image when thumbnails.style is 'icons'", () => {
+      const initialState = {
+        ...defaultState,
+        configOptions: {
+          ...defaultState.configOptions,
+          thumbnails: { style: "icons" as const },
+        },
+      };
+      render(
+        <ViewerProvider initialState={initialState}>
+          <StyledSequence>
+            <Thumbnail {...props} />
+          </StyledSequence>
+        </ViewerProvider>,
+      );
+      expect(screen.getByTestId("media-thumbnail-icon")).toBeInTheDocument();
+      expect(screen.queryByTestId("media-thumbnail-lazyload")).toBeNull();
+      expect(screen.queryByTestId("media-thumbnail-image")).toBeNull();
+    });
+
+    it("renders the custom icon when thumbnails.icon is provided", () => {
+      const initialState = {
+        ...defaultState,
+        configOptions: {
+          ...defaultState.configOptions,
+          thumbnails: {
+            style: "icons" as const,
+            icon: "https://example.org/icon.svg",
+          },
+        },
+      };
+      render(
+        <ViewerProvider initialState={initialState}>
+          <StyledSequence>
+            <Thumbnail {...props} />
+          </StyledSequence>
+        </ViewerProvider>,
+      );
+      const img = screen.getByTestId("media-thumbnail-icon-custom");
+      expect(img).toHaveAttribute("src", "https://example.org/icon.svg");
     });
   });
 
