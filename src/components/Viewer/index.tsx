@@ -199,9 +199,18 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     // the fetch URL. A subsequent vault.load(internalId) finds no request entry
     // and tries to fetch from the internal id as a URL, which may not resolve.
     // Check vault.get first — it looks directly in entities and handles this case.
-    const existingManifest = vault.get(activeManifest) as ManifestNormalized | null;
+    //
+    // Vault tracks each fetch via requestStatus; treat the manifest as resolved
+    // only when Vault has marked the request RESOURCE_READY. Otherwise (no
+    // request yet, or a still-loading reference picked up from a parent
+    // Collection) call vault.load to populate.
+    const existingManifest = vault.get(
+      activeManifest,
+    ) as ManifestNormalized | null;
+    const status = (vault as any).requestStatus?.(activeManifest);
+    const isReady = status?.loadingState === "RESOURCE_READY";
     const manifestLoader: Promise<ManifestNormalized> =
-      existingManifest && Array.isArray((existingManifest as any).items)
+      isReady && existingManifest
         ? Promise.resolve(existingManifest)
         : (vault.load(activeManifest) as Promise<ManifestNormalized>);
 

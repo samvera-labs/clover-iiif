@@ -85,7 +85,7 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Manifes
 - _Video_ and _Sound_ are rendered within a HTML5 `<video>` element
 - _Image_ canvases are renderered with [OpenSeadragon](https://openseadragon.github.io/)
 - Supports HLS streaming for Video and Audio canvases
-- Supports IIIF Collections and toggling between child Manifests
+- Supports IIIF Collections and toggling between child Manifests, including paged Collections (see [Paged Collections](#paged-collections))
 - Supports `placeholderCanvas` for _Image_ canvases.
 
 ## Installation
@@ -502,6 +502,32 @@ By default, Clover's content search will draw light red boxes in the image viewe
 
 When you click on the list of search results, Clover will pan and zoom to the location of that search result. You can set the zoom level using `options.contentSearch.overlays.zoomLevel`. A small zoom level will zoom in real close; a large zoom level will zoom in less.
 
+### Paged Collections
+
+When a IIIF Collection is large (e.g. a search results response), some providers split it across multiple pages. The IIIF Presentation API does not yet define a paging mechanism for Collections — see [IIIF/api#2174](https://github.com/IIIF/api/issues/2174) — but a convention has emerged in which the last entry of `items` is itself a Collection whose `id` is the URL of the next page.
+
+Clover detects this convention and renders a **Load more** button beneath the Collection picker. Clicking it fetches the next page, appends its Manifests to the picker (de-duplicated by `id`), and continues to expose **Load more** as long as further pages exist.
+
+Example (abbreviated) Collection response:
+
+```json
+{
+  "type": "Collection",
+  "id": "https://example.org/search?as=iiif&page=1",
+  "items": [
+    { "type": "Manifest", "id": "...", "label": { "none": ["..."] } },
+    { "type": "Manifest", "id": "...", "label": { "none": ["..."] } },
+    {
+      "type": "Collection",
+      "id": "https://example.org/search?as=iiif&page=2",
+      "label": { "none": ["Next page"] }
+    }
+  ]
+}
+```
+
+This convention is non-spec and may change once Presentation 4.0 standardises Collection paging.
+
 ### Deprecated Options
 
 | Prop                            | In Favor Of                             | Deprecated |
@@ -655,14 +681,12 @@ Additional CSS classes are made available on structural HTML elements in the Vie
 - Each WebVTT Cue is rendered inside a `<div class="webvtt-cue"/>` element.
 
 - The following inline formatting tags are passed through without alteration:
-
   - Bold (`<b/>`)
   - Italic (`<i/>`)
   - Underline (`<u/>`)
   - [Ruby](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/ruby) (`<ruby/>`) and [Ruby Text](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/rt) (`<rt/>`)
 
 - Several WebVTT-specific tags are processed in special ways:
-
   - Voice Tags (e.g., `<v speaker>Caption</v>`) are wrapped in `<span title="speaker"/>` and can be styled using the CSS selector `.webvtt-cue span[title="speaker"]`
   - Class Tags (e.g., `<c.classToAdd>Caption</c>`) are wrapped in `<span class="classtoAdd"/>` and can be styled using the CSS selector `.webvtt-cue span.classToAdd`
   - Language Tags (e.g., `<lang.en-US>English Caption</lang>`) are handled the same as Class Tags - wrapped in `<span class="en-US"/>` and can be styled using the CSS selector `.webvtt-cue span.en-US`
