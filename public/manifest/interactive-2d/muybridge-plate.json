@@ -1,6 +1,6 @@
 {
   "@context": "https://iiif.io/api/presentation/3/context.json",
-  "id": "http://localhost:5001/iiif/plate-number-700-buffalo-galloping.json",
+  "id": "https://samvera-labs.github.io/clover-iiif/manifest/interactive-2d/muybridge-plate.json",
   "type": "Manifest",
   "label": {
     "en": ["Plate Number 700. Buffalo galloping"]

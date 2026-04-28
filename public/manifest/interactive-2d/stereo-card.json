@@ -1,6 +1,6 @@
 {
   "@context": "http://iiif.io/api/presentation/3/context.json",
-  "id": "https://collections.st-andrews.ac.uk/595692/manifest",
+  "id": "https://samvera-labs.github.io/clover-iiif/manifest/interactive-2d/stereo-card.json",
   "type": "Manifest",
   "label": {
     "en": ["Stereoscopic views by Underwood and Underwood"]
