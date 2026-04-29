@@ -1,5 +1,5 @@
-import { describe, it } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, vi } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
 
 import { AnnotationResources } from "src/types/annotations";
 import Hls from "hls.js";
@@ -14,15 +14,24 @@ import manifestStreaming from "src/fixtures/viewer/player/manifest-streaming-aud
 describe("Player component", () => {
   let originalLoad: any;
 
+  let originalCanPlayType: any;
+
   beforeAll(() => {
     originalLoad = window.HTMLMediaElement.prototype.load;
     window.HTMLMediaElement.prototype.load = () => {
       /* do nothing */
     };
+    // Force the non-native HLS path (i.e. hls.js fallback) so we can assert
+    // that attachMedia is called. jsdom's canPlayType returns "" for
+    // unknown types, which would already cause the fallback, but we stub
+    // it explicitly to make the test intent clear.
+    originalCanPlayType = window.HTMLMediaElement.prototype.canPlayType;
+    window.HTMLMediaElement.prototype.canPlayType = () => "";
   });
 
   afterAll(() => {
     window.HTMLMediaElement.prototype.load = originalLoad;
+    window.HTMLMediaElement.prototype.canPlayType = originalCanPlayType;
   });
 
   it("renders the Player component for a streaming audio file", async () => {
@@ -107,6 +116,7 @@ describe("Player component", () => {
       annotationResources: annotationResources as AnnotationResources,
     };
 
+    vi.spyOn(Hls, "isSupported").mockReturnValue(true);
     const hlsSpy = vi.spyOn(Hls.prototype, "attachMedia");
 
     const vault = new Vault();
@@ -132,8 +142,9 @@ describe("Player component", () => {
     // Test for the audio visualizer
     expect(screen.getByRole("presentation")).toBeInTheDocument();
 
-    // Test for Hls Attach
-    expect(hlsSpy).toHaveBeenCalled();
+    // Hls.js is now lazy-loaded via dynamic import, so attachMedia is called
+    // asynchronously after the chunk resolves.
+    await waitFor(() => expect(hlsSpy).toHaveBeenCalled());
   });
 
   it("renders the Player component for a standard audio file", async () => {
