@@ -1,7 +1,5 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import type { JSX } from "react";
-import { Marked } from "marked";
-import markedFootnote from "marked-footnote";
 import { sanitizeMarkdownHTML } from "src/lib/html-element";
 
 interface MarkdownResult {
@@ -9,36 +7,59 @@ interface MarkdownResult {
   jsx: JSX.Element;
 }
 
-// Use a scoped Marked instance rather than `marked.setOptions(...)` so we
-// don't mutate the global singleton. Consumers of this library may import
-// `marked` themselves, and the global is shared across all installations
-// that dedupe to the same module.
-const markdownProcessor = new Marked({
-  gfm: true,
-  breaks: false,
-  async: false,
-});
-markdownProcessor.use(markedFootnote({ footnoteDivider: true, description: "" }));
+// Lazily import marked + marked-footnote the first time any markdown annotation
+// is encountered. The promise is cached at module scope so the dynamic import
+// fires only once regardless of how many hook instances are active.
+let converterPromise: Promise<(value: string) => string> | null = null;
 
-const convertMarkdown = (value: string) => {
-  try {
-    const raw = markdownProcessor.parse(value || "") as string;
-    // marked-footnote places the footnote id on <li>, which DOMPurify strips.
-    // Move the id to the inner <p> so the forward-link from the inline <sup>
-    // still navigates to the correct target after sanitisation.
-    const preprocessed = raw.replace(
-      /<li id="([^"]+)">\n<p>/g,
-      '<li><p id="$1">',
-    );
-    return sanitizeMarkdownHTML(preprocessed);
-  } catch (error) {
-    console.warn("Failed to convert markdown", error);
-    return value || "";
+function getConverter(): Promise<(value: string) => string> {
+  if (!converterPromise) {
+    converterPromise = Promise.all([
+      import("marked"),
+      import("marked-footnote"),
+    ]).then(([{ Marked }, { default: markedFootnote }]) => {
+      // Use a scoped Marked instance so we don't mutate the global singleton.
+      const processor = new Marked({ gfm: true, breaks: false, async: false });
+      processor.use(markedFootnote({ footnoteDivider: true, description: "" }));
+
+      return (value: string): string => {
+        try {
+          const raw = processor.parse(value || "") as string;
+          // marked-footnote places the footnote id on <li>, which DOMPurify
+          // strips. Move it to the inner <p> so the forward-link from the
+          // inline <sup> still navigates to the correct target.
+          const preprocessed = raw.replace(
+            /<li id="([^"]+)">\n<p>/g,
+            '<li><p id="$1">',
+          );
+          return sanitizeMarkdownHTML(preprocessed);
+        } catch (error) {
+          console.warn("Failed to convert markdown", error);
+          return value || "";
+        }
+      };
+    });
   }
-};
+  return converterPromise;
+}
 
 const useMarkdown = (value: string): MarkdownResult => {
-  const html = useMemo(() => convertMarkdown(value), [value]);
+  const [html, setHtml] = useState("");
+
+  useEffect(() => {
+    if (!value) {
+      setHtml("");
+      return;
+    }
+    let cancelled = false;
+    getConverter().then((convert) => {
+      if (!cancelled) setHtml(convert(value));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [value]);
+
   const jsx = useMemo(
     () => <div dangerouslySetInnerHTML={{ __html: html }} />,
     [html],
