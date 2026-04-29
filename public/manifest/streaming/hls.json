@@ -1,0 +1,42 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://localhost:3000/manifest/streaming/hls.json",
+  "type": "Manifest",
+  "label": { "en": ["HLS streaming test"] },
+  "summary": {
+    "en": [
+      "Local fixture wrapping a public Mux HLS test stream to exercise hls.js lazy loading."
+    ]
+  },
+  "items": [
+    {
+      "id": "http://localhost:3000/manifest/streaming/hls/canvas/1",
+      "type": "Canvas",
+      "height": 480,
+      "width": 640,
+      "duration": 30,
+      "items": [
+        {
+          "id": "http://localhost:3000/manifest/streaming/hls/canvas/1/page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "http://localhost:3000/manifest/streaming/hls/canvas/1/anno/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+                "type": "Video",
+                "format": "application/x-mpegurl",
+                "height": 480,
+                "width": 640,
+                "duration": 30
+              },
+              "target": "http://localhost:3000/manifest/streaming/hls/canvas/1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
