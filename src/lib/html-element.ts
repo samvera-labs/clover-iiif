@@ -37,4 +37,31 @@ function sanitizeHTML(html: string) {
   });
 }
 
-export { createMarkup, sanitizeAttributes, sanitizeHTML };
+// Extends the base allowlist for markdown-rendered HTML: permits list
+// structure (ul/ol/li), `id` attributes (needed for footnote anchor targets),
+// and `#` fragment hrefs (needed for footnote forward/back navigation).
+function sanitizeMarkdownHTML(html: string) {
+  if (typeof window === "undefined") return html;
+  return DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: [
+      "a",
+      "b",
+      "br",
+      "hr",
+      "i",
+      "img",
+      "li",
+      "ol",
+      "p",
+      "small",
+      "span",
+      "sub",
+      "sup",
+      "ul",
+    ],
+    ALLOWED_ATTR: ["href", "alt", "src", "height", "width", "id"],
+    ALLOWED_URI_REGEXP: /^(?:https?:|mailto:|#)/i,
+  });
+}
+
+export { createMarkup, sanitizeAttributes, sanitizeHTML, sanitizeMarkdownHTML };

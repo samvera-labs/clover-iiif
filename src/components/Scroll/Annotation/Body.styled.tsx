@@ -15,8 +15,23 @@ const TextualBody = styled("div", {
     height: "0",
   },
 
+  hr: {
+    margin: "0.618rem 0 2rem",
+    borderColor: "transparent",
+    height: "2px",
+    position: "relative",
+    zIndex: 0,
+    display: "flex",
+    justifyContent: "flex-end",
+    background: "rgba(102, 102, 102, 0.133)",
+  },
+
+  p: {
+    padding: "0.5rem 0",
+  },
+
   ul: {
-    padding: "1rem",
+    padding: "0.5rem 1rem",
   },
 
   li: {

@@ -48,6 +48,11 @@ export const markdownAnnotationBody = `## Transcription
 
 — *Travel Notes*, 1934. See [more](https://example.org/notes).`;
 
+export const markdownFootnotes = `Manuscript text with a scholarly annotation.[^1] A second reference appears here.[^2]
+
+[^1]: Jones, *Catalogue of Manuscripts*, p. 42.
+[^2]: See also the description in volume II.`;
+
 export const allMarkdownFixtures = {
   markdownInline,
   markdownHeadings,
@@ -56,4 +61,5 @@ export const allMarkdownFixtures = {
   markdownGfm,
   markdownRawHtml,
   markdownAnnotationBody,
+  markdownFootnotes,
 };

@@ -4,6 +4,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import useMarkdown from "./useMarkdown";
 import {
   markdownAnnotationBody,
+  markdownFootnotes,
   markdownGfm,
   markdownRawHtml,
 } from "src/fixtures/markdown";
@@ -44,12 +45,12 @@ describe("useMarkdown", () => {
     });
   });
 
-  it("strips block-level structural tags (headings, lists, tables) leaving text", async () => {
+  it("strips heading tags but preserves list structure and text", async () => {
     const { result } = renderHook(() => useMarkdown("# Title\n\n- one\n- two"));
     await waitFor(() => {
       expect(result.current.html).not.toContain("<h1");
-      expect(result.current.html).not.toContain("<ul");
-      expect(result.current.html).not.toContain("<li");
+      expect(result.current.html).toContain("<ul");
+      expect(result.current.html).toContain("<li");
       expect(result.current.html).toContain("Title");
       expect(result.current.html).toContain("one");
       expect(result.current.html).toContain("two");
@@ -150,6 +151,138 @@ describe("useMarkdown", () => {
         const opens = (result.current.html.match(/<(b|i)\b/g) || []).length;
         const closes = (result.current.html.match(/<\/(b|i)>/g) || []).length;
         expect(closes).toBe(opens);
+      });
+    });
+  });
+
+  describe("list rendering", () => {
+    it("renders unordered list items as <ul>/<li>", async () => {
+      const { result } = renderHook(() =>
+        useMarkdown("- alpha\n- beta\n- gamma"),
+      );
+      await waitFor(() => {
+        expect(result.current.html).toContain("<ul>");
+        expect(result.current.html).toContain("<li>");
+        expect(result.current.html).toContain("alpha");
+        expect(result.current.html).toContain("beta");
+      });
+    });
+
+    it("renders ordered list items as <ol>/<li>", async () => {
+      const { result } = renderHook(() =>
+        useMarkdown("1. first\n2. second\n3. third"),
+      );
+      await waitFor(() => {
+        expect(result.current.html).toContain("<ol>");
+        expect(result.current.html).toContain("<li>");
+        expect(result.current.html).toContain("first");
+        expect(result.current.html).toContain("second");
+      });
+    });
+
+    it("preserves nested list structure", async () => {
+      const md =
+        "- verse line one\n\n  - continuation of line one\n\n- verse line two\n\n  - continuation of line two";
+      const { result } = renderHook(() => useMarkdown(md));
+      await waitFor(() => {
+        // Outer and inner <ul> both survive sanitisation.
+        const uls = (result.current.html.match(/<ul>/g) || []).length;
+        expect(uls).toBeGreaterThanOrEqual(2);
+        expect(result.current.html).toContain("verse line one");
+        expect(result.current.html).toContain("continuation of line one");
+      });
+    });
+  });
+
+  describe("GFM footnotes", () => {
+    // marked does not parse footnotes natively; the marked-footnote extension
+    // is required. Without it, [^1] renders as literal text.
+
+    it("renders footnote reference as <sup>, not literal [^n] text", async () => {
+      const { result } = renderHook(() =>
+        useMarkdown("Annotation text.[^1]\n\n[^1]: Source note."),
+      );
+      await waitFor(() => {
+        expect(result.current.html).not.toContain("[^1]");
+        expect(result.current.html).toContain("<sup>");
+      });
+    });
+
+    it("renders the footnote definition text in the output", async () => {
+      const { result } = renderHook(() =>
+        useMarkdown("Annotation text.[^1]\n\n[^1]: The footnote body."),
+      );
+      await waitFor(() => {
+        expect(result.current.html).toContain("The footnote body.");
+      });
+    });
+
+    it("renders an <hr> before the footnote list, with no label text", async () => {
+      // footnoteDivider:true adds <hr>; description:"" empties the <h2> so no
+      // "Footnotes" heading text leaks out when the tag is stripped.
+      const { result } = renderHook(() =>
+        useMarkdown("Text.[^1]\n\n[^1]: Footnote body."),
+      );
+      await waitFor(() => {
+        expect(result.current.html).toContain("<hr");
+        expect(result.current.html).not.toContain("Footnotes");
+        expect(result.current.html).not.toContain("<section");
+        expect(result.current.html).toContain("<ol>");
+        expect(result.current.html).toContain("<li>");
+        expect(result.current.html).toContain("Footnote body.");
+      });
+    });
+
+    it("preserves fragment hrefs on footnote forward and back links", async () => {
+      // The markdown sanitiser extends the URI allowlist to include '#' so
+      // footnote navigation links survive DOMPurify.
+      const { result } = renderHook(() =>
+        useMarkdown("Text.[^1]\n\n[^1]: Note."),
+      );
+      await waitFor(() => {
+        // Inline ref: <sup><a href="#footnote-1" id="footnote-ref-1">1</a></sup>
+        expect(result.current.html).toContain('href="#footnote-1"');
+        // Back-reference: <a href="#footnote-ref-1">↩</a>
+        expect(result.current.html).toContain('href="#footnote-ref-1"');
+      });
+    });
+
+    it("preserves ids so both ends of each footnote link resolve", async () => {
+      // The inline <a id="footnote-ref-1"> is the back-link target.
+      // The <p id="footnote-1"> (id moved from the stripped <li>) is the
+      // forward-link target.
+      const { result } = renderHook(() =>
+        useMarkdown("Text.[^1]\n\n[^1]: Note."),
+      );
+      await waitFor(() => {
+        expect(result.current.html).toContain('id="footnote-ref-1"');
+        expect(result.current.html).toContain('id="footnote-1"');
+      });
+    });
+
+    it("renders multiple footnote references in document order", async () => {
+      const { result } = renderHook(() =>
+        useMarkdown(
+          "First claim.[^1] Second claim.[^2]\n\n[^1]: Note A.\n[^2]: Note B.",
+        ),
+      );
+      await waitFor(() => {
+        expect(result.current.html).toContain("Note A.");
+        expect(result.current.html).toContain("Note B.");
+        const first = result.current.html.indexOf("<sup>");
+        const second = result.current.html.indexOf("<sup>", first + 1);
+        expect(second).toBeGreaterThan(first);
+      });
+    });
+
+    it("renders realistic multi-footnote IIIF annotation fixture", async () => {
+      const { result } = renderHook(() => useMarkdown(markdownFootnotes));
+      await waitFor(() => {
+        expect(result.current.html).not.toContain("[^1]");
+        expect(result.current.html).not.toContain("[^2]");
+        expect(result.current.html).toContain("<sup>");
+        expect(result.current.html).toContain("Jones");
+        expect(result.current.html).toContain("volume II");
       });
     });
   });
