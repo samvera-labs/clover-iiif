@@ -1,28 +1,32 @@
 import React, { useMemo } from "react";
 import type { JSX } from "react";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkGfm from "remark-gfm";
-import remarkRehype from "remark-rehype";
-import rehypeRaw from "rehype-raw";
-import rehypeStringify from "rehype-stringify";
+import { Marked } from "marked";
+import { sanitizeHTML } from "src/lib/html-element";
 
 interface MarkdownResult {
   html: string;
   jsx: JSX.Element;
 }
 
-const processor = unified()
-  .use(remarkParse)
-  .use(remarkGfm)
-  .use(remarkRehype, { allowDangerousHtml: true })
-  .use(rehypeRaw)
-  .use(rehypeStringify);
+// Use a scoped Marked instance rather than `marked.setOptions(...)` so we
+// don't mutate the global singleton. Consumers of this library may import
+// `marked` themselves, and the global is shared across all installations
+// that dedupe to the same module.
+const markdownProcessor = new Marked({
+  gfm: true,
+  breaks: false,
+  async: false,
+});
 
 const convertMarkdown = (value: string) => {
   try {
-    const file = processor.processSync(value || "");
-    return String(file);
+    // Sanitise the rendered HTML through the same strict allowlist used
+    // for Primitives elsewhere in Clover. This removes anything dangerous
+    // and also normalises malformed / unclosed raw HTML — replicating the
+    // structural normalisation the previous remark/rehype pipeline got
+    // from `rehype-raw`.
+    const raw = markdownProcessor.parse(value || "") as string;
+    return sanitizeHTML(raw);
   } catch (error) {
     console.warn("Failed to convert markdown", error);
     return value || "";
