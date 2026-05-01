@@ -24,6 +24,7 @@ interface SelectProps extends RadixSelectProps {
   children?: ReactNode[] | ReactNode;
   label?: InternationalString;
   maxHeight: string;
+  footer?: ReactNode;
 }
 
 /**
@@ -35,6 +36,7 @@ const Select: React.FC<SelectProps> = ({
   maxHeight,
   onValueChange,
   value,
+  footer,
 }) => {
   return (
     <StyledSelect onValueChange={onValueChange} value={value}>
@@ -46,13 +48,17 @@ const Select: React.FC<SelectProps> = ({
       </StyledSelectButton>
       <SelectPortal>
         <StyledSelectContent
-          css={{ maxHeight: `${maxHeight} !important` }}
+          css={{
+            maxHeight: `${maxHeight} !important`,
+            display: "flex",
+            flexDirection: "column",
+          }}
           data-testid="select-content"
         >
           <SelectScrollUpButton>
             <Icon direction="up" title="scroll up for more" />
           </SelectScrollUpButton>
-          <SelectViewport>
+          <SelectViewport style={{ flex: "1 1 auto", overflow: "auto" }}>
             <SelectGroup>
               {label && (
                 <StyledSelectLabel>
@@ -65,6 +71,11 @@ const Select: React.FC<SelectProps> = ({
           <SelectScrollDownButton>
             <Icon direction="down" title="scroll down for more" />
           </SelectScrollDownButton>
+          {footer && (
+            <div style={{ flex: "0 0 auto" }} data-testid="select-footer">
+              {footer}
+            </div>
+          )}
         </StyledSelectContent>
       </SelectPortal>
     </StyledSelect>

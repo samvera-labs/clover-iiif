@@ -43,6 +43,7 @@ const StyledSelectContent = styled(Select.Content, {
   borderTopLeftRadius: "0",
   border: "1px solid $secondaryMuted",
   maxWidth: "90vw",
+  zIndex: 100,
 });
 
 const StyledSelectItem = styled(Select.Item, {
