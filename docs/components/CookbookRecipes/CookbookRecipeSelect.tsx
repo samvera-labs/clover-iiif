@@ -195,6 +195,11 @@ const StyledCookbookRecipeSelect = styled("form", {
     zIndex: "20",
   },
 
+  ".dark & ul[role='listbox']": {
+    backgroundColor: "$primary",
+    border: "1px solid $primaryMuted",
+  },
+
   "li[role='option']": {
     margin: "0",
   },
@@ -221,6 +226,14 @@ const StyledCookbookRecipeSelect = styled("form", {
     },
   },
 
+  ".dark & button": {
+    color: "$secondary",
+
+    "&:hover, &:focus": {
+      backgroundColor: "$primaryMuted",
+    },
+  },
+
   'button[data-supported="false"]': {
     color: "$primaryMuted",
     opacity: "0.55",
@@ -231,6 +244,18 @@ const StyledCookbookRecipeSelect = styled("form", {
 
     "&:hover, &:focus": {
       color: "$primaryMuted",
+    },
+  },
+
+  '.dark & button[data-supported="false"]': {
+    color: "$secondaryMuted",
+
+    small: {
+      color: "$secondaryMuted",
+    },
+
+    "&:hover, &:focus": {
+      color: "$secondaryMuted",
     },
   },
 
@@ -245,11 +270,19 @@ const StyledCookbookRecipeSelect = styled("form", {
     lineHeight: "1.2",
   },
 
+  ".dark & small": {
+    color: "$secondaryMuted",
+  },
+
   ".empty": {
     color: "$primaryMuted",
     fontSize: "0.9rem",
     margin: "0",
     padding: "0.65rem",
+  },
+
+  ".dark & .empty": {
+    color: "$secondaryMuted",
   },
 
   ".dark & input": {

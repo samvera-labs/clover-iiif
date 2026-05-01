@@ -36,13 +36,16 @@ const StyledSelectContent = styled(Select.Content, {
   borderRadius: "3px",
   boxShadow: "3px 3px 8px #0003",
   backgroundColor: "$secondary",
-  marginTop: "2.25rem",
-  marginLeft: "6px",
   paddingBottom: "0.25rem",
   maxHeight: "calc(61.8vh - 2.5rem) !important",
-  borderTopLeftRadius: "0",
   border: "1px solid $secondaryMuted",
   maxWidth: "90vw",
+  width: "var(--radix-select-trigger-width)",
+
+  ".dark &": {
+    backgroundColor: "$primary",
+    border: "1px solid $primaryMuted",
+  },
 });
 
 const StyledSelectItem = styled(Select.Item, {
@@ -78,6 +81,15 @@ const StyledSelectItem = styled(Select.Item, {
     marginRight: "0.5rem",
     borderRadius: "3px",
   },
+
+  ".dark &": {
+    color: "$secondary",
+    backgroundColor: "$primary",
+
+    '&[data-state="checked"]': {
+      color: "$secondary !important",
+    },
+  },
 });
 
 const StyledSelectLabel = styled(Select.Label, {
@@ -93,6 +105,11 @@ const StyledSelectLabel = styled(Select.Label, {
   borderBottomLeftRadius: "0",
   borderBottomRightRadius: "0",
   backgroundColor: "$secondaryMuted",
+
+  ".dark &": {
+    color: "$secondaryMuted",
+    backgroundColor: "$primaryMuted",
+  },
 });
 
 const StyledSelect = styled(Select.Root, {

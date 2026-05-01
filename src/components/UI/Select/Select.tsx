@@ -48,6 +48,8 @@ const Select: React.FC<SelectProps> = ({
         <StyledSelectContent
           css={{ maxHeight: `${maxHeight} !important` }}
           data-testid="select-content"
+          position="popper"
+          sideOffset={4}
         >
           <SelectScrollUpButton>
             <Icon direction="up" title="scroll up for more" />
