@@ -201,7 +201,9 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     // Check vault.get first — it looks directly in entities and handles this case.
     const existingManifest = vault.get(activeManifest) as ManifestNormalized | null;
     const manifestLoader: Promise<ManifestNormalized> =
-      existingManifest && Array.isArray((existingManifest as any).items)
+      existingManifest &&
+      Array.isArray((existingManifest as any).items) &&
+      (existingManifest as any).items.length > 0
         ? Promise.resolve(existingManifest)
         : (vault.load(activeManifest) as Promise<ManifestNormalized>);
 
