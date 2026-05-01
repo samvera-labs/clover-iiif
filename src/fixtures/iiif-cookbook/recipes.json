@@ -1,0 +1,436 @@
+[
+  {
+    "title": "Simplest Manifest - Single Image File",
+    "id": "https://iiif.io/api/cookbook/recipe/0001-mvm-image/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0001-mvm-image/manifest.json",
+    "supported": true,
+    "category": ["Basic", "Image"]
+  },
+  {
+    "title": "Simplest Manifest - Audio",
+    "id": "https://iiif.io/api/cookbook/recipe/0002-mvm-audio/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0002-mvm-audio/manifest.json",
+    "supported": true,
+    "category": ["Basic", "Audio/Visual"]
+  },
+  {
+    "title": "Simplest Manifest - Video",
+    "id": "https://iiif.io/api/cookbook/recipe/0003-mvm-video/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0003-mvm-video/manifest.json",
+    "supported": true,
+    "category": ["Basic", "Audio/Visual"]
+  },
+  {
+    "title": "Image and Canvas with Differing Dimensions",
+    "id": "https://iiif.io/api/cookbook/recipe/0004-canvas-size/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0004-canvas-size/manifest.json",
+    "supported": false,
+    "category": ["Image"]
+  },
+  {
+    "title": "Support Deep Viewing with Basic Use of a IIIF Image Service",
+    "id": "https://iiif.io/api/cookbook/recipe/0005-image-service/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0005-image-service/manifest.json",
+    "supported": true,
+    "category": ["Basic", "Image"]
+  },
+  {
+    "title": "Internationalization and Multi-language Values",
+    "id": "https://iiif.io/api/cookbook/recipe/0006-text-language/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0006-text-language/manifest.json",
+    "supported": false,
+    "category": ["Basic"]
+  },
+  {
+    "title": "Embedding HTML in descriptive properties",
+    "id": "https://iiif.io/api/cookbook/recipe/0007-string-formats/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0007-string-formats/manifest.json",
+    "supported": true,
+    "category": ["IIIF Properties"]
+  },
+  {
+    "title": "Rights statement",
+    "id": "https://iiif.io/api/cookbook/recipe/0008-rights/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0008-rights/manifest.json",
+    "supported": true,
+    "category": ["IIIF Properties"]
+  },
+  {
+    "title": "Simple Manifest - Book",
+    "id": "https://iiif.io/api/cookbook/recipe/0009-book-1/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0009-book-1/manifest.json",
+    "supported": true,
+    "category": ["Basic", "Image"]
+  },
+  {
+    "title": "Viewing direction and Its Effect on Navigation",
+    "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/manifest.json",
+    "supported": false,
+    "category": ["IIIF Properties", "Image"]
+  },
+  {
+    "title": "Book 'behavior' Variations (continuous, individuals)",
+    "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/manifest.json",
+    "supported": false,
+    "category": ["IIIF Properties"]
+  },
+  {
+    "title": "Load a Preview Image Before the Main Content",
+    "id": "https://iiif.io/api/cookbook/recipe/0013-placeholderCanvas/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0013-placeholderCanvas/manifest.json",
+    "supported": true,
+    "category": ["IIIF Properties", "Audio/Visual"]
+  },
+  {
+    "title": "Audio Presentation with Accompanying Image",
+    "id": "https://iiif.io/api/cookbook/recipe/0014-accompanyingcanvas/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0014-accompanyingcanvas/manifest.json",
+    "supported": true,
+    "category": ["IIIF Properties", "Audio/Visual"]
+  },
+  {
+    "title": "Begin playback at a specific point - Time-based media",
+    "id": "https://iiif.io/api/cookbook/recipe/0015-start/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0015-start/manifest.json",
+    "supported": false,
+    "category": ["IIIF Properties", "Audio/Visual"]
+  },
+  {
+    "title": "Providing Access to Transcript Files of A/V Content",
+    "id": "https://iiif.io/api/cookbook/recipe/0017-transcription-av/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0017-transcription-av/manifest.json",
+    "supported": false,
+    "category": ["Audio/Visual"]
+  },
+  {
+    "title": "HTML in Annotations",
+    "id": "https://iiif.io/api/cookbook/recipe/0019-html-in-annotations/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0019-html-in-annotations/manifest.json",
+    "supported": false,
+    "category": ["Basic"]
+  },
+  {
+    "title": "Simple Annotation \u2014 Tagging",
+    "id": "https://iiif.io/api/cookbook/recipe/0021-tagging/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0021-tagging/manifest.json",
+    "supported": false,
+    "category": ["Annotation"]
+  },
+  {
+    "title": "Redirecting from one Canvas to another resource (Hotspot linking)",
+    "id": "https://iiif.io/api/cookbook/recipe/0022-linking-with-a-hotspot/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0022-linking-with-a-hotspot/manifest.json",
+    "supported": false,
+    "category": ["Annotation"]
+  },
+  {
+    "title": "Table of Contents for Book Chapters",
+    "id": "https://iiif.io/api/cookbook/recipe/0024-book-4-toc/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0024-book-4-toc/manifest.json",
+    "supported": false,
+    "category": ["Structuring Resources"]
+  },
+  {
+    "title": "Table of Contents for A/V Content",
+    "id": "https://iiif.io/api/cookbook/recipe/0026-toc-opera/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0026-toc-opera/manifest.json",
+    "supported": false,
+    "category": ["Structuring Resources", "Audio/Visual"]
+  },
+  {
+    "title": "Alternative Page Sequences",
+    "id": "https://iiif.io/api/cookbook/recipe/0027-alternative-page-order/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0027-alternative-page-order/manifest.json",
+    "supported": false,
+    "category": ["Structuring Resources"]
+  },
+  {
+    "title": "Metadata on any Resource",
+    "id": "https://iiif.io/api/cookbook/recipe/0029-metadata-anywhere/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0029-metadata-anywhere/manifest.json",
+    "supported": true,
+    "category": ["IIIF Properties"]
+  },
+  {
+    "title": "Multi-volume Work with Individually-bound Volumes",
+    "id": "https://iiif.io/api/cookbook/recipe/0030-multi-volume/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0030-multi-volume/manifest.json",
+    "supported": false,
+    "category": ["Structuring Resources"]
+  },
+  {
+    "title": "Multiple Volumes in a Single Bound Volume",
+    "id": "https://iiif.io/api/cookbook/recipe/0031-bound-multivolume/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0031-bound-multivolume/manifest.json",
+    "supported": false,
+    "category": ["Structuring Resources"]
+  },
+  {
+    "title": "Simple Collection",
+    "id": "https://iiif.io/api/cookbook/recipe/0032-collection/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0032-collection/collection.json",
+    "supported": true,
+    "category": ["Basic"]
+  },
+  {
+    "title": "Multiple Choice of Images in a Single View (Canvas)",
+    "id": "https://iiif.io/api/cookbook/recipe/0033-choice/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0033-choice/manifest.json",
+    "supported": false,
+    "category": ["Structuring Resources"]
+  },
+  {
+    "title": "Foldouts, Flaps, and Maps",
+    "id": "https://iiif.io/api/cookbook/recipe/0035-foldouts/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0035-foldouts/manifest.json",
+    "supported": false,
+    "category": ["Structuring Resources"]
+  },
+  {
+    "title": "Composition from Multiple Images",
+    "id": "https://iiif.io/api/cookbook/recipe/0036-composition-from-multiple-images/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0036-composition-from-multiple-images/manifest.json",
+    "supported": false,
+    "category": ["Structuring Resources"]
+  },
+  {
+    "title": "Image Rotation Two Ways",
+    "id": "https://iiif.io/api/cookbook/recipe/0040-image-rotation-service/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0040-image-rotation-service/manifest.json",
+    "supported": false,
+    "category": ["Image"]
+  },
+  {
+    "title": "CSS in an Annotation",
+    "id": "https://iiif.io/api/cookbook/recipe/0045-css/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0045-css/manifest.json",
+    "supported": false,
+    "category": ["Basic"]
+  },
+  {
+    "title": "Providing Alternative Representations",
+    "id": "https://iiif.io/api/cookbook/recipe/0046-rendering/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0046-rendering/manifest.json",
+    "supported": true,
+    "category": ["IIIF Properties"]
+  },
+  {
+    "title": "Linking to Web Page of an Object",
+    "id": "https://iiif.io/api/cookbook/recipe/0047-homepage/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0047-homepage/manifest.json",
+    "supported": true,
+    "category": ["IIIF Properties"]
+  },
+  {
+    "title": "Linking to Structured Metadata",
+    "id": "https://iiif.io/api/cookbook/recipe/0053-seeAlso/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0053-seeAlso/manifest.json",
+    "supported": true,
+    "category": ["IIIF Properties"]
+  },
+  {
+    "title": "Table of Contents for Multiple A/V Files on a Single Canvas",
+    "id": "https://iiif.io/api/cookbook/recipe/0064-opera-one-canvas/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0064-opera-one-canvas/manifest.json",
+    "supported": false,
+    "category": ["Audio/Visual"]
+  },
+  {
+    "title": "Table of Contents for Multiple A/V Files on Multiple Canvases",
+    "id": "https://iiif.io/api/cookbook/recipe/0065-opera-multiple-canvases/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0065-opera-multiple-canvases/manifest.json",
+    "supported": false,
+    "category": ["Audio/Visual"]
+  },
+  {
+    "title": "Using Caption and Subtitle Files in Multiple Languages with Video Content",
+    "id": "https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/manifest.json",
+    "supported": false,
+    "category": ["Audio/Visual"]
+  },
+  {
+    "title": "Scholarly Annotation of a Poetry Reading",
+    "id": "https://iiif.io/api/cookbook/recipe/0103-poetry-reading-annotations/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0103-poetry-reading-annotations/manifest.json",
+    "supported": false,
+    "category": ["Audio/Visual"]
+  },
+  {
+    "title": "Image Thumbnail for Manifest",
+    "id": "https://iiif.io/api/cookbook/recipe/0117-add-image-thumbnail/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0117-add-image-thumbnail/manifest.json",
+    "supported": true,
+    "category": ["IIIF Properties"]
+  },
+  {
+    "title": "Displaying Multiple Values with Language Maps",
+    "id": "https://iiif.io/api/cookbook/recipe/0118-multivalue/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0118-multivalue/manifest.json",
+    "supported": false,
+    "category": ["IIIF Properties"]
+  },
+  {
+    "title": "Annotating a specific point of an image",
+    "id": "https://iiif.io/api/cookbook/recipe/0135-annotating-point-in-canvas/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0135-annotating-point-in-canvas/manifest.json",
+    "supported": false,
+    "category": ["Annotation"]
+  },
+  {
+    "title": "Load Manifest Beginning with a Specific Canvas",
+    "id": "https://iiif.io/api/cookbook/recipe/0202-start-canvas/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0202-start-canvas/manifest.json",
+    "supported": false,
+    "category": ["IIIF Properties", "Image"]
+  },
+  {
+    "title": "Using Caption and Subtitle Files with Video Content",
+    "id": "https://iiif.io/api/cookbook/recipe/0219-using-caption-file/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0219-using-caption-file/manifest.json",
+    "supported": true,
+    "category": ["Audio/Visual"]
+  },
+  {
+    "title": "Adding Thumbnail Navigation and no-nav to a Video Resource",
+    "id": "https://iiif.io/api/cookbook/recipe/0229-behavior-ranges/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0229-behavior-ranges/manifest.json",
+    "supported": false,
+    "category": ["Structuring Resources"]
+  },
+  {
+    "title": "Navigation by Chronology",
+    "id": "https://iiif.io/api/cookbook/recipe/0230-navdate/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0230-navdate/manifest.json",
+    "supported": false,
+    "category": ["IIIF Properties"]
+  },
+  {
+    "title": "Acknowledge Content Contributors",
+    "id": "https://iiif.io/api/cookbook/recipe/0234-provider/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0234-provider/manifest.json",
+    "supported": false,
+    "category": ["IIIF Properties"]
+  },
+  {
+    "title": "Tagging with an External Resource",
+    "id": "https://iiif.io/api/cookbook/recipe/0258-tagging-external-resource/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0258-tagging-external-resource/manifest.json",
+    "supported": false,
+    "category": ["Annotation"]
+  },
+  {
+    "title": "Annotation with a Non-Rectangular Polygon",
+    "id": "https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/manifest.json",
+    "supported": false,
+    "category": ["Annotation"]
+  },
+  {
+    "title": "Simplest Annotation",
+    "id": "https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0266-full-canvas-annotation/manifest.json",
+    "supported": false,
+    "category": ["Annotation"]
+  },
+  {
+    "title": "Embedded or referenced Annotations",
+    "id": "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0269-embedded-or-referenced-annotations/manifest.json",
+    "supported": false,
+    "category": ["Annotation"]
+  },
+  {
+    "title": "Missing Images in a Sequence",
+    "id": "https://iiif.io/api/cookbook/recipe/0283-missing-image/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0283-missing-image/manifest.json",
+    "supported": false,
+    "category": ["Basic", "Image"]
+  },
+  {
+    "title": "Addressing a Spatial Region",
+    "id": "https://iiif.io/api/cookbook/recipe/0299-region/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0299-region/manifest.json",
+    "supported": false,
+    "category": ["Basic"]
+  },
+  {
+    "title": "Linking external Annotations targeting a Canvas to a Manifest",
+    "id": "https://iiif.io/api/cookbook/recipe/0306-linking-annotations-to-manifests/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0306-linking-annotations-to-manifests/manifest.json",
+    "supported": false,
+    "category": ["Annotation"]
+  },
+  {
+    "title": "Grouping Annotations into Collections",
+    "id": "https://iiif.io/api/cookbook/recipe/0309-annotation-collection/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0309-annotation-collection/manifest.json",
+    "supported": false,
+    "category": ["Basic"]
+  },
+  {
+    "title": "Annotate specific images or layers",
+    "id": "https://iiif.io/api/cookbook/recipe/0326-annotating-image-layer/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0326-annotating-image-layer/manifest.json",
+    "supported": false,
+    "category": ["Annotation"]
+  },
+  {
+    "title": "Annotating in Multiple Languages",
+    "id": "https://iiif.io/api/cookbook/recipe/0346-multilingual-annotation-body/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0346-multilingual-annotation-body/manifest.json",
+    "supported": false,
+    "category": ["Annotation"]
+  },
+  {
+    "title": "Image in Annotations",
+    "id": "https://iiif.io/api/cookbook/recipe/0377-image-in-annotation/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0377-image-in-annotation/manifest.json",
+    "supported": false,
+    "category": ["Basic"]
+  },
+  {
+    "title": "Multiple Choice of Audio Formats in a Single View (Canvas)",
+    "id": "https://iiif.io/api/cookbook/recipe/0434-choice-av/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0434-choice-av/manifest.json",
+    "supported": true,
+    "category": ["Basic", "Audio/Visual"]
+  },
+  {
+    "title": "Sharing a link to open a Manifest in a specific viewer",
+    "id": "https://iiif.io/api/cookbook/recipe/0466-link-for-loading-manifest/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0001-mvm-image/manifest.json",
+    "supported": true,
+    "category": ["Content State"]
+  },
+  {
+    "title": "Open a specific region of a Canvas in a viewer",
+    "id": "https://iiif.io/api/cookbook/recipe/0485-contentstate-canvas-region/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0485-contentstate-canvas-region/annotation.json",
+    "supported": true,
+    "category": ["Content State"]
+  },
+  {
+    "title": "Rendering Multiple Media Types on a Time-Based Canvas",
+    "id": "https://iiif.io/api/cookbook/recipe/0489-multimedia-canvas/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0489-multimedia-canvas/manifest.json",
+    "supported": false,
+    "category": ["Annotation"]
+  },
+  {
+    "title": "Sharing a link for opening two or more Canvases",
+    "id": "https://iiif.io/api/cookbook/recipe/0540-link-for-opening-multiple-canvases/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0540-link-for-opening-multiple-canvases/annotation.json",
+    "supported": false,
+    "category": ["Content State"]
+  },
+  {
+    "title": "Drag and Drop",
+    "id": "https://iiif.io/api/cookbook/recipe/0599-drag-and-drop/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0006-text-language/manifest.json",
+    "supported": false,
+    "category": ["Content State"]
+  }
+]
