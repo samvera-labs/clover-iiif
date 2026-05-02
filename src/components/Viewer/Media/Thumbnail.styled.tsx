@@ -90,6 +90,44 @@ const Item = styled(RadioGroup.Item, {
   fontSize: "1rem",
   textAlign: "left",
 
+  "figure[data-thumbnail-style='icons']": {
+    width: "80px",
+
+    [`& ${FigureImage}`]: {
+      height: "80px",
+      borderRadius: "6px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+
+    ".media-thumbnail-icon": {
+      display: "flex",
+      width: "55%",
+      height: "55%",
+      alignItems: "center",
+      justifyContent: "center",
+      color: "$secondary",
+
+      svg: {
+        width: "100%",
+        height: "100%",
+        fill: "currentColor",
+      },
+
+      img: {
+        width: "100%",
+        height: "100%",
+        objectFit: "contain",
+      },
+    },
+
+    figcaption: {
+      textAlign: "center",
+      WebkitLineClamp: "1",
+    },
+  },
+
   figure: {
     margin: "0",
     width: "161.8px",

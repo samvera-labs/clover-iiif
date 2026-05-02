@@ -12,6 +12,8 @@ import { Vault } from "@iiif/helpers/vault";
 import { deepMerge } from "src/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 
+export type ThumbnailsStyle = "auto" | "icons";
+
 export type AutoScrollSettings = {
   behavior: string; // ScrollBehavior ("auto" | "instant" | "smooth")
   block: string; // ScrollLogicalPosition ("center" | "end" | "nearest" | "start")
@@ -54,6 +56,10 @@ export type ViewerConfigOptions = {
   showDownload?: boolean;
   showIIIFBadge?: boolean;
   showTitle?: boolean;
+  thumbnails?: {
+    style?: ThumbnailsStyle;
+    icon?: string;
+  };
   customLoadingComponent?: React.ComponentType;
   withCredentials?: boolean;
   localeText?: {
@@ -131,6 +137,9 @@ const defaultConfigOptions: ViewerConfigOptions = {
   showDownload: true,
   showIIIFBadge: true,
   showTitle: true,
+  thumbnails: {
+    style: "auto",
+  },
   withCredentials: false,
 };
 
@@ -249,11 +258,14 @@ export function expandAutoScrollOptions(
 ): AutoScrollOptions {
   // Get safe defaults, avoiding potential undefined values
   const getDefaults = (): AutoScrollOptions => {
-    const configDefaults = defaultConfigOptions?.informationPanel?.vtt?.autoScroll as AutoScrollOptions;
-    return configDefaults || {
-      enabled: true,
-      settings: defaultAutoScrollSettings,
-    };
+    const configDefaults = defaultConfigOptions?.informationPanel?.vtt
+      ?.autoScroll as AutoScrollOptions;
+    return (
+      configDefaults || {
+        enabled: true,
+        settings: defaultAutoScrollSettings,
+      }
+    );
   };
 
   const defaults = getDefaults();
@@ -495,23 +507,19 @@ const ViewerProvider: React.FC<ViewerProviderProps> = ({
   const [state, dispatch] = useReducer<
     React.Reducer<ViewerContextStore, ViewerAction>,
     ViewerContextStore | undefined
-  >(
-    viewerReducer,
-    initialState,
-    (initArg?: ViewerContextStore) => {
-      if (initArg) {
-        return {
-          ...initArg,
-          configOptions: cloneViewerConfigOptions(
-            initArg.configOptions ?? defaultConfigOptions,
-          ),
-          viewerId: initArg.viewerId ?? uuidv4(),
-        };
-      }
+  >(viewerReducer, initialState, (initArg?: ViewerContextStore) => {
+    if (initArg) {
+      return {
+        ...initArg,
+        configOptions: cloneViewerConfigOptions(
+          initArg.configOptions ?? defaultConfigOptions,
+        ),
+        viewerId: initArg.viewerId ?? uuidv4(),
+      };
+    }
 
-      return createDefaultState();
-    },
-  );
+    return createDefaultState();
+  });
 
   const { openSeadragonViewer } = state;
 
