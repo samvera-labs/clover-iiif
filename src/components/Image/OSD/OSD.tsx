@@ -360,7 +360,22 @@ const OSD: React.FC<OSDProps> = ({
 
           div.addEventListener("touchstart", (e) => {
             e.stopPropagation();
+          });
+
+          div.addEventListener("touchend", (e) => {
+            e.stopPropagation();
             e.preventDefault();
+
+            div.setAttribute("data-active", "true");
+            dispatch({ type: "updateActiveAnnotationId", activeAnnotationId: div.id });
+
+            const targetRect = new OpenSeadragon.Rect(
+              rect.x - 0.1,
+              rect.y - 0.1,
+              rect.width + 0.2,
+              rect.height + 0.2,
+            );
+            openSeadragon?.viewport.fitBounds(targetRect, false);
           });
 
           div.addEventListener("click", (e) => {
