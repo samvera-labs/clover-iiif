@@ -30,7 +30,6 @@ const Group = styled("div", {
   header: {
     margin: "0 1.618rem 0.5rem ",
     fontWeight: 700,
-    fontSize: "0.8333rem",
 
     em: {
       fontStyle: "normal",

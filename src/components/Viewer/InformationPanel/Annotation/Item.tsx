@@ -54,7 +54,7 @@ export const AnnotationItem: React.FC<Props> = ({
   const viewerState: ViewerContextStore = useViewerState();
   const viewerDispatch: any = useViewerDispatch();
 
-  const { openSeadragonViewer, vault, visibleCanvases } = viewerState;
+  const { activeAnnotationId, openSeadragonViewer, vault, visibleCanvases } = viewerState;
 
   const annotationBody: Array<
     EmbeddedResource & {
@@ -135,6 +135,8 @@ export const AnnotationItem: React.FC<Props> = ({
     e.preventDefault();
     e.stopPropagation();
 
+    viewerDispatch({ type: "updateActiveAnnotationId", activeAnnotationId: annotation.id });
+
     // @ts-ignore
     const targetSource = annotation?.target?.source || annotation?.target;
     const targetCanvas = targetSource?.id;
@@ -201,6 +203,7 @@ export const AnnotationItem: React.FC<Props> = ({
       dir={readingDirection}
       data-format={format}
       data-content={content}
+      data-active={activeAnnotationId === annotation.id ? "true" : undefined}
       className="clover-iiif-annotation-item"
     >
       <span

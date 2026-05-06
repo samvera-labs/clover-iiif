@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ViewerContextStore,
   useViewerDispatch,
@@ -38,6 +38,24 @@ const AnnotationCollectionPage: React.FC<Props> = ({
     vault,
     visibleCanvases,
   } = viewerState;
+
+  const [, setLoadedManifests] = useState(0);
+
+  useEffect(() => {
+    const manifestIds = new Set<string>();
+    for (const page of annotationCollection.pages) {
+      for (const annotation of page.items ?? []) {
+        const { manifest } = getManifestFromAnnotationTarget(annotation.target);
+        if (manifest) manifestIds.add(manifest);
+      }
+    }
+
+    manifestIds.forEach((manifestId) => {
+      vault.load(manifestId).then(() => {
+        setLoadedManifests((n) => n + 1);
+      }).catch(() => {});
+    });
+  }, [annotationCollection]);
 
   if (!annotationCollection?.pages?.length) return <></>;
 
