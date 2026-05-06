@@ -28,6 +28,13 @@ import {
 } from "src/lib/iiif";
 import { ContentSearchQuery } from "src/types/annotations";
 import { contentStateSpecificResource } from "src/lib/content-state";
+import {
+  loadAnnotationCollection,
+  loadAnnotationPage,
+  getFirstManifestFromAnnotationCollection,
+  getFirstAnnotationTarget,
+} from "src/lib/annotation-collection";
+import { zoomToOverlay } from "src/lib/openseadragon-helpers";
 import { hashCode } from "src/lib/utils";
 
 export interface CloverViewerProps {
@@ -121,7 +128,11 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     activeCanvas,
     activeManifest,
     activeSelector,
+    annotationCollection,
+    configOptions,
     isLoaded,
+    openSeadragonViewer,
+    pendingAnnotationTarget,
     vault,
     visibleCanvases,
   } = store;
@@ -140,11 +151,35 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * Update activeSelector when the canvas or manifest changes.
    */
   useEffect(() => {
-    dispatch({
-      type: "updateActiveSelector",
-      selector: undefined,
-    });
+    dispatch({ type: "updateActiveSelector", selector: undefined });
   }, [activeCanvas, activeManifest]);
+
+  /**
+   * When a pendingAnnotationTarget is set, poll every 300ms until OSD has
+   * drawn the overlay for the target annotation, then zoom to it using the
+   * overlay's own bounds (mirrors the content-state highlight pattern).
+   * The 300ms cadence also clears OSD's fitBoundsOnAllLoaded retries (~150ms)
+   * so our zoom lands last and sticks.
+   */
+  useEffect(() => {
+    if (!pendingAnnotationTarget) return;
+    if (!openSeadragonViewer) return;
+    if (activeCanvas !== pendingAnnotationTarget.canvasId) return;
+
+    const { annotationId } = pendingAnnotationTarget;
+
+    const intervalId = setInterval(() => {
+      if (zoomToOverlay(openSeadragonViewer, annotationId)) {
+        dispatch({
+          type: "updatePendingAnnotationTarget",
+          pendingAnnotationTarget: null,
+        });
+        clearInterval(intervalId);
+      }
+    }, 300);
+
+    return () => clearInterval(intervalId);
+  }, [pendingAnnotationTarget, openSeadragonViewer, activeCanvas]);
 
   /**
    * On change, pass the activeCanvas up to the wrapping `<App/>`
@@ -272,6 +307,87 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
       if (!iiifContent) return;
 
       const contentState = decodeContentStateContainerURI(iiifContent);
+
+      /**
+       * AnnotationCollection is not a IIIF Presentation 3 vault type.
+       * Peek at the resource before passing to vault so we can intercept
+       * and handle the collection loading path ourselves.
+       */
+      if (typeof contentState === "string") {
+        try {
+          const res = await fetch(contentState, {
+            headers: { Accept: "application/json, application/ld+json" },
+          });
+          const json = await res.json();
+          if (
+            json?.type === "AnnotationCollection" ||
+            json?.type === "AnnotationPage"
+          ) {
+            const collection =
+              json.type === "AnnotationPage"
+                ? await loadAnnotationPage(json)
+                : await loadAnnotationCollection(json);
+            dispatch({
+              type: "updateAnnotationCollection",
+              annotationCollection: collection,
+            });
+            const firstManifest =
+              getFirstManifestFromAnnotationCollection(collection);
+            const { canvasId: firstCanvasId, annotationId: firstAnnotationId } =
+              getFirstAnnotationTarget(collection);
+            if (firstManifest) {
+              if (firstCanvasId) {
+                dispatch({ type: "updateActiveCanvas", canvasId: firstCanvasId });
+                if (firstAnnotationId) {
+                  dispatch({
+                    type: "updatePendingAnnotationTarget",
+                    pendingAnnotationTarget: { canvasId: firstCanvasId, annotationId: firstAnnotationId },
+                  });
+                }
+              }
+              dispatch({ type: "updateActiveManifest", manifestId: firstManifest });
+            } else {
+              dispatch({ type: "updateIsLoaded", isLoaded: true });
+            }
+            return;
+          }
+        } catch {
+          // Not an AnnotationCollection/AnnotationPage or fetch failed — fall through to vault.load
+        }
+      } else if (
+        typeof contentState === "object" &&
+        (contentState?.type === "AnnotationCollection" ||
+          contentState?.type === "AnnotationPage")
+      ) {
+        const collection =
+          contentState.type === "AnnotationPage"
+            ? await loadAnnotationPage(contentState)
+            : await loadAnnotationCollection(contentState);
+        dispatch({
+          type: "updateAnnotationCollection",
+          annotationCollection: collection,
+        });
+        const firstManifest =
+          getFirstManifestFromAnnotationCollection(collection);
+        const { canvasId: firstCanvasId, annotationId: firstAnnotationId } =
+          getFirstAnnotationTarget(collection);
+        if (firstManifest) {
+          if (firstCanvasId) {
+            dispatch({ type: "updateActiveCanvas", canvasId: firstCanvasId });
+            if (firstAnnotationId) {
+              dispatch({
+                type: "updatePendingAnnotationTarget",
+                pendingAnnotationTarget: { canvasId: firstCanvasId, annotationId: firstAnnotationId },
+              });
+            }
+          }
+          dispatch({ type: "updateActiveManifest", manifestId: firstManifest });
+        } else {
+          dispatch({ type: "updateIsLoaded", isLoaded: true });
+        }
+        return;
+      }
+
       try {
         const data:
           | ManifestNormalized

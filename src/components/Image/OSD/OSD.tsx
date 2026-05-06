@@ -387,19 +387,23 @@ const OSD: React.FC<OSDProps> = ({
 
           div.addEventListener("focus", () => {
             div.setAttribute("data-active", "true");
+            dispatch({ type: "updateActiveAnnotationId", activeAnnotationId: div.id });
           });
 
           div.addEventListener("mouseover", () => {
             div.setAttribute("data-active", "true");
+            dispatch({ type: "updateActiveAnnotationId", activeAnnotationId: div.id });
           });
 
           // add blur AND mouseout event to div
           div.addEventListener("mouseout", () => {
             div.removeAttribute("data-active");
+            dispatch({ type: "updateActiveAnnotationId", activeAnnotationId: null });
           });
 
           div.addEventListener("blur", () => {
             div.removeAttribute("data-active");
+            dispatch({ type: "updateActiveAnnotationId", activeAnnotationId: null });
           });
 
           openSeadragon?.addOverlay(div, rect, OpenSeadragon.Placement.CENTER);

@@ -30,6 +30,7 @@ import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { ErrorBoundary } from "react-error-boundary";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 import ContentStateAnnotationPage from "./ContentState/Page";
+import AnnotationCollectionPage from "./AnnotationCollection/Page";
 import { annotationMatchesMotivations } from "src/lib/annotation-helpers";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
@@ -59,6 +60,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   const dispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
   const {
+    annotationCollection,
     contentStateAnnotation,
     informationPanelResource,
     isAutoScrolling,
@@ -71,6 +73,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
   const renderAbout = informationPanel?.renderAbout;
   const renderAnnotation = informationPanel?.renderAnnotation;
+  const hasAnnotationCollection = Boolean(annotationCollection?.pages?.length);
   const canvas = vault.get({
     id: activeCanvas,
     type: "Canvas",
@@ -115,7 +118,9 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       .filter(Boolean) as AnnotationResources;
   }, [annotationResources, allowedAnnotationMotivations, vault]);
   const hasAnnotations =
-    Boolean(filteredAnnotationResources?.length) || hasContentStateAnnotation;
+    Boolean(filteredAnnotationResources?.length) ||
+    hasContentStateAnnotation ||
+    hasAnnotationCollection;
 
   const { pluginsWithInfoPanel } = setupPlugins(plugins);
 
@@ -166,7 +171,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         type: "updateInformationPanelResource",
         informationPanelResource: informationPanel?.defaultTab,
       });
-    } else if (hasContentStateAnnotation) {
+    } else if (hasAnnotationCollection || hasContentStateAnnotation) {
       dispatch({
         type: "updateInformationPanelResource",
         informationPanelResource: "manifest-annotations",
@@ -251,7 +256,6 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
               t("informationPanelTabsAnnotations")}
           </Trigger>
         )}
-
         {pluginsWithInfoPanel &&
           pluginsWithInfoPanel.map((plugin, i) => (
             <Trigger key={i} value={plugin.id}>
@@ -279,7 +283,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             />
           </Content>
         )}
-        {renderAnnotation && hasAnnotations && filteredAnnotationResources && (
+        {renderAnnotation && hasAnnotations && (
           <Content value="manifest-annotations">
             {contentStateAnnotation && hasContentStateAnnotation && (
               <ContentStateAnnotationPage
@@ -292,6 +296,9 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
                 annotationPage={annotationPage}
               />
             ))}
+            {hasAnnotationCollection && (
+              <AnnotationCollectionPage annotationCollection={annotationCollection!} />
+            )}
           </Content>
         )}
 

@@ -29,6 +29,7 @@ import { getAnimationFrames } from "src/hooks/use-iiif/getAnimationFrames";
 import { getCanvasBehavior } from "src/hooks/use-iiif/getCanvasBehavior";
 import { getPaintingResource } from "src/hooks/use-iiif";
 import { hashCode } from "src/lib/utils";
+import { getManifestFromAnnotationTarget } from "src/lib/annotation-collection";
 
 interface PaintingProps {
   activeCanvas: string;
@@ -60,6 +61,7 @@ const Painting: React.FC<PaintingProps> = ({
 
   const {
     activeManifest,
+    annotationCollection,
     configOptions,
     customDisplays,
     contentStateAnnotation,
@@ -283,6 +285,39 @@ const Painting: React.FC<PaintingProps> = ({
           ),
         });
       }
+
+      if (annotationCollection?.pages?.length) {
+        annotationCollection.pages.forEach((page) => {
+          (page.items ?? []).forEach((rawAnnotation) => {
+            const { canvas: canvasId } = getManifestFromAnnotationTarget(
+              rawAnnotation.target,
+            );
+            if (!canvasId) return;
+
+            const targetIndex = visibleCanvases.findIndex(
+              (c) => c.id === canvasId,
+            );
+            if (targetIndex === -1) return;
+
+            const bodies = Array.isArray(rawAnnotation.body)
+              ? rawAnnotation.body
+              : rawAnnotation.body
+                ? [rawAnnotation.body]
+                : [];
+
+            resources.push({
+              annotation: {
+                id: rawAnnotation.id,
+                type: "Annotation",
+                motivation: rawAnnotation.motivation,
+                body: bodies as any,
+                target: rawAnnotation.target,
+              } as Annotation,
+              targetIndex,
+            });
+          });
+        });
+      }
     }
 
     if (informationPanelResource === "manifest-content-search") {
@@ -312,6 +347,7 @@ const Painting: React.FC<PaintingProps> = ({
 
     setAnnotations(resources);
   }, [
+    annotationCollection,
     annotationResources,
     contentSearchResource,
     contentStateAnnotation,
@@ -334,26 +370,29 @@ const Painting: React.FC<PaintingProps> = ({
       })
       .filter(Boolean) as LabeledIIIFExternalWebResource[];
 
-    const placeholders = orderedCanvases
-      .map((entry) => {
-        const canvasId = entry.id;
+    const placeholders = annotationCollection
+      ? []
+      : orderedCanvases
+          .map((entry) => {
+            const canvasId = entry.id;
 
-        const canvas: CanvasNormalized = vault.get(canvasId);
-        const placeholderCanvas = canvas?.placeholderCanvas?.id;
-        const hasPlaceholder = Boolean(placeholderCanvas);
+            const canvas: CanvasNormalized = vault.get(canvasId);
+            const placeholderCanvas = canvas?.placeholderCanvas?.id;
+            const hasPlaceholder = Boolean(placeholderCanvas);
 
-        if (!hasPlaceholder || !placeholderCanvas) return null;
+            if (!hasPlaceholder || !placeholderCanvas) return null;
 
-        return {
-          id: placeholderCanvas,
-          label: canvas?.label,
-        };
-      })
-      .filter((item) => item !== null);
+            return {
+              id: placeholderCanvas,
+              label: canvas?.label,
+            };
+          })
+          .filter((item) => item !== null);
 
     setImageBody(body);
     setPlaceholderItems(placeholders);
   }, [
+    annotationCollection,
     annotationIndex,
     activeCanvas,
     isRtlPaged,

@@ -9,6 +9,7 @@ import React, { MediaHTMLAttributes, useEffect, useReducer } from "react";
 
 import { IncomingHttpHeaders } from "http";
 import { Vault } from "@iiif/helpers/vault";
+import { AnnotationCollectionNormalized } from "src/types/annotation-collection";
 import { deepMerge } from "src/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 
@@ -42,12 +43,14 @@ export type ViewerConfigOptions = {
     renderSupplementing?: boolean;
     renderToggle?: boolean;
     renderAnnotation?: boolean;
+    renderAnnotationCollection?: boolean;
     vtt?: {
       autoScroll?: AutoScrollOptions | AutoScrollSettings | boolean;
     };
     renderContentSearch?: boolean;
     defaultTab?: string;
     annotationTabLabel?: string;
+    annotationCollectionTabLabel?: string;
   };
   openSeadragon?: OpenSeadragonOptions;
   requestHeaders?: IncomingHttpHeaders;
@@ -124,6 +127,7 @@ const defaultConfigOptions: ViewerConfigOptions = {
     renderSupplementing: true,
     renderToggle: true,
     renderAnnotation: true,
+    renderAnnotationCollection: true,
     renderContentSearch: true,
   },
   openSeadragon: {},
@@ -191,10 +195,13 @@ export type ViewingDirection =
 
 export interface ViewerContextStore {
   activeCanvas: string;
+  activeAnnotationId?: string | null;
   activeManifest: string;
   activePlayer: HTMLVideoElement | HTMLAudioElement | null;
   activeSelector?: string;
   OSDImageLoaded?: boolean;
+  annotationCollection?: AnnotationCollectionNormalized;
+  pendingAnnotationTarget?: { canvasId: string; annotationId: string } | null;
   collection?: CollectionNormalized | Record<string, never>;
   contentStateAnnotation?: AnnotationNormalized;
   configOptions: ViewerConfigOptions;
@@ -220,8 +227,11 @@ export interface ViewerContextStore {
 
 export interface ViewerAction {
   type: string;
+  activeAnnotationId?: string | null;
   canvasId: string;
   selector?: string;
+  annotationCollection?: AnnotationCollectionNormalized;
+  pendingAnnotationTarget?: { canvasId: string; annotationId: string } | null;
   collection: CollectionNormalized;
   configOptions: ViewerConfigOptions;
   contentStateAnnotation?: AnnotationNormalized;
@@ -309,10 +319,12 @@ const expandedAutoScrollOptions = expandAutoScrollOptions(
 
 export const createDefaultState = (): ViewerContextStore => ({
   activeCanvas: "",
+  activeAnnotationId: null,
   activeManifest: "",
   activePlayer: null,
   activeSelector: undefined,
   OSDImageLoaded: false,
+  pendingAnnotationTarget: null,
   collection: {},
   configOptions: cloneViewerConfigOptions(),
   customDisplays: [],
@@ -381,6 +393,24 @@ function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
       return {
         ...state,
         isAutoScrolling: action.isAutoScrolling,
+      };
+    }
+    case "updateAnnotationCollection": {
+      return {
+        ...state,
+        annotationCollection: action.annotationCollection,
+      };
+    }
+    case "updatePendingAnnotationTarget": {
+      return {
+        ...state,
+        pendingAnnotationTarget: action.pendingAnnotationTarget,
+      };
+    }
+    case "updateActiveAnnotationId": {
+      return {
+        ...state,
+        activeAnnotationId: action.activeAnnotationId,
       };
     }
     case "updateCollection": {

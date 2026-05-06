@@ -99,6 +99,7 @@ const Item = styled("div", {
   },
 
   "> span": {
+    position: "relative",
     display: "flex",
     width: "2rem",
     height: "2rem",
@@ -106,6 +107,12 @@ const Item = styled("div", {
     flexShrink: "0",
     borderRadius: "3px",
     marginTop: "0.25rem",
+  },
+
+  "&[data-active=true]": {
+    "> span": {
+      outline: "2px solid var(--colors-accent)",
+    },
   },
 
   [`&[dir=rtl] ${StyledAnnotationContent}`]: {

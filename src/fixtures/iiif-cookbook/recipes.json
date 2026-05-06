@@ -364,11 +364,18 @@
     "category": ["Annotation"]
   },
   {
-    "title": "Grouping Annotations into Collections",
+    "title": "Grouping Annotations into Collections (AnnotationCollection)",
     "id": "https://iiif.io/api/cookbook/recipe/0309-annotation-collection/",
+    "resource": "https://iiif.io/api/cookbook/recipe/0309-annotation-collection/anno_coll.json",
+    "supported": true,
+    "category": ["Annotation"]
+  },
+  {
+    "title": "Grouping Annotations into Collections (Manifest)",
+    "id": "https://iiif.io/api/cookbook/recipe/0309-annotation-collection/manifest",
     "resource": "https://iiif.io/api/cookbook/recipe/0309-annotation-collection/manifest.json",
-    "supported": false,
-    "category": ["Basic"]
+    "supported": true,
+    "category": ["Annotation"]
   },
   {
     "title": "Annotate specific images or layers",
