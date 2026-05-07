@@ -1,0 +1,430 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json",
+  "type": "AnnotationPage",
+  "label": {
+    "en": ["James Turner"]
+  },
+  "items": [
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#1",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, center figure, in crowd"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/a0d034ea-828b-455c-8958-8e2c90164815?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/a0d034ea-828b-455c-8958-8e2c90164815?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=1300,752,779,702"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#2",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, center right figure, face obscured by hat"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/8e2fc4c7-5209-49e1-aa89-053854176a9f?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/8e2fc4c7-5209-49e1-aa89-053854176a9f?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=1800,600,650,702"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#3",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, distanced center left figure, in crowd"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/6859b972-6953-4e96-80af-ba7088d7d831?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/6859b972-6953-4e96-80af-ba7088d7d831?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=1168,1052,250,300"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#4",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, center, face obscured by interviewer"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/b51b6896-0ed7-4461-bc6c-e42ffafbce7d?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b51b6896-0ed7-4461-bc6c-e42ffafbce7d?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=1268,1152,350,400"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#5",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, center left figure, being interviewed"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/94de5a80-e7cd-49dd-9f48-54abda8bca8a?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/94de5a80-e7cd-49dd-9f48-54abda8bca8a?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=1068,452,600,700"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#6",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, left figure, being interviewed"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/b72358a4-553d-4df3-8a5c-d2613c89733a?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/b72358a4-553d-4df3-8a5c-d2613c89733a?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=768,752,650,802"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#7",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, left figure, being interviewed"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/80a99f21-a928-4447-a376-643bfd713249?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/80a99f21-a928-4447-a376-643bfd713249?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=868,552,700,702"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#8",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, left figure, profile, being interviewed"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/661510b2-b4c5-40ed-aee7-f1811b4d3587?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/661510b2-b4c5-40ed-aee7-f1811b4d3587?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=525,852,400,502"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#9",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, lecturing at podium"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/202da601-02ac-4a4f-b32e-b2902abb3a43?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/202da601-02ac-4a4f-b32e-b2902abb3a43?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=250,175,650,650"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#10",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, lecturing"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/646692ed-4f12-4ccf-b6f0-cefe6d01db43?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/646692ed-4f12-4ccf-b6f0-cefe6d01db43?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=675,250,450,600"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#11",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, center, elevated above crowd"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/4e70ea54-23b5-497e-9c2f-bed695a082d1?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/4e70ea54-23b5-497e-9c2f-bed695a082d1?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=1450,900,300,400"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#12",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, second row, second frame, interviewed"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/a6d5305a-dbdd-4659-a1a6-b78ad2a3e1b1?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/a6d5305a-dbdd-4659-a1a6-b78ad2a3e1b1?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=2451,2300,460,600"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#13",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, third row, first frame, interviewed"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/a6d5305a-dbdd-4659-a1a6-b78ad2a3e1b1?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/a6d5305a-dbdd-4659-a1a6-b78ad2a3e1b1?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=811,3700,410,500"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#14",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, third row, second frame, interviewed"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/a6d5305a-dbdd-4659-a1a6-b78ad2a3e1b1?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/a6d5305a-dbdd-4659-a1a6-b78ad2a3e1b1?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=2301,3700,460,600"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/james-turner.json#15",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "James Turner, fourth row, first frame, negotiations"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/a6d5305a-dbdd-4659-a1a6-b78ad2a3e1b1?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/a6d5305a-dbdd-4659-a1a6-b78ad2a3e1b1?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=981,5200,400,600"
+        }
+      }
+    }
+  ]
+}
