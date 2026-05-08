@@ -49,10 +49,41 @@ const Trigger = styled(Tabs.Trigger, {
   transition: "$all",
 
   "&[data-value='manifest-back']": {
-    display: "none;",
+    display: "none",
 
     "@sm": {
-      display: "block",
+      display: "flex",
+    },
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: "0",
+    width: "2rem",
+    height: "2rem",
+    padding: "0",
+    transform: "translateY(1rem)",
+    marginRight: "0.618rem",
+    zIndex: "2",
+    background: "$accent",
+    color: "$secondary",
+    borderRadius: "50%",
+    opacity: "1",
+    fontWeight: "400",
+    boxShadow: "2px 2px 5px #0003",
+
+    svg: {
+      width: "1.25rem",
+      height: "1.25rem",
+    },
+
+    "&::after": {
+      display: "none",
+    },
+
+    "&[data-state='active']": {
+      fontWeight: "400",
+      "&::after": {
+        display: "none",
+      },
     },
   },
 

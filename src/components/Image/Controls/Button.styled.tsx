@@ -14,7 +14,6 @@ const Item = styled("button", {
   color: "white",
   cursor: "pointer",
   marginLeft: "0.618rem",
-  filter: "drop-shadow(2px 2px 5px #0003)",
   transition: "$all",
   boxSizing: "content-box !important",
 
@@ -37,7 +36,6 @@ const Item = styled("button", {
     padding: "20%",
     fill: "$secondary",
     stroke: "$secondary",
-    filter: "drop-shadow(2px 2px 5px #0003)",
     transition: "$all",
     boxSizing: "inherit",
   },

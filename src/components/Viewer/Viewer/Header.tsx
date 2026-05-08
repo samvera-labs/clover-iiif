@@ -14,7 +14,6 @@ import { InternationalString } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
 import { Popover } from "src/components/UI";
 import React from "react";
-import Toggle from "./Toggle";
 import ViewerDownload from "./Download";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
@@ -27,14 +26,12 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
   const viewerState: ViewerContextStore = useViewerState();
   const { collection, configOptions } = viewerState;
 
-  const { informationPanel, showDownload, showIIIFBadge, showTitle } =
-    configOptions;
+  const { showDownload, showIIIFBadge, showTitle } = configOptions;
 
   /**
    * Determine if header options should be rendered.
    */
-  const hasOptions =
-    showDownload || showIIIFBadge || informationPanel?.renderToggle;
+  const hasOptions = showDownload || showIIIFBadge;
 
   const { t } = useCloverTranslation();
 
@@ -87,7 +84,6 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
               </PopoverContent>
             </Popover>
           )}
-          {informationPanel?.renderToggle && <Toggle />}
         </HeaderOptions>
       )}
     </Header>

@@ -76,7 +76,17 @@ const Controls = ({
 }) => {
   const { t } = useCloverTranslation();
   const viewerState: ViewerContextStore = useViewerState();
-  const { activeCanvas, plugins, vault, openSeadragonViewer } = viewerState;
+  const {
+    activeCanvas,
+    configOptions,
+    isInformationOpen,
+    plugins,
+    vault,
+    openSeadragonViewer,
+  } = viewerState;
+  const hasInformationToggle = Boolean(
+    configOptions.informationPanel?.renderToggle,
+  );
 
   const canvas = vault.get({
     id: activeCanvas,
@@ -115,6 +125,8 @@ const Controls = ({
     <Wrapper
       data-testid="clover-iiif-image-openseadragon-controls"
       hasPlaceholder={_cloverViewerHasPlaceholder}
+      hasInformationToggle={hasInformationToggle}
+      panelOpen={isInformationOpen}
     >
       {config.showZoomControl && (
         <>
