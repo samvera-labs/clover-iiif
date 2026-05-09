@@ -63,7 +63,7 @@ const Trigger = styled(Tabs.Trigger, {
     transform: "translateY(1rem)",
     marginRight: "0.618rem",
     zIndex: "2",
-    background: "$accent",
+    background: "$primary",
     color: "$secondary",
     borderRadius: "50%",
     opacity: "1",
@@ -73,6 +73,10 @@ const Trigger = styled(Tabs.Trigger, {
     svg: {
       width: "1.25rem",
       height: "1.25rem",
+    },
+
+    "&:hover, &:focus-visible": {
+      background: "$accent",
     },
 
     "&::after": {

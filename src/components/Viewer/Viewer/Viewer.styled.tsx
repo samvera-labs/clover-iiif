@@ -56,7 +56,7 @@ const PanelToggle = styled("button", {
   height: "2rem",
   padding: "0",
 
-  background: "$accent",
+  background: "$primary",
   border: "none",
   borderRadius: "50%",
   boxShadow: "2px 2px 5px #0003",
@@ -71,6 +71,10 @@ const PanelToggle = styled("button", {
     height: "1.25rem",
   },
 
+  "&:hover, &:focus-visible": {
+    background: "$accent",
+  },
+
   "&:focus-visible": {
     outline: "2px solid $secondary",
     outlineOffset: "-2px",
@@ -82,7 +86,7 @@ const DragHandle = styled("div", {
   width: "5px",
   cursor: "col-resize",
   background: "$secondaryAlt",
-  opacity: "0.3",
+  opacity: "0.5",
   transition: "background 0.15s",
   zIndex: "1",
 
