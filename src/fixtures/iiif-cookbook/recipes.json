@@ -353,8 +353,8 @@
     "title": "Addressing a Spatial Region",
     "id": "https://iiif.io/api/cookbook/recipe/0299-region/",
     "resource": "https://iiif.io/api/cookbook/recipe/0299-region/manifest.json",
-    "supported": false,
-    "category": ["Basic"]
+    "supported": true,
+    "category": ["Basic", "Image"]
   },
   {
     "title": "Linking external Annotations targeting a Canvas to a Manifest",

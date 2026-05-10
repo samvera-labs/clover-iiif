@@ -20,6 +20,7 @@ interface OSDProps {
   _cloverViewerHasPlaceholder: boolean;
   annotations?: Array<{ annotation: Annotation; targetIndex: number }>;
   ariaLabel?: string | null;
+  clips?: (OpenSeadragon.Rect | undefined)[];
   config: Options;
   uri: string[];
   imageType: OpenSeadragonImageTypes;
@@ -46,6 +47,7 @@ const getBaseItemWithRetry = async (
 const OSD: React.FC<OSDProps> = ({
   annotations,
   ariaLabel,
+  clips,
   config,
   uri,
   _cloverViewerHasPlaceholder,
@@ -177,6 +179,7 @@ const OSD: React.FC<OSDProps> = ({
                 x,
                 y: 0,
                 height,
+                clip: clips?.[i],
                 success: () => {
                   itemsToRemove.forEach((item) =>
                     openSeadragon.world.removeItem(item),
@@ -227,6 +230,7 @@ const OSD: React.FC<OSDProps> = ({
                 x,
                 y: 0,
                 height,
+                clip: clips?.[i],
                 success: () => {
                   itemsToRemove.forEach((item) =>
                     openSeadragon.world.removeItem(item),

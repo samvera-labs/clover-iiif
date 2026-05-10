@@ -6,6 +6,7 @@ import {
 export interface LabeledIIIFExternalWebResource
   extends IIIFExternalWebResource {
   label?: InternationalString;
+  region?: string;
 }
 
 export type RenderingItem = WithLabel<IIIFExternalWebResource>;

@@ -246,7 +246,28 @@ function svg_handleTextNode(child: ChildNode) {
   );
 }
 
-export const parseImageBody = (body: IIIFExternalWebResource) => {
+export const parseRegionAsClip = (
+  region: string,
+  imageWidth?: number,
+  imageHeight?: number,
+): OpenSeadragon.Rect | undefined => {
+  if (region.startsWith("pct:")) {
+    if (!imageWidth || !imageHeight) return undefined;
+    const [x, y, w, h] = region.slice(4).split(",").map(Number);
+    return new OpenSeadragon.Rect(
+      (x / 100) * imageWidth,
+      (y / 100) * imageHeight,
+      (w / 100) * imageWidth,
+      (h / 100) * imageHeight,
+    );
+  }
+  const [x, y, w, h] = region.split(",").map(Number);
+  return new OpenSeadragon.Rect(x, y, w, h);
+};
+
+export const parseImageBody = (
+  body: IIIFExternalWebResource & { region?: string },
+) => {
   const hasImageService =
     Array.isArray(body?.service) && body?.service.length > 0;
 
@@ -255,9 +276,14 @@ export const parseImageBody = (body: IIIFExternalWebResource) => {
     ? OpenSeadragonImageTypes.TiledImage
     : OpenSeadragonImageTypes.SimpleImage;
 
+  const clip = body?.region
+    ? parseRegionAsClip(body.region, body.width, body.height)
+    : undefined;
+
   return {
     uri,
     imageType,
+    clip,
   };
 };
 
