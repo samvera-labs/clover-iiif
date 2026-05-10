@@ -23,6 +23,7 @@ import {
   CanvasNormalized,
   AnnotationNormalized,
 } from "@iiif/presentation-3";
+import { Icon } from "src/components/UI";
 import { Label } from "src/components/Primitives";
 import { setupPlugins } from "src/lib/plugin-helpers";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
@@ -236,8 +237,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             data-value="manifest-back"
             onClick={handleInformationPanelClose}
             as={"button"}
+            aria-label={t("informationPanelTabsClose")}
           >
-            {t("informationPanelTabsClose")}
+            <Icon fill="currentColor" aria-hidden="true">
+              <Icon.PanelExpand />
+            </Icon>
           </Trigger>
         )}
         {renderAbout && (

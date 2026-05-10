@@ -38,7 +38,7 @@ const Button = styled("button", {
   margin: "0",
   fontWeight: "700",
   borderRadius: "2rem",
-  backgroundColor: "$accent",
+  backgroundColor: "$primary",
   color: "$secondary",
   cursor: "pointer",
   boxSizing: "content-box !important",
@@ -56,6 +56,10 @@ const Button = styled("button", {
     transition: "$all",
   },
 
+  "&:hover, &:focus-visible": {
+    backgroundColor: "$accent",
+  },
+
   "&:disabled": {
     backgroundColor: "transparent",
     boxShadow: "none",
@@ -66,7 +70,7 @@ const Button = styled("button", {
 const Direction = styled("div", {
   display: "flex",
   marginRight: "0.618rem",
-  backgroundColor: "$accentAlt",
+  backgroundColor: "$primary",
   borderRadius: "2rem",
   boxShadow: "5px 5px 5px #0003",
   color: "$secondary",

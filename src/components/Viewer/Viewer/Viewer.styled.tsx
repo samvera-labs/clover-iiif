@@ -17,6 +17,7 @@ const Main = styled("div", {
   flexDirection: "column",
   flexGrow: "1",
   flexShrink: "1",
+  position: "relative",
   width: "100%",
   height: "100%",
 
@@ -34,6 +35,68 @@ const Main = styled("div", {
       width: "100% !important",
       opacity: "1 !important",
     },
+  },
+});
+
+const PanelToggle = styled("button", {
+  position: "absolute",
+  top: "1rem",
+  right: "1rem",
+  zIndex: "2",
+
+  "&[data-aside-active='true']": {
+    right: "calc(-1rem - 2px)",
+  },
+
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+
+  width: "2rem",
+  height: "2rem",
+  padding: "0",
+
+  background: "$primary",
+  border: "none",
+  borderRadius: "50%",
+  boxShadow: "2px 2px 5px #0003",
+
+  cursor: "pointer",
+  color: "$secondary",
+  fontSize: "0.75rem",
+  lineHeight: "1",
+
+  svg: {
+    width: "1.25rem",
+    height: "1.25rem",
+  },
+
+  "&:hover, &:focus-visible": {
+    background: "$accent",
+  },
+
+  "&:focus-visible": {
+    outline: "2px solid $secondary",
+    outlineOffset: "-2px",
+  },
+});
+
+const DragHandle = styled("div", {
+  flexShrink: "0",
+  width: "5px",
+  cursor: "col-resize",
+  background: "$secondaryAlt",
+  opacity: "0.5",
+  transition: "background 0.15s",
+  zIndex: "1",
+
+  "&:hover, &[data-dragging='true']": {
+    background: "$accent",
+    opacity: "0.8",
+  },
+
+  "@sm": {
+    display: "none",
   },
 });
 
@@ -100,4 +163,4 @@ const Wrapper = styled("div", {
   },
 });
 
-export { Wrapper, Content, Main, MediaWrapper, Aside };
+export { Wrapper, Content, Main, MediaWrapper, Aside, PanelToggle, DragHandle };
