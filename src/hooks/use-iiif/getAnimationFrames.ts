@@ -44,10 +44,16 @@ export const getAnimationFrames = (
       : annotation.body;
     if (!bodyRef) continue;
 
-    const bodyId = typeof bodyRef === "string" ? bodyRef : bodyRef.id;
-    if (!bodyId) continue;
-
-    const body = vault.get(bodyId);
+    // Vault does not index SpecificResource entities by their own id (returns
+    // null). Resolve the source image directly from the inline reference.
+    let body;
+    if (bodyRef.type === "SpecificResource") {
+      body = vault.get(bodyRef.source);
+    } else {
+      const bodyId = typeof bodyRef === "string" ? bodyRef : bodyRef.id;
+      if (!bodyId) continue;
+      body = vault.get(bodyId);
+    }
     if (!body) continue;
 
     frames.push({

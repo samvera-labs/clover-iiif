@@ -56,6 +56,7 @@ const OSD: React.FC<OSDProps> = ({
 }) => {
   const [osdDrawn, setOsdDrawn] = useState<string[]>([]);
   const [osdUri, setOsdUri] = useState<string[]>([]);
+  const [osdClips, setOsdClips] = useState<(OpenSeadragon.Rect | undefined)[]>([]);
   const [openSeadragon, setOpenSeadragon] = useState<OpenSeadragon.Viewer>();
   const [srcDimensions, setSrcDimensions] = useState<
     Array<{ width: number; height: number }>
@@ -63,6 +64,9 @@ const OSD: React.FC<OSDProps> = ({
   const dispatch: any = useViewerDispatch();
   const initializeOSD = useRef(false);
   const isFirstImageLoad = useRef(true);
+  // Tracks which URIs are currently rendered in OSD so we can detect clip-only
+  // changes and update the existing TiledImage in place instead of add/remove.
+  const drawnUriRef = useRef<string[]>([]);
 
   const annotationClassName = "clover-iiif-image-openseadragon-annotation";
 
@@ -86,7 +90,12 @@ const OSD: React.FC<OSDProps> = ({
   }, [openSeadragon, openSeadragonCallback]);
 
   useEffect(() => {
-    if (openSeadragon && JSON.stringify(uri) !== JSON.stringify(osdUri)) {
+    if (!openSeadragon) return;
+    const serializeClips = (c) =>
+      (c ?? []).map((r) => (r ? `${r.x},${r.y},${r.width},${r.height}` : "")).join("|");
+    const uriChanged = JSON.stringify(uri) !== JSON.stringify(osdUri);
+    const clipsChanged = serializeClips(clips) !== serializeClips(osdClips);
+    if (uriChanged || clipsChanged) {
       openSeadragon.forceRedraw();
 
       /**
@@ -99,11 +108,39 @@ const OSD: React.FC<OSDProps> = ({
         });
 
       setOsdUri(uri);
+      setOsdClips(clips ?? []);
     }
-  }, [disableScrollToZoom, openSeadragon, osdUri, uri]);
+  }, [disableScrollToZoom, openSeadragon, osdUri, uri, osdClips, clips]);
 
   useEffect(() => {
     if (!osdUri.length || !openSeadragon) return;
+
+    // When the URI is unchanged but the clip changed (e.g., animation frames on
+    // the same image service), mutate the existing TiledImage/SimpleImage in
+    // place — no add/remove cycle, no network request, no flicker.
+    const hasSingleItem = openSeadragon.world.getItemCount() === 1;
+    const isSameUri =
+      osdUri.length === 1 &&
+      drawnUriRef.current.length === 1 &&
+      drawnUriRef.current[0] === osdUri[0];
+
+    if (hasSingleItem && isSameUri) {
+      const item = openSeadragon.world.getItemAt(0);
+      const contentSize = item.getContentSize();
+      const h = item.getBounds().height;
+      const scale = contentSize.y > 0 ? h / contentSize.y : 0;
+      const clip = osdClips[0] ?? null;
+      item.setClip(clip);
+      item.setPosition(
+        new OpenSeadragon.Point(
+          clip ? -(clip.x * scale) : 0,
+          clip ? -(clip.y * scale) : 0,
+        ),
+        true,
+      );
+      openSeadragon.forceRedraw();
+      return;
+    }
 
     // Only defer old-image removal for a true one-for-one swap: exactly 1 image
     // currently in the world and exactly 1 new image being loaded. This eliminates
@@ -181,6 +218,7 @@ const OSD: React.FC<OSDProps> = ({
                 height,
                 clip: clips?.[i],
                 success: () => {
+                  drawnUriRef.current = osdUri.slice();
                   itemsToRemove.forEach((item) =>
                     openSeadragon.world.removeItem(item),
                   );
@@ -225,13 +263,23 @@ const OSD: React.FC<OSDProps> = ({
                 height = baseBounds.height;
               }
 
+              // A clip is in full source-image pixel coordinates. Shift the
+              // image so the clipped region is anchored at (x, 0) in world
+              // space rather than being offset by its pixel position within
+              // the full image.
+              const clip = clips?.[i];
+              const scale = tileSource.height ? height / tileSource.height : 0;
+              const imageX = clip ? x - clip.x * scale : x;
+              const imageY = clip ? -(clip.y * scale) : 0;
+
               openSeadragon.addTiledImage({
                 tileSource,
-                x,
-                y: 0,
+                x: imageX,
+                y: imageY,
                 height,
-                clip: clips?.[i],
+                clip,
                 success: () => {
+                  drawnUriRef.current = osdUri.slice();
                   itemsToRemove.forEach((item) =>
                     openSeadragon.world.removeItem(item),
                   );
@@ -259,7 +307,7 @@ const OSD: React.FC<OSDProps> = ({
     };
 
     load().catch((error) => console.error("Error drawing tiles", error));
-  }, [osdUri, imageType, openSeadragon]);
+  }, [osdUri, osdClips, imageType, openSeadragon]);
 
   useEffect(() => {
     if (!osdDrawn.length) return;
