@@ -351,8 +351,26 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
             }
             return;
           }
+          if (json?.type === "Canvas") {
+            if (json.partOf?.[0]?.id) {
+              dispatch({ type: "updateActiveCanvas", canvasId: json.id });
+              dispatch({ type: "updateActiveManifest", manifestId: json.partOf[0].id });
+            } else {
+              const syntheticId = `${json.id}/manifest`;
+              await vault.loadSync(syntheticId, {
+                "@context": "http://iiif.io/api/presentation/3/context.json",
+                id: syntheticId,
+                type: "Manifest",
+                label: json.label ?? { none: [""] },
+                items: [json],
+              });
+              dispatch({ type: "updateActiveCanvas", canvasId: json.id });
+              dispatch({ type: "updateActiveManifest", manifestId: syntheticId });
+            }
+            return;
+          }
         } catch {
-          // Not an AnnotationCollection/AnnotationPage or fetch failed — fall through to vault.load
+          // Not an AnnotationCollection/AnnotationPage/Canvas or fetch failed — fall through to vault.load
         }
       } else if (
         typeof contentState === "object" &&
@@ -384,6 +402,26 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
           dispatch({ type: "updateActiveManifest", manifestId: firstManifest });
         } else {
           dispatch({ type: "updateIsLoaded", isLoaded: true });
+        }
+        return;
+      } else if (
+        typeof contentState === "object" &&
+        contentState?.type === "Canvas"
+      ) {
+        if (contentState.partOf?.[0]?.id) {
+          dispatch({ type: "updateActiveCanvas", canvasId: contentState.id });
+          dispatch({ type: "updateActiveManifest", manifestId: contentState.partOf[0].id });
+        } else {
+          const syntheticId = `${contentState.id}/manifest`;
+          await vault.loadSync(syntheticId, {
+            "@context": "http://iiif.io/api/presentation/3/context.json",
+            id: syntheticId,
+            type: "Manifest",
+            label: contentState.label ?? { none: [""] },
+            items: [contentState],
+          });
+          dispatch({ type: "updateActiveCanvas", canvasId: contentState.id });
+          dispatch({ type: "updateActiveManifest", manifestId: syntheticId });
         }
         return;
       }

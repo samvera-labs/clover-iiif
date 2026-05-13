@@ -10,6 +10,15 @@
   "summary": {
     "en": ["Map of British Isles showing political boundaries."]
   },
+  "partOf": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/20f1cd93-7851-4646-af07-0b544661569f?as=iiif",
+      "type": "Manifest",
+      "label": {
+        "en": ["L'Isole Britanniche (1811)"]
+      }
+    }
+  ],
   "thumbnail": [
     {
       "id": "https://iiif.dc.library.northwestern.edu/iiif/3/b9e19ed9-70f2-45eb-8c1f-ef0e5e86890f/full/!300,300/0/default.jpg",
