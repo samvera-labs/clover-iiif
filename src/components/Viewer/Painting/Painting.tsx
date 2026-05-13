@@ -9,7 +9,7 @@ import {
   PaintingCanvas,
   PaintingStyled,
 } from "./Painting.styled";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Select, SelectOption } from "src/components/UI/Select";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
@@ -197,13 +197,17 @@ const Painting: React.FC<PaintingProps> = ({
     setAnnotationIndex(parseInt(value, 10));
   };
 
-  const activeThumbnailRef = useCallback(
-    (node: HTMLButtonElement | null) => {
-      if (node)
-        node.scrollIntoView({ inline: "nearest", block: "nearest", behavior: "smooth" });
-    },
-    [annotationIndex],
-  );
+  const thumbnailStripRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const strip = thumbnailStripRef.current;
+    if (!strip) return;
+    const el = strip.children[annotationIndex] as HTMLElement | undefined;
+    if (!el) return;
+    const centeredLeft =
+      el.offsetLeft - strip.offsetWidth / 2 + el.offsetWidth / 2;
+    strip.scrollTo({ left: centeredLeft, behavior: "smooth" });
+  }, [annotationIndex]);
 
   const customDisplay = customDisplays.find((customDisplay) => {
     let match = false;
@@ -499,11 +503,10 @@ const Painting: React.FC<PaintingProps> = ({
 
       {isAnimationMode && !showPlaceholder && (
         <AnimationBar>
-          <AnimationThumbnailStrip>
+          <AnimationThumbnailStrip ref={thumbnailStripRef}>
             {animationFrames.map((frame, index) => (
               <AnimationThumbnailButton
                 key={index}
-                ref={index === annotationIndex ? activeThumbnailRef : undefined}
                 data-active={index === annotationIndex}
                 type="button"
                 aria-label={`Frame ${index + 1}`}
