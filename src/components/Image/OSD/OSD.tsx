@@ -56,7 +56,9 @@ const OSD: React.FC<OSDProps> = ({
 }) => {
   const [osdDrawn, setOsdDrawn] = useState<string[]>([]);
   const [osdUri, setOsdUri] = useState<string[]>([]);
-  const [osdClips, setOsdClips] = useState<(OpenSeadragon.Rect | undefined)[]>([]);
+  const [osdClips, setOsdClips] = useState<(OpenSeadragon.Rect | undefined)[]>(
+    [],
+  );
   const [openSeadragon, setOpenSeadragon] = useState<OpenSeadragon.Viewer>();
   const [srcDimensions, setSrcDimensions] = useState<
     Array<{ width: number; height: number }>
@@ -93,23 +95,27 @@ const OSD: React.FC<OSDProps> = ({
   }, [openSeadragon, openSeadragonCallback]);
 
   useEffect(() => {
+    if (!openSeadragon || !disableScrollToZoom) return;
+    // Intercept wheel events in the capture phase on the outer container —
+    // before they reach OSD's canvas listener — so OSD never calls
+    // preventDefault() and the browser can scroll the page natively.
+    const el = openSeadragon.element;
+    const handleWheel = (e: WheelEvent) => e.stopPropagation();
+    el.addEventListener("wheel", handleWheel, { capture: true });
+    return () =>
+      el.removeEventListener("wheel", handleWheel, { capture: true });
+  }, [openSeadragon, disableScrollToZoom]);
+
+  useEffect(() => {
     if (!openSeadragon) return;
     const serializeClips = (c) =>
-      (c ?? []).map((r) => (r ? `${r.x},${r.y},${r.width},${r.height}` : "")).join("|");
+      (c ?? [])
+        .map((r) => (r ? `${r.x},${r.y},${r.width},${r.height}` : ""))
+        .join("|");
     const uriChanged = JSON.stringify(uri) !== JSON.stringify(osdUri);
     const clipsChanged = serializeClips(clips) !== serializeClips(osdClips);
     if (uriChanged || clipsChanged) {
       openSeadragon.forceRedraw();
-
-      /**
-       * If scrollToZoom is explicitly set to false, we
-       * should allow browser's default scroll behavior
-       */
-      if (disableScrollToZoom)
-        openSeadragon.addHandler("canvas-scroll", function (event) {
-          event.preventDefault = false;
-        });
-
       setOsdUri(uri);
       setOsdClips(clips ?? []);
     }
@@ -195,7 +201,12 @@ const OSD: React.FC<OSDProps> = ({
       // the clip sits at world (0, 0) — fit to that origin-aligned region.
       if (clip && clipScale > 0 && expectedCount === 1) {
         openSeadragon?.viewport.fitBounds(
-          new OpenSeadragon.Rect(0, 0, clip.width * clipScale, clip.height * clipScale),
+          new OpenSeadragon.Rect(
+            0,
+            0,
+            clip.width * clipScale,
+            clip.height * clipScale,
+          ),
           true,
         );
         return;
@@ -301,7 +312,9 @@ const OSD: React.FC<OSDProps> = ({
               }
 
               const clip = clips?.[i];
-              const clipScale = tileSource.height ? height / tileSource.height : 0;
+              const clipScale = tileSource.height
+                ? height / tileSource.height
+                : 0;
               // Shift the image so the clip region is anchored at world (x, 0)
               // rather than at its pixel offset within the full source image.
               const imageX = clip ? x - clip.x * clipScale : x;
@@ -355,22 +368,22 @@ const OSD: React.FC<OSDProps> = ({
 
     // handles zoom to annotation on click
     openSeadragon?.addHandler("canvas-click", (event) => {
-        const overlay: Overlay = openSeadragon?.getOverlayById(
-          event.originalTarget.id,
-        );
+      const overlay: Overlay = openSeadragon?.getOverlayById(
+        event.originalTarget.id,
+      );
 
-        if (overlay) {
-          const bounds = overlay?.getBounds(openSeadragon.viewport);
-          // add some padding to the bounds
-          bounds.x -= 0.1;
-          bounds.y -= 0.1;
-          bounds.width += 0.2;
-          bounds.height += 0.2;
+      if (overlay) {
+        const bounds = overlay?.getBounds(openSeadragon.viewport);
+        // add some padding to the bounds
+        bounds.x -= 0.1;
+        bounds.y -= 0.1;
+        bounds.width += 0.2;
+        bounds.height += 0.2;
 
-          openSeadragon?.viewport.fitBounds(bounds, false);
-          return (event.preventDefaultAction = true);
-        }
-      });
+        openSeadragon?.viewport.fitBounds(bounds, false);
+        return (event.preventDefaultAction = true);
+      }
+    });
   }, [osdDrawn]);
 
   useEffect(() => {
@@ -460,7 +473,10 @@ const OSD: React.FC<OSDProps> = ({
             e.preventDefault();
 
             div.setAttribute("data-active", "true");
-            dispatch({ type: "updateActiveAnnotationId", activeAnnotationId: div.id });
+            dispatch({
+              type: "updateActiveAnnotationId",
+              activeAnnotationId: div.id,
+            });
 
             const targetRect = new OpenSeadragon.Rect(
               rect.x - 0.1,
@@ -495,23 +511,35 @@ const OSD: React.FC<OSDProps> = ({
 
           div.addEventListener("focus", () => {
             div.setAttribute("data-active", "true");
-            dispatch({ type: "updateActiveAnnotationId", activeAnnotationId: div.id });
+            dispatch({
+              type: "updateActiveAnnotationId",
+              activeAnnotationId: div.id,
+            });
           });
 
           div.addEventListener("mouseover", () => {
             div.setAttribute("data-active", "true");
-            dispatch({ type: "updateActiveAnnotationId", activeAnnotationId: div.id });
+            dispatch({
+              type: "updateActiveAnnotationId",
+              activeAnnotationId: div.id,
+            });
           });
 
           // add blur AND mouseout event to div
           div.addEventListener("mouseout", () => {
             div.removeAttribute("data-active");
-            dispatch({ type: "updateActiveAnnotationId", activeAnnotationId: null });
+            dispatch({
+              type: "updateActiveAnnotationId",
+              activeAnnotationId: null,
+            });
           });
 
           div.addEventListener("blur", () => {
             div.removeAttribute("data-active");
-            dispatch({ type: "updateActiveAnnotationId", activeAnnotationId: null });
+            dispatch({
+              type: "updateActiveAnnotationId",
+              activeAnnotationId: null,
+            });
           });
 
           openSeadragon?.addOverlay(div, rect, OpenSeadragon.Placement.CENTER);
