@@ -22,7 +22,7 @@
       },
       "height": 1518,
       "width": 1303,
-      "duration": 0.4,
+      "duration": 0.2,
       "behavior": ["repeat", "auto-advance"],
       "items": [
         {
@@ -55,7 +55,7 @@
                   "region": "100,55,1303,1518"
                 }
               },
-              "target": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/1#t=0,2"
+              "target": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/1#t=0,1"
             },
             {
               "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/1/annotation/right-eye",
@@ -83,7 +83,7 @@
                   "region": "1403,55,1303,1518"
                 }
               },
-              "target": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/1#t=0.2,0.4"
+              "target": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/1#t=0.1,0.2"
             }
           ]
         }
@@ -97,7 +97,7 @@
       },
       "height": 1518,
       "width": 1303,
-      "duration": 0.4,
+      "duration": 0.2,
       "behavior": ["repeat", "auto-advance"],
       "items": [
         {
@@ -115,7 +115,7 @@
                 "height": 1518,
                 "width": 1303
               },
-              "target": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/3#t=0,2"
+              "target": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/3#t=0,0.1"
             },
             {
               "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/3/annotation/right-eye",
@@ -128,7 +128,7 @@
                 "height": 1518,
                 "width": 1303
               },
-              "target": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/3#t=0.2,0.4"
+              "target": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/3#t=0.1,0.2"
             }
           ]
         }

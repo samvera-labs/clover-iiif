@@ -67,6 +67,9 @@ const OSD: React.FC<OSDProps> = ({
   // Tracks which URIs are currently rendered in OSD so we can detect clip-only
   // changes and update the existing TiledImage in place instead of add/remove.
   const drawnUriRef = useRef<string[]>([]);
+  // Maps clip-key strings to their preloaded TiledImage world items so we can
+  // toggle opacity between animation frames without moving anything in world space.
+  const clipItemsRef = useRef<Map<string, OpenSeadragon.TiledImage>>(new Map());
 
   const annotationClassName = "clover-iiif-image-openseadragon-annotation";
 
@@ -116,29 +119,53 @@ const OSD: React.FC<OSDProps> = ({
     if (!osdUri.length || !openSeadragon) return;
 
     // When the URI is unchanged but the clip changed (e.g., animation frames on
-    // the same image service), mutate the existing TiledImage/SimpleImage in
-    // place — no add/remove cycle, no network request, no flicker.
-    const hasSingleItem = openSeadragon.world.getItemCount() === 1;
+    // the same image service), toggle opacity between preloaded world items so
+    // nothing ever moves — world bounds stay fixed and the navigator never oscillates.
     const isSameUri =
       osdUri.length === 1 &&
       drawnUriRef.current.length === 1 &&
       drawnUriRef.current[0] === osdUri[0];
 
-    if (hasSingleItem && isSameUri) {
-      const item = openSeadragon.world.getItemAt(0);
-      const contentSize = item.getContentSize();
-      const h = item.getBounds().height;
-      const scale = contentSize.y > 0 ? h / contentSize.y : 0;
+    if (isSameUri) {
       const clip = osdClips[0] ?? null;
-      item.setClip(clip);
-      item.setPosition(
-        new OpenSeadragon.Point(
-          clip ? -(clip.x * scale) : 0,
-          clip ? -(clip.y * scale) : 0,
-        ),
-        true,
-      );
-      openSeadragon.forceRedraw();
+      const clipKey = clip
+        ? `${clip.x},${clip.y},${clip.width},${clip.height}`
+        : "__none__";
+
+      if (clipItemsRef.current.has(clipKey)) {
+        // Fast path: clip already in world — instant opacity swap, nothing moves.
+        clipItemsRef.current.forEach((item, key) =>
+          item.setOpacity(key === clipKey ? 1 : 0),
+        );
+        openSeadragon.forceRedraw();
+        return;
+      }
+
+      // Slow path: first time seeing this clip — add at fixed world position so
+      // future toggles never require moving anything in world space.
+      (async () => {
+        const url = osdUri[0];
+        const tileSource = await retry(() => getInfoResponse(url), 3, 1000);
+        if (!tileSource) return;
+        const scale = tileSource.height ? 1 / tileSource.height : 0;
+        openSeadragon.addTiledImage({
+          tileSource,
+          x: clip && scale > 0 ? -(clip.x * scale) : 0,
+          y: clip && scale > 0 ? -(clip.y * scale) : 0,
+          height: 1,
+          clip: clip ?? undefined,
+          opacity: 0,
+          success: (event) => {
+            const newItem = event?.item;
+            if (!newItem) return;
+            clipItemsRef.current.set(clipKey, newItem);
+            clipItemsRef.current.forEach((item, key) =>
+              item.setOpacity(key === clipKey ? 1 : 0),
+            );
+            openSeadragon.forceRedraw();
+          },
+        });
+      })().catch(console.error);
       return;
     }
 
@@ -147,6 +174,7 @@ const OSD: React.FC<OSDProps> = ({
     // the blank flash on single-image swaps (animation frames, canvas navigation)
     // while keeping the original close() behaviour for every other case (initial
     // load, multi-image/paged views, count mismatches).
+    clipItemsRef.current.clear();
     const itemsToRemove = [];
     const isSingleImageSwap =
       openSeadragon.world.getItemCount() === 1 && osdUri.length === 1;
@@ -159,10 +187,19 @@ const OSD: React.FC<OSDProps> = ({
     const expectedCount = osdUri.length;
     let loadedCount = 0;
 
-    const fitBoundsOnAllLoaded = () => {
+    const fitBoundsOnAllLoaded = (clip?, clipScale = 0) => {
       loadedCount++;
       if (!isFirstImageLoad.current || loadedCount < expectedCount) return;
       isFirstImageLoad.current = false;
+      // For a single tiled image with a spatial clip the image is shifted so
+      // the clip sits at world (0, 0) — fit to that origin-aligned region.
+      if (clip && clipScale > 0 && expectedCount === 1) {
+        openSeadragon?.viewport.fitBounds(
+          new OpenSeadragon.Rect(0, 0, clip.width * clipScale, clip.height * clipScale),
+          true,
+        );
+        return;
+      }
       const maxRetries = 3;
       let attempts = 0;
       const tryFit = () => {
@@ -263,14 +300,12 @@ const OSD: React.FC<OSDProps> = ({
                 height = baseBounds.height;
               }
 
-              // A clip is in full source-image pixel coordinates. Shift the
-              // image so the clipped region is anchored at (x, 0) in world
-              // space rather than being offset by its pixel position within
-              // the full image.
               const clip = clips?.[i];
-              const scale = tileSource.height ? height / tileSource.height : 0;
-              const imageX = clip ? x - clip.x * scale : x;
-              const imageY = clip ? -(clip.y * scale) : 0;
+              const clipScale = tileSource.height ? height / tileSource.height : 0;
+              // Shift the image so the clip region is anchored at world (x, 0)
+              // rather than at its pixel offset within the full source image.
+              const imageX = clip ? x - clip.x * clipScale : x;
+              const imageY = clip ? -(clip.y * clipScale) : 0;
 
               openSeadragon.addTiledImage({
                 tileSource,
@@ -278,12 +313,18 @@ const OSD: React.FC<OSDProps> = ({
                 y: imageY,
                 height,
                 clip,
-                success: () => {
+                success: (event) => {
                   drawnUriRef.current = osdUri.slice();
+                  if (event?.item && osdUri.length === 1) {
+                    const clipKey = clip
+                      ? `${clip.x},${clip.y},${clip.width},${clip.height}`
+                      : "__none__";
+                    clipItemsRef.current.set(clipKey, event.item);
+                  }
                   itemsToRemove.forEach((item) =>
                     openSeadragon.world.removeItem(item),
                   );
-                  fitBoundsOnAllLoaded();
+                  fitBoundsOnAllLoaded(clip, clipScale);
                   setOsdDrawn((prev) => [...prev, url]);
                   if (typeof dispatch === "function") {
                     dispatch({
