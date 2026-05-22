@@ -283,4 +283,126 @@ describe("getAvailableTabs", () => {
 			})
 		).toStrictEqual([]);
 	});
+
+	describe("hasAnyPanel / getAvailableTabs consistency", () => {
+		const cases = [
+			{ informationPanel: { renderAbout: true, renderAnnotation: false, renderContentSearch: false }, expected: ["manifest-about"] },
+			{ informationPanel: { renderAbout: false, renderAnnotation: true, renderContentSearch: false },
+				expected: ["manifest-annotations"], annotationResources: [{ id: "a", type: "AnnotationPage" }] },
+			{ informationPanel: { renderAbout: false, renderAnnotation: false, renderContentSearch: true },
+				expected: ["manifest-content-search"], contentSearchResource: { id: "s", type: "AnnotationPage" } },
+		];
+
+		cases.forEach(({ expected, ...opts }) => {
+			it(`hasAnyPanel matches getAvailableTabs for ${JSON.stringify(expected)}`, () => {
+				const tabs = getAvailableTabs(opts);
+				const hasPanel = hasAnyPanel(opts);
+				expect(hasPanel).toBe(tabs.length > 0);
+				expect(tabs).toStrictEqual(expected);
+			});
+		});
+	});
+
+	describe("getAvailableTabs with filteredAnnotationResources", () => {
+		it("excludes manifest-annotations when filteredAnnotationResources is empty and annotationResources has items", () => {
+			expect(
+				getAvailableTabs({
+					informationPanel: {
+						renderAbout: false,
+						renderAnnotation: true,
+						renderContentSearch: false,
+					},
+					annotationResources: [{ id: "a", type: "AnnotationPage", items: [] }],
+					filteredAnnotationResources: [],
+					contentSearchResource: undefined,
+					pluginsWithInfoPanel: [],
+				})
+			).toStrictEqual([]);
+		});
+
+		it("includes manifest-annotations when filteredAnnotationResources has items", () => {
+			expect(
+				getAvailableTabs({
+					informationPanel: {
+						renderAbout: false,
+						renderAnnotation: true,
+						renderContentSearch: false,
+					},
+					annotationResources: [{ id: "a", type: "AnnotationPage", items: [] }],
+					filteredAnnotationResources: [{ id: "b", type: "AnnotationPage", items: [{ id: "c", type: "Annotation" }] }],
+					contentSearchResource: undefined,
+					pluginsWithInfoPanel: [],
+				})
+			).toStrictEqual(["manifest-annotations"]);
+		});
+	});
+
+	describe("getAvailableTabs with activeCanvas-scoped contentStateAnnotation", () => {
+		it("excludes manifest-annotations when contentStateAnnotation targets a different canvas", () => {
+			expect(
+				getAvailableTabs({
+					informationPanel: {
+						renderAbout: false,
+						renderAnnotation: true,
+						renderContentSearch: false,
+					},
+					annotationResources: [],
+					contentSearchResource: undefined,
+					pluginsWithInfoPanel: [],
+					contentStateAnnotation: {
+						id: "csa",
+						type: "Annotation",
+						motivation: "contentState",
+						target: {
+							type: "SpecificResource",
+							source: { id: "http://example.com/other-canvas", type: "Canvas" },
+						},
+					},
+					activeCanvas: "http://example.com/active-canvas",
+				})
+			).toStrictEqual([]);
+		});
+
+		it("includes manifest-annotations when contentStateAnnotation targets the active canvas", () => {
+			expect(
+				getAvailableTabs({
+					informationPanel: {
+						renderAbout: false,
+						renderAnnotation: true,
+						renderContentSearch: false,
+					},
+					annotationResources: [],
+					contentSearchResource: undefined,
+					pluginsWithInfoPanel: [],
+					contentStateAnnotation: {
+						id: "csa",
+						type: "Annotation",
+						motivation: "contentState",
+						target: {
+							type: "SpecificResource",
+							source: { id: "http://example.com/active-canvas", type: "Canvas" },
+						},
+					},
+					activeCanvas: "http://example.com/active-canvas",
+				})
+			).toStrictEqual(["manifest-annotations"]);
+		});
+	});
+
+	describe("hasAnyPanel and getAvailableTabs with empty result", () => {
+		it("hasAnyPanel returns false when getAvailableTabs returns empty array", () => {
+			const opts = {
+				informationPanel: {
+					renderAbout: false,
+					renderAnnotation: false,
+					renderContentSearch: false,
+				},
+				annotationResources: [],
+				contentSearchResource: undefined,
+				pluginsWithInfoPanel: [],
+			};
+			expect(hasAnyPanel(opts)).toBe(false);
+			expect(getAvailableTabs(opts)).toStrictEqual([]);
+		});
+	});
 });

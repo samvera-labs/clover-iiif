@@ -162,10 +162,12 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     const availableTabs = getAvailableTabs({
       informationPanel,
       annotationResources,
+      filteredAnnotationResources,
       contentSearchResource,
       pluginsWithInfoPanel,
       contentStateAnnotation,
       annotationCollection,
+      activeCanvas,
     });
 
     if (!hasInitializedRef.current) {
@@ -176,12 +178,14 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
           availableTabs.includes(String(informationPanel.defaultTab)) &&
           informationPanel.defaultTab) ||
         availableTabs[0] ||
-        "manifest-about";
+        (informationPanel?.renderAbout ? "manifest-about" : undefined);
 
-      dispatch({
-        type: "updateInformationPanelResource",
-        informationPanelResource: defaultTab,
-      });
+      if (defaultTab) {
+        dispatch({
+          type: "updateInformationPanelResource",
+          informationPanelResource: defaultTab,
+        });
+      }
       return;
     }
 
@@ -196,19 +200,23 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         availableTabs.includes(String(informationPanel.defaultTab)) &&
         informationPanel.defaultTab) ||
       availableTabs[0] ||
-      "manifest-about";
+      (informationPanel?.renderAbout ? "manifest-about" : undefined);
 
-    dispatch({
-      type: "updateInformationPanelResource",
-      informationPanelResource: defaultTab,
-    });
+    if (defaultTab) {
+      dispatch({
+        type: "updateInformationPanelResource",
+        informationPanelResource: defaultTab,
+      });
+    }
   }, [
     informationPanel,
     annotationResources,
+    filteredAnnotationResources,
     contentSearchResource,
     pluginsWithInfoPanel,
     contentStateAnnotation,
     annotationCollection,
+    activeCanvas,
     informationPanelResource,
     dispatch,
   ]);
@@ -319,8 +327,8 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
                 annotationPage={annotationPage}
               />
             ))}
-            {hasAnnotationCollection && (
-              <AnnotationCollectionPage annotationCollection={annotationCollection!} />
+            {hasAnnotationCollection && annotationCollection && (
+              <AnnotationCollectionPage annotationCollection={annotationCollection} />
             )}
           </Content>
         )}
