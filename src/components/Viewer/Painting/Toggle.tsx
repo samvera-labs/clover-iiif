@@ -1,6 +1,7 @@
 import React from "react";
 import { ToggleStyled } from "./Painting.styled";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
+import { useViewerState } from "src/context/viewer-context";
 
 interface ToggleProps {
   handleToggle: () => void;
@@ -52,12 +53,18 @@ const Toggle: React.FC<ToggleProps> = ({
   isMedia,
 }) => {
   const { t } = useCloverTranslation();
+  const { configOptions, isInformationOpen } = useViewerState();
+  const hasInformationToggle = Boolean(
+    configOptions.informationPanel?.renderToggle,
+  );
 
   return (
     <ToggleStyled
       onClick={handleToggle}
       isInteractive={isInteractive}
       isMedia={isMedia}
+      hasInformationToggle={hasInformationToggle}
+      panelOpen={isInformationOpen}
       data-testid="placeholder-toggle"
     >
       {isInteractive ? (

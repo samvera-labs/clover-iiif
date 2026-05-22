@@ -18,6 +18,10 @@ const FORCED_EXTERNALS = new Set([
   "i18next-browser-languagedetector",
   "openseadragon",
   "swiper",
+  // hls.js is loaded dynamically only for HLS sources. Externalising it
+  // keeps it out of the always-bundled `dist/*/index.{mjs,cjs}` output and
+  // lets consumer bundlers (or direct ESM resolution) load it on demand.
+  "hls.js",
 ]);
 
 function getPackageName(id) {

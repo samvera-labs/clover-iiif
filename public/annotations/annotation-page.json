@@ -1,0 +1,150 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://samvera-labs.github.io/clover-iiif/annotations/annotation-page.json",
+  "type": "AnnotationPage",
+  "label": {
+    "en": ["Example Annotation Page"]
+  },
+  "items": [
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/annotation-page.json#1",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "Ornate border detail, upper left"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/2190b0b0-153c-4e14-8c09-06ce64b662d9?as=iiif/canvas/1",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/2190b0b0-153c-4e14-8c09-06ce64b662d9?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=480,320,2100,1600"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/annotation-page.json#2",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "Central figure, right half"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/2190b0b0-153c-4e14-8c09-06ce64b662d9?as=iiif/canvas/1",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/2190b0b0-153c-4e14-8c09-06ce64b662d9?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=5200,2400,2600,1900"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/annotation-page.json#3",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "Lower margin inscription"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/2190b0b0-153c-4e14-8c09-06ce64b662d9?as=iiif/canvas/5",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/2190b0b0-153c-4e14-8c09-06ce64b662d9?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=2800,5600,3500,900"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/annotation-page.json#4",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "Cartouche in upper-right corner"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/2f317778-20fe-4a61-a123-f2bb3000614c?as=iiif/canvas/0",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/2f317778-20fe-4a61-a123-f2bb3000614c?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=6800,600,2400,2000"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/annotations/annotation-page.json#5",
+      "type": "Annotation",
+      "motivation": "tagging",
+      "body": {
+        "type": "TextualBody",
+        "format": "text/plain",
+        "value": "Decorative panel, center"
+      },
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/4b8df2a9-88ef-4b6b-828b-c6cb17ea0ca8?as=iiif/canvas/2",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/4b8df2a9-88ef-4b6b-828b-c6cb17ea0ca8?as=iiif",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=1800,3800,3200,2400"
+        }
+      }
+    }
+  ]
+}

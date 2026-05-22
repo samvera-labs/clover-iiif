@@ -50,6 +50,7 @@ const CloverImage: React.FC<CloverImageProps> = ({
 
   let uri: string[] = [];
   let imageType: OpenSeadragonImageTypes = OpenSeadragonImageTypes.SimpleImage;
+  let clips: (OpenSeadragon.Rect | undefined)[] = [];
 
   if (normalizedBody.length) {
     const parsed = normalizedBody.map(parseImageBody);
@@ -60,6 +61,7 @@ const CloverImage: React.FC<CloverImageProps> = ({
     )
       ? OpenSeadragonImageTypes.TiledImage
       : OpenSeadragonImageTypes.SimpleImage;
+    clips = parsed.map((p) => p.clip);
   } else if (normalizedSrc.length) {
     const parsed = normalizedSrc.map((s) => parseSrc(s, isTiledImage));
     uri = parsed.map((p) => p.uri).filter(Boolean);
@@ -86,6 +88,7 @@ const CloverImage: React.FC<CloverImageProps> = ({
         _cloverViewerHasPlaceholder={_cloverViewerHasPlaceholder}
         annotations={annotations}
         ariaLabel={ariaLabel}
+        clips={clips}
         config={config}
         imageType={imageType}
         key={instance}

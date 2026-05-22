@@ -1,298 +1,316 @@
-import React, { useEffect, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { ErrorBoundary } from "react-error-boundary";
-
 import {
-	ViewerContextStore,
-	useViewerDispatch,
-	useViewerState,
-	type PluginConfig,
+  Content,
+  List,
+  Scroll,
+  Trigger,
+  Wrapper,
+} from "src/components/Viewer/InformationPanel/InformationPanel.styled";
+import React, { useEffect, useMemo } from "react";
+import {
+  ViewerContextStore,
+  useViewerDispatch,
+  useViewerState,
+  type PluginConfig,
 } from "src/context/viewer-context";
 
+import AnnotationPage from "src/components/Viewer/InformationPanel/Annotation/Page";
+import ContentSearch from "src/components/Viewer/InformationPanel/ContentSearch/ContentSearch";
+import { AnnotationResources, AnnotationResource } from "src/types/annotations";
+import Information from "src/components/Viewer/InformationPanel/About/About";
 import {
-	Content,
-	List,
-	Scroll,
-	Trigger,
-	Wrapper,
-} from "./InformationPanel.styled";
-
-import AnnotationPage from "./Annotation/Page";
-import ContentSearch from "./ContentSearch/ContentSearch";
-import Information from "./About/About";
-import ContentStateAnnotationPage from "./ContentState/Page";
-import { annotationMatchesMotivations } from "src/lib/annotation-helpers";
-
+  InternationalString,
+  AnnotationPageNormalized,
+  CanvasNormalized,
+  AnnotationNormalized,
+} from "@iiif/presentation-3";
+import { Icon } from "src/components/UI";
 import { Label } from "src/components/Primitives";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 
-import {
-	AnnotationResources,
-	AnnotationResource,
-} from "src/types/annotations";
-import {
-	InternationalString,
-	AnnotationPageNormalized,
-	CanvasNormalized,
-	AnnotationNormalized
-} from "@iiif/presentation-3";
-
+import { ErrorBoundary } from "react-error-boundary";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
+import ContentStateAnnotationPage from "./ContentState/Page";
+import AnnotationCollectionPage from "./AnnotationCollection/Page";
+import { annotationMatchesMotivations } from "src/lib/annotation-helpers";
 import { getAvailableTabs } from "src/lib/information-panel-helpers";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
 
 interface NavigatorProps {
-	activeCanvas: string;
-	annotationResources?: AnnotationResources;
-	searchServiceUrl?: string;
-	setContentSearchResource: React.Dispatch<
-		React.SetStateAction<AnnotationPageNormalized | undefined>
-	>;
-	contentSearchResource?: AnnotationResource;
-	pluginsWithInfoPanel?: PluginConfig[];
+  activeCanvas: string;
+  annotationResources?: AnnotationResources;
+  searchServiceUrl?: string;
+  setContentSearchResource: React.Dispatch<
+    React.SetStateAction<AnnotationPageNormalized | undefined>
+  >;
+  contentSearchResource?: AnnotationResource;
+  contentSearchCallback?: (query: string) => void;
+  initialSearchQuery?: string;
+  pluginsWithInfoPanel?: PluginConfig[];
 }
 
 export const InformationPanel: React.FC<NavigatorProps> = ({
-	activeCanvas,
-	annotationResources,
-	searchServiceUrl,
-	setContentSearchResource,
-	contentSearchResource,
-	pluginsWithInfoPanel,
+  activeCanvas,
+  annotationResources,
+  searchServiceUrl,
+  setContentSearchResource,
+  contentSearchResource,
+  contentSearchCallback,
+  initialSearchQuery,
+  pluginsWithInfoPanel,
 }) => {
-	const { t } = useTranslation();
-	const dispatch: any = useViewerDispatch();
-	const viewerState: ViewerContextStore = useViewerState();
-	const {
-		contentStateAnnotation,
-		informationPanelResource,
-		isAutoScrolling,
-		isUserScrolling,
-		vault,
-		configOptions,
-	} = viewerState;
-	const { informationPanel } = configOptions;
+  const { t } = useCloverTranslation();
+  const dispatch: any = useViewerDispatch();
+  const viewerState: ViewerContextStore = useViewerState();
+  const {
+    annotationCollection,
+    contentStateAnnotation,
+    informationPanelResource,
+    isAutoScrolling,
+    isUserScrolling,
+    vault,
+    configOptions,
+  } = viewerState;
+  const { informationPanel } = configOptions;
 
-	const renderAbout = informationPanel?.renderAbout;
-	const renderAnnotation = informationPanel?.renderAnnotation;
-	const canvas = vault.get({
-		id: activeCanvas,
-		type: "Canvas",
-	}) as CanvasNormalized;
+  const renderAbout = informationPanel?.renderAbout;
+  const renderAnnotation = informationPanel?.renderAnnotation;
+  const hasAnnotationCollection = Boolean(annotationCollection?.pages?.length);
+  const canvas = vault.get({
+    id: activeCanvas,
+    type: "Canvas",
+  }) as CanvasNormalized;
 
-	const renderContentSearch = informationPanel?.renderContentSearch;
-	const renderToggle = informationPanel?.renderToggle;
-	const allowedAnnotationMotivations = configOptions?.annotations?.motivations;
-	const contentStateAnnotationSource =
-		// @ts-ignore
-		contentStateAnnotation?.target?.source || contentStateAnnotation?.target;
-	const hasContentStateAnnotation =
-		Boolean(contentStateAnnotation) &&
-		// @ts-ignore
-		contentStateAnnotationSource.id === activeCanvas;
-	const filteredAnnotationResources = useMemo(() => {
-		if (!annotationResources) return [];
-		if (!allowedAnnotationMotivations)
-			return annotationResources;
+  const renderContentSearch = informationPanel?.renderContentSearch;
+  const renderToggle = informationPanel?.renderToggle;
+  const allowedAnnotationMotivations = configOptions?.annotations?.motivations;
+  const contentStateAnnotationSource =
+    // @ts-ignore
+    contentStateAnnotation?.target?.source || contentStateAnnotation?.target;
+  const hasContentStateAnnotation =
+    Boolean(contentStateAnnotation) &&
+    // @ts-ignore
+    contentStateAnnotationSource.id === activeCanvas;
+  const filteredAnnotationResources = useMemo(() => {
+    if (!annotationResources) return [];
+    if (!allowedAnnotationMotivations)
+      return annotationResources;
 
-		return annotationResources
-			.map((annotationPage) => {
-				if (!annotationPage?.items?.length) return null;
+    return annotationResources
+      .map((annotationPage) => {
+        if (!annotationPage?.items?.length) return null;
 
-				const filteredItems = annotationPage.items.filter((item) => {
-					const annotation = vault.get(item.id) as
-						| AnnotationNormalized
-						| undefined;
-					return annotationMatchesMotivations(
-						annotation,
-						allowedAnnotationMotivations,
-					);
-				});
+        const filteredItems = annotationPage.items.filter((item) => {
+          const annotation = vault.get(item.id) as
+            | AnnotationNormalized
+            | undefined;
+          return annotationMatchesMotivations(
+            annotation,
+            allowedAnnotationMotivations,
+          );
+        });
 
-				if (!filteredItems.length) return null;
+        if (!filteredItems.length) return null;
 
-				return {
-					...annotationPage,
-					items: filteredItems,
-				};
-			})
-			.filter(Boolean) as AnnotationResources;
-	}, [annotationResources, allowedAnnotationMotivations, vault]);
+        return {
+          ...annotationPage,
+          items: filteredItems,
+        };
+      })
+      .filter(Boolean) as AnnotationResources;
+  }, [annotationResources, allowedAnnotationMotivations, vault]);
+  const hasAnnotations =
+    Boolean(filteredAnnotationResources?.length) ||
+    hasContentStateAnnotation ||
+    hasAnnotationCollection;
 
-	const hasAnnotations =
-		Boolean(filteredAnnotationResources?.length) || hasContentStateAnnotation;
+  function renderPluginInformationPanel(plugin: PluginConfig, i: number) {
+    const PluginInformationPanelComponent = plugin?.informationPanel
+      ?.component as unknown as React.ElementType;
 
-	function renderPluginInformationPanel(plugin: PluginConfig, i: number) {
-		const PluginInformationPanelComponent = plugin?.informationPanel
-			?.component as unknown as React.ElementType;
+    if (PluginInformationPanelComponent === undefined) {
+      return <></>;
+    }
 
-		if (PluginInformationPanelComponent === undefined) {
-			return <></>;
-		}
+    return (
+      <Content key={i} value={plugin.id}>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <PluginInformationPanelComponent
+            {...plugin?.informationPanel?.componentProps}
+            canvas={canvas}
+            useViewerDispatch={useViewerDispatch}
+            useViewerState={useViewerState}
+          />
+        </ErrorBoundary>
+      </Content>
+    );
+  }
 
-		return (
-			<Content key={i} value={plugin.id}>
-				<ErrorBoundary FallbackComponent={ErrorFallback}>
-					<PluginInformationPanelComponent
-						{...plugin?.informationPanel?.componentProps}
-						canvas={canvas}
-						useViewerDispatch={useViewerDispatch}
-						useViewerState={useViewerState}
-					/>
-				</ErrorBoundary>
-			</Content>
-		);
-	}
+  /**
+   * Close the information panel
+   */
+  const handleInformationPanelClose = () => {
+    dispatch({
+      type: "updateInformationOpen",
+      isInformationOpen: false,
+    });
+  };
 
-	/**
-	 * Close the information panel
-	 */
-	const handleInformationPanelClose = () => {
-		dispatch({
-			type: "updateInformationOpen",
-			isInformationOpen: false,
-		});
-	};
+  useEffect(() => {
+    const availableTabs = getAvailableTabs({
+      informationPanel,
+      annotationResources,
+      contentSearchResource,
+      pluginsWithInfoPanel,
+    });
 
-	useEffect(() => {
-		const availableTabs = getAvailableTabs({
-			informationPanel,
-			annotationResources,
-			contentSearchResource,
-			pluginsWithInfoPanel,
-		});
+    const defaultTab =
+      (informationPanel?.defaultTab &&
+        availableTabs.includes(String(informationPanel.defaultTab)) &&
+        informationPanel.defaultTab) ||
+      availableTabs[0] ||
+      "manifest-about";
 
-		const defaultTab =
-			(informationPanel?.defaultTab &&
-				availableTabs.includes(String(informationPanel.defaultTab)) &&
-				informationPanel.defaultTab) ||
-			availableTabs[0] ||
-			"manifest-about";
+    dispatch({
+      type: "updateInformationPanelResource",
+      informationPanelResource: defaultTab,
+    });
+  }, [
+    informationPanel,
+    annotationResources,
+    contentSearchResource,
+    pluginsWithInfoPanel,
+    dispatch,
+  ]);
 
-		dispatch({
-			type: "updateInformationPanelResource",
-			informationPanelResource: defaultTab,
-		});
-	}, [
-		informationPanel,
-		annotationResources,
-		contentSearchResource,
-		pluginsWithInfoPanel,
-		dispatch,
-	]);
+  useEffect(() => {
+    if (!hasAnnotations) {
+      dispatch({
+        type: "updateInformationPanelResource",
+        informationPanelResource: "manifest-about",
+      });
+    }
+  }, [hasAnnotations]);
 
-	function handleScroll() {
-		if (!isAutoScrolling) {
-			clearTimeout(isUserScrolling);
-			const timeout = setTimeout(() => {
-				dispatch({
-					type: "updateUserScrolling",
-					isUserScrolling: undefined,
-				});
-			}, UserScrollTimeout);
+  function handleScroll() {
+    if (!isAutoScrolling) {
+      clearTimeout(isUserScrolling);
+      const timeout = setTimeout(() => {
+        dispatch({
+          type: "updateUserScrolling",
+          isUserScrolling: undefined,
+        });
+      }, UserScrollTimeout);
 
-			dispatch({
-				type: "updateUserScrolling",
-				isUserScrolling: timeout,
-			});
-		}
-	}
+      dispatch({
+        type: "updateUserScrolling",
+        isUserScrolling: timeout,
+      });
+    }
+  }
 
-	const handleValueChange = (value: string) => {
-		dispatch({
-			type: "updateInformationPanelResource",
-			informationPanelResource: value,
-		});
-	};
+  const handleValueChange = (value: string) => {
+    dispatch({
+      type: "updateInformationPanelResource",
+      informationPanelResource: value,
+    });
+  };
 
-	return (
-		<Wrapper
-			data-testid="information-panel"
-			defaultValue={informationPanelResource}
-			onValueChange={handleValueChange}
-			orientation="horizontal"
-			value={informationPanelResource}
-			className="clover-viewer-information-panel"
-		>
-			<List
-				aria-label={t("informationPanelTabs")}
-				data-testid="information-panel-list"
-			>
-				{renderToggle && (
-					<Trigger
-						value="manifest-back"
-						data-value="manifest-back"
-						onClick={handleInformationPanelClose}
-						as={"button"}
-					>
-						{t("informationPanelTabsClose")}
-					</Trigger>
-				)}
-				{renderAbout && (
-					<Trigger value="manifest-about">
-						{t("informationPanelTabsAbout")}
-					</Trigger>
-				)}
-				{renderContentSearch && contentSearchResource && (
-					<Trigger value="manifest-content-search">
-						{t("informationPanelTabsSearch")}
-					</Trigger>
-				)}
-				{renderAnnotation && hasAnnotations && (
-					<Trigger value="manifest-annotations">
-						{informationPanel?.annotationTabLabel ||
-							t("informationPanelTabsAnnotations")}
-					</Trigger>
-				)}
+  return (
+    <Wrapper
+      data-testid="information-panel"
+      defaultValue={informationPanelResource}
+      onValueChange={handleValueChange}
+      orientation="horizontal"
+      value={informationPanelResource}
+      className="clover-viewer-information-panel"
+    >
+      <List
+        aria-label={t("informationPanelTabs")}
+        data-testid="information-panel-list"
+      >
+        {renderToggle && (
+          <Trigger
+            value="manifest-back"
+            data-value="manifest-back"
+            onClick={handleInformationPanelClose}
+            as={"button"}
+            aria-label={t("informationPanelTabsClose")}
+          >
+            <Icon fill="currentColor" aria-hidden="true">
+              <Icon.PanelExpand />
+            </Icon>
+          </Trigger>
+        )}
+        {renderAbout && (
+          <Trigger value="manifest-about">
+            {t("informationPanelTabsAbout")}
+          </Trigger>
+        )}
+        {renderContentSearch && contentSearchResource && (
+          <Trigger value="manifest-content-search">
+            {t("informationPanelTabsSearch")}
+          </Trigger>
+        )}
+        {renderAnnotation && hasAnnotations && (
+          <Trigger value="manifest-annotations">
+            {informationPanel?.annotationTabLabel ||
+              t("informationPanelTabsAnnotations")}
+          </Trigger>
+        )}
+        {pluginsWithInfoPanel &&
+          pluginsWithInfoPanel.map((plugin, i) => (
+            <Trigger key={i} value={plugin.id}>
+              <Label
+                label={plugin.informationPanel?.label as InternationalString}
+              />
+            </Trigger>
+          ))}
+      </List>
+      <Scroll handleScroll={handleScroll}>
+        {renderAbout && (
+          <Content value="manifest-about">
+            <Information />
+          </Content>
+        )}
+        {renderContentSearch && contentSearchResource && (
+          <Content value="manifest-content-search">
+            <ContentSearch
+              searchServiceUrl={searchServiceUrl}
+              setContentSearchResource={setContentSearchResource}
+              activeCanvas={activeCanvas}
+              annotationPage={contentSearchResource}
+              contentSearchCallback={contentSearchCallback}
+              initialSearchQuery={initialSearchQuery}
+            />
+          </Content>
+        )}
+        {renderAnnotation && hasAnnotations && (
+          <Content value="manifest-annotations">
+            {contentStateAnnotation && hasContentStateAnnotation && (
+              <ContentStateAnnotationPage
+                contentStateAnnotation={contentStateAnnotation}
+              />
+            )}
+            {filteredAnnotationResources.map((annotationPage) => (
+              <AnnotationPage
+                key={annotationPage.id}
+                annotationPage={annotationPage}
+              />
+            ))}
+            {hasAnnotationCollection && (
+              <AnnotationCollectionPage annotationCollection={annotationCollection!} />
+            )}
+          </Content>
+        )}
 
-				{pluginsWithInfoPanel &&
-					pluginsWithInfoPanel.map((plugin, i) => (
-						<Trigger key={i} value={plugin.id}>
-							<Label
-								label={plugin.informationPanel?.label as InternationalString}
-							/>
-						</Trigger>
-					))}
-			</List>
-			<Scroll handleScroll={handleScroll}>
-				{renderAbout && (
-					<Content value="manifest-about">
-						<Information />
-					</Content>
-				)}
-				{renderContentSearch && contentSearchResource && (
-					<Content value="manifest-content-search">
-						<ContentSearch
-							searchServiceUrl={searchServiceUrl}
-							setContentSearchResource={setContentSearchResource}
-							activeCanvas={activeCanvas}
-							annotationPage={contentSearchResource}
-						/>
-					</Content>
-				)}
-				{renderAnnotation && hasAnnotations && filteredAnnotationResources && (
-					<Content value="manifest-annotations">
-						{contentStateAnnotation && hasContentStateAnnotation && (
-							<ContentStateAnnotationPage
-								contentStateAnnotation={contentStateAnnotation}
-							/>
-						)}
-						{filteredAnnotationResources.map((annotationPage) => (
-							<AnnotationPage
-								key={annotationPage.id}
-								annotationPage={annotationPage}
-							/>
-						))}
-					</Content>
-				)}
-
-				{pluginsWithInfoPanel &&
-					pluginsWithInfoPanel.map((plugin, i) =>
-						renderPluginInformationPanel(plugin, i),
-					)}
-			</Scroll>
-		</Wrapper>
-	);
+        {pluginsWithInfoPanel &&
+          pluginsWithInfoPanel.map((plugin, i) =>
+            renderPluginInformationPanel(plugin, i),
+          )}
+      </Scroll>
+    </Wrapper>
+  );
 };
 
 export default InformationPanel;

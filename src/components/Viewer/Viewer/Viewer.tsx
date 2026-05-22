@@ -33,12 +33,14 @@ interface ViewerProps {
   manifest: ManifestNormalized;
   theme?: unknown;
   iiifContentSearchQuery?: ContentSearchQuery;
+  contentSearchCallback?: (query: string) => void;
 }
 
 const Viewer: React.FC<ViewerProps> = ({
   manifest,
   theme,
   iiifContentSearchQuery,
+  contentSearchCallback,
 }) => {
   /**
    * Viewer State
@@ -186,6 +188,8 @@ const Viewer: React.FC<ViewerProps> = ({
             searchServiceUrl={searchServiceUrl}
             setContentSearchResource={setContentSearchResource}
             contentSearchResource={contentSearchResource}
+            contentSearchCallback={contentSearchCallback}
+            initialSearchQuery={iiifContentSearchQuery?.q}
             items={manifest.items}
             isAudioVideo={isAudioVideo}
           />

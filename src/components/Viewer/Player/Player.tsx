@@ -1,5 +1,5 @@
 import { AnnotationNormalized, CanvasNormalized } from "@iiif/presentation-3";
-import Hls, { HlsConfig } from "hls.js";
+import type { HlsConfig } from "hls.js";
 import React, { useEffect } from "react";
 import {
   ViewerContextStore,
@@ -13,108 +13,125 @@ import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
 import Track from "src/components/Viewer/Player/Track";
 import { getPaintingResource } from "src/hooks/use-iiif";
-import { hlsMimeTypes } from "src/lib/hls";
+import { isHls } from "src/lib/hls";
 
 interface PlayerProps {
   allSources: LabeledIIIFExternalWebResource[];
   annotationResources: AnnotationResources;
+  onEnded?: () => void;
   painting: LabeledIIIFExternalWebResource;
 }
 
 const Player: React.FC<PlayerProps> = ({
   allSources,
   annotationResources,
+  onEnded,
   painting,
 }) => {
   const [currentTime, setCurrentTime] = React.useState<number>(0);
   const [poster, setPoster] = React.useState<string | undefined>();
   const playerRef = React.useRef<HTMLVideoElement>(null);
-  const isAudio = painting?.type === "Sound";
+  const onEndedRef = React.useRef(onEnded);
+  React.useEffect(() => {
+    onEndedRef.current = onEnded;
+  }, [onEnded]);
 
   const viewerDispatch: any = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
-  const { activeCanvas, configOptions, contentStateAnnotation, vault } =
-    viewerState;
+
+  const {
+    activeCanvas,
+    configOptions,
+    contentStateAnnotation,
+    isMediaPlaying,
+    vault,
+  } = viewerState;
+  const isAudio = painting?.type === "Sound";
 
   /**
-   * HLS.js binding for .m3u8 files
-   * STAGING and PRODUCTION environments only
+   * Source binding. Plain MP4 / WebM / etc. is set as `video.src` directly.
+   * HLS playlists (.m3u8) are handed to native HLS support where available
+   * (Safari) and fall back to dynamically importing `hls.js` only when we
+   * actually need it. This keeps `hls.js` (~150KB) out of the initial
+   * bundle for the common case.
    */
   useEffect(() => {
-    /**
-     * Check that IIIF content resource ID exists and
-     * we have a reffed <video> for attaching HLS
-     */
     if (!painting.id || !playerRef.current) return;
 
-    if (playerRef?.current) {
-      const video: HTMLVideoElement = playerRef.current;
-      viewerDispatch({
-        type: "updateActivePlayer",
-        player: video,
-      });
+    const video: HTMLVideoElement = playerRef.current;
+    viewerDispatch({ type: "updateActivePlayer", player: video });
+
+    if (!isHls(painting.id, painting.format)) {
       video.src = painting.id as string;
       video.load();
+      return;
     }
 
-    /**
-     * Eject HLS attachment if file extension from
-     * the IIIF content resource ID is not .m3u8
-     * and format is not one of many m3u8 formats.
-     */
-    if (
-      painting.id.split(".").pop() !== "m3u8" &&
-      painting.format &&
-      !hlsMimeTypes.includes(painting.format)
-    )
+    // Native HLS support (Safari): just point the element at the playlist.
+    if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = painting.id as string;
+      video.load();
       return;
+    }
 
-    // Construct HLS.js config
-    const config = {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      xhrSetup: function (xhr, url) {
-        xhr.withCredentials = !!configOptions.withCredentials;
-      },
-    } as HlsConfig;
+    // Otherwise, lazy-load hls.js only when we actually have an HLS source
+    // and the browser doesn't natively support it.
+    let cancelled = false;
+    let hls: import("hls.js").default | undefined;
 
-    // Bind hls.js package to our <video /> element and then load the media source
-    const hls = new Hls(config);
-    hls.attachMedia(playerRef.current);
-    hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-      hls.loadSource(painting.id as string);
-    });
+    (async () => {
+      const { default: Hls } = await import("hls.js");
+      if (cancelled || !playerRef.current) return;
 
-    // Handle errors
-    hls.on(Hls.Events.ERROR, function (event, data) {
-      if (data.fatal) {
+      // Final guard: the browser must support MediaSource Extensions for
+      // hls.js to work. If not, fall back to setting the source directly
+      // and let the browser surface the failure naturally.
+      if (!Hls.isSupported()) {
+        playerRef.current.src = painting.id as string;
+        playerRef.current.load();
+        return;
+      }
+
+      const config: Partial<HlsConfig> = {
+        xhrSetup: function (xhr: XMLHttpRequest) {
+          xhr.withCredentials = !!configOptions.withCredentials;
+        },
+      };
+
+      hls = new Hls(config);
+      hls.attachMedia(playerRef.current);
+      hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+        hls?.loadSource(painting.id as string);
+      });
+
+      hls.on(Hls.Events.ERROR, function (event, data) {
+        if (!data.fatal) return;
         switch (data.type) {
           case Hls.ErrorTypes.NETWORK_ERROR:
-            // try to recover network error
             console.error(
               `fatal ${event} network error encountered, try to recover`,
             );
-            hls.startLoad();
+            hls?.startLoad();
             break;
           case Hls.ErrorTypes.MEDIA_ERROR:
             console.error(
               `fatal ${event} media error encountered, try to recover`,
             );
-            hls.recoverMediaError();
+            hls?.recoverMediaError();
             break;
           default:
-            // cannot recover
-            hls.destroy();
+            hls?.destroy();
             break;
         }
-      }
-    });
+      });
+    })();
 
     return () => {
+      cancelled = true;
       if (hls && playerRef.current) {
-        const video: HTMLVideoElement = playerRef.current;
         hls.detachMedia();
         hls.destroy();
-        video.currentTime = 0;
+        playerRef.current.currentTime = 0;
       }
     };
   }, [
@@ -182,13 +199,47 @@ const Player: React.FC<PlayerProps> = ({
       }
     };
 
+    const onEndedHandler = () => onEndedRef.current?.();
+
     video.addEventListener("timeupdate", onTimeUpdate);
+    video.addEventListener("ended", onEndedHandler);
 
     return () => {
       video?.removeEventListener("timeupdate", onTimeUpdate);
+      video?.removeEventListener("ended", onEndedHandler);
       if (intervalId) clearInterval(intervalId);
     };
   }, [painting.id, activeCanvas]);
+
+  // Auto-play when mounting a new source if media was already playing
+  useEffect(() => {
+    const video = playerRef.current;
+    if (!video || !isMediaPlaying) return;
+
+    const onCanPlay = () => video.play().catch(() => {});
+    video.addEventListener("canplay", onCanPlay, { once: true });
+    return () => video.removeEventListener("canplay", onCanPlay);
+  }, [painting.id]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Keep isMediaPlaying context in sync with actual playback state
+  useEffect(() => {
+    const video = playerRef.current;
+    if (!video) return;
+
+    const onPlay = () =>
+      viewerDispatch({ type: "updateIsMediaPlaying", isMediaPlaying: true });
+    const onPause = () => {
+      if (!video.ended)
+        viewerDispatch({ type: "updateIsMediaPlaying", isMediaPlaying: false });
+    };
+
+    video.addEventListener("play", onPlay);
+    video.addEventListener("pause", onPause);
+    return () => {
+      video.removeEventListener("play", onPlay);
+      video.removeEventListener("pause", onPause);
+    };
+  }, [painting.id, viewerDispatch]);
 
   /**
    * Update to video to content state annotation selector

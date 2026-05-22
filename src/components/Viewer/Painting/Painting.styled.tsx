@@ -8,15 +8,10 @@ const PaintingStyled = styled("div", {
   flexDirection: "column",
   flexGrow: "1",
   flexShrink: "1",
-  gap: "1rem",
   zIndex: "0",
   overflow: "hidden",
 
   "&:hover": {
-    [`${ToggleStyled}`]: {
-      backgroundColor: "$accent",
-    },
-
     [`${PlaceholderStyled}`]: {
       backgroundColor: "#6662",
     },
@@ -25,7 +20,15 @@ const PaintingStyled = styled("div", {
 
 const PaintingCanvas = styled("div", {
   width: "100%",
-  height: "100%",
+  flexGrow: "1",
+  minHeight: "0",
 });
 
-export { PaintingCanvas, PaintingStyled, ToggleStyled };
+const AnimationFrameImage = styled("img", {
+  width: "100%",
+  height: "100%",
+  objectFit: "contain",
+  display: "block",
+});
+
+export { AnimationFrameImage, PaintingCanvas, PaintingStyled, ToggleStyled };

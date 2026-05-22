@@ -28,11 +28,19 @@ import {
 } from "src/lib/iiif";
 import { ContentSearchQuery } from "src/types/annotations";
 import { contentStateSpecificResource } from "src/lib/content-state";
+import {
+  loadAnnotationCollection,
+  loadAnnotationPage,
+  getFirstManifestFromAnnotationCollection,
+  getFirstAnnotationTarget,
+} from "src/lib/annotation-collection";
+import { zoomToOverlay } from "src/lib/openseadragon-helpers";
 import { hashCode } from "src/lib/utils";
 
 export interface CloverViewerProps {
   canvasIdCallback?: (arg0: string) => void;
   contentStateCallback?: (iiifContentState: object) => void;
+  contentSearchCallback?: (query: string) => void;
   customDisplays?: Array<CustomDisplay>;
   plugins?: Array<PluginConfig>;
   customTheme?: any;
@@ -46,6 +54,7 @@ export interface CloverViewerProps {
 const CloverViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback,
   contentStateCallback,
+  contentSearchCallback,
   customDisplays = [],
   plugins = [],
   customTheme,
@@ -90,6 +99,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
         iiifContent={iiifResource}
         canvasIdCallback={canvasIdCallback}
         contentStateCallback={contentStateCallback}
+        contentSearchCallback={contentSearchCallback}
         customTheme={customTheme}
         options={options}
         iiifContentSearchQuery={iiifContentSearchQuery}
@@ -101,6 +111,7 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
 const RenderViewer: React.FC<CloverViewerProps> = ({
   canvasIdCallback,
   contentStateCallback,
+  contentSearchCallback,
   customTheme,
   iiifContent,
   options,
@@ -117,7 +128,11 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     activeCanvas,
     activeManifest,
     activeSelector,
+    annotationCollection,
+    configOptions,
     isLoaded,
+    openSeadragonViewer,
+    pendingAnnotationTarget,
     vault,
     visibleCanvases,
   } = store;
@@ -136,11 +151,35 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    * Update activeSelector when the canvas or manifest changes.
    */
   useEffect(() => {
-    dispatch({
-      type: "updateActiveSelector",
-      selector: undefined,
-    });
+    dispatch({ type: "updateActiveSelector", selector: undefined });
   }, [activeCanvas, activeManifest]);
+
+  /**
+   * When a pendingAnnotationTarget is set, poll every 300ms until OSD has
+   * drawn the overlay for the target annotation, then zoom to it using the
+   * overlay's own bounds (mirrors the content-state highlight pattern).
+   * The 300ms cadence also clears OSD's fitBoundsOnAllLoaded retries (~150ms)
+   * so our zoom lands last and sticks.
+   */
+  useEffect(() => {
+    if (!pendingAnnotationTarget) return;
+    if (!openSeadragonViewer) return;
+    if (activeCanvas !== pendingAnnotationTarget.canvasId) return;
+
+    const { annotationId } = pendingAnnotationTarget;
+
+    const intervalId = setInterval(() => {
+      if (zoomToOverlay(openSeadragonViewer, annotationId)) {
+        dispatch({
+          type: "updatePendingAnnotationTarget",
+          pendingAnnotationTarget: null,
+        });
+        clearInterval(intervalId);
+      }
+    }, 300);
+
+    return () => clearInterval(intervalId);
+  }, [pendingAnnotationTarget, openSeadragonViewer, activeCanvas]);
 
   /**
    * On change, pass the activeCanvas up to the wrapping `<App/>`
@@ -188,61 +227,74 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   ]);
 
   useEffect(() => {
-    if (activeManifest)
-      vault
-        .load(activeManifest)
-        .then((data: ManifestNormalized) => {
-          if (!data) return;
+    if (!activeManifest) return;
 
-          setManifest(data);
+    // When a manifest's internal `id` differs from the URL it was fetched from,
+    // vault stores the entity under the internal id but tracks the *request* under
+    // the fetch URL. A subsequent vault.load(internalId) finds no request entry
+    // and tries to fetch from the internal id as a URL, which may not resolve.
+    // Check vault.get first — it looks directly in entities and handles this case.
+    const existingManifest = vault.get(activeManifest) as ManifestNormalized | null;
+    const manifestLoader: Promise<ManifestNormalized> =
+      existingManifest &&
+      Array.isArray((existingManifest as any).items) &&
+      (existingManifest as any).items.length > 0
+        ? Promise.resolve(existingManifest)
+        : (vault.load(activeManifest) as Promise<ManifestNormalized>);
 
-          /**
-           * ignoring as ManifestNormalized mismatches across helper libraries
-           */
+    manifestLoader
+      .then((data: ManifestNormalized) => {
+        if (!data) return;
 
-          // @ts-ignore
-          const sequence = getManifestSequence(vault, data);
-          const canvasId = activeCanvas || getActiveCanvas(data);
+        setManifest(data);
 
-          dispatch({
-            type: "updateActiveCanvas",
-            canvasId: canvasId,
-          });
-          dispatch({
-            type: "updateManifestSequence",
-            sequence,
-          });
+        /**
+         * ignoring as ManifestNormalized mismatches across helper libraries
+         */
 
-          /**
-           * Extract viewingDirection from manifest (defaults to left-to-right)
-           * and check if behavior includes "paged"
-           */
-          // @ts-ignore - viewingDirection exists on IIIF manifest but may not be typed
-          const viewingDirection = data.viewingDirection || "left-to-right";
-          // @ts-ignore - behavior exists on IIIF manifest but may not be typed
-          const behavior = data.behavior || [];
-          const isPaged = Array.isArray(behavior)
-            ? behavior.includes("paged")
-            : behavior === "paged";
+        // @ts-ignore
+        const sequence = getManifestSequence(vault, data);
+        const canvasId = activeCanvas || getActiveCanvas(data);
 
-          dispatch({
-            type: "updateViewingDirection",
-            viewingDirection,
-          });
-          dispatch({
-            type: "updateIsPaged",
-            isPaged,
-          });
-        })
-        .catch((error: Error) => {
-          console.error(`Manifest failed to load: ${error}`);
-        })
-        .finally(() => {
-          dispatch({
-            type: "updateIsLoaded",
-            isLoaded: true,
-          });
+        dispatch({
+          type: "updateActiveCanvas",
+          canvasId: canvasId,
         });
+        dispatch({
+          type: "updateManifestSequence",
+          sequence,
+        });
+
+        /**
+         * Extract viewingDirection from manifest (defaults to left-to-right)
+         * and check if behavior includes "paged"
+         */
+        // @ts-ignore - viewingDirection exists on IIIF manifest but may not be typed
+        const viewingDirection = data.viewingDirection || "left-to-right";
+        // @ts-ignore - behavior exists on IIIF manifest but may not be typed
+        const behavior = data.behavior || [];
+        const isPaged = Array.isArray(behavior)
+          ? behavior.includes("paged")
+          : behavior === "paged";
+
+        dispatch({
+          type: "updateViewingDirection",
+          viewingDirection,
+        });
+        dispatch({
+          type: "updateIsPaged",
+          isPaged,
+        });
+      })
+      .catch((error: Error) => {
+        console.error(`Manifest failed to load: ${error}`);
+      })
+      .finally(() => {
+        dispatch({
+          type: "updateIsLoaded",
+          isLoaded: true,
+        });
+      });
   }, [iiifContent, activeManifest, dispatch, vault]);
 
   useEffect(() => {
@@ -255,6 +307,125 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
       if (!iiifContent) return;
 
       const contentState = decodeContentStateContainerURI(iiifContent);
+
+      /**
+       * AnnotationCollection is not a IIIF Presentation 3 vault type.
+       * Peek at the resource before passing to vault so we can intercept
+       * and handle the collection loading path ourselves.
+       */
+      if (typeof contentState === "string") {
+        try {
+          const res = await fetch(contentState, {
+            headers: { Accept: "application/json, application/ld+json" },
+          });
+          const json = await res.json();
+          if (
+            json?.type === "AnnotationCollection" ||
+            json?.type === "AnnotationPage"
+          ) {
+            const collection =
+              json.type === "AnnotationPage"
+                ? await loadAnnotationPage(json)
+                : await loadAnnotationCollection(json);
+            dispatch({
+              type: "updateAnnotationCollection",
+              annotationCollection: collection,
+            });
+            const firstManifest =
+              getFirstManifestFromAnnotationCollection(collection);
+            const { canvasId: firstCanvasId, annotationId: firstAnnotationId } =
+              getFirstAnnotationTarget(collection);
+            if (firstManifest) {
+              if (firstCanvasId) {
+                dispatch({ type: "updateActiveCanvas", canvasId: firstCanvasId });
+                if (firstAnnotationId) {
+                  dispatch({
+                    type: "updatePendingAnnotationTarget",
+                    pendingAnnotationTarget: { canvasId: firstCanvasId, annotationId: firstAnnotationId },
+                  });
+                }
+              }
+              dispatch({ type: "updateActiveManifest", manifestId: firstManifest });
+            } else {
+              dispatch({ type: "updateIsLoaded", isLoaded: true });
+            }
+            return;
+          }
+          if (json?.type === "Canvas") {
+            if (json.partOf?.[0]?.id) {
+              dispatch({ type: "updateActiveCanvas", canvasId: json.id });
+              dispatch({ type: "updateActiveManifest", manifestId: json.partOf[0].id });
+            } else {
+              const syntheticId = `${json.id}/manifest`;
+              await vault.loadSync(syntheticId, {
+                "@context": "http://iiif.io/api/presentation/3/context.json",
+                id: syntheticId,
+                type: "Manifest",
+                label: json.label ?? { none: [""] },
+                items: [json],
+              });
+              dispatch({ type: "updateActiveCanvas", canvasId: json.id });
+              dispatch({ type: "updateActiveManifest", manifestId: syntheticId });
+            }
+            return;
+          }
+        } catch {
+          // Not an AnnotationCollection/AnnotationPage/Canvas or fetch failed — fall through to vault.load
+        }
+      } else if (
+        typeof contentState === "object" &&
+        (contentState?.type === "AnnotationCollection" ||
+          contentState?.type === "AnnotationPage")
+      ) {
+        const collection =
+          contentState.type === "AnnotationPage"
+            ? await loadAnnotationPage(contentState)
+            : await loadAnnotationCollection(contentState);
+        dispatch({
+          type: "updateAnnotationCollection",
+          annotationCollection: collection,
+        });
+        const firstManifest =
+          getFirstManifestFromAnnotationCollection(collection);
+        const { canvasId: firstCanvasId, annotationId: firstAnnotationId } =
+          getFirstAnnotationTarget(collection);
+        if (firstManifest) {
+          if (firstCanvasId) {
+            dispatch({ type: "updateActiveCanvas", canvasId: firstCanvasId });
+            if (firstAnnotationId) {
+              dispatch({
+                type: "updatePendingAnnotationTarget",
+                pendingAnnotationTarget: { canvasId: firstCanvasId, annotationId: firstAnnotationId },
+              });
+            }
+          }
+          dispatch({ type: "updateActiveManifest", manifestId: firstManifest });
+        } else {
+          dispatch({ type: "updateIsLoaded", isLoaded: true });
+        }
+        return;
+      } else if (
+        typeof contentState === "object" &&
+        contentState?.type === "Canvas"
+      ) {
+        if (contentState.partOf?.[0]?.id) {
+          dispatch({ type: "updateActiveCanvas", canvasId: contentState.id });
+          dispatch({ type: "updateActiveManifest", manifestId: contentState.partOf[0].id });
+        } else {
+          const syntheticId = `${contentState.id}/manifest`;
+          await vault.loadSync(syntheticId, {
+            "@context": "http://iiif.io/api/presentation/3/context.json",
+            id: syntheticId,
+            type: "Manifest",
+            label: contentState.label ?? { none: [""] },
+            items: [contentState],
+          });
+          dispatch({ type: "updateActiveCanvas", canvasId: contentState.id });
+          dispatch({ type: "updateActiveManifest", manifestId: syntheticId });
+        }
+        return;
+      }
+
       try {
         const data:
           | ManifestNormalized
@@ -406,6 +577,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
       theme={theme}
       key={manifest.id}
       iiifContentSearchQuery={iiifContentSearchQuery}
+      contentSearchCallback={contentSearchCallback}
     />
   );
 };

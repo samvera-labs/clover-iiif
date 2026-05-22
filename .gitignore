@@ -43,3 +43,6 @@ examples/**/dist
 examples/**/.cache
 examples/**/coverage
 examples/**/html
+
+# agents
+.claude

@@ -1,36 +1,65 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import type { JSX } from "react";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkGfm from "remark-gfm";
-import remarkRehype from "remark-rehype";
-import rehypeRaw from "rehype-raw";
-import rehypeStringify from "rehype-stringify";
+import { sanitizeMarkdownHTML } from "src/lib/html-element";
 
 interface MarkdownResult {
   html: string;
   jsx: JSX.Element;
 }
 
-const processor = unified()
-  .use(remarkParse)
-  .use(remarkGfm)
-  .use(remarkRehype, { allowDangerousHtml: true })
-  .use(rehypeRaw)
-  .use(rehypeStringify);
+// Lazily import marked + marked-footnote the first time any markdown annotation
+// is encountered. The promise is cached at module scope so the dynamic import
+// fires only once regardless of how many hook instances are active.
+let converterPromise: Promise<(value: string) => string> | null = null;
 
-const convertMarkdown = (value: string) => {
-  try {
-    const file = processor.processSync(value || "");
-    return String(file);
-  } catch (error) {
-    console.warn("Failed to convert markdown", error);
-    return value || "";
+function getConverter(): Promise<(value: string) => string> {
+  if (!converterPromise) {
+    converterPromise = Promise.all([
+      import("marked"),
+      import("marked-footnote"),
+    ]).then(([{ Marked }, { default: markedFootnote }]) => {
+      // Use a scoped Marked instance so we don't mutate the global singleton.
+      const processor = new Marked({ gfm: true, breaks: false, async: false });
+      processor.use(markedFootnote({ footnoteDivider: true, description: "" }));
+
+      return (value: string): string => {
+        try {
+          const raw = processor.parse(value || "") as string;
+          // marked-footnote places the footnote id on <li>, which DOMPurify
+          // strips. Move it to the inner <p> so the forward-link from the
+          // inline <sup> still navigates to the correct target.
+          const preprocessed = raw.replace(
+            /<li id="([^"]+)">\n<p>/g,
+            '<li><p id="$1">',
+          );
+          return sanitizeMarkdownHTML(preprocessed);
+        } catch (error) {
+          console.warn("Failed to convert markdown", error);
+          return value || "";
+        }
+      };
+    });
   }
-};
+  return converterPromise;
+}
 
 const useMarkdown = (value: string): MarkdownResult => {
-  const html = useMemo(() => convertMarkdown(value), [value]);
+  const [html, setHtml] = useState("");
+
+  useEffect(() => {
+    if (!value) {
+      setHtml("");
+      return;
+    }
+    let cancelled = false;
+    getConverter().then((convert) => {
+      if (!cancelled) setHtml(convert(value));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [value]);
+
   const jsx = useMemo(
     () => <div dangerouslySetInnerHTML={{ __html: html }} />,
     [html],

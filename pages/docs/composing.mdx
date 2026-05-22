@@ -132,7 +132,7 @@ export default Work;
 
 ### Add Slider
 
-Finally, we add the `Slider` component to render the IIIF Collection that this Manifest is part of. We also need to import the `swiper` CSS files for baseline styling.
+Finally, we add the `Slider` component to render the IIIF Collection that this Manifest is part of.
 
 <br />
 <CallToAction href="/docs/slider" text="Slider Docs" size="small" />
@@ -150,10 +150,6 @@ import {
   Thumbnail,
 } from "@samvera/clover-iiif/primitives";
 import Slider from "@samvera/clover-iiif/slider";
-
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 
 const Work = () => {
   const [manifest, setManifest] = useState();

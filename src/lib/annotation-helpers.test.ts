@@ -84,6 +84,34 @@ describe("parseAnnotationTarget", () => {
     expect(result).toEqual(expected);
   });
 
+  it("handles target strings with t using query param style (&t=)", () => {
+    const target = "http://example.com/canvas/1&t=0,2";
+
+    const result = parseAnnotationTarget(target);
+
+    const expected = {
+      id: "http://example.com/canvas/1",
+      t: "0,2",
+    };
+    expect(result).toEqual(expected);
+  });
+
+  it("handles vault-normalized SpecificResource with &t= in source id (no selector)", () => {
+    const target = {
+      type: "SpecificResource" as const,
+      source: { id: "http://example.com/canvas/1&t=0,2", type: "Canvas" as const },
+    };
+
+    // @ts-ignore - testing non-standard vault normalization shape
+    const result = parseAnnotationTarget(target);
+
+    const expected = {
+      id: "http://example.com/canvas/1",
+      t: "0,2",
+    };
+    expect(result).toEqual(expected);
+  });
+
   it("handles target objects with PointSelector", () => {
     const target: AnnotationTargetExtended = {
       type: "SpecificResource",

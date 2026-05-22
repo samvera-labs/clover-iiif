@@ -4,6 +4,8 @@ import {
   Close,
   Download,
   Image,
+  PanelCollapse,
+  PanelExpand,
   Video,
 } from "src/components/UI/Icons";
 import { type CSS, type VariantProps } from "src/styles/stitches.config";
@@ -35,6 +37,8 @@ interface IconComposition {
   Close: React.FC;
   Download: React.FC;
   Image: React.FC;
+  PanelCollapse: React.FC;
+  PanelExpand: React.FC;
   Title: React.FC<TitleShape>;
   Video: React.FC;
 }
@@ -71,6 +75,8 @@ Icon.Audio = Audio;
 Icon.Close = Close;
 Icon.Download = Download;
 Icon.Image = Image;
+Icon.PanelCollapse = PanelCollapse;
+Icon.PanelExpand = PanelExpand;
 Icon.Video = Video;
 
 export { Icon };

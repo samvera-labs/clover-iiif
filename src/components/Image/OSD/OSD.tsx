@@ -20,6 +20,7 @@ interface OSDProps {
   _cloverViewerHasPlaceholder: boolean;
   annotations?: Array<{ annotation: Annotation; targetIndex: number }>;
   ariaLabel?: string | null;
+  clips?: (OpenSeadragon.Rect | undefined)[];
   config: Options;
   uri: string[];
   imageType: OpenSeadragonImageTypes;
@@ -46,6 +47,7 @@ const getBaseItemWithRetry = async (
 const OSD: React.FC<OSDProps> = ({
   annotations,
   ariaLabel,
+  clips,
   config,
   uri,
   _cloverViewerHasPlaceholder,
@@ -54,12 +56,22 @@ const OSD: React.FC<OSDProps> = ({
 }) => {
   const [osdDrawn, setOsdDrawn] = useState<string[]>([]);
   const [osdUri, setOsdUri] = useState<string[]>([]);
+  const [osdClips, setOsdClips] = useState<(OpenSeadragon.Rect | undefined)[]>(
+    [],
+  );
   const [openSeadragon, setOpenSeadragon] = useState<OpenSeadragon.Viewer>();
   const [srcDimensions, setSrcDimensions] = useState<
     Array<{ width: number; height: number }>
   >([]);
   const dispatch: any = useViewerDispatch();
   const initializeOSD = useRef(false);
+  const isFirstImageLoad = useRef(true);
+  // Tracks which URIs are currently rendered in OSD so we can detect clip-only
+  // changes and update the existing TiledImage in place instead of add/remove.
+  const drawnUriRef = useRef<string[]>([]);
+  // Maps clip-key strings to their preloaded TiledImage world items so we can
+  // toggle opacity between animation frames without moving anything in world space.
+  const clipItemsRef = useRef<Map<string, OpenSeadragon.TiledImage>>(new Map());
 
   const annotationClassName = "clover-iiif-image-openseadragon-annotation";
 
@@ -83,26 +95,133 @@ const OSD: React.FC<OSDProps> = ({
   }, [openSeadragon, openSeadragonCallback]);
 
   useEffect(() => {
-    if (openSeadragon && JSON.stringify(uri) !== JSON.stringify(osdUri)) {
+    if (!openSeadragon || !disableScrollToZoom) return;
+    // Intercept wheel events in the capture phase on the outer container —
+    // before they reach OSD's canvas listener — so OSD never calls
+    // preventDefault() and the browser can scroll the page natively.
+    const el = openSeadragon.element;
+    const handleWheel = (e: WheelEvent) => e.stopPropagation();
+    el.addEventListener("wheel", handleWheel, { capture: true });
+    return () =>
+      el.removeEventListener("wheel", handleWheel, { capture: true });
+  }, [openSeadragon, disableScrollToZoom]);
+
+  useEffect(() => {
+    if (!openSeadragon) return;
+    const serializeClips = (c) =>
+      (c ?? [])
+        .map((r) => (r ? `${r.x},${r.y},${r.width},${r.height}` : ""))
+        .join("|");
+    const uriChanged = JSON.stringify(uri) !== JSON.stringify(osdUri);
+    const clipsChanged = serializeClips(clips) !== serializeClips(osdClips);
+    if (uriChanged || clipsChanged) {
       openSeadragon.forceRedraw();
-
-      /**
-       * If scrollToZoom is explicitly set to false, we
-       * should allow browser's default scroll behavior
-       */
-      if (disableScrollToZoom)
-        openSeadragon.addHandler("canvas-scroll", function (event) {
-          event.preventDefault = false;
-        });
-
       setOsdUri(uri);
+      setOsdClips(clips ?? []);
     }
-  }, [disableScrollToZoom, openSeadragon, osdUri, uri]);
+  }, [disableScrollToZoom, openSeadragon, osdUri, uri, osdClips, clips]);
 
   useEffect(() => {
     if (!osdUri.length || !openSeadragon) return;
 
-    openSeadragon.close(); // remove previous images
+    // When the URI is unchanged but the clip changed (e.g., animation frames on
+    // the same image service), toggle opacity between preloaded world items so
+    // nothing ever moves — world bounds stay fixed and the navigator never oscillates.
+    const isSameUri =
+      osdUri.length === 1 &&
+      drawnUriRef.current.length === 1 &&
+      drawnUriRef.current[0] === osdUri[0];
+
+    if (isSameUri) {
+      const clip = osdClips[0] ?? null;
+      const clipKey = clip
+        ? `${clip.x},${clip.y},${clip.width},${clip.height}`
+        : "__none__";
+
+      if (clipItemsRef.current.has(clipKey)) {
+        // Fast path: clip already in world — instant opacity swap, nothing moves.
+        clipItemsRef.current.forEach((item, key) =>
+          item.setOpacity(key === clipKey ? 1 : 0),
+        );
+        openSeadragon.forceRedraw();
+        return;
+      }
+
+      // Slow path: first time seeing this clip — add at fixed world position so
+      // future toggles never require moving anything in world space.
+      (async () => {
+        const url = osdUri[0];
+        const tileSource = await retry(() => getInfoResponse(url), 3, 1000);
+        if (!tileSource) return;
+        const scale = tileSource.height ? 1 / tileSource.height : 0;
+        openSeadragon.addTiledImage({
+          tileSource,
+          x: clip && scale > 0 ? -(clip.x * scale) : 0,
+          y: clip && scale > 0 ? -(clip.y * scale) : 0,
+          height: 1,
+          clip: clip ?? undefined,
+          opacity: 0,
+          success: (event) => {
+            const newItem = event?.item;
+            if (!newItem) return;
+            clipItemsRef.current.set(clipKey, newItem);
+            clipItemsRef.current.forEach((item, key) =>
+              item.setOpacity(key === clipKey ? 1 : 0),
+            );
+            openSeadragon.forceRedraw();
+          },
+        });
+      })().catch(console.error);
+      return;
+    }
+
+    // Only defer old-image removal for a true one-for-one swap: exactly 1 image
+    // currently in the world and exactly 1 new image being loaded. This eliminates
+    // the blank flash on single-image swaps (animation frames, canvas navigation)
+    // while keeping the original close() behaviour for every other case (initial
+    // load, multi-image/paged views, count mismatches).
+    clipItemsRef.current.clear();
+    const itemsToRemove = [];
+    const isSingleImageSwap =
+      openSeadragon.world.getItemCount() === 1 && osdUri.length === 1;
+    if (!isSingleImageSwap) {
+      openSeadragon.close();
+    } else {
+      itemsToRemove.push(openSeadragon.world.getItemAt(0));
+    }
+
+    const expectedCount = osdUri.length;
+    let loadedCount = 0;
+
+    const fitBoundsOnAllLoaded = (clip?, clipScale = 0) => {
+      loadedCount++;
+      if (!isFirstImageLoad.current || loadedCount < expectedCount) return;
+      isFirstImageLoad.current = false;
+      // For a single tiled image with a spatial clip the image is shifted so
+      // the clip sits at world (0, 0) — fit to that origin-aligned region.
+      if (clip && clipScale > 0 && expectedCount === 1) {
+        openSeadragon?.viewport.fitBounds(
+          new OpenSeadragon.Rect(
+            0,
+            0,
+            clip.width * clipScale,
+            clip.height * clipScale,
+          ),
+          true,
+        );
+        return;
+      }
+      const maxRetries = 3;
+      let attempts = 0;
+      const tryFit = () => {
+        if (attempts >= maxRetries) return;
+        const bounds = openSeadragon?.world.getHomeBounds();
+        if (bounds) openSeadragon?.viewport.fitBounds(bounds, true);
+        attempts++;
+        setTimeout(tryFit, 50);
+      };
+      tryFit();
+    };
 
     const load = async () => {
       switch (imageType) {
@@ -145,7 +264,13 @@ const OSD: React.FC<OSDProps> = ({
                 x,
                 y: 0,
                 height,
+                clip: clips?.[i],
                 success: () => {
+                  drawnUriRef.current = osdUri.slice();
+                  itemsToRemove.forEach((item) =>
+                    openSeadragon.world.removeItem(item),
+                  );
+                  fitBoundsOnAllLoaded();
                   setOsdDrawn((prev) => [...prev, url]);
                   if (typeof dispatch === "function") {
                     dispatch({
@@ -186,12 +311,33 @@ const OSD: React.FC<OSDProps> = ({
                 height = baseBounds.height;
               }
 
+              const clip = clips?.[i];
+              const clipScale = tileSource.height
+                ? height / tileSource.height
+                : 0;
+              // Shift the image so the clip region is anchored at world (x, 0)
+              // rather than at its pixel offset within the full source image.
+              const imageX = clip ? x - clip.x * clipScale : x;
+              const imageY = clip ? -(clip.y * clipScale) : 0;
+
               openSeadragon.addTiledImage({
                 tileSource,
-                x,
-                y: 0,
+                x: imageX,
+                y: imageY,
                 height,
-                success: () => {
+                clip,
+                success: (event) => {
+                  drawnUriRef.current = osdUri.slice();
+                  if (event?.item && osdUri.length === 1) {
+                    const clipKey = clip
+                      ? `${clip.x},${clip.y},${clip.width},${clip.height}`
+                      : "__none__";
+                    clipItemsRef.current.set(clipKey, event.item);
+                  }
+                  itemsToRemove.forEach((item) =>
+                    openSeadragon.world.removeItem(item),
+                  );
+                  fitBoundsOnAllLoaded(clip, clipScale);
                   setOsdDrawn((prev) => [...prev, url]);
                   if (typeof dispatch === "function") {
                     dispatch({
@@ -215,43 +361,29 @@ const OSD: React.FC<OSDProps> = ({
     };
 
     load().catch((error) => console.error("Error drawing tiles", error));
-  }, [osdUri, imageType, openSeadragon]);
+  }, [osdUri, osdClips, imageType, openSeadragon]);
 
   useEffect(() => {
-    if (osdDrawn) {
-      const maxRetries = 3;
-      let attempts = 0;
-      const fitBounds = () => {
-        if (attempts < maxRetries) {
-          const bounds = openSeadragon?.world.getHomeBounds();
-          if (bounds) {
-            openSeadragon?.viewport.fitBounds(bounds, true);
-          }
-          attempts++;
-          setTimeout(fitBounds, 50);
-        }
-      };
-      fitBounds();
+    if (!osdDrawn.length) return;
 
-      // handles zoom to annotation on click
-      openSeadragon?.addHandler("canvas-click", (event) => {
-        const overlay: Overlay = openSeadragon?.getOverlayById(
-          event.originalTarget.id,
-        );
+    // handles zoom to annotation on click
+    openSeadragon?.addHandler("canvas-click", (event) => {
+      const overlay: Overlay = openSeadragon?.getOverlayById(
+        event.originalTarget.id,
+      );
 
-        if (overlay) {
-          const bounds = overlay?.getBounds(openSeadragon.viewport);
-          // add some padding to the bounds
-          bounds.x -= 0.1;
-          bounds.y -= 0.1;
-          bounds.width += 0.2;
-          bounds.height += 0.2;
+      if (overlay) {
+        const bounds = overlay?.getBounds(openSeadragon.viewport);
+        // add some padding to the bounds
+        bounds.x -= 0.1;
+        bounds.y -= 0.1;
+        bounds.width += 0.2;
+        bounds.height += 0.2;
 
-          openSeadragon?.viewport.fitBounds(bounds, false);
-          return (event.preventDefaultAction = true);
-        }
-      });
-    }
+        openSeadragon?.viewport.fitBounds(bounds, false);
+        return (event.preventDefaultAction = true);
+      }
+    });
   }, [osdDrawn]);
 
   useEffect(() => {
@@ -334,7 +466,25 @@ const OSD: React.FC<OSDProps> = ({
 
           div.addEventListener("touchstart", (e) => {
             e.stopPropagation();
+          });
+
+          div.addEventListener("touchend", (e) => {
+            e.stopPropagation();
             e.preventDefault();
+
+            div.setAttribute("data-active", "true");
+            dispatch({
+              type: "updateActiveAnnotationId",
+              activeAnnotationId: div.id,
+            });
+
+            const targetRect = new OpenSeadragon.Rect(
+              rect.x - 0.1,
+              rect.y - 0.1,
+              rect.width + 0.2,
+              rect.height + 0.2,
+            );
+            openSeadragon?.viewport.fitBounds(targetRect, false);
           });
 
           div.addEventListener("click", (e) => {
@@ -361,19 +511,35 @@ const OSD: React.FC<OSDProps> = ({
 
           div.addEventListener("focus", () => {
             div.setAttribute("data-active", "true");
+            dispatch({
+              type: "updateActiveAnnotationId",
+              activeAnnotationId: div.id,
+            });
           });
 
           div.addEventListener("mouseover", () => {
             div.setAttribute("data-active", "true");
+            dispatch({
+              type: "updateActiveAnnotationId",
+              activeAnnotationId: div.id,
+            });
           });
 
           // add blur AND mouseout event to div
           div.addEventListener("mouseout", () => {
             div.removeAttribute("data-active");
+            dispatch({
+              type: "updateActiveAnnotationId",
+              activeAnnotationId: null,
+            });
           });
 
           div.addEventListener("blur", () => {
             div.removeAttribute("data-active");
+            dispatch({
+              type: "updateActiveAnnotationId",
+              activeAnnotationId: null,
+            });
           });
 
           openSeadragon?.addOverlay(div, rect, OpenSeadragon.Placement.CENTER);

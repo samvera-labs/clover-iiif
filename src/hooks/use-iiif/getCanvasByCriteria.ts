@@ -7,6 +7,7 @@ import {
   ExternalResourceTypes,
   IIIFExternalWebResource,
 } from "@iiif/presentation-3";
+import { isImageApiSelector } from "@iiif/helpers";
 
 export interface CanvasEntity {
   canvas: CanvasNormalized | undefined;
@@ -89,8 +90,25 @@ export const getCanvasByCriteria = (
     const annotationPageResources = vault
       .get(entity.annotationPage.items)
       .map((item) => {
+        const rawBody = item.body[0];
+        let body;
+
+        if (rawBody?.type === "SpecificResource") {
+          const source = vault.get(rawBody.source);
+          const rawSelector = Array.isArray(rawBody.selector)
+            ? rawBody.selector[0]
+            : rawBody.selector;
+          const region =
+            isImageApiSelector(rawSelector) && rawSelector?.region
+              ? (rawSelector.region as string)
+              : undefined;
+          body = source && region ? { ...source, region } : source;
+        } else {
+          body = vault.get(rawBody?.id);
+        }
+
         return {
-          body: vault.get(item.body[0].id),
+          body,
           motivation: item.motivation,
           type: "Annotation",
         };

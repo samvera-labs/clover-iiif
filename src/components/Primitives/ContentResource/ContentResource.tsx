@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef } from "react";
 
-import Hls from "hls.js";
 import { PrimitivesContentResource } from "src/types/primitives";
 import { getLabelAsString } from "src/lib/label-helpers";
+import { isHls } from "src/lib/hls";
 import { sanitizeAttributes } from "src/lib/html-element";
 import { styled } from "src/styles/stitches.config";
 import { useGetImageResource } from "src/hooks/useGetImageResource";
@@ -24,62 +24,73 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
 
   const { type, id, width = 200, height = 200, duration } = contentResource;
 
+  const isHlsSource = isHls(id, contentResource.format);
+
   useEffect(() => {
-    /**
-     * Check that IIIF content resource ID exists and
-     * we have a reffed <video> for attaching HLS
-     */
-    if (!id && !mediaRef.current) return;
-    if (["Image"].includes(type)) return;
+    if (!id || !mediaRef.current) return;
+    if (type === "Image") return;
+    if (!isHlsSource) return;
 
-    /**
-     * Eject HLS attachment if file extension from
-     * the IIIF content resource ID is not .m3u8
-     */
-    if (!id.includes("m3u8")) return;
+    const video = mediaRef.current as unknown as HTMLVideoElement;
 
-    // Bind hls.js package to our <video /> element and then load the media source
-    const hls = new Hls();
-
-    if (mediaRef.current) {
-      hls.attachMedia(mediaRef.current);
-      hls.on(Hls.Events.MEDIA_ATTACHED, function () {
-        hls.loadSource(id as string);
-      });
+    // Native HLS support (Safari): point the element at the playlist directly.
+    if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = id as string;
+      return;
     }
 
-    // Handle errors
-    hls.on(Hls.Events.ERROR, function (event, data) {
-      if (data.fatal) {
+    // Otherwise dynamically import hls.js only when an HLS source is detected
+    // and the browser doesn't natively support it.
+    let cancelled = false;
+    let hls: import("hls.js").default | undefined;
+
+    (async () => {
+      const { default: Hls } = await import("hls.js");
+      if (cancelled || !mediaRef.current) return;
+
+      // Browser must support MSE for hls.js to attach. If not, fall back to
+      // setting the source directly so the browser can surface the failure.
+      if (!Hls.isSupported()) {
+        (mediaRef.current as unknown as HTMLVideoElement).src = id as string;
+        return;
+      }
+
+      hls = new Hls();
+      hls.attachMedia(mediaRef.current);
+      hls.on(Hls.Events.MEDIA_ATTACHED, function () {
+        hls?.loadSource(id as string);
+      });
+
+      hls.on(Hls.Events.ERROR, function (event, data) {
+        if (!data.fatal) return;
         switch (data.type) {
           case Hls.ErrorTypes.NETWORK_ERROR:
-            // try to recover network error
             console.error(
               `fatal ${event} network error encountered, try to recover`,
             );
-            hls.startLoad();
+            hls?.startLoad();
             break;
           case Hls.ErrorTypes.MEDIA_ERROR:
             console.error(
               `fatal ${event} media error encountered, try to recover`,
             );
-            hls.recoverMediaError();
+            hls?.recoverMediaError();
             break;
           default:
-            // cannot recover
-            hls.destroy();
+            hls?.destroy();
             break;
         }
-      }
-    });
+      });
+    })();
 
     return () => {
+      cancelled = true;
       if (hls) {
         hls.detachMedia();
         hls.destroy();
       }
     };
-  }, [id, type]);
+  }, [id, type, isHlsSource]);
 
   const playLoop = useCallback(() => {
     if (!mediaRef.current) return;
@@ -134,7 +145,10 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
           muted
           onPause={playLoop}
           ref={mediaRef}
-          src={id}
+          // Don't set `src` for HLS sources — the useEffect above attaches
+          // the playlist via hls.js (or native HLS for Safari). Setting src
+          // here would race the attach in non-Safari browsers.
+          {...(isHlsSource ? {} : { src: id })}
         />
       );
 

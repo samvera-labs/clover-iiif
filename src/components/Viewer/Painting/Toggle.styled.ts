@@ -13,11 +13,11 @@ const ToggleStyled = styled(ButtonStyled, {
   textAlign: "center",
   transition: "$all",
   borderRadius: "50%",
-  backgroundColor: "$accent",
+  backgroundColor: "$primary",
   cursor: "pointer",
 
   "&:hover, &:focus": {
-    backgroundColor: "$accent !important",
+    backgroundColor: "$accent",
   },
 
   variants: {
@@ -34,9 +34,25 @@ const ToggleStyled = styled(ButtonStyled, {
         cursor: "pointer !important",
       },
     },
+    hasInformationToggle: {
+      true: {
+        right: "3.618rem",
+        "@xs": { top: "3.618rem", right: "1rem" },
+      },
+      false: { right: "1rem" },
+    },
+    panelOpen: {
+      true: {},
+      false: {},
+    },
   },
 
   compoundVariants: [
+    {
+      hasInformationToggle: true,
+      panelOpen: true,
+      css: { right: "1.382rem" },
+    },
     {
       isInteractive: false,
       isMedia: true,

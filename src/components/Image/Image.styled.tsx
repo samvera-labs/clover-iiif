@@ -40,7 +40,6 @@ const Viewport = styled("div", {
     boxSizing: "content-box",
     borderRadius: "3px",
     boxShadow: "0 0 38vw 38vw transparent",
-    transition: "box-shadow 100ms ease-in-out",
     zIndex: "0",
 
     label: {
@@ -62,7 +61,9 @@ const Viewport = styled("div", {
     },
 
     "&[data-active=true]": {
-      border: "2px solid $accent !important",
+      border: "1px solid #fff2 !important",
+      outline: "2px solid $accent !important",
+      outlineOffset: "0px !important",
       boxShadow: "0 0 38vw 38vw #0003",
       zIndex: "99999999",
 

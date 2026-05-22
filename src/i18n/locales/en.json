@@ -28,5 +28,11 @@
   "shareCollectionJson": "View Collection",
   "shareCollectionCopy": "Copy Collection URL",
   "shareManifestJson": "View Manifest",
-  "shareManifestCopy": "Copy Manifest URL"
+  "shareManifestCopy": "Copy Manifest URL",
+  "canvasAnimationPlay": "Play",
+  "canvasAnimationPause": "Pause",
+  "canvasAnimationPreviousFrame": "Previous frame",
+  "canvasAnimationNextFrame": "Next frame",
+  "canvasAnimationRepeat": "Repeat",
+  "canvasAnimationSpeed": "Speed"
 }

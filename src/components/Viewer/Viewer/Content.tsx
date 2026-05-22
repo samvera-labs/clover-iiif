@@ -1,25 +1,31 @@
-import React from "react";
 import {
   AnnotationPageNormalized,
   Canvas,
   IIIFExternalWebResource,
 } from "@iiif/presentation-3";
-
-import { useViewerState } from "src/context/viewer-context";
-import { hasAnyPanel } from "src/lib/information-panel-helpers";
-import { setupPlugins } from "src/lib/plugin-helpers";
-
+import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
   Aside,
   Content,
+  DragHandle,
   Main,
   MediaWrapper,
-} from "../Viewer/Viewer.styled";
-import InformationPanel from "../InformationPanel/InformationPanel";
-import Painting from "../Painting/Painting";
-import Media from "../Media/Media";
+  PanelToggle,
+} from "src/components/Viewer/Viewer/Viewer.styled";
 
-import { AnnotationResource, AnnotationResources } from "src/types/annotations";
+import { Icon } from "src/components/UI";
+import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
+import Media from "src/components/Viewer/Media/Media";
+import Painting from "../Painting/Painting";
+import React, { useRef, useState } from "react";
+import {
+  useViewerDispatch,
+  useViewerState,
+  type PluginConfig,
+} from "src/context/viewer-context";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
+import { hasAnyPanel } from "src/lib/information-panel-helpers";
+import { setupPlugins } from "src/lib/plugin-helpers";
 
 export interface ViewerContentProps {
   activeCanvas: string;
@@ -29,6 +35,8 @@ export interface ViewerContentProps {
     React.SetStateAction<AnnotationPageNormalized | undefined>
   >;
   contentSearchResource?: AnnotationResource;
+  contentSearchCallback?: (query: string) => void;
+  initialSearchQuery?: string;
   painting: IIIFExternalWebResource[];
   items: Canvas[];
   isAudioVideo: boolean;
@@ -40,36 +48,84 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   searchServiceUrl,
   setContentSearchResource,
   contentSearchResource,
+  contentSearchCallback,
+  initialSearchQuery,
   isAudioVideo,
   items,
   painting,
 }) => {
   const {
+    contentStateAnnotation,
     isInformationOpen,
     configOptions,
     sequence,
     plugins,
+    visibleCanvases,
   } = useViewerState();
+  const dispatch: any = useViewerDispatch();
   const { informationPanel } = configOptions;
+  const { t } = useCloverTranslation();
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [asideWidth, setAsideWidth] = useState<number | null>(null);
+  const dragging = useRef(false);
 
   const { pluginsWithInfoPanel } = setupPlugins(plugins);
 
   const hasPanel = hasAnyPanel({
-		informationPanel: informationPanel,
+    informationPanel,
     annotationResources,
     contentSearchResource,
     pluginsWithInfoPanel,
   });
 
-  const renderToggle = informationPanel?.renderToggle;
   const isAside = hasPanel && isInformationOpen;
+
+  const renderToggle = informationPanel?.renderToggle;
+
+  const handleToggle = () => {
+    dispatch({
+      type: "updateInformationOpen",
+      isInformationOpen: !isInformationOpen,
+    });
+  };
+
+  const handleDragStart = (e: React.PointerEvent) => {
+    e.preventDefault();
+    dragging.current = true;
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+  };
+
+  const handleDragMove = (e: React.PointerEvent) => {
+    if (!dragging.current || !contentRef.current) return;
+    const rect = contentRef.current.getBoundingClientRect();
+    const pct = ((rect.right - e.clientX) / rect.width) * 100;
+    setAsideWidth(Math.min(60, Math.max(20, pct)));
+  };
+
+  const handleDragEnd = () => {
+    dragging.current = false;
+  };
+
+  const mainStyle =
+    asideWidth !== null && isAside
+      ? { width: `${100 - asideWidth}%` }
+      : undefined;
+
+  const asideStyle =
+    asideWidth !== null && isAside ? { width: `${asideWidth}%` } : undefined;
 
   return (
     <Content
+      ref={contentRef}
       className="clover-viewer-content"
       data-testid="clover-viewer-content"
     >
-      <Main data-aside-active={isAside} data-aside-toggle={renderToggle}>
+      <Main
+        data-aside-active={isAside}
+        data-aside-toggle={renderToggle}
+        style={mainStyle}
+      >
         <Painting
           activeCanvas={activeCanvas}
           annotationResources={annotationResources}
@@ -83,18 +139,50 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
             <Media items={items} activeItem={0} />
           </MediaWrapper>
         )}
+
+        {renderToggle && (
+          <PanelToggle
+            data-aside-active={isAside}
+            onClick={handleToggle}
+            aria-label={t("informationPanelToggle")}
+            aria-expanded={isInformationOpen}
+          >
+            <Icon fill="currentColor" aria-hidden="true">
+              {isInformationOpen ? (
+                <Icon.PanelExpand />
+              ) : (
+                <Icon.PanelCollapse />
+              )}
+            </Icon>
+          </PanelToggle>
+        )}
       </Main>
       {isAside && (
-        <Aside data-aside-active={isAside} data-aside-toggle={renderToggle}>
-          <InformationPanel
-            activeCanvas={activeCanvas}
-            annotationResources={annotationResources}
-            searchServiceUrl={searchServiceUrl}
-            setContentSearchResource={setContentSearchResource}
-            contentSearchResource={contentSearchResource}
-						pluginsWithInfoPanel={pluginsWithInfoPanel}
+        <>
+          <DragHandle
+            onPointerDown={handleDragStart}
+            onPointerMove={handleDragMove}
+            onPointerUp={handleDragEnd}
+            data-dragging={dragging.current}
+            aria-hidden="true"
           />
-        </Aside>
+          <Aside
+            data-aside-active={isAside}
+            data-aside-toggle={renderToggle}
+            style={asideStyle}
+          >
+            <InformationPanel
+              activeCanvas={activeCanvas}
+              annotationResources={annotationResources}
+              searchServiceUrl={searchServiceUrl}
+              setContentSearchResource={setContentSearchResource}
+              contentSearchResource={contentSearchResource}
+              contentSearchCallback={contentSearchCallback}
+              initialSearchQuery={initialSearchQuery}
+              pluginsWithInfoPanel={pluginsWithInfoPanel}
+            />
+          </Aside>
+        </>
       )}
     </Content>
   );

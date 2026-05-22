@@ -1,0 +1,521 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://samvera-labs.github.io/clover-iiif/manifest/interactive-2d/stereo-winterton.json",
+  "type": "Manifest",
+  "label": {
+    "none": ["Huge crocodile just landed, beside the upper Nile, East Africa"]
+  },
+  "metadata": [
+    {
+      "label": {
+        "none": ["Abstract"]
+      },
+      "value": {
+        "none": ["36 stereoscopic images of travels through East Africa."]
+      }
+    },
+    {
+      "label": {
+        "none": ["Contributor"]
+      },
+      "value": {
+        "none": [
+          "Winterton, Humphrey (Collector)",
+          "Underwood & Underwood (Contributor)",
+          "Underwood & Underwood (Photographer)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Cultural Context"]
+      },
+      "value": {
+        "none": [
+          "Content on this site is drawn from a broad range of historical sources including materials that may contain offensive images or language reflecting the nature of European colonialism in Africa. Such materials should be viewed in the context of the time and place in which they were created. The images and text in this site are presented as specific, original artifacts recording the attitudes, perspectives and beliefs of a different era. Northwestern University does not endorse the views expressed in this collection which may contain images and text offensive to some researchers."
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Date"]
+      },
+      "value": {
+        "none": ["1909"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Department"]
+      },
+      "value": {
+        "none": ["Herskovits Library of African Studies"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Dimensions"]
+      },
+      "value": {
+        "none": ["7.5 x 8 cm"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Genre"]
+      },
+      "value": {
+        "none": ["stereoscopic photographs", "gelatin silver prints"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Identifier"]
+      },
+      "value": {
+        "none": ["Box 53 ; Photograph 35", "037", "No. 10561"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Last Modified"]
+      },
+      "value": {
+        "none": ["2023-03-29T14:43:24.680992Z"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Language"]
+      },
+      "value": {
+        "none": ["French", "German", "English", "Spanish", "Swedish", "Russian"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Materials"]
+      },
+      "value": {
+        "none": [
+          "1 stereoscopic image (silver print), mounted on card with a printed title and serial number; housed in the original black cloth-covered box, in the form of a book, gilt-lettering to spine."
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Publisher"]
+      },
+      "value": {
+        "none": ["Sun Sculpture Works and Studios"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Related Material"]
+      },
+      "value": {
+        "none": ["Notes of Travel, No. 44, c.1909 by Underwood & Underwood."]
+      }
+    },
+    {
+      "label": {
+        "none": ["Related URL"]
+      },
+      "value": {
+        "none": [
+          "<span><a href=https://libguides.northwestern.edu/winterton>Research Guide</a></span>",
+          "<span><a href=https://findingaids.library.northwestern.edu/repositories/4/resources/1419>Finding Aid</a></span>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Rights Statement"]
+      },
+      "value": {
+        "none": ["No Copyright - United States"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Scope and Contents"]
+      },
+      "value": {
+        "none": [
+          "The cards were published by Underwood & Underwood Publishers, New York, London, Ottawa, and Kansas. On the right margin of each card is the logo for Sun Sculpture Works and Studios, Arlington, N.J., and Westwood, N.J. Each card is printed with an English caption on the recto and marked with a copyright for Underwood & Underwood dated 1909. All but a few of the cards include a caption on the verso in English, French, German, Spanish, Swedish, and Russian. Most of the verso captions differ slightly from the recto captions. Several of the cards include substantial explanatory text on the verso, each citing Notes of Travel, No. 44, c.1909 by Underwood & Underwood. The captions printed on the cards almost all include an indication of the region in which they were taken, such as \"East Africa\" or \"E. Africa\". Presumably to save space and avoid redundancy, the inventory transcriptions do not include that information. This particular discrepancy has not been noted here for individual captions, which are presented as they appear on the cards, because it will not interfere with discovery and because the inventory captions are readily available."
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Series"]
+      },
+      "value": {
+        "none": [
+          "Humphrey Winterton Collection of East African Photographs--Group 53. East Africa through the stereoscope, 1909"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Subject"]
+      },
+      "value": {
+        "none": [
+          "Nile River",
+          "Tanzania",
+          "Kenya",
+          "Africans",
+          "Crocodiles",
+          "Manners and customs",
+          "Voyages and travels",
+          "Portraits"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Technique"]
+      },
+      "value": {
+        "none": ["gelatin silver process"]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "none": ["Attribution"]
+    },
+    "value": {
+      "none": [
+        "Courtesy of Northwestern University Libraries",
+        "The images on this web site, from material in the collections of the Melville J. Herskovits Library of African Studies of Northwestern University Libraries, are provided for use by its students, faculty and staff, and by other researchers visiting this site, for research consultation and scholarly purposes only. Further distribution and/or any commercial use of the images from this site is not permitted."
+      ]
+    }
+  },
+  "rights": "http://rightsstatements.org/vocab/NoC-US/1.0/",
+  "thumbnail": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37/thumbnail",
+      "type": "Image",
+      "format": "image/jpeg",
+      "height": 300,
+      "width": 300
+    }
+  ],
+  "seeAlso": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37",
+      "type": "Dataset",
+      "format": "application/json",
+      "label": {
+        "none": ["Northwestern University Libraries Digital Collections API"]
+      }
+    }
+  ],
+  "homepage": [
+    {
+      "id": "https://dc.library.northwestern.edu/items/c8becc9a-3fed-4355-81de-4bddc03f5d37",
+      "type": "Text",
+      "format": "text/html",
+      "label": {
+        "none": [
+          "Homepage at Northwestern University Libraries Digital Collections"
+        ]
+      }
+    }
+  ],
+  "partOf": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/collections/6f58c85f-f1fc-43c1-be52-678867659ff6?as=iiif",
+      "type": "Collection",
+      "label": {
+        "none": [
+          "The Humphrey Winterton Collection of East African Photographs: 1860-1960"
+        ]
+      },
+      "summary": {
+        "none": [
+          "The collection depicts the breadth of African experience; documents African life; European life in Africa in all its manifestations; and the African landscape, in particular as it changed over time. Included are photographs showing the building of East Africa’s railways, the growth of its urban centers and the development of European colonial administration. There are outstanding examples of portraiture. The collection provides an unsurpassed resource for the study of the history of photography in East Africa. \n\nCultural Context: Content on this site is drawn from a broad range of historical sources including materials that may contain offensive images or language reflecting the nature of European colonialism in Africa. Such materials should be viewed in the context of the time and place in which they were created. The images and text in this site are presented as specific, original artifacts recording the attitudes, perspectives and beliefs of a different era. Northwestern University does not endorse the views expressed in this collection which may contain images and text offensive to some researchers."
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/0",
+      "type": "Canvas",
+      "height": 2144,
+      "width": 4220,
+      "label": {
+        "none": ["inu-wint-53-35A.tif"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/3/758f8b95-5bfe-48af-ab35-1a68ced5d842/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "height": 300,
+          "width": 300,
+          "service": [
+            {
+              "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/758f8b95-5bfe-48af-ab35-1a68ced5d842",
+              "@type": "ImageService2",
+              "profile": "http://iiif.io/api/image/2/level2.json"
+            }
+          ]
+        }
+      ],
+      "items": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/0/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/0/annotation/0",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/0",
+              "body": {
+                "id": "https://iiif.dc.library.northwestern.edu/iiif/3/758f8b95-5bfe-48af-ab35-1a68ced5d842/full/600,/0/default.jpg",
+                "type": "Image",
+                "format": "image/tiff",
+                "height": 2144,
+                "width": 4220,
+                "label": {
+                  "en": ["inu-wint-53-35A.tif"]
+                },
+                "service": [
+                  {
+                    "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/758f8b95-5bfe-48af-ab35-1a68ced5d842",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "placeholderCanvas": {
+        "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/0/placeholder",
+        "type": "Canvas",
+        "width": 640,
+        "height": 325,
+        "items": [
+          {
+            "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/0/placeholder/annotation-page/0",
+            "type": "AnnotationPage",
+            "items": [
+              {
+                "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/0/placeholder/annotation/0",
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://iiif.dc.library.northwestern.edu/iiif/3/758f8b95-5bfe-48af-ab35-1a68ced5d842/full/!640,325/0/default.jpg",
+                  "type": "Image",
+                  "format": "image/tiff",
+                  "width": 640,
+                  "height": 325,
+                  "service": [
+                    {
+                      "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/758f8b95-5bfe-48af-ab35-1a68ced5d842",
+                      "@type": "ImageService2",
+                      "profile": "http://iiif.io/api/image/2/level2.json"
+                    }
+                  ]
+                },
+                "target": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/0/placeholder"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/1",
+      "type": "Canvas",
+      "height": 2120,
+      "width": 4256,
+      "label": {
+        "none": ["inu-wint-53-35B.tif"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/3/93bf48c2-b52c-4b3f-9283-a36a2a602b7a/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "height": 300,
+          "width": 300,
+          "service": [
+            {
+              "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/93bf48c2-b52c-4b3f-9283-a36a2a602b7a",
+              "@type": "ImageService2",
+              "profile": "http://iiif.io/api/image/2/level2.json"
+            }
+          ]
+        }
+      ],
+      "items": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/1/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/1/annotation/0",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/1",
+              "body": {
+                "id": "https://iiif.dc.library.northwestern.edu/iiif/3/93bf48c2-b52c-4b3f-9283-a36a2a602b7a/full/600,/0/default.jpg",
+                "type": "Image",
+                "format": "image/tiff",
+                "height": 2120,
+                "width": 4256,
+                "label": {
+                  "en": ["inu-wint-53-35B.tif"]
+                },
+                "service": [
+                  {
+                    "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/93bf48c2-b52c-4b3f-9283-a36a2a602b7a",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "placeholderCanvas": {
+        "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/1/placeholder",
+        "type": "Canvas",
+        "width": 640,
+        "height": 318,
+        "items": [
+          {
+            "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/1/placeholder/annotation-page/0",
+            "type": "AnnotationPage",
+            "items": [
+              {
+                "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/1/placeholder/annotation/0",
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://iiif.dc.library.northwestern.edu/iiif/3/93bf48c2-b52c-4b3f-9283-a36a2a602b7a/full/!640,318/0/default.jpg",
+                  "type": "Image",
+                  "format": "image/tiff",
+                  "width": 640,
+                  "height": 318,
+                  "service": [
+                    {
+                      "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/93bf48c2-b52c-4b3f-9283-a36a2a602b7a",
+                      "@type": "ImageService2",
+                      "profile": "http://iiif.io/api/image/2/level2.json"
+                    }
+                  ]
+                },
+                "target": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/1/placeholder"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/2",
+      "type": "Canvas",
+      "height": 2120,
+      "width": 4256,
+      "label": {
+        "none": ["Animated Stereograph"]
+      },
+      "duration": 0.2,
+      "behavior": ["auto-advance", "repeat"],
+      "thumbnail": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/3/758f8b95-5bfe-48af-ab35-1a68ced5d842/310,68,1798,1865/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "height": 300,
+          "width": 300
+        }
+      ],
+      "items": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/2/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/2/annotation/0",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/2#t=0.0,0.1",
+              "body": {
+                "id": "https://iiif.dc.library.northwestern.edu/iiif/3/758f8b95-5bfe-48af-ab35-1a68ced5d842/310,68,1798,1865/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/tiff",
+                "height": 2144,
+                "width": 4220
+              }
+            },
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/2/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://api.dc.library.northwestern.edu/api/v2/works/c8becc9a-3fed-4355-81de-4bddc03f5d37?as=iiif/canvas/2#t=0.1,0.2",
+              "body": {
+                "id": "https://iiif.dc.library.northwestern.edu/iiif/3/758f8b95-5bfe-48af-ab35-1a68ced5d842/2108,68,1798,1865/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/tiff",
+                "height": 2144,
+                "width": 4220
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "provider": [
+    {
+      "id": "https://www.library.northwestern.edu/",
+      "type": "Agent",
+      "label": {
+        "none": ["Northwestern University Libraries"]
+      },
+      "homepage": [
+        {
+          "id": "https://dc.library.northwestern.edu/",
+          "type": "Text",
+          "label": {
+            "none": [
+              "Northwestern University Libraries Digital Collections Homepage"
+            ]
+          },
+          "format": "text/html",
+          "language": ["en"]
+        }
+      ],
+      "logo": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/2/00000000-0000-0000-0000-000000000003/full/pct:50/0/default.webp",
+          "type": "Image",
+          "format": "image/webp",
+          "height": 139,
+          "width": 1190
+        }
+      ]
+    }
+  ],
+  "logo": [
+    {
+      "id": "https://iiif.dc.library.northwestern.edu/iiif/2/00000000-0000-0000-0000-000000000003/full/pct:50/0/default.webp",
+      "type": "Image",
+      "format": "image/webp",
+      "height": 139,
+      "width": 1190
+    }
+  ]
+}
