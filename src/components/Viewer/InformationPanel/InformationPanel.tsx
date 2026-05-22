@@ -5,7 +5,7 @@ import {
   Trigger,
   Wrapper,
 } from "src/components/Viewer/InformationPanel/InformationPanel.styled";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import {
   ViewerContextStore,
   useViewerDispatch,
@@ -72,6 +72,8 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     configOptions,
   } = viewerState;
   const { informationPanel } = configOptions;
+
+  const userSelectedRef = useRef(false);
 
   const renderAbout = informationPanel?.renderAbout;
   const renderAnnotation = informationPanel?.renderAnnotation;
@@ -162,7 +164,19 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       annotationResources,
       contentSearchResource,
       pluginsWithInfoPanel,
+      contentStateAnnotation,
+      annotationCollection,
     });
+
+    // If the user just clicked a tab and it's still valid, preserve their selection
+    if (
+      userSelectedRef.current &&
+      availableTabs.includes(informationPanelResource)
+    ) {
+      userSelectedRef.current = false;
+      return;
+    }
+    userSelectedRef.current = false;
 
     const defaultTab =
       (informationPanel?.defaultTab &&
@@ -180,17 +194,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     annotationResources,
     contentSearchResource,
     pluginsWithInfoPanel,
+    contentStateAnnotation,
+    annotationCollection,
+    informationPanelResource,
     dispatch,
   ]);
-
-  useEffect(() => {
-    if (!hasAnnotations) {
-      dispatch({
-        type: "updateInformationPanelResource",
-        informationPanelResource: "manifest-about",
-      });
-    }
-  }, [hasAnnotations]);
 
   function handleScroll() {
     if (!isAutoScrolling) {
@@ -210,6 +218,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   }
 
   const handleValueChange = (value: string) => {
+    userSelectedRef.current = true;
     dispatch({
       type: "updateInformationPanelResource",
       informationPanelResource: value,

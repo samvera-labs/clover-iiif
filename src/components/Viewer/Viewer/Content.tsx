@@ -60,6 +60,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     configOptions,
     sequence,
     plugins,
+    annotationCollection,
     visibleCanvases,
   } = useViewerState();
   const dispatch: any = useViewerDispatch();
@@ -77,6 +78,8 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     annotationResources,
     contentSearchResource,
     pluginsWithInfoPanel,
+    contentStateAnnotation,
+    annotationCollection,
   });
 
   const isAside = hasPanel && isInformationOpen;

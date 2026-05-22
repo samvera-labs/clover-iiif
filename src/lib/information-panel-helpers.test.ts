@@ -31,6 +31,55 @@ describe("hasAnyPanel", () => {
 		).toBe(true);
 	});
 
+	it("returns true when renderAnnotation is true and contentStateAnnotation is present", () => {
+		expect(
+			hasAnyPanel({
+				informationPanel: {
+					renderAbout: false,
+					renderAnnotation: true,
+					renderContentSearch: false,
+				},
+				pluginsWithInfoPanel: [],
+				annotationResources: [],
+				contentSearchResource: undefined,
+				contentStateAnnotation: { id: "csa", type: "Annotation" },
+			}),
+		).toBe(true);
+	});
+
+	it("returns true when renderAnnotation is true and annotationCollection has pages", () => {
+		expect(
+			hasAnyPanel({
+				informationPanel: {
+					renderAbout: false,
+					renderAnnotation: true,
+					renderContentSearch: false,
+				},
+				pluginsWithInfoPanel: [],
+				annotationResources: [],
+				contentSearchResource: undefined,
+				annotationCollection: { pages: [{ id: "p1", type: "AnnotationPage" }] },
+			}),
+		).toBe(true);
+	});
+
+	it("returns false when only contentStateAnnotation is null and annotationCollection has no pages", () => {
+		expect(
+			hasAnyPanel({
+				informationPanel: {
+					renderAbout: false,
+					renderAnnotation: true,
+					renderContentSearch: false,
+				},
+				pluginsWithInfoPanel: [],
+				annotationResources: [],
+				contentSearchResource: undefined,
+				contentStateAnnotation: null,
+				annotationCollection: { pages: [] },
+			}),
+		).toBe(false);
+	});
+
 	it("returns false when renderAnnotation is true but annotationResources is empty", () => {
 		expect(
 			hasAnyPanel({
@@ -134,6 +183,38 @@ describe("getAvailableTabs", () => {
 				annotationResources: [{ id: "a", type: "AnnotationPage" }],
 				contentSearchResource: undefined,
 				pluginsWithInfoPanel: [],
+			})
+		).toStrictEqual(["manifest-annotations"]);
+	});
+
+	it("returns manifest-annotations when renderAnnotation is true and contentStateAnnotation is present", () => {
+		expect(
+			getAvailableTabs({
+				informationPanel: {
+					renderAbout: false,
+					renderAnnotation: true,
+					renderContentSearch: false,
+				},
+				annotationResources: [],
+				contentSearchResource: undefined,
+				pluginsWithInfoPanel: [],
+				contentStateAnnotation: { id: "csa", type: "Annotation" },
+			})
+		).toStrictEqual(["manifest-annotations"]);
+	});
+
+	it("returns manifest-annotations when renderAnnotation is true and annotationCollection has pages", () => {
+		expect(
+			getAvailableTabs({
+				informationPanel: {
+					renderAbout: false,
+					renderAnnotation: true,
+					renderContentSearch: false,
+				},
+				annotationResources: [],
+				contentSearchResource: undefined,
+				pluginsWithInfoPanel: [],
+				annotationCollection: { pages: [{ id: "p1", type: "AnnotationPage" }] },
 			})
 		).toStrictEqual(["manifest-annotations"]);
 	});

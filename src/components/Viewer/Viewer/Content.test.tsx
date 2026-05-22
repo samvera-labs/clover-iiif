@@ -130,6 +130,71 @@ describe("ViewerContent InformationPanel visibility", () => {
     expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
   });
 
+  test("renders InformationPanel when Annotation tab is enabled via contentStateAnnotation and panel is open", () => {
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: true,
+          contentStateAnnotation: {
+            id: "http://localhost:3000/manifest/csa.json",
+            type: "Annotation",
+            motivation: "contentState",
+            target: {
+              type: "SpecificResource",
+              source: {
+                id: "http://example.com/iiif/foobar/canvas/1",
+                type: "Canvas",
+              },
+            },
+            body: [],
+          },
+          configOptions: {
+            informationPanel: {
+              renderAbout: false,
+              renderAnnotation: true,
+              renderToggle: true,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...props} />
+      </ViewerProvider>,
+    );
+    expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
+  });
+
+  test("renders InformationPanel when Annotation tab is enabled via annotationCollection and panel is open", () => {
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: true,
+          annotationCollection: {
+            id: "http://localhost:3000/manifest/ac.json",
+            type: "AnnotationCollection",
+            pages: [
+              {
+                id: "http://localhost:3000/manifest/ac-page-1.json",
+                type: "AnnotationPage",
+              },
+            ],
+          },
+          configOptions: {
+            informationPanel: {
+              renderAbout: false,
+              renderAnnotation: true,
+              renderToggle: true,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...props} />
+      </ViewerProvider>,
+    );
+    expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
+  });
+
   test("renders InformationPanel when Content Search tab is enabled and resource exists and panel is open", () => {
     render(
       <ViewerProvider
