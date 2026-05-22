@@ -73,7 +73,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   } = viewerState;
   const { informationPanel } = configOptions;
 
-  const userSelectedRef = useRef(false);
+  const hasInitializedRef = useRef(false);
 
   const renderAbout = informationPanel?.renderAbout;
   const renderAnnotation = informationPanel?.renderAnnotation;
@@ -168,16 +168,29 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       annotationCollection,
     });
 
-    // If the user just clicked a tab and it's still valid, preserve their selection
-    if (
-      userSelectedRef.current &&
-      availableTabs.includes(informationPanelResource)
-    ) {
-      userSelectedRef.current = false;
+    if (!hasInitializedRef.current) {
+      // First run — set the initial default tab based on config
+      hasInitializedRef.current = true;
+      const defaultTab =
+        (informationPanel?.defaultTab &&
+          availableTabs.includes(String(informationPanel.defaultTab)) &&
+          informationPanel.defaultTab) ||
+        availableTabs[0] ||
+        "manifest-about";
+
+      dispatch({
+        type: "updateInformationPanelResource",
+        informationPanelResource: defaultTab,
+      });
       return;
     }
-    userSelectedRef.current = false;
 
+    // Subsequent runs — preserve the current tab selection if it's still available
+    if (availableTabs.includes(informationPanelResource)) {
+      return;
+    }
+
+    // Current tab is no longer available — select the best alternative
     const defaultTab =
       (informationPanel?.defaultTab &&
         availableTabs.includes(String(informationPanel.defaultTab)) &&
@@ -218,7 +231,6 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   }
 
   const handleValueChange = (value: string) => {
-    userSelectedRef.current = true;
     dispatch({
       type: "updateInformationPanelResource",
       informationPanelResource: value,
