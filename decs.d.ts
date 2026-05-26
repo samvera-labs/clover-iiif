@@ -4,3 +4,4 @@
 // declare module "@iiif/parser/upgrader";
 
 declare module "node-webvtt";
+declare module "leaflet/dist/leaflet.css";
