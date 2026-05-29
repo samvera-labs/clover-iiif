@@ -2,9 +2,11 @@ import React, { useLayoutEffect, useRef } from "react";
 
 import Viewer from "src/components/Viewer";
 import register from "src/lib/preact-custom-element/preact-custom-element";
+import { ViewerConfigOptions } from "src/context/viewer-context";
 
 interface CloverViewerAttributes {
   id: string;
+  options?: ViewerConfigOptions;
   /** IIIF Manifest/Collection URL or content state */
   'iiif-content'?: string;
 }
@@ -19,7 +21,11 @@ function CloverViewerWebComponent(
   props: CloverViewerWCProps & CloverViewerAttributes,
 ) {
   const webComponent = useRef<HTMLElement>();
-  const { id } = props;
+  const { id, options } = props;
+
+  const parsedOptions = JSON.parse(options as string);
+  console.log("OPTIONS =====> ", parsedOptions);
+
   const iiifContent = props['iiif-content'];
 
   useLayoutEffect(() => {
@@ -31,7 +37,7 @@ function CloverViewerWebComponent(
   }, []);
 
   // @ts-ignore
-  return <Viewer id={id} iiifContent={iiifContent as any} />;
+  return <Viewer id={id} iiifContent={iiifContent as any} options={parsedOptions} />;
 }
 
 const cloverViewerWCProps = ["id", "iiif-content"];
