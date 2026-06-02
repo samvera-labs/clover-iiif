@@ -18,7 +18,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/a0d034ea-828b-455c-8958-8e2c90164815?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/d4fa5d5d-f829-48b6-88f1-c6c8cfee6ca9?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -46,7 +46,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/8e2fc4c7-5209-49e1-aa89-053854176a9f?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/3946afb1-8dde-4d57-afbf-c9d29c339eac?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -74,7 +74,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/6859b972-6953-4e96-80af-ba7088d7d831?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/12126826-0858-49ea-98a6-e945521c8613?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -102,7 +102,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/b51b6896-0ed7-4461-bc6c-e42ffafbce7d?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/9131d615-a11e-4e1b-b20b-0ae45f45ab4b?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -130,7 +130,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/94de5a80-e7cd-49dd-9f48-54abda8bca8a?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/5bb75b41-aaf6-43ee-bf8c-dcad7f9c74aa?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -158,7 +158,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/b72358a4-553d-4df3-8a5c-d2613c89733a?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/2a479983-0c70-4697-bebd-2ef6e42bf0e6?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -186,7 +186,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/80a99f21-a928-4447-a376-643bfd713249?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/27ece596-0a71-44cb-8951-3d8205d23535?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -214,7 +214,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/661510b2-b4c5-40ed-aee7-f1811b4d3587?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/c73d0a43-d288-4067-9124-40ea95d1b570?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -242,7 +242,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/202da601-02ac-4a4f-b32e-b2902abb3a43?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/88c76655-e29d-4489-b45c-0a6bf08587aa?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -270,7 +270,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/646692ed-4f12-4ccf-b6f0-cefe6d01db43?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/b3e4fa9c-1073-43f9-911b-19da3ea3f069?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -298,7 +298,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/4e70ea54-23b5-497e-9c2f-bed695a082d1?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/fd9e70a3-6195-4836-ac51-df1fa94bb8c6?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -326,7 +326,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/a6d5305a-dbdd-4659-a1a6-b78ad2a3e1b1?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/855307c7-a748-41d9-b701-6fa59d5f1794?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -354,7 +354,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/a6d5305a-dbdd-4659-a1a6-b78ad2a3e1b1?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/855307c7-a748-41d9-b701-6fa59d5f1794?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -382,7 +382,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/a6d5305a-dbdd-4659-a1a6-b78ad2a3e1b1?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/855307c7-a748-41d9-b701-6fa59d5f1794?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
@@ -410,7 +410,7 @@
       "target": {
         "type": "SpecificResource",
         "source": {
-          "id": "https://api.dc.library.northwestern.edu/api/v2/works/a6d5305a-dbdd-4659-a1a6-b78ad2a3e1b1?as=iiif/canvas/0",
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/855307c7-a748-41d9-b701-6fa59d5f1794?as=iiif",
           "type": "Canvas",
           "partOf": [
             {
