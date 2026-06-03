@@ -376,4 +376,56 @@ describe("getContentSearchResources", () => {
 
     expect(result).toStrictEqual({});
   });
+
+  it("falls back to fetch and normalizes partOf when vault.load throws", async () => {
+    const searchUrl = "http://localhost:3000/search";
+    const malformedSearchResult = {
+      id: "http://localhost:3000/search?page=1",
+      type: "AnnotationPage",
+      partOf: {
+        id: "http://localhost:3000/manifest",
+        type: "Manifest",
+      },
+      items: [
+        {
+          id: "http://localhost:3000/anno/1",
+          type: "Annotation",
+          target: "http://localhost:3000/canvas/1",
+        },
+      ],
+    };
+
+    const fetchMock = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => malformedSearchResult,
+    });
+
+    const originalFetch = globalThis.fetch;
+    Object.defineProperty(globalThis, "fetch", {
+      value: fetchMock,
+      configurable: true,
+    });
+
+    try {
+      const vault = {
+        load: vi.fn().mockRejectedValue(
+          new TypeError("e.partOf.map is not a function"),
+        ),
+      };
+
+      const result = await getContentSearchResources(vault, searchUrl, {
+        q: "term",
+      });
+
+      expect(vault.load).toHaveBeenCalledWith("http://localhost:3000/search?q=term");
+      expect(fetchMock).toHaveBeenCalledWith("http://localhost:3000/search?q=term");
+      expect(Array.isArray((result as any).partOf)).toBe(true);
+      expect((result as any).partOf).toHaveLength(1);
+    } finally {
+      Object.defineProperty(globalThis, "fetch", {
+        value: originalFetch,
+        configurable: true,
+      });
+    }
+  });
 });

@@ -11,6 +11,7 @@ import ContentSearchForm from "src/components/Viewer/InformationPanel/ContentSea
 import { Group } from "../Annotation/Item.styled";
 import { Label } from "src/components/Primitives";
 import { getPaintingResource } from "src/hooks/use-iiif";
+import { getTargetCanvasId } from "src/lib/annotation-helpers";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 type ContentSearchProps = {
@@ -23,6 +24,7 @@ type ContentSearchProps = {
   contentSearchCallback?: (query: string) => void;
   initialSearchQuery?: string;
 };
+
 
 const ContentSearch: React.FC<ContentSearchProps> = ({
   searchServiceUrl,
@@ -37,25 +39,29 @@ const ContentSearch: React.FC<ContentSearchProps> = ({
 
   const { t } = useCloverTranslation();
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState({});
+  const [results, setResults] = useState<Record<string, string[]>>({});
 
   useEffect(() => {
     if (!annotationPage?.items) return;
 
-    const annotations = annotationPage?.items?.map((item) => {
-      return vault.get(item.id) as AnnotationNormalized;
-    });
+    const annotations = annotationPage?.items
+      ?.map((item) => {
+        return (vault.get(item.id) || item) as AnnotationNormalized;
+      })
+      .filter((item) => !!item?.id);
 
     // loop through the annotations and group them by their target.source.id
-    const groupedAnnotations = annotations.reduce((acc, annotation) => {
-      // @ts-ignore
-      const targetId = annotation.target.source.id;
+    const groupedAnnotations = annotations.reduce<Record<string, string[]>>(
+      (acc, annotation) => {
+      const targetId = getTargetCanvasId(annotation?.target);
+      if (!targetId || !annotation?.id) return acc;
       if (!acc[targetId]) {
         acc[targetId] = [];
       }
       acc[targetId].push(annotation.id);
       return acc;
-    }, {});
+    }, {},
+    );
 
     setResults(groupedAnnotations);
   }, [annotationPage]);
@@ -87,11 +93,16 @@ const ContentSearch: React.FC<ContentSearchProps> = ({
                 </header>
               )}
               {results[key].map((annotationId) => {
-                const annotation = vault.get(
-                  annotationId,
-                ) as AnnotationNormalized;
+                const annotation = (vault.get(annotationId) ||
+                  annotationPage?.items?.find((item) => item.id === annotationId)) as
+                  | AnnotationNormalized
+                  | undefined;
 
-                const painting = getPaintingResource(vault, canvas.id) as any;
+                if (!annotation) return null;
+
+                const painting = canvas?.id
+                  ? (getPaintingResource(vault, canvas.id) as any)
+                  : undefined;
                 const targetResource = painting?.[0]?.service
                   ? painting?.[0]?.service[0]?.id ||
                     painting?.[0]?.service[0]?.["@id"]

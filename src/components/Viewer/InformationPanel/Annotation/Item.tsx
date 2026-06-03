@@ -17,7 +17,11 @@ import AnnotationItemPlainText from "./PlainText";
 import AnnotationItemVTT from "./VTT/VTT";
 import { Item as ItemStyled } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
 import { NodeWebVttCueNested } from "src/hooks/use-webvtt";
-import { getLanguageDirection } from "src/lib/annotation-helpers";
+import {
+  getLanguageDirection,
+  getTargetCanvasId,
+  resolveAnnotationBodies,
+} from "src/lib/annotation-helpers";
 
 type Props = {
   annotation: AnnotationNormalized;
@@ -60,9 +64,11 @@ export const AnnotationItem: React.FC<Props> = ({
     EmbeddedResource & {
       label?: InternationalString;
     }
-  > = annotation?.body
-    ? annotation?.body?.map((body) => vault.get(body.id))
-    : [];
+  > = resolveAnnotationBodies(annotation, vault) as Array<
+    EmbeddedResource & {
+      label?: InternationalString;
+    }
+  >;
 
   // ignore due to `chars` not being defined in annotation bodies
   const {
@@ -137,9 +143,9 @@ export const AnnotationItem: React.FC<Props> = ({
 
     viewerDispatch({ type: "updateActiveAnnotationId", activeAnnotationId: annotation.id });
 
-    // @ts-ignore
-    const targetSource = annotation?.target?.source || annotation?.target;
-    const targetCanvas = targetSource?.id;
+    const targetCanvas = getTargetCanvasId(annotation?.target);
+    if (!targetCanvas) return;
+
     const isVisibleCanvas = visibleCanvases
       .map((canvas) => canvas.id)
       .includes(targetCanvas);
@@ -147,11 +153,29 @@ export const AnnotationItem: React.FC<Props> = ({
     if (isVisibleCanvas) {
       handleOverlayZoom();
     } else {
+      // Set a pending target so the viewer zooms/highlights once OSD draws the
+      // overlays for the new canvas (mirrors the AnnotationCollection behaviour).
+      viewerDispatch({
+        type: "updatePendingAnnotationTarget",
+        pendingAnnotationTarget: { canvasId: targetCanvas, annotationId: annotation.id },
+      });
+
       viewerDispatch({
         type: "updateActiveCanvas",
         canvasId: targetCanvas,
       });
     }
+  }
+
+  function handleRowClick(e) {
+    if (e.target !== e.currentTarget) return;
+    handleClick(e);
+  }
+
+  function handleRowKeyDown(e) {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    if (e.target !== e.currentTarget) return;
+    handleClick(e);
   }
 
   function renderItemBody() {
@@ -203,8 +227,13 @@ export const AnnotationItem: React.FC<Props> = ({
       dir={readingDirection}
       data-format={format}
       data-content={content}
+      data-testid="annotation-item"
       data-active={activeAnnotationId === annotation.id ? "true" : undefined}
       className="clover-iiif-annotation-item"
+      role="button"
+      tabIndex={0}
+      onClick={handleRowClick}
+      onKeyDown={handleRowKeyDown}
     >
       <span
         style={{

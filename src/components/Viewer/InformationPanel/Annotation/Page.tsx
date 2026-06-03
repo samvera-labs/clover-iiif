@@ -9,10 +9,13 @@ import { Group } from "src/components/Viewer/InformationPanel/Annotation/Item.st
 import { Label } from "src/components/Primitives";
 import React from "react";
 import { getPaintingResource } from "src/hooks/use-iiif";
+import { getTargetCanvasId } from "src/lib/annotation-helpers";
 
 type Props = {
   annotationPage: AnnotationPageNormalized;
 };
+
+
 export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
   const viewerState: ViewerContextStore = useViewerState();
   const { vault } = viewerState;
@@ -30,19 +33,11 @@ export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
 
   if (!annotations) return <></>;
 
-  //  build new array for each unique anotation.target.source.id and return each relative annotation id as a array under it
-  const items = annotations.reduce((acc, annotation) => {
-    // @ts-ignore
-    acc["canvas"] = annotation.target.source.id;
-    acc["annotations"] = [];
-    acc["annotations"].push(annotation?.id);
-    return acc;
-  }, {});
-
-  // use vault to get the canvas
-  // @ts-ignore
-  const canvas = vault.get(items.canvas);
-  const painting = getPaintingResource(vault, canvas.id) as any;
+  const canvasId = annotations
+    .map((annotation) => getTargetCanvasId(annotation?.target))
+    .find(Boolean);
+  const canvas = canvasId ? vault.get(canvasId) : undefined;
+  const painting = canvas?.id ? (getPaintingResource(vault, canvas.id) as any) : undefined;
   const targetResource = painting?.[0]?.service
     ? painting?.[0]?.service[0]?.id || painting?.[0]?.service[0]?.["@id"]
     : undefined;

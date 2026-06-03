@@ -30,6 +30,10 @@ import { getCanvasBehavior } from "src/hooks/use-iiif/getCanvasBehavior";
 import { getPaintingResource } from "src/hooks/use-iiif";
 import { hashCode } from "src/lib/utils";
 import { getManifestFromAnnotationTarget } from "src/lib/annotation-collection";
+import {
+  getTargetCanvasId,
+  resolveAnnotationBodies,
+} from "src/lib/annotation-helpers";
 
 interface PaintingProps {
   activeCanvas: string;
@@ -257,11 +261,7 @@ const Painting: React.FC<PaintingProps> = ({
             resources.push({
               annotation: {
                 ...normalizedAnnotation,
-                body: normalizedAnnotation.body.map((body) => {
-                  const bodyResource = vault.get(body.id);
-                  if (bodyResource) return bodyResource;
-                  return body;
-                }),
+                body: resolveAnnotationBodies(normalizedAnnotation, vault),
               },
               targetIndex: pageIndex,
             });
@@ -278,11 +278,7 @@ const Painting: React.FC<PaintingProps> = ({
           // @ts-ignore
           annotation: {
             ...contentStateAnnotation,
-            body: contentStateAnnotation?.body?.map((body) => {
-              const bodyResource = vault.get(body.id);
-              if (bodyResource) return bodyResource;
-              return body;
-            }),
+            body: resolveAnnotationBodies(contentStateAnnotation, vault),
           },
           targetIndex: visibleCanvases.findIndex(
             (canvas) => canvas.id === contentStateAnnotationSource.id,
@@ -327,25 +323,27 @@ const Painting: React.FC<PaintingProps> = ({
     if (informationPanelResource === "manifest-content-search") {
       contentSearchResource?.items?.forEach((item) => {
         const normalizedAnnotation = vault.get(item.id);
-        if (normalizedAnnotation) {
-          const targetIndex = visibleCanvases.findIndex(
-            (canvas) => canvas.id === normalizedAnnotation.target.source.id,
-          );
+        if (!normalizedAnnotation) return;
 
-          if (typeof targetIndex === "number") {
-            resources.push({
-              annotation: {
-                ...normalizedAnnotation,
-                body: normalizedAnnotation.body.map((body) => {
-                  const bodyResource = vault.get(body.id);
-                  if (bodyResource) return bodyResource;
-                  return body;
-                }),
-              },
-              targetIndex: targetIndex,
-            });
-          }
-        }
+        // Use getTargetCanvasId to safely resolve the canvas ID from any
+        // vault-normalised target shape (source may be a string OR an object).
+        const canvasId = getTargetCanvasId(normalizedAnnotation.target);
+        if (!canvasId) return;
+
+        const targetIndex = visibleCanvases.findIndex(
+          (canvas) => canvas.id === canvasId,
+        );
+
+        // Only add if the canvas is currently visible (targetIndex ≥ 0)
+        if (targetIndex < 0) return;
+
+        resources.push({
+          annotation: {
+            ...normalizedAnnotation,
+            body: resolveAnnotationBodies(normalizedAnnotation, vault),
+          },
+          targetIndex,
+        });
       });
     }
 
