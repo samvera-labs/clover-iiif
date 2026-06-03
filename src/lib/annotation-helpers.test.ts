@@ -1,8 +1,10 @@
 import {
   getLanguageDirection,
+  getTargetCanvasId,
   parseAnnotationTarget,
   filterAnnotationsByMotivation,
   AnnotationTargetExtended,
+  resolveAnnotationBodies,
 } from "./annotation-helpers";
 
 import { manifestAnnotationsMotivations } from "src/fixtures/viewer/annotations/manifest-motivations";
@@ -230,3 +232,87 @@ describe("filterAnnotationsByMotivation", () => {
     expect(filtered).toHaveLength(0);
   });
 });
+
+describe("getTargetCanvasId", () => {
+  it("extracts canvas ID from a plain string target", () => {
+    expect(getTargetCanvasId("https://example.org/canvas/1")).toBe(
+      "https://example.org/canvas/1",
+    );
+  });
+
+  it("strips #xywh fragment from a string target", () => {
+    expect(
+      getTargetCanvasId("https://example.org/canvas/1#xywh=100,200,300,400"),
+    ).toBe("https://example.org/canvas/1");
+  });
+
+  it("strips #t= temporal fragment from a string target", () => {
+    expect(
+      getTargetCanvasId("https://example.org/canvas/1#t=0,10"),
+    ).toBe("https://example.org/canvas/1");
+  });
+
+  it("extracts canvas ID from { source: 'string' }", () => {
+    expect(
+      getTargetCanvasId({ source: "https://example.org/canvas/1" }),
+    ).toBe("https://example.org/canvas/1");
+  });
+
+  it("extracts canvas ID from { source: { id: 'string' } }", () => {
+    expect(
+      getTargetCanvasId({ source: { id: "https://example.org/canvas/1" } }),
+    ).toBe("https://example.org/canvas/1");
+  });
+
+  it("extracts canvas ID from { id: 'string' }", () => {
+    expect(
+      getTargetCanvasId({ id: "https://example.org/canvas/1" }),
+    ).toBe("https://example.org/canvas/1");
+  });
+
+  it("extracts canvas ID from first element of an array target", () => {
+    expect(
+      getTargetCanvasId(["https://example.org/canvas/1#xywh=0,0,100,100"]),
+    ).toBe("https://example.org/canvas/1");
+  });
+
+  it("returns undefined for null/undefined", () => {
+    expect(getTargetCanvasId(null)).toBeUndefined();
+    expect(getTargetCanvasId(undefined)).toBeUndefined();
+  });
+});
+
+describe("resolveAnnotationBodies", () => {
+  it("returns textual body when body is a single object", () => {
+    const annotation = {
+      body: {
+        type: "TextualBody",
+        value: "hello",
+        format: "text/plain",
+      },
+    };
+
+    const result = resolveAnnotationBodies(annotation as any);
+    expect(result).toHaveLength(1);
+    expect((result[0] as any).value).toBe("hello");
+  });
+
+  it("resolves string body references through vault", () => {
+    const body = {
+      id: "https://example.org/body/1",
+      type: "TextualBody",
+      value: "resolved",
+      format: "text/plain",
+    };
+    const vault = {
+      get: vi.fn().mockReturnValue(body),
+    } as any;
+
+    const annotation = { body: body.id };
+    const result = resolveAnnotationBodies(annotation as any, vault);
+
+    expect(result).toHaveLength(1);
+    expect((result[0] as any).id).toBe(body.id);
+  });
+});
+

@@ -249,9 +249,57 @@ function extractLanguages(
   return Array.from(languages);
 }
 
+/**
+ * Safely extracts the canvas ID from any IIIF annotation target shape.
+ * Handles: plain string, string with #xywh fragment, { source: string },
+ * { source: { id } }, array of the above.
+ */
+const getTargetCanvasId = (
+  target: unknown,
+): string | undefined => {
+  if (!target) return;
+
+  // Unwrap single-element array
+  if (Array.isArray(target) && target.length > 0) {
+    return getTargetCanvasId(target[0]);
+  }
+
+  if (typeof target === "string") {
+    // Strip any IIIF media-fragment suffix (#xywh=, #t=, &t=)
+    return target.split("#")[0].split("&t=")[0] || undefined;
+  }
+
+  if (typeof target === "object") {
+    const t = target as any;
+
+    // { source: "string" }
+    if (typeof t.source === "string") {
+      return t.source.split("#")[0].split("&t=")[0] || undefined;
+    }
+
+    // { source: { id: "string" } }
+    if (t.source && typeof t.source === "object" && typeof t.source.id === "string") {
+      return t.source.id.split("#")[0].split("&t=")[0] || undefined;
+    }
+
+    // { id: "string" }
+    if (typeof t.id === "string") {
+      return t.id.split("#")[0].split("&t=")[0] || undefined;
+    }
+
+    // IIIF 2.x "@id"
+    if (typeof t["@id"] === "string") {
+      return t["@id"].split("#")[0].split("&t=")[0] || undefined;
+    }
+  }
+
+  return undefined;
+};
+
 export {
   getLanguageDirection,
   extractLanguages,
+  getTargetCanvasId,
   parseAnnotationTarget,
   filterAnnotationsByMotivation,
   annotationMatchesMotivations,
