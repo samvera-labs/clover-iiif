@@ -75,7 +75,9 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     [plugins],
   );
 
-  const currentCanvasId = visibleCanvases[0]?.id || activeCanvas;
+  const visibleCanvasIds = visibleCanvases.map((canvas) => canvas.id);
+  const panelCanvasIds =
+    visibleCanvasIds.length > 0 ? visibleCanvasIds : [activeCanvas];
 
   const hasPanel = hasAnyPanel({
     informationPanel,
@@ -84,7 +86,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     pluginsWithInfoPanel,
     contentStateAnnotation,
     annotationCollection,
-    activeCanvas: currentCanvasId,
+    activeCanvases: panelCanvasIds,
   });
 
   const isAside = hasPanel && isInformationOpen;

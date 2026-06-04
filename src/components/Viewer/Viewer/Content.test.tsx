@@ -164,6 +164,44 @@ describe("ViewerContent InformationPanel visibility", () => {
     expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
   });
 
+  test("renders InformationPanel when contentStateAnnotation targets the second visible canvas", () => {
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: true,
+          visibleCanvases: [
+            { id: "http://example.com/iiif/foobar/canvas/1", type: "Canvas" },
+            { id: "http://example.com/iiif/foobar/canvas/2", type: "Canvas" },
+          ],
+          contentStateAnnotation: {
+            id: "http://localhost:3000/manifest/csa.json",
+            type: "Annotation",
+            motivation: "contentState",
+            target: {
+              type: "SpecificResource",
+              source: {
+                id: "http://example.com/iiif/foobar/canvas/2",
+                type: "Canvas",
+              },
+            },
+            body: [],
+          } as any,
+          configOptions: {
+            informationPanel: {
+              renderAbout: false,
+              renderAnnotation: true,
+              renderToggle: true,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...props} />
+      </ViewerProvider>,
+    );
+    expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
+  });
+
   test("renders InformationPanel when Annotation tab is enabled via annotationCollection and panel is open", () => {
     render(
       <ViewerProvider

@@ -17,31 +17,55 @@ export interface PanelVisibilityInput {
   contentStateAnnotation?: AnnotationNormalized | null;
   annotationCollection?: AnnotationCollectionNormalized | null;
   activeCanvas?: string;
+  activeCanvases?: string[];
 }
 
 /**
  * Extract the target resource from a IIIF content state annotation.
  * Handles both SpecificResource (with .source) and direct target shapes.
  */
-function getContentStateTarget(
+function getContentStateTargetIds(
   annotation: AnnotationNormalized | null | undefined,
-): { id: string } | undefined {
-  if (!annotation) return undefined;
+): string[] {
+  if (!annotation?.target) return [];
+
+  const targets = Array.isArray(annotation.target)
+    ? annotation.target
+    : [annotation.target];
+
+  return targets
+    .map(getTargetResourceId)
+    .filter((id): id is string => Boolean(id));
+}
+
+function getTargetResourceId(target: unknown): string | undefined {
+  if (typeof target === "string") return target;
+
+  if (!isRecord(target)) return undefined;
+
   // IIIF content state target shape varies: may be a SpecificResource with a
   // `source` property, or a direct reference with an `id`.
-  const target =
-    (annotation as Record<string, unknown>).target as
-      | { source?: { id: string }; id?: string }
-      | undefined;
-  return target?.source ?? (target?.id ? target : undefined);
+  return getResourceId(target.source) ?? getResourceId(target);
+}
+
+function getResourceId(resource: unknown): string | undefined {
+  if (typeof resource === "string") return resource;
+  if (isRecord(resource) && typeof resource.id === "string") {
+    return resource.id;
+  }
+
+  return undefined;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
 }
 
 export function annotationTargetsCanvas(
   annotation: AnnotationNormalized | null | undefined,
   activeCanvas: string,
 ): boolean {
-  const target = getContentStateTarget(annotation);
-  return Boolean(target) && target.id === activeCanvas;
+  return getContentStateTargetIds(annotation).includes(activeCanvas);
 }
 
 function hasAnnotationContent(input: PanelVisibilityInput): boolean {
@@ -51,6 +75,7 @@ function hasAnnotationContent(input: PanelVisibilityInput): boolean {
     contentStateAnnotation,
     annotationCollection,
     activeCanvas,
+    activeCanvases,
   } = input;
 
   // Use filtered resources when available (respects motivation filtering);
@@ -58,8 +83,13 @@ function hasAnnotationContent(input: PanelVisibilityInput): boolean {
   const resources = filteredAnnotationResources ?? annotationResources;
   const hasFilteredResources = (resources?.length ?? 0) > 0;
 
-  const hasCanvasScopedContentState = activeCanvas
-    ? annotationTargetsCanvas(contentStateAnnotation, activeCanvas)
+  const activeCanvasIds =
+    activeCanvases ?? (activeCanvas ? [activeCanvas] : undefined);
+
+  const hasCanvasScopedContentState = activeCanvasIds
+    ? activeCanvasIds.some((canvasId) =>
+        annotationTargetsCanvas(contentStateAnnotation, canvasId),
+      )
     : Boolean(contentStateAnnotation);
 
   const hasCollectionPages = (annotationCollection?.pages?.length ?? 0) > 0;

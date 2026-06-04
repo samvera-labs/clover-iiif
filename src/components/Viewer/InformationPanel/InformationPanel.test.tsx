@@ -202,6 +202,47 @@ describe("InformationPanel reactive behavior", () => {
     });
   });
 
+  test("selects configured async default tab when it becomes available after fallback", () => {
+    mockState = {
+      ...createDefaultState(),
+      informationPanelResource: "",
+      configOptions: {
+        informationPanel: {
+          renderAbout: true,
+          renderAnnotation: false,
+          renderContentSearch: true,
+          renderToggle: true,
+          defaultTab: "manifest-content-search",
+        },
+      },
+    };
+
+    const { rerender } = render(<InformationPanel {...baseProps} />);
+
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "updateInformationPanelResource",
+      informationPanelResource: "manifest-about",
+    });
+
+    mockDispatch.mockClear();
+    mockState = {
+      ...mockState,
+      informationPanelResource: "manifest-about",
+    };
+
+    rerender(
+      <InformationPanel
+        {...baseProps}
+        contentSearchResource={{ id: "search", type: "AnnotationPage" } as any}
+      />,
+    );
+
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "updateInformationPanelResource",
+      informationPanelResource: "manifest-content-search",
+    });
+  });
+
   test("preserves selected tab when it remains available after props change", () => {
     mockState = {
       ...createDefaultState(),

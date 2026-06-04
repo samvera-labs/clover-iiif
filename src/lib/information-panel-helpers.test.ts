@@ -481,6 +481,41 @@ describe("annotationTargetsCanvas", () => {
 		).toBe(true);
 	});
 
+	it("returns true when annotation target source is a matching string", () => {
+		expect(
+			annotationTargetsCanvas(
+				{
+					id: "annotation-1",
+					type: "Annotation",
+					target: {
+						type: "SpecificResource",
+						source: "canvas-1",
+					},
+				} as any,
+				"canvas-1"
+			)
+		).toBe(true);
+	});
+
+	it("returns true when one annotation target in an array matches activeCanvas", () => {
+		expect(
+			annotationTargetsCanvas(
+				{
+					id: "annotation-1",
+					type: "Annotation",
+					target: [
+						{ id: "canvas-2" },
+						{
+							type: "SpecificResource",
+							source: { id: "canvas-1", type: "Canvas" },
+						},
+					],
+				} as any,
+				"canvas-1"
+			)
+		).toBe(true);
+	});
+
 	it("returns false when direct target id does not match activeCanvas", () => {
 		expect(
 			annotationTargetsCanvas(
