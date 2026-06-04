@@ -17,11 +17,10 @@ import { Icon } from "src/components/UI";
 import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
 import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import {
   useViewerDispatch,
   useViewerState,
-  type PluginConfig,
 } from "src/context/viewer-context";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 import { hasAnyPanel } from "src/lib/information-panel-helpers";
@@ -71,7 +70,10 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   const [asideWidth, setAsideWidth] = useState<number | null>(null);
   const dragging = useRef(false);
 
-  const { pluginsWithInfoPanel } = setupPlugins(plugins);
+  const { pluginsWithInfoPanel } = useMemo(
+    () => setupPlugins(plugins),
+    [plugins],
+  );
 
   const currentCanvasId = visibleCanvases[0]?.id || activeCanvas;
 

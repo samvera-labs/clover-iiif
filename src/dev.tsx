@@ -32,9 +32,18 @@ const App = () => {
   const [manifest, setManifest] = useState<Manifest>();
 
   const manifestId =
-    "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif";
+    "https://api.dc.library.northwestern.edu/api/v2/works/40f87ae4-9666-4a8e-b6ce-a891096fefd3?as=iiif";
   const collectionId =
     "https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif";
+
+  const viewerOptions = {
+    informationPanel: {
+      renderAbout: false,
+      renderAnnotation: true,
+      renderToggle: true,
+      renderContentSearch: true,
+    },
+  };
 
   useEffect(() => {
     (async () => {
@@ -47,7 +56,10 @@ const App = () => {
 
   return (
     <div style={{ padding: "1rem" }}>
-      <Viewer iiifContent={manifestId} />
+      <Viewer
+        iiifContent={manifestId}
+        options={viewerOptions}
+      />
       <Slider iiifContent={collectionId} />
       <article>
         <Label label={manifest.label} as="h1" />

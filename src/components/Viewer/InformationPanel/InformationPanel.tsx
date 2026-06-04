@@ -32,7 +32,11 @@ import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 import ContentStateAnnotationPage from "./ContentState/Page";
 import AnnotationCollectionPage from "./AnnotationCollection/Page";
 import { annotationMatchesMotivations } from "src/lib/annotation-helpers";
-import { getAvailableTabs } from "src/lib/information-panel-helpers";
+import {
+  getAvailableTabs,
+  getDefaultTab,
+  annotationTargetsCanvas,
+} from "src/lib/information-panel-helpers";
 
 const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event reverts to auto-scrolling
 
@@ -86,13 +90,10 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   const renderContentSearch = informationPanel?.renderContentSearch;
   const renderToggle = informationPanel?.renderToggle;
   const allowedAnnotationMotivations = configOptions?.annotations?.motivations;
-  const contentStateAnnotationSource =
-    // @ts-ignore
-    contentStateAnnotation?.target?.source || contentStateAnnotation?.target;
-  const hasContentStateAnnotation =
-    Boolean(contentStateAnnotation) &&
-    // @ts-ignore
-    contentStateAnnotationSource.id === activeCanvas;
+  const hasContentStateAnnotation = annotationTargetsCanvas(
+    contentStateAnnotation,
+    activeCanvas,
+  );
   const filteredAnnotationResources = useMemo(() => {
     if (!annotationResources) return [];
     if (!allowedAnnotationMotivations)
@@ -158,8 +159,19 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     });
   };
 
-  useEffect(() => {
-    const availableTabs = getAvailableTabs({
+  const availableTabs = useMemo(
+    () =>
+      getAvailableTabs({
+        informationPanel,
+        annotationResources,
+        filteredAnnotationResources,
+        contentSearchResource,
+        pluginsWithInfoPanel,
+        contentStateAnnotation,
+        annotationCollection,
+        activeCanvas,
+      }),
+    [
       informationPanel,
       annotationResources,
       filteredAnnotationResources,
@@ -168,18 +180,17 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       contentStateAnnotation,
       annotationCollection,
       activeCanvas,
-    });
+    ],
+  );
 
+  useEffect(() => {
     if (!hasInitializedRef.current) {
-      // First run — set the initial default tab based on config
       hasInitializedRef.current = true;
-      const defaultTab =
-        (informationPanel?.defaultTab &&
-          availableTabs.includes(String(informationPanel.defaultTab)) &&
-          informationPanel.defaultTab) ||
-        availableTabs[0] ||
-        (informationPanel?.renderAbout ? "manifest-about" : undefined);
-
+      const defaultTab = getDefaultTab(
+        availableTabs,
+        informationPanel?.defaultTab,
+        informationPanel?.renderAbout,
+      );
       if (defaultTab) {
         dispatch({
           type: "updateInformationPanelResource",
@@ -189,37 +200,24 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       return;
     }
 
-    // Subsequent runs — preserve the current tab selection if it's still available
+    // Preserve the current tab selection if it's still available
     if (availableTabs.includes(informationPanelResource)) {
       return;
     }
 
     // Current tab is no longer available — select the best alternative
-    const defaultTab =
-      (informationPanel?.defaultTab &&
-        availableTabs.includes(String(informationPanel.defaultTab)) &&
-        informationPanel.defaultTab) ||
-      availableTabs[0] ||
-      (informationPanel?.renderAbout ? "manifest-about" : undefined);
-
+    const defaultTab = getDefaultTab(
+      availableTabs,
+      informationPanel?.defaultTab,
+      informationPanel?.renderAbout,
+    );
     if (defaultTab) {
       dispatch({
         type: "updateInformationPanelResource",
         informationPanelResource: defaultTab,
       });
     }
-  }, [
-    informationPanel,
-    annotationResources,
-    filteredAnnotationResources,
-    contentSearchResource,
-    pluginsWithInfoPanel,
-    contentStateAnnotation,
-    annotationCollection,
-    activeCanvas,
-    informationPanelResource,
-    dispatch,
-  ]);
+  }, [availableTabs, informationPanelResource, dispatch]);
 
   function handleScroll() {
     if (!isAutoScrolling) {
