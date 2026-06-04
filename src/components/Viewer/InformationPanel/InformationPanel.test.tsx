@@ -153,3 +153,182 @@ describe("InformationPanel useEffect — initial tab selection", () => {
     });
   });
 });
+
+describe("InformationPanel reactive behavior", () => {
+  beforeEach(() => {
+    mockDispatch.mockClear();
+  });
+
+  test("updates available tabs when annotationResources change from empty to populated", () => {
+    mockState = {
+      ...createDefaultState(),
+      configOptions: {
+        informationPanel: {
+          renderAbout: false,
+          renderAnnotation: true,
+          renderContentSearch: false,
+          renderToggle: true,
+        },
+      },
+    };
+
+    // Start with no annotations
+    const { rerender } = render(
+      <InformationPanel {...baseProps} annotationResources={[]} />
+    );
+
+    // Should not dispatch manifest-annotations initially (no resources)
+    expect(mockDispatch).not.toHaveBeenCalledWith({
+      type: "updateInformationPanelResource",
+      informationPanelResource: "manifest-annotations",
+    });
+
+    mockDispatch.mockClear();
+
+    // Update with annotation resources
+    rerender(
+      <InformationPanel
+        {...baseProps}
+        annotationResources={[
+          { id: "a", type: "AnnotationPage", items: [{ id: "a1", type: "Annotation" }] },
+        ]}
+      />
+    );
+
+    // Should dispatch to select the annotation tab
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "updateInformationPanelResource",
+      informationPanelResource: "manifest-annotations",
+    });
+  });
+
+  test("preserves selected tab when it remains available after props change", () => {
+    mockState = {
+      ...createDefaultState(),
+      informationPanelResource: "manifest-about",
+      configOptions: {
+        informationPanel: {
+          renderAbout: true,
+          renderAnnotation: true,
+          renderContentSearch: false,
+          renderToggle: true,
+        },
+      },
+    };
+
+    const { rerender } = render(
+      <InformationPanel {...baseProps} />
+    );
+
+    mockDispatch.mockClear();
+
+    // Add annotation resources - but about tab is still available
+    rerender(
+      <InformationPanel
+        {...baseProps}
+        annotationResources={[
+          { id: "a", type: "AnnotationPage", items: [{ id: "a1", type: "Annotation" }] },
+        ]}
+      />
+    );
+
+    // Should NOT dispatch a new tab selection since manifest-about is still available
+    expect(mockDispatch).not.toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: "updateInformationPanelResource",
+      })
+    );
+  });
+
+  test("selects new default when current tab becomes unavailable", () => {
+    mockState = {
+      ...createDefaultState(),
+      informationPanelResource: "manifest-about",
+      configOptions: {
+        informationPanel: {
+          renderAbout: true,
+          renderAnnotation: true,
+          renderContentSearch: false,
+          renderToggle: true,
+        },
+      },
+    };
+
+    const { rerender } = render(
+      <InformationPanel {...baseProps} />
+    );
+
+    mockDispatch.mockClear();
+
+    // Disable the about tab - current selection becomes invalid
+    mockState = {
+      ...mockState,
+      configOptions: {
+        informationPanel: {
+          renderAbout: false,
+          renderAnnotation: true,
+          renderContentSearch: false,
+          renderToggle: true,
+        },
+      },
+    };
+
+    rerender(
+      <InformationPanel
+        {...baseProps}
+        annotationResources={[
+          { id: "a", type: "AnnotationPage", items: [{ id: "a1", type: "Annotation" }] },
+        ]}
+      />
+    );
+
+    // Should dispatch to select manifest-annotations (next available tab)
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "updateInformationPanelResource",
+      informationPanelResource: "manifest-annotations",
+    });
+  });
+
+  test("handles gracefully when all tabs become unavailable", () => {
+    mockState = {
+      ...createDefaultState(),
+      informationPanelResource: "manifest-about",
+      configOptions: {
+        informationPanel: {
+          renderAbout: true,
+          renderAnnotation: false,
+          renderContentSearch: false,
+          renderToggle: true,
+        },
+      },
+    };
+
+    const { rerender } = render(
+      <InformationPanel {...baseProps} />
+    );
+
+    mockDispatch.mockClear();
+
+    // Disable all tabs
+    mockState = {
+      ...mockState,
+      configOptions: {
+        informationPanel: {
+          renderAbout: false,
+          renderAnnotation: false,
+          renderContentSearch: false,
+          renderToggle: true,
+        },
+      },
+    };
+
+    rerender(<InformationPanel {...baseProps} />);
+
+    // Should not dispatch any tab selection (no tabs available)
+    expect(mockDispatch).not.toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: "updateInformationPanelResource",
+      })
+    );
+  });
+});

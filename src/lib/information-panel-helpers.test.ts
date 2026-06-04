@@ -1,4 +1,4 @@
-import { hasAnyPanel, getAvailableTabs } from "./information-panel-helpers";
+import { hasAnyPanel, getAvailableTabs, getDefaultTab, annotationTargetsCanvas } from "./information-panel-helpers";
 
 describe("hasAnyPanel", () => {
 	it("returns true when renderAbout is true", () => {
@@ -404,5 +404,101 @@ describe("getAvailableTabs", () => {
 			expect(hasAnyPanel(opts)).toBe(false);
 			expect(getAvailableTabs(opts)).toStrictEqual([]);
 		});
+	});
+});
+
+describe("getDefaultTab", () => {
+	it("returns configDefaultTab when it is in availableTabs", () => {
+		expect(
+			getDefaultTab(["manifest-about", "manifest-annotations"], "manifest-annotations")
+		).toBe("manifest-annotations");
+	});
+
+	it("falls back to first available tab when configDefaultTab is not in availableTabs", () => {
+		expect(
+			getDefaultTab(["manifest-about", "manifest-annotations"], "manifest-search")
+		).toBe("manifest-about");
+	});
+
+	it("returns first available tab when no configDefaultTab is provided", () => {
+		expect(
+			getDefaultTab(["manifest-about", "manifest-annotations"])
+		).toBe("manifest-about");
+	});
+
+	it("returns undefined when availableTabs is empty", () => {
+		expect(getDefaultTab([])).toBeUndefined();
+	});
+
+	it("returns undefined when availableTabs is empty even with configDefaultTab", () => {
+		expect(getDefaultTab([], "manifest-about")).toBeUndefined();
+	});
+});
+
+describe("annotationTargetsCanvas", () => {
+	it("returns true when annotation has SpecificResource target matching activeCanvas", () => {
+		expect(
+			annotationTargetsCanvas(
+				{
+					id: "annotation-1",
+					type: "Annotation",
+					target: {
+						type: "SpecificResource",
+						source: { id: "canvas-1", type: "Canvas" },
+					},
+				} as any,
+				"canvas-1"
+			)
+		).toBe(true);
+	});
+
+	it("returns false when SpecificResource target does not match activeCanvas", () => {
+		expect(
+			annotationTargetsCanvas(
+				{
+					id: "annotation-1",
+					type: "Annotation",
+					target: {
+						type: "SpecificResource",
+						source: { id: "canvas-2", type: "Canvas" },
+					},
+				} as any,
+				"canvas-1"
+			)
+		).toBe(false);
+	});
+
+	it("returns true when annotation has direct target id matching activeCanvas", () => {
+		expect(
+			annotationTargetsCanvas(
+				{
+					id: "annotation-1",
+					type: "Annotation",
+					target: { id: "canvas-1" },
+				} as any,
+				"canvas-1"
+			)
+		).toBe(true);
+	});
+
+	it("returns false when direct target id does not match activeCanvas", () => {
+		expect(
+			annotationTargetsCanvas(
+				{
+					id: "annotation-1",
+					type: "Annotation",
+					target: { id: "canvas-2" },
+				} as any,
+				"canvas-1"
+			)
+		).toBe(false);
+	});
+
+	it("returns false when annotation is null", () => {
+		expect(annotationTargetsCanvas(null, "canvas-1")).toBe(false);
+	});
+
+	it("returns false when annotation is undefined", () => {
+		expect(annotationTargetsCanvas(undefined, "canvas-1")).toBe(false);
 	});
 });

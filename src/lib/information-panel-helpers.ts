@@ -23,7 +23,7 @@ export interface PanelVisibilityInput {
  * Extract the target resource from a IIIF content state annotation.
  * Handles both SpecificResource (with .source) and direct target shapes.
  */
-export function getContentStateTarget(
+function getContentStateTarget(
   annotation: AnnotationNormalized | null | undefined,
 ): { id: string } | undefined {
   if (!annotation) return undefined;
@@ -99,13 +99,12 @@ export function getAvailableTabs(input: PanelVisibilityInput): string[] {
 export function getDefaultTab(
   availableTabs: string[],
   configDefaultTab?: string,
-  renderAbout?: boolean,
 ): string | undefined {
   return (
     (configDefaultTab &&
       availableTabs.includes(configDefaultTab) &&
       configDefaultTab) ||
     availableTabs[0] ||
-    (renderAbout ? "manifest-about" : undefined)
+    undefined
   );
 }
