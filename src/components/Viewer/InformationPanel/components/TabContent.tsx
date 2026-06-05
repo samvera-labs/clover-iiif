@@ -5,7 +5,10 @@ import ContentSearch from "../ContentSearch/ContentSearch";
 import ContentStateAnnotationPage from "../ContentState/Page";
 import AnnotationCollectionPage from "../AnnotationCollection/Page";
 import AnnotationPage from "../Annotation/Page";
-import type { AnnotationResources, AnnotationResource } from "src/types/annotations";
+import type {
+  AnnotationResources,
+  AnnotationResource,
+} from "src/types/annotations";
 import type { AnnotationPageNormalized } from "@iiif/presentation-3";
 
 interface TabContentProps {
@@ -21,11 +24,15 @@ interface TabContentProps {
   initialSearchQuery?: string;
   renderAnnotation?: boolean;
   hasAnnotations: boolean;
-  contentStateAnnotation?: import("@iiif/presentation-3").AnnotationNormalized | null;
+  contentStateAnnotation?:
+    | import("@iiif/presentation-3").AnnotationNormalized
+    | null;
   hasContentStateAnnotation: boolean;
   filteredAnnotationResources: AnnotationResources;
   hasAnnotationCollection: boolean;
-  annotationCollection?: import("src/types/annotation-collection").AnnotationCollectionNormalized | null;
+  annotationCollection?:
+    | import("src/types/annotation-collection").AnnotationCollectionNormalized
+    | null;
 }
 
 export const TabContent: React.FC<TabContentProps> = ({
@@ -78,7 +85,9 @@ export const TabContent: React.FC<TabContentProps> = ({
             />
           ))}
           {hasAnnotationCollection && annotationCollection && (
-            <AnnotationCollectionPage annotationCollection={annotationCollection} />
+            <AnnotationCollectionPage
+              annotationCollection={annotationCollection}
+            />
           )}
         </Content>
       )}

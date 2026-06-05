@@ -56,10 +56,7 @@ const App = () => {
 
   return (
     <div style={{ padding: "1rem" }}>
-      <Viewer
-        iiifContent={manifestId}
-        options={viewerOptions}
-      />
+      <Viewer iiifContent={manifestId} options={viewerOptions} />
       <Slider iiifContent={collectionId} />
       <article>
         <Label label={manifest.label} as="h1" />

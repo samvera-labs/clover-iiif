@@ -1,8 +1,9 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
 import React from "react";
 import { Vault } from "@iiif/helpers/vault";
+import type { AnnotationResources } from "src/types/annotations";
 
 const mockDispatch = vi.fn();
 let mockState: any = {};
@@ -32,11 +33,38 @@ vi.mock("src/context/viewer-context", () => ({
   useViewerState: () => mockState,
 }));
 
+vi.mock("src/components/Viewer/InformationPanel/Annotation/Page", () => ({
+  __esModule: true,
+  default: () => <div>Annotation page</div>,
+}));
+
 const baseProps = {
   activeCanvas: "http://example.com/canvas/1",
   annotationResources: [],
   setContentSearchResource: vi.fn(),
 };
+
+const annotationResources: AnnotationResources = [
+  {
+    id: "a",
+    type: "AnnotationPage",
+    behavior: [],
+    motivation: null,
+    label: { none: ["Annotations"] },
+    thumbnail: [],
+    summary: null,
+    requiredStatement: null,
+    metadata: [],
+    rights: null,
+    provider: [],
+    items: [{ id: "a1", type: "Annotation" }],
+    seeAlso: [],
+    homepage: [],
+    logo: [],
+    rendering: [],
+    service: [],
+  },
+];
 
 describe("InformationPanel", () => {
   beforeEach(() => {
@@ -49,6 +77,12 @@ describe("InformationPanel", () => {
     expect(screen.getByTestId("information-panel")).toHaveClass(
       "clover-viewer-information-panel",
     );
+  });
+
+  test("uses the translated label for the tab list", () => {
+    render(<InformationPanel {...baseProps} />);
+
+    expect(screen.getByRole("tablist", { name: "Select" })).toBeInTheDocument();
   });
 });
 
@@ -83,9 +117,7 @@ describe("InformationPanel useEffect — initial tab selection", () => {
     render(
       <InformationPanel
         {...baseProps}
-        annotationResources={[
-          { id: "a", type: "AnnotationPage", items: [{ id: "a1", type: "Annotation" }] },
-        ]}
+        annotationResources={annotationResources}
       />,
     );
 
@@ -118,17 +150,52 @@ describe("InformationPanel useEffect — initial tab selection", () => {
       },
     };
 
-    render(
-      <InformationPanel
-        {...baseProps}
-        activeCanvas={activeCanvas}
-      />,
-    );
+    render(<InformationPanel {...baseProps} activeCanvas={activeCanvas} />);
 
     expect(mockDispatch).toHaveBeenCalledWith({
       type: "updateInformationPanelResource",
       informationPanelResource: "manifest-annotations",
     });
+  });
+
+  test("selects manifest-annotations when contentStateAnnotation targets another visible canvas", () => {
+    const activeCanvas = "http://example.com/canvas/1";
+    const secondCanvas = "http://example.com/canvas/2";
+    mockState = {
+      ...createDefaultState(),
+      visibleCanvases: [
+        { id: activeCanvas, type: "Canvas" },
+        { id: secondCanvas, type: "Canvas" },
+      ],
+      configOptions: {
+        informationPanel: {
+          renderAbout: false,
+          renderAnnotation: true,
+          renderContentSearch: false,
+          renderToggle: true,
+        },
+      },
+      contentStateAnnotation: {
+        id: "http://example.com/csa.json",
+        type: "Annotation",
+        motivation: ["contentState"],
+        target: {
+          type: "SpecificResource",
+          source: { id: secondCanvas, type: "Canvas" },
+        },
+        body: [],
+      },
+    };
+
+    render(<InformationPanel {...baseProps} activeCanvas={activeCanvas} />);
+
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "updateInformationPanelResource",
+      informationPanelResource: "manifest-annotations",
+    });
+    expect(
+      screen.getByRole("tab", { name: "Annotations" }),
+    ).toBeInTheDocument();
   });
 
   test("does not dispatch manifest-about when renderAbout is false and no other tabs are available", () => {
@@ -174,7 +241,7 @@ describe("InformationPanel reactive behavior", () => {
 
     // Start with no annotations
     const { rerender } = render(
-      <InformationPanel {...baseProps} annotationResources={[]} />
+      <InformationPanel {...baseProps} annotationResources={[]} />,
     );
 
     // Should not dispatch manifest-annotations initially (no resources)
@@ -189,10 +256,8 @@ describe("InformationPanel reactive behavior", () => {
     rerender(
       <InformationPanel
         {...baseProps}
-        annotationResources={[
-          { id: "a", type: "AnnotationPage", items: [{ id: "a1", type: "Annotation" }] },
-        ]}
-      />
+        annotationResources={annotationResources}
+      />,
     );
 
     // Should dispatch to select the annotation tab
@@ -243,6 +308,84 @@ describe("InformationPanel reactive behavior", () => {
     });
   });
 
+  test("does not apply an async default after the user explicitly selects another tab", () => {
+    mockState = {
+      ...createDefaultState(),
+      informationPanelResource: "",
+      configOptions: {
+        informationPanel: {
+          renderAbout: true,
+          renderAnnotation: true,
+          renderContentSearch: true,
+          renderToggle: true,
+          defaultTab: "manifest-content-search",
+        },
+      },
+    };
+    const { rerender } = render(
+      <InformationPanel
+        {...baseProps}
+        annotationResources={annotationResources}
+      />,
+    );
+
+    mockState = {
+      ...mockState,
+      informationPanelResource: "manifest-about",
+    };
+    rerender(
+      <InformationPanel
+        {...baseProps}
+        annotationResources={annotationResources}
+      />,
+    );
+
+    fireEvent.mouseDown(screen.getByRole("tab", { name: "Annotations" }), {
+      button: 0,
+      ctrlKey: false,
+    });
+    mockState = {
+      ...mockState,
+      informationPanelResource: "manifest-annotations",
+    };
+    rerender(
+      <InformationPanel
+        {...baseProps}
+        annotationResources={annotationResources}
+      />,
+    );
+
+    fireEvent.mouseDown(screen.getByRole("tab", { name: "About" }), {
+      button: 0,
+      ctrlKey: false,
+    });
+    mockState = {
+      ...mockState,
+      informationPanelResource: "manifest-about",
+    };
+    rerender(
+      <InformationPanel
+        {...baseProps}
+        annotationResources={annotationResources}
+      />,
+    );
+
+    mockDispatch.mockClear();
+
+    rerender(
+      <InformationPanel
+        {...baseProps}
+        annotationResources={annotationResources}
+        contentSearchResource={{ id: "search", type: "AnnotationPage" } as any}
+      />,
+    );
+
+    expect(mockDispatch).not.toHaveBeenCalledWith({
+      type: "updateInformationPanelResource",
+      informationPanelResource: "manifest-content-search",
+    });
+  });
+
   test("preserves selected tab when it remains available after props change", () => {
     mockState = {
       ...createDefaultState(),
@@ -257,9 +400,7 @@ describe("InformationPanel reactive behavior", () => {
       },
     };
 
-    const { rerender } = render(
-      <InformationPanel {...baseProps} />
-    );
+    const { rerender } = render(<InformationPanel {...baseProps} />);
 
     mockDispatch.mockClear();
 
@@ -267,17 +408,15 @@ describe("InformationPanel reactive behavior", () => {
     rerender(
       <InformationPanel
         {...baseProps}
-        annotationResources={[
-          { id: "a", type: "AnnotationPage", items: [{ id: "a1", type: "Annotation" }] },
-        ]}
-      />
+        annotationResources={annotationResources}
+      />,
     );
 
     // Should NOT dispatch a new tab selection since manifest-about is still available
     expect(mockDispatch).not.toHaveBeenCalledWith(
       expect.objectContaining({
         type: "updateInformationPanelResource",
-      })
+      }),
     );
   });
 
@@ -295,9 +434,7 @@ describe("InformationPanel reactive behavior", () => {
       },
     };
 
-    const { rerender } = render(
-      <InformationPanel {...baseProps} />
-    );
+    const { rerender } = render(<InformationPanel {...baseProps} />);
 
     mockDispatch.mockClear();
 
@@ -317,10 +454,8 @@ describe("InformationPanel reactive behavior", () => {
     rerender(
       <InformationPanel
         {...baseProps}
-        annotationResources={[
-          { id: "a", type: "AnnotationPage", items: [{ id: "a1", type: "Annotation" }] },
-        ]}
-      />
+        annotationResources={annotationResources}
+      />,
     );
 
     // Should dispatch to select manifest-annotations (next available tab)
@@ -344,9 +479,7 @@ describe("InformationPanel reactive behavior", () => {
       },
     };
 
-    const { rerender } = render(
-      <InformationPanel {...baseProps} />
-    );
+    const { rerender } = render(<InformationPanel {...baseProps} />);
 
     mockDispatch.mockClear();
 
@@ -369,7 +502,7 @@ describe("InformationPanel reactive behavior", () => {
     expect(mockDispatch).not.toHaveBeenCalledWith(
       expect.objectContaining({
         type: "updateInformationPanelResource",
-      })
+      }),
     );
   });
 });

@@ -1,7 +1,10 @@
-import type { AnnotationResources, AnnotationResource } from "src/types/annotations";
-import type { PluginConfig } from "src/context/viewer-context";
-import type { AnnotationCollectionNormalized } from "src/types/annotation-collection";
-import type { AnnotationNormalized } from "@iiif/presentation-3";
+interface ContentStateAnnotationLike {
+  id?: string;
+  type?: unknown;
+  motivation?: unknown;
+  body?: unknown;
+  target?: unknown;
+}
 
 export interface PanelVisibilityInput {
   informationPanel?: {
@@ -10,12 +13,12 @@ export interface PanelVisibilityInput {
     renderContentSearch?: boolean;
     defaultTab?: string;
   };
-  annotationResources?: AnnotationResources;
-  filteredAnnotationResources?: AnnotationResources;
-  contentSearchResource?: AnnotationResource;
-  pluginsWithInfoPanel?: PluginConfig[];
-  contentStateAnnotation?: AnnotationNormalized | null;
-  annotationCollection?: AnnotationCollectionNormalized | null;
+  annotationResources?: readonly unknown[];
+  filteredAnnotationResources?: readonly unknown[];
+  contentSearchResource?: unknown;
+  pluginsWithInfoPanel?: ReadonlyArray<{ id: string }>;
+  contentStateAnnotation?: ContentStateAnnotationLike | null;
+  annotationCollection?: { pages?: readonly unknown[] } | null;
   activeCanvas?: string;
   activeCanvases?: string[];
 }
@@ -25,7 +28,7 @@ export interface PanelVisibilityInput {
  * Handles both SpecificResource (with .source) and direct target shapes.
  */
 function getContentStateTargetIds(
-  annotation: AnnotationNormalized | null | undefined,
+  annotation: ContentStateAnnotationLike | null | undefined,
 ): string[] {
   if (!annotation?.target) return [];
 
@@ -62,7 +65,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 export function annotationTargetsCanvas(
-  annotation: AnnotationNormalized | null | undefined,
+  annotation: ContentStateAnnotationLike | null | undefined,
   activeCanvas: string,
 ): boolean {
   return getContentStateTargetIds(annotation).includes(activeCanvas);
@@ -94,31 +97,37 @@ function hasAnnotationContent(input: PanelVisibilityInput): boolean {
 
   const hasCollectionPages = (annotationCollection?.pages?.length ?? 0) > 0;
 
-  return hasFilteredResources || hasCanvasScopedContentState || hasCollectionPages;
+  return (
+    hasFilteredResources || hasCanvasScopedContentState || hasCollectionPages
+  );
 }
 
 export function hasAnyPanel(input: PanelVisibilityInput): boolean {
-  const { informationPanel, contentSearchResource, pluginsWithInfoPanel } = input;
+  const { informationPanel, contentSearchResource, pluginsWithInfoPanel } =
+    input;
 
   if (informationPanel?.renderAbout) return true;
-  if (informationPanel?.renderAnnotation && hasAnnotationContent(input)) return true;
-  if (informationPanel?.renderContentSearch && contentSearchResource) return true;
+  if (informationPanel?.renderAnnotation && hasAnnotationContent(input))
+    return true;
+  if (informationPanel?.renderContentSearch && contentSearchResource)
+    return true;
   if (pluginsWithInfoPanel && pluginsWithInfoPanel.length > 0) return true;
 
   return false;
 }
 
 export function getAvailableTabs(input: PanelVisibilityInput): string[] {
-  const {
-    informationPanel,
-    contentSearchResource,
-    pluginsWithInfoPanel,
-  } = input;
+  const { informationPanel, contentSearchResource, pluginsWithInfoPanel } =
+    input;
 
   const tabs = [
     informationPanel?.renderAbout && "manifest-about",
-    informationPanel?.renderAnnotation && hasAnnotationContent(input) && "manifest-annotations",
-    informationPanel?.renderContentSearch && contentSearchResource && "manifest-content-search",
+    informationPanel?.renderAnnotation &&
+      hasAnnotationContent(input) &&
+      "manifest-annotations",
+    informationPanel?.renderContentSearch &&
+      contentSearchResource &&
+      "manifest-content-search",
     ...(pluginsWithInfoPanel?.map((p) => p.id) ?? []),
   ];
 

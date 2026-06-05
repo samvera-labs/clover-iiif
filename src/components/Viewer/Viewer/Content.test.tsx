@@ -130,6 +130,41 @@ describe("ViewerContent InformationPanel visibility", () => {
     expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
   });
 
+  test("does not render InformationPanel when motivation filtering removes all annotations", () => {
+    const propsWithAnnotationResources = { ...props, annotationResources };
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: true,
+          vault: {
+            get: vi.fn().mockReturnValue({
+              id: annotationResources[0].items[0].id,
+              type: "Annotation",
+              motivation: ["painting"],
+              body: [],
+              target: props.activeCanvas,
+            }),
+          } as any,
+          configOptions: {
+            annotations: {
+              motivations: ["commenting"],
+            },
+            informationPanel: {
+              renderAbout: false,
+              renderAnnotation: true,
+              renderToggle: true,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...propsWithAnnotationResources} />
+      </ViewerProvider>,
+    );
+
+    expect(screen.queryByTestId("mock-information-panel")).toBeNull();
+  });
+
   test("renders InformationPanel when Annotation tab is enabled via contentStateAnnotation and panel is open", () => {
     render(
       <ViewerProvider
@@ -139,7 +174,7 @@ describe("ViewerContent InformationPanel visibility", () => {
           contentStateAnnotation: {
             id: "http://localhost:3000/manifest/csa.json",
             type: "Annotation",
-            motivation: "contentState",
+            motivation: ["contentState"],
             target: {
               type: "SpecificResource",
               source: {
@@ -215,6 +250,7 @@ describe("ViewerContent InformationPanel visibility", () => {
               {
                 id: "http://localhost:3000/manifest/ac-page-1.json",
                 type: "AnnotationPage",
+                items: [],
               },
             ],
           },
@@ -249,45 +285,48 @@ describe("ViewerContent InformationPanel visibility", () => {
           },
         }}
       >
-        <ViewerContent {...props} contentSearchResource={annotationResources[0]} />
+        <ViewerContent
+          {...props}
+          contentSearchResource={annotationResources[0]}
+        />
       </ViewerProvider>,
     );
     expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
   });
 
-test("renders InformationPanel when there is a tabbed plugin enabled", () => {
-  const pluginWithPanel = [
-    {
-      id: "DemoPlugin",
-      informationPanel: {
-        label: { en: ["Demo Panel"] },
-        component: () => <div>Demo Plugin Panel</div>,
-      },
-    },
-  ];
-
-  render(
-    <ViewerProvider
-      initialState={{
-        ...defaultState,
-        isInformationOpen: true,
-        plugins: pluginWithPanel,
-        configOptions: {
-          informationPanel: {
-            renderAbout: false,
-            renderAnnotation: false,
-            renderContentSearch: false,
-            renderToggle: true,
-          },
+  test("renders InformationPanel when there is a tabbed plugin enabled", () => {
+    const pluginWithPanel = [
+      {
+        id: "DemoPlugin",
+        informationPanel: {
+          label: { en: ["Demo Panel"] },
+          component: () => <div>Demo Plugin Panel</div>,
         },
-      }}
-    >
-      <ViewerContent {...props} />
-    </ViewerProvider>
-  );
+      },
+    ];
 
-  expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
-});
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: true,
+          plugins: pluginWithPanel,
+          configOptions: {
+            informationPanel: {
+              renderAbout: false,
+              renderAnnotation: false,
+              renderContentSearch: false,
+              renderToggle: true,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...props} />
+      </ViewerProvider>,
+    );
+
+    expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
+  });
 
   test("does not render InformationPanel if panel is closed, even if tabs are present", () => {
     render(

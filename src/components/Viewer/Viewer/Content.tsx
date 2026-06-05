@@ -18,13 +18,11 @@ import InformationPanel from "src/components/Viewer/InformationPanel/Information
 import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
 import React, { useMemo, useRef, useState } from "react";
-import {
-  useViewerDispatch,
-  useViewerState,
-} from "src/context/viewer-context";
+import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 import { hasAnyPanel } from "src/lib/information-panel-helpers";
 import { setupPlugins } from "src/lib/plugin-helpers";
+import { useFilteredAnnotations } from "src/components/Viewer/InformationPanel/hooks/useFilteredAnnotations";
 
 export interface ViewerContentProps {
   activeCanvas: string;
@@ -61,6 +59,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     plugins,
     annotationCollection,
     visibleCanvases,
+    vault,
   } = useViewerState();
   const dispatch: any = useViewerDispatch();
   const { informationPanel } = configOptions;
@@ -78,10 +77,16 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   const visibleCanvasIds = visibleCanvases.map((canvas) => canvas.id);
   const panelCanvasIds =
     visibleCanvasIds.length > 0 ? visibleCanvasIds : [activeCanvas];
+  const filteredAnnotationResources = useFilteredAnnotations({
+    annotationResources,
+    allowedMotivations: configOptions.annotations?.motivations,
+    vault,
+  });
 
   const hasPanel = hasAnyPanel({
     informationPanel,
     annotationResources,
+    filteredAnnotationResources,
     contentSearchResource,
     pluginsWithInfoPanel,
     contentStateAnnotation,

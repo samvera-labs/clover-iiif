@@ -4,9 +4,16 @@ import {
   Wrapper,
 } from "src/components/Viewer/InformationPanel/InformationPanel.styled";
 import React from "react";
-import { useViewerDispatch, useViewerState, type PluginConfig } from "src/context/viewer-context";
+import {
+  useViewerDispatch,
+  useViewerState,
+  type PluginConfig,
+} from "src/context/viewer-context";
 import { AnnotationResources, AnnotationResource } from "src/types/annotations";
-import { AnnotationPageNormalized, CanvasNormalized } from "@iiif/presentation-3";
+import {
+  AnnotationPageNormalized,
+  CanvasNormalized,
+} from "@iiif/presentation-3";
 import { annotationTargetsCanvas } from "src/lib/information-panel-helpers";
 import { useFilteredAnnotations } from "./hooks/useFilteredAnnotations";
 import { useAvailableTabs } from "./hooks/useAvailableTabs";
@@ -14,6 +21,7 @@ import { useTabSelection } from "./hooks/useTabSelection";
 import { TabList } from "./components/TabList";
 import { TabContent } from "./components/TabContent";
 import { PluginTabContent } from "./components/PluginTabContent";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 const UserScrollTimeout = 1500;
 
@@ -50,8 +58,10 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({
     isUserScrolling,
     vault,
     configOptions,
+    visibleCanvases,
   } = viewerState;
   const { informationPanel } = configOptions;
+  const { t } = useCloverTranslation();
 
   // Hook: filter annotations by motivation
   const filteredAnnotationResources = useFilteredAnnotations({
@@ -61,8 +71,18 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({
   });
 
   // Derived state
-  const canvas = vault.get({ id: activeCanvas, type: "Canvas" }) as CanvasNormalized;
-  const hasContentStateAnnotation = annotationTargetsCanvas(contentStateAnnotation, activeCanvas);
+  const canvas = vault.get({
+    id: activeCanvas,
+    type: "Canvas",
+  }) as CanvasNormalized;
+  const panelCanvasIds = React.useMemo(() => {
+    const visibleCanvasIds =
+      visibleCanvases?.map((visibleCanvas) => visibleCanvas.id) ?? [];
+    return visibleCanvasIds.length > 0 ? visibleCanvasIds : [activeCanvas];
+  }, [activeCanvas, visibleCanvases]);
+  const hasContentStateAnnotation = panelCanvasIds.some((canvasId) =>
+    annotationTargetsCanvas(contentStateAnnotation, canvasId),
+  );
   const hasAnnotationCollection = Boolean(annotationCollection?.pages?.length);
   const hasAnnotations =
     Boolean(filteredAnnotationResources?.length) ||
@@ -78,11 +98,11 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({
     pluginsWithInfoPanel,
     contentStateAnnotation,
     annotationCollection,
-    activeCanvas,
+    activeCanvases: panelCanvasIds,
   });
 
   // Hook: manage tab selection
-  useTabSelection({
+  const markUserSelection = useTabSelection({
     availableTabs,
     informationPanelResource,
     configDefaultTab: informationPanel?.defaultTab,
@@ -105,7 +125,11 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({
   };
 
   const handleValueChange = (value: string) => {
-    dispatch({ type: "updateInformationPanelResource", informationPanelResource: value });
+    markUserSelection();
+    dispatch({
+      type: "updateInformationPanelResource",
+      informationPanelResource: value,
+    });
   };
 
   return (
@@ -117,7 +141,10 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({
       value={informationPanelResource}
       className="clover-viewer-information-panel"
     >
-      <List aria-label="Information panel tabs" data-testid="information-panel-list">
+      <List
+        aria-label={t("informationPanelTabs")}
+        data-testid="information-panel-list"
+      >
         <TabList
           renderToggle={informationPanel?.renderToggle}
           renderAbout={informationPanel?.renderAbout}

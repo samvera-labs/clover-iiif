@@ -29,10 +29,7 @@ export function useFilteredAnnotations({
           const annotation = vault.get(item.id) as
             | AnnotationNormalized
             | undefined;
-          return annotationMatchesMotivations(
-            annotation,
-            allowedMotivations,
-          );
+          return annotationMatchesMotivations(annotation, allowedMotivations);
         });
 
         if (!filteredItems.length) return null;

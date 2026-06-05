@@ -19,6 +19,7 @@ export function useAvailableTabs(input: PanelVisibilityInput): string[] {
       input.contentStateAnnotation,
       input.annotationCollection,
       input.activeCanvas,
+      input.activeCanvases,
     ],
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { getDefaultTab } from "src/lib/information-panel-helpers";
 
 /**
@@ -19,10 +19,18 @@ export function useTabSelection({
   availableTabs: string[];
   informationPanelResource: string | undefined;
   configDefaultTab?: string;
-  dispatch: (action: { type: string; informationPanelResource: string }) => void;
-}): void {
+  dispatch: (action: {
+    type: string;
+    informationPanelResource: string;
+  }) => void;
+}): () => void {
   const lastAutomaticSelectionRef = useRef<string | undefined>(undefined);
   const appliedConfigDefaultRef = useRef<string | undefined>(undefined);
+  const userSelectedRef = useRef(false);
+
+  const markUserSelection = useCallback(() => {
+    userSelectedRef.current = true;
+  }, []);
 
   useEffect(() => {
     const configuredDefaultTab =
@@ -40,6 +48,7 @@ export function useTabSelection({
     if (
       configuredDefaultTab &&
       appliedConfigDefaultRef.current !== configuredDefaultTab &&
+      !userSelectedRef.current &&
       currentSelectionWasAutomatic
     ) {
       appliedConfigDefaultRef.current = configuredDefaultTab;
@@ -59,6 +68,7 @@ export function useTabSelection({
     // Current tab is no longer available — select the best alternative
     const defaultTab = getDefaultTab(availableTabs, configDefaultTab);
     if (defaultTab) {
+      userSelectedRef.current = false;
       if (defaultTab === configDefaultTab) {
         appliedConfigDefaultRef.current = defaultTab;
       }
@@ -69,4 +79,6 @@ export function useTabSelection({
       });
     }
   }, [availableTabs, informationPanelResource, configDefaultTab, dispatch]);
+
+  return markUserSelection;
 }

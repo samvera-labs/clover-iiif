@@ -2,7 +2,11 @@ import React from "react";
 import { Content } from "../InformationPanel.styled";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
-import { useViewerDispatch, useViewerState, type PluginConfig } from "src/context/viewer-context";
+import {
+  useViewerDispatch,
+  useViewerState,
+  type PluginConfig,
+} from "src/context/viewer-context";
 import type { CanvasNormalized } from "@iiif/presentation-3";
 
 interface PluginTabContentProps {
