@@ -20,9 +20,9 @@ import Painting from "../Painting/Painting";
 import React, { useMemo, useRef, useState } from "react";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
-import { hasAnyPanel } from "src/lib/information-panel-helpers";
 import { setupPlugins } from "src/lib/plugin-helpers";
 import { useFilteredAnnotations } from "src/components/Viewer/InformationPanel/hooks/useFilteredAnnotations";
+import { useAvailableTabs } from "src/components/Viewer/InformationPanel/hooks/useAvailableTabs";
 
 export interface ViewerContentProps {
   activeCanvas: string;
@@ -74,16 +74,19 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     [plugins],
   );
 
-  const visibleCanvasIds = visibleCanvases.map((canvas) => canvas.id);
-  const panelCanvasIds =
-    visibleCanvasIds.length > 0 ? visibleCanvasIds : [activeCanvas];
+  const panelCanvasIds = useMemo(() => {
+    const visibleCanvasIds = visibleCanvases.map((canvas) => canvas.id);
+    return visibleCanvasIds.length > 0 ? visibleCanvasIds : [activeCanvas];
+  }, [activeCanvas, visibleCanvases]);
   const filteredAnnotationResources = useFilteredAnnotations({
-    annotationResources,
+    annotationResources: informationPanel?.renderAnnotation
+      ? annotationResources
+      : undefined,
     allowedMotivations: configOptions.annotations?.motivations,
     vault,
   });
 
-  const hasPanel = hasAnyPanel({
+  const availableTabs = useAvailableTabs({
     informationPanel,
     annotationResources,
     filteredAnnotationResources,
@@ -93,6 +96,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     annotationCollection,
     activeCanvases: panelCanvasIds,
   });
+  const hasPanel = availableTabs.length > 0;
 
   const isAside = hasPanel && isInformationOpen;
 
@@ -188,7 +192,8 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
           >
             <InformationPanel
               activeCanvas={activeCanvas}
-              annotationResources={annotationResources}
+              availableTabs={availableTabs}
+              filteredAnnotationResources={filteredAnnotationResources}
               searchServiceUrl={searchServiceUrl}
               setContentSearchResource={setContentSearchResource}
               contentSearchResource={contentSearchResource}

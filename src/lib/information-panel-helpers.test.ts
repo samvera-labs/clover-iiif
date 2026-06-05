@@ -1,165 +1,8 @@
 import {
-  hasAnyPanel,
   getAvailableTabs,
   getDefaultTab,
   annotationTargetsCanvas,
 } from "./information-panel-helpers";
-
-describe("hasAnyPanel", () => {
-  it("returns true when renderAbout is true", () => {
-    expect(
-      hasAnyPanel({
-        informationPanel: {
-          renderAbout: true,
-          renderAnnotation: false,
-          renderContentSearch: false,
-        },
-        pluginsWithInfoPanel: [],
-        annotationResources: [],
-        contentSearchResource: undefined,
-      }),
-    ).toBe(true);
-  });
-
-  it("returns true when renderAnnotation is true and annotationResources has items", () => {
-    expect(
-      hasAnyPanel({
-        informationPanel: {
-          renderAbout: false,
-          renderAnnotation: true,
-          renderContentSearch: false,
-        },
-        pluginsWithInfoPanel: [],
-        annotationResources: [{ id: "a", type: "AnnotationPage" }],
-        contentSearchResource: undefined,
-      }),
-    ).toBe(true);
-  });
-
-  it("returns true when renderAnnotation is true and contentStateAnnotation is present", () => {
-    expect(
-      hasAnyPanel({
-        informationPanel: {
-          renderAbout: false,
-          renderAnnotation: true,
-          renderContentSearch: false,
-        },
-        pluginsWithInfoPanel: [],
-        annotationResources: [],
-        contentSearchResource: undefined,
-        contentStateAnnotation: { id: "csa", type: "Annotation" },
-      }),
-    ).toBe(true);
-  });
-
-  it("returns true when renderAnnotation is true and annotationCollection has pages", () => {
-    expect(
-      hasAnyPanel({
-        informationPanel: {
-          renderAbout: false,
-          renderAnnotation: true,
-          renderContentSearch: false,
-        },
-        pluginsWithInfoPanel: [],
-        annotationResources: [],
-        contentSearchResource: undefined,
-        annotationCollection: { pages: [{ id: "p1", type: "AnnotationPage" }] },
-      }),
-    ).toBe(true);
-  });
-
-  it("returns false when only contentStateAnnotation is null and annotationCollection has no pages", () => {
-    expect(
-      hasAnyPanel({
-        informationPanel: {
-          renderAbout: false,
-          renderAnnotation: true,
-          renderContentSearch: false,
-        },
-        pluginsWithInfoPanel: [],
-        annotationResources: [],
-        contentSearchResource: undefined,
-        contentStateAnnotation: null,
-        annotationCollection: { pages: [] },
-      }),
-    ).toBe(false);
-  });
-
-  it("returns false when renderAnnotation is true but annotationResources is empty", () => {
-    expect(
-      hasAnyPanel({
-        informationPanel: {
-          renderAbout: false,
-          renderAnnotation: true,
-          renderContentSearch: false,
-        },
-        pluginsWithInfoPanel: [],
-        annotationResources: [],
-        contentSearchResource: undefined,
-      }),
-    ).toBe(false);
-  });
-
-  it("returns true when renderContentSearch is true and contentSearchResource is present", () => {
-    expect(
-      hasAnyPanel({
-        informationPanel: {
-          renderAbout: false,
-          renderAnnotation: false,
-          renderContentSearch: true,
-        },
-        pluginsWithInfoPanel: [],
-        annotationResources: [],
-        contentSearchResource: { id: "search-id", type: "AnnotationPage" },
-      }),
-    ).toBe(true);
-  });
-
-  it("returns false when renderContentSearch is true but contentSearchResource is undefined", () => {
-    expect(
-      hasAnyPanel({
-        informationPanel: {
-          renderAbout: false,
-          renderAnnotation: false,
-          renderContentSearch: true,
-        },
-        pluginsWithInfoPanel: [],
-        annotationResources: [],
-        contentSearchResource: undefined,
-      }),
-    ).toBe(false);
-  });
-
-  it("returns true when pluginsWithInfoPanel has items", () => {
-    expect(
-      hasAnyPanel({
-        informationPanel: {
-          renderAbout: false,
-          renderAnnotation: false,
-          renderContentSearch: false,
-        },
-        pluginsWithInfoPanel: [{ id: "PluginTab" }],
-        annotationResources: [],
-        contentSearchResource: undefined,
-      }),
-    ).toBe(true);
-  });
-
-  it("returns false when all panel types are false/empty", () => {
-    expect(
-      hasAnyPanel({
-        informationPanel: {
-          renderAbout: false,
-          renderAnnotation: false,
-          renderContentSearch: false,
-        },
-        pluginsWithInfoPanel: [],
-        annotationResources: [],
-        contentSearchResource: undefined,
-      }),
-    ).toBe(false);
-  });
-});
 
 describe("getAvailableTabs", () => {
   it("returns manifest-about when renderAbout is true", () => {
@@ -289,46 +132,6 @@ describe("getAvailableTabs", () => {
     ).toStrictEqual([]);
   });
 
-  describe("hasAnyPanel / getAvailableTabs consistency", () => {
-    const cases = [
-      {
-        informationPanel: {
-          renderAbout: true,
-          renderAnnotation: false,
-          renderContentSearch: false,
-        },
-        expected: ["manifest-about"],
-      },
-      {
-        informationPanel: {
-          renderAbout: false,
-          renderAnnotation: true,
-          renderContentSearch: false,
-        },
-        expected: ["manifest-annotations"],
-        annotationResources: [{ id: "a", type: "AnnotationPage" }],
-      },
-      {
-        informationPanel: {
-          renderAbout: false,
-          renderAnnotation: false,
-          renderContentSearch: true,
-        },
-        expected: ["manifest-content-search"],
-        contentSearchResource: { id: "s", type: "AnnotationPage" },
-      },
-    ];
-
-    cases.forEach(({ expected, ...opts }) => {
-      it(`hasAnyPanel matches getAvailableTabs for ${JSON.stringify(expected)}`, () => {
-        const tabs = getAvailableTabs(opts);
-        const hasPanel = hasAnyPanel(opts);
-        expect(hasPanel).toBe(tabs.length > 0);
-        expect(tabs).toStrictEqual(expected);
-      });
-    });
-  });
-
   describe("getAvailableTabs with filteredAnnotationResources", () => {
     it("excludes manifest-annotations when filteredAnnotationResources is empty and annotationResources has items", () => {
       expect(
@@ -422,22 +225,34 @@ describe("getAvailableTabs", () => {
         }),
       ).toStrictEqual(["manifest-annotations"]);
     });
-  });
 
-  describe("hasAnyPanel and getAvailableTabs with empty result", () => {
-    it("hasAnyPanel returns false when getAvailableTabs returns empty array", () => {
-      const opts = {
-        informationPanel: {
-          renderAbout: false,
-          renderAnnotation: false,
-          renderContentSearch: false,
-        },
-        annotationResources: [],
-        contentSearchResource: undefined,
-        pluginsWithInfoPanel: [],
-      };
-      expect(hasAnyPanel(opts)).toBe(false);
-      expect(getAvailableTabs(opts)).toStrictEqual([]);
+    it("falls back to activeCanvas when activeCanvases is an empty array", () => {
+      expect(
+        getAvailableTabs({
+          informationPanel: {
+            renderAbout: false,
+            renderAnnotation: true,
+            renderContentSearch: false,
+          },
+          annotationResources: [],
+          contentSearchResource: undefined,
+          pluginsWithInfoPanel: [],
+          contentStateAnnotation: {
+            id: "csa",
+            type: "Annotation",
+            motivation: "contentState",
+            target: {
+              type: "SpecificResource",
+              source: {
+                id: "http://example.com/active-canvas",
+                type: "Canvas",
+              },
+            },
+          },
+          activeCanvases: [],
+          activeCanvas: "http://example.com/active-canvas",
+        }),
+      ).toStrictEqual(["manifest-annotations"]);
     });
   });
 });

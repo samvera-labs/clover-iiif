@@ -1,9 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 
-import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
+import InformationPanelView from "src/components/Viewer/InformationPanel/InformationPanel";
 import React from "react";
 import { Vault } from "@iiif/helpers/vault";
 import type { AnnotationResources } from "src/types/annotations";
+import { getAvailableTabs } from "src/lib/information-panel-helpers";
 
 const mockDispatch = vi.fn();
 let mockState: any = {};
@@ -66,6 +67,49 @@ const annotationResources: AnnotationResources = [
   },
 ];
 
+type InformationPanelViewProps = React.ComponentProps<
+  typeof InformationPanelView
+>;
+type InformationPanelProps = Omit<
+  InformationPanelViewProps,
+  "availableTabs" | "filteredAnnotationResources"
+> & {
+  annotationResources?: AnnotationResources;
+};
+
+const InformationPanel: React.FC<InformationPanelProps> = ({
+  annotationResources = [],
+  ...props
+}) => {
+  const {
+    annotationCollection,
+    configOptions,
+    contentStateAnnotation,
+    visibleCanvases,
+  } = mockState;
+  const visibleCanvasIds =
+    visibleCanvases?.map((canvas: { id: string }) => canvas.id) ?? [];
+  const activeCanvases =
+    visibleCanvasIds.length > 0 ? visibleCanvasIds : [props.activeCanvas];
+  const availableTabs = getAvailableTabs({
+    informationPanel: configOptions?.informationPanel,
+    filteredAnnotationResources: annotationResources,
+    contentSearchResource: props.contentSearchResource,
+    pluginsWithInfoPanel: props.pluginsWithInfoPanel,
+    contentStateAnnotation,
+    annotationCollection,
+    activeCanvases,
+  });
+
+  return (
+    <InformationPanelView
+      {...props}
+      availableTabs={availableTabs}
+      filteredAnnotationResources={annotationResources}
+    />
+  );
+};
+
 describe("InformationPanel", () => {
   beforeEach(() => {
     mockDispatch.mockClear();
@@ -84,6 +128,37 @@ describe("InformationPanel", () => {
 
     expect(screen.getByRole("tablist", { name: "Select" })).toBeInTheDocument();
   });
+
+  test("dispatches scrolling state only at the start and end of a scroll burst", () => {
+    vi.useFakeTimers();
+    try {
+      render(<InformationPanel {...baseProps} />);
+      mockDispatch.mockClear();
+
+      const scrollRegion =
+        screen.getByTestId("information-panel").lastElementChild;
+      expect(scrollRegion).not.toBeNull();
+
+      fireEvent.scroll(scrollRegion as Element);
+      fireEvent.scroll(scrollRegion as Element);
+
+      let scrollingUpdates = mockDispatch.mock.calls
+        .map(([action]) => action)
+        .filter((action) => action.type === "updateUserScrolling");
+      expect(scrollingUpdates).toHaveLength(1);
+      expect(scrollingUpdates[0].isUserScrolling).toBeTruthy();
+
+      vi.advanceTimersByTime(1500);
+
+      scrollingUpdates = mockDispatch.mock.calls
+        .map(([action]) => action)
+        .filter((action) => action.type === "updateUserScrolling");
+      expect(scrollingUpdates).toHaveLength(2);
+      expect(scrollingUpdates[1].isUserScrolling).toBeUndefined();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
 });
 
 describe("InformationPanel useEffect — initial tab selection", () => {
@@ -99,6 +174,18 @@ describe("InformationPanel useEffect — initial tab selection", () => {
       type: "updateInformationPanelResource",
       informationPanelResource: "manifest-about",
     });
+  });
+
+  test("does not repeat automatic selection during strict effect replay", () => {
+    mockState = createDefaultState();
+
+    render(
+      <React.StrictMode>
+        <InformationPanel {...baseProps} />
+      </React.StrictMode>,
+    );
+
+    expect(mockDispatch).toHaveBeenCalledTimes(1);
   });
 
   test("selects manifest-annotations when renderAnnotation is true and annotation resources exist", () => {

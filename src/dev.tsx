@@ -25,25 +25,25 @@ import ReactDOM from "react-dom/client";
 import { initCloverI18n } from "src/i18n/config";
 import Slider from "src/components/Slider";
 import Viewer from "src/components/Viewer";
+import type { ViewerConfigOptions } from "src/context/viewer-context";
 
 initCloverI18n();
 
+const manifestId =
+  "https://api.dc.library.northwestern.edu/api/v2/works/40f87ae4-9666-4a8e-b6ce-a891096fefd3?as=iiif";
+const collectionId =
+  "https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif";
+const viewerOptions: ViewerConfigOptions = {
+  informationPanel: {
+    renderAbout: false,
+    renderAnnotation: true,
+    renderToggle: true,
+    renderContentSearch: true,
+  },
+};
+
 const App = () => {
   const [manifest, setManifest] = useState<Manifest>();
-
-  const manifestId =
-    "https://api.dc.library.northwestern.edu/api/v2/works/40f87ae4-9666-4a8e-b6ce-a891096fefd3?as=iiif";
-  const collectionId =
-    "https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif";
-
-  const viewerOptions = {
-    informationPanel: {
-      renderAbout: false,
-      renderAnnotation: true,
-      renderToggle: true,
-      renderContentSearch: true,
-    },
-  };
 
   useEffect(() => {
     (async () => {

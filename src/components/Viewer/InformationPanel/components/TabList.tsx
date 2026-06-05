@@ -5,14 +5,11 @@ import { Label } from "src/components/Primitives";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 import { InternationalString } from "@iiif/presentation-3";
 import type { PluginConfig } from "src/context/viewer-context";
+import { INFORMATION_PANEL_TABS } from "src/lib/information-panel-helpers";
 
 interface TabListProps {
   renderToggle?: boolean;
-  renderAbout?: boolean;
-  renderContentSearch?: boolean;
-  contentSearchResource?: unknown;
-  renderAnnotation?: boolean;
-  hasAnnotations: boolean;
+  availableTabs: string[];
   annotationTabLabel?: string;
   pluginsWithInfoPanel?: PluginConfig[];
   onClose: () => void;
@@ -20,11 +17,7 @@ interface TabListProps {
 
 export const TabList: React.FC<TabListProps> = ({
   renderToggle,
-  renderAbout,
-  renderContentSearch,
-  contentSearchResource,
-  renderAnnotation,
-  hasAnnotations,
+  availableTabs,
   annotationTabLabel,
   pluginsWithInfoPanel,
   onClose,
@@ -46,23 +39,23 @@ export const TabList: React.FC<TabListProps> = ({
           </Icon>
         </Trigger>
       )}
-      {renderAbout && (
-        <Trigger value="manifest-about">
+      {availableTabs.includes(INFORMATION_PANEL_TABS.about) && (
+        <Trigger value={INFORMATION_PANEL_TABS.about}>
           {t("informationPanelTabsAbout")}
         </Trigger>
       )}
-      {renderContentSearch && contentSearchResource && (
-        <Trigger value="manifest-content-search">
+      {availableTabs.includes(INFORMATION_PANEL_TABS.contentSearch) && (
+        <Trigger value={INFORMATION_PANEL_TABS.contentSearch}>
           {t("informationPanelTabsSearch")}
         </Trigger>
       )}
-      {renderAnnotation && hasAnnotations && (
-        <Trigger value="manifest-annotations">
+      {availableTabs.includes(INFORMATION_PANEL_TABS.annotations) && (
+        <Trigger value={INFORMATION_PANEL_TABS.annotations}>
           {annotationTabLabel || t("informationPanelTabsAnnotations")}
         </Trigger>
       )}
-      {pluginsWithInfoPanel?.map((plugin, i) => (
-        <Trigger key={i} value={plugin.id}>
+      {pluginsWithInfoPanel?.map((plugin) => (
+        <Trigger key={plugin.id} value={plugin.id}>
           <Label
             label={plugin.informationPanel?.label as InternationalString}
           />

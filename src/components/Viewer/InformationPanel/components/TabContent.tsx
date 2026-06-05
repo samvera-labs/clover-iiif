@@ -10,10 +10,10 @@ import type {
   AnnotationResource,
 } from "src/types/annotations";
 import type { AnnotationPageNormalized } from "@iiif/presentation-3";
+import { INFORMATION_PANEL_TABS } from "src/lib/information-panel-helpers";
 
 interface TabContentProps {
-  renderAbout?: boolean;
-  renderContentSearch?: boolean;
+  availableTabs: string[];
   contentSearchResource?: AnnotationResource;
   searchServiceUrl?: string;
   setContentSearchResource: React.Dispatch<
@@ -22,8 +22,6 @@ interface TabContentProps {
   activeCanvas: string;
   contentSearchCallback?: (query: string) => void;
   initialSearchQuery?: string;
-  renderAnnotation?: boolean;
-  hasAnnotations: boolean;
   contentStateAnnotation?:
     | import("@iiif/presentation-3").AnnotationNormalized
     | null;
@@ -36,16 +34,13 @@ interface TabContentProps {
 }
 
 export const TabContent: React.FC<TabContentProps> = ({
-  renderAbout,
-  renderContentSearch,
+  availableTabs,
   contentSearchResource,
   searchServiceUrl,
   setContentSearchResource,
   activeCanvas,
   contentSearchCallback,
   initialSearchQuery,
-  renderAnnotation,
-  hasAnnotations,
   contentStateAnnotation,
   hasContentStateAnnotation,
   filteredAnnotationResources,
@@ -54,25 +49,26 @@ export const TabContent: React.FC<TabContentProps> = ({
 }) => {
   return (
     <>
-      {renderAbout && (
-        <Content value="manifest-about">
+      {availableTabs.includes(INFORMATION_PANEL_TABS.about) && (
+        <Content value={INFORMATION_PANEL_TABS.about}>
           <Information />
         </Content>
       )}
-      {renderContentSearch && contentSearchResource && (
-        <Content value="manifest-content-search">
-          <ContentSearch
-            searchServiceUrl={searchServiceUrl}
-            setContentSearchResource={setContentSearchResource}
-            activeCanvas={activeCanvas}
-            annotationPage={contentSearchResource}
-            contentSearchCallback={contentSearchCallback}
-            initialSearchQuery={initialSearchQuery}
-          />
-        </Content>
-      )}
-      {renderAnnotation && hasAnnotations && (
-        <Content value="manifest-annotations">
+      {availableTabs.includes(INFORMATION_PANEL_TABS.contentSearch) &&
+        contentSearchResource && (
+          <Content value={INFORMATION_PANEL_TABS.contentSearch}>
+            <ContentSearch
+              searchServiceUrl={searchServiceUrl}
+              setContentSearchResource={setContentSearchResource}
+              activeCanvas={activeCanvas}
+              annotationPage={contentSearchResource}
+              contentSearchCallback={contentSearchCallback}
+              initialSearchQuery={initialSearchQuery}
+            />
+          </Content>
+        )}
+      {availableTabs.includes(INFORMATION_PANEL_TABS.annotations) && (
+        <Content value={INFORMATION_PANEL_TABS.annotations}>
           {contentStateAnnotation && hasContentStateAnnotation && (
             <ContentStateAnnotationPage
               contentStateAnnotation={contentStateAnnotation}

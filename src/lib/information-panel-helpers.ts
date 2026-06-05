@@ -6,6 +6,12 @@ interface ContentStateAnnotationLike {
   target?: unknown;
 }
 
+export const INFORMATION_PANEL_TABS = {
+  about: "manifest-about",
+  annotations: "manifest-annotations",
+  contentSearch: "manifest-content-search",
+} as const;
+
 export interface PanelVisibilityInput {
   informationPanel?: {
     renderAbout?: boolean;
@@ -71,6 +77,29 @@ export function annotationTargetsCanvas(
   return getContentStateTargetIds(annotation).includes(activeCanvas);
 }
 
+/**
+ * Check whether a content state annotation targets any of the relevant
+ * canvases. When no canvas context is provided, just checks existence.
+ */
+function contentStateForCanvas(
+  annotation: ContentStateAnnotationLike | null | undefined,
+  activeCanvases: string[] | undefined,
+  activeCanvas: string | undefined,
+): boolean {
+  if (!annotation) return false;
+
+  if (activeCanvases && activeCanvases.length > 0) {
+    return activeCanvases.some((id) => annotationTargetsCanvas(annotation, id));
+  }
+
+  if (activeCanvas) {
+    return annotationTargetsCanvas(annotation, activeCanvas);
+  }
+
+  // Without canvas context, preserve the legacy existence check.
+  return true;
+}
+
 function hasAnnotationContent(input: PanelVisibilityInput): boolean {
   const {
     annotationResources,
@@ -81,19 +110,14 @@ function hasAnnotationContent(input: PanelVisibilityInput): boolean {
     activeCanvases,
   } = input;
 
-  // Use filtered resources when available (respects motivation filtering);
-  // fall back to unfiltered for callers that don't filter (e.g., Content.tsx).
   const resources = filteredAnnotationResources ?? annotationResources;
   const hasFilteredResources = (resources?.length ?? 0) > 0;
 
-  const activeCanvasIds =
-    activeCanvases ?? (activeCanvas ? [activeCanvas] : undefined);
-
-  const hasCanvasScopedContentState = activeCanvasIds
-    ? activeCanvasIds.some((canvasId) =>
-        annotationTargetsCanvas(contentStateAnnotation, canvasId),
-      )
-    : Boolean(contentStateAnnotation);
+  const hasCanvasScopedContentState = contentStateForCanvas(
+    contentStateAnnotation,
+    activeCanvases,
+    activeCanvas,
+  );
 
   const hasCollectionPages = (annotationCollection?.pages?.length ?? 0) > 0;
 
@@ -102,48 +126,34 @@ function hasAnnotationContent(input: PanelVisibilityInput): boolean {
   );
 }
 
-export function hasAnyPanel(input: PanelVisibilityInput): boolean {
-  const { informationPanel, contentSearchResource, pluginsWithInfoPanel } =
-    input;
-
-  if (informationPanel?.renderAbout) return true;
-  if (informationPanel?.renderAnnotation && hasAnnotationContent(input))
-    return true;
-  if (informationPanel?.renderContentSearch && contentSearchResource)
-    return true;
-  if (pluginsWithInfoPanel && pluginsWithInfoPanel.length > 0) return true;
-
-  return false;
-}
-
 export function getAvailableTabs(input: PanelVisibilityInput): string[] {
   const { informationPanel, contentSearchResource, pluginsWithInfoPanel } =
     input;
 
-  const tabs = [
-    informationPanel?.renderAbout && "manifest-about",
-    informationPanel?.renderAnnotation &&
-      hasAnnotationContent(input) &&
-      "manifest-annotations",
-    informationPanel?.renderContentSearch &&
-      contentSearchResource &&
-      "manifest-content-search",
-    ...(pluginsWithInfoPanel?.map((p) => p.id) ?? []),
-  ];
+  const tabs: string[] = [];
 
-  // remove falsy values
-  return tabs.filter(Boolean) as string[];
+  if (informationPanel?.renderAbout) {
+    tabs.push(INFORMATION_PANEL_TABS.about);
+  }
+  if (informationPanel?.renderAnnotation && hasAnnotationContent(input)) {
+    tabs.push(INFORMATION_PANEL_TABS.annotations);
+  }
+  if (informationPanel?.renderContentSearch && contentSearchResource) {
+    tabs.push(INFORMATION_PANEL_TABS.contentSearch);
+  }
+
+  tabs.push(...(pluginsWithInfoPanel?.map((plugin) => plugin.id) ?? []));
+
+  return tabs;
 }
 
 export function getDefaultTab(
   availableTabs: string[],
   configDefaultTab?: string,
 ): string | undefined {
-  return (
-    (configDefaultTab &&
-      availableTabs.includes(configDefaultTab) &&
-      configDefaultTab) ||
-    availableTabs[0] ||
-    undefined
-  );
+  if (configDefaultTab && availableTabs.includes(configDefaultTab)) {
+    return configDefaultTab;
+  }
+
+  return availableTabs[0];
 }

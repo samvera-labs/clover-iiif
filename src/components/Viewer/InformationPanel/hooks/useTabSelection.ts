@@ -23,14 +23,21 @@ export function useTabSelection({
     type: string;
     informationPanelResource: string;
   }) => void;
-}): () => void {
+}): (value: string) => void {
   const lastAutomaticSelectionRef = useRef<string | undefined>(undefined);
   const appliedConfigDefaultRef = useRef<string | undefined>(undefined);
   const userSelectedRef = useRef(false);
 
-  const markUserSelection = useCallback(() => {
-    userSelectedRef.current = true;
-  }, []);
+  const selectTab = useCallback(
+    (value: string) => {
+      userSelectedRef.current = true;
+      dispatch({
+        type: "updateInformationPanelResource",
+        informationPanelResource: value,
+      });
+    },
+    [dispatch],
+  );
 
   useEffect(() => {
     const configuredDefaultTab =
@@ -68,6 +75,13 @@ export function useTabSelection({
     // Current tab is no longer available — select the best alternative
     const defaultTab = getDefaultTab(availableTabs, configDefaultTab);
     if (defaultTab) {
+      if (
+        !informationPanelResource &&
+        defaultTab === lastAutomaticSelectionRef.current
+      ) {
+        return;
+      }
+
       userSelectedRef.current = false;
       if (defaultTab === configDefaultTab) {
         appliedConfigDefaultRef.current = defaultTab;
@@ -80,5 +94,5 @@ export function useTabSelection({
     }
   }, [availableTabs, informationPanelResource, configDefaultTab, dispatch]);
 
-  return markUserSelection;
+  return selectTab;
 }

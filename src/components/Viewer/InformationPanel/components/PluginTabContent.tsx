@@ -20,7 +20,7 @@ export const PluginTabContent: React.FC<PluginTabContentProps> = ({
 }) => {
   return (
     <>
-      {plugins.map((plugin, i) => {
+      {plugins.map((plugin) => {
         const PluginComponent = plugin?.informationPanel
           ?.component as unknown as React.ElementType;
 
@@ -29,7 +29,7 @@ export const PluginTabContent: React.FC<PluginTabContentProps> = ({
         }
 
         return (
-          <Content key={i} value={plugin.id}>
+          <Content key={plugin.id} value={plugin.id}>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
               <PluginComponent
                 {...plugin?.informationPanel?.componentProps}

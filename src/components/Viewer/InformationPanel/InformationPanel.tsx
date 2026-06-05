@@ -15,8 +15,6 @@ import {
   CanvasNormalized,
 } from "@iiif/presentation-3";
 import { annotationTargetsCanvas } from "src/lib/information-panel-helpers";
-import { useFilteredAnnotations } from "./hooks/useFilteredAnnotations";
-import { useAvailableTabs } from "./hooks/useAvailableTabs";
 import { useTabSelection } from "./hooks/useTabSelection";
 import { TabList } from "./components/TabList";
 import { TabContent } from "./components/TabContent";
@@ -27,7 +25,8 @@ const UserScrollTimeout = 1500;
 
 interface InformationPanelProps {
   activeCanvas: string;
-  annotationResources?: AnnotationResources;
+  availableTabs: string[];
+  filteredAnnotationResources: AnnotationResources;
   searchServiceUrl?: string;
   setContentSearchResource: React.Dispatch<
     React.SetStateAction<AnnotationPageNormalized | undefined>
@@ -40,7 +39,8 @@ interface InformationPanelProps {
 
 export const InformationPanel: React.FC<InformationPanelProps> = ({
   activeCanvas,
-  annotationResources,
+  availableTabs,
+  filteredAnnotationResources,
   searchServiceUrl,
   setContentSearchResource,
   contentSearchResource,
@@ -62,15 +62,11 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({
   } = viewerState;
   const { informationPanel } = configOptions;
   const { t } = useCloverTranslation();
+  const userScrollTimeoutRef = React.useRef<number | undefined>(
+    isUserScrolling,
+  );
+  const userIsScrollingRef = React.useRef(Boolean(isUserScrolling));
 
-  // Hook: filter annotations by motivation
-  const filteredAnnotationResources = useFilteredAnnotations({
-    annotationResources,
-    allowedMotivations: configOptions?.annotations?.motivations,
-    vault,
-  });
-
-  // Derived state
   const canvas = vault.get({
     id: activeCanvas,
     type: "Canvas",
@@ -84,52 +80,33 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({
     annotationTargetsCanvas(contentStateAnnotation, canvasId),
   );
   const hasAnnotationCollection = Boolean(annotationCollection?.pages?.length);
-  const hasAnnotations =
-    Boolean(filteredAnnotationResources?.length) ||
-    hasContentStateAnnotation ||
-    hasAnnotationCollection;
 
-  // Hook: compute available tabs
-  const availableTabs = useAvailableTabs({
-    informationPanel,
-    annotationResources,
-    filteredAnnotationResources,
-    contentSearchResource,
-    pluginsWithInfoPanel,
-    contentStateAnnotation,
-    annotationCollection,
-    activeCanvases: panelCanvasIds,
-  });
-
-  // Hook: manage tab selection
-  const markUserSelection = useTabSelection({
+  const handleValueChange = useTabSelection({
     availableTabs,
     informationPanelResource,
     configDefaultTab: informationPanel?.defaultTab,
     dispatch,
   });
 
-  // Handlers
   const handleClose = () => {
     dispatch({ type: "updateInformationOpen", isInformationOpen: false });
   };
 
   const handleScroll = () => {
-    if (!isAutoScrolling) {
-      clearTimeout(isUserScrolling);
-      const timeout = setTimeout(() => {
-        dispatch({ type: "updateUserScrolling", isUserScrolling: undefined });
-      }, UserScrollTimeout);
+    if (isAutoScrolling) return;
+
+    clearTimeout(userScrollTimeoutRef.current);
+    const timeout = window.setTimeout(() => {
+      userScrollTimeoutRef.current = undefined;
+      userIsScrollingRef.current = false;
+      dispatch({ type: "updateUserScrolling", isUserScrolling: undefined });
+    }, UserScrollTimeout);
+    userScrollTimeoutRef.current = timeout;
+
+    if (!userIsScrollingRef.current) {
+      userIsScrollingRef.current = true;
       dispatch({ type: "updateUserScrolling", isUserScrolling: timeout });
     }
-  };
-
-  const handleValueChange = (value: string) => {
-    markUserSelection();
-    dispatch({
-      type: "updateInformationPanelResource",
-      informationPanelResource: value,
-    });
   };
 
   return (
@@ -147,11 +124,7 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({
       >
         <TabList
           renderToggle={informationPanel?.renderToggle}
-          renderAbout={informationPanel?.renderAbout}
-          renderContentSearch={informationPanel?.renderContentSearch}
-          contentSearchResource={contentSearchResource}
-          renderAnnotation={informationPanel?.renderAnnotation}
-          hasAnnotations={hasAnnotations}
+          availableTabs={availableTabs}
           annotationTabLabel={informationPanel?.annotationTabLabel}
           pluginsWithInfoPanel={pluginsWithInfoPanel}
           onClose={handleClose}
@@ -159,16 +132,13 @@ export const InformationPanel: React.FC<InformationPanelProps> = ({
       </List>
       <Scroll handleScroll={handleScroll}>
         <TabContent
-          renderAbout={informationPanel?.renderAbout}
-          renderContentSearch={informationPanel?.renderContentSearch}
+          availableTabs={availableTabs}
           contentSearchResource={contentSearchResource}
           searchServiceUrl={searchServiceUrl}
           setContentSearchResource={setContentSearchResource}
           activeCanvas={activeCanvas}
           contentSearchCallback={contentSearchCallback}
           initialSearchQuery={initialSearchQuery}
-          renderAnnotation={informationPanel?.renderAnnotation}
-          hasAnnotations={hasAnnotations}
           contentStateAnnotation={contentStateAnnotation}
           hasContentStateAnnotation={hasContentStateAnnotation}
           filteredAnnotationResources={filteredAnnotationResources}
