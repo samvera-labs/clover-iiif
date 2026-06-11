@@ -11,6 +11,7 @@ import {
   GEOREF_ANNOTATION_CANVAS,
   GEOREF_ANNOTATION_IMAGE_SERVICE,
   IMAGE_SERVICE_V2_ID,
+  IMAGE_SERVICE_V3_ID,
 } from "src/fixtures/georef";
 import {
   adaptGeoreferenceAnnotationForOverlay,
@@ -112,15 +113,12 @@ describe("getImageServiceId", () => {
     });
   });
 
-  it("falls back to the first service id (assumes v2) when no type matches", () => {
+  it("returns undefined when a service id has no ImageService type", () => {
     expect(
       getImageServiceId({
         service: [{ id: "https://iiif.example.org/image/x" }],
       }),
-    ).toEqual({
-      id: "https://iiif.example.org/image/x",
-      type: "ImageService2",
-    });
+    ).toBeUndefined();
   });
 
   it("returns undefined when there is no service", () => {
@@ -258,6 +256,7 @@ describe("adaptGeoreferenceAnnotationForOverlay", () => {
     const adapted = adaptGeoreferenceAnnotationForOverlay(
       GEOREF_ANNOTATION_CANVAS,
       IMAGE_SERVICE_V2_ID,
+      "ImageService2",
     );
     expect(adapted.target.source).toEqual({
       id: IMAGE_SERVICE_V2_ID,
@@ -271,6 +270,7 @@ describe("adaptGeoreferenceAnnotationForOverlay", () => {
     const adapted = adaptGeoreferenceAnnotationForOverlay(
       GEOREF_ANNOTATION_CANVAS,
       IMAGE_SERVICE_V2_ID,
+      "ImageService2",
     );
     expect(adapted).toEqual(GEOREF_ANNOTATION_IMAGE_SERVICE);
   });
@@ -279,6 +279,7 @@ describe("adaptGeoreferenceAnnotationForOverlay", () => {
     const adapted = adaptGeoreferenceAnnotationForOverlay(
       GEOREF_ANNOTATION_CANVAS,
       IMAGE_SERVICE_V2_ID,
+      "ImageService2",
     );
     expect(adapted.body.features).toEqual(
       GEOREF_ANNOTATION_CANVAS.body.features,
@@ -289,6 +290,7 @@ describe("adaptGeoreferenceAnnotationForOverlay", () => {
     const adapted = adaptGeoreferenceAnnotationForOverlay(
       GEOREF_ANNOTATION_CANVAS,
       IMAGE_SERVICE_V2_ID,
+      "ImageService2",
     );
     expect(adapted.target.selector).toEqual(
       GEOREF_ANNOTATION_CANVAS.target.selector,
@@ -297,7 +299,11 @@ describe("adaptGeoreferenceAnnotationForOverlay", () => {
 
   it("does not mutate the input annotation", () => {
     const clone = JSON.parse(JSON.stringify(GEOREF_ANNOTATION_CANVAS));
-    adaptGeoreferenceAnnotationForOverlay(clone, IMAGE_SERVICE_V2_ID);
+    adaptGeoreferenceAnnotationForOverlay(
+      clone,
+      IMAGE_SERVICE_V2_ID,
+      "ImageService2",
+    );
     expect(clone.target.source.type).toBe("Canvas");
     expect(clone.target.source.id).toBe(CANVAS_ID);
   });
@@ -311,6 +317,17 @@ describe("adaptGeoreferenceAnnotationForOverlay", () => {
     expect(adapted.target.source.type).toBe("ImageService3");
   });
 
+  it("defaults to ImageService3", () => {
+    const adapted = adaptGeoreferenceAnnotationForOverlay(
+      GEOREF_ANNOTATION_CANVAS,
+      IMAGE_SERVICE_V3_ID,
+    );
+    expect(adapted.target.source).toMatchObject({
+      id: IMAGE_SERVICE_V3_ID,
+      type: "ImageService3",
+    });
+  });
+
   it("passes through undefined dimensions when the original source omitted them", () => {
     const noSize = {
       ...GEOREF_ANNOTATION_CANVAS,
@@ -322,6 +339,7 @@ describe("adaptGeoreferenceAnnotationForOverlay", () => {
     const adapted = adaptGeoreferenceAnnotationForOverlay(
       noSize,
       IMAGE_SERVICE_V2_ID,
+      "ImageService2",
     );
     expect(adapted.target.source.width).toBeUndefined();
     expect(adapted.target.source.height).toBeUndefined();
@@ -331,6 +349,7 @@ describe("adaptGeoreferenceAnnotationForOverlay", () => {
     const adapted = adaptGeoreferenceAnnotationForOverlay(
       GEOREF_ANNOTATION_CANVAS,
       IMAGE_SERVICE_V2_ID,
+      "ImageService2",
     );
     expect(parseGeoreferenceAnnotation(adapted)).toEqual(EXPECTED_GCPS);
   });

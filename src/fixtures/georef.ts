@@ -26,12 +26,12 @@ export const DC_CANVAS_ID =
   "https://api.dc.library.northwestern.edu/api/v2/file-sets/2fb1e81a-9e24-420c-b224-0bfd6a279baf?as=iiif";
 
 /**
- * IIIF Image API v2 base URL for the same FileSet.
+ * IIIF Image API v3 base URL for the same FileSet.
  * Used with `adaptGeoreferenceAnnotationForOverlay` to produce an overlay
  * annotation compatible with @allmaps/leaflet.
  */
-export const DC_IMAGE_SERVICE_V2_ID =
-  "https://iiif.dc.library.northwestern.edu/iiif/2/2fb1e81a-9e24-420c-b224-0bfd6a279baf";
+export const DC_IMAGE_SERVICE_V3_ID =
+  "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf";
 
 // ── Canvas dimensions ──────────────────────────────────────────────────────────
 
@@ -163,16 +163,16 @@ export const DC_GEOREF_ANNOTATION_CANVAS: GeoreferenceAnnotation = {
 };
 
 /**
- * The same annotation adapted for @allmaps/leaflet (ImageService2 source).
- * Produced by `adaptGeoreferenceAnnotationForOverlay(DC_GEOREF_ANNOTATION_CANVAS, DC_IMAGE_SERVICE_V2_ID)`.
+ * The same annotation adapted for @allmaps/leaflet (ImageService3 source).
+ * Produced by `adaptGeoreferenceAnnotationForOverlay(DC_GEOREF_ANNOTATION_CANVAS, DC_IMAGE_SERVICE_V3_ID, "ImageService3")`.
  */
 export const DC_GEOREF_ANNOTATION_OVERLAY: GeoreferenceAnnotation = {
   ...DC_GEOREF_ANNOTATION_CANVAS,
   target: {
     ...DC_GEOREF_ANNOTATION_CANVAS.target,
     source: {
-      id: DC_IMAGE_SERVICE_V2_ID,
-      type: "ImageService2",
+      id: DC_IMAGE_SERVICE_V3_ID,
+      type: "ImageService3",
       width: CANVAS_WIDTH,
       height: CANVAS_HEIGHT,
     },
@@ -189,9 +189,9 @@ export const DC_GEOREF_ANNOTATION_OVERLAY: GeoreferenceAnnotation = {
 export const DC_WILMETTE_CANVAS_ID =
   "https://api.dc.library.northwestern.edu/api/v2/file-sets/f8fd564d-2d0d-4c58-badb-e575bdaaac5b?as=iiif";
 
-/** IIIF Image API v2 base URL for the Wilmette FileSet. */
-export const DC_WILMETTE_IMAGE_SERVICE_V2_ID =
-  "https://iiif.dc.library.northwestern.edu/iiif/2/f8fd564d-2d0d-4c58-badb-e575bdaaac5b";
+/** IIIF Image API v3 base URL for the Wilmette FileSet. */
+export const DC_WILMETTE_IMAGE_SERVICE_V3_ID =
+  "https://iiif.dc.library.northwestern.edu/iiif/3/f8fd564d-2d0d-4c58-badb-e575bdaaac5b";
 
 export const DC_WILMETTE_CANVAS_WIDTH = 18844;
 export const DC_WILMETTE_CANVAS_HEIGHT = 6595;
@@ -254,17 +254,17 @@ export const DC_WILMETTE_GEOREF_ANNOTATION_CANVAS: GeoreferenceAnnotation = {
 };
 
 /**
- * The Wilmette annotation adapted for @allmaps/leaflet (ImageService2 source).
+ * The Wilmette annotation adapted for @allmaps/leaflet (ImageService3 source).
  * Produced by
- * `adaptGeoreferenceAnnotationForOverlay(DC_WILMETTE_GEOREF_ANNOTATION_CANVAS, DC_WILMETTE_IMAGE_SERVICE_V2_ID)`.
+ * `adaptGeoreferenceAnnotationForOverlay(DC_WILMETTE_GEOREF_ANNOTATION_CANVAS, DC_WILMETTE_IMAGE_SERVICE_V3_ID, "ImageService3")`.
  */
 export const DC_WILMETTE_GEOREF_ANNOTATION_OVERLAY: GeoreferenceAnnotation = {
   ...DC_WILMETTE_GEOREF_ANNOTATION_CANVAS,
   target: {
     ...DC_WILMETTE_GEOREF_ANNOTATION_CANVAS.target,
     source: {
-      id: DC_WILMETTE_IMAGE_SERVICE_V2_ID,
-      type: "ImageService2",
+      id: DC_WILMETTE_IMAGE_SERVICE_V3_ID,
+      type: "ImageService3",
       width: DC_WILMETTE_CANVAS_WIDTH,
       height: DC_WILMETTE_CANVAS_HEIGHT,
     },

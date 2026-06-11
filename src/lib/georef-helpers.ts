@@ -162,12 +162,12 @@ export function parseGeoreferenceAnnotation(
  * @param imageServiceId  Base URL of the IIIF Image API for this canvas
  *   (e.g. `"https://iiif.example.edu/iiif/2/<id>"` for v2,
  *    or `"https://iiif.example.edu/iiif/3/<id>"` for v3).
- * @param serviceType  IIIF Image API version string. Defaults to `"ImageService2"`.
+ * @param serviceType  IIIF Image API version string. Defaults to `"ImageService3"`.
  */
 export function adaptGeoreferenceAnnotationForOverlay(
   annotation: GeoreferenceAnnotation,
   imageServiceId: string,
-  serviceType: "ImageService2" | "ImageService3" = "ImageService2",
+  serviceType: "ImageService2" | "ImageService3" = "ImageService3",
 ): GeoreferenceAnnotation {
   return {
     ...annotation,
@@ -204,9 +204,9 @@ export function isGeoreferenceAnnotation(
 
 /**
  * Extract the IIIF Image API service id from a painting annotation body.
- * Handles Presentation 3 (`service[].id` + `type`) and Presentation 2
+ * Handles Presentation 3 (`service[].id` + `type`) and legacy
  * (`service[].@id` + `@type`) shapes, returning the first service whose type
- * is an ImageService (or the first service id as a fallback).
+ * is an ImageService.
  *
  * @returns `{ id, type }` where `type` is `"ImageService2" | "ImageService3"`,
  *   or `undefined` when no usable image service is present.
@@ -229,12 +229,6 @@ export function getImageServiceId(
 
     if (type === "ImageService3") return { id, type: "ImageService3" };
     if (type === "ImageService2") return { id, type: "ImageService2" };
-  }
-
-  // Fallback: first service with any id, assume v2.
-  for (const service of services) {
-    const id = service?.id || service?.["@id"];
-    if (typeof id === "string") return { id, type: "ImageService2" };
   }
 
   return undefined;

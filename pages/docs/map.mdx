@@ -3,8 +3,8 @@ title: Map
 ---
 
 import CloverMap from "docs/components/DynamicImports/Map";
+import CoordinatePickingDemo from "docs/components/Map/CoordinatePickingDemo";
 import IIIFBadge from "docs/components/IIIFBadge";
-import { useState } from "react";
 import { Tabs, Tab } from "nextra/components";
 import {
   DC_GEOREF_ANNOTATION_CANVAS as georefAnnotation,
@@ -113,45 +113,6 @@ export const navPlaceLakeMichigan = {
   },
 };
 
-export const CoordinatePickingDemo = () => {
-  const [coordinates, setCoordinates] = useState(null);
-
-  return (
-    <div style={{ display: "grid", gap: "0.75rem" }}>
-      <div style={{ position: "relative", height: "400px" }}>
-        <CloverMap
-          center={{ latitude: 42.045, longitude: -87.688, zoom: 11 }}
-          markers={
-            coordinates
-              ? [
-                  {
-                    latitude: coordinates.lat,
-                    longitude: coordinates.lng,
-                    label: "Selected coordinate",
-                  },
-                ]
-              : []
-          }
-          onMapClick={([lng, lat]) => setCoordinates({ lng, lat })}
-          useCrosshairCursor
-        />
-      </div>
-      <output
-        style={{
-          display: "block",
-          minHeight: "1.5rem",
-          fontFamily: "monospace",
-          fontSize: "0.875rem",
-        }}
-      >
-        {coordinates
-          ? `longitude: ${coordinates.lng}, latitude: ${coordinates.lat}`
-          : "Click the map to pick coordinates."}
-      </output>
-    </div>
-  );
-};
-
 # Map
 
 A UI component that renders a geographic map using [Leaflet](https://leafletjs.com/), with native support for IIIF [navPlace](https://iiif.io/api/extension/navplace/) geographic annotations and [Georeference Extension](https://iiif.io/api/extension/georef/) control points. Optionally renders warped IIIF image overlays via [@allmaps/leaflet](https://allmaps.org/).
@@ -246,7 +207,7 @@ You can also pass a IIIF resource through `iiifContent`. Clover will extract nav
 />
 ```
 
-The example below uses features from the [IIIF Cookbook recipe 0240 — navPlace on Canvases](https://iiif.io/api/cookbook/recipe/0240-navPlace-on-canvases/), where `navPlace` is declared directly on each Canvas. To consume it, fetch the manifest and read `canvas.navPlace` from each item:
+The example below uses features from [IIIF Cookbook recipe 0240: navPlace on Canvases](https://iiif.io/api/cookbook/recipe/0240-navPlace-on-canvases/), where `navPlace` is declared directly on each Canvas. To consume it, fetch the manifest and read `canvas.navPlace` from each item:
 
 <Tabs items={["Code", "Preview"]}>
   <Tab>
@@ -358,7 +319,7 @@ A `LineString` draws a connected path between an ordered sequence of coordinates
 
 ### GeometryCollection
 
-A `GeometryCollection` bundles multiple geometry types into a single `navPlace` feature. This example maps the western Lake Michigan shoreline as a composite: a bounding `Polygon` for the lake, a `LineString` tracing the shore from Gary to Green Bay, and a `MultiPoint` marking five lakeshore cities — all sharing one label.
+A `GeometryCollection` bundles multiple geometry types into a single `navPlace` feature. This example maps the western Lake Michigan shoreline as a composite: a bounding `Polygon` for the lake, a `LineString` tracing the shore from Gary to Green Bay, and a `MultiPoint` marking five lakeshore cities, all sharing one label.
 
 <Tabs items={["Code", "Preview"]}>
   <Tab>
@@ -426,7 +387,7 @@ The example below uses a real annotation from Northwestern University Libraries'
 <Tabs items={["Code", "Preview"]}>
   <Tab>
     ```jsx
-    // Annotation as returned by dc-api — target.source.type is "Canvas"
+    // Annotation as returned by dc-api; target.source.type is "Canvas"
     const georefAnnotation = {
       "@context": [
         "http://iiif.io/api/extension/georef/1/context.json",
@@ -479,7 +440,7 @@ When `showImageOverlay` is enabled and a `georefAnnotation` with at least 3 GCPs
 
 **Important:** `@allmaps/leaflet` requires the annotation's `target.source` to reference an IIIF Image API endpoint (`type: "ImageService2"` or `"ImageService3"`), not a Canvas. Annotations saved by authoring tools typically use a Canvas source. Use the `adaptGeoreferenceAnnotationForOverlay` helper to swap the source before passing it to `<Map>`.
 
-The example below uses the same Evanston map annotation adapted with the FileSet's IIIF Image API v2 endpoint as the ImageService2 source.
+The example below uses the same Evanston map annotation adapted with the FileSet's IIIF Image API v3 endpoint as the ImageService3 source.
 
 <Tabs items={["Code", "Preview"]}>
   <Tab>
@@ -489,9 +450,9 @@ The example below uses the same Evanston map annotation adapted with the FileSet
     // Annotation target.source.type is "Canvas"
     const storedAnnotation = { /* ... */ };
 
-    // IIIF Image API v2 base URL for the FileSet
+    // IIIF Image API v3 base URL for the FileSet
     const imageServiceId =
-      "https://iiif.dc.library.northwestern.edu/iiif/2/2fb1e81a-9e24-420c-b224-0bfd6a279baf";
+      "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf";
 
     // Adapt the annotation so @allmaps/leaflet can use it
     const overlayAnnotation = adaptGeoreferenceAnnotationForOverlay(
@@ -522,7 +483,7 @@ The example below uses the same Evanston map annotation adapted with the FileSet
   </Tab>
 </Tabs>
 
-`@allmaps/leaflet` is an optional dependency — it is only loaded when `showImageOverlay` is `true`, so consumers who don't use this feature pay no bundle cost.
+`@allmaps/leaflet` is an optional dependency. It is only loaded when `showImageOverlay` is `true`, so consumers who don't use this feature pay no bundle cost.
 
 ---
 
@@ -608,7 +569,7 @@ Use `onMapClick` and `useCrosshairCursor` to turn the map into a coordinate pick
 | `georefAnnotation`    | [`GeoreferenceAnnotation`](#georefannotation-type)      | No       |               |
 | `showControlPoints`   | `boolean`                                               | No       | `true`        |
 | `showImageOverlay`    | `boolean`                                               | No       | `false`       |
-| `imageOverlayOpacity` | `number` (0–1)                                          | No       | `0.65`        |
+| `imageOverlayOpacity` | `number` (0-1)                                          | No       | `0.65`        |
 | `geoJson`             | `GeoJSON.FeatureCollection \| Feature`                  | No       |               |
 | `markers`             | [`MapMarker[]`](#mapmarker-type)                        | No       | `[]`          |
 | `center`              | [`MapCenter`](#mapcenter-type)                          | No       | World view    |
@@ -698,7 +659,7 @@ import { adaptGeoreferenceAnnotationForOverlay } from "@samvera/clover-iiif";
 const overlayAnnotation = adaptGeoreferenceAnnotationForOverlay(
   storedAnnotation, // GeoreferenceAnnotation with Canvas source
   imageServiceId, // IIIF Image API base URL
-  "ImageService2", // "ImageService2" (default) or "ImageService3"
+  "ImageService3", // default; pass "ImageService2" for Image API 2 services
 );
 ```
 
