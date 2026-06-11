@@ -7,6 +7,7 @@ import { render, screen } from "@testing-library/react";
 import { AnnotationResources } from "src/types/annotations";
 import InformationPanel from "../InformationPanel/InformationPanel";
 import Painting from "src/components/Viewer/Painting/Painting";
+import { type PluginConfig } from "src/context/viewer-context";
 import React from "react";
 
 vi.mock("@radix-ui/react-collapsible");
@@ -101,6 +102,41 @@ describe("ViewerContent with no Annotation Resources", () => {
       </ViewerProvider>,
     );
     expect(screen.queryByTestId("mock-information-panel")).toBeNull();
+  });
+
+  test("renders InformationPanel when a plugin provides an information panel tab", () => {
+    const PluginInformationPanel = () => <div>Plugin Information</div>;
+    const plugins: PluginConfig[] = [
+      {
+        id: "plugin-panel",
+        informationPanel: {
+          component: PluginInformationPanel,
+          label: { en: ["Plugin"] },
+        },
+      },
+    ];
+
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: true,
+          plugins,
+          configOptions: {
+            informationPanel: {
+              ...defaultState.configOptions.informationPanel,
+              renderAbout: false,
+              renderAnnotation: false,
+              renderToggle: true,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...props} />
+      </ViewerProvider>,
+    );
+
+    expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
   });
 });
 
