@@ -8,12 +8,12 @@ interface CloverViewerAttributes {
   id: string;
   options?: ViewerConfigOptions;
   /** IIIF Manifest/Collection URL or content state */
-  'iiif-content'?: string;
+  "iiif-content"?: string;
 }
 
 interface CloverViewerWCProps {
   id: string;
-  'iiif-content'?: string;
+  "iiif-content"?: string;
   __registerPublicApi: (component: any) => void;
 }
 
@@ -22,11 +22,8 @@ function CloverViewerWebComponent(
 ) {
   const webComponent = useRef<HTMLElement>();
   const { id, options } = props;
-
   const parsedOptions = JSON.parse(options as string);
-  console.log("OPTIONS =====> ", parsedOptions);
-
-  const iiifContent = props['iiif-content'];
+  const iiifContent = props["iiif-content"];
 
   useLayoutEffect(() => {
     if (props.__registerPublicApi) {
@@ -37,7 +34,9 @@ function CloverViewerWebComponent(
   }, []);
 
   // @ts-ignore
-  return <Viewer id={id} iiifContent={iiifContent as any} options={parsedOptions} />;
+  return (
+    <Viewer id={id} iiifContent={iiifContent as any} options={parsedOptions} />
+  );
 }
 
 const cloverViewerWCProps = ["id", "iiif-content"];
