@@ -21,6 +21,13 @@
     },
     "title": "Content State"
   },
+  "map": {
+    "theme": {
+      "layout": "full",
+      "sidebar": false
+    },
+    "title": "Map"
+  },
   "prefetched": {
     "display": "hidden",
     "theme": {

@@ -22,6 +22,10 @@ const FORCED_EXTERNALS = new Set([
   // keeps it out of the always-bundled `dist/*/index.{mjs,cjs}` output and
   // lets consumer bundlers (or direct ESM resolution) load it on demand.
   "hls.js",
+  // @allmaps/leaflet is loaded dynamically only when showImageOverlay is true.
+  // Externalising it avoids bundling ~800 kB of georeferencing code for
+  // consumers who never use the warped image overlay feature.
+  "@allmaps/leaflet",
 ]);
 
 function getPackageName(id) {

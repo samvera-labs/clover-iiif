@@ -1,0 +1,1022 @@
+import Viewer from "docs/components/DynamicImports/Viewer";
+import CloverMap from "docs/components/DynamicImports/Map";
+import CallToAction from "docs/components/CallToAction";
+import { Tabs, Tab } from "nextra/components";
+import { Callout } from "nextra/components";
+
+export const pendOreilleNavPlaceManifestJson = {
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  id: "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif",
+  type: "Manifest",
+  label: {
+    none: ["Crossing the Pend d'Oreille - Kalispel"],
+  },
+  summary: {
+    none: [
+      "Photogravure from Edward S. Curtis's The North American Indian, Volume 7, mapped to the Pend Oreille River GeoNames record.",
+    ],
+  },
+  navPlace: {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        id: "https://www.geonames.org/7315798/pend-oreille-river.html",
+        properties: {
+          label: {
+            none: ["Pend Oreille River"],
+          },
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [-117.61775, 49.00381],
+        },
+      },
+    ],
+  },
+  thumbnail: [
+    {
+      id: "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38/thumbnail",
+      type: "Image",
+      format: "image/jpeg",
+      height: 300,
+      width: 300,
+    },
+  ],
+  homepage: [
+    {
+      id: "https://dc.library.northwestern.edu/items/8a833741-74a8-40dc-bd1d-c416a3b1bb38",
+      type: "Text",
+      format: "text/html",
+      label: {
+        none: [
+          "Homepage at Northwestern University Libraries Digital Collections",
+        ],
+      },
+    },
+  ],
+  items: [
+    {
+      id: "https://api.dc.library.northwestern.edu/api/v2/file-sets/440bcf10-a7ee-4824-a1fb-e505cad222df?as=iiif",
+      type: "Canvas",
+      height: 2326,
+      width: 3072,
+      label: { none: ["vol_ct07047u.tif"] },
+      thumbnail: [
+        {
+          id: "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df/full/!300,300/0/default.jpg",
+          type: "Image",
+          format: "image/jpeg",
+          height: 300,
+          width: 300,
+        },
+      ],
+      items: [
+        {
+          id: "https://api.dc.library.northwestern.edu/api/v2/file-sets/440bcf10-a7ee-4824-a1fb-e505cad222df?as=iiif/annotation-page",
+          type: "AnnotationPage",
+          items: [
+            {
+              id: "https://api.dc.library.northwestern.edu/api/v2/file-sets/440bcf10-a7ee-4824-a1fb-e505cad222df?as=iiif/annotation/0",
+              type: "Annotation",
+              motivation: "painting",
+              target:
+                "https://api.dc.library.northwestern.edu/api/v2/file-sets/440bcf10-a7ee-4824-a1fb-e505cad222df?as=iiif",
+              body: {
+                id: "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df/full/600,/0/default.jpg",
+                type: "Image",
+                format: "image/jpeg",
+                height: 2326,
+                width: 3072,
+                service: [
+                  {
+                    id: "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df",
+                    type: "ImageService3",
+                    profile: "http://iiif.io/api/image/3/level2.json",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+export const multiLevelNavPlaceManifestJson = {
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  id: "http://localhost:3000/manifest/nav-place/multi-level.json",
+  type: "Manifest",
+  label: { none: ["navPlace Multi-level Demo"] },
+  summary: {
+    none: [
+      "A manifest with navPlace at both the Manifest level (Pend Oreille region) and on each Canvas (specific sites along the river).",
+    ],
+  },
+  navPlace: {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        properties: { label: { none: ["Pend Oreille River region"] } },
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [-118.5, 47.5],
+              [-116.5, 47.5],
+              [-116.5, 49.5],
+              [-118.5, 49.5],
+              [-118.5, 47.5],
+            ],
+          ],
+        },
+      },
+    ],
+  },
+  thumbnail: [
+    {
+      id: "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38/thumbnail",
+      type: "Image",
+      format: "image/jpeg",
+      height: 300,
+      width: 300,
+    },
+  ],
+  items: [
+    {
+      id: "http://localhost:3000/manifest/nav-place/multi-level.json/canvas/1",
+      type: "Canvas",
+      height: 2326,
+      width: 3072,
+      label: { none: ["Crossing the Pend d'Oreille - Kalispel"] },
+      navPlace: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "https://www.geonames.org/7315798/pend-oreille-river.html",
+            properties: { label: { none: ["Pend Oreille River"] } },
+            geometry: {
+              type: "Point",
+              coordinates: [-117.61775, 49.00381],
+            },
+          },
+        ],
+      },
+      thumbnail: [
+        {
+          id: "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df/full/!300,300/0/default.jpg",
+          type: "Image",
+          format: "image/jpeg",
+          height: 300,
+          width: 300,
+        },
+      ],
+      items: [
+        {
+          id: "http://localhost:3000/manifest/nav-place/multi-level.json/canvas/1/page/1",
+          type: "AnnotationPage",
+          items: [
+            {
+              id: "http://localhost:3000/manifest/nav-place/multi-level.json/canvas/1/page/1/annotation/1",
+              type: "Annotation",
+              motivation: "painting",
+              target:
+                "http://localhost:3000/manifest/nav-place/multi-level.json/canvas/1",
+              body: {
+                id: "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df/full/600,/0/default.jpg",
+                type: "Image",
+                format: "image/jpeg",
+                height: 2326,
+                width: 3072,
+                service: [
+                  {
+                    id: "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df",
+                    type: "ImageService3",
+                    profile: "http://iiif.io/api/image/3/level2.json",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "http://localhost:3000/manifest/nav-place/multi-level.json/canvas/2",
+      type: "Canvas",
+      height: 9833,
+      width: 7337,
+      label: { en: ["Map of the Township of Evanston"] },
+      items: [
+        {
+          id: "http://localhost:3000/manifest/nav-place/multi-level.json/canvas/2/page/1",
+          type: "AnnotationPage",
+          items: [
+            {
+              id: "http://localhost:3000/manifest/nav-place/multi-level.json/canvas/2/page/1/annotation/1",
+              type: "Annotation",
+              motivation: "painting",
+              target:
+                "http://localhost:3000/manifest/nav-place/multi-level.json/canvas/2",
+              body: {
+                id: "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf/full/600,/0/default.jpg",
+                type: "Image",
+                format: "image/jpeg",
+                height: 9833,
+                width: 7337,
+                service: [
+                  {
+                    id: "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf",
+                    type: "ImageService3",
+                    profile: "http://iiif.io/api/image/3/level2.json",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+export const collectionNavPlaceJson = {
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  id: "http://localhost:3000/manifest/nav-place/collection-manifest-level.json",
+  type: "Collection",
+  label: { en: ["navPlace Demo Collection"] },
+  items: [
+    {
+      id: "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/1",
+      type: "Manifest",
+      label: { none: ["Crossing the Pend d'Oreille - Kalispel"] },
+      summary: {
+        none: [
+          "Photogravure from Edward S. Curtis's The North American Indian, Volume 7, mapped to the Pend Oreille River GeoNames record.",
+        ],
+      },
+      navPlace: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "https://www.geonames.org/7315798/pend-oreille-river.html",
+            properties: {
+              label: { none: ["Pend Oreille River, Idaho/Washington"] },
+            },
+            geometry: { type: "Point", coordinates: [-117.61775, 49.00381] },
+          },
+        ],
+      },
+      homepage: [
+        {
+          id: "https://dc.library.northwestern.edu/items/8a833741-74a8-40dc-bd1d-c416a3b1bb38",
+          type: "Text",
+          format: "text/html",
+          label: {
+            none: [
+              "Homepage at Northwestern University Libraries Digital Collections",
+            ],
+          },
+        },
+      ],
+      thumbnail: [
+        {
+          id: "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38/thumbnail",
+          type: "Image",
+          format: "image/jpeg",
+          height: 300,
+          width: 300,
+        },
+      ],
+      items: [
+        {
+          id: "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/1/canvas/1",
+          type: "Canvas",
+          height: 2326,
+          width: 3072,
+          label: { none: ["vol_ct07047u.tif"] },
+          thumbnail: [
+            {
+              id: "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df/full/!300,300/0/default.jpg",
+              type: "Image",
+              format: "image/jpeg",
+              height: 300,
+              width: 300,
+            },
+          ],
+          items: [
+            {
+              id: "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/1/canvas/1/page/1",
+              type: "AnnotationPage",
+              items: [
+                {
+                  id: "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/1/canvas/1/page/1/annotation/1",
+                  type: "Annotation",
+                  motivation: "painting",
+                  target:
+                    "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/1/canvas/1",
+                  body: {
+                    id: "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df/full/600,/0/default.jpg",
+                    type: "Image",
+                    format: "image/jpeg",
+                    height: 2326,
+                    width: 3072,
+                    service: [
+                      {
+                        id: "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df",
+                        type: "ImageService3",
+                        profile: "http://iiif.io/api/image/3/level2.json",
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/2",
+      type: "Manifest",
+      label: { en: ["Map of the Township of Evanston, Cook County, Illinois"] },
+      summary: {
+        en: [
+          "An 1874 cadastral plat map of Evanston, Illinois from Northwestern University Libraries Digital Collections.",
+        ],
+      },
+      navPlace: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "https://www.geonames.org/4890864/evanston.html",
+            properties: {
+              label: { en: ["Evanston, Cook County, Illinois"] },
+            },
+            geometry: { type: "Point", coordinates: [-87.68838, 42.04502] },
+          },
+        ],
+      },
+      homepage: [
+        {
+          id: "https://dc.library.northwestern.edu/items/c9869cb2-e735-4010-a493-84a66fcd065d",
+          type: "Text",
+          format: "text/html",
+          label: {
+            en: [
+              "Homepage at Northwestern University Libraries Digital Collections",
+            ],
+          },
+        },
+      ],
+      thumbnail: [
+        {
+          id: "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf/full/!300,300/0/default.jpg",
+          type: "Image",
+          format: "image/jpeg",
+          height: 300,
+          width: 300,
+        },
+      ],
+      items: [
+        {
+          id: "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/2/canvas/1",
+          type: "Canvas",
+          height: 9833,
+          width: 7337,
+          label: { en: ["Evanston map recto"] },
+          thumbnail: [
+            {
+              id: "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf/full/!300,300/0/default.jpg",
+              type: "Image",
+              format: "image/jpeg",
+              height: 300,
+              width: 300,
+            },
+          ],
+          items: [
+            {
+              id: "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/2/canvas/1/page/1",
+              type: "AnnotationPage",
+              items: [
+                {
+                  id: "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/2/canvas/1/page/1/annotation/1",
+                  type: "Annotation",
+                  motivation: "painting",
+                  target:
+                    "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/2/canvas/1",
+                  body: {
+                    id: "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf/full/600,/0/default.jpg",
+                    type: "Image",
+                    format: "image/jpeg",
+                    height: 9833,
+                    width: 7337,
+                    service: [
+                      {
+                        id: "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf",
+                        type: "ImageService3",
+                        profile: "http://iiif.io/api/image/3/level2.json",
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+export const overlayManifestJson = {
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  id: "http://localhost:3000/manifest/nav-place/north-shore-maps.json",
+  type: "Manifest",
+  label: { en: ["North Shore Map Sheets"] },
+  summary: {
+    en: [
+      "Two adjacent georeferenced plat maps: Evanston and Wilmette, Cook County, Illinois. They tile together onto one map. Manifest-level navPlace marks the shared region.",
+    ],
+  },
+  navPlace: {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        id: "https://www.geonames.org/4890864/evanston.html",
+        properties: { label: { en: ["Evanston & Wilmette, North Shore"] } },
+        geometry: { type: "Point", coordinates: [-87.7204, 42.0628] },
+      },
+    ],
+  },
+  items: [
+    {
+      id: "https://api.dc.library.northwestern.edu/api/v2/file-sets/2fb1e81a-9e24-420c-b224-0bfd6a279baf?as=iiif",
+      type: "Canvas",
+      height: 9833,
+      width: 7337,
+      label: { en: ["Map of the Township of Evanston"] },
+      items: [
+        {
+          id: "http://localhost:3000/north-shore/evanston/page",
+          type: "AnnotationPage",
+          items: [
+            {
+              id: "http://localhost:3000/north-shore/evanston/annotation",
+              type: "Annotation",
+              motivation: "painting",
+              target:
+                "https://api.dc.library.northwestern.edu/api/v2/file-sets/2fb1e81a-9e24-420c-b224-0bfd6a279baf?as=iiif",
+              body: {
+                id: "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf/full/600,/0/default.jpg",
+                type: "Image",
+                format: "image/jpeg",
+                height: 9833,
+                width: 7337,
+                service: [
+                  {
+                    id: "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf",
+                    type: "ImageService3",
+                    profile: "http://iiif.io/api/image/3/level2.json",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+      annotations: [
+        {
+          id: "http://localhost:3000/north-shore/evanston/georef-page",
+          type: "AnnotationPage",
+          items: [
+            {
+              id: "urn:meadow:georeference:2fb1e81a",
+              type: "Annotation",
+              motivation: "georeferencing",
+              target: {
+                type: "SpecificResource",
+                source: {
+                  id: "https://api.dc.library.northwestern.edu/api/v2/file-sets/2fb1e81a-9e24-420c-b224-0bfd6a279baf?as=iiif",
+                  type: "Canvas",
+                  height: 9833,
+                  width: 7337,
+                },
+              },
+              body: {
+                type: "FeatureCollection",
+                features: [
+                  {
+                    type: "Feature",
+                    properties: { resourceCoords: [577.7, 1074.97] },
+                    geometry: {
+                      type: "Point",
+                      coordinates: [-87.71064, 42.06793],
+                    },
+                  },
+                  {
+                    type: "Feature",
+                    properties: { resourceCoords: [3023.66, 1560.92] },
+                    geometry: {
+                      type: "Point",
+                      coordinates: [-87.67961, 42.06283],
+                    },
+                  },
+                  {
+                    type: "Feature",
+                    properties: { resourceCoords: [3499.96, 6785.6] },
+                    geometry: {
+                      type: "Point",
+                      coordinates: [-87.6752, 42.01607],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: "https://api.dc.library.northwestern.edu/api/v2/file-sets/f8fd564d-2d0d-4c58-badb-e575bdaaac5b?as=iiif",
+      type: "Canvas",
+      height: 6595,
+      width: 18844,
+      label: { en: ["Map of the Village of Wilmette"] },
+      items: [
+        {
+          id: "http://localhost:3000/north-shore/wilmette/page",
+          type: "AnnotationPage",
+          items: [
+            {
+              id: "http://localhost:3000/north-shore/wilmette/annotation",
+              type: "Annotation",
+              motivation: "painting",
+              target:
+                "https://api.dc.library.northwestern.edu/api/v2/file-sets/f8fd564d-2d0d-4c58-badb-e575bdaaac5b?as=iiif",
+              body: {
+                id: "https://iiif.dc.library.northwestern.edu/iiif/3/f8fd564d-2d0d-4c58-badb-e575bdaaac5b/full/600,/0/default.jpg",
+                type: "Image",
+                format: "image/jpeg",
+                height: 6595,
+                width: 18844,
+                service: [
+                  {
+                    id: "https://iiif.dc.library.northwestern.edu/iiif/3/f8fd564d-2d0d-4c58-badb-e575bdaaac5b",
+                    type: "ImageService3",
+                    profile: "http://iiif.io/api/image/3/level2.json",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+      annotations: [
+        {
+          id: "http://localhost:3000/north-shore/wilmette/georef-page",
+          type: "AnnotationPage",
+          items: [
+            {
+              id: "urn:meadow:georeference:f8fd564d",
+              type: "Annotation",
+              motivation: "georeferencing",
+              target: {
+                type: "SpecificResource",
+                source: {
+                  id: "https://api.dc.library.northwestern.edu/api/v2/file-sets/f8fd564d-2d0d-4c58-badb-e575bdaaac5b?as=iiif",
+                  type: "Canvas",
+                  height: 6595,
+                  width: 18844,
+                },
+              },
+              body: {
+                type: "FeatureCollection",
+                features: [
+                  {
+                    type: "Feature",
+                    properties: { resourceCoords: [11818.74, 3855.76] },
+                    geometry: {
+                      type: "Point",
+                      coordinates: [-87.69964, 42.07017],
+                    },
+                  },
+                  {
+                    type: "Feature",
+                    properties: { resourceCoords: [1815.28, 4233.17] },
+                    geometry: {
+                      type: "Point",
+                      coordinates: [-87.77029, 42.06886],
+                    },
+                  },
+                  {
+                    type: "Feature",
+                    properties: { resourceCoords: [11349.49, 1444.54] },
+                    geometry: {
+                      type: "Point",
+                      coordinates: [-87.70287, 42.08273],
+                    },
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+## Viewer (Map)
+
+<br />
+
+<CallToAction href="/docs/viewer" text="Docs" size="small" />
+
+The Viewer can replace the default image canvas with a geographic map whenever `navPlace` data is available. Click either marker below to see the popup. Each one is a manifest in the collection, enriched with its label, summary, thumbnail, and a link back to the source.
+
+<div
+  style={{
+    position: "relative",
+    height: "480px",
+    marginTop: "1.5rem",
+    marginBottom: "1.5rem",
+  }}
+>
+  <CloverMap
+    iiifContent={collectionNavPlaceJson}
+    navPlaceLevel="Manifest"
+    fitToData
+  />
+</div>
+
+Enable the map in the Viewer with `options.map.enabled: true`, then use `options.map.navPlaceLevel` to control which level of the IIIF resource hierarchy supplies the features.
+
+| Option                      | Type                                                            | Default |
+| --------------------------- | --------------------------------------------------------------- | ------- |
+| `options.map.enabled`       | `boolean`                                                       | `false` |
+| `options.map.fitToData`     | `boolean`                                                       | `true`  |
+| `options.map.navPlaceLevel` | `auto \| Collection \| Manifest \| Canvas \| Annotation \| all` | `auto`  |
+
+---
+
+## Canvas
+
+`navPlaceLevel: "Canvas"` renders the navPlace features from the **currently active canvas**. Navigating between canvases updates the map, making this level ideal for search-result interfaces: each canvas is a result, and the map always shows where the selected item is located.
+
+The example below uses [IIIF Cookbook recipe 0240: navPlace on Canvases](https://iiif.io/api/cookbook/recipe/0240-navPlace-on-canvases/). The manifest has two canvases, each with its own `navPlace` point. Click the thumbnails to switch canvases and watch the map update.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx
+    <Viewer
+      iiifContent="https://iiif.io/api/cookbook/recipe/0240-navPlace-on-canvases/manifest.json"
+      options={{
+        canvasHeight: "500px",
+        showIIIFBadge: false,
+        informationPanel: { open: false, renderToggle: false },
+        map: {
+          enabled: true,
+          navPlaceLevel: "Canvas",
+          fitToData: true,
+        },
+      }}
+    />
+    ```
+  </Tab>
+  <Tab>
+    <div style={{ position: "relative", height: "580px", zIndex: "0" }}>
+      <Viewer
+        iiifContent="https://iiif.io/api/cookbook/recipe/0240-navPlace-on-canvases/manifest.json"
+        options={{
+          canvasHeight: "500px",
+          showIIIFBadge: false,
+          informationPanel: { open: false, renderToggle: false },
+          map: {
+            enabled: true,
+            navPlaceLevel: "Canvas",
+            fitToData: true,
+          },
+        }}
+      />
+    </div>
+  </Tab>
+</Tabs>
+
+---
+
+## Manifest
+
+`navPlaceLevel: "Manifest"` renders the navPlace features declared on the **active manifest**. This is the right choice for a detail page that displays a single item and wants to show its geographic context. The map does not change when navigating between canvases.
+
+Map popups are enriched from the manifest's `label`, `summary`, `thumbnail`, and `homepage` when present.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx
+    // Manifest with navPlace injected at the Manifest level
+    const manifest = {
+      ...northwesternManifest,
+      navPlace: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "https://www.geonames.org/7315798/pend-oreille-river.html",
+            properties: { label: { none: ["Pend Oreille River"] } },
+            geometry: { type: "Point", coordinates: [-117.61775, 49.00381] },
+          },
+        ],
+      },
+    };
+
+    <Viewer
+      iiifContent={manifest}
+      options={{
+        canvasHeight: "500px",
+        showIIIFBadge: false,
+        informationPanel: { open: false, renderToggle: false },
+        map: {
+          enabled: true,
+          navPlaceLevel: "Manifest",
+          fitToData: true,
+        },
+      }}
+    />
+    ```
+
+  </Tab>
+  <Tab>
+    <div style={{ position: "relative", height: "580px", zIndex: "0" }}>
+      <Viewer
+        iiifContent={pendOreilleNavPlaceManifestJson}
+        options={{
+          canvasHeight: "500px",
+          showIIIFBadge: false,
+          informationPanel: { open: false, renderToggle: false },
+          map: {
+            enabled: true,
+            navPlaceLevel: "Manifest",
+            fitToData: true,
+          },
+        }}
+      />
+    </div>
+  </Tab>
+</Tabs>
+
+---
+
+## Collection
+
+`navPlaceLevel: "Manifest"` on a **Collection** iiifContent shows the active manifest's location and updates as the user navigates between manifests in the collection browser. This pattern is useful for collection-level browse interfaces where each item in the collection has its own geographic context.
+
+The example below loads a two-manifest collection. Select a manifest from the thumbnail browser, and the map will update to that manifest's navPlace.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx // Collection where each embedded Manifest carries Manifest-level
+    navPlace
+    <Viewer
+      iiifContent={collectionNavPlaceJson}
+      options={{
+        canvasHeight: "500px",
+        showIIIFBadge: false,
+        informationPanel: { open: false, renderToggle: false },
+        map: {
+          enabled: true,
+          navPlaceLevel: "Manifest",
+          fitToData: true,
+        },
+      }}
+    />
+    ```
+  </Tab>
+  <Tab>
+    <div style={{ position: "relative", height: "580px", zIndex: "0" }}>
+      <Viewer
+        iiifContent={collectionNavPlaceJson}
+        options={{
+          canvasHeight: "500px",
+          showIIIFBadge: false,
+          informationPanel: { open: false, renderToggle: false },
+          map: {
+            enabled: true,
+            navPlaceLevel: "Manifest",
+            fitToData: true,
+          },
+        }}
+      />
+    </div>
+  </Tab>
+</Tabs>
+
+---
+
+## All Levels
+
+`navPlaceLevel: "all"` renders **every** navPlace feature found across the entire resource hierarchy: Collection, Manifest, Canvas, and Annotation. Use this to give a complete geographic overview of an item and all of its parts.
+
+The example below uses a manifest with navPlace at both the Manifest level (a bounding polygon for the Pend Oreille region) and on the first Canvas (a specific point on the river). Both features are shown together on the map.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx
+    // Manifest with navPlace at the Manifest level (polygon) AND Canvas level (point)
+    const manifest = {
+      // ...
+      navPlace: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            properties: { label: { none: ["Pend Oreille River region"] } },
+            geometry: {
+              type: "Polygon",
+              coordinates: [[
+                [-118.5, 47.5], [-116.5, 47.5],
+                [-116.5, 49.5], [-118.5, 49.5], [-118.5, 47.5],
+              ]],
+            },
+          },
+        ],
+      },
+      items: [
+        {
+          // ...
+          navPlace: {
+            type: "FeatureCollection",
+            features: [
+              {
+                type: "Feature",
+                properties: { label: { none: ["Pend Oreille River"] } },
+                geometry: { type: "Point", coordinates: [-117.61775, 49.00381] },
+              },
+            ],
+          },
+        },
+        // canvas 2 has no navPlace
+      ],
+    };
+
+    <Viewer
+      iiifContent={manifest}
+      options={{
+        canvasHeight: "500px",
+        showIIIFBadge: false,
+        informationPanel: { open: false, renderToggle: false },
+        map: {
+          enabled: true,
+          navPlaceLevel: "all",
+          fitToData: true,
+        },
+      }}
+    />
+    ```
+
+  </Tab>
+  <Tab>
+    <div style={{ position: "relative", height: "580px", zIndex: "0" }}>
+      <Viewer
+        iiifContent={multiLevelNavPlaceManifestJson}
+        options={{
+          canvasHeight: "500px",
+          showIIIFBadge: false,
+          informationPanel: { open: false, renderToggle: false },
+          map: {
+            enabled: true,
+            navPlaceLevel: "all",
+            fitToData: true,
+          },
+        }}
+      />
+    </div>
+  </Tab>
+</Tabs>
+
+---
+
+## Auto (default)
+
+`navPlaceLevel: "auto"`, the default, selects the **most specific level available** for the active canvas in order: Annotation → Canvas → Manifest → Collection. If the current canvas has its own navPlace, that is shown. If not, the viewer falls back to the manifest, and so on.
+
+The example below uses the same two-canvas manifest. The first canvas has Canvas-level navPlace (the specific river point), while the second canvas has none. Navigate to the second canvas and the map automatically falls back to the manifest-level polygon.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx
+    <Viewer
+      iiifContent={manifest}
+      options={{
+        canvasHeight: "500px",
+        showIIIFBadge: false,
+        informationPanel: { open: false, renderToggle: false },
+        map: {
+          enabled: true,
+          // navPlaceLevel: "auto" is the default; it can be omitted
+          fitToData: true,
+        },
+      }}
+    />
+    ```
+  </Tab>
+  <Tab>
+    <div style={{ position: "relative", height: "580px", zIndex: "0" }}>
+      <Viewer
+        iiifContent={multiLevelNavPlaceManifestJson}
+        options={{
+          canvasHeight: "500px",
+          showIIIFBadge: false,
+          informationPanel: { open: false, renderToggle: false },
+          map: {
+            enabled: true,
+            fitToData: true,
+          },
+        }}
+      />
+    </div>
+  </Tab>
+</Tabs>
+
+---
+
+## Image Overlays (Georeference)
+
+When a manifest's canvases carry [Georeference Extension](https://iiif.io/api/extension/georef/) annotations, the Viewer can warp the source images onto the map as overlays via [@allmaps/leaflet](https://allmaps.org/). It can render **multiple sheets together**, alongside any `navPlace` geometry.
+
+Set `options.map.showImageOverlay: true`. Clover then:
+
+- **auto-discovers** `motivation: "georeferencing"` annotations on the in-scope canvases,
+- **auto-adapts** each Canvas-sourced annotation to that canvas's painting image service (no manual image-service URL needed), and
+- hosts every warped sheet in a single map layer.
+
+`options.map.overlayScope` controls which canvases contribute: `"manifest"` (default) warps **every** georeferenced canvas in the manifest at once; `"canvas"` follows only the active/visible canvas.
+
+The example below combines two adjacent Northwestern University Libraries plat maps, the [Township of Evanston](https://dc.library.northwestern.edu/items/c9869cb2-e735-4010-a493-84a66fcd065d) and the Village of Wilmette, which tile together on the North Shore. The manifest-level `navPlace` point is rendered at the same time.
+
+| Option                            | Type                 | Default    |
+| --------------------------------- | -------------------- | ---------- |
+| `options.map.showImageOverlay`    | `boolean`            | `false`    |
+| `options.map.imageOverlayOpacity` | `number` (0-1)       | `0.65`     |
+| `options.map.showControlPoints`   | `boolean`            | `true`     |
+| `options.map.overlayScope`        | `manifest \| canvas` | `manifest` |
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx // A manifest whose canvases each carry a georeferencing annotation
+    // (target.source is a Canvas). Clover adapts them to each canvas's //
+    painting image service automatically.
+    <Viewer
+      iiifContent={northShoreManifest}
+      options={{
+        canvasHeight: "500px",
+        showIIIFBadge: false,
+        informationPanel: { open: false, renderToggle: false },
+        map: {
+          enabled: true,
+          showImageOverlay: true,
+          imageOverlayOpacity: 0.7,
+          overlayScope: "manifest", // warp every georeferenced sheet at once
+          navPlaceLevel: "Manifest", // also show the region point
+          fitToData: true,
+        },
+      }}
+    />
+    ```
+  </Tab>
+  <Tab>
+    <div style={{ position: "relative", height: "580px", zIndex: "0" }}>
+      <Viewer
+        iiifContent={overlayManifestJson}
+        options={{
+          canvasHeight: "500px",
+          showIIIFBadge: false,
+          informationPanel: { open: false, renderToggle: false },
+          map: {
+            enabled: true,
+            showImageOverlay: true,
+            imageOverlayOpacity: 0.7,
+            overlayScope: "manifest",
+            navPlaceLevel: "Manifest",
+            fitToData: true,
+          },
+        }}
+      />
+    </div>
+  </Tab>
+</Tabs>
+
+<Callout type="info">
+  `@allmaps/leaflet` is an optional dependency, loaded only when
+  `showImageOverlay` is `true`. The georeference annotation's `target.source`
+  must resolve to an IIIF Image API endpoint for warping; Clover handles this by
+  reading the canvas's painting image service, so stored Canvas-sourced
+  annotations work without manual adaptation. Set `showControlPoints: false` to
+  hide the ground control point markers.
+</Callout>

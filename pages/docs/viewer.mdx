@@ -54,6 +54,111 @@ export const prefetchedManifestJson = {
   ],
 };
 
+export const pendOreilleNavPlaceManifestJson = {
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  id: "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif",
+  type: "Manifest",
+  label: {
+    none: ["Crossing the Pend d'Oreille - Kalispel"],
+  },
+  summary: {
+    none: [
+      "Photogravure from Edward S. Curtis's The North American Indian, Volume 7, mapped to the Pend Oreille River GeoNames record.",
+    ],
+  },
+  navPlace: {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        id: "https://www.geonames.org/7315798/pend-oreille-river.html",
+        properties: {
+          label: {
+            none: ["Pend Oreille River"],
+          },
+        },
+        geometry: {
+          type: "Point",
+          coordinates: [-117.61775, 49.00381],
+        },
+      },
+    ],
+  },
+  thumbnail: [
+    {
+      id: "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38/thumbnail",
+      type: "Image",
+      format: "image/jpeg",
+      height: 300,
+      width: 300,
+    },
+  ],
+  homepage: [
+    {
+      id: "https://dc.library.northwestern.edu/items/8a833741-74a8-40dc-bd1d-c416a3b1bb38",
+      type: "Text",
+      format: "text/html",
+      label: {
+        none: [
+          "Homepage at Northwestern University Libraries Digital Collections",
+        ],
+      },
+    },
+  ],
+  items: [
+    {
+      id: "https://api.dc.library.northwestern.edu/api/v2/file-sets/440bcf10-a7ee-4824-a1fb-e505cad222df?as=iiif",
+      type: "Canvas",
+      height: 2326,
+      width: 3072,
+      label: {
+        none: ["vol_ct07047u.tif"],
+      },
+      thumbnail: [
+        {
+          id: "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df/full/!300,300/0/default.jpg",
+          type: "Image",
+          format: "image/jpeg",
+          height: 300,
+          width: 300,
+        },
+      ],
+      items: [
+        {
+          id: "https://api.dc.library.northwestern.edu/api/v2/file-sets/440bcf10-a7ee-4824-a1fb-e505cad222df?as=iiif/annotation-page",
+          type: "AnnotationPage",
+          items: [
+            {
+              id: "https://api.dc.library.northwestern.edu/api/v2/file-sets/440bcf10-a7ee-4824-a1fb-e505cad222df?as=iiif/annotation/0",
+              type: "Annotation",
+              motivation: "painting",
+              target:
+                "https://api.dc.library.northwestern.edu/api/v2/file-sets/440bcf10-a7ee-4824-a1fb-e505cad222df?as=iiif",
+              body: {
+                id: "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df/full/600,/0/default.jpg",
+                type: "Image",
+                format: "image/tiff",
+                height: 2326,
+                width: 3072,
+                label: {
+                  en: ["vol_ct07047u.tif"],
+                },
+                service: [
+                  {
+                    id: "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df",
+                    type: "ImageService3",
+                    profile: "http://iiif.io/api/image/3/level2.json",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
 # Viewer
 
 A UI component that renders a multicanvas IIIF item viewer with pan-zoom support for `Image` via [OpenSeadragon](https://openseadragon.github.io/) and `Video` and `Sound` content resources using the [HTML video element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video).
@@ -84,6 +189,7 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Manifes
 - Renders annotations with the [motivation](https://iiif.io/api/presentation/3.0/#values-for-motivation) of `supplementing` with a content resource having the format of `text/vtt` for _Video_ and _Sound_
 - _Video_ and _Sound_ are rendered within a HTML5 `<video>` element
 - _Image_ canvases are renderered with [OpenSeadragon](https://openseadragon.github.io/)
+- Can optionally render IIIF navPlace data with the Clover Map component
 - Supports HLS streaming for Video and Audio canvases
 - Supports IIIF Collections and toggling between child Manifests
 - Supports `placeholderCanvas` for _Image_ canvases.
@@ -264,6 +370,7 @@ const MyCustomViewer = () => {
 | `options.crossOrigin`            | `anonymous`, `use-credentials`, or `undefined` [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/crossorigin) | No       | `anonymous`                              |
 | `options.ignoreCaptionLabels`    | `string[]`                                                                                                                                       | No       | []                                       |
 | `options.openSeadragon`          | `OpenSeadragon.Options`                                                                                                                          | No       |                                          |
+| `options.map`                    | [See Map Display](#map-display)                                                                                                                  | No       |                                          |
 | `options.informationPanel`       | [See Information Panel](#information-panel)                                                                                                      | No       |                                          |
 | `options.annotations`            | `{ motivations?: string[] }`                                                                                                                     | No       | All motivations                          |
 | `options.requestHeaders`         | `IncomingHttpHeaders`                                                                                                                            | No       | `{ "Content-Type": "application/json" }` |
@@ -277,6 +384,114 @@ const MyCustomViewer = () => {
 - Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
 - Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
 - Option `options.openSeadragon` will grant you ability to override the [OpenSeadragon default options](https://openseadragon.github.io/docs/OpenSeadragon.html#.Options) set within the Clover IIIF Viewer to adjust touch and mouse gesture settings and various other configurations.
+
+### Map Display
+
+The Viewer can use the Clover `Map` component as its primary canvas display when navPlace data is available. This is opt-in through `options.map.enabled`.
+
+With `navPlaceLevel: "auto"`, Clover displays the most specific available map data for the current view: Annotation, Canvas, Manifest, then Collection. Use a fixed level to force a Collection, Manifest, Canvas, Annotation, or all available navPlace features.
+
+This example adds Manifest-level navPlace to Northwestern's _Crossing the Pend d'Oreille - Kalispel_ Manifest. The point geometry uses the [Pend Oreille River GeoNames record](https://www.geonames.org/7315798/pend-oreille-river.html) coordinates, and the map popup is enriched from the Manifest label, summary, and thumbnail.
+
+<Tabs items={["Code", "Preview"]}>
+  <Tab>
+    ```jsx
+    const northwesternManifest = await fetch(
+      "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38?as=iiif",
+    ).then((response) => response.json());
+
+    const manifest = {
+      ...northwesternManifest,
+      summary: {
+        none: [
+          "Photogravure from Edward S. Curtis's The North American Indian, Volume 7, mapped to the Pend Oreille River GeoNames record.",
+        ],
+      },
+      navPlace: {
+        type: "FeatureCollection",
+        features: [
+          {
+            type: "Feature",
+            id: "https://www.geonames.org/7315798/pend-oreille-river.html",
+            properties: {
+              label: { none: ["Pend Oreille River"] },
+            },
+            geometry: {
+              type: "Point",
+              coordinates: [-117.61775, 49.00381],
+            },
+          },
+        ],
+      },
+    };
+
+    <div style={{ position: "relative", height: "580px" }}>
+      <Viewer
+        iiifContent={manifest}
+        options={{
+          canvasHeight: "500px",
+          showIIIFBadge: false,
+          informationPanel: {
+            open: false,
+            renderToggle: false,
+          },
+          map: {
+            enabled: true,
+            navPlaceLevel: "Manifest",
+            fitToData: true,
+          },
+        }}
+      />
+    </div>;
+    ```
+
+  </Tab>
+  <Tab>
+    <div style={{ position: "relative", height: "580px", zIndex: "0" }}>
+      <Viewer
+        iiifContent={pendOreilleNavPlaceManifestJson}
+        options={{
+          canvasHeight: "500px",
+          showIIIFBadge: false,
+          informationPanel: {
+            open: false,
+            renderToggle: false,
+          },
+          map: {
+            enabled: true,
+            navPlaceLevel: "Manifest",
+            fitToData: true,
+          },
+        }}
+      />
+    </div>
+  </Tab>
+</Tabs>
+
+```jsx
+<Viewer
+  iiifContent="https://iiif.io/api/cookbook/recipe/0240-navPlace-on-canvases/manifest.json"
+  options={{
+    map: {
+      enabled: true,
+      navPlaceLevel: "auto",
+      fitToData: true,
+    },
+  }}
+/>
+```
+
+| Prop                              | Type                                                            | Required | Default  |
+| --------------------------------- | --------------------------------------------------------------- | -------- | -------- |
+| `options.map.enabled`             | `boolean`                                                       | No       | false    |
+| `options.map.fitToData`           | `boolean`                                                       | No       | true     |
+| `options.map.navPlaceLevel`       | `auto \| Collection \| Manifest \| Canvas \| Annotation \| all` | No       | auto     |
+| `options.map.showImageOverlay`    | `boolean`                                                       | No       | false    |
+| `options.map.imageOverlayOpacity` | `number` (0–1)                                                  | No       | 0.65     |
+| `options.map.showControlPoints`   | `boolean`                                                       | No       | true     |
+| `options.map.overlayScope`        | `manifest \| canvas`                                            | No       | manifest |
+
+When `showImageOverlay` is enabled, Clover auto-discovers [Georeference Extension](https://iiif.io/api/extension/georef/) annotations (`motivation: "georeferencing"`) on the in-scope canvases and warps the source images onto the map via [@allmaps/leaflet](https://allmaps.org/). Canvas-sourced annotations are adapted to each canvas's painting image service automatically. `overlayScope: "manifest"` (default) renders every georeferenced sheet in the manifest at once; `"canvas"` follows the active canvas. See [Image Overlays](viewer/map#image-overlays-georeference) for a worked example combining multiple sheets with navPlace geometry.
 
 ### Annotation Motivations
 

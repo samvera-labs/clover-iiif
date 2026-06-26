@@ -12,6 +12,13 @@ const buildOptions = {
       fileName: "index",
     },
   },
+  map: {
+    lib: {
+      name: "CloverIIIFMap",
+      entry: "./src/components/Map/index.tsx",
+      fileName: "index",
+    },
+  },
   primitives: {
     lib: {
       name: "CloverIIIFPrimitives",

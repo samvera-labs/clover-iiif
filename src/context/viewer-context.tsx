@@ -11,6 +11,7 @@ import { IncomingHttpHeaders } from "http";
 import { Vault } from "@iiif/helpers/vault";
 import { AnnotationCollectionNormalized } from "src/types/annotation-collection";
 import { deepMerge } from "src/lib/utils";
+import type { NavPlaceDisplayLevel } from "src/lib/georef-helpers";
 import { v4 as uuidv4 } from "uuid";
 
 export type AutoScrollSettings = {
@@ -37,6 +38,15 @@ export type ViewerConfigOptions = {
   };
   crossOrigin?: MediaHTMLAttributes<HTMLVideoElement>["crossOrigin"];
   ignoreCaptionLabels?: string[];
+  map?: {
+    enabled?: boolean;
+    fitToData?: boolean;
+    navPlaceLevel?: NavPlaceDisplayLevel;
+    showImageOverlay?: boolean;
+    imageOverlayOpacity?: number;
+    showControlPoints?: boolean;
+    overlayScope?: "manifest" | "canvas";
+  };
   informationPanel?: {
     open?: boolean;
     renderAbout?: boolean;
@@ -115,6 +125,15 @@ const defaultConfigOptions: ViewerConfigOptions = {
   },
   crossOrigin: "anonymous",
   ignoreCaptionLabels: [],
+  map: {
+    enabled: false,
+    fitToData: true,
+    navPlaceLevel: "auto",
+    showImageOverlay: false,
+    imageOverlayOpacity: 0.65,
+    showControlPoints: true,
+    overlayScope: "manifest",
+  },
   informationPanel: {
     vtt: {
       autoScroll: {
@@ -259,11 +278,14 @@ export function expandAutoScrollOptions(
 ): AutoScrollOptions {
   // Get safe defaults, avoiding potential undefined values
   const getDefaults = (): AutoScrollOptions => {
-    const configDefaults = defaultConfigOptions?.informationPanel?.vtt?.autoScroll as AutoScrollOptions;
-    return configDefaults || {
-      enabled: true,
-      settings: defaultAutoScrollSettings,
-    };
+    const configDefaults = defaultConfigOptions?.informationPanel?.vtt
+      ?.autoScroll as AutoScrollOptions;
+    return (
+      configDefaults || {
+        enabled: true,
+        settings: defaultAutoScrollSettings,
+      }
+    );
   };
 
   const defaults = getDefaults();
@@ -525,23 +547,19 @@ const ViewerProvider: React.FC<ViewerProviderProps> = ({
   const [state, dispatch] = useReducer<
     React.Reducer<ViewerContextStore, ViewerAction>,
     ViewerContextStore | undefined
-  >(
-    viewerReducer,
-    initialState,
-    (initArg?: ViewerContextStore) => {
-      if (initArg) {
-        return {
-          ...initArg,
-          configOptions: cloneViewerConfigOptions(
-            initArg.configOptions ?? defaultConfigOptions,
-          ),
-          viewerId: initArg.viewerId ?? uuidv4(),
-        };
-      }
+  >(viewerReducer, initialState, (initArg?: ViewerContextStore) => {
+    if (initArg) {
+      return {
+        ...initArg,
+        configOptions: cloneViewerConfigOptions(
+          initArg.configOptions ?? defaultConfigOptions,
+        ),
+        viewerId: initArg.viewerId ?? uuidv4(),
+      };
+    }
 
-      return createDefaultState();
-    },
-  );
+    return createDefaultState();
+  });
 
   const { openSeadragonViewer } = state;
 

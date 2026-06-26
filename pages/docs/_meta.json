@@ -6,6 +6,7 @@
     "title": "IIIF Components"
   },
   "image": "Image",
+  "map": "Map",
   "scroll": {
     "title": "Scroll",
     "type": "doc"
