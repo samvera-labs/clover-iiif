@@ -1,0 +1,14 @@
+node_modules
+npm-debug.log
+.git
+.gitignore
+.next
+dist
+out
+coverage
+playwright-report
+test-results
+.vscode
+.idea
+.DS_Store
+

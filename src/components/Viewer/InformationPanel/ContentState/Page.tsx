@@ -6,10 +6,12 @@ import { Group } from "src/components/Viewer/InformationPanel/Annotation/Item.st
 import { Label } from "src/components/Primitives";
 import React from "react";
 import { getPaintingResource } from "src/hooks/use-iiif";
+import { getTargetCanvasId } from "src/lib/annotation-helpers";
 
 type Props = {
   contentStateAnnotation: AnnotationNormalized;
 };
+
 export const ContentStateAnnotationPage: React.FC<Props> = ({
   contentStateAnnotation,
 }) => {
@@ -18,12 +20,9 @@ export const ContentStateAnnotationPage: React.FC<Props> = ({
 
   if (!contentStateAnnotation) return <></>;
 
-  // use vault to get the canvas
-  const contentStateAnnotationSource =
-    // @ts-ignore
-    contentStateAnnotation?.target?.source || contentStateAnnotation?.target;
-  const canvas = vault.get(contentStateAnnotationSource?.id);
-  const painting = getPaintingResource(vault, canvas.id) as any;
+  const canvasId = getTargetCanvasId(contentStateAnnotation?.target);
+  const canvas = canvasId ? vault.get(canvasId) : undefined;
+  const painting = canvas?.id ? (getPaintingResource(vault, canvas.id) as any) : undefined;
   const targetResource = painting?.[0]?.service
     ? painting?.[0]?.service[0]?.id || painting?.[0]?.service[0]?.["@id"]
     : undefined;

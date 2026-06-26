@@ -14,7 +14,7 @@ import { OpenSeadragonImageTypes } from "src/types/open-seadragon";
 import { getInfoResponse } from "src/lib/iiif";
 import { parseAnnotationTarget } from "src/lib";
 import { retry } from "src/lib/retry";
-import { useViewerDispatch } from "src/context/viewer-context";
+import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
 interface OSDProps {
   _cloverViewerHasPlaceholder: boolean;
@@ -64,6 +64,8 @@ const OSD: React.FC<OSDProps> = ({
     Array<{ width: number; height: number }>
   >([]);
   const dispatch: any = useViewerDispatch();
+  const { activeAnnotationId } = useViewerState();
+  const activeAnnotationIdRef = useRef<string | null | undefined>(null);
   const initializeOSD = useRef(false);
   const isFirstImageLoad = useRef(true);
   // Tracks which URIs are currently rendered in OSD so we can detect clip-only
@@ -81,6 +83,10 @@ const OSD: React.FC<OSDProps> = ({
   const disableScrollToZoom = Boolean(
     config.gestureSettingsMouse.scrollToZoom === false,
   );
+
+  useEffect(() => {
+    activeAnnotationIdRef.current = activeAnnotationId;
+  }, [activeAnnotationId]);
 
   useEffect(() => {
     if (!initializeOSD.current) {
@@ -299,7 +305,10 @@ const OSD: React.FC<OSDProps> = ({
                 1000,
               );
 
-              if (!tileSource) throw new Error(`No tile source for ${url}`);
+              if (!tileSource) {
+                console.error(`No tile source for ${url}`);
+                continue;
+              }
 
               if (i !== 0) {
                 const baseItem = await getBaseItemWithRetry(
@@ -387,6 +396,34 @@ const OSD: React.FC<OSDProps> = ({
   }, [osdDrawn]);
 
   useEffect(() => {
+    if (!openSeadragon || !annotations?.length) return;
+
+    annotations.forEach(({ annotation }) => {
+      const overlay = openSeadragon.getOverlayById(annotation.id);
+      if (!overlay?.element) return;
+
+      overlay.element.setAttribute(
+        "data-active",
+        activeAnnotationId === annotation.id ? "true" : "false",
+      );
+    });
+
+    // Zoom to the active annotation overlay if it exists
+    if (!activeAnnotationId) return;
+    const overlay = openSeadragon.getOverlayById(activeAnnotationId);
+    if (!overlay || !openSeadragon.viewport) return;
+
+    // @ts-ignore
+    if (overlay.element) overlay.element.focus();
+    const bounds = overlay.getBounds(openSeadragon.viewport);
+    bounds.x -= 0.2;
+    bounds.y -= 0.2;
+    bounds.width += 0.5;
+    bounds.height += 0.5;
+    openSeadragon.viewport.fitBounds(bounds, false);
+  }, [activeAnnotationId, annotations, openSeadragon, osdDrawn]);
+
+  useEffect(() => {
     function computeX(x, targetIndex, scale) {
       let computedX = x * scale;
       if (targetIndex === 0) return computedX;
@@ -441,12 +478,10 @@ const OSD: React.FC<OSDProps> = ({
           div.id = annotation.id;
           div.setAttribute("tabindex", "0");
           div.setAttribute("role", "button");
-          div.setAttribute("data-active", "true");
-
-          // add tabindex to div
-          div.setAttribute("tabindex", "0");
-          div.setAttribute("role", "button");
-          div.setAttribute("data-active", "false");
+          div.setAttribute(
+            "data-active",
+            activeAnnotationId === annotation.id ? "true" : "false",
+          );
 
           if (label) {
             // add aria-label to annotation
@@ -527,6 +562,7 @@ const OSD: React.FC<OSDProps> = ({
 
           // add blur AND mouseout event to div
           div.addEventListener("mouseout", () => {
+            if (activeAnnotationIdRef.current === div.id) return;
             div.removeAttribute("data-active");
             dispatch({
               type: "updateActiveAnnotationId",
@@ -535,6 +571,7 @@ const OSD: React.FC<OSDProps> = ({
           });
 
           div.addEventListener("blur", () => {
+            if (activeAnnotationIdRef.current === div.id) return;
             div.removeAttribute("data-active");
             dispatch({
               type: "updateActiveAnnotationId",

@@ -3,8 +3,10 @@ import { getCanvasByCriteria } from "src/hooks/use-iiif";
 
 export const getPaintingResource = (
   vault: any,
-  id: string,
+  id?: string,
 ): IIIFExternalWebResource[] | undefined => {
+  if (!id) return;
+
   const canvasEntity = getCanvasByCriteria(
     vault,
     { id, type: "Canvas" },
@@ -12,9 +14,11 @@ export const getPaintingResource = (
     ["Image", "Sound", "Video"],
   );
 
-  if (canvasEntity.annotations.length === 0) return;
+  if (!canvasEntity) return;
 
-  if (canvasEntity.annotations && canvasEntity.annotations)
+  if (!canvasEntity.annotations || canvasEntity.annotations.length === 0) return;
+
+  if (canvasEntity.annotations)
     return canvasEntity.annotations.map(
       (item) => item?.body,
     ) as IIIFExternalWebResource[];

@@ -47,6 +47,63 @@ npm i next@14.2.18 react@18.3.1 react-dom@18.3.1
 npm run build
 ```
 
+## Docker
+
+The project ships with a multi-stage `Dockerfile` and a `docker-compose.yml` that cover both local development and production serving via nginx.
+
+### Development (hot reload)
+
+Starts the Next.js dev server on **http://localhost:3000** with the source tree mounted as a volume, so code changes are reflected immediately without rebuilding the image.
+
+```bash
+docker compose up app
+```
+
+> The first run will build the image and install dependencies inside the container. Subsequent runs reuse the cached image.
+
+Stop the container with `Ctrl+C`, or in detached mode:
+
+```bash
+docker compose up -d app
+docker compose down
+```
+
+### Production (static export served by nginx)
+
+Builds the docs site (`npm run build:docs`) and serves the static output via nginx on **http://localhost:8080/clover-iiif**.
+
+```bash
+docker compose --profile prod up app-prod
+```
+
+To rebuild after source changes:
+
+```bash
+docker compose --profile prod up --build app-prod
+```
+
+### Building images manually
+
+If you prefer plain `docker` commands:
+
+```bash
+# Development image
+docker build --target dev -t clover-iiif:dev .
+docker run -p 3000:3000 -v "$(pwd)":/app -v /app/node_modules clover-iiif:dev
+
+# Production image
+docker build --target prod -t clover-iiif:prod .
+docker run -p 8080:80 clover-iiif:prod
+```
+
+### Notes
+
+- `NEXT_TELEMETRY_DISABLED=1` is set automatically in both modes.
+- The production nginx container serves files under `/clover-iiif` to match the `basePath` set in `next.config.js`.
+- Node modules are kept inside the container via an anonymous volume so the host `node_modules` folder is never overwritten.
+
+---
+
 ## Contributing
 
 We welcome all contributions. Please follow our [contributing guidelines](./.github/CONTRIBUTING.md). If you're working on a pull request for this project, create a feature branch off of `main`.
