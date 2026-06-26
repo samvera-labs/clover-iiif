@@ -1,0 +1,195 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "http://localhost:3000/manifest/nav-place/collection-manifest-level.json",
+  "type": "Collection",
+  "label": { "en": ["navPlace Demo Collection"] },
+  "summary": {
+    "en": [
+      "A small demo collection showing two manifests with Manifest-level navPlace from different geographic locations."
+    ]
+  },
+  "items": [
+    {
+      "id": "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/1",
+      "type": "Manifest",
+      "label": { "none": ["Crossing the Pend d'Oreille – Kalispel"] },
+      "summary": {
+        "none": [
+          "Photogravure from Edward S. Curtis's The North American Indian, Volume 7, mapped to the Pend Oreille River GeoNames record."
+        ]
+      },
+      "navPlace": {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "id": "https://www.geonames.org/7315798/pend-oreille-river.html",
+            "properties": {
+              "label": { "none": ["Pend Oreille River, Idaho/Washington"] }
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [-117.61775, 49.00381]
+            }
+          }
+        ]
+      },
+      "homepage": [
+        {
+          "id": "https://dc.library.northwestern.edu/items/8a833741-74a8-40dc-bd1d-c416a3b1bb38",
+          "type": "Text",
+          "format": "text/html",
+          "label": {
+            "none": ["Homepage at Northwestern University Libraries Digital Collections"]
+          }
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/works/8a833741-74a8-40dc-bd1d-c416a3b1bb38/thumbnail",
+          "type": "Image",
+          "format": "image/jpeg",
+          "height": 300,
+          "width": 300
+        }
+      ],
+      "items": [
+        {
+          "id": "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/1/canvas/1",
+          "type": "Canvas",
+          "height": 2326,
+          "width": 3072,
+          "label": { "none": ["vol_ct07047u.tif"] },
+          "thumbnail": [
+            {
+              "id": "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df/full/!300,300/0/default.jpg",
+              "type": "Image",
+              "format": "image/jpeg",
+              "height": 300,
+              "width": 300
+            }
+          ],
+          "items": [
+            {
+              "id": "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/1/canvas/1/page/1",
+              "type": "AnnotationPage",
+              "items": [
+                {
+                  "id": "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/1/canvas/1/page/1/annotation/1",
+                  "type": "Annotation",
+                  "motivation": "painting",
+                  "target": "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/1/canvas/1",
+                  "body": {
+                    "id": "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df/full/600,/0/default.jpg",
+                    "type": "Image",
+                    "format": "image/jpeg",
+                    "height": 2326,
+                    "width": 3072,
+                    "service": [
+                      {
+                        "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/440bcf10-a7ee-4824-a1fb-e505cad222df",
+                        "@type": "ImageService2",
+                        "profile": "http://iiif.io/api/image/2/level2.json"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/2",
+      "type": "Manifest",
+      "label": { "en": ["Map of the Township of Evanston, Cook County, Illinois"] },
+      "summary": {
+        "en": [
+          "An 1874 cadastral plat map of Evanston, Illinois from Northwestern University Libraries Digital Collections."
+        ]
+      },
+      "navPlace": {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "id": "https://www.geonames.org/4890864/evanston.html",
+            "properties": {
+              "label": { "en": ["Evanston, Cook County, Illinois"] }
+            },
+            "geometry": {
+              "type": "Point",
+              "coordinates": [-87.68838, 42.04502]
+            }
+          }
+        ]
+      },
+      "homepage": [
+        {
+          "id": "https://dc.library.northwestern.edu/items/c9869cb2-e735-4010-a493-84a66fcd065d",
+          "type": "Text",
+          "format": "text/html",
+          "label": {
+            "en": ["Homepage at Northwestern University Libraries Digital Collections"]
+          }
+        }
+      ],
+      "thumbnail": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "height": 300,
+          "width": 300
+        }
+      ],
+      "items": [
+        {
+          "id": "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/2/canvas/1",
+          "type": "Canvas",
+          "height": 9833,
+          "width": 7337,
+          "label": { "en": ["Evanston map recto"] },
+          "thumbnail": [
+            {
+              "id": "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf/full/!300,300/0/default.jpg",
+              "type": "Image",
+              "format": "image/jpeg",
+              "height": 300,
+              "width": 300
+            }
+          ],
+          "items": [
+            {
+              "id": "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/2/canvas/1/page/1",
+              "type": "AnnotationPage",
+              "items": [
+                {
+                  "id": "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/2/canvas/1/page/1/annotation/1",
+                  "type": "Annotation",
+                  "motivation": "painting",
+                  "target": "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/2/canvas/1",
+                  "body": {
+                    "id": "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf/full/600,/0/default.jpg",
+                    "type": "Image",
+                    "format": "image/jpeg",
+                    "height": 9833,
+                    "width": 7337,
+                    "service": [
+                      {
+                        "@id": "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf",
+                        "@type": "ImageService2",
+                        "profile": "http://iiif.io/api/image/2/level2.json"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
