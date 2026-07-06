@@ -23,6 +23,7 @@ import { AnnotationResources } from "src/types/annotations";
 import ImageViewer from "src/components/Image";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import Map from "src/components/Map";
+import Scene from "src/components/Viewer/Scene/Scene";
 import PaintingPlaceholder from "./Placeholder";
 import Player from "src/components/Viewer/Player/Player";
 import Toggle from "./Toggle";
@@ -47,6 +48,7 @@ interface PaintingProps {
   annotationResources: AnnotationResources;
   contentSearchResource?: AnnotationPageNormalized;
   isMedia: boolean;
+  isModel: boolean;
   painting: LabeledIIIFExternalWebResource[];
 }
 
@@ -93,6 +95,7 @@ const Painting: React.FC<PaintingProps> = ({
   annotationResources,
   contentSearchResource,
   isMedia,
+  isModel,
   painting,
 }) => {
   const [annotationIndex, setAnnotationIndex] = useState<number>(0);
@@ -767,7 +770,16 @@ const Painting: React.FC<PaintingProps> = ({
         {!showMap &&
           !showPlaceholder &&
           !customDisplay &&
-          (isMedia ? (
+          (isModel ? (
+            painting[annotationIndex] && (
+              <Scene
+                painting={painting[annotationIndex]}
+                ar={configOptions.scene3d?.ar}
+                cameraControls={configOptions.scene3d?.cameraControls}
+                exposure={configOptions.scene3d?.exposure}
+              />
+            )
+          ) : isMedia ? (
             <Player
               allSources={painting}
               painting={painting[annotationIndex]}

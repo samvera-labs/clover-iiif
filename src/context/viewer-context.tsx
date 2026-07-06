@@ -63,6 +63,11 @@ export type ViewerConfigOptions = {
     annotationCollectionTabLabel?: string;
   };
   openSeadragon?: OpenSeadragonOptions;
+  scene3d?: {
+    ar?: boolean;
+    cameraControls?: boolean;
+    exposure?: number;
+  };
   requestHeaders?: IncomingHttpHeaders;
   showDownload?: boolean;
   showIIIFBadge?: boolean;

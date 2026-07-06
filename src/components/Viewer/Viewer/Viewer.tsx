@@ -19,6 +19,7 @@ import {
 } from "src/hooks/use-iiif";
 
 import { ContentSearchQuery } from "src/types/annotations";
+import { getContextAsArray } from "src/lib/iiif";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
@@ -64,6 +65,7 @@ const Viewer: React.FC<ViewerProps> = ({
    * Local state
    */
   const [isAudioVideo, setIsAudioVideo] = useState(false);
+  const [isModel, setIsModel] = useState(false);
   const [painting, setPainting] = useState<IIIFExternalWebResource[]>([]);
   const [annotationResources, setAnnotationResources] =
     useState<AnnotationResources>([]);
@@ -95,13 +97,12 @@ const Viewer: React.FC<ViewerProps> = ({
     const canvasPainting = getPaintingResource(vault, activeCanvas);
 
     if (canvasPainting) {
-      setIsAudioVideo(
-        ["Sound", "Video"].indexOf(
-          canvasPainting[0].type as ExternalResourceTypes,
-        ) > -1
-          ? true
-          : false,
+      const firstType = canvasPainting[0].type as ExternalResourceTypes | "Model";
+      const isV4 = getContextAsArray(manifest).includes(
+        "https://iiif.io/api/presentation/4/context.json",
       );
+      setIsAudioVideo(["Sound", "Video"].includes(firstType));
+      setIsModel(isV4 && firstType === "Model");
       setPainting(canvasPainting);
     }
 
@@ -192,6 +193,7 @@ const Viewer: React.FC<ViewerProps> = ({
             initialSearchQuery={iiifContentSearchQuery?.q}
             items={manifest.items}
             isAudioVideo={isAudioVideo}
+            isModel={isModel}
           />
         </Collapsible.Root>
       </Wrapper>

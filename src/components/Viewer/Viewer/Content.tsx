@@ -34,6 +34,7 @@ export interface ViewerContentProps {
   painting: IIIFExternalWebResource[];
   items: Canvas[];
   isAudioVideo: boolean;
+  isModel: boolean;
 }
 
 const ViewerContent: React.FC<ViewerContentProps> = ({
@@ -45,6 +46,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   contentSearchCallback,
   initialSearchQuery,
   isAudioVideo,
+  isModel,
   items,
   painting,
 }) => {
@@ -135,6 +137,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
           annotationResources={annotationResources}
           contentSearchResource={contentSearchResource}
           isMedia={isAudioVideo}
+          isModel={isModel}
           painting={painting}
         />
 

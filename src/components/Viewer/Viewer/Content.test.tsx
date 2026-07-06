@@ -56,6 +56,7 @@ const props: ViewerContentProps = {
   annotationResources: [],
   items: [],
   isAudioVideo: false,
+  isModel: false,
   setContentSearchResource: () => {},
 };
 

@@ -47,6 +47,7 @@ const defaultProps = {
   activeCanvas:
     "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif/canvas/access/1",
   isMedia: false,
+  isModel: false,
   painting,
   resources: [],
   annotationResources: [],

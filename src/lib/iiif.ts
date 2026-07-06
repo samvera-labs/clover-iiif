@@ -127,6 +127,7 @@ export const upgradeIiifContent = (json: any): any => {
   const validContexts = [
     "https://iiif.io/api/presentation/2/context.json",
     "https://iiif.io/api/presentation/3/context.json",
+    "https://iiif.io/api/presentation/4/context.json",
   ];
   const contextError = new TypeError(
     `The IIIF content may not be a valid IIIF resource: ${validContexts.join(", ")}`,
@@ -152,7 +153,10 @@ export const upgradeIiifContent = (json: any): any => {
       }
 
       return upgradedIiifContent;
-    } else if (context.includes(validContexts[1])) {
+    } else if (
+      context.includes(validContexts[1]) ||
+      context.includes(validContexts[2])
+    ) {
       return json;
     } else {
       throw contextError;
