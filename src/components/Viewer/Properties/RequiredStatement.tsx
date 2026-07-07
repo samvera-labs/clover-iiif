@@ -2,15 +2,15 @@ import { MetadataItem } from "@iiif/presentation-3";
 import React from "react";
 import { RequiredStatement } from "src/components/Primitives";
 
-interface PropertiesSummaryProps {
+interface PropertiesRequiredStatementProps {
   requiredStatement: MetadataItem | null;
   parent?: "manifest" | "canvas";
+  language?: string;
 }
 
-const PropertiesRequiredStatement: React.FC<PropertiesSummaryProps> = ({
-  requiredStatement,
-  parent = "manifest",
-}) => {
+const PropertiesRequiredStatement: React.FC<
+  PropertiesRequiredStatementProps
+> = ({ requiredStatement, parent = "manifest", language }) => {
   if (!requiredStatement) return <></>;
 
   return (
@@ -18,6 +18,7 @@ const PropertiesRequiredStatement: React.FC<PropertiesSummaryProps> = ({
       <RequiredStatement
         requiredStatement={requiredStatement}
         id={`iiif-${parent}-required-statement`}
+        lang={language}
       />
     </>
   );

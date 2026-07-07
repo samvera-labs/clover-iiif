@@ -10,12 +10,14 @@ interface PropertiesThumbnailProps {
   label: InternationalString | null;
   thumbnail: IIIFExternalWebResource[];
   objectFit?: "cover" | "contain";
+  language?: string;
 }
 
 const PropertiesThumbnail: React.FC<PropertiesThumbnailProps> = ({
   label,
   thumbnail,
   objectFit = "cover",
+  language,
 }) => {
   if (thumbnail?.length === 0) return <></>;
 
@@ -25,6 +27,7 @@ const PropertiesThumbnail: React.FC<PropertiesThumbnailProps> = ({
         altAsLabel={label ? label : { none: ["resource"] }}
         thumbnail={thumbnail}
         style={{ backgroundColor: "#6663", objectFit: objectFit }}
+        lang={language}
       />
     </>
   );

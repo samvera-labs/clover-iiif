@@ -369,6 +369,7 @@ const MyCustomViewer = () => {
 | `options.canvasHeight`           | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/height)                                                                          | No       | `500px`                                  |
 | `options.crossOrigin`            | `anonymous`, `use-credentials`, or `undefined` [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/crossorigin) | No       | `anonymous`                              |
 | `options.ignoreCaptionLabels`    | `string[]`                                                                                                                                       | No       | []                                       |
+| `options.language`               | `string` [BCP 47](https://developer.mozilla.org/en-US/docs/Glossary/BCP_47_language_tag) language tag, [See Language](#language)                 | No       |                                          |
 | `options.openSeadragon`          | `OpenSeadragon.Options`                                                                                                                          | No       |                                          |
 | `options.map`                    | [See Map Display](#map-display)                                                                                                                  | No       |                                          |
 | `options.informationPanel`       | [See Information Panel](#information-panel)                                                                                                      | No       |                                          |
@@ -384,6 +385,16 @@ const MyCustomViewer = () => {
 - Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
 - Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
 - Option `options.openSeadragon` will grant you ability to override the [OpenSeadragon default options](https://openseadragon.github.io/docs/OpenSeadragon.html#.Options) set within the Clover IIIF Viewer to adjust touch and mouse gesture settings and various other configurations.
+
+### Language
+
+IIIF Presentation API properties such as `label`, `summary`, `metadata`, and `requiredStatement` may provide values in multiple languages ([language of property values](https://iiif.io/api/presentation/3.0/#44-language-of-property-values)). By default, the Viewer renders the first available language. Set `options.language` to a [BCP 47](https://developer.mozilla.org/en-US/docs/Glossary/BCP_47_language_tag) language tag (ex: `en`, `nl`, `zh`) to select which translation the information panel _About_ tab displays for the Manifest summary, metadata, required statement, and thumbnail alternative text. If the requested language is not present on a property, the Viewer falls back to the first available language.
+
+```jsx
+const options = {
+  language: "nl",
+};
+```
 
 ### Map Display
 
