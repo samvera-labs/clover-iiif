@@ -50,8 +50,8 @@ const FigureImage = styled("div", {
   img: {
     width: "100%",
     height: "100%",
-    objectFit: "cover",
-    objectPosition: "top center",
+    objectFit: "contain",
+    objectPosition: "center",
     filter: "blur(0)",
     transform: "scale3d(1, 1, 1)",
     borderRadius: "3px",
