@@ -17,7 +17,7 @@ const StyledSequence = styled(RadioGroup.Root, {
   position: "relative",
   zIndex: "0",
   gap: "1rem",
-  padding: "1.618rem 0",
+  padding: "1rem 0 0.618rem",
 });
 
 const StyledSequenceGroup = styled("div", {
