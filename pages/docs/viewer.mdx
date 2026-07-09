@@ -377,6 +377,7 @@ const MyCustomViewer = () => {
 | `options.showDownload`           | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.showIIIFBadge`          | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.showTitle`              | `boolean`                                                                                                                                        | No       | true                                     |
+| `options.thumbnails`             | [See Thumbnails](#thumbnails)                                                                                                                    | No       |                                          |
 | `options.customLoadingComponent` | `React.ComponentType`                                                                                                                            | No       |                                          |
 | `options.withCredentials`        | `boolean`                                                                                                                                        | No       | false                                    |
 | `options.contentSearch`          | [See Content Search](#content-search)                                                                                                            | No       |                                          |
@@ -716,6 +717,29 @@ Many sites have a search functionality that returns a list objects that match th
 By default, Clover's content search will draw light red boxes in the image viewer for each search result returned by the search service. You can set the appearance of the highlighted boxes using `options.contentSearch.overlays`. If you don't want the search results to be highlighted, set `options.contentSearch.overlays.renderOverlays` to `false`.
 
 When you click on the list of search results, Clover will pan and zoom to the location of that search result. You can set the zoom level using `options.contentSearch.overlays.zoomLevel`. A small zoom level will zoom in real close; a large zoom level will zoom in less.
+
+### Thumbnails
+
+Control how the thumbnail strip below the viewer is rendered for multi-canvas Manifests.
+
+| Prop                       | Type                           | Required | Default |
+| -------------------------- | ------------------------------ | -------- | ------- |
+| `options.thumbnails.style` | `"auto" \| "icons"`            | No       | `auto`  |
+| `options.thumbnails.icon`  | `string` (URL to SVG or image) | No       |         |
+
+- `auto` (default) — render image thumbnails for each canvas.
+- `icons` — render a small icon (Image / Sound / Video) per canvas. Useful when canvas thumbnails look identical at small sizes or to save vertical space.
+
+When `style` is `icons`, pass `options.thumbnails.icon` as a URL (typically to an SVG) to override the default icon. The same icon is used for every canvas.
+
+```jsx
+const options = {
+  thumbnails: {
+    style: "icons",
+    icon: "/icons/triangle.svg",
+  },
+};
+```
 
 ### Deprecated Options
 

@@ -14,6 +14,8 @@ import { deepMerge } from "src/lib/utils";
 import type { NavPlaceDisplayLevel } from "src/lib/georef-helpers";
 import { v4 as uuidv4 } from "uuid";
 
+export type ThumbnailsStyle = "auto" | "icons";
+
 export type AutoScrollSettings = {
   behavior: string; // ScrollBehavior ("auto" | "instant" | "smooth")
   block: string; // ScrollLogicalPosition ("center" | "end" | "nearest" | "start")
@@ -67,6 +69,10 @@ export type ViewerConfigOptions = {
   showDownload?: boolean;
   showIIIFBadge?: boolean;
   showTitle?: boolean;
+  thumbnails?: {
+    style?: ThumbnailsStyle;
+    icon?: string;
+  };
   customLoadingComponent?: React.ComponentType;
   withCredentials?: boolean;
   localeText?: {
@@ -154,6 +160,9 @@ const defaultConfigOptions: ViewerConfigOptions = {
   showDownload: true,
   showIIIFBadge: true,
   showTitle: true,
+  thumbnails: {
+    style: "auto",
+  },
   withCredentials: false,
 };
 

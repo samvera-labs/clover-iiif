@@ -58,16 +58,18 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   const [load, setLoad] = useState(false);
   const [thumbnail, setThumbnail] = useState<string>();
   const state: ViewerContextStore = useViewerState();
-  const { vault } = state;
+  const { vault, configOptions } = state;
 
   const size = 200;
+  const isIconStyle = configOptions?.thumbnails?.style === "icons";
+  const customIcon = configOptions?.thumbnails?.icon;
 
   const label = canvas?.label
     ? (getLabelAsString(canvas?.label) as string)
     : String(canvasIndex + 1);
 
   useEffect(() => {
-    if (!load) return;
+    if (!load || isIconStyle) return;
 
     (async () => {
       try {
@@ -88,7 +90,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
         console.error("Error fetching thumbnail", err);
       }
     })();
-  }, [canvas, load]);
+  }, [canvas, load, isIconStyle]);
 
   const handleIsVisibleCallback = (isVisible: boolean) => {
     setLoad(isVisible);
@@ -102,24 +104,42 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
       onClick={() => handleChange(canvas.id)}
       value={canvas.id}
     >
-      <figure>
+      <figure data-thumbnail-style={isIconStyle ? "icons" : "auto"}>
         <FigureImage>
-          <LazyLoad
-            isVisibleCallback={handleIsVisibleCallback}
-            attributes={{
-              className: "media-thumbnail-lazyload",
-              "data-lazyload": String(load),
-              "data-testid": "media-thumbnail-lazyload",
-            }}
-          >
-            {thumbnail && (
-              <img
-                alt={label}
-                data-testid="media-thumbnail-image"
-                src={thumbnail}
-              />
-            )}
-          </LazyLoad>
+          {isIconStyle ? (
+            <span
+              aria-label={label}
+              data-testid="media-thumbnail-icon"
+              className="media-thumbnail-icon"
+            >
+              {customIcon ? (
+                <img
+                  src={customIcon}
+                  alt=""
+                  data-testid="media-thumbnail-icon-custom"
+                />
+              ) : (
+                <IconPath type={type} />
+              )}
+            </span>
+          ) : (
+            <LazyLoad
+              isVisibleCallback={handleIsVisibleCallback}
+              attributes={{
+                className: "media-thumbnail-lazyload",
+                "data-lazyload": String(load),
+                "data-testid": "media-thumbnail-lazyload",
+              }}
+            >
+              {thumbnail && (
+                <img
+                  alt={label}
+                  data-testid="media-thumbnail-image"
+                  src={thumbnail}
+                />
+              )}
+            </LazyLoad>
+          )}
           <Outline />
           <Type>
             <Tag isIcon data-testid="thumbnail-tag">

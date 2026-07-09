@@ -115,10 +115,7 @@ const Controls: React.FC<ControlsProps> = ({
     handleFilter(event.target.value);
 
   return (
-    <Wrapper 
-      isToggle={toggleFilter} 
-      className="clover-viewer-media-controls"
-    >
+    <Wrapper isToggle={toggleFilter} className="clover-viewer-media-controls">
       <Form>
         {toggleFilter && (
           <Input
@@ -128,7 +125,10 @@ const Controls: React.FC<ControlsProps> = ({
           />
         )}
         {!toggleFilter && (
-          <Direction className="clover-viewer-media-navigation" data-rtl-paged={isRtlPaged}>
+          <Direction
+            className="clover-viewer-media-navigation"
+            data-rtl-paged={isRtlPaged}
+          >
             {isRtlPaged ? (
               <>
                 <Button
