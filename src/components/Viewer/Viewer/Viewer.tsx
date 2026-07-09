@@ -3,7 +3,6 @@ import * as Collapsible from "@radix-ui/react-collapsible";
 import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
   ExternalResourceTypes,
-  InternationalString,
   ManifestNormalized,
 } from "@iiif/presentation-3";
 import React, { useCallback, useEffect, useState } from "react";
@@ -36,7 +35,7 @@ interface ViewerProps {
   contentSearchCallback?: (query: string) => void;
 }
 
-const Viewer: React.FC<ViewerProps> = ({
+const Viewer: React.FC<ViewerProps> & { Header: React.FC } = ({
   manifest,
   theme,
   iiifContentSearchQuery,
@@ -177,10 +176,7 @@ const Viewer: React.FC<ViewerProps> = ({
           open={isInformationOpen}
           onOpenChange={setInformationOpen}
         >
-          <ViewerHeader
-            manifestLabel={manifest.label as InternationalString}
-            manifestId={manifest.id}
-          />
+          <ViewerHeader />
           <ViewerContent
             activeCanvas={activeCanvas}
             painting={painting}
@@ -198,5 +194,7 @@ const Viewer: React.FC<ViewerProps> = ({
     </ErrorBoundary>
   );
 };
+
+Viewer.Header = ViewerHeader;
 
 export default Viewer;
