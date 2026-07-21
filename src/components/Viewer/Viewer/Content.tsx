@@ -17,9 +17,12 @@ import { Icon } from "src/components/UI";
 import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
 import Media from "src/components/Viewer/Media/Media";
 import Painting from "../Painting/Painting";
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
+import { setupPlugins } from "src/lib/plugin-helpers";
+import { useFilteredAnnotations } from "src/components/Viewer/InformationPanel/hooks/useFilteredAnnotations";
+import { useAvailableTabs } from "src/components/Viewer/InformationPanel/hooks/useAvailableTabs";
 
 export interface ViewerContentProps {
   activeCanvas: string;
@@ -53,7 +56,10 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     isInformationOpen,
     configOptions,
     sequence,
+    plugins,
+    annotationCollection,
     visibleCanvases,
+    vault,
   } = useViewerState();
   const dispatch: any = useViewerDispatch();
   const { informationPanel } = configOptions;
@@ -63,27 +69,36 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   const [asideWidth, setAsideWidth] = useState<number | null>(null);
   const dragging = useRef(false);
 
-  /**
-   * The information panel should be rendered if toggled true and if
-   * there is content (About or Annotations Resources) to display.
-   */
-  const visibleCanvasesIds = visibleCanvases.map((canvas) => canvas.id);
+  const { pluginsWithInfoPanel } = useMemo(
+    () => setupPlugins(plugins),
+    [plugins],
+  );
 
-  const hasAnnotations =
-    annotationResources.length > 0 ||
-    // @ts-ignore
-    visibleCanvasesIds.includes(contentStateAnnotation?.target?.source?.id);
+  const panelCanvasIds = useMemo(() => {
+    const visibleCanvasIds = visibleCanvases.map((canvas) => canvas.id);
+    return visibleCanvasIds.length > 0 ? visibleCanvasIds : [activeCanvas];
+  }, [activeCanvas, visibleCanvases]);
+  const filteredAnnotationResources = useFilteredAnnotations({
+    annotationResources: informationPanel?.renderAnnotation
+      ? annotationResources
+      : undefined,
+    allowedMotivations: configOptions.annotations?.motivations,
+    vault,
+  });
 
-  // Only force the aside open for annotations when no toggle is rendered.
-  // If a toggle is visible, it must control open/close behavior.
-  const isForcedAside =
-    hasAnnotations &&
-    informationPanel?.renderAnnotation &&
-    informationPanel?.renderToggle === false &&
-    isInformationOpen;
+  const availableTabs = useAvailableTabs({
+    informationPanel,
+    annotationResources,
+    filteredAnnotationResources,
+    contentSearchResource,
+    pluginsWithInfoPanel,
+    contentStateAnnotation,
+    annotationCollection,
+    activeCanvases: panelCanvasIds,
+  });
+  const hasPanel = availableTabs.length > 0;
 
-  const isAside =
-    (informationPanel?.renderAbout && isInformationOpen) || isForcedAside;
+  const isAside = hasPanel && isInformationOpen;
 
   const renderToggle = informationPanel?.renderToggle;
 
@@ -177,12 +192,14 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
           >
             <InformationPanel
               activeCanvas={activeCanvas}
-              annotationResources={annotationResources}
+              availableTabs={availableTabs}
+              filteredAnnotationResources={filteredAnnotationResources}
               searchServiceUrl={searchServiceUrl}
               setContentSearchResource={setContentSearchResource}
               contentSearchResource={contentSearchResource}
               contentSearchCallback={contentSearchCallback}
               initialSearchQuery={initialSearchQuery}
+              pluginsWithInfoPanel={pluginsWithInfoPanel}
             />
           </Aside>
         </>
