@@ -1,3 +1,5 @@
+import React from "react";
+
 import { cleanTime, convertTime, deepMerge } from "src/lib/utils";
 
 test("Test output a 'cleaned time' when given international standard time notation.", () => {
@@ -62,4 +64,19 @@ test("Test result of deepMerge()", () => {
       renderToggle: false,
     },
   });
+});
+
+test("Test deepMerge keeps a component's identity rather than rebuilding it.", () => {
+  // memo and forwardRef components are objects, so merging into them would
+  // return a new object each time and remount the component.
+  const Memo = React.memo(() => null);
+  const Fwd = React.forwardRef<HTMLButtonElement>(() => null);
+
+  const result = deepMerge(
+    { controlButtons: {} },
+    { controlButtons: { zoomIn: Memo, zoomOut: Fwd } },
+  );
+
+  expect(result.controlButtons.zoomIn).toBe(Memo);
+  expect(result.controlButtons.zoomOut).toBe(Fwd);
 });

@@ -8,6 +8,7 @@ import { AnnotationResources } from "src/types/annotations";
 import InformationPanel from "../InformationPanel/InformationPanel";
 import Painting from "src/components/Viewer/Painting/Painting";
 import React from "react";
+import type { PanelToggleProps } from "src/context/viewer-context";
 
 vi.mock("@radix-ui/react-collapsible");
 
@@ -101,6 +102,60 @@ describe("ViewerContent with no Annotation Resources", () => {
       </ViewerProvider>,
     );
     expect(screen.queryByTestId("mock-information-panel")).toBeNull();
+  });
+});
+
+describe("ViewerContent with a custom information panel toggle", () => {
+  const CustomToggle = ({ buttonProps, icon }: PanelToggleProps) => (
+    <button {...buttonProps} data-testid="custom-panel-toggle">
+      {icon}
+    </button>
+  );
+
+  test("renders the configured component in place of the default toggle", () => {
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: false,
+          configOptions: {
+            informationPanel: {
+              ...defaultState.configOptions.informationPanel,
+              renderToggle: true,
+              toggleComponent: CustomToggle,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...props} />
+      </ViewerProvider>,
+    );
+
+    const toggle = screen.getByTestId("custom-panel-toggle");
+    // The open state has to reach the replacement, not just the handler.
+    expect(toggle.getAttribute("aria-expanded")).toBe("false");
+    expect(toggle.getAttribute("aria-label")).toBeTruthy();
+  });
+
+  test("keeps the default toggle when no component is configured", () => {
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: false,
+          configOptions: {
+            informationPanel: {
+              ...defaultState.configOptions.informationPanel,
+              renderToggle: true,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...props} />
+      </ViewerProvider>,
+    );
+
+    expect(screen.queryByTestId("custom-panel-toggle")).toBeNull();
   });
 });
 

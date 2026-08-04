@@ -11,6 +11,11 @@ import {
 import { createOpenSeadragonRect } from "src/lib/openseadragon-helpers";
 import { type Plugin, type PluginInformationPanel } from "src/types/plugins";
 import type {
+  ControlButtonProps,
+  ControlButtons,
+  PanelToggleProps,
+} from "src/context/viewer-context";
+import type {
   CloverMapProps,
   MapCenter,
   MapMarker,
@@ -53,6 +58,8 @@ export {
   isGeoreferenceAnnotation,
   type AnnotationTargetExtended,
   type CloverMapProps,
+  type ControlButtonProps,
+  type ControlButtons,
   type GeoreferenceAnnotation,
   type GeoreferenceAnnotationSource,
   type GroundControlPoint,
@@ -63,6 +70,7 @@ export {
   type NavPlaceGeoJSON,
   type NavPlaceResourceContext,
   type NavPlaceResourceLevel,
+  type PanelToggleProps,
   type Plugin,
   type PluginInformationPanel,
 };

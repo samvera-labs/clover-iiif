@@ -378,6 +378,7 @@ const MyCustomViewer = () => {
 | `options.showIIIFBadge`          | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.showTitle`              | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.customLoadingComponent` | `React.ComponentType`                                                                                                                            | No       |                                          |
+| `options.controlButtons`         | [See Control Buttons](#control-buttons)                                                                                                          | No       |                                          |
 | `options.withCredentials`        | `boolean`                                                                                                                                        | No       | false                                    |
 | `options.contentSearch`          | [See Content Search](#content-search)                                                                                                            | No       |                                          |
 
@@ -545,6 +546,7 @@ The information panel is a collapsible panel that displays information about the
 | `options.informationPanel.renderAnnotation`    | `boolean`                       | No       | true    |
 | `options.informationPanel.renderSupplementing` | `boolean`                       | No       | true    |
 | `options.informationPanel.renderToggle`        | `boolean`                       | No       | true    |
+| `options.informationPanel.toggleComponent`     | `React.ComponentType`           | No       |         |
 | `options.informationPanel.renderContentSearch` | `boolean`                       | No       | true    |
 | `options.informationPanel.defaultTab`          | `string`                        | No       |         |
 | `options.informationPanel.annotationTabLabel`  | `string`                        | No       |         |
@@ -920,6 +922,69 @@ Clients may choose to override the default _loading_ component that displays whi
     customLoadingComponent: () => <>My custom loading component</>,
   }}
 />
+```
+
+---
+
+### Control Buttons
+
+Clients may replace the buttons in the image viewer's control bar with their own components. Each key is optional, so overriding one control leaves the others as Clover's.
+
+OpenSeadragon binds its handlers by element id, so a replacement **must** put the `id` it is given on the element it wants clicks from. It should also use `label` as the accessible name, since Clover's own `svg` title is not rendered. Everything else — shape, size, markup, styling — belongs to the client.
+
+```jsx
+// Spread buttonProps and the control works; the element and its styling are yours.
+const ZoomIn = ({ buttonProps }) => (
+  <button {...buttonProps} className="my-square-button">
+    <MyZoomInIcon />
+  </button>
+);
+
+<Viewer
+  iiifContent="https://example.com/manifest/1"
+  options={{
+    controlButtons: { zoomIn: ZoomIn },
+  }}
+/>;
+```
+
+Each replacement receives `buttonProps` (the id OpenSeadragon binds to, `type`, and the accessible name), `icon` (Clover's own glyph, if you want to keep it), and `label` as plain text. Render whatever element you like, in any shape, as long as `buttonProps` is spread onto the interactive element.
+
+| Key           | Control                 |
+| ------------- | ----------------------- |
+| `zoomIn`      | Zoom in                 |
+| `zoomOut`     | Zoom out                |
+| `fullPage`    | Full screen             |
+| `rotateRight` | Rotate right            |
+| `rotateLeft`  | Rotate left             |
+| `reset`       | Reset zoom and rotation |
+
+Each control is still gated on its OpenSeadragon flag (`showZoomControl`, `showFullPageControl`, `showRotationControl`, `showHomeControl`), so a replacement for a hidden control is not rendered. Note that `options.openSeadragon.navImages` has no effect: Clover supplies OpenSeadragon with button elements, and OpenSeadragon skips its own control images when it is given one.
+
+Two things to know when writing a replacement:
+
+- **Spread `buttonProps`.** It carries the id OpenSeadragon binds its handlers to and the accessible name. A component that drops it renders a button that looks right and does nothing; Clover logs a warning outside production when that happens.
+- **Define the component at module scope.** A component declared inline in `options` is a new type on each render, which remounts the button and leaves OpenSeadragon bound to the discarded element.
+
+OpenSeadragon sets `display: inline-block` and `position: relative` on the element as inline styles, which no class can override, so centre the glyph with `margin: auto` or on a wrapper inside the button rather than making the button a flex container. Clover's own spacing (`margin-left: 0.618rem` between controls) does not apply to a replacement, so add it if you are replacing only some of them.
+
+The information panel toggle sits outside this control bar and is replaced through `options.informationPanel.toggleComponent`. It is driven by Clover's state rather than OpenSeadragon, so its `buttonProps` carry the click handler and `aria-expanded` instead of an id, and none of the caveats above apply to it. `isOpen` is passed separately so the glyph can follow the panel state. Replacing the controls without it tends to look unfinished, since the default toggle keeps Clover's own shape.
+
+Clover positions the replacement where its own toggle sits, so it only needs to supply the button itself.
+
+```jsx
+const PanelToggle = ({ buttonProps, isOpen }) => (
+  <button {...buttonProps} className="my-square-button">
+    {isOpen ? <MyCloseIcon /> : <MyPanelIcon />}
+  </button>
+);
+
+<Viewer
+  iiifContent="https://example.com/manifest/1"
+  options={{
+    informationPanel: { toggleComponent: PanelToggle },
+  }}
+/>;
 ```
 
 ---
