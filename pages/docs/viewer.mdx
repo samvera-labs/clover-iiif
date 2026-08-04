@@ -384,6 +384,7 @@ const MyCustomViewer = () => {
 - Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
 - Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
 - Option `options.openSeadragon` will grant you ability to override the [OpenSeadragon default options](https://openseadragon.github.io/docs/OpenSeadragon.html#.Options) set within the Clover IIIF Viewer to adjust touch and mouse gesture settings and various other configurations.
+- When the visitor's OS is set to `prefers-reduced-motion: reduce`, Clover sets OpenSeadragon's `animationTime` to `0` so zoom and pan happen instantly instead of easing. Pass your own `animationTime` in `options.openSeadragon` to override this.
 
 ### Map Display
 
