@@ -46,7 +46,7 @@ const Viewer: React.FC<ViewerProps> = ({
    * Viewer State
    */
   const viewerState: ViewerContextStore = useViewerState();
-  const viewerDispatch: any = useViewerDispatch();
+  const viewerDispatch = useViewerDispatch();
   const {
     activeCanvas,
     isInformationOpen,

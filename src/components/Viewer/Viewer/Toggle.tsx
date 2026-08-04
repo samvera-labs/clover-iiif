@@ -10,7 +10,7 @@ import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 const Toggle = () => {
   const { isInformationOpen } = useViewerState();
-  const dispatch: any = useViewerDispatch();
+  const dispatch = useViewerDispatch();
 
   const { t } = useCloverTranslation();
 

@@ -138,7 +138,7 @@ const Painting: React.FC<PaintingProps> = ({
     // @ts-ignore
     Boolean(activeCanvas === contentStateAnnotation?.target?.source?.id);
 
-  const dispatch: any = useViewerDispatch();
+  const dispatch = useViewerDispatch();
   const normalizedCanvas: CanvasNormalized = vault.get(activeCanvas);
 
   const {

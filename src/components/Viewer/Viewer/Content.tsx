@@ -55,7 +55,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     sequence,
     visibleCanvases,
   } = useViewerState();
-  const dispatch: any = useViewerDispatch();
+  const dispatch = useViewerDispatch();
   const { informationPanel } = configOptions;
   const { t } = useCloverTranslation();
 
