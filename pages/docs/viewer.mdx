@@ -1110,7 +1110,7 @@ export default function PluginButton(props) {
   const { openSeadragonViewer, activeManifest } = viewerState;
 
   // use useViewerDispatch to update viewer state
-  const dispatch: any = useViewerDispatch();
+  const dispatch = useViewerDispatch();
 
   function clickHandler() {
     dispatch({

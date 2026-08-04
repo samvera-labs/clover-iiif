@@ -1,9 +1,9 @@
 import { CanvasNormalized, Annotation } from "@iiif/presentation-3";
-import { ViewerContextStore } from "src/context/viewer-context";
+import { ViewerContextStore, ViewerDispatch } from "src/context/viewer-context";
 
 export interface Plugin {
   canvas: CanvasNormalized;
-  useViewerDispatch: () => ViewerContextStore;
+  useViewerDispatch: () => ViewerDispatch;
   useViewerState: () => ViewerContextStore;
 }
 

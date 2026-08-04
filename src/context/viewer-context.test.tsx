@@ -244,4 +244,15 @@ describe("AutoScroll Options", () => {
       ),
     );
   });
+  test("dispatch outside a provider is a no-op", () => {
+    // Image renders OSD without a provider, and OSD dispatches on image load.
+    function ProviderlessConsumer() {
+      const dispatch = useViewerDispatch();
+      dispatch({ type: "updateActiveCanvas", canvasId: "canvas/1" });
+      return <span data-testid="providerless">rendered</span>;
+    }
+
+    expect(() => render(<ProviderlessConsumer />)).not.toThrow();
+    expect(screen.getByTestId("providerless")).toHaveTextContent("rendered");
+  });
 });

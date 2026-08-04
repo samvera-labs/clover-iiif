@@ -380,9 +380,12 @@ export type ViewerDispatch = React.Dispatch<ViewerDispatchAction>;
 
 const ViewerStateContext =
   React.createContext<ViewerContextStore>(defaultState);
-const ViewerDispatchContext = React.createContext<ViewerDispatch>(() => {
-  throw new Error("ViewerDispatchContext used outside a ViewerProvider");
-});
+/*
+ * A no-op default, because Image renders OSD without a provider and OSD
+ * dispatches on image load. Throwing here would surface inside an
+ * OpenSeadragon callback, where nothing can catch it.
+ */
+const ViewerDispatchContext = React.createContext<ViewerDispatch>(() => {});
 
 function viewerReducer(
   state: ViewerContextStore,
