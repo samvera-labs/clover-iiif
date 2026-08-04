@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { Canvas } from "@iiif/presentation-3";
 import Media from "src/components/Viewer/Media/Media";
 import React from "react";
+import { ViewerProvider, createDefaultState } from "src/context/viewer-context";
 
 const items = [
   {
@@ -49,5 +50,23 @@ describe("Media component", () => {
       "https://example.org/manifest/1/canvas/1",
     );
     expect(media.getAttribute("data-canvas-length")).toBe("2");
+  });
+
+  it("renders the search toggle by default", () => {
+    render(<Media items={items} activeItem={0} />);
+    expect(document.querySelector(".clover-viewer-media-search")).toBeTruthy();
+  });
+
+  it("hides the search toggle when showMediaSearch is false", () => {
+    const initialState = createDefaultState();
+    initialState.configOptions.showMediaSearch = false;
+
+    render(
+      <ViewerProvider initialState={initialState}>
+        <Media items={items} activeItem={0} />
+      </ViewerProvider>,
+    );
+
+    expect(document.querySelector(".clover-viewer-media-search")).toBeNull();
   });
 });

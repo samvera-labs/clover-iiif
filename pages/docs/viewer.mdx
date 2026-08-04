@@ -376,6 +376,7 @@ const MyCustomViewer = () => {
 | `options.requestHeaders`         | `IncomingHttpHeaders`                                                                                                                            | No       | `{ "Content-Type": "application/json" }` |
 | `options.showDownload`           | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.showIIIFBadge`          | `boolean`                                                                                                                                        | No       | true                                     |
+| `options.showMediaSearch`        | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.showTitle`              | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.customLoadingComponent` | `React.ComponentType`                                                                                                                            | No       |                                          |
 | `options.withCredentials`        | `boolean`                                                                                                                                        | No       | false                                    |
@@ -531,6 +532,19 @@ export default function App() {
     </div>
   );
 }
+```
+
+### Media Search
+
+Manifests with more than one canvas render a media strip below the viewer, with a
+search toggle that filters the strip by canvas label. Set
+`options.showMediaSearch` to `false` to hide the toggle; the strip and its
+previous/next navigation are unaffected.
+
+```jsx
+const options = {
+  showMediaSearch: false,
+};
 ```
 
 ### Information Panel

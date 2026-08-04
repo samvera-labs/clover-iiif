@@ -66,6 +66,7 @@ export type ViewerConfigOptions = {
   requestHeaders?: IncomingHttpHeaders;
   showDownload?: boolean;
   showIIIFBadge?: boolean;
+  showMediaSearch?: boolean;
   showTitle?: boolean;
   customLoadingComponent?: React.ComponentType;
   withCredentials?: boolean;
@@ -153,6 +154,7 @@ const defaultConfigOptions: ViewerConfigOptions = {
   requestHeaders: { "Content-Type": "application/json" },
   showDownload: true,
   showIIIFBadge: true,
+  showMediaSearch: true,
   showTitle: true,
   withCredentials: false,
 };
