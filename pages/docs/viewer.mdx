@@ -561,8 +561,14 @@ The information panel is a collapsible panel that displays information about the
 | `options.informationPanel.renderSupplementing` | `boolean`                       | No       | true    |
 | `options.informationPanel.renderToggle`        | `boolean`                       | No       | true    |
 | `options.informationPanel.renderContentSearch` | `boolean`                       | No       | true    |
+| `options.informationPanel.renderCanvasSummary` | `boolean`                       | No       | false   |
 | `options.informationPanel.defaultTab`          | `string`                        | No       |         |
 | `options.informationPanel.annotationTabLabel`  | `string`                        | No       |         |
+
+Set `renderCanvasSummary` to `true` to show the active canvas's `summary` above
+the manifest's own, for manifests that describe each image rather than only the
+object. It follows the active canvas and renders nothing when that canvas has no
+summary. Off by default, since it adds text to the About tab.
 
 If `renderAbout` is true, Clover will use the About tab as the default tab. Use `options.informationPanel.defaultTab` to set the default tab.
 

@@ -58,6 +58,7 @@ export type ViewerConfigOptions = {
       autoScroll?: AutoScrollOptions | AutoScrollSettings | boolean;
     };
     renderContentSearch?: boolean;
+    renderCanvasSummary?: boolean;
     defaultTab?: string;
     annotationTabLabel?: string;
     annotationCollectionTabLabel?: string;
@@ -149,6 +150,7 @@ const defaultConfigOptions: ViewerConfigOptions = {
     renderAnnotation: true,
     renderAnnotationCollection: true,
     renderContentSearch: true,
+    renderCanvasSummary: false,
   },
   openSeadragon: {},
   requestHeaders: { "Content-Type": "application/json" },

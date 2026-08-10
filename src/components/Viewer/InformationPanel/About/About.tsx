@@ -3,6 +3,7 @@ import {
   AboutStyled,
 } from "src/components/Viewer/InformationPanel/About/About.styled";
 import {
+  CanvasNormalized,
   ContentResource,
   IIIFExternalWebResource,
   ManifestNormalized,
@@ -25,7 +26,7 @@ import { PrimitivesExternalWebResource } from "src/types/primitives";
 
 const About: React.FC = () => {
   const viewerState: ViewerContextStore = useViewerState();
-  const { activeManifest, vault } = viewerState;
+  const { activeCanvas, activeManifest, configOptions, vault } = viewerState;
 
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
@@ -69,6 +70,15 @@ const About: React.FC = () => {
       );
   }, [activeManifest, vault]);
 
+  /*
+   * Manifests that describe each image, not just the object, put that text on
+   * the canvas. Read live rather than into state so it follows the active canvas.
+   */
+  const renderCanvasSummary =
+    configOptions.informationPanel?.renderCanvasSummary;
+  const canvas: CanvasNormalized | undefined =
+    renderCanvasSummary && activeCanvas ? vault.get(activeCanvas) : undefined;
+
   if (!manifest) return <></>;
 
   return (
@@ -79,6 +89,9 @@ const About: React.FC = () => {
           label={manifest.label}
           objectFit="contain"
         />
+        {canvas?.summary && (
+          <Summary summary={canvas.summary} parent="canvas" />
+        )}
         <Summary summary={manifest.summary} />
         <Metadata metadata={manifest.metadata} />
         <RequiredStatement requiredStatement={manifest.requiredStatement} />
