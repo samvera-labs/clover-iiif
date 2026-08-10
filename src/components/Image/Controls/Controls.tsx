@@ -1,4 +1,5 @@
 import {
+  ControlButtons,
   ViewerContextStore,
   useViewerDispatch,
   useViewerState,
@@ -67,6 +68,33 @@ const Rotate = () => {
   );
 };
 
+/**
+ * Clover's glyphs are bare `path` elements, so a replacement gets them wrapped
+ * in an svg it can drop straight in. Decorative, since the button carries the
+ * name.
+ */
+const ControlIcon = ({
+  children,
+  label,
+}: {
+  children: React.ReactNode;
+  label: string;
+}) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 512 512"
+    fill="currentColor"
+    stroke="currentColor"
+    focusable="false"
+    aria-hidden="true"
+    role="presentation"
+    data-testid="openseadragon-button-svg"
+    data-label={label}
+  >
+    {children}
+  </svg>
+);
+
 const Controls = ({
   _cloverViewerHasPlaceholder,
   config,
@@ -87,6 +115,34 @@ const Controls = ({
   const hasInformationToggle = Boolean(
     configOptions.informationPanel?.renderToggle,
   );
+
+  /**
+   * Renders a consumer's control in place of the default when one is configured.
+   * The replacement owns the element, so it is handed props to spread rather than
+   * being told what to render: OpenSeadragon binds by element id, and the
+   * accessible name has to survive whatever markup the consumer chooses.
+   */
+  function renderControl(
+    key: keyof ControlButtons,
+    id: string,
+    label: string,
+    glyph: React.ReactElement,
+  ) {
+    const Custom = configOptions.controlButtons?.[key];
+    if (Custom)
+      return (
+        <Custom
+          buttonProps={{ id, type: "button", "aria-label": label }}
+          icon={<ControlIcon label={label}>{glyph}</ControlIcon>}
+          label={label}
+        />
+      );
+    return (
+      <Button id={id} label={label}>
+        {glyph}
+      </Button>
+    );
+  }
 
   const canvas = vault.get({
     id: activeCanvas,
@@ -110,6 +166,37 @@ const Controls = ({
         );
       });
   }
+
+  /**
+   * Every control OpenSeadragon binds, paired with the flag that renders it.
+   */
+  const controlIds: Array<[keyof ControlButtons, unknown, boolean]> = [
+    ["zoomIn", config.zoomInButton, !!config.showZoomControl],
+    ["zoomOut", config.zoomOutButton, !!config.showZoomControl],
+    ["fullPage", config.fullPageButton, !!config.showFullPageControl],
+    ["rotateRight", config.rotateRightButton, !!config.showRotationControl],
+    ["rotateLeft", config.rotateLeftButton, !!config.showRotationControl],
+    ["reset", config.homeButton, !!config.showHomeControl],
+  ];
+
+  /*
+   * A replacement that does not render the id it is given still looks correct,
+   * but OpenSeadragon binds to an element that is not in the document and the
+   * control does nothing. Say so rather than leaving it to be found by hand.
+   */
+  useEffect(() => {
+    if (process.env.NODE_ENV === "production") return;
+
+    controlIds.forEach(([key, id, shown]) => {
+      if (!shown) return;
+      if (!configOptions.controlButtons?.[key] || typeof id !== "string")
+        return;
+      if (document.getElementById(id)) return;
+      console.warn(
+        `Clover IIIF: the controlButtons.${key} component does not render the id it was given ("${id}"), so OpenSeadragon cannot bind to it and the control will not work.`,
+      );
+    });
+  }, [config, configOptions.controlButtons]);
 
   useEffect(() => {
     if (!openSeadragonViewer) return;
@@ -151,43 +238,50 @@ const Controls = ({
     >
       {config.showZoomControl && (
         <>
-          <Button id={config.zoomInButton as string} label={t("imageZoomIn")}>
-            <ZoomIn />
-          </Button>
-          <Button id={config.zoomOutButton as string} label={t("imageZoomOut")}>
-            <ZoomOut />
-          </Button>
+          {renderControl(
+            "zoomIn",
+            config.zoomInButton as string,
+            t("imageZoomIn"),
+            <ZoomIn />,
+          )}
+          {renderControl(
+            "zoomOut",
+            config.zoomOutButton as string,
+            t("imageZoomOut"),
+            <ZoomOut />,
+          )}
         </>
       )}
-      {config.showFullPageControl && (
-        <Button
-          id={config.fullPageButton as string}
-          label={t("imageFullScreen")}
-        >
-          <ZoomFullScreen />
-        </Button>
-      )}
+      {config.showFullPageControl &&
+        renderControl(
+          "fullPage",
+          config.fullPageButton as string,
+          t("imageFullScreen"),
+          <ZoomFullScreen />,
+        )}
       {config.showRotationControl && (
         <>
-          <Button
-            id={config.rotateRightButton as string}
-            label={t("imageRotateRight")}
-          >
-            <Rotate />
-          </Button>
-          <Button
-            id={config.rotateLeftButton as string}
-            label={t("imageRotateLeft")}
-          >
-            <Rotate />
-          </Button>
+          {renderControl(
+            "rotateRight",
+            config.rotateRightButton as string,
+            t("imageRotateRight"),
+            <Rotate />,
+          )}
+          {renderControl(
+            "rotateLeft",
+            config.rotateLeftButton as string,
+            t("imageRotateLeft"),
+            <Rotate />,
+          )}
         </>
       )}
-      {config.showHomeControl && (
-        <Button id={config.homeButton as string} label={t("imageResetZoom")}>
-          <Reset />
-        </Button>
-      )}
+      {config.showHomeControl &&
+        renderControl(
+          "reset",
+          config.homeButton as string,
+          t("imageResetZoom"),
+          <Reset />,
+        )}
       {renderPlugins()}
     </Wrapper>
   );

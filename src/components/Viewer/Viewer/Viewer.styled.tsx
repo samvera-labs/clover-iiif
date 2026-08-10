@@ -163,4 +163,29 @@ const Wrapper = styled("div", {
   },
 });
 
-export { Wrapper, Content, Main, MediaWrapper, Aside, PanelToggle, DragHandle };
+/**
+ * Positions a replacement panel toggle where the default one sits, so a consumer
+ * supplies only the button's appearance. Sizing and styling stay theirs.
+ */
+const CustomPanelToggle = styled("span", {
+  position: "absolute",
+  top: "1rem",
+  right: "1rem",
+  zIndex: "2",
+  display: "flex",
+
+  "&[data-aside-active='true']": {
+    right: "calc(-1rem - 2px)",
+  },
+});
+
+export {
+  Wrapper,
+  Content,
+  Main,
+  MediaWrapper,
+  Aside,
+  PanelToggle,
+  CustomPanelToggle,
+  DragHandle,
+};

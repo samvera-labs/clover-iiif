@@ -52,6 +52,7 @@ export type ViewerConfigOptions = {
     renderAbout?: boolean;
     renderSupplementing?: boolean;
     renderToggle?: boolean;
+    toggleComponent?: React.ComponentType<PanelToggleProps>;
     renderAnnotation?: boolean;
     renderAnnotationCollection?: boolean;
     vtt?: {
@@ -70,6 +71,7 @@ export type ViewerConfigOptions = {
   showMediaSearch?: boolean;
   showTitle?: boolean;
   customLoadingComponent?: React.ComponentType;
+  controlButtons?: ControlButtons;
   withCredentials?: boolean;
   localeText?: {
     contentSearch?: {
@@ -80,6 +82,54 @@ export type ViewerConfigOptions = {
       moreResults?: string;
     };
   };
+};
+
+/**
+ * Everything a control needs in order to work, ready to spread onto a button:
+ * the id OpenSeadragon binds to, the accessible name, and the icon. Spreading
+ * `buttonProps` keeps the wiring while the element, its shape and its styling
+ * stay the consumer's.
+ */
+export type ControlButtonProps = {
+  buttonProps: {
+    id: string;
+    type: "button";
+    "aria-label": string;
+  };
+  icon: React.ReactNode;
+  label: string;
+};
+
+/**
+ * Replacements for the image viewer's controls. Each key is optional, so a
+ * consumer can override one control and leave the rest as they are. A
+ * replacement owns the whole button, not just the glyph, so it can change shape
+ * as well as appearance.
+ */
+export type ControlButtons = {
+  zoomIn?: React.ComponentType<ControlButtonProps>;
+  zoomOut?: React.ComponentType<ControlButtonProps>;
+  fullPage?: React.ComponentType<ControlButtonProps>;
+  rotateRight?: React.ComponentType<ControlButtonProps>;
+  rotateLeft?: React.ComponentType<ControlButtonProps>;
+  reset?: React.ComponentType<ControlButtonProps>;
+};
+
+/**
+ * The same arrangement for the information panel toggle. This control is driven
+ * by Clover's own state rather than OpenSeadragon, so its props carry the click
+ * handler and the expanded state instead of an id.
+ */
+export type PanelToggleProps = {
+  buttonProps: {
+    type: "button";
+    "aria-label": string;
+    "aria-expanded": boolean;
+    onClick: () => void;
+  };
+  icon: React.ReactNode;
+  isOpen: boolean;
+  label: string;
 };
 
 export type OverlayOptions = {
@@ -167,9 +217,24 @@ const cloneViewerConfigOptions = (
   return cloneValue(options) as ViewerConfigOptions;
 };
 
+/**
+ * React components can be objects rather than functions (`memo`, `forwardRef`),
+ * so copying them property by property returns a new object on every clone. The
+ * copy still renders, but its changed identity remounts the component, which for
+ * an OpenSeadragon control means the viewer keeps its handlers on the discarded
+ * element and the button stops working. Treat any component as a leaf.
+ */
+function isReactComponent(value: object): boolean {
+  return "$$typeof" in value;
+}
+
 function cloneValue(value: unknown): unknown {
   if (Array.isArray(value)) {
     return value.map((item) => cloneValue(item));
+  }
+
+  if (value && typeof value === "object" && isReactComponent(value)) {
+    return value;
   }
 
   if (value && typeof value === "object") {

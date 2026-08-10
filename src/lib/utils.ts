@@ -39,7 +39,10 @@ export const deepMerge = (target, source) => {
     if (
       typeof source[key] === "object" &&
       source[key] !== null &&
-      !Array.isArray(source[key])
+      !Array.isArray(source[key]) &&
+      // memo and forwardRef components are objects; merging into them would
+      // rebuild them and remount the component on every config change.
+      !("$$typeof" in source[key])
     ) {
       if (!target[key]) target[key] = {};
       target[key] = deepMerge(target[key], source[key]);

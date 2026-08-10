@@ -7,6 +7,7 @@ import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
   Aside,
   Content,
+  CustomPanelToggle,
   DragHandle,
   Main,
   MediaWrapper,
@@ -86,6 +87,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     (informationPanel?.renderAbout && isInformationOpen) || isForcedAside;
 
   const renderToggle = informationPanel?.renderToggle;
+  const CustomToggle = informationPanel?.toggleComponent;
 
   const handleToggle = () => {
     dispatch({
@@ -144,22 +146,45 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
           </MediaWrapper>
         )}
 
-        {renderToggle && (
-          <PanelToggle
-            data-aside-active={isAside}
-            onClick={handleToggle}
-            aria-label={t("informationPanelToggle")}
-            aria-expanded={isInformationOpen}
-          >
-            <Icon fill="currentColor" aria-hidden="true">
-              {isInformationOpen ? (
-                <Icon.PanelExpand />
-              ) : (
-                <Icon.PanelCollapse />
-              )}
-            </Icon>
-          </PanelToggle>
-        )}
+        {renderToggle &&
+          (CustomToggle ? (
+            <CustomPanelToggle data-aside-active={isAside}>
+              <CustomToggle
+                buttonProps={{
+                  type: "button",
+                  "aria-label": t("informationPanelToggle"),
+                  "aria-expanded": isInformationOpen,
+                  onClick: handleToggle,
+                }}
+                icon={
+                  <Icon fill="currentColor" aria-hidden="true">
+                    {isInformationOpen ? (
+                      <Icon.PanelExpand />
+                    ) : (
+                      <Icon.PanelCollapse />
+                    )}
+                  </Icon>
+                }
+                isOpen={isInformationOpen}
+                label={t("informationPanelToggle")}
+              />
+            </CustomPanelToggle>
+          ) : (
+            <PanelToggle
+              data-aside-active={isAside}
+              onClick={handleToggle}
+              aria-label={t("informationPanelToggle")}
+              aria-expanded={isInformationOpen}
+            >
+              <Icon fill="currentColor" aria-hidden="true">
+                {isInformationOpen ? (
+                  <Icon.PanelExpand />
+                ) : (
+                  <Icon.PanelCollapse />
+                )}
+              </Icon>
+            </PanelToggle>
+          ))}
       </Main>
       {isAside && (
         <>
