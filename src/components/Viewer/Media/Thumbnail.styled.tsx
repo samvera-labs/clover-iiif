@@ -36,22 +36,25 @@ const FigureImage = styled("div", {
   position: "relative",
   display: "flex",
   backgroundColor: "$secondaryAlt",
-  width: "inherit",
+  width: "fit-content",
+  minWidth: "61.8px",
+  maxWidth: "161.8px",
   height: "100px",
   overflow: "hidden",
   borderRadius: "3px",
 
   ".media-thumbnail-lazyload": {
-    width: "100%",
+    width: "auto",
     height: "100%",
     borderRadius: "3px",
   },
 
   img: {
-    width: "100%",
+    width: "auto",
+    maxWidth: "161.8px",
     height: "100%",
-    objectFit: "cover",
-    objectPosition: "top center",
+    objectFit: "contain",
+    objectPosition: "center bottom",
     filter: "blur(0)",
     transform: "scale3d(1, 1, 1)",
     borderRadius: "3px",
@@ -92,7 +95,7 @@ const Item = styled(RadioGroup.Item, {
 
   figure: {
     margin: "0",
-    width: "161.8px",
+    maxWidth: "161.8px",
 
     figcaption: {
       marginTop: "0.5rem",
