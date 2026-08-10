@@ -58,7 +58,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   initialSearchQuery,
 }) => {
   const { t } = useCloverTranslation();
-  const dispatch: any = useViewerDispatch();
+  const dispatch = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
   const {
     annotationCollection,
@@ -206,7 +206,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
       dispatch({
         type: "updateUserScrolling",
-        isUserScrolling: timeout,
+        isUserScrolling: timeout as unknown as number,
       });
     }
   }

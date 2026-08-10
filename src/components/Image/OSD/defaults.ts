@@ -1,8 +1,20 @@
 import { Options } from "openseadragon";
 
+// Skip OSD's default zoom/pan easing for users who ask the OS for reduced
+// motion. Guarded for SSR, where matchMedia doesn't exist.
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.matchMedia === "function" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
 function defaultOpenSeadragonConfiguration(
   openSeadragonInstance: string,
 ): Options {
+  const reducedMotion = prefersReducedMotion();
+
   return {
     id: `openseadragon-${openSeadragonInstance}`,
     navigatorId: `openseadragon-navigator-${openSeadragonInstance}`,
@@ -26,6 +38,7 @@ function defaultOpenSeadragonConfiguration(
       scrollToZoom: false,
     },
     preserveViewport: true,
+    ...(reducedMotion && { animationTime: 0 }),
   };
 }
 

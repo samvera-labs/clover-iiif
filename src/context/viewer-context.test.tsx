@@ -1,12 +1,13 @@
 import {
   AutoScrollSettings,
+  ViewerDispatch,
   ViewerProvider,
   defaultState,
   expandAutoScrollOptions,
   useViewerDispatch,
   useViewerState,
 } from "./viewer-context";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 
 import React from "react";
 
@@ -203,5 +204,55 @@ describe("AutoScroll Options", () => {
     const settings = { behavior: "instant", block: "end" };
     const result = expandAutoScrollOptions(settings as AutoScrollSettings);
     expect(result).toMatchObject({ enabled: true, settings });
+  });
+  test("useViewerDispatch returns a dispatch that updates state", async () => {
+    function CanvasConsumer() {
+      const { activeCanvas } = useViewerState();
+      const dispatch: ViewerDispatch = useViewerDispatch();
+
+      return (
+        <>
+          <span data-testid="active-canvas">{activeCanvas}</span>
+          <button
+            type="button"
+            onClick={() =>
+              dispatch({
+                type: "updateActiveCanvas",
+                canvasId: "https://example.org/canvas/2",
+              })
+            }
+          >
+            next
+          </button>
+        </>
+      );
+    }
+
+    render(
+      <ViewerProvider>
+        <CanvasConsumer />
+      </ViewerProvider>,
+    );
+
+    act(() => {
+      screen.getByRole("button", { name: "next" }).click();
+    });
+
+    await waitFor(() =>
+      expect(screen.getByTestId("active-canvas")).toHaveTextContent(
+        "https://example.org/canvas/2",
+      ),
+    );
+  });
+  test("dispatch outside a provider is a no-op", () => {
+    // Image renders OSD without a provider, and OSD dispatches on image load.
+    function ProviderlessConsumer() {
+      const dispatch = useViewerDispatch();
+      dispatch({ type: "updateActiveCanvas", canvasId: "canvas/1" });
+      return <span data-testid="providerless">rendered</span>;
+    }
+
+    expect(() => render(<ProviderlessConsumer />)).not.toThrow();
+    expect(screen.getByTestId("providerless")).toHaveTextContent("rendered");
   });
 });

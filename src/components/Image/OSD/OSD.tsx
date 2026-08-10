@@ -63,7 +63,7 @@ const OSD: React.FC<OSDProps> = ({
   const [srcDimensions, setSrcDimensions] = useState<
     Array<{ width: number; height: number }>
   >([]);
-  const dispatch: any = useViewerDispatch();
+  const dispatch = useViewerDispatch();
   const initializeOSD = useRef(false);
   const isFirstImageLoad = useRef(true);
   // Tracks which URIs are currently rendered in OSD so we can detect clip-only

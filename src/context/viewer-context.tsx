@@ -59,6 +59,7 @@ export type ViewerConfigOptions = {
       autoScroll?: AutoScrollOptions | AutoScrollSettings | boolean;
     };
     renderContentSearch?: boolean;
+    renderCanvasSummary?: boolean;
     defaultTab?: string;
     annotationTabLabel?: string;
     annotationCollectionTabLabel?: string;
@@ -67,6 +68,7 @@ export type ViewerConfigOptions = {
   requestHeaders?: IncomingHttpHeaders;
   showDownload?: boolean;
   showIIIFBadge?: boolean;
+  showMediaSearch?: boolean;
   showTitle?: boolean;
   customLoadingComponent?: React.ComponentType;
   controlButtons?: ControlButtons;
@@ -198,11 +200,13 @@ const defaultConfigOptions: ViewerConfigOptions = {
     renderAnnotation: true,
     renderAnnotationCollection: true,
     renderContentSearch: true,
+    renderCanvasSummary: false,
   },
   openSeadragon: {},
   requestHeaders: { "Content-Type": "application/json" },
   showDownload: true,
   showIIIFBadge: true,
+  showMediaSearch: true,
   showTitle: true,
   withCredentials: false,
 };
@@ -282,7 +286,7 @@ export interface ViewerContextStore {
   activeAnnotationId?: string | null;
   activeManifest: string;
   activePlayer: HTMLVideoElement | HTMLAudioElement | null;
-  activeSelector?: string;
+  activeSelector?: string | Record<string, unknown>;
   OSDImageLoaded?: boolean;
   annotationCollection?: AnnotationCollectionNormalized;
   pendingAnnotationTarget?: { canvasId: string; annotationId: string } | null;
@@ -313,7 +317,7 @@ export interface ViewerAction {
   type: string;
   activeAnnotationId?: string | null;
   canvasId: string;
-  selector?: string;
+  selector?: string | Record<string, unknown>;
   annotationCollection?: AnnotationCollectionNormalized;
   pendingAnnotationTarget?: { canvasId: string; annotationId: string } | null;
   collection: CollectionNormalized;
@@ -435,12 +439,27 @@ export const createDefaultState = (): ViewerContextStore => ({
 
 export const defaultState: ViewerContextStore = createDefaultState();
 
+/**
+ * Each reducer case reads only the fields its own action carries, so a dispatched
+ * action supplies a subset of ViewerAction alongside the required type.
+ */
+export type ViewerDispatchAction = Partial<ViewerAction> & { type: string };
+
+export type ViewerDispatch = React.Dispatch<ViewerDispatchAction>;
+
 const ViewerStateContext =
   React.createContext<ViewerContextStore>(defaultState);
-const ViewerDispatchContext =
-  React.createContext<ViewerContextStore>(defaultState);
+/*
+ * A no-op default, because Image renders OSD without a provider and OSD
+ * dispatches on image load. Throwing here would surface inside an
+ * OpenSeadragon callback, where nothing can catch it.
+ */
+const ViewerDispatchContext = React.createContext<ViewerDispatch>(() => {});
 
-function viewerReducer(state: ViewerContextStore, action: ViewerAction) {
+function viewerReducer(
+  state: ViewerContextStore,
+  action: ViewerDispatchAction,
+) {
   switch (action.type) {
     case "updateActiveCanvas": {
       /**
@@ -609,22 +628,23 @@ const ViewerProvider: React.FC<ViewerProviderProps> = ({
   initialState,
   children,
 }) => {
-  const [state, dispatch] = useReducer<
-    React.Reducer<ViewerContextStore, ViewerAction>,
-    ViewerContextStore | undefined
-  >(viewerReducer, initialState, (initArg?: ViewerContextStore) => {
-    if (initArg) {
-      return {
-        ...initArg,
-        configOptions: cloneViewerConfigOptions(
-          initArg.configOptions ?? defaultConfigOptions,
-        ),
-        viewerId: initArg.viewerId ?? uuidv4(),
-      };
-    }
+  const [state, dispatch] = useReducer(
+    viewerReducer,
+    initialState,
+    (initArg?: ViewerContextStore): ViewerContextStore => {
+      if (initArg) {
+        return {
+          ...initArg,
+          configOptions: cloneViewerConfigOptions(
+            initArg.configOptions ?? defaultConfigOptions,
+          ),
+          viewerId: initArg.viewerId ?? uuidv4(),
+        };
+      }
 
-    return createDefaultState();
-  });
+      return createDefaultState();
+    },
+  );
 
   const { openSeadragonViewer } = state;
 
@@ -646,7 +666,6 @@ const ViewerProvider: React.FC<ViewerProviderProps> = ({
         const value = `xywh=${xywh.join(",")}`;
         dispatch({
           type: "updateActiveSelector",
-          // @ts-ignore
           selector: {
             type: "FragmentSelector",
             value,
@@ -660,11 +679,14 @@ const ViewerProvider: React.FC<ViewerProviderProps> = ({
     }
   }, [openSeadragonViewer]);
 
+  /*
+   * Several reducer cases assign an optional action field to a required store
+   * field, so the inferred state widens to include undefined. Narrowing those
+   * cases needs its own change.
+   */
   return (
-    <ViewerStateContext.Provider value={state}>
-      <ViewerDispatchContext.Provider
-        value={dispatch as unknown as ViewerContextStore}
-      >
+    <ViewerStateContext.Provider value={state as ViewerContextStore}>
+      <ViewerDispatchContext.Provider value={dispatch}>
         {children}
       </ViewerDispatchContext.Provider>
     </ViewerStateContext.Provider>

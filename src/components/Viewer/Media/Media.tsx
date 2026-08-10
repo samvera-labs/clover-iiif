@@ -30,9 +30,16 @@ interface MediaProps {
 
 const Media: React.FC<MediaProps> = ({ items }) => {
   const { t } = useCloverTranslation();
-  const dispatch: any = useViewerDispatch();
+  const dispatch = useViewerDispatch();
   const state: ViewerContextStore = useViewerState();
-  const { activeCanvas, isPaged, vault, sequence, viewingDirection } = state;
+  const {
+    activeCanvas,
+    configOptions,
+    isPaged,
+    vault,
+    sequence,
+    viewingDirection,
+  } = state;
 
   /**
    * Determine if RTL paged navigation should be used
@@ -116,6 +123,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
         activeIndex={activeIndex}
         canvasLength={items.length}
         isRtlPaged={isRtlPaged}
+        renderSearch={configOptions.showMediaSearch}
       />
       <StyledSequence
         aria-label={t("media.selectItem")}

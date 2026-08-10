@@ -376,6 +376,7 @@ const MyCustomViewer = () => {
 | `options.requestHeaders`         | `IncomingHttpHeaders`                                                                                                                            | No       | `{ "Content-Type": "application/json" }` |
 | `options.showDownload`           | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.showIIIFBadge`          | `boolean`                                                                                                                                        | No       | true                                     |
+| `options.showMediaSearch`        | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.showTitle`              | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.customLoadingComponent` | `React.ComponentType`                                                                                                                            | No       |                                          |
 | `options.controlButtons`         | [See Control Buttons](#control-buttons)                                                                                                          | No       |                                          |
@@ -385,6 +386,7 @@ const MyCustomViewer = () => {
 - Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
 - Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
 - Option `options.openSeadragon` will grant you ability to override the [OpenSeadragon default options](https://openseadragon.github.io/docs/OpenSeadragon.html#.Options) set within the Clover IIIF Viewer to adjust touch and mouse gesture settings and various other configurations.
+- When the visitor's OS is set to `prefers-reduced-motion: reduce`, Clover sets OpenSeadragon's `animationTime` to `0` so zoom and pan happen instantly instead of easing. Pass your own `animationTime` in `options.openSeadragon` to override this.
 
 ### Map Display
 
@@ -534,6 +536,19 @@ export default function App() {
 }
 ```
 
+### Media Search
+
+Manifests with more than one canvas render a media strip below the viewer, with a
+search toggle that filters the strip by canvas label. Set
+`options.showMediaSearch` to `false` to hide the toggle; the strip and its
+previous/next navigation are unaffected.
+
+```jsx
+const options = {
+  showMediaSearch: false,
+};
+```
+
 ### Information Panel
 
 The information panel is a collapsible panel that displays information about the current Manifest and renders supplementing resources for the active canvas. It is rendered by default, but can be configured to be hidden or to render only certain tabs.
@@ -548,8 +563,14 @@ The information panel is a collapsible panel that displays information about the
 | `options.informationPanel.renderToggle`        | `boolean`                       | No       | true    |
 | `options.informationPanel.toggleComponent`     | `React.ComponentType`           | No       |         |
 | `options.informationPanel.renderContentSearch` | `boolean`                       | No       | true    |
+| `options.informationPanel.renderCanvasSummary` | `boolean`                       | No       | false   |
 | `options.informationPanel.defaultTab`          | `string`                        | No       |         |
 | `options.informationPanel.annotationTabLabel`  | `string`                        | No       |         |
+
+Set `renderCanvasSummary` to `true` to show the active canvas's `summary` above
+the manifest's own, for manifests that describe each image rather than only the
+object. It follows the active canvas and renders nothing when that canvas has no
+summary. Off by default, since it adds text to the About tab.
 
 If `renderAbout` is true, Clover will use the About tab as the default tab. Use `options.informationPanel.defaultTab` to set the default tab.
 
@@ -1175,7 +1196,7 @@ export default function PluginButton(props) {
   const { openSeadragonViewer, activeManifest } = viewerState;
 
   // use useViewerDispatch to update viewer state
-  const dispatch: any = useViewerDispatch();
+  const dispatch = useViewerDispatch();
 
   function clickHandler() {
     dispatch({
