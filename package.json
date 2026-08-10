@@ -95,7 +95,7 @@
     "node": ">=20.10.0"
   },
   "dependencies": {
-    "@allmaps/leaflet": "^1.0.0-beta.53",
+    "@allmaps/maplibre": "^1.0.0-beta.43",
     "@iiif/helpers": "^1.2.19",
     "@iiif/parser": "^2.1.4",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
@@ -114,7 +114,7 @@
     "hls.js": "^1.5.17",
     "i18next": "^23.16.5",
     "i18next-browser-languagedetector": "^8.0.0",
-    "leaflet": "^1.9.4",
+    "maplibre-gl": "^5.24.0",
     "marked": "^18.0.2",
     "marked-footnote": "^1.4.0",
     "node-webvtt": "^1.9.4",
@@ -133,7 +133,6 @@
     "@testing-library/user-event": "^14.5.2",
     "@types/dompurify": "^3.2.0",
     "@types/flexsearch": "^0.7.6",
-    "@types/leaflet": "^1.9.21",
     "@types/node": "20.11.16",
     "@types/openseadragon": "^3.0.10",
     "@types/react": "^18.3.12",

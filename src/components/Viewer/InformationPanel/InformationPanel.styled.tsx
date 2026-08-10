@@ -112,6 +112,16 @@ const Trigger = styled(Tabs.Trigger, {
   },
 });
 
+const MapTabBody = styled("div", {
+  width: "100%",
+  height: "100%",
+  padding: "0 1rem",
+  boxSizing: "border-box",
+  display: "flex",
+  flexDirection: "column",
+  flexGrow: "1",
+});
+
 const Content = styled(Tabs.Content, {
   display: "flex",
   flexDirection: "column",
@@ -151,4 +161,4 @@ const Scroll = styled(ScrollableComponent, {
   overflowY: "scroll",
 });
 
-export { Content, List, Scroll, Trigger, Wrapper };
+export { Content, List, MapTabBody, Scroll, Trigger, Wrapper };
