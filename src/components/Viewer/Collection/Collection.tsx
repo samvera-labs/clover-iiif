@@ -6,7 +6,7 @@ import React from "react";
 import { v4 as uuidv4 } from "uuid";
 
 const Collection: React.FC = () => {
-  const dispatch: any = useViewerDispatch();
+  const dispatch = useViewerDispatch();
   const viewerState: any = useViewerState();
 
   const { activeManifest, collection, configOptions, vault } = viewerState;

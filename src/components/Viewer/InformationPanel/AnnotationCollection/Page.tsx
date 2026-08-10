@@ -30,7 +30,7 @@ const AnnotationCollectionPage: React.FC<Props> = ({
   annotationCollection,
 }) => {
   const viewerState: ViewerContextStore = useViewerState();
-  const viewerDispatch: any = useViewerDispatch();
+  const viewerDispatch = useViewerDispatch();
   const {
     activeAnnotationId,
     activeManifest,

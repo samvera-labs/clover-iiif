@@ -36,7 +36,7 @@ const findScrollableParent = (
 };
 
 const Cue: React.FC<Props> = ({ html, text, start, end }) => {
-  const dispatch: any = useViewerDispatch();
+  const dispatch = useViewerDispatch();
   const {
     activePlayer,
     configOptions,

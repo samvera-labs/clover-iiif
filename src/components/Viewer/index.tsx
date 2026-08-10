@@ -117,7 +117,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   options,
   iiifContentSearchQuery,
 }) => {
-  const dispatch: any = useViewerDispatch();
+  const dispatch = useViewerDispatch();
 
   /**
    * Retrieve state set by the wrapping <ViewerProvider/> and make
@@ -509,7 +509,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
         );
         dispatch({
           type: "updateCollection",
-          collection: iiifResource,
+          collection: iiifResource as CollectionNormalized,
         });
         if (manifestId) {
           dispatch({

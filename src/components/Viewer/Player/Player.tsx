@@ -36,7 +36,7 @@ const Player: React.FC<PlayerProps> = ({
     onEndedRef.current = onEnded;
   }, [onEnded]);
 
-  const viewerDispatch: any = useViewerDispatch();
+  const viewerDispatch = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
 
   const {

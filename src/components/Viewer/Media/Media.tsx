@@ -30,7 +30,7 @@ interface MediaProps {
 
 const Media: React.FC<MediaProps> = ({ items }) => {
   const { t } = useCloverTranslation();
-  const dispatch: any = useViewerDispatch();
+  const dispatch = useViewerDispatch();
   const state: ViewerContextStore = useViewerState();
   const {
     activeCanvas,

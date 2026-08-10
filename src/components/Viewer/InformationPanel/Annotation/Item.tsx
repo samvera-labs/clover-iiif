@@ -52,7 +52,7 @@ export const AnnotationItem: React.FC<Props> = ({
   const thumbnail = `${targetResource}/${xywh}/!${computeSize(w, h)}/0/default.jpg`;
 
   const viewerState: ViewerContextStore = useViewerState();
-  const viewerDispatch: any = useViewerDispatch();
+  const viewerDispatch = useViewerDispatch();
 
   const { activeAnnotationId, openSeadragonViewer, vault, visibleCanvases } = viewerState;
 
