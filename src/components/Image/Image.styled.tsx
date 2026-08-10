@@ -33,6 +33,12 @@ const Viewport = styled("div", {
   height: "100%",
   zIndex: "0",
 
+  // OSD gives its canvas tabindex="0" but no visible focus state of its own.
+  ".openseadragon-canvas:focus-visible": {
+    outline: "2px solid $accent",
+    outlineOffset: "-2px",
+  },
+
   ".clover-iiif-image-openseadragon-annotation": {
     position: "relative",
     backgroundColor: "transparent",

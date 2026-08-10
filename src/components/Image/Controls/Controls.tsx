@@ -121,6 +121,27 @@ const Controls = ({
     });
   }, [openSeadragonViewer]);
 
+  /*
+   * OpenSeadragon moves the viewer in and out of the DOM to go full page, which
+   * drops focus. Without this a keyboard user is returned to the top of the
+   * document and has to tab back to the controls.
+   */
+  useEffect(() => {
+    if (!openSeadragonViewer) return;
+
+    // "full-page" fires on both entering and exiting full page mode, with
+    // fullPage true on entry. Only restore focus on exit, when OSD has just
+    // moved the viewer back into its original place in the DOM.
+    const restoreFocus = ({ fullPage }: { fullPage: boolean }) => {
+      if (fullPage) return;
+      const button = document.getElementById(config.fullPageButton as string);
+      if (button) button.focus();
+    };
+
+    openSeadragonViewer.addHandler("full-page", restoreFocus);
+    return () => openSeadragonViewer.removeHandler("full-page", restoreFocus);
+  }, [openSeadragonViewer, config.fullPageButton]);
+
   return (
     <Wrapper
       data-testid="clover-iiif-image-openseadragon-controls"
