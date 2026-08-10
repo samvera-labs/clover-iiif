@@ -37,6 +37,19 @@
 - Required: `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build` must pass.
 - Update docs (`docs/` or `pages/`) when changing public APIs or behavior.
 
+## Map Component
+
+- Map library: `maplibre-gl` + `@allmaps/maplibre` (replaced `leaflet` + `@allmaps/leaflet`).
+- The Map is rendered as a **"Map" tab inside the InformationPanel**, not in the Painting/Canvas area. The canvas always shows the image; the map is a companion tab.
+- Tab value: `"manifest-map"`. i18n key: `informationPanelTabsMap`. The tab appears only when `options.map.enabled: true` AND geographic data is present (`navPlace` or georeference annotations).
+- Map data computation (`mapGeorefAnnotations`, `mapNavPlace`) lives in `InformationPanel.tsx`, not `Painting.tsx`.
+- Default tile provider: `https://tile.openstreetmap.org/{z}/{x}/{y}.png` (no `{s}` subdomain). Use `expandTileUrls(url)` if a subdomain URL is supplied.
+- Stable layer ID constants are defined at the top of `src/components/Map/index.tsx` (`NAVPLACE_SOURCE`, `WARPED_LAYER_ID`, etc.).
+- MapLibre feature properties with nested objects (`iiifResource`, `label`, `summary`) are JSON-stringified in event handlers; use `parseMaplibreFeature()` to re-parse them.
+- Tests must mock `maplibre-gl` and `@allmaps/maplibre` in any test file that imports a component which (transitively) imports Map — including `InformationPanel.test.tsx`. The mock fires the `load` event synchronously.
+- Docs examples at `pages/docs/viewer/map.mdx` use `informationPanel: { open: true, defaultTab: "manifest-map" }` to show the panel open on the Map tab.
+- `Map` is a composable standalone component, just as `Image` is. The Viewer wraps both — but consumers can use `Map` directly outside the Viewer. Keep this composability in mind when changing either component's props or internals.
+
 ## Environment & Tooling
 - Node: `20.5.0` (see `.tool-versions`).
 - Husky/lint-staged run formatting and lint checks on commit.

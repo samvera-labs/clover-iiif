@@ -28,7 +28,7 @@ export const DC_CANVAS_ID =
 /**
  * IIIF Image API v3 base URL for the same FileSet.
  * Used with `adaptGeoreferenceAnnotationForOverlay` to produce an overlay
- * annotation compatible with @allmaps/leaflet.
+ * annotation compatible with @allmaps/maplibre.
  */
 export const DC_IMAGE_SERVICE_V3_ID =
   "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf";
@@ -44,7 +44,7 @@ export const CANVAS_HEIGHT = 9833;
  * A IIIF Georeference Extension annotation whose `target.source` is a Canvas.
  * This is the form an annotation takes when saved by an authoring tool.
  * Pass to `adaptGeoreferenceAnnotationForOverlay` before using with
- * @allmaps/leaflet, which requires an ImageService source.
+ * @allmaps/maplibre, which requires an ImageService source.
  */
 export const GEOREF_ANNOTATION_CANVAS: GeoreferenceAnnotation = {
   "@context": [
@@ -93,7 +93,7 @@ export const GEOREF_ANNOTATION_CANVAS: GeoreferenceAnnotation = {
 };
 
 /**
- * The same annotation adapted for @allmaps/leaflet (ImageService2 source).
+ * The same annotation adapted for @allmaps/maplibre (ImageService2 source).
  * Produced by `adaptGeoreferenceAnnotationForOverlay(GEOREF_ANNOTATION_CANVAS, IMAGE_SERVICE_V2_ID)`.
  */
 export const GEOREF_ANNOTATION_IMAGE_SERVICE: GeoreferenceAnnotation = {
@@ -112,7 +112,7 @@ export const GEOREF_ANNOTATION_IMAGE_SERVICE: GeoreferenceAnnotation = {
 /**
  * Real georeference annotation as returned by dc-api (content already JSON,
  * not a JSON string).  Target source is a Canvas — pass to
- * `adaptGeoreferenceAnnotationForOverlay` before using with @allmaps/leaflet.
+ * `adaptGeoreferenceAnnotationForOverlay` before using with @allmaps/maplibre.
  *
  * Source: src/fixtures/dc_annotation.json → data.annotations[0].content
  */
@@ -163,7 +163,7 @@ export const DC_GEOREF_ANNOTATION_CANVAS: GeoreferenceAnnotation = {
 };
 
 /**
- * The same annotation adapted for @allmaps/leaflet (ImageService3 source).
+ * The same annotation adapted for @allmaps/maplibre (ImageService3 source).
  * Produced by `adaptGeoreferenceAnnotationForOverlay(DC_GEOREF_ANNOTATION_CANVAS, DC_IMAGE_SERVICE_V3_ID, "ImageService3")`.
  */
 export const DC_GEOREF_ANNOTATION_OVERLAY: GeoreferenceAnnotation = {
@@ -199,7 +199,7 @@ export const DC_WILMETTE_CANVAS_HEIGHT = 6595;
 /**
  * Real georeference annotation for the Wilmette map as returned by dc-api
  * (content already JSON).  Target source is a Canvas — pass to
- * `adaptGeoreferenceAnnotationForOverlay` before using with @allmaps/leaflet.
+ * `adaptGeoreferenceAnnotationForOverlay` before using with @allmaps/maplibre.
  */
 export const DC_WILMETTE_GEOREF_ANNOTATION_CANVAS: GeoreferenceAnnotation = {
   "@context": [
@@ -254,7 +254,7 @@ export const DC_WILMETTE_GEOREF_ANNOTATION_CANVAS: GeoreferenceAnnotation = {
 };
 
 /**
- * The Wilmette annotation adapted for @allmaps/leaflet (ImageService3 source).
+ * The Wilmette annotation adapted for @allmaps/maplibre (ImageService3 source).
  * Produced by
  * `adaptGeoreferenceAnnotationForOverlay(DC_WILMETTE_GEOREF_ANNOTATION_CANVAS, DC_WILMETTE_IMAGE_SERVICE_V3_ID, "ImageService3")`.
  */

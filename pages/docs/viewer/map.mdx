@@ -639,7 +639,7 @@ export const overlayManifestJson = {
 
 <CallToAction href="/docs/viewer" text="Docs" size="small" />
 
-The Viewer can replace the default image canvas with a geographic map whenever `navPlace` data is available. Click either marker below to see the popup. Each one is a manifest in the collection, enriched with its label, summary, thumbnail, and a link back to the source.
+The Viewer surfaces a geographic map as a **Map tab** inside the Information Panel whenever `navPlace` data is available. The canvas continues to show the image normally; the map is a companion view alongside it. Click either marker below to see the popup — each one is a manifest in the collection, enriched with its label, summary, thumbnail, and a link back to the source.
 
 <div
   style={{
@@ -656,13 +656,15 @@ The Viewer can replace the default image canvas with a geographic map whenever `
   />
 </div>
 
-Enable the map in the Viewer with `options.map.enabled: true`, then use `options.map.navPlaceLevel` to control which level of the IIIF resource hierarchy supplies the features.
+Enable the map with `options.map.enabled: true`. The Map tab appears automatically in the Information Panel when geographic data is found. Set `options.informationPanel.defaultTab: "manifest-map"` to open the panel directly on the map. Use `options.map.navPlaceLevel` to control which level of the IIIF resource hierarchy supplies the features.
 
-| Option                      | Type                                                            | Default |
-| --------------------------- | --------------------------------------------------------------- | ------- |
-| `options.map.enabled`       | `boolean`                                                       | `false` |
-| `options.map.fitToData`     | `boolean`                                                       | `true`  |
-| `options.map.navPlaceLevel` | `auto \| Collection \| Manifest \| Canvas \| Annotation \| all` | `auto`  |
+| Option                                       | Type                                                            | Default         |
+| -------------------------------------------- | --------------------------------------------------------------- | --------------- |
+| `options.map.enabled`                        | `boolean`                                                       | `false`         |
+| `options.map.fitToData`                      | `boolean`                                                       | `true`          |
+| `options.map.navPlaceLevel`                  | `auto \| Collection \| Manifest \| Canvas \| Annotation \| all` | `auto`          |
+| `options.informationPanel.open`              | `boolean`                                                       | `true`          |
+| `options.informationPanel.defaultTab`        | `string`                                                        | `manifest-about`|
 
 ---
 
@@ -680,7 +682,7 @@ The example below uses [IIIF Cookbook recipe 0240: navPlace on Canvases](https:/
       options={{
         canvasHeight: "500px",
         showIIIFBadge: false,
-        informationPanel: { open: false, renderToggle: false },
+        informationPanel: { open: true, defaultTab: "manifest-map" },
         map: {
           enabled: true,
           navPlaceLevel: "Canvas",
@@ -697,7 +699,7 @@ The example below uses [IIIF Cookbook recipe 0240: navPlace on Canvases](https:/
         options={{
           canvasHeight: "500px",
           showIIIFBadge: false,
-          informationPanel: { open: false, renderToggle: false },
+          informationPanel: { open: true, defaultTab: "manifest-map" },
           map: {
             enabled: true,
             navPlaceLevel: "Canvas",
@@ -715,7 +717,7 @@ The example below uses [IIIF Cookbook recipe 0240: navPlace on Canvases](https:/
 
 `navPlaceLevel: "Manifest"` renders the navPlace features declared on the **active manifest**. This is the right choice for a detail page that displays a single item and wants to show its geographic context. The map does not change when navigating between canvases.
 
-Map popups are enriched from the manifest's `label`, `summary`, `thumbnail`, and `homepage` when present.
+Map popups are enriched from the manifest's `label`, `summary`, and `thumbnail` when present. The popup title is plain text by default — it does not link anywhere.
 
 <Tabs items={["Code", "Preview"]}>
   <Tab>
@@ -741,7 +743,7 @@ Map popups are enriched from the manifest's `label`, `summary`, `thumbnail`, and
       options={{
         canvasHeight: "500px",
         showIIIFBadge: false,
-        informationPanel: { open: false, renderToggle: false },
+        informationPanel: { open: true, defaultTab: "manifest-map" },
         map: {
           enabled: true,
           navPlaceLevel: "Manifest",
@@ -759,7 +761,7 @@ Map popups are enriched from the manifest's `label`, `summary`, `thumbnail`, and
         options={{
           canvasHeight: "500px",
           showIIIFBadge: false,
-          informationPanel: { open: false, renderToggle: false },
+          informationPanel: { open: true, defaultTab: "manifest-map" },
           map: {
             enabled: true,
             navPlaceLevel: "Manifest",
@@ -788,7 +790,7 @@ The example below loads a two-manifest collection. Select a manifest from the th
       options={{
         canvasHeight: "500px",
         showIIIFBadge: false,
-        informationPanel: { open: false, renderToggle: false },
+        informationPanel: { open: true, defaultTab: "manifest-map" },
         map: {
           enabled: true,
           navPlaceLevel: "Manifest",
@@ -805,7 +807,7 @@ The example below loads a two-manifest collection. Select a manifest from the th
         options={{
           canvasHeight: "500px",
           showIIIFBadge: false,
-          informationPanel: { open: false, renderToggle: false },
+          informationPanel: { open: true, defaultTab: "manifest-map" },
           map: {
             enabled: true,
             navPlaceLevel: "Manifest",
@@ -870,7 +872,7 @@ The example below uses a manifest with navPlace at both the Manifest level (a bo
       options={{
         canvasHeight: "500px",
         showIIIFBadge: false,
-        informationPanel: { open: false, renderToggle: false },
+        informationPanel: { open: true, defaultTab: "manifest-map" },
         map: {
           enabled: true,
           navPlaceLevel: "all",
@@ -888,7 +890,7 @@ The example below uses a manifest with navPlace at both the Manifest level (a bo
         options={{
           canvasHeight: "500px",
           showIIIFBadge: false,
-          informationPanel: { open: false, renderToggle: false },
+          informationPanel: { open: true, defaultTab: "manifest-map" },
           map: {
             enabled: true,
             navPlaceLevel: "all",
@@ -916,7 +918,7 @@ The example below uses the same two-canvas manifest. The first canvas has Canvas
       options={{
         canvasHeight: "500px",
         showIIIFBadge: false,
-        informationPanel: { open: false, renderToggle: false },
+        informationPanel: { open: true, defaultTab: "manifest-map" },
         map: {
           enabled: true,
           // navPlaceLevel: "auto" is the default; it can be omitted
@@ -933,7 +935,7 @@ The example below uses the same two-canvas manifest. The first canvas has Canvas
         options={{
           canvasHeight: "500px",
           showIIIFBadge: false,
-          informationPanel: { open: false, renderToggle: false },
+          informationPanel: { open: true, defaultTab: "manifest-map" },
           map: {
             enabled: true,
             fitToData: true,
@@ -948,7 +950,7 @@ The example below uses the same two-canvas manifest. The first canvas has Canvas
 
 ## Image Overlays (Georeference)
 
-When a manifest's canvases carry [Georeference Extension](https://iiif.io/api/extension/georef/) annotations, the Viewer can warp the source images onto the map as overlays via [@allmaps/leaflet](https://allmaps.org/). It can render **multiple sheets together**, alongside any `navPlace` geometry.
+When a manifest's canvases carry [Georeference Extension](https://iiif.io/api/extension/georef/) annotations, the Viewer can warp the source images onto the map as overlays via [@allmaps/maplibre](https://allmaps.org/). It can render **multiple sheets together**, alongside any `navPlace` geometry.
 
 Set `options.map.showImageOverlay: true`. Clover then:
 
@@ -977,7 +979,7 @@ The example below combines two adjacent Northwestern University Libraries plat m
       options={{
         canvasHeight: "500px",
         showIIIFBadge: false,
-        informationPanel: { open: false, renderToggle: false },
+        informationPanel: { open: true, defaultTab: "manifest-map" },
         map: {
           enabled: true,
           showImageOverlay: true,
@@ -997,7 +999,7 @@ The example below combines two adjacent Northwestern University Libraries plat m
         options={{
           canvasHeight: "500px",
           showIIIFBadge: false,
-          informationPanel: { open: false, renderToggle: false },
+          informationPanel: { open: true, defaultTab: "manifest-map" },
           map: {
             enabled: true,
             showImageOverlay: true,
@@ -1013,7 +1015,7 @@ The example below combines two adjacent Northwestern University Libraries plat m
 </Tabs>
 
 <Callout type="info">
-  `@allmaps/leaflet` is an optional dependency, loaded only when
+  `@allmaps/maplibre` is an optional dependency, loaded only when
   `showImageOverlay` is `true`. The georeference annotation's `target.source`
   must resolve to an IIIF Image API endpoint for warping; Clover handles this by
   reading the canvas's painting image service, so stored Canvas-sourced

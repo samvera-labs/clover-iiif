@@ -1,5 +1,10 @@
 import { styled } from "src/styles/stitches.config";
 
+const Canvas = styled("div", {
+  width: "100%",
+  height: "100%",
+});
+
 const Wrapper = styled("div", {
   position: "relative",
   width: "100%",
@@ -9,63 +14,46 @@ const Wrapper = styled("div", {
   isolation: "isolate",
   zIndex: "0",
 
-  ".leaflet-container": {
-    fontFamily: "inherit",
+  // MapLibre's base stylesheet sets an opinionated `font: 12px/20px Helvetica
+  // Neue, Arial, Helvetica, sans-serif` shorthand on `.maplibregl-map`, which
+  // cascades font-size/line-height/font-family to every descendant (popups
+  // included). `font: inherit` resets the whole shorthand back to the
+  // document's own values instead of overriding font-family alone.
+  ".maplibregl-map": {
+    font: "inherit",
   },
 
-  ".leaflet-container a": {
-    color: "$accentAlt",
+  ".maplibregl-map a": {
+    color: "$accent",
   },
 
-  ".leaflet-control-container": {
-    fontFamily: "inherit",
+  ".maplibregl-ctrl": {
+    font: "inherit",
   },
 
   // Crosshair cursor override (applied via className)
-  "&.clover-map-crosshair .leaflet-pane, &.clover-map-crosshair .leaflet-pane *":
-    {
-      cursor: "crosshair !important",
-    },
+  "&.clover-map-crosshair .maplibregl-canvas-container canvas": {
+    cursor: "crosshair !important",
+  },
 
   // Dragging cursor override
-  "&.clover-map-dragging .leaflet-pane, &.clover-map-dragging .leaflet-pane *":
-    {
-      cursor: "grabbing !important",
-    },
-
-  ".leaflet-interactive": {
-    transition: "stroke-width 120ms ease, fill-opacity 120ms ease",
+  "&.clover-map-dragging .maplibregl-canvas-container canvas": {
+    cursor: "grabbing !important",
   },
 
-  ".leaflet-interactive:hover": {
-    strokeWidth: "3",
-    fillOpacity: "0.95",
+  ".clover-map-popup-wrapper": {
+    marginBottom: "0.618rem",
   },
 
-  ".clover-map-leaflet-popup": {
-    marginBottom: "0.75rem",
-  },
-
-  ".clover-map-leaflet-popup .leaflet-popup-content-wrapper": {
+  ".clover-map-popup-wrapper .maplibregl-popup-content": {
     overflow: "hidden",
     padding: "0",
-    borderRadius: "0.25rem",
-    border: "1px solid #0002",
-    boxShadow: "0 14px 36px #0004",
+    borderRadius: "3px",
+    border: "1px solid $secondary",
+    boxShadow: "2px 2px 5px #0001",
   },
 
-  ".clover-map-leaflet-popup .leaflet-popup-content": {
-    width: "auto !important",
-    margin: "0",
-    color: "$primary",
-    fontFamily: "inherit",
-  },
-
-  ".clover-map-leaflet-popup .leaflet-popup-tip": {
-    boxShadow: "0 6px 18px #0003",
-  },
-
-  ".clover-map-leaflet-popup .leaflet-popup-close-button": {
+  ".clover-map-popup-wrapper .maplibregl-popup-close-button": {
     display: "none",
   },
 
@@ -75,13 +63,16 @@ const Wrapper = styled("div", {
     minWidth: "15rem",
     maxWidth: "20rem",
     backgroundColor: "$secondary",
+    color: "$primary",
+    font: "inherit",
+    margin: "0",
   },
 
   ".clover-map-popup-media": {
     width: "100%",
     maxHeight: "10.5rem",
     overflow: "hidden",
-    backgroundColor: "#6663",
+    backgroundColor: "$secondary",
 
     img: {
       display: "block",
@@ -97,44 +88,35 @@ const Wrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "0.382rem",
-    padding: "0.875rem 1rem 1rem",
+    padding: "0.618rem 1rem 1rem",
   },
 
   ".clover-map-popup-context": {
-    color: "$secondaryAlt",
-    fontSize: "0.72rem",
+    color: "$primary",
+    fontSize: "0.7222rem",
     fontWeight: "500",
-    letterSpacing: "0.04em",
     lineHeight: "1rem",
-    textTransform: "uppercase",
   },
 
   ".clover-map-popup-title": {
     color: "$primary",
     display: "block",
-    fontSize: "1.0625rem",
+    fontSize: "1rem",
     fontWeight: "500",
     lineHeight: "1.3",
-    textDecoration: "none",
-  },
-
-  "a.clover-map-popup-title:hover, a.clover-map-popup-title:focus-visible": {
-    color: "$accentAlt",
-    textDecoration: "underline",
-    textUnderlineOffset: "0.18em",
   },
 
   ".clover-map-popup-location": {
-    color: "$accentAlt",
-    fontSize: "0.875rem",
+    color: "$primary",
+    fontSize: "0.8333rem",
     lineHeight: "1.25rem",
   },
 
   ".clover-map-popup-summary": {
-    color: "$secondaryAlt",
-    fontSize: "0.875rem",
+    color: "$primary",
+    fontSize: "1rem",
     lineHeight: "1.4",
   },
 });
 
-export { Wrapper };
+export { Canvas, Wrapper };

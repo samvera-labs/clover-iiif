@@ -1,5 +1,11 @@
+// dts-bundle-generator (used for the "map" library build) only sees ambient declarations
+// reachable via each entry's own reference/import graph, not the root tsconfig's `include`
+// glob. Without this reference, building this file's library bundle fails with "Cannot find
+// module 'maplibre-gl/dist/maplibre-gl.css'" even though decs.d.ts already declares it.
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../../decs.d.ts" />
 /**
- * CloverMap — a Leaflet-based map component for IIIF resources.
+ * CloverMap — a MapLibre-based map component for IIIF resources.
  *
  * Supports:
  *   - navPlace GeoJSON (https://iiif.io/api/extension/navplace/)
@@ -8,13 +14,14 @@
  *   - Arbitrary GeoJSON via the `geoJson` escape-hatch prop
  */
 
-import "leaflet/dist/leaflet.css";
-
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import type maplibregl from "maplibre-gl";
 
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
-import { Wrapper } from "src/components/Map/Map.styled";
+import Controls from "src/components/Map/Controls";
+import { Canvas, Wrapper } from "src/components/Map/Map.styled";
+import { theme } from "src/styles/stitches.config";
 import {
   GeoreferenceAnnotation,
   GroundControlPoint,
@@ -40,7 +47,6 @@ export interface MapMarker {
   latitude: number;
   longitude: number;
   label?: string;
-  color?: string;
 }
 
 export interface MapCenter {
@@ -90,7 +96,7 @@ export interface CloverMapProps {
    *      them as numbered circle markers on the map.
    *   2. Include GCP geo-coordinates in `fitToData` bounds.
    *   3. If `showImageOverlay` is true and there are ≥ 3 GCPs, load
-   *      @allmaps/leaflet and display the warped IIIF image on the map.
+   *      @allmaps/maplibre and display the warped IIIF image on the map.
    *
    * For the image overlay to work the annotation's `target.source` must reference
    * an IIIF Image API endpoint (type "ImageService2" or "ImageService3") rather
@@ -118,7 +124,7 @@ export interface CloverMapProps {
 
   /**
    * When true (and `georefAnnotation` is set with ≥ 3 GCPs), render the
-   * georeferenced IIIF image as a warped overlay using @allmaps/leaflet.
+   * georeferenced IIIF image as a warped overlay using @allmaps/maplibre.
    * @default false
    */
   showImageOverlay?: boolean;
@@ -152,14 +158,61 @@ export interface CloverMapProps {
 
 const DEFAULT_CENTER: MapCenter = { latitude: 20, longitude: 0, zoom: 2 };
 const DEFAULT_TILE_LAYER: MapTileLayer = {
-  url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-  attribution: "&copy; OpenStreetMap contributors",
+  url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+  attribution:
+    "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors &copy; <a href='https://carto.com/attributions'>CARTO</a>",
 };
 
-/** Color used for navPlace features */
-const NAV_PLACE_COLOR = "#007fa3";
+// Source / layer ID constants
+const NAVPLACE_SOURCE = "clover-navplace";
+const NAVPLACE_FILL_LAYER = "clover-navplace-fill";
+const NAVPLACE_LINE_LAYER = "clover-navplace-line";
+const NAVPLACE_CIRCLE_LAYER = "clover-navplace-circle";
+const GEOJSON_SOURCE = "clover-geojson";
+const GEOJSON_FILL_LAYER = "clover-geojson-fill";
+const GEOJSON_LINE_LAYER = "clover-geojson-line";
+const GEOJSON_CIRCLE_LAYER = "clover-geojson-circle";
+const MARKERS_SOURCE = "clover-markers";
+const MARKERS_LAYER = "clover-markers-circle";
+const GCP_SOURCE = "clover-gcps";
+const GCP_LAYER = "clover-gcps-circle";
+const WARPED_LAYER_ID = "clover-warped";
+
+// Markers never take a custom color — every navPlace feature and custom
+// marker renders as a solid dot in the app's accent color.
+const ACCENT_COLOR = theme.colors.accent;
 /** Color used for GCP control point markers */
 const GCP_COLOR = "#c05c00";
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+/** Expand {s} subdomain placeholders to an array of tile URLs. */
+function expandTileUrls(url: string): string[] {
+  if (url.includes("{s}")) {
+    return ["a", "b", "c"].map((s) => url.replace(/{s}/g, s));
+  }
+  return [url];
+}
+
+/**
+ * MapLibre serializes nested GeoJSON properties to JSON strings. Re-parse any
+ * known object-valued properties so popup helpers see the original shape.
+ */
+function parseMaplibreFeature(feature: GeoJSON.Feature): GeoJSON.Feature {
+  if (!feature.properties) return feature;
+  const props = { ...feature.properties };
+  for (const key of ["iiifResource", "label", "summary"]) {
+    const v = props[key];
+    if (typeof v === "string" && (v.startsWith("{") || v.startsWith("["))) {
+      try {
+        props[key] = JSON.parse(v);
+      } catch {
+        // keep as string
+      }
+    }
+  }
+  return { ...feature, properties: props };
+}
 
 const escapeHtml = (value: string) =>
   value
@@ -194,7 +247,6 @@ const buildNavPlacePopup = (feature: GeoJSON.Feature): string => {
   const parentLabel = getNavPlaceLabel(resource?.parent?.label);
   const thumbnail = resource?.thumbnail;
   const context = [resource?.type, parentLabel].filter(Boolean).join(" in ");
-  const href = resource?.homepage || resource?.id;
 
   if (!title && !featureLabel && !summary && !thumbnail && !context) return "";
 
@@ -204,7 +256,6 @@ const buildNavPlacePopup = (feature: GeoJSON.Feature): string => {
   const escapedSummary = summary ? escapeHtml(summary) : "";
   const escapedContext = context ? escapeHtml(context) : "";
   const escapedThumbnail = thumbnail ? escapeHtml(thumbnail) : "";
-  const escapedHref = href ? escapeHtml(href) : "";
 
   return `
     <div class="clover-map-popup">
@@ -215,11 +266,7 @@ const buildNavPlacePopup = (feature: GeoJSON.Feature): string => {
       }
       <div class="clover-map-popup-body">
         ${escapedContext ? `<div class="clover-map-popup-context">${escapedContext}</div>` : ""}
-        ${
-          escapedHref
-            ? `<a class="clover-map-popup-title" href="${escapedHref}" target="_blank" rel="noopener noreferrer">${escapedTitle}</a>`
-            : `<div class="clover-map-popup-title">${escapedTitle}</div>`
-        }
+        <div class="clover-map-popup-title">${escapedTitle}</div>
         ${
           escapedFeatureLabel
             ? `<div class="clover-map-popup-location">${escapedFeatureLabel}</div>`
@@ -234,6 +281,96 @@ const buildNavPlacePopup = (feature: GeoJSON.Feature): string => {
     </div>
   `;
 };
+
+// ── MapLibre layer helpers ────────────────────────────────────────────────────
+
+function safeRemoveLayer(map: maplibregl.Map, id: string) {
+  if (map.getLayer(id)) map.removeLayer(id);
+}
+
+function safeRemoveSource(map: maplibregl.Map, id: string) {
+  if (map.getSource(id)) map.removeSource(id);
+}
+
+function removeNavPlaceLayers(map: maplibregl.Map) {
+  safeRemoveLayer(map, NAVPLACE_CIRCLE_LAYER);
+  safeRemoveLayer(map, NAVPLACE_LINE_LAYER);
+  safeRemoveLayer(map, NAVPLACE_FILL_LAYER);
+  safeRemoveSource(map, NAVPLACE_SOURCE);
+}
+
+function removeGeoJsonLayers(map: maplibregl.Map) {
+  safeRemoveLayer(map, GEOJSON_CIRCLE_LAYER);
+  safeRemoveLayer(map, GEOJSON_LINE_LAYER);
+  safeRemoveLayer(map, GEOJSON_FILL_LAYER);
+  safeRemoveSource(map, GEOJSON_SOURCE);
+}
+
+function removeMarkersLayer(map: maplibregl.Map) {
+  safeRemoveLayer(map, MARKERS_LAYER);
+  safeRemoveSource(map, MARKERS_SOURCE);
+}
+
+function removeGcpLayer(map: maplibregl.Map) {
+  safeRemoveLayer(map, GCP_LAYER);
+  safeRemoveSource(map, GCP_SOURCE);
+}
+
+function addGeoJsonLayers(
+  map: maplibregl.Map,
+  sourceId: string,
+  fillId: string,
+  lineId: string,
+  circleId: string,
+  data: GeoJSON.FeatureCollection | GeoJSON.Feature,
+  color: string,
+) {
+  // Features may carry their own GeoJSON "simplestyle" properties
+  // (https://github.com/mapbox/simplestyle-spec) — honor those when present,
+  // falling back to the marker accent color/defaults otherwise.
+  map.addSource(sourceId, { type: "geojson", data });
+  map.addLayer({
+    id: fillId,
+    type: "fill",
+    source: sourceId,
+    filter: ["match", ["geometry-type"], ["Polygon", "MultiPolygon"], true, false],
+    paint: {
+      "fill-color": ["coalesce", ["get", "fill"], color],
+      "fill-opacity": ["coalesce", ["get", "fill-opacity"], 0.18],
+    },
+  });
+  map.addLayer({
+    id: lineId,
+    type: "line",
+    source: sourceId,
+    filter: [
+      "match",
+      ["geometry-type"],
+      ["LineString", "MultiLineString", "Polygon", "MultiPolygon"],
+      true,
+      false,
+    ],
+    paint: {
+      "line-color": ["coalesce", ["get", "stroke"], color],
+      "line-width": ["coalesce", ["get", "stroke-width"], 2],
+      "line-opacity": ["coalesce", ["get", "stroke-opacity"], 1],
+    },
+  });
+  map.addLayer({
+    id: circleId,
+    type: "circle",
+    source: sourceId,
+    filter: ["match", ["geometry-type"], ["Point", "MultiPoint"], true, false],
+    paint: {
+      "circle-radius": 6,
+      "circle-color": ["coalesce", ["get", "marker-color"], color],
+      "circle-opacity": 1,
+      "circle-stroke-width": 2,
+      "circle-stroke-color": ["coalesce", ["get", "marker-color"], color],
+      "circle-stroke-opacity": 0.35,
+    },
+  });
+}
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -255,11 +392,9 @@ const CloverMap: React.FC<CloverMapProps> = ({
   tileLayer = DEFAULT_TILE_LAYER,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<import("leaflet").Map | null>(null);
-  const navPlaceLayerRef = useRef<import("leaflet").GeoJSON | null>(null);
-  const geoJsonLayerRef = useRef<import("leaflet").GeoJSON | null>(null);
-  const markerLayerRef = useRef<import("leaflet").LayerGroup | null>(null);
-  const gcpLayerRef = useRef<import("leaflet").LayerGroup | null>(null);
+  const mapRef = useRef<maplibregl.Map | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const mlRef = useRef<typeof maplibregl | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const warpedLayerRef = useRef<any>(null);
   const onMapClickRef = useRef(onMapClick);
@@ -267,7 +402,6 @@ const CloverMap: React.FC<CloverMapProps> = ({
   const [iiifNavPlace, setIiifNavPlace] =
     useState<GeoJSON.FeatureCollection | null>(null);
 
-  // Combine the single + multiple georef annotation props into one list.
   const allGeorefAnnotations = useMemo(
     () =>
       [
@@ -277,7 +411,6 @@ const CloverMap: React.FC<CloverMapProps> = ({
     [georefAnnotation, georefAnnotations],
   );
 
-  // Each annotation's parsed GCPs, kept aligned with allGeorefAnnotations.
   const gcpsByAnnotation = useMemo(
     () =>
       allGeorefAnnotations.map((annotation) =>
@@ -286,7 +419,6 @@ const CloverMap: React.FC<CloverMapProps> = ({
     [allGeorefAnnotations],
   );
 
-  // Flat list of every GCP across all annotations (for rendering + fit bounds).
   const gcps = useMemo(() => gcpsByAnnotation.flat(), [gcpsByAnnotation]);
 
   const resolvedNavPlace = useMemo(() => {
@@ -294,9 +426,7 @@ const CloverMap: React.FC<CloverMapProps> = ({
       (collection): collection is GeoJSON.FeatureCollection =>
         Boolean(collection?.features?.length),
     );
-
     if (!collections.length) return null;
-
     return createNavPlaceFeatureCollection(
       collections.flatMap((collection) => collection.features),
     );
@@ -310,17 +440,14 @@ const CloverMap: React.FC<CloverMapProps> = ({
         setIiifNavPlace(null);
         return;
       }
-
       try {
         const resource =
           typeof iiifContent === "string"
             ? await fetch(iiifContent, {
                 headers: { Accept: "application/json, application/ld+json" },
-              }).then((response) => response.json())
+              }).then((r) => r.json())
             : iiifContent;
-
         if (!isMounted) return;
-
         const levels =
           navPlaceLevel === "all"
             ? undefined
@@ -337,18 +464,16 @@ const CloverMap: React.FC<CloverMapProps> = ({
     }
 
     loadIiifNavPlace();
-
     return () => {
       isMounted = false;
     };
   }, [iiifContent, navPlaceLevel]);
 
-  // Keep click handler current without re-initialising the map
   useEffect(() => {
     onMapClickRef.current = onMapClick;
   }, [onMapClick]);
 
-  // Toggle crosshair cursor class
+  // Toggle crosshair cursor class on the container
   useEffect(() => {
     if (!mapReady || !mapRef.current) return;
     mapRef.current
@@ -356,9 +481,9 @@ const CloverMap: React.FC<CloverMapProps> = ({
       .classList.toggle("clover-map-crosshair", useCrosshairCursor);
   }, [mapReady, useCrosshairCursor]);
 
-  // ── Map size invalidation helpers ─────────────────────────────────────────
+  // ── Map size helpers ───────────────────────────────────────────────────────
 
-  const refreshMap = () => mapRef.current?.invalidateSize();
+  const refreshMap = () => mapRef.current?.resize();
 
   const queueMapRefresh = () => {
     window.requestAnimationFrame(() => {
@@ -369,58 +494,160 @@ const CloverMap: React.FC<CloverMapProps> = ({
     window.setTimeout(refreshMap, 100);
   };
 
-  // ── Initialise Leaflet (runs once on mount) ───────────────────────────────
+  // ── Initialise MapLibre (runs once on mount) ───────────────────────────────
 
   useEffect(() => {
     let isMounted = true;
 
-    async function initializeMap() {
-      if (!containerRef.current || mapRef.current) return;
+    function startMap(ml: typeof maplibregl) {
+      if (!containerRef.current) return;
 
-      const L = await import("leaflet");
-      if (!isMounted || !containerRef.current) return;
-
-      mapRef.current = L.map(containerRef.current, {
-        center: [center.latitude, center.longitude],
+      const map = new ml.Map({
+        container: containerRef.current,
+        style: {
+          version: 8,
+          sources: {
+            "clover-tiles": {
+              type: "raster",
+              tiles: expandTileUrls(tileLayer.url),
+              tileSize: 256,
+              attribution: tileLayer.attribution,
+            },
+          },
+          layers: [
+            {
+              id: "clover-tiles",
+              type: "raster",
+              source: "clover-tiles",
+            },
+          ],
+        },
+        center: [center.longitude, center.latitude],
         zoom: center.zoom,
+        maxPitch: 0,
       });
 
-      L.tileLayer(tileLayer.url, {
-        attribution: tileLayer.attribution,
-      }).addTo(mapRef.current);
+      mapRef.current = map;
 
-      markerLayerRef.current = L.layerGroup().addTo(mapRef.current);
-      gcpLayerRef.current = L.layerGroup().addTo(mapRef.current);
+      map.on("load", () => {
+        if (!isMounted) return;
+        // Register permanent event handlers using stable layer IDs
+        const layers = [
+          NAVPLACE_FILL_LAYER,
+          NAVPLACE_LINE_LAYER,
+          NAVPLACE_CIRCLE_LAYER,
+          GEOJSON_FILL_LAYER,
+          GEOJSON_LINE_LAYER,
+          GEOJSON_CIRCLE_LAYER,
+        ];
 
-      mapRef.current.on("click", (event) => {
-        onMapClickRef.current?.([
-          Number(event.latlng.lng.toFixed(5)),
-          Number(event.latlng.lat.toFixed(5)),
-        ]);
+        layers.forEach((layerId) => {
+          map.on("click", layerId, (e) => {
+            if (!e.features?.length) return;
+            const feature = parseMaplibreFeature(
+              e.features[0] as GeoJSON.Feature,
+            );
+            const popupHtml = buildNavPlacePopup(feature);
+            if (popupHtml) {
+              new ml.Popup({
+                className: "clover-map-popup-wrapper",
+                maxWidth: "320px",
+              })
+                .setLngLat(e.lngLat)
+                .setHTML(popupHtml)
+                .addTo(map);
+              return;
+            }
+            const label =
+              getNavPlaceTitle(feature) ||
+              getNavPlaceLabel(feature?.properties?.label);
+            if (label) {
+              new ml.Popup({
+                closeButton: false,
+                offset: 8,
+              })
+                .setLngLat(e.lngLat)
+                .setHTML(escapeHtml(label))
+                .addTo(map);
+            }
+          });
+          map.on("mouseenter", layerId, () => {
+            map.getCanvas().style.cursor = "pointer";
+          });
+          map.on("mouseleave", layerId, () => {
+            map.getCanvas().style.cursor = "";
+          });
+        });
+
+        map.on("click", MARKERS_LAYER, (e) => {
+          if (!e.features?.length) return;
+          const label = e.features[0].properties?.label;
+          if (label) {
+            new ml.Popup({ closeButton: false, offset: 8 })
+              .setLngLat(e.lngLat)
+              .setHTML(escapeHtml(String(label)))
+              .addTo(map);
+          }
+        });
+        map.on("mouseenter", MARKERS_LAYER, () => {
+          map.getCanvas().style.cursor = "pointer";
+        });
+        map.on("mouseleave", MARKERS_LAYER, () => {
+          map.getCanvas().style.cursor = "";
+        });
+
+        map.on("click", GCP_LAYER, (e) => {
+          if (!e.features?.length) return;
+          const label = e.features[0].properties?.label;
+          if (label) {
+            new ml.Popup({ closeButton: false, offset: 8 })
+              .setLngLat(e.lngLat)
+              .setHTML(escapeHtml(String(label)))
+              .addTo(map);
+          }
+        });
+        map.on("mouseenter", GCP_LAYER, () => {
+          map.getCanvas().style.cursor = "pointer";
+        });
+        map.on("mouseleave", GCP_LAYER, () => {
+          map.getCanvas().style.cursor = "";
+        });
+
+        map.on("click", (e) => {
+          onMapClickRef.current?.([
+            Number(e.lngLat.lng.toFixed(5)),
+            Number(e.lngLat.lat.toFixed(5)),
+          ]);
+        });
+
+        map.on("dragstart", () =>
+          map.getContainer().classList.add("clover-map-dragging"),
+        );
+        map.on("dragend", () =>
+          map.getContainer().classList.remove("clover-map-dragging"),
+        );
+
+        setMapReady(true);
+        queueMapRefresh();
       });
-
-      mapRef.current.on("dragstart", () =>
-        mapRef.current?.getContainer().classList.add("clover-map-dragging"),
-      );
-      mapRef.current.on("dragend", () =>
-        mapRef.current?.getContainer().classList.remove("clover-map-dragging"),
-      );
-
-      setMapReady(true);
-      queueMapRefresh();
     }
 
-    initializeMap();
+    async function initMap() {
+      if (!containerRef.current || mapRef.current) return;
+      await import("maplibre-gl/dist/maplibre-gl.css");
+      const { default: ml } = await import("maplibre-gl");
+      if (!isMounted || !containerRef.current) return;
+      mlRef.current = ml;
+      startMap(ml);
+    }
+
+    initMap();
 
     return () => {
       isMounted = false;
       setMapReady(false);
       mapRef.current?.remove();
       mapRef.current = null;
-      navPlaceLayerRef.current = null;
-      geoJsonLayerRef.current = null;
-      markerLayerRef.current = null;
-      gcpLayerRef.current = null;
       warpedLayerRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -430,236 +657,200 @@ const CloverMap: React.FC<CloverMapProps> = ({
 
   useEffect(() => {
     if (!mapReady || !mapRef.current || fitToData) return;
-    mapRef.current.setView([center.latitude, center.longitude], center.zoom);
+    mapRef.current.setCenter([center.longitude, center.latitude]);
+    mapRef.current.setZoom(center.zoom);
     queueMapRefresh();
-    // `fitToData` intentionally omitted — only recenter on explicit center changes
+    // `fitToData` intentionally omitted
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [center.latitude, center.longitude, center.zoom, mapReady]);
 
   // ── Render navPlace GeoJSON layer ─────────────────────────────────────────
 
   useEffect(() => {
-    let isMounted = true;
+    if (!mapReady || !mapRef.current) return;
+    const map = mapRef.current;
 
-    async function renderNavPlace() {
-      if (!mapReady || !mapRef.current) return;
-      const L = await import("leaflet");
-      if (!isMounted || !mapRef.current) return;
+    removeNavPlaceLayers(map);
 
-      if (navPlaceLayerRef.current) {
-        navPlaceLayerRef.current.remove();
-        navPlaceLayerRef.current = null;
-      }
+    const featureCollection = normalizeNavPlace(resolvedNavPlace);
+    if (!featureCollection?.features?.length) return;
 
-      const featureCollection = normalizeNavPlace(resolvedNavPlace);
-      if (!featureCollection?.features?.length) return;
+    addGeoJsonLayers(
+      map,
+      NAVPLACE_SOURCE,
+      NAVPLACE_FILL_LAYER,
+      NAVPLACE_LINE_LAYER,
+      NAVPLACE_CIRCLE_LAYER,
+      featureCollection,
+      ACCENT_COLOR,
+    );
 
-      navPlaceLayerRef.current = L.geoJSON(featureCollection, {
-        pointToLayer: (_feature, latLng) =>
-          L.circleMarker(latLng, {
-            radius: 6,
-            color: NAV_PLACE_COLOR,
-            fillColor: NAV_PLACE_COLOR,
-            fillOpacity: 0.8,
-            weight: 2,
-          }),
-        style: {
-          color: NAV_PLACE_COLOR,
-          fillColor: NAV_PLACE_COLOR,
-          fillOpacity: 0.18,
-          weight: 2,
-        },
-        onEachFeature: (feature, layer) => {
-          const popup = buildNavPlacePopup(feature);
-          if (popup) {
-            layer.bindPopup(popup, {
-              className: "clover-map-leaflet-popup",
-              maxWidth: 320,
-              minWidth: 240,
-            });
-            return;
-          }
-
-          const label = getNavPlaceTitle(feature);
-          if (label) layer.bindTooltip(label);
-        },
-      }).addTo(mapRef.current);
-
-      queueMapRefresh();
-    }
-
-    renderNavPlace();
-    return () => {
-      isMounted = false;
-    };
+    queueMapRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedNavPlace, mapReady]);
 
   // ── Render raw geoJson layer ──────────────────────────────────────────────
 
   useEffect(() => {
-    let isMounted = true;
+    if (!mapReady || !mapRef.current) return;
+    const map = mapRef.current;
 
-    async function renderGeoJson() {
-      if (!mapReady || !mapRef.current) return;
-      const L = await import("leaflet");
-      if (!isMounted || !mapRef.current) return;
+    removeGeoJsonLayers(map);
 
-      if (geoJsonLayerRef.current) {
-        geoJsonLayerRef.current.remove();
-        geoJsonLayerRef.current = null;
-      }
+    const features =
+      geoJson && "features" in geoJson ? geoJson.features : null;
+    const hasData = geoJson && (features ? features.length > 0 : true);
+    if (!hasData) return;
 
-      const features =
-        geoJson && "features" in geoJson ? geoJson.features : null;
-      const hasData = geoJson && (features ? features.length > 0 : true);
-      if (!hasData) return;
+    addGeoJsonLayers(
+      map,
+      GEOJSON_SOURCE,
+      GEOJSON_FILL_LAYER,
+      GEOJSON_LINE_LAYER,
+      GEOJSON_CIRCLE_LAYER,
+      geoJson as GeoJSON.FeatureCollection,
+      ACCENT_COLOR,
+    );
 
-      geoJsonLayerRef.current = L.geoJSON(geoJson as GeoJSON.GeoJsonObject, {
-        pointToLayer: (_feature, latLng) =>
-          L.circleMarker(latLng, {
-            radius: 6,
-            color: NAV_PLACE_COLOR,
-            fillColor: NAV_PLACE_COLOR,
-            fillOpacity: 0.8,
-            weight: 2,
-          }),
-        style: {
-          color: NAV_PLACE_COLOR,
-          fillColor: NAV_PLACE_COLOR,
-          fillOpacity: 0.18,
-          weight: 2,
-        },
-        onEachFeature: (feature, layer) => {
-          const label = getNavPlaceLabel(feature?.properties?.label);
-          if (label) layer.bindTooltip(label);
-        },
-      }).addTo(mapRef.current);
-
-      queueMapRefresh();
-    }
-
-    renderGeoJson();
-    return () => {
-      isMounted = false;
-    };
+    queueMapRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [geoJson, mapReady]);
 
   // ── Render custom marker layer ────────────────────────────────────────────
 
   useEffect(() => {
-    let isMounted = true;
+    if (!mapReady || !mapRef.current) return;
+    const map = mapRef.current;
 
-    async function renderMarkers() {
-      if (!mapReady || !mapRef.current || !markerLayerRef.current) return;
-      const L = await import("leaflet");
-      if (!isMounted || !markerLayerRef.current) return;
+    removeMarkersLayer(map);
+    if (!markers.length) return;
 
-      markerLayerRef.current.clearLayers();
-      markers.forEach((marker, index) => {
-        L.circleMarker([marker.latitude, marker.longitude], {
-          radius: 6,
-          color: marker.color ?? "#4e2a84",
-          fillColor: marker.color ?? "#4e2a84",
-          fillOpacity: 0.8,
-          weight: 2,
-        })
-          .bindTooltip(marker.label ?? `Point ${index + 1}`)
-          .addTo(markerLayerRef.current!);
-      });
-
-      queueMapRefresh();
-    }
-
-    renderMarkers();
-    return () => {
-      isMounted = false;
+    const markerData: GeoJSON.FeatureCollection = {
+      type: "FeatureCollection",
+      features: markers.map((m, i) => ({
+        type: "Feature",
+        geometry: { type: "Point", coordinates: [m.longitude, m.latitude] },
+        properties: {
+          label: m.label ?? `Point ${i + 1}`,
+        },
+      })),
     };
+
+    map.addSource(MARKERS_SOURCE, { type: "geojson", data: markerData });
+    map.addLayer({
+      id: MARKERS_LAYER,
+      type: "circle",
+      source: MARKERS_SOURCE,
+      paint: {
+        "circle-radius": 6,
+        "circle-color": ACCENT_COLOR,
+        "circle-opacity": 1,
+        "circle-stroke-width": 2,
+        "circle-stroke-color": ACCENT_COLOR,
+        "circle-stroke-opacity": 0.35,
+      },
+    });
+
+    queueMapRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapReady, markers]);
 
   // ── Render GCP control-point markers ─────────────────────────────────────
 
   useEffect(() => {
-    let isMounted = true;
+    if (!mapReady || !mapRef.current) return;
+    const map = mapRef.current;
 
-    async function renderGCPs() {
-      if (!mapReady || !mapRef.current || !gcpLayerRef.current) return;
-      if (!showControlPoints) {
-        gcpLayerRef.current.clearLayers();
-        return;
-      }
+    removeGcpLayer(map);
+    if (!showControlPoints || !gcpsByAnnotation.length) return;
 
-      const L = await import("leaflet");
-      if (!isMounted || !gcpLayerRef.current) return;
-
-      gcpLayerRef.current.clearLayers();
-      // Number control points per-annotation so each georeferenced sheet's
-      // markers read "Control Point 1..n" rather than a single global sequence.
-      const multipleMaps = gcpsByAnnotation.length > 1;
-      gcpsByAnnotation.forEach((annotationGcps, mapIndex) => {
-        annotationGcps.forEach((gcp, index) => {
-          const tooltip = multipleMaps
-            ? `Map ${mapIndex + 1} · Control Point ${index + 1}`
-            : `Control Point ${index + 1}`;
-          L.circleMarker([gcp.geoCoords[1], gcp.geoCoords[0]], {
-            radius: 7,
-            color: GCP_COLOR,
-            fillColor: GCP_COLOR,
-            fillOpacity: 0.85,
-            weight: 2,
-          })
-            .bindTooltip(tooltip)
-            .addTo(gcpLayerRef.current!);
+    const multipleMaps = gcpsByAnnotation.length > 1;
+    const gcpFeatures: GeoJSON.Feature[] = [];
+    gcpsByAnnotation.forEach((annotationGcps, mapIndex) => {
+      annotationGcps.forEach((gcp, index) => {
+        const label = multipleMaps
+          ? `Map ${mapIndex + 1} · Control Point ${index + 1}`
+          : `Control Point ${index + 1}`;
+        gcpFeatures.push({
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: [gcp.geoCoords[0], gcp.geoCoords[1]],
+          },
+          properties: { label },
         });
       });
+    });
 
-      queueMapRefresh();
-    }
+    if (!gcpFeatures.length) return;
 
-    renderGCPs();
-    return () => {
-      isMounted = false;
+    const gcpData: GeoJSON.FeatureCollection = {
+      type: "FeatureCollection",
+      features: gcpFeatures,
     };
+
+    map.addSource(GCP_SOURCE, { type: "geojson", data: gcpData });
+    map.addLayer({
+      id: GCP_LAYER,
+      type: "circle",
+      source: GCP_SOURCE,
+      paint: {
+        "circle-radius": 7,
+        "circle-color": GCP_COLOR,
+        "circle-opacity": 1,
+        "circle-stroke-width": 2,
+        "circle-stroke-color": GCP_COLOR,
+        "circle-stroke-opacity": 0.35,
+      },
+    });
+
+    queueMapRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mapReady, gcpsByAnnotation, showControlPoints]);
 
-  // ── Render warped image overlay (via @allmaps/leaflet) ────────────────────
+  // ── Render warped image overlay (via @allmaps/maplibre) ───────────────────
 
   useEffect(() => {
     let isMounted = true;
 
     async function renderWarpedLayer() {
       if (!mapReady || !mapRef.current) return;
+      const map = mapRef.current;
 
-      // Remove any existing warped layer
       if (warpedLayerRef.current) {
-        warpedLayerRef.current.remove();
+        safeRemoveLayer(map, WARPED_LAYER_ID);
         warpedLayerRef.current = null;
       }
 
       if (!showImageOverlay) return;
 
-      // Only annotations with ≥ 3 GCPs can be warped.
       const overlayAnnotations = allGeorefAnnotations.filter(
         (_annotation, index) => gcpsByAnnotation[index]?.length >= 3,
       );
       if (overlayAnnotations.length === 0) return;
 
-      const { WarpedMapLayer } = await import("@allmaps/leaflet");
+      const { WarpedMapLayer } = await import("@allmaps/maplibre");
       if (!isMounted || !mapRef.current) return;
 
-      // A single WarpedMapLayer can host many georeferenced maps. Seed it with
-      // the first annotation, then add the rest so multiple sheets tile onto
-      // one map.
-      const [first, ...rest] = overlayAnnotations;
-      const layer = new WarpedMapLayer(first, {
-        opacity: imageOverlayOpacity,
-      });
-      layer.addTo(mapRef.current);
+      // Find the first existing data layer to insert warped layer below it
+      const dataLayers = [
+        NAVPLACE_FILL_LAYER,
+        NAVPLACE_LINE_LAYER,
+        NAVPLACE_CIRCLE_LAYER,
+        GEOJSON_FILL_LAYER,
+        GEOJSON_LINE_LAYER,
+        GEOJSON_CIRCLE_LAYER,
+        MARKERS_LAYER,
+        GCP_LAYER,
+      ];
+      const beforeId = dataLayers.find((id) => map.getLayer(id));
 
-      for (const annotation of rest) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const layer = new WarpedMapLayer({ layerId: WARPED_LAYER_ID } as any);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      map.addLayer(layer as any, beforeId);
+
+      for (const annotation of overlayAnnotations) {
         try {
           await layer.addGeoreferenceAnnotation(annotation);
         } catch (error) {
@@ -668,6 +859,7 @@ const CloverMap: React.FC<CloverMapProps> = ({
         if (!isMounted) break;
       }
 
+      layer.setOpacity(imageOverlayOpacity);
       warpedLayerRef.current = layer;
     }
 
@@ -687,53 +879,45 @@ const CloverMap: React.FC<CloverMapProps> = ({
   // ── Fit viewport to all data ──────────────────────────────────────────────
 
   useEffect(() => {
-    let isMounted = true;
+    if (!fitToData || !mapReady || !mapRef.current || !mlRef.current) return;
+    const map = mapRef.current;
+    const ml = mlRef.current;
 
-    async function fitDataBounds() {
-      if (!fitToData || !mapReady || !mapRef.current) return;
-      const L = await import("leaflet");
-      if (!isMounted || !mapRef.current) return;
+    const bounds = new ml.LngLatBounds();
 
-      const bounds = L.latLngBounds([]);
-
-      // navPlace features
-      const navPlaceFC = normalizeNavPlace(resolvedNavPlace);
-      if (navPlaceFC?.features?.length) {
-        const nb = L.geoJSON(navPlaceFC).getBounds();
-        if (nb.isValid()) bounds.extend(nb);
-      }
-
-      // raw geoJson
-      if (geoJson) {
-        const gb = L.geoJSON(geoJson as GeoJSON.GeoJsonObject).getBounds();
-        if (gb.isValid()) bounds.extend(gb);
-      }
-
-      // custom markers
-      markers.forEach((marker) => {
-        bounds.extend([marker.latitude, marker.longitude]);
+    const navPlaceFC = normalizeNavPlace(resolvedNavPlace);
+    if (navPlaceFC?.features?.length) {
+      navPlaceFC.features.forEach((f) => {
+        extendBoundsWithFeature(bounds, f);
       });
-
-      // GCPs (geographic coordinates)
-      gcps.forEach((gcp) => {
-        bounds.extend([gcp.geoCoords[1], gcp.geoCoords[0]]);
-      });
-
-      if (!bounds.isValid()) return;
-
-      if (bounds.getNorthEast().equals(bounds.getSouthWest())) {
-        mapRef.current.setView(bounds.getCenter(), 8);
-      } else {
-        mapRef.current.fitBounds(bounds, { maxZoom: 12, padding: [32, 32] });
-      }
-
-      queueMapRefresh();
     }
 
-    fitDataBounds();
-    return () => {
-      isMounted = false;
-    };
+    if (geoJson) {
+      const features =
+        "features" in geoJson ? geoJson.features : [geoJson as GeoJSON.Feature];
+      features.forEach((f) => extendBoundsWithFeature(bounds, f));
+    }
+
+    markers.forEach((marker) => {
+      bounds.extend([marker.longitude, marker.latitude]);
+    });
+
+    gcps.forEach((gcp) => {
+      bounds.extend([gcp.geoCoords[0], gcp.geoCoords[1]]);
+    });
+
+    if (bounds.isEmpty()) return;
+
+    const ne = bounds.getNorthEast();
+    const sw = bounds.getSouthWest();
+    if (ne.lng === sw.lng && ne.lat === sw.lat) {
+      map.setCenter([ne.lng, ne.lat]);
+      map.setZoom(8);
+    } else {
+      map.fitBounds(bounds, { maxZoom: 12, padding: 32 });
+    }
+
+    queueMapRefresh();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     center.latitude,
@@ -749,9 +933,47 @@ const CloverMap: React.FC<CloverMapProps> = ({
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Wrapper ref={containerRef} data-testid="clover-map" />
+      <Wrapper data-testid="clover-map">
+        <Controls
+          onZoomIn={() => mapRef.current?.zoomIn()}
+          onZoomOut={() => mapRef.current?.zoomOut()}
+        />
+        <Canvas ref={containerRef} />
+      </Wrapper>
     </ErrorBoundary>
   );
 };
 
 export default CloverMap;
+
+// ── Bounds helper ─────────────────────────────────────────────────────────────
+
+function extendBoundsWithFeature(
+  bounds: maplibregl.LngLatBounds,
+  feature: GeoJSON.Feature,
+) {
+  if (!feature?.geometry) return;
+  const coords = collectCoordinates(feature.geometry);
+  coords.forEach((c) => bounds.extend(c as [number, number]));
+}
+
+function collectCoordinates(
+  geometry: GeoJSON.Geometry,
+): Array<[number, number]> {
+  switch (geometry.type) {
+    case "Point":
+      return [geometry.coordinates as [number, number]];
+    case "MultiPoint":
+    case "LineString":
+      return geometry.coordinates as Array<[number, number]>;
+    case "MultiLineString":
+    case "Polygon":
+      return geometry.coordinates.flat() as Array<[number, number]>;
+    case "MultiPolygon":
+      return geometry.coordinates.flat(2) as Array<[number, number]>;
+    case "GeometryCollection":
+      return geometry.geometries.flatMap(collectCoordinates);
+    default:
+      return [];
+  }
+}

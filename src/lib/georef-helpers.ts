@@ -151,10 +151,10 @@ export function parseGeoreferenceAnnotation(
 }
 
 /**
- * Adapt a stored Georeference Annotation for use with @allmaps/leaflet.
+ * Adapt a stored Georeference Annotation for use with @allmaps/maplibre.
  *
  * For annotations that use `"type": "Canvas"` for their target source.
- * @allmaps/leaflet requires an IIIF Image API endpoint (`"type": "ImageService2"`
+ * @allmaps/maplibre requires an IIIF Image API endpoint (`"type": "ImageService2"`
  * or `"ImageService3"`).  Call this helper to swap the source before passing
  * `georefAnnotation` + `showImageOverlay` to `<Map>`.
  *

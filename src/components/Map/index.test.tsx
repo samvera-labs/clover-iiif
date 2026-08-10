@@ -1,8 +1,9 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import CloverMap from "src/components/Map";
 import React from "react";
+import maplibregl from "maplibre-gl";
 import {
   DC_WILMETTE_GEOREF_ANNOTATION_OVERLAY,
   EXAMPLE_NAV_PLACE,
@@ -12,76 +13,25 @@ import {
   GEOREF_ANNOTATION_IMAGE_SERVICE,
 } from "src/fixtures/georef";
 
-// ── Leaflet mock ──────────────────────────────────────────────────────────────
-// Leaflet manipulates the DOM directly and can't run in jsdom without mocking.
+// ── MapLibre GL mock ──────────────────────────────────────────────────────────
+// MapLibre manipulates the DOM via WebGL and can't run in jsdom without mocking.
+// The stub lives in `__mocks__/maplibre-gl.ts` so it is registered before the
+// dynamic `import("maplibre-gl")` CloverMap performs inside an effect.
 
-vi.mock("leaflet", async () => {
-  const circleMarker = vi.fn(() => ({
-    bindPopup: vi.fn().mockReturnThis(),
-    bindTooltip: vi.fn().mockReturnThis(),
-    addTo: vi.fn().mockReturnThis(),
-  }));
-
-  const geoJSON = vi.fn(() => ({
-    addTo: vi.fn().mockReturnThis(),
-    getBounds: vi.fn(() => ({
-      isValid: vi.fn().mockReturnValue(true),
-      extend: vi.fn(),
-    })),
-    remove: vi.fn(),
-  }));
-
-  const layerGroup = vi.fn(() => ({
-    addTo: vi.fn().mockReturnThis(),
-    clearLayers: vi.fn(),
-  }));
-
-  const latLngBounds = vi.fn(() => ({
-    extend: vi.fn(),
-    isValid: vi.fn().mockReturnValue(false),
-    getNorthEast: vi.fn(() => ({ equals: vi.fn().mockReturnValue(false) })),
-    getSouthWest: vi.fn(() => ({ equals: vi.fn().mockReturnValue(false) })),
-    getCenter: vi.fn(() => ({ lat: 0, lng: 0 })),
-  }));
-
-  const map = vi.fn(() => ({
-    getContainer: vi.fn(() => ({
-      classList: { toggle: vi.fn(), add: vi.fn(), remove: vi.fn() },
-    })),
-    setView: vi.fn(),
-    fitBounds: vi.fn(),
-    on: vi.fn(),
-    remove: vi.fn(),
-    invalidateSize: vi.fn(),
-  }));
-
-  const tileLayer = vi.fn(() => ({ addTo: vi.fn().mockReturnThis() }));
-
-  const api = {
-    map,
-    tileLayer,
-    layerGroup,
-    circleMarker,
-    geoJSON,
-    latLngBounds,
-  };
-
-  // Expose both as named exports and as `default` so `await import("leaflet")`
-  // works whether the component reads `L.map` or `L.default.map`.
-  return { ...api, default: api };
-});
+vi.mock("maplibre-gl");
 
 const { WarpedMapLayer, addGeoreferenceAnnotation } = vi.hoisted(() => {
   const addGeoreferenceAnnotation = vi.fn().mockResolvedValue([]);
   const WarpedMapLayer = vi.fn(() => ({
     addTo: vi.fn().mockReturnThis(),
     remove: vi.fn(),
+    setOpacity: vi.fn(),
     addGeoreferenceAnnotation,
   }));
   return { WarpedMapLayer, addGeoreferenceAnnotation };
 });
 
-vi.mock("@allmaps/leaflet", () => ({ WarpedMapLayer }));
+vi.mock("@allmaps/maplibre", () => ({ WarpedMapLayer }));
 
 // ── Tests ─────────────────────────────────────────────────────────────────────
 
@@ -98,6 +48,19 @@ describe("CloverMap", () => {
 
   it("renders with default props without throwing", () => {
     expect(() => render(<CloverMap />)).not.toThrow();
+  });
+
+  it("wires the zoom in/out buttons to the map instance, matching the OpenSeadragon controls", async () => {
+    render(<CloverMap />);
+    await vi.waitFor(() => expect(maplibregl.Map).toHaveBeenCalledTimes(1));
+
+    const map = vi.mocked(maplibregl.Map).mock.results.at(-1)?.value;
+
+    fireEvent.click(screen.getByTestId("clover-map-zoom-in"));
+    expect(map.zoomIn).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(screen.getByTestId("clover-map-zoom-out"));
+    expect(map.zoomOut).toHaveBeenCalledTimes(1);
   });
 
   it("accepts a georeference annotation with a Canvas source", () => {
@@ -162,7 +125,7 @@ describe("CloverMap", () => {
           center={{ latitude: 42.045, longitude: -87.688, zoom: 12 }}
           markers={[{ latitude: 42.045, longitude: -87.688, label: "Example" }]}
           tileLayer={{
-            url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
             attribution: "&copy; OpenStreetMap contributors",
           }}
         />,
@@ -221,14 +184,11 @@ describe("CloverMap", () => {
       />,
     );
 
-    // One WarpedMapLayer is constructed (seeded with the first annotation)…
+    // One WarpedMapLayer is constructed…
     await vi.waitFor(() => expect(WarpedMapLayer).toHaveBeenCalledTimes(1));
-    // …and the remaining annotation(s) are added to that same layer.
+    // …and all annotations are added to that same layer.
     await vi.waitFor(() =>
-      expect(addGeoreferenceAnnotation).toHaveBeenCalledTimes(1),
-    );
-    expect(addGeoreferenceAnnotation).toHaveBeenCalledWith(
-      DC_WILMETTE_GEOREF_ANNOTATION_OVERLAY,
+      expect(addGeoreferenceAnnotation).toHaveBeenCalledTimes(2),
     );
 
     unmount();

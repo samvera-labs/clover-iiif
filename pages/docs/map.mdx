@@ -115,7 +115,7 @@ export const navPlaceLakeMichigan = {
 
 # Map
 
-A UI component that renders a geographic map using [Leaflet](https://leafletjs.com/), with native support for IIIF [navPlace](https://iiif.io/api/extension/navplace/) geographic annotations and [Georeference Extension](https://iiif.io/api/extension/georef/) control points. Optionally renders warped IIIF image overlays via [@allmaps/leaflet](https://allmaps.org/).
+A UI component that renders a geographic map using [MapLibre GL](https://maplibre.org/maplibre-gl-js/), with native support for IIIF [navPlace](https://iiif.io/api/extension/navplace/) geographic annotations and [Georeference Extension](https://iiif.io/api/extension/georef/) control points. Optionally renders warped IIIF image overlays via [@allmaps/maplibre](https://allmaps.org/).
 
 <IIIFBadge
   href="https://iiif.io/api/extension/navplace/"
@@ -140,7 +140,7 @@ Provide a IIIF `navPlace` GeoJSON value, a Georeference Extension annotation, or
 - Renders GeoJSON features from IIIF `navPlace` values (FeatureCollection, Feature, or bare geometry)
 - Resolves `label` properties as IIIF [InternationalString](https://iiif.io/api/presentation/3.0/#44-language-of-property-values) or plain strings for tooltips
 - Displays Ground Control Points (GCPs) from a Georeference Extension annotation as numbered markers
-- Optionally renders a warped IIIF image overlay via [@allmaps/leaflet](https://allmaps.org/) when `showImageOverlay` is enabled
+- Optionally renders a warped IIIF image overlay via [@allmaps/maplibre](https://allmaps.org/) when `showImageOverlay` is enabled
 - Auto-fits the viewport to all displayed data with `fitToData`
 - Accepts a click callback for coordinate picking (`onMapClick`)
 - Configurable tile layer (defaults to [OpenStreetMap](https://www.openstreetmap.org/))
@@ -180,7 +180,7 @@ import Map from "@samvera/clover-iiif/map";
 
 ### Next.js
 
-Implementation with Next.js requires a [dynamic import](https://nextjs.org/docs/advanced-features/dynamic-import) because Leaflet assumes a browser `document` object.
+Implementation with Next.js requires a [dynamic import](https://nextjs.org/docs/advanced-features/dynamic-import) because MapLibre GL assumes a browser `document` object.
 
 ```jsx
 import dynamic from "next/dynamic";
@@ -436,9 +436,9 @@ The example below uses a real annotation from Northwestern University Libraries'
 
 ## Warped Image Overlay
 
-When `showImageOverlay` is enabled and a `georefAnnotation` with at least 3 GCPs is provided, the component renders a warped IIIF image overlay using [@allmaps/leaflet](https://allmaps.org/).
+When `showImageOverlay` is enabled and a `georefAnnotation` with at least 3 GCPs is provided, the component renders a warped IIIF image overlay using [@allmaps/maplibre](https://allmaps.org/).
 
-**Important:** `@allmaps/leaflet` requires the annotation's `target.source` to reference an IIIF Image API endpoint (`type: "ImageService2"` or `"ImageService3"`), not a Canvas. Annotations saved by authoring tools typically use a Canvas source. Use the `adaptGeoreferenceAnnotationForOverlay` helper to swap the source before passing it to `<Map>`.
+**Important:** `@allmaps/maplibre` requires the annotation's `target.source` to reference an IIIF Image API endpoint (`type: "ImageService2"` or `"ImageService3"`), not a Canvas. Annotations saved by authoring tools typically use a Canvas source. Use the `adaptGeoreferenceAnnotationForOverlay` helper to swap the source before passing it to `<Map>`.
 
 The example below uses the same Evanston map annotation adapted with the FileSet's IIIF Image API v3 endpoint as the ImageService3 source.
 
@@ -454,7 +454,7 @@ The example below uses the same Evanston map annotation adapted with the FileSet
     const imageServiceId =
       "https://iiif.dc.library.northwestern.edu/iiif/3/2fb1e81a-9e24-420c-b224-0bfd6a279baf";
 
-    // Adapt the annotation so @allmaps/leaflet can use it
+    // Adapt the annotation so @allmaps/maplibre can use it
     const overlayAnnotation = adaptGeoreferenceAnnotationForOverlay(
       storedAnnotation,
       imageServiceId,
@@ -483,7 +483,7 @@ The example below uses the same Evanston map annotation adapted with the FileSet
   </Tab>
 </Tabs>
 
-`@allmaps/leaflet` is an optional dependency. It is only loaded when `showImageOverlay` is `true`, so consumers who don't use this feature pay no bundle cost.
+`@allmaps/maplibre` is an optional dependency. It is only loaded when `showImageOverlay` is `true`, so consumers who don't use this feature pay no bundle cost.
 
 ---
 
@@ -609,7 +609,6 @@ interface MapMarker {
   latitude: number;
   longitude: number;
   label?: string;
-  color?: string;
 }
 ```
 
@@ -651,7 +650,7 @@ const gcps = helpers.parseGeoreferenceAnnotation(annotation);
 
 ### `adaptGeoreferenceAnnotationForOverlay`
 
-Swaps a Canvas source for an ImageService source so the annotation can be used with `@allmaps/leaflet`. Does not mutate the input.
+Swaps a Canvas source for an ImageService source so the annotation can be used with `@allmaps/maplibre`. Does not mutate the input.
 
 ```ts
 import { adaptGeoreferenceAnnotationForOverlay } from "@samvera/clover-iiif";
