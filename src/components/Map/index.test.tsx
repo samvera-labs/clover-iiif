@@ -15,60 +15,10 @@ import {
 
 // ── MapLibre GL mock ──────────────────────────────────────────────────────────
 // MapLibre manipulates the DOM via WebGL and can't run in jsdom without mocking.
+// The stub lives in `__mocks__/maplibre-gl.ts` so it is registered before the
+// dynamic `import("maplibre-gl")` CloverMap performs inside an effect.
 
-const { mapZoomIn, mapZoomOut } = vi.hoisted(() => ({
-  mapZoomIn: vi.fn(),
-  mapZoomOut: vi.fn(),
-}));
-
-vi.mock("maplibre-gl", async () => {
-  const on = vi.fn((event: string, callbackOrLayerId: unknown, callback?: unknown) => {
-    // Fire the 'load' event synchronously so mapReady state is set in tests
-    if (event === "load") {
-      const fn = typeof callbackOrLayerId === "function" ? callbackOrLayerId : callback;
-      if (typeof fn === "function") (fn as () => void)();
-    }
-  });
-
-  const Map = vi.fn(() => ({
-    on,
-    remove: vi.fn(),
-    resize: vi.fn(),
-    zoomIn: mapZoomIn,
-    zoomOut: mapZoomOut,
-    getContainer: vi.fn(() => ({
-      classList: { toggle: vi.fn(), add: vi.fn(), remove: vi.fn() },
-    })),
-    getCanvas: vi.fn(() => ({ style: { cursor: "" } })),
-    getLayer: vi.fn().mockReturnValue(null),
-    getSource: vi.fn().mockReturnValue(null),
-    addLayer: vi.fn(),
-    addSource: vi.fn(),
-    removeLayer: vi.fn(),
-    removeSource: vi.fn(),
-    setCenter: vi.fn(),
-    setZoom: vi.fn(),
-    fitBounds: vi.fn(),
-  }));
-
-  const Popup = vi.fn(() => ({
-    setLngLat: vi.fn().mockReturnThis(),
-    setHTML: vi.fn().mockReturnThis(),
-    addTo: vi.fn().mockReturnThis(),
-    remove: vi.fn(),
-  }));
-
-  const LngLatBounds = vi.fn(() => ({
-    extend: vi.fn(),
-    isEmpty: vi.fn().mockReturnValue(true),
-    getNorthEast: vi.fn(() => ({ lng: 0, lat: 0 })),
-    getSouthWest: vi.fn(() => ({ lng: 0, lat: 0 })),
-    getCenter: vi.fn(() => ({ lng: 0, lat: 0 })),
-  }));
-
-  const api = { Map, Popup, LngLatBounds };
-  return { ...api, default: api };
-});
+vi.mock("maplibre-gl");
 
 const { WarpedMapLayer, addGeoreferenceAnnotation } = vi.hoisted(() => {
   const addGeoreferenceAnnotation = vi.fn().mockResolvedValue([]);
@@ -104,11 +54,13 @@ describe("CloverMap", () => {
     render(<CloverMap />);
     await vi.waitFor(() => expect(maplibregl.Map).toHaveBeenCalledTimes(1));
 
+    const map = vi.mocked(maplibregl.Map).mock.results.at(-1)?.value;
+
     fireEvent.click(screen.getByTestId("clover-map-zoom-in"));
-    expect(mapZoomIn).toHaveBeenCalledTimes(1);
+    expect(map.zoomIn).toHaveBeenCalledTimes(1);
 
     fireEvent.click(screen.getByTestId("clover-map-zoom-out"));
-    expect(mapZoomOut).toHaveBeenCalledTimes(1);
+    expect(map.zoomOut).toHaveBeenCalledTimes(1);
   });
 
   it("accepts a georeference annotation with a Canvas source", () => {

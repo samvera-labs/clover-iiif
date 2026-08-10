@@ -167,6 +167,16 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
   const [mapGeorefAnnotations, setMapGeorefAnnotations] = useState<GeoreferenceAnnotation[]>([]);
 
+  /**
+   * Preserve the previous array when the collected set hasn't actually changed.
+   * The effect below re-runs whenever `vault` or `visibleCanvases` change
+   * identity, so storing a fresh array every time would re-trigger it in a loop.
+   */
+  const keepOrReplace = (previous: GeoreferenceAnnotation[], next: GeoreferenceAnnotation[]) =>
+    previous.length === next.length && previous.every((annotation, index) => annotation.id === next[index].id)
+      ? previous
+      : next;
+
   const mapNavPlace = useMemo(() => {
     if (!configOptions.map?.enabled) return null;
 
@@ -217,7 +227,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
     async function collectGeorefAnnotations() {
       if (!configOptions.map?.enabled || !configOptions.map?.showImageOverlay) {
-        setMapGeorefAnnotations([]);
+        setMapGeorefAnnotations((previous) => keepOrReplace(previous, []));
         return;
       }
 
@@ -311,7 +321,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         }
       }
 
-      if (isMounted) setMapGeorefAnnotations(collected);
+      if (isMounted) setMapGeorefAnnotations((previous) => keepOrReplace(previous, collected));
     }
 
     collectGeorefAnnotations();
