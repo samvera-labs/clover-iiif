@@ -13,6 +13,7 @@ import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 interface ControlsProps {
   handleCanvasToggle: (arg0: -1 | 1) => void;
   handleFilter: (arg0: string) => void;
+  renderSearch?: boolean;
   activeIndex: number;
   canvasLength: number;
   isRtlPaged?: boolean;
@@ -76,6 +77,7 @@ const Controls: React.FC<ControlsProps> = ({
   activeIndex,
   canvasLength,
   isRtlPaged = false,
+  renderSearch = true,
 }) => {
   const [toggleFilter, setToggleFilter] = useState<boolean>(false);
   const [isNextDisabled, setIsNextDisabled] = useState<boolean>(false);
@@ -115,10 +117,7 @@ const Controls: React.FC<ControlsProps> = ({
     handleFilter(event.target.value);
 
   return (
-    <Wrapper 
-      isToggle={toggleFilter} 
-      className="clover-viewer-media-controls"
-    >
+    <Wrapper isToggle={toggleFilter} className="clover-viewer-media-controls">
       <Form>
         {toggleFilter && (
           <Input
@@ -128,7 +127,10 @@ const Controls: React.FC<ControlsProps> = ({
           />
         )}
         {!toggleFilter && (
-          <Direction className="clover-viewer-media-navigation" data-rtl-paged={isRtlPaged}>
+          <Direction
+            className="clover-viewer-media-navigation"
+            data-rtl-paged={isRtlPaged}
+          >
             {isRtlPaged ? (
               <>
                 <Button
@@ -172,17 +174,19 @@ const Controls: React.FC<ControlsProps> = ({
             )}
           </Direction>
         )}
-        <Button
-          onClick={handleFilterToggle}
-          type="button"
-          className="clover-viewer-media-search"
-        >
-          {toggleFilter ? (
-            <CloseIcon title={t("commonClose")} />
-          ) : (
-            <SearchIcon title={t("commonSearch")} />
-          )}
-        </Button>
+        {renderSearch && (
+          <Button
+            onClick={handleFilterToggle}
+            type="button"
+            className="clover-viewer-media-search"
+          >
+            {toggleFilter ? (
+              <CloseIcon title={t("commonClose")} />
+            ) : (
+              <SearchIcon title={t("commonSearch")} />
+            )}
+          </Button>
+        )}
       </Form>
     </Wrapper>
   );
