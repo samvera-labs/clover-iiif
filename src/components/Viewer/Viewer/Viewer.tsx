@@ -31,14 +31,15 @@ import { useMediaQuery } from "src/hooks/useMediaQuery";
 
 interface ViewerProps {
   manifest: ManifestNormalized;
-  theme?: unknown;
+  /** `customTheme` resolved to `--clover-*` declarations, applied inline. */
+  themeStyle?: React.CSSProperties;
   iiifContentSearchQuery?: ContentSearchQuery;
   contentSearchCallback?: (query: string) => void;
 }
 
 const Viewer: React.FC<ViewerProps> = ({
   manifest,
-  theme,
+  themeStyle,
   iiifContentSearchQuery,
   contentSearchCallback,
 }) => {
@@ -168,7 +169,8 @@ const Viewer: React.FC<ViewerProps> = ({
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Wrapper
-        className={`${theme} clover-viewer`}
+        className="clover-viewer"
+        style={themeStyle}
         css={{ background: configOptions?.background }}
         data-absolute-position={isAbsolutePosition}
         data-information-panel-open={isInformationOpen}

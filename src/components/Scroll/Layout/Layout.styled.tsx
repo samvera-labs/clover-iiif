@@ -1,4 +1,5 @@
 import { styled } from "src/styles/stitches.config";
+import { themeVarBridge } from "src/styles/tokens";
 
 const StyledScrollSearch = styled("div", {
   display: "flex",
@@ -32,8 +33,10 @@ const StyledScrollHeader = styled("header", {
 });
 
 const StyledScrollWrapper = styled("section", {
+  ...themeVarBridge,
   margin: "0",
   gap: "1rem",
+  fontFamily: "$sans",
   position: "relative",
   zIndex: 0,
 });

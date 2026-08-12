@@ -1,4 +1,5 @@
 import { styled } from "src/styles/stitches.config";
+import { themeVarBridge } from "src/styles/tokens";
 
 const MediaWrapper = styled("div", {
   position: "relative",
@@ -123,8 +124,10 @@ const Aside = styled("aside", {
 });
 
 const Wrapper = styled("div", {
+  ...themeVarBridge,
   display: "flex",
   flexDirection: "column",
+  fontFamily: "$sans",
   fontSmooth: "auto",
   webkitFontSmoothing: "antialiased",
 

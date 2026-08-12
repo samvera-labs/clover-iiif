@@ -16,6 +16,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/Slider/ErrorFallback/ErrorFallback";
 import Header from "src/components/Slider/Header/Header";
 import Items from "src/components/Slider/Items/Items";
+import { Wrapper } from "src/components/Slider/Slider.styled";
 import hash from "src/lib/hash";
 import { upgrade } from "@iiif/parser/upgrader";
 
@@ -84,7 +85,7 @@ const RenderSlider: React.FC<CloverSliderProps> = ({
   if (!collection) return <></>;
 
   return (
-    <div>
+    <Wrapper className="clover-slider" data-testid="clover-slider">
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <Header
           label={collection.label as InternationalString}
@@ -103,7 +104,7 @@ const RenderSlider: React.FC<CloverSliderProps> = ({
           breakpoints={options.breakpoints}
         />
       </ErrorBoundary>
-    </div>
+    </Wrapper>
   );
 };
 

@@ -4,7 +4,6 @@ import {
   PluginConfig,
 } from "src/context/viewer-context";
 import dynamic from "next/dynamic";
-import { isDark } from "docs/lib/theme";
 import { useRouter } from "next/router";
 import { ContentSearchQuery } from "src/types/annotations";
 
@@ -36,14 +35,21 @@ const CloverViewer = ({
     ? (router.query["iiif-content"] as string)
     : iiifContent;
 
-  const background = isDark() ? "rgb(17, 17, 17)" : "#fff";
-
+  /*
+   * No `background` override. Clover defaults to `transparent`, so the Viewer picks up
+   * whatever the page behind it is — which is what the docs want now that the page
+   * background is token-driven.
+   *
+   * This used to force `#fff` / `rgb(17,17,17)` from a `isDark()` check, which pre-dated
+   * those tokens and left the Viewer a slightly different shade from the page it sat on
+   * (`#FCFCFD` light, `#111113` dark).
+   */
   return (
     <Viewer
       contentStateCallback={contentStateCallback}
       iiifContent={iiifResource}
       iiifContentSearchQuery={iiifContentSearchQuery}
-      options={{ ...options, background }}
+      options={options}
       key={iiifResource}
       {...(customDisplays && { customDisplays })}
       {...(plugins && { plugins })}

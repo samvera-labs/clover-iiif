@@ -21,7 +21,7 @@ import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import Controls from "src/components/Map/Controls";
 import { Canvas, Wrapper } from "src/components/Map/Map.styled";
-import { theme } from "src/styles/stitches.config";
+import { resolveCloverColor } from "src/styles/tokens";
 import {
   GeoreferenceAnnotation,
   GroundControlPoint,
@@ -150,6 +150,18 @@ export interface CloverMapProps {
   /** Display a crosshair cursor over the map (useful for coordinate picking). */
   useCrosshairCursor?: boolean;
 
+  /**
+   * Zoom the map on mouse wheel / trackpad scroll.
+   *
+   * Defaults to `false`, matching the `scrollToZoom: false` that Clover already
+   * sets for OpenSeadragon: a map embedded partway down a scrolling page should
+   * not swallow the wheel and trap the reader. Zoom controls, double-click and
+   * pinch all still work. Set `true` for a full-bleed or full-page map where
+   * wheel zoom is what the reader expects.
+   * @default false
+   */
+  scrollZoom?: boolean;
+
   /** Tile layer. Defaults to OpenStreetMap. */
   tileLayer?: MapTileLayer;
 }
@@ -178,9 +190,6 @@ const GCP_SOURCE = "clover-gcps";
 const GCP_LAYER = "clover-gcps-circle";
 const WARPED_LAYER_ID = "clover-warped";
 
-// Markers never take a custom color — every navPlace feature and custom
-// marker renders as a solid dot in the app's accent color.
-const ACCENT_COLOR = theme.colors.accent;
 /** Color used for GCP control point markers */
 const GCP_COLOR = "#c05c00";
 
@@ -333,7 +342,13 @@ function addGeoJsonLayers(
     id: fillId,
     type: "fill",
     source: sourceId,
-    filter: ["match", ["geometry-type"], ["Polygon", "MultiPolygon"], true, false],
+    filter: [
+      "match",
+      ["geometry-type"],
+      ["Polygon", "MultiPolygon"],
+      true,
+      false,
+    ],
     paint: {
       "fill-color": ["coalesce", ["get", "fill"], color],
       "fill-opacity": ["coalesce", ["get", "fill-opacity"], 0.18],
@@ -390,6 +405,7 @@ const CloverMap: React.FC<CloverMapProps> = ({
   onMapClick,
   useCrosshairCursor = false,
   tileLayer = DEFAULT_TILE_LAYER,
+  scrollZoom = false,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -399,6 +415,18 @@ const CloverMap: React.FC<CloverMapProps> = ({
   const warpedLayerRef = useRef<any>(null);
   const onMapClickRef = useRef(onMapClick);
   const [mapReady, setMapReady] = useState(false);
+
+  /**
+   * Markers never take a custom color — every navPlace feature and custom marker
+   * renders as a solid dot in the accent color. MapLibre hands paint properties
+   * to WebGL, which cannot parse a `var()` reference, so the token has to be
+   * resolved to a concrete value against the map container. Recomputed once the
+   * map is ready so a theme applied by an ancestor is picked up.
+   */
+  const accentColor = useMemo(
+    () => resolveCloverColor("accent", containerRef.current),
+    [mapReady],
+  );
   const [iiifNavPlace, setIiifNavPlace] =
     useState<GeoJSON.FeatureCollection | null>(null);
 
@@ -525,6 +553,7 @@ const CloverMap: React.FC<CloverMapProps> = ({
         center: [center.longitude, center.latitude],
         zoom: center.zoom,
         maxPitch: 0,
+        scrollZoom,
       });
 
       mapRef.current = map;
@@ -682,7 +711,7 @@ const CloverMap: React.FC<CloverMapProps> = ({
       NAVPLACE_LINE_LAYER,
       NAVPLACE_CIRCLE_LAYER,
       featureCollection,
-      ACCENT_COLOR,
+      accentColor,
     );
 
     queueMapRefresh();
@@ -697,8 +726,7 @@ const CloverMap: React.FC<CloverMapProps> = ({
 
     removeGeoJsonLayers(map);
 
-    const features =
-      geoJson && "features" in geoJson ? geoJson.features : null;
+    const features = geoJson && "features" in geoJson ? geoJson.features : null;
     const hasData = geoJson && (features ? features.length > 0 : true);
     if (!hasData) return;
 
@@ -709,7 +737,7 @@ const CloverMap: React.FC<CloverMapProps> = ({
       GEOJSON_LINE_LAYER,
       GEOJSON_CIRCLE_LAYER,
       geoJson as GeoJSON.FeatureCollection,
-      ACCENT_COLOR,
+      accentColor,
     );
 
     queueMapRefresh();
@@ -743,10 +771,10 @@ const CloverMap: React.FC<CloverMapProps> = ({
       source: MARKERS_SOURCE,
       paint: {
         "circle-radius": 6,
-        "circle-color": ACCENT_COLOR,
+        "circle-color": accentColor,
         "circle-opacity": 1,
         "circle-stroke-width": 2,
-        "circle-stroke-color": ACCENT_COLOR,
+        "circle-stroke-color": accentColor,
         "circle-stroke-opacity": 0.35,
       },
     });
@@ -933,7 +961,7 @@ const CloverMap: React.FC<CloverMapProps> = ({
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Wrapper data-testid="clover-map">
+      <Wrapper className="clover-map" data-testid="clover-map">
         <Controls
           onZoomIn={() => mapRef.current?.zoomIn()}
           onZoomOut={() => mapRef.current?.zoomOut()}

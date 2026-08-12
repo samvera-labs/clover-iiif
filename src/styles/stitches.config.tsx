@@ -1,33 +1,15 @@
+import { colorVarRefs, fontVarRefs } from "src/styles/tokens";
 import { createStitches } from "@stitches/react";
 
-const hue = 209;
-
 export const theme = {
-  colors: {
-    /*
-     * Black and dark grays in a light theme.
-     * Must contrast to 4.5 or greater with `secondary`.
-     */
-    primary: "#1a1d1e",
-    primaryMuted: "#26292b",
-    primaryAlt: "#151718",
-
-    /*
-     * Key brand color(s).
-     * Must contrast to 4.5 or greater with `secondary`.
-     */
-    accent: `hsl(${hue} 100% 38.2%)`,
-    accentMuted: `hsl(${hue} 80% 61.8%)`,
-    accentAlt: `hsl(${hue} 80% 30%)`,
-
-    /*
-     * White and light grays in a light theme.
-     * Must contrast to 4.5 or greater with `primary` and  `accent`.
-     */
-    secondary: "#FFFFFF",
-    secondaryMuted: "#e6e8eb",
-    secondaryAlt: "#c1c8cd",
-  },
+  /*
+   * Colors and fonts resolve through Clover's `--clover-*` custom properties,
+   * each carrying the literal default as its fallback (see `src/styles/tokens.ts`).
+   * A `$accent` reference anywhere in the library therefore honors a token set by
+   * the host page, and falls back to Clover's own palette when nothing sets one.
+   */
+  colors: colorVarRefs,
+  fonts: fontVarRefs,
   fontSizes: {
     1: "12px",
     2: "13px",
