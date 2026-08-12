@@ -3,7 +3,7 @@ import {
   CollectionNormalized,
   ManifestNormalized,
 } from "@iiif/presentation-3";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   type ViewerConfigOptions,
   ViewerProvider,
@@ -18,7 +18,7 @@ import {
 import { encodeContentState, getManifestSequence } from "@iiif/helpers";
 import { Vault } from "@iiif/helpers/vault";
 import Viewer from "src/components/Viewer/Viewer/Viewer";
-import { createTheme } from "@stitches/react";
+import { customThemeToCssVars } from "src/styles/tokens";
 import { getRequest } from "src/lib/xhr";
 import {
   decodeContentStateContainerURI,
@@ -43,6 +43,23 @@ export interface CloverViewerProps {
   contentSearchCallback?: (query: string) => void;
   customDisplays?: Array<CustomDisplay>;
   plugins?: Array<PluginConfig>;
+  /**
+   * Overrides Clover's colours and fonts.
+   *
+   * Accepts `{ colors: { primary, primaryMuted, primaryAlt, accent, accentMuted,
+   * accentAlt, secondary, secondaryMuted, secondaryAlt }, fonts: { sans, display } }`.
+   * Any subset may be given; unset tokens keep their defaults. Keys outside that set
+   * are ignored.
+   *
+   * @deprecated Set the `--clover-color-*` and `--clover-font-*` CSS custom properties
+   * instead — on any ancestor element, or in a stylesheet. They reach every component
+   * (including a nested Image or Map), work without a prop, and can be scoped or
+   * changed at runtime. `customTheme` remains fully supported and is planned for
+   * removal in the next major version.
+   *
+   * Deliberately typed `any`: narrowing it would turn a runtime no-op into a compile
+   * error for anyone currently passing extra keys.
+   */
   customTheme?: any;
   iiifContent: string | object;
   id?: string;
@@ -142,10 +159,16 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   const [manifest, setManifest] = useState<ManifestNormalized>();
 
   /**
-   * Overrides the baseline stitches theme when set.
+   * Overrides Clover's baseline tokens when set. `customTheme` keeps the shape it
+   * has always documented — `{ colors: {...}, fonts: {...} }` — but is now applied
+   * as inline `--clover-*` custom properties on the viewer's root element rather
+   * than as a generated theme class. Declaring them there means every descendant,
+   * including a nested Image or Map, resolves against the override.
    */
-  let theme = {};
-  if (customTheme) theme = createTheme("custom", customTheme);
+  const themeStyle = useMemo(
+    () => customThemeToCssVars(customTheme),
+    [customTheme],
+  );
 
   /**
    * Update activeSelector when the canvas or manifest changes.
@@ -234,7 +257,9 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     // the fetch URL. A subsequent vault.load(internalId) finds no request entry
     // and tries to fetch from the internal id as a URL, which may not resolve.
     // Check vault.get first — it looks directly in entities and handles this case.
-    const existingManifest = vault.get(activeManifest) as ManifestNormalized | null;
+    const existingManifest = vault.get(
+      activeManifest,
+    ) as ManifestNormalized | null;
     const manifestLoader: Promise<ManifestNormalized> =
       existingManifest &&
       Array.isArray((existingManifest as any).items) &&
@@ -337,15 +362,24 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
               getFirstAnnotationTarget(collection);
             if (firstManifest) {
               if (firstCanvasId) {
-                dispatch({ type: "updateActiveCanvas", canvasId: firstCanvasId });
+                dispatch({
+                  type: "updateActiveCanvas",
+                  canvasId: firstCanvasId,
+                });
                 if (firstAnnotationId) {
                   dispatch({
                     type: "updatePendingAnnotationTarget",
-                    pendingAnnotationTarget: { canvasId: firstCanvasId, annotationId: firstAnnotationId },
+                    pendingAnnotationTarget: {
+                      canvasId: firstCanvasId,
+                      annotationId: firstAnnotationId,
+                    },
                   });
                 }
               }
-              dispatch({ type: "updateActiveManifest", manifestId: firstManifest });
+              dispatch({
+                type: "updateActiveManifest",
+                manifestId: firstManifest,
+              });
             } else {
               dispatch({ type: "updateIsLoaded", isLoaded: true });
             }
@@ -354,7 +388,10 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
           if (json?.type === "Canvas") {
             if (json.partOf?.[0]?.id) {
               dispatch({ type: "updateActiveCanvas", canvasId: json.id });
-              dispatch({ type: "updateActiveManifest", manifestId: json.partOf[0].id });
+              dispatch({
+                type: "updateActiveManifest",
+                manifestId: json.partOf[0].id,
+              });
             } else {
               const syntheticId = `${json.id}/manifest`;
               await vault.loadSync(syntheticId, {
@@ -365,7 +402,10 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
                 items: [json],
               });
               dispatch({ type: "updateActiveCanvas", canvasId: json.id });
-              dispatch({ type: "updateActiveManifest", manifestId: syntheticId });
+              dispatch({
+                type: "updateActiveManifest",
+                manifestId: syntheticId,
+              });
             }
             return;
           }
@@ -395,7 +435,10 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
             if (firstAnnotationId) {
               dispatch({
                 type: "updatePendingAnnotationTarget",
-                pendingAnnotationTarget: { canvasId: firstCanvasId, annotationId: firstAnnotationId },
+                pendingAnnotationTarget: {
+                  canvasId: firstCanvasId,
+                  annotationId: firstAnnotationId,
+                },
               });
             }
           }
@@ -410,7 +453,10 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
       ) {
         if (contentState.partOf?.[0]?.id) {
           dispatch({ type: "updateActiveCanvas", canvasId: contentState.id });
-          dispatch({ type: "updateActiveManifest", manifestId: contentState.partOf[0].id });
+          dispatch({
+            type: "updateActiveManifest",
+            manifestId: contentState.partOf[0].id,
+          });
         } else {
           const syntheticId = `${contentState.id}/manifest`;
           await vault.loadSync(syntheticId, {
@@ -574,7 +620,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
   return (
     <Viewer
       manifest={manifest}
-      theme={theme}
+      themeStyle={themeStyle}
       key={manifest.id}
       iiifContentSearchQuery={iiifContentSearchQuery}
       contentSearchCallback={contentSearchCallback}

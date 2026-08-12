@@ -1,0 +1,48 @@
+/*
+ * Google Sans Flex, self-hosted.
+ *
+ * Not loaded through `next/font/google`: the family is absent from the font-data
+ * snapshot that ships with this version of Next, so the loader cannot resolve it. It is
+ * OFL licensed, so the files are vendored into `./fonts/` instead and declared by hand
+ * here. That keeps every property the `next/font` setup had — nothing is fetched from
+ * Google at runtime, so the static export stays self-contained and there is no
+ * third-party request from a reader's browser.
+ *
+ * The `url()` paths are relative on purpose. Webpack rewrites them to hashed files
+ * under `_next/static/media/`, which is what applies the production `basePath` — a
+ * root-relative `/fonts/...` would 404 on GitHub Pages.
+ *
+ * Only the latin and latin-ext subsets are vendored (53 KB together). Anything outside
+ * them — the Arabic in the Scroll demo, for instance — falls back down the stack, which
+ * is the same behaviour the subsetted Google-hosted version would have given.
+ */
+
+/* latin */
+@font-face {
+  font-family: "Google Sans Flex";
+  font-style: normal;
+  /* One variable file spanning the range; the two weights in use both come from it. */
+  font-weight: 400 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("./fonts/google-sans-flex-latin.woff2") format("woff2");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: "Google Sans Flex";
+  font-style: normal;
+  /* One variable file spanning the range; the two weights in use both come from it. */
+  font-weight: 400 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url("./fonts/google-sans-flex-latin-ext.woff2") format("woff2");
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}

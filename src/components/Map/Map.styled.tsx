@@ -1,4 +1,5 @@
 import { styled } from "src/styles/stitches.config";
+import { themeVarBridge } from "src/styles/tokens";
 
 const Canvas = styled("div", {
   width: "100%",
@@ -6,6 +7,7 @@ const Canvas = styled("div", {
 });
 
 const Wrapper = styled("div", {
+  ...themeVarBridge,
   position: "relative",
   width: "100%",
   height: "100%",

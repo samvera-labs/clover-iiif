@@ -5,6 +5,7 @@ title: Viewer
 import Viewer from "docs/components/DynamicImports/Viewer";
 import IIIFBadge from "docs/components/IIIFBadge";
 import { Bleed } from "nextra-theme-docs";
+import { Callout } from "nextra/components";
 import { Tabs, Tab } from "nextra/components";
 import { Steps } from "nextra/components";
 
@@ -832,9 +833,66 @@ export default function App() {
 
 ---
 
-### Custom Theme
+### Theming
 
-You may choose to override the base theme by setting optional colors and fonts. Naming conventions for colors are limited to those shown in the config example below.
+Clover reads its colors and fonts from CSS custom properties. Set any of them on an
+ancestor element — or in a stylesheet — and every component picks the value up through
+the cascade. No prop, no wrapper component, and it applies to a nested `Image` or `Map`
+just as it does to the `Viewer`.
+
+```css
+/* Anywhere above the component: :root, a layout wrapper, a single section. */
+.my-app {
+  --clover-color-accent: #c62828;
+  --clover-color-primary: #37474f;
+  --clover-font-sans: "Helvetica Neue", sans-serif;
+}
+```
+
+Because these are ordinary custom properties, they can be scoped to part of a page,
+changed at runtime, or wired to whatever design tokens your application already has:
+
+```jsx
+<div style={{ "--clover-color-accent": "#C62828" }}>
+  <Viewer iiifContent={iiifContent} />
+</div>
+```
+
+Every token, with the value Clover falls back to when it is not set:
+
+| Custom property                  | Default   | Role                                                |
+| -------------------------------- | --------- | --------------------------------------------------- |
+| `--clover-color-primary`         | `#1A1D1E` | Black and dark grays in a light theme               |
+| `--clover-color-primary-muted`   | `#26292B` |                                                     |
+| `--clover-color-primary-alt`     | `#151718` |                                                     |
+| `--clover-color-accent`          | `#0065C3` | Key brand color                                     |
+| `--clover-color-accent-muted`    | `#50A0EC` |                                                     |
+| `--clover-color-accent-alt`      | `#0F4F8A` |                                                     |
+| `--clover-color-secondary`       | `#FFFFFF` | White and light grays in a light theme              |
+| `--clover-color-secondary-muted` | `#E6E8EB` |                                                     |
+| `--clover-color-secondary-alt`   | `#C1C8CD` |                                                     |
+| `--clover-font-sans`             | `inherit` | UI and body text; inherits the host page by default |
+| `--clover-font-display`          | `inherit` |                                                     |
+
+For contrast, `primary` and `accent` should each reach 4.5:1 or greater against
+`secondary`, and `secondary` should reach 4.5:1 against both `primary` and `accent`.
+
+The `Map` component is the one exception to the cascade. Its markers are painted by
+WebGL rather than CSS, so the accent is resolved to a concrete value when the map
+initializes; a token changed after that point will not repaint existing layers until the
+component remounts.
+
+#### Custom Theme prop
+
+<Callout type="warning">
+  `customTheme` is deprecated in favor of the CSS custom properties above, and
+  is planned for removal in the next major version. It remains fully supported
+  until then — no change is required today.
+</Callout>
+
+You may also override the base theme by passing optional colors and fonts as a prop.
+Naming conventions for colors are limited to those shown in the config example below.
+Any subset may be given; tokens you leave out keep their defaults.
 
 ```jsx
 const iiifContent =
@@ -875,6 +933,11 @@ const customTheme = {
 return <Viewer iiifContent={iiifContent} customTheme={customTheme} />;
 ```
 
+`customTheme` is applied as `--clover-*` custom properties on the Viewer's root element,
+so the two approaches are the same mechanism underneath. Setting a token on an ancestor
+and passing `customTheme` therefore combine as you would expect: the prop wins inside
+the Viewer, because it is declared closer to the component.
+
 #### CSS Classes
 
 Additional CSS classes are made available on structural HTML elements in the Viewer, which may be referenced in a client's own CSS files/style definitions to further customize the Viewer's appearance. You may inspect the DOM to see classes applied to each element, but in general it follows a pattern similar to:
@@ -887,6 +950,10 @@ Additional CSS classes are made available on structural HTML elements in the Vie
   </div>
 </div>
 ```
+
+Other components in the suite expose a root class for the same purpose: `clover-map` on
+`Map`, `clover-slider` on `Slider`, and `clover-iiif-image-openseadragon` on `Image`.
+Descendants follow the same prefixed pattern.
 
 #### Styling WebVTT Captions
 

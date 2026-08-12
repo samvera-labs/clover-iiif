@@ -5,6 +5,7 @@ title: Map
 import CloverMap from "docs/components/DynamicImports/Map";
 import CoordinatePickingDemo from "docs/components/Map/CoordinatePickingDemo";
 import IIIFBadge from "docs/components/IIIFBadge";
+import { Callout } from "nextra/components";
 import { Tabs, Tab } from "nextra/components";
 import {
   DC_GEOREF_ANNOTATION_CANVAS as georefAnnotation,
@@ -144,6 +145,25 @@ Provide a IIIF `navPlace` GeoJSON value, a Georeference Extension annotation, or
 - Auto-fits the viewport to all displayed data with `fitToData`
 - Accepts a click callback for coordinate picking (`onMapClick`)
 - Configurable tile layer (defaults to [OpenStreetMap](https://www.openstreetmap.org/))
+
+### Scroll to zoom
+
+Zooming with the mouse wheel or trackpad is **off by default**. A map placed partway down
+a scrolling page would otherwise swallow the wheel and trap the reader — the same reason
+Clover disables OpenSeadragon's `scrollToZoom` in `Image` and `Viewer`. The zoom controls,
+double-click and pinch gestures all still work.
+
+Turn it on with `scrollZoom` for a full-page or full-bleed map, where wheel zoom is what a
+reader expects:
+
+```jsx
+<Map iiifContent={iiifContent} fitToData scrollZoom />
+```
+
+<Callout type="info">
+  Prior to this release the map zoomed on scroll, following MapLibre's own
+  default. If you are relying on that behavior, add `scrollZoom` to keep it.
+</Callout>
 
 ## Installation
 
@@ -576,6 +596,7 @@ Use `onMapClick` and `useCrosshairCursor` to turn the map into a coordinate pick
 | `fitToData`           | `boolean`                                               | No       | `false`       |
 | `onMapClick`          | `(coordinates: [number, number]) => void`               | No       |               |
 | `useCrosshairCursor`  | `boolean`                                               | No       | `false`       |
+| `scrollZoom`          | `boolean`                                               | No       | `false`       |
 | `tileLayer`           | [`MapTileLayer`](#maptilelayer-type)                    | No       | OpenStreetMap |
 
 ### `GeoreferenceAnnotation` type

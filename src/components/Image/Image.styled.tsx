@@ -1,4 +1,5 @@
 import { styled } from "src/styles/stitches.config";
+import { themeVarBridge } from "src/styles/tokens";
 
 const Navigator = styled("div", {
   position: "absolute !important",
@@ -81,6 +82,7 @@ const Viewport = styled("div", {
 });
 
 const Wrapper = styled("div", {
+  ...themeVarBridge,
   width: "100%",
   height: "100%",
   maxHeight: "100vh",

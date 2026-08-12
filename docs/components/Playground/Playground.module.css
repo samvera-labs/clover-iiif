@@ -1,0 +1,372 @@
+/*
+ * The playground is a section of the homepage, not a page. It owns no background
+ * or page padding — the homepage supplies both — and `scroll-margin-top` keeps the
+ * heading clear of Nextra's sticky navbar when linked to via `#playground`.
+ */
+.section {
+  color: var(--gray-12);
+  scroll-margin-top: 5rem;
+  /*
+   * One gutter around the live stage, applied on all four sides: below the tab bar,
+   * above the generated code, and between the stage and the control tray. Because the
+   * stage has no panel of its own, this whitespace is the only thing framing it — so
+   * it is deliberately generous, and a single token keeps the four sides equal.
+   */
+  --stage-gutter: 3rem;
+}
+
+.shell {
+  margin: 0 auto;
+  max-width: 88rem;
+}
+
+.head {
+  margin-bottom: 1.5rem;
+}
+
+/* "Try it". Uniform with "Why Clover" and "Install" — see the shared tokens in
+ * tokens.css. */
+.title {
+  font-size: var(--section-heading-size);
+  font-weight: var(--section-heading-weight);
+  line-height: 1.2;
+  /* No bottom margin — `.head` owns the space below now that the lede is gone. */
+  margin: 0;
+}
+
+/* ── Component switcher ───────────────────────────────────────────────────── */
+
+.tabs {
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: var(--stage-gutter);
+  overflow-x: auto;
+}
+
+.tab {
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  color: var(--gray-11);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: var(--weight-regular);
+  padding: 0.5rem 0.875rem 0.625rem;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--gray-12);
+}
+
+.tab[aria-selected="true"] {
+  border-bottom-color: var(--accent-9);
+  color: var(--gray-12);
+}
+
+.tab:focus-visible {
+  border-radius: var(--radius-2);
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+/* ── Layout: stage beside control rail ────────────────────────────────────── */
+
+.layout {
+  align-items: start;
+  display: grid;
+  gap: var(--stage-gutter);
+  grid-template-columns: minmax(0, 1fr) 18rem;
+}
+
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/*
+ * The stage is deliberately unstyled and unconstrained — no panel, no border, no
+ * height. The component renders at whatever size it wants and sits directly on the
+ * page.
+ *
+ * Two components cannot size themselves, because they paint into a canvas that has
+ * no intrinsic height: MapLibre and OpenSeadragon both measure their container on
+ * init and render nothing if it measures zero. They get a height below; everything
+ * else is left alone.
+ */
+.stage {
+  position: relative;
+}
+
+/*
+ * Scoped to the active tab by `data-component`, not applied to any descendant that
+ * happens to match. The Viewer renders its own OpenSeadragon instance internally, so
+ * an unscoped `.clover-iiif-image-openseadragon` rule would override the Viewer's
+ * `canvasHeight` option and make that knob a no-op.
+ */
+.stage[data-component="map"] :global(.clover-map),
+.stage[data-component="image"] :global(.clover-iiif-image-openseadragon) {
+  height: 30rem;
+  min-height: 0;
+}
+
+@media (max-width: 640px) {
+  .stage[data-component="map"] :global(.clover-map),
+  .stage[data-component="image"] :global(.clover-iiif-image-openseadragon) {
+    height: 20rem;
+  }
+}
+
+/*
+ * The sticky column. Holds the documentation button and the control tray, so both
+ * travel together as the stage scrolls — the button would be useless pinned to the
+ * top of a stage that can be many screens tall.
+ */
+.aside {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: sticky;
+  top: 5rem;
+  /*
+   * Capped to the viewport, like Nextra's own sidebar. A sticky element can only
+   * travel the difference between its own height and its containing block, so an
+   * aside as tall as the section barely moves. Bounding it here maximises that
+   * travel; the tray scrolls internally when the controls do not fit.
+   */
+  max-height: calc(100vh - 6.5rem);
+}
+
+/* Full width of the column, and centred, so it reads as a primary action rather
+ * than an inline link that happens to be button-shaped. */
+.docsCta {
+  justify-content: center;
+}
+
+/* One panel holding every control group. */
+.rail {
+  background: var(--color-panel-solid);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-4);
+  /* Absorbs the overflow when the controls are taller than the capped column, so
+   * the documentation button above it is never pushed out of view. */
+  min-height: 0;
+  overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+  .aside {
+    max-height: none;
+    position: static;
+  }
+
+  .rail {
+    overflow-y: visible;
+  }
+}
+
+/*
+ * Groups are sections within the single rail panel now, not panels of their own —
+ * a hairline rule between them instead of a border, radius and gap each.
+ */
+.group {
+  padding: 0.875rem 1rem 1rem;
+}
+
+.group + .group {
+  border-top: 1px solid var(--color-border);
+}
+
+.groupTitle {
+  color: var(--gray-11);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+}
+
+/* ── Controls ─────────────────────────────────────────────────────────────── */
+
+.field {
+  margin-bottom: 0.75rem;
+}
+
+.field:last-child {
+  margin-bottom: 0;
+}
+
+.fieldLabel {
+  color: var(--gray-12);
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: var(--weight-regular);
+  margin-bottom: 0.3125rem;
+}
+
+.hint {
+  color: var(--gray-11);
+  display: block;
+  font-size: 0.75rem;
+  font-weight: var(--weight-regular);
+  line-height: 1.4;
+  margin-top: 0.125rem;
+}
+
+.toggleRow {
+  align-items: flex-start;
+  cursor: pointer;
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.625rem;
+}
+
+.toggleRow:last-child {
+  margin-bottom: 0;
+}
+
+.toggleRow input {
+  accent-color: var(--accent-9);
+  flex-shrink: 0;
+  height: 1rem;
+  margin-top: 0.125rem;
+  width: 1rem;
+}
+
+.toggleRow input:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+.toggleText {
+  min-width: 0;
+}
+
+.input,
+.select {
+  background: var(--gray-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-3);
+  color: var(--gray-12);
+  font: inherit;
+  font-size: 0.8125rem;
+  padding: 0.4375rem 0.5rem;
+  width: 100%;
+}
+
+.input:focus,
+.select:focus {
+  border-color: var(--accent-9);
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+.resourceInput {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+}
+
+/* ── Accent swatches ──────────────────────────────────────────────────────── */
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.swatch {
+  border: 1px solid var(--color-border-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  height: 1.5rem;
+  padding: 0;
+  width: 1.5rem;
+}
+
+.swatch[aria-pressed="true"] {
+  box-shadow:
+    0 0 0 2px var(--color-panel-solid),
+    0 0 0 4px var(--accent-9);
+}
+
+.swatch:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+/* The "Docs" preset clears the override; show it as a split of the two neutrals. */
+.swatchDefault {
+  background: linear-gradient(
+    135deg,
+    var(--gray-12) 0 50%,
+    var(--gray-3) 50% 100%
+  );
+}
+
+/* ── Generated code ───────────────────────────────────────────────────────── */
+
+/*
+ * The label row stays open on the page; the code itself gets a recessed surface so
+ * it reads as a distinct block against the background instead of floating as loose
+ * monospace text.
+ */
+.codePanel {
+  margin-top: var(--stage-gutter);
+}
+
+.codeHead {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 0.5rem;
+}
+
+.codeTitle {
+  color: var(--gray-11);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.copyButton {
+  background: var(--gray-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2);
+  color: var(--gray-12);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.625rem;
+}
+
+.copyButton:hover {
+  background: var(--gray-4);
+}
+
+.copyButton:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+.code {
+  /* A step darker than the page in both themes, plus a hairline, so the block is
+   * legible as code without becoming another heavy panel. */
+  background: var(--gray-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-3);
+  color: var(--gray-12);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  margin: 0;
+  /* Wide snippets scroll inside the block; the page never scrolls sideways. */
+  overflow-x: auto;
+  padding: 1rem 1.125rem;
+  tab-size: 2;
+  white-space: pre;
+}
