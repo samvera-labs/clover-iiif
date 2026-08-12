@@ -1,6 +1,6 @@
 # Clover IIIF
 
-**Extensible IIIF front-end toolkit and Manifest viewer. Accessible. Composable. Open Source.**
+**A [Northwestern University Libraries](https://www.library.northwestern.edu/) project.**
 
 Clover IIIF is a suite of Manifest and Collection components combined with lower-level IIIF Presentation 3.0 API UI components. Designed with a focus on accessibility, customization, and developer experience. You can use Clover IIIF to build your own custom IIIF-fluent web interfaces while still using the full power of the IIIF Presentation 3.0 API.
 
