@@ -4,5 +4,6 @@
   "canvasAnimationPreviousFrame": "Fotograma anterior",
   "canvasAnimationNextFrame": "Próximo fotograma",
   "canvasAnimationRepeat": "Repetir",
-  "canvasAnimationSpeed": "Velocidade"
+  "canvasAnimationSpeed": "Velocidade",
+  "informationPanelTabsContents": "Conteúdo"
 }

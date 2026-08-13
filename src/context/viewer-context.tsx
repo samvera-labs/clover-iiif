@@ -55,6 +55,7 @@ export type ViewerConfigOptions = {
     toggleComponent?: React.ComponentType<PanelToggleProps>;
     renderAnnotation?: boolean;
     renderAnnotationCollection?: boolean;
+    renderContents?: boolean;
     vtt?: {
       autoScroll?: AutoScrollOptions | AutoScrollSettings | boolean;
     };
@@ -199,6 +200,7 @@ const defaultConfigOptions: ViewerConfigOptions = {
     renderToggle: true,
     renderAnnotation: true,
     renderAnnotationCollection: true,
+    renderContents: true,
     renderContentSearch: true,
     renderCanvasSummary: false,
   },

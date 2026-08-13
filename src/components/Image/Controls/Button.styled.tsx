@@ -11,7 +11,7 @@ const Item = styled("button", {
   background: "none",
   backgroundColor: "$primary",
   border: "none",
-  color: "white",
+  color: "$secondary",
   cursor: "pointer",
   marginLeft: "0.618rem",
   transition: "$all",

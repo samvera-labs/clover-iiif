@@ -16,9 +16,11 @@ import {
 
 import AnnotationPage from "src/components/Viewer/InformationPanel/Annotation/Page";
 import ContentSearch from "src/components/Viewer/InformationPanel/ContentSearch/ContentSearch";
+import ContentsPage from "src/components/Viewer/InformationPanel/Contents/Page";
 import { AnnotationResources, AnnotationResource } from "src/types/annotations";
 import Information from "src/components/Viewer/InformationPanel/About/About";
 import Map from "src/components/Map";
+import { rangesToTableOfContentsTree } from "@iiif/helpers/ranges";
 import {
   GeoreferenceAnnotation,
   NavPlaceDisplayLevel,
@@ -52,7 +54,10 @@ const UserScrollTimeout = 1500; // 1500ms without a user-generated scroll event 
 // ── navPlace / georef helpers (shared with the map tab) ──────────────────────
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getNavPlaceContext = (resource: any, parent?: NavPlaceResourceContext): NavPlaceResourceContext | undefined => {
+const getNavPlaceContext = (
+  resource: any,
+  parent?: NavPlaceResourceContext,
+): NavPlaceResourceContext | undefined => {
   if (!resource) return undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const firstUrl = (list: unknown): string | undefined => {
@@ -114,6 +119,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
   const renderAbout = informationPanel?.renderAbout;
   const renderAnnotation = informationPanel?.renderAnnotation;
+  const renderContents = informationPanel?.renderContents;
   const hasAnnotationCollection = Boolean(annotationCollection?.pages?.length);
   const canvas = vault.get({
     id: activeCanvas,
@@ -132,8 +138,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     contentStateAnnotationSource.id === activeCanvas;
   const filteredAnnotationResources = useMemo(() => {
     if (!annotationResources) return [];
-    if (!allowedAnnotationMotivations)
-      return annotationResources;
+    if (!allowedAnnotationMotivations) return annotationResources;
 
     return annotationResources
       .map((annotationPage) => {
@@ -163,17 +168,38 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     hasContentStateAnnotation ||
     hasAnnotationCollection;
 
+  const contentsTree = useMemo(() => {
+    if (!renderContents) return null;
+
+    const manifest = vault.get(activeManifest);
+    if (!manifest?.structures?.length) return null;
+
+    return rangesToTableOfContentsTree(
+      vault,
+      manifest.structures,
+      manifest.label,
+    );
+  }, [activeManifest, renderContents, vault]);
+
+  const showContentsTab = Boolean(contentsTree);
+
   // ── Map tab data ────────────────────────────────────────────────────────────
 
-  const [mapGeorefAnnotations, setMapGeorefAnnotations] = useState<GeoreferenceAnnotation[]>([]);
+  const [mapGeorefAnnotations, setMapGeorefAnnotations] = useState<
+    GeoreferenceAnnotation[]
+  >([]);
 
   /**
    * Preserve the previous array when the collected set hasn't actually changed.
    * The effect below re-runs whenever `vault` or `visibleCanvases` change
    * identity, so storing a fresh array every time would re-trigger it in a loop.
    */
-  const keepOrReplace = (previous: GeoreferenceAnnotation[], next: GeoreferenceAnnotation[]) =>
-    previous.length === next.length && previous.every((annotation, index) => annotation.id === next[index].id)
+  const keepOrReplace = (
+    previous: GeoreferenceAnnotation[],
+    next: GeoreferenceAnnotation[],
+  ) =>
+    previous.length === next.length &&
+    previous.every((annotation, index) => annotation.id === next[index].id)
       ? previous
       : next;
 
@@ -181,7 +207,9 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     if (!configOptions.map?.enabled) return null;
 
     const manifest = vault.get(activeManifest);
-    const canvases = visibleCanvases.map((c) => vault.get(c.id)).filter(Boolean);
+    const canvases = visibleCanvases
+      .map((c) => vault.get(c.id))
+      .filter(Boolean);
     const collectionResource =
       collection && Object.keys(collection).length > 0 ? collection : null;
     const collectionContext = getNavPlaceContext(collectionResource);
@@ -191,18 +219,28 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     const featuresForLevel = (level: NavPlaceResourceLevel) => {
       if (level === "Collection")
         return collectionResource
-          ? extractNavPlaceFeatures(collectionResource, { levels: ["Collection"] })
+          ? extractNavPlaceFeatures(collectionResource, {
+              levels: ["Collection"],
+            })
           : [];
       if (level === "Manifest")
         return manifest
-          ? extractNavPlaceFeatures(manifest, { levels: ["Manifest"], parent: collectionContext })
+          ? extractNavPlaceFeatures(manifest, {
+              levels: ["Manifest"],
+              parent: collectionContext,
+            })
           : [];
       return canvases.flatMap((canvas) =>
-        extractNavPlaceFeatures(canvas, { levels: [level], parent: manifestContext }),
+        extractNavPlaceFeatures(canvas, {
+          levels: [level],
+          parent: manifestContext,
+        }),
       );
     };
 
-    const featuresForConfiguredLevel = (level: NavPlaceDisplayLevel): GeoJSON.Feature[] => {
+    const featuresForConfiguredLevel = (
+      level: NavPlaceDisplayLevel,
+    ): GeoJSON.Feature[] => {
       if (level === "all")
         return [
           ...featuresForLevel("Collection"),
@@ -211,7 +249,12 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
           ...featuresForLevel("Annotation"),
         ];
       if (level !== "auto") return featuresForLevel(level);
-      for (const l of ["Annotation", "Canvas", "Manifest", "Collection"] as NavPlaceResourceLevel[]) {
+      for (const l of [
+        "Annotation",
+        "Canvas",
+        "Manifest",
+        "Collection",
+      ] as NavPlaceResourceLevel[]) {
         const f = featuresForLevel(l);
         if (f.length) return f;
       }
@@ -220,7 +263,14 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
     const features = featuresForConfiguredLevel(configuredLevel);
     return features.length ? createNavPlaceFeatureCollection(features) : null;
-  }, [activeManifest, collection, configOptions.map?.enabled, configOptions.map?.navPlaceLevel, vault, visibleCanvases]);
+  }, [
+    activeManifest,
+    collection,
+    configOptions.map?.enabled,
+    configOptions.map?.navPlaceLevel,
+    vault,
+    visibleCanvases,
+  ]);
 
   useEffect(() => {
     let isMounted = true;
@@ -236,7 +286,9 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
       const canvasIds =
         scope === "canvas"
           ? visibleCanvases.map((c) => c.id)
-          : ((manifest?.items ?? []) as Array<{ id: string }>).map((item) => item.id);
+          : ((manifest?.items ?? []) as Array<{ id: string }>).map(
+              (item) => item.id,
+            );
 
       const collected: GeoreferenceAnnotation[] = [];
       const seen = new Set<string>();
@@ -246,9 +298,14 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         if (!canvas?.annotations?.length) continue;
 
         const paintingBodies = getPaintingResource(vault, canvasId) ?? [];
-        const imageService = paintingBodies.map((body) => getImageServiceId(body)).find(Boolean);
+        const imageService = paintingBodies
+          .map((body) => getImageServiceId(body))
+          .find(Boolean);
 
-        const pages = vault.get(canvas.annotations) as Array<{ id: string; items?: Array<{ id: string }> }>;
+        const pages = vault.get(canvas.annotations) as Array<{
+          id: string;
+          items?: Array<{ id: string }>;
+        }>;
 
         for (const page of pages) {
           let items = page?.items;
@@ -274,13 +331,21 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
             const bodyRefs = Array.isArray(annotation?.body)
               ? annotation.body
-              : annotation?.body ? [annotation.body] : [];
+              : annotation?.body
+                ? [annotation.body]
+                : [];
             let featureCollection: GeoJSON.FeatureCollection | null = null;
             for (const ref of bodyRefs) {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const resolved = ref?.type === "FeatureCollection" ? ref : (vault.get(ref as any) as any);
+              const resolved =
+                ref?.type === "FeatureCollection"
+                  ? ref
+                  : (vault.get(ref as any) as any);
               if (resolved?.type === "FeatureCollection") {
-                featureCollection = { type: "FeatureCollection", features: resolved.features ?? [] };
+                featureCollection = {
+                  type: "FeatureCollection",
+                  features: resolved.features ?? [],
+                };
                 break;
               }
             }
@@ -297,13 +362,21 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             if (!selectorValue) continue;
 
             const candidate: GeoreferenceAnnotation = {
-              "@context": ["http://iiif.io/api/extension/georef/1/context.json", "http://iiif.io/api/presentation/3/context.json"],
+              "@context": [
+                "http://iiif.io/api/extension/georef/1/context.json",
+                "http://iiif.io/api/presentation/3/context.json",
+              ],
               id: annotation.id,
               type: "Annotation",
               motivation: "georeferencing",
               target: {
                 type: "SpecificResource",
-                source: { id: source?.id, type: source?.type, width: source?.width, height: source?.height },
+                source: {
+                  id: source?.id,
+                  type: source?.type,
+                  width: source?.width,
+                  height: source?.height,
+                },
                 selector: { type: "SvgSelector", value: selectorValue },
               },
               body: featureCollection,
@@ -313,7 +386,13 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
             if (source?.type === "Canvas") {
               if (!imageService) continue;
-              collected.push(adaptGeoreferenceAnnotationForOverlay(candidate, imageService.id, imageService.type));
+              collected.push(
+                adaptGeoreferenceAnnotationForOverlay(
+                  candidate,
+                  imageService.id,
+                  imageService.type,
+                ),
+              );
             } else {
               collected.push(candidate);
             }
@@ -321,12 +400,24 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         }
       }
 
-      if (isMounted) setMapGeorefAnnotations((previous) => keepOrReplace(previous, collected));
+      if (isMounted)
+        setMapGeorefAnnotations((previous) =>
+          keepOrReplace(previous, collected),
+        );
     }
 
     collectGeorefAnnotations();
-    return () => { isMounted = false; };
-  }, [activeManifest, configOptions.map?.enabled, configOptions.map?.showImageOverlay, configOptions.map?.overlayScope, vault, visibleCanvases]);
+    return () => {
+      isMounted = false;
+    };
+  }, [
+    activeManifest,
+    configOptions.map?.enabled,
+    configOptions.map?.showImageOverlay,
+    configOptions.map?.overlayScope,
+    vault,
+    visibleCanvases,
+  ]);
 
   const showMapTab = Boolean(
     configOptions.map?.enabled && (mapNavPlace || mapGeorefAnnotations.length),
@@ -377,6 +468,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         "manifest-about",
         "manifest-annotations",
         "manifest-content-search",
+        "manifest-contents",
         "manifest-map",
       ].includes(String(informationPanel?.defaultTab))
     ) {
@@ -398,13 +490,16 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   }, []);
 
   useEffect(() => {
-    if (!hasAnnotations) {
+    if (
+      !hasAnnotations &&
+      informationPanelResource === "manifest-annotations"
+    ) {
       dispatch({
         type: "updateInformationPanelResource",
         informationPanelResource: "manifest-about",
       });
     }
-  }, [hasAnnotations]);
+  }, [dispatch, hasAnnotations, informationPanelResource]);
 
   function handleScroll() {
     if (!isAutoScrolling) {
@@ -461,6 +556,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             {t("informationPanelTabsAbout")}
           </Trigger>
         )}
+        {showContentsTab && (
+          <Trigger value="manifest-contents">
+            {t("informationPanelTabsContents")}
+          </Trigger>
+        )}
         {renderContentSearch && contentSearchResource && (
           <Trigger value="manifest-content-search">
             {t("informationPanelTabsSearch")}
@@ -473,9 +573,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
           </Trigger>
         )}
         {showMapTab && (
-          <Trigger value="manifest-map">
-            {t("informationPanelTabsMap")}
-          </Trigger>
+          <Trigger value="manifest-map">{t("informationPanelTabsMap")}</Trigger>
         )}
         {pluginsWithInfoPanel &&
           pluginsWithInfoPanel.map((plugin, i) => (
@@ -490,6 +588,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         {renderAbout && (
           <Content value="manifest-about">
             <Information />
+          </Content>
+        )}
+        {contentsTree && (
+          <Content value="manifest-contents">
+            <ContentsPage tree={contentsTree} />
           </Content>
         )}
         {renderContentSearch && contentSearchResource && (
@@ -518,7 +621,9 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
               />
             ))}
             {hasAnnotationCollection && (
-              <AnnotationCollectionPage annotationCollection={annotationCollection!} />
+              <AnnotationCollectionPage
+                annotationCollection={annotationCollection!}
+              />
             )}
           </Content>
         )}

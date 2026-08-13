@@ -3,7 +3,14 @@ import { initCloverI18n } from "src/i18n/config";
 import { useEffect } from "react";
 
 const DEMO_MANIFEST =
-  "https://api.dc.library.northwestern.edu/api/v2/works/99762c53-8a99-44d4-b7d8-2ebbc2bb274f?as=iiif";
+  "https://iiif.io/api/cookbook/recipe/0025-newspaper-article-index/manifest.json";
+
+const viewerOptions = {
+  informationPanel: {
+    open: true,
+    defaultTab: "manifest-contents",
+  },
+};
 
 const GermanViewer: React.FC = () => {
   useEffect(() => {
@@ -16,13 +23,15 @@ const GermanViewer: React.FC = () => {
             commonClose: "Schließen",
             commonNext: "Weiter",
             informationPanelTabsAbout: "Über",
+            informationPanelTabsContents: "Inhalt",
+            informationPanelTabsSearch: "Suche",
           },
         },
       },
     });
   }, []);
 
-  return <Viewer iiifContent={DEMO_MANIFEST} />;
+  return <Viewer iiifContent={DEMO_MANIFEST} options={viewerOptions} />;
 };
 
 export default GermanViewer;

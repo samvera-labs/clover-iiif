@@ -3,6 +3,12 @@ import { render, screen } from "@testing-library/react";
 import Button from "src/components/Image/Controls/Button";
 import React from "react";
 
+const getInjectedCss = () =>
+  Array.from(document.querySelectorAll("style"))
+    .flatMap((style) => Array.from(style.sheet?.cssRules ?? []))
+    .map((rule) => rule.cssText.replace(/\s+/g, ""))
+    .join("\n");
+
 describe("Button component", () => {
   it("renders", () => {
     render(
@@ -18,5 +24,17 @@ describe("Button component", () => {
     const title = svg.getElementsByTagName("title")[0];
     expect(title.getAttribute("id")).toBe("close-svg-title");
     expect(title.innerHTML.trim()).toBe("close");
+  });
+
+  it("uses the tokenized secondary color for currentColor glyphs", () => {
+    render(
+      <Button id="fullPage-abc" label="Fullscreen">
+        <path fill="none" stroke="currentColor" d="M432 320v112H320" />
+      </Button>,
+    );
+
+    const button = screen.getByTestId("openseadragon-button");
+    expect(button.getAttribute("data-button")).toBe("full-page");
+    expect(getInjectedCss()).toMatch(/color:var\(--colors-secondary\)/);
   });
 });

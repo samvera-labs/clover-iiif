@@ -560,6 +560,7 @@ The information panel is a collapsible panel that displays information about the
 | `options.informationPanel.vtt.autoScroll`      | [See Auto Scroll](#auto-scroll) | No       | true    |
 | `options.informationPanel.renderAbout`         | `boolean`                       | No       | true    |
 | `options.informationPanel.renderAnnotation`    | `boolean`                       | No       | true    |
+| `options.informationPanel.renderContents`      | `boolean`                       | No       | true    |
 | `options.informationPanel.renderSupplementing` | `boolean`                       | No       | true    |
 | `options.informationPanel.renderToggle`        | `boolean`                       | No       | true    |
 | `options.informationPanel.toggleComponent`     | `React.ComponentType`           | No       |         |
@@ -574,6 +575,34 @@ object. It follows the active canvas and renders nothing when that canvas has no
 summary. Off by default, since it adds text to the About tab.
 
 If `renderAbout` is true, Clover will use the About tab as the default tab. Use `options.informationPanel.defaultTab` to set the default tab.
+
+Manifests with IIIF `structures` render a Contents tab by default. The tab uses
+Range labels as a table of contents, and selecting a range opens the first canvas
+inside that range. Set `renderContents` to `false` to hide it:
+
+```jsx
+<Viewer
+  iiifContent="https://iiif.io/api/cookbook/recipe/0024-book-4-toc/manifest.json"
+  options={{
+    informationPanel: {
+      renderContents: false,
+    },
+  }}
+/>
+```
+
+To open the information panel on the Contents tab, use `manifest-contents`.
+
+```jsx
+<Viewer
+  iiifContent="https://iiif.io/api/cookbook/recipe/0024-book-4-toc/manifest.json"
+  options={{
+    informationPanel: {
+      defaultTab: "manifest-contents",
+    },
+  }}
+/>
+```
 
 If you want content search to be the default tab, use `manifest-content-search`
 

@@ -12,6 +12,9 @@ assigned at release time.
 
 ### Changed
 
+- Image viewer controls now color `currentColor` glyphs with Clover's secondary
+  token, so the fullscreen icon inverts correctly in dark themes.
+
 - **`Map` renders with MapLibre GL instead of Leaflet.** `leaflet` and
   `@allmaps/leaflet` are replaced by `maplibre-gl` and `@allmaps/maplibre`, and
   `@types/leaflet` is dropped. Both new packages are regular dependencies, so a reinstall
@@ -52,6 +55,11 @@ assigned at release time.
   ignored.
 
 ### Added
+
+- `Viewer` now renders a `Contents` Information Panel tab for Manifests with IIIF
+  `structures`; select a Range to jump to its first Canvas. Hide it with
+  `options.informationPanel.renderContents: false`, or open on it with
+  `options.informationPanel.defaultTab: "manifest-contents"`.
 
 - **Theming with CSS custom properties.** Every component reads `--clover-color-*` and
   `--clover-font-*`. Set them on any ancestor element, or in a stylesheet, and the value
