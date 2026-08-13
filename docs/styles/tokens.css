@@ -41,12 +41,28 @@
   --accent-11: color-mix(in oklab, var(--accent-9) 82%, #000);
   --accent-contrast: #ffffff;
 
-  /* Surfaces. Panels sit above the page; translucency keeps them feeling layered. */
+  /*
+   * Surfaces.
+   *
+   * Solid fills, not hairlines. A panel is a block of colour, and separation comes from
+   * contrast and space — a 1px border is not Clover's aesthetic. Each step is a distinct
+   * fill, so a panel reads as a panel with nothing drawn around it.
+   */
   --color-background: var(--gray-1);
-  --color-panel: #ffffffcc;
-  --color-panel-solid: #ffffff;
-  --color-border: var(--gray-6);
-  --color-border-strong: var(--gray-8);
+  --surface: var(--gray-3);
+  --surface-raised: #ffffff;
+  --surface-sunken: var(--gray-4);
+
+  /*
+   * Type floor. Nothing in the UI goes below `--text-sm`; `--text-label` is reserved for
+   * uppercase mono eyebrows, where the letterforms carry more width per point.
+   */
+  --text-label: 0.875rem;
+  --text-sm: 0.9375rem;
+  --text-md: 1rem;
+  /* One step above body, for a label that titles something without being a heading.
+   * The scale otherwise jumped straight from 1rem to `--section-heading-size`. */
+  --text-lg: 1.125rem;
 
   /*
    * Declared here now that the family is self-hosted (see fonts.css). Under
@@ -77,11 +93,11 @@
   --weight-bold: 700;
 
   /*
-   * Homepage section headings — "Try it", "Why Clover", "Install".
+   * Homepage section headings — "Why Clover" and "Install".
    *
-   * Shared as tokens because those three live in two different CSS modules
-   * (Home and Playground) and are meant to read as one level of the hierarchy.
-   * Keeping the values here is what stops them drifting apart.
+   * Tokens rather than literals so any future section heading joins that level of the
+   * hierarchy by reference. (The playground's "Try it" used these too, until its
+   * heading was dropped in favour of the selected radio card carrying that meaning.)
    */
   --section-heading-size: 2rem;
   --section-heading-weight: var(--weight-bold);
@@ -92,9 +108,7 @@
   --radius-5: 16px;
 
   --shadow-2: 0 1px 2px #1c202408, 0 1px 3px #1c202410;
-  --shadow-4:
-    0 8px 24px -8px #1c202420, 0 2px 6px -2px #1c202414,
-    0 0 0 1px var(--color-border);
+  --shadow-4: 0 8px 24px -8px #1c202420, 0 2px 6px -2px #1c202414;
 
   /* Focus ring, used consistently on every interactive surface. */
   --focus-ring: 0 0 0 2px var(--color-background), 0 0 0 4px var(--accent-6);
@@ -135,15 +149,12 @@
   --accent-contrast: #ffffff;
 
   --color-background: var(--gray-1);
-  --color-panel: #1a1b1ecc;
-  --color-panel-solid: #1a1b1e;
-  --color-border: var(--gray-6);
-  --color-border-strong: var(--gray-8);
+  --surface: var(--gray-3);
+  --surface-raised: var(--gray-4);
+  --surface-sunken: var(--gray-2);
 
   --shadow-2: 0 1px 2px #00000040, 0 1px 3px #00000030;
-  --shadow-4:
-    0 8px 24px -8px #00000060, 0 2px 6px -2px #00000040,
-    0 0 0 1px var(--color-border);
+  --shadow-4: 0 8px 24px -8px #00000060, 0 2px 6px -2px #00000040;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -165,8 +176,9 @@
     --accent-10: color-mix(in oklab, var(--accent-9) 85%, #fff);
     --accent-11: color-mix(in oklab, var(--accent-9) 62%, #fff);
 
-    --color-panel: #1a1b1ecc;
-    --color-panel-solid: #1a1b1e;
+    --surface: var(--gray-3);
+    --surface-raised: var(--gray-4);
+    --surface-sunken: var(--gray-2);
   }
 }
 
@@ -280,20 +292,24 @@ pre {
   font-family: var(--font-mono);
 }
 
-/* ── Call-to-action buttons ───────────────────────────────────────────────────
+/* ── Call-to-action button ────────────────────────────────────────────────────
  *
- * Global rather than a CSS module, because these are shared by the hero, the
- * install panel and the playground's documentation link, which live in different
- * modules. One definition means "styled like the Get started button" stays true
- * instead of drifting between copies.
+ * Global rather than a CSS module, because it is shared by the install panel and
+ * the playground's documentation link, which live in different modules. One
+ * definition means "styled like the Get started button" stays true instead of
+ * drifting between copies.
+ *
+ * There was a `.cta-soft` companion for the hero's secondary link. The hero no
+ * longer has buttons, and a variant with no callers is a variant that goes stale.
  */
 
-.cta-solid,
-.cta-soft {
+.cta-solid {
   align-items: center;
+  background: var(--accent-9);
   border-radius: var(--radius-3);
+  color: var(--accent-contrast);
   display: inline-flex;
-  font-size: 0.9375rem;
+  font-size: var(--text-sm);
   font-weight: var(--weight-regular);
   gap: 0.5rem;
   padding: 0.625rem 1.125rem;
@@ -304,33 +320,16 @@ pre {
     transform 120ms ease;
 }
 
-.cta-solid {
-  background: var(--accent-9);
-  color: var(--accent-contrast);
-}
-
 .cta-solid:hover {
   background: var(--accent-10);
 }
 
-.cta-soft {
-  background: var(--gray-3);
-  border: 1px solid var(--color-border);
-  color: var(--gray-12);
-}
-
-.cta-soft:hover {
-  background: var(--gray-4);
-}
-
-.cta-solid:focus-visible,
-.cta-soft:focus-visible {
+.cta-solid:focus-visible {
   box-shadow: var(--focus-ring);
   outline: none;
 }
 
-.cta-solid:active,
-.cta-soft:active {
+.cta-solid:active {
   transform: translateY(1px);
 }
 

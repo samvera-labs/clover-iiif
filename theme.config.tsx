@@ -7,7 +7,12 @@ import { useMemo } from "react";
 import { useRouter } from "next/router";
 
 const siteTitle = "Clover IIIF";
-const siteDescription = "Showcase IIIF Manifests as interoperable web content.";
+/*
+ * Drives the browser title and the OpenGraph description. Keeps "Manifests" and
+ * "Collections" for search, where the homepage headline says "IIIF content".
+ */
+const siteDescription =
+  "A suite of accessible UI components for IIIF Manifests and Collections.";
 
 const config: DocsThemeConfig = {
   darkMode: true,
@@ -16,13 +21,13 @@ const config: DocsThemeConfig = {
   },
   docsRepositoryBase: "https://github.com/samvera-labs/clover-iiif",
 
-  banner: {
-    // tada icon and react 19 support notification
-    text: "🎉 React 19 support is here! Clover IIIF v3.0.0 works with the latest React frameworks.",
-    dismissible: true,
-  },
+  /*
+   * No banner. The previous one announced React 19 support "in v3.0.0" and had gone
+   * stale twelve minor versions later. Add one back when there is something current to
+   * say — a stale banner costs more attention than it earns.
+   */
   footer: {
-    text: "Extensible IIIF front-end toolkit and Manifest viewer. Accessible. Composable. Open Source.",
+    text: "A suite of accessible UI components for IIIF content. Created at Northwestern University Libraries.",
   },
 
   useNextSeoProps() {

@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   type ComponentKey,
   type Control,
@@ -9,7 +15,13 @@ import {
   setPath,
 } from "docs/components/Playground/playground-config";
 
-import { applyAccent, readStoredAccent, storeAccent } from "docs/lib/accent";
+import { fontPresets } from "docs/lib/preview-fonts";
+import {
+  applyPageTheme,
+  normalizeHex,
+  readStoredPageTheme,
+  storePageTheme,
+} from "docs/lib/page-theme";
 
 import Image from "docs/components/DynamicImports/Image";
 import Link from "next/link";
@@ -21,9 +33,17 @@ import Viewer from "docs/components/DynamicImports/Viewer";
 import { cookbookRecipes } from "docs/components/CookbookRecipes/CookbookRecipeSelect";
 import styles from "docs/components/Playground/Playground.module.css";
 import { useRouter } from "next/router";
+import { useTheme } from "nextra-theme-docs";
 
 /** Control values keyed by dot path, per component. */
 type ControlState = Record<string, string | boolean>;
+
+/**
+ * What the colour picker shows when no accent is set. A native `<input type="color">`
+ * has no empty state, so it needs some hex to display; this is the docs' own
+ * `--accent-9`, which is what the page is actually using at that point.
+ */
+const DEFAULT_ACCENT = "#3a5bc7";
 
 const defaultsFor = (key: ComponentKey): ControlState =>
   componentSpecs[key].controls.reduce<ControlState>((acc, control) => {
@@ -52,8 +72,8 @@ const printObject = (value: Record<string, any>, indent = 4): string => {
  *
  * There used to be both a bento grid of live component cards and a separate
  * `/playground` route. Two live showcases on one site is redundant, so they are
- * one thing: this panel is the homepage's centrepiece, and its tab bar is what
- * communicates the library's surface area.
+ * one thing: this panel is the homepage's centrepiece, and its radio cards are what
+ * communicate the library's surface area.
  *
  * Only the selected component is mounted, so a page load boots one viewer rather
  * than six.
@@ -67,7 +87,18 @@ const Playground: React.FC = () => {
   );
   const [controls, setControls] = useState<ControlState>(defaultsFor("viewer"));
   const [accent, setAccent] = useState("");
+  const [font, setFont] = useState("");
   const [copied, setCopied] = useState(false);
+
+  /*
+   * Appearance shares Nextra's next-themes state rather than keeping its own, so this
+   * control and the one in Nextra's chrome always agree. `theme` is undefined until the
+   * client mounts — next-themes cannot know the resolved value during SSR — so the
+   * active state is withheld until then instead of guessing and mismatching on hydration.
+   */
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const spec = componentSpecs[active];
 
@@ -93,24 +124,28 @@ const Playground: React.FC = () => {
     setResource(nextResource);
     setControls(defaultsFor(nextComponent));
 
-    // A shared link wins; otherwise pick up whatever accent is already in effect so
-    // the matching swatch reads as selected.
-    setAccent(typeof q.accent === "string" ? q.accent : readStoredAccent());
+    // A shared link wins; otherwise pick up whatever is already in effect so the
+    // matching swatch and dropdown option read as selected.
+    const stored = readStoredPageTheme();
+    setAccent(
+      typeof q.accent === "string" ? normalizeHex(q.accent) : stored.accent,
+    );
+    setFont(stored.font);
     // Only on first ready — later changes are pushed by the handlers below.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
   /**
-   * Push the chosen accent at the document root and remember it.
+   * Push the chosen accent and font at the document root, and remember both.
    *
-   * Deliberately no cleanup on unmount: the accent is a site-wide setting, so it has
-   * to outlive this component when the reader navigates into the docs. `_app`
-   * restores it on a cold load. See `docs/lib/accent.ts`.
+   * Deliberately no cleanup on unmount: these are page-level settings, so they have to
+   * outlive this component when the reader navigates into the docs. `_app` restores them
+   * on a cold load. See `docs/lib/page-theme.ts`.
    */
   useEffect(() => {
-    applyAccent(accent);
-    storeAccent(accent);
-  }, [accent]);
+    applyPageTheme({ accent, font });
+    storePageTheme({ accent, font });
+  }, [accent, font]);
 
   /** Mirror the shareable parts of the state into the URL, without a navigation. */
   const syncUrl = useCallback(
@@ -135,6 +170,70 @@ const Playground: React.FC = () => {
 
   const updateControl = (path: string, value: string | boolean) =>
     setControls((prev) => ({ ...prev, [path]: value }));
+
+  /** True when the accent came from the picker rather than a preset swatch. */
+  const isCustomAccent =
+    Boolean(accent) &&
+    !accentPresets.some(
+      (preset) => preset.value.toLowerCase() === accent.toLowerCase(),
+    );
+
+  /**
+   * The hex in force. An unset accent still paints something — the docs' own
+   * `--accent-9` — so the trigger and the colour input report that rather than nothing.
+   */
+  const effectiveAccent = accent || DEFAULT_ACCENT;
+
+  /*
+   * The hex field keeps its own draft so it can be typed into. Binding it straight to
+   * `accent` would fight the typist: the first keystroke of "#0f766e" is "#", which is
+   * not a colour, so state would clear it before the second character arrived. The draft
+   * follows `accent` whenever the change came from somewhere else — a swatch, the wheel,
+   * a shared link.
+   */
+  const [hexDraft, setHexDraft] = useState("");
+  useEffect(() => setHexDraft(accent), [accent]);
+
+  /*
+   * Accent menu. Closes on Escape and on a click outside, and returns focus to the
+   * trigger on Escape so the keyboard is never stranded. The colour input opens a native
+   * picker that lives outside the document, so `pointerdown` inside the panel must not be
+   * treated as an outside click — hence the containment check rather than a blur handler.
+   */
+  const [accentOpen, setAccentOpen] = useState(false);
+  const accentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!accentOpen) return;
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (!accentRef.current?.contains(event.target as Node))
+        setAccentOpen(false);
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setAccentOpen(false);
+      accentRef.current?.querySelector("button")?.focus();
+    };
+
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [accentOpen]);
+
+  const commitHex = (raw: string) => {
+    const value = raw.trim();
+    const hex = value.startsWith("#") ? value : `#${value}`;
+    if (!/^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(hex)) return false;
+
+    const normalized = normalizeHex(hex);
+    setAccent(normalized);
+    syncUrl({ accent: normalized });
+    return true;
+  };
 
   /** Control values assembled into the shape the component actually takes. */
   const assembled = useMemo(() => {
@@ -169,16 +268,21 @@ const Playground: React.FC = () => {
       });
     }
 
-    const themeLine = accent
-      ? `\n\n// Theme it from the outside — no customTheme prop needed.\n` +
-        `// <div style={{ "--clover-color-accent": "${accent}" }}> … </div>`
+    const overrides = [
+      accent && `"--clover-color-accent": "${accent}"`,
+      font && `"--clover-font-sans": "${font.replace(/"/g, "'")}"`,
+    ].filter(Boolean);
+
+    const themeLine = overrides.length
+      ? `\n\n// Color and type come from the wrapper, not from props.\n` +
+        `// <div style={{ ${overrides.join(", ")} }}> … </div>`
       : "";
 
     return (
       `import ${spec.displayName} from "${spec.importPath}";\n\n` +
       `<${spec.displayName}\n${props.join("\n")}\n/>${themeLine}`
     );
-  }, [spec, resource, assembled, accent]);
+  }, [spec, resource, assembled, accent, font]);
 
   const copy = async () => {
     try {
@@ -277,26 +381,235 @@ const Playground: React.FC = () => {
     [],
   );
 
+  /*
+   * No visible heading: the selected card already communicates that a component is being
+   * tried, so the section carries its name as `aria-label` for assistive technology
+   * rather than as an `h2`.
+   */
   return (
-    <section className={styles.section} id="playground">
+    <section
+      aria-label="Try the components"
+      className={styles.section}
+      id="playground"
+    >
       <div className={styles.shell}>
-        <header className={styles.head}>
-          <h2 className={styles.title}>Try it</h2>
-        </header>
-
-        <div className={styles.tabs} role="tablist" aria-label="Component">
+        {/*
+         * Native radios inside labels rather than buttons with `role="tab"`. The group
+         * gets arrow-key navigation and a single tab stop for free, and the card is the
+         * label, so the whole surface is clickable without extra handlers.
+         */}
+        <fieldset className={styles.cards} data-region="component">
+          <legend className={styles.cardsLegend}>Component</legend>
           {componentOrder.map((key) => (
-            <button
-              className={styles.tab}
+            <label
+              className={styles.card}
+              data-selected={key === active}
               key={key}
-              role="tab"
-              type="button"
-              aria-selected={key === active}
-              onClick={() => selectComponent(key)}
             >
-              {componentSpecs[key].label}
-            </button>
+              <input
+                checked={key === active}
+                className={styles.cardInput}
+                name="playground-component"
+                onChange={() => selectComponent(key)}
+                type="radio"
+                value={key}
+              />
+              <span className={styles.cardLabel}>
+                {componentSpecs[key].label}
+              </span>
+              <span className={styles.cardBlurb}>
+                {componentSpecs[key].blurb}
+              </span>
+            </label>
           ))}
+        </fieldset>
+
+        {/*
+         * The accent lives here, beside the component cards, rather than in the options
+         * tray on the right. Everything in that tray is a prop or an `options` key on the
+         * selected component; this is not. Clover reads its colours and type from CSS
+         * custom properties on whatever contains it, so this control belongs to the page,
+         * not to the component. The generated snippet still spells the distinction out in
+         * a comment; the note here only promises that it works, since a reader standing in
+         * front of a live control does not need the mechanism explained.
+         */}
+        <div className={styles.environment}>
+          {/*
+           * Controls before the note in the DOM, not reordered with CSS `order`, so that
+           * reading order and tab order match what is on screen.
+           */}
+          <div className={styles.environmentControls}>
+            <div className={styles.environmentControl}>
+              <label className={styles.environmentLabel} htmlFor="pg-font">
+                Font family
+              </label>
+              {/* Grouped so the sans/serif split is visible while staying one control. */}
+              <select
+                className={styles.select}
+                id="pg-font"
+                onChange={(e) => setFont(e.target.value)}
+                value={font}
+              >
+                {fontPresets
+                  .filter((preset) => !preset.category)
+                  .map((preset) => (
+                    <option key={preset.name} value={preset.value}>
+                      {preset.name}
+                    </option>
+                  ))}
+                {(["Sans serif", "Serif"] as const).map((category) => (
+                  <optgroup key={category} label={category}>
+                    {fontPresets
+                      .filter((preset) => preset.category === category)
+                      .map((preset) => (
+                        <option key={preset.name} value={preset.value}>
+                          {preset.name}
+                        </option>
+                      ))}
+                  </optgroup>
+                ))}
+              </select>
+            </div>
+
+            <div className={styles.environmentControl}>
+              <span className={styles.environmentLabel}>Appearance</span>
+              <div
+                aria-label="Appearance"
+                className={styles.segmented}
+                role="group"
+              >
+                {(["light", "dark", "system"] as const).map((option) => (
+                  <button
+                    aria-pressed={mounted ? theme === option : false}
+                    className={styles.segment}
+                    key={option}
+                    onClick={() => setTheme(option)}
+                    type="button"
+                  >
+                    {option === "system"
+                      ? "System"
+                      : option === "light"
+                        ? "Light"
+                        : "Dark"}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.environmentControl} ref={accentRef}>
+              {/* Labelled "Color" for readers; `accent` stays the internal name and the
+               * URL parameter, so links shared before this rename still resolve. */}
+              <span className={styles.environmentLabel} id="pg-accent-label">
+                Color
+              </span>
+
+              {/*
+               * A disclosure rather than a listbox: the panel holds a colour input and a
+               * text field as well as the presets, which is more than a set of options.
+               * The trigger shows the hex actually in force, so it reports the state as
+               * well as opening the menu.
+               */}
+              <button
+                aria-expanded={accentOpen}
+                aria-haspopup="true"
+                aria-labelledby="pg-accent-label"
+                className={styles.accentTrigger}
+                onClick={() => setAccentOpen((open) => !open)}
+                type="button"
+              >
+                <span
+                  aria-hidden="true"
+                  className={styles.accentDot}
+                  style={{ background: effectiveAccent }}
+                />
+                <span className={styles.accentHex}>
+                  {effectiveAccent.toUpperCase()}
+                </span>
+                <span aria-hidden="true" className={styles.accentCaret}>
+                  ▾
+                </span>
+              </button>
+
+              {accentOpen && (
+                <div className={styles.accentMenu}>
+                  {accentPresets.map((preset) => (
+                    <button
+                      aria-current={
+                        (preset.value || "") === accent ? "true" : undefined
+                      }
+                      className={styles.accentOption}
+                      key={preset.name}
+                      onClick={() => {
+                        setAccent(preset.value);
+                        syncUrl({ accent: preset.value });
+                        setAccentOpen(false);
+                      }}
+                      type="button"
+                    >
+                      <span
+                        aria-hidden="true"
+                        className={`${styles.accentDot} ${
+                          preset.value ? "" : styles.accentDotDefault
+                        }`}
+                        style={
+                          preset.value
+                            ? { background: preset.value }
+                            : undefined
+                        }
+                      />
+                      <span className={styles.accentOptionName}>
+                        {preset.name}
+                      </span>
+                    </button>
+                  ))}
+
+                  {/*
+                   * Custom. The wheel opens the platform picker; `onChange` fires as it is
+                   * dragged, which is what makes the preview track live, while the URL is
+                   * only rewritten on commit so dragging does not push a history entry per
+                   * frame. The field beside it takes a hex directly, and carries the row on
+                   * its own — an editable field reads as the way in more plainly than the
+                   * word "Custom" sitting next to it did.
+                   */}
+                  <div
+                    className={styles.accentCustom}
+                    data-active={isCustomAccent}
+                  >
+                    <label className={styles.swatchPicker} title="Color wheel">
+                      <span className={styles.visuallyHidden}>Color wheel</span>
+                      <input
+                        className={styles.swatchInput}
+                        onBlur={() => syncUrl({})}
+                        onChange={(e) => setAccent(e.target.value)}
+                        type="color"
+                        value={effectiveAccent}
+                      />
+                    </label>
+                    <input
+                      aria-label="Custom hex color"
+                      className={styles.hexInput}
+                      maxLength={7}
+                      onBlur={() => {
+                        if (!commitHex(hexDraft)) setHexDraft(accent);
+                      }}
+                      onChange={(e) => {
+                        setHexDraft(e.target.value);
+                        commitHex(e.target.value);
+                      }}
+                      placeholder={DEFAULT_ACCENT.toUpperCase()}
+                      spellCheck={false}
+                      value={hexDraft}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <p className={styles.environmentNote}>
+            Clover easily and automatically uses the fonts and colors of your
+            web app.
+          </p>
         </div>
 
         <div className={styles.layout}>
@@ -392,42 +705,6 @@ const Playground: React.FC = () => {
                   {spec.controls.map(renderControl)}
                 </div>
               )}
-
-              <div className={styles.group}>
-                <p className={styles.groupTitle}>Theme</p>
-                <div className={styles.field}>
-                  <span className={styles.fieldLabel}>
-                    Accent
-                    <span className={styles.hint}>
-                      Sets --clover-color-accent on a wrapper. The component
-                      picks it up through the cascade.
-                    </span>
-                  </span>
-                  <div className={styles.swatches}>
-                    {accentPresets.map((preset) => (
-                      <button
-                        aria-label={preset.name}
-                        aria-pressed={accent === preset.value}
-                        className={`${styles.swatch} ${
-                          preset.value ? "" : styles.swatchDefault
-                        }`}
-                        key={preset.name}
-                        onClick={() => {
-                          setAccent(preset.value);
-                          syncUrl({ accent: preset.value });
-                        }}
-                        style={
-                          preset.value
-                            ? { background: preset.value }
-                            : undefined
-                        }
-                        title={preset.name}
-                        type="button"
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
             </div>
           </aside>
         </div>

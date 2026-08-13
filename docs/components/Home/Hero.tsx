@@ -1,13 +1,15 @@
-import Link from "next/link";
 import React from "react";
 import styles from "docs/components/Home/Home.module.css";
 
-interface HeroProps {
-  /** Same-page anchor to the playground section. */
-  stageHref: string;
-}
-
-const Hero: React.FC<HeroProps> = ({ stageHref }) => (
+/**
+ * The hero: version, headline, subtitle.
+ *
+ * No call-to-action buttons. The playground sits directly below and is itself the
+ * invitation, so a "Try the components" link pointed at something already on screen,
+ * and "Get started" duplicated both the navbar's Documentation link and the button on
+ * the install panel further down.
+ */
+const Hero: React.FC = () => (
   <header className={styles.hero}>
     <div className={styles.glow} aria-hidden="true" />
     <div className={styles.shell}>
@@ -21,21 +23,6 @@ const Hero: React.FC<HeroProps> = ({ stageHref }) => (
         Accessible, composable, open source &mdash; created at Northwestern
         University Libraries.
       </p>
-      <div className={styles.actions}>
-        <Link href="/docs" className="cta-solid">
-          Get started
-          <span className="cta-arrow" aria-hidden="true">
-            →
-          </span>
-        </Link>
-        {/* A same-page anchor, so a plain <a> rather than next/link. */}
-        <a href={stageHref} className="cta-soft">
-          Try the components
-          <span className="cta-arrow" aria-hidden="true">
-            ↓
-          </span>
-        </a>
-      </div>
     </div>
   </header>
 );

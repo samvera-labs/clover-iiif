@@ -51,12 +51,11 @@
 
 .eyebrow {
   align-items: center;
-  border: 1px solid var(--color-border);
   border-radius: 999px;
-  background: var(--color-panel);
+  background: var(--surface);
   color: var(--gray-11);
   display: inline-flex;
-  font-size: 0.8125rem;
+  font-size: var(--text-label);
   gap: 0.5rem;
   letter-spacing: 0.01em;
   margin-bottom: 1.5rem;
@@ -84,7 +83,9 @@
   color: var(--gray-11);
   font-size: clamp(1.0625rem, 2vw, 1.25rem);
   line-height: 1.6;
-  margin: 0 auto 2rem;
+  /* No bottom margin: the hero's own bottom padding sets the gap to the playground
+   * now that no buttons sit between them. */
+  margin: 0 auto;
   /*
    * Matches the headline's measure rather than the 34rem it had, so the line sits
    * on one row on a desktop. It still wraps on narrow screens — a single line is
@@ -92,13 +93,6 @@
    */
   max-width: 64rem;
   text-wrap: pretty;
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  justify-content: center;
 }
 
 /* ── Section heading ──────────────────────────────────────────────────────── */
@@ -123,13 +117,13 @@
 
 .sectionNote {
   color: var(--gray-11);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   margin: 0;
 }
 
 .sectionLink {
   color: var(--accent-11);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   font-weight: var(--weight-regular);
   text-decoration: none;
   white-space: nowrap;
@@ -148,16 +142,15 @@
 }
 
 .feature {
-  background: var(--color-panel);
-  border: 1px solid var(--color-border);
+  background: var(--surface);
   border-radius: var(--radius-4);
   padding: 1.25rem;
 }
 
 .featureLabel {
   color: var(--gray-11);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.6875rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
   letter-spacing: 0.08em;
   margin: 0 0 0.625rem;
   text-transform: uppercase;
@@ -172,7 +165,7 @@
 
 .featureBody {
   color: var(--gray-11);
-  font-size: 0.875rem;
+  font-size: var(--text-sm);
   line-height: 1.6;
   margin: 0;
 }
@@ -181,8 +174,7 @@
 
 .install {
   align-items: center;
-  background: var(--gray-2);
-  border: 1px solid var(--color-border);
+  background: var(--surface);
   border-radius: var(--radius-4);
   display: flex;
   flex-wrap: wrap;
@@ -192,12 +184,11 @@
 }
 
 .installCode {
-  background: var(--color-panel-solid);
-  border: 1px solid var(--color-border);
+  background: var(--surface-raised);
   border-radius: var(--radius-3);
   color: var(--gray-12);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.875rem;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
   overflow-x: auto;
   padding: 0.625rem 0.875rem;
 }

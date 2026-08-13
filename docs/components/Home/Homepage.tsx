@@ -8,22 +8,22 @@ const features = [
   {
     label: "Accessible",
     title: "WAI-ARIA design patterns",
-    body: "Keyboard navigation, focus management and motion preferences are handled in the components, not left to the integrator.",
+    body: "Keyboard navigation, focus, and motion preferences ship with every component.",
   },
   {
     label: "Composable",
     title: "Primitives, not just a viewer",
-    body: "Use the whole Viewer, or drop down to the IIIF Presentation 3.0 primitives and build your own interface.",
+    body: "Take the whole Viewer, or build your own from the primitives.",
   },
   {
     label: "Themeable",
-    title: "Inherits your design tokens",
-    body: "Every component reads CSS custom properties. Set --clover-color-accent on any ancestor and it cascades — the accent swatches above do exactly that.",
+    title: "Uses your design tokens",
+    body: "Every component reads CSS custom properties. Set one on any ancestor; it cascades.",
   },
   {
     label: "Portable",
     title: "React, or a script tag",
-    body: "Ships as ESM, CJS and a UMD web component, so it drops into a framework app or a plain HTML page.",
+    body: "ESM, CJS, and a UMD web component. Drop it into a framework or plain HTML.",
   },
 ];
 
@@ -42,7 +42,7 @@ const features = [
  */
 const Homepage: React.FC = () => (
   <div className={styles.page}>
-    <Hero stageHref="#playground" />
+    <Hero />
 
     <main className={styles.shell}>
       <Playground />

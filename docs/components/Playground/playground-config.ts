@@ -73,20 +73,18 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
     resourceProp: "iiifContent",
     controlTarget: "options",
     defaultResource: demoResources.viewer,
-    blurb: "The full Manifest viewer.",
+    blurb: "The full Manifest viewer",
     controls: [
       {
         kind: "toggle",
         path: "informationPanel.open",
         label: "Information panel",
-        hint: "Open the About / metadata panel beside the canvas",
         default: true,
       },
       {
         kind: "toggle",
         path: "informationPanel.renderCanvasSummary",
         label: "Canvas summary",
-        hint: "Show the active canvas summary in the About panel",
         default: false,
       },
       {
@@ -130,13 +128,13 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
     resourceProp: "src",
     controlTarget: "props",
     defaultResource: demoResources.image,
-    blurb: "Deep zoom on an Image API endpoint.",
+    blurb: "Deep zoom any image",
     controls: [
       {
         kind: "toggle",
         path: "openSeadragonConfig.showNavigator",
         label: "Navigator",
-        hint: "Thumbnail overview in the corner",
+        hint: "Thumbnail overview.",
         default: true,
       },
     ],
@@ -151,20 +149,20 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
     resourceProp: "iiifContent",
     controlTarget: "props",
     defaultResource: demoResources.map,
-    blurb: "navPlace geography and georeferenced overlays.",
+    blurb: "Locate items on maps",
     controls: [
       {
         kind: "toggle",
         path: "fitToData",
         label: "Fit to data",
-        hint: "Frame the viewport on the navPlace features",
+        hint: "Frame the viewport on the data.",
         default: true,
       },
       {
         kind: "toggle",
         path: "scrollZoom",
         label: "Scroll to zoom",
-        hint: "Off by default so an embedded map does not capture page scroll",
+        hint: "Off, so the map never captures page scroll.",
         default: false,
       },
       {
@@ -185,7 +183,7 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
     resourceProp: "iiifContent",
     controlTarget: "options",
     defaultResource: demoResources.slider,
-    blurb: "Browse a Collection as a carousel.",
+    blurb: "Browse items in a carousel",
     controls: [
       {
         kind: "select",
@@ -210,7 +208,7 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
     docsHref: "/docs/label",
     controlTarget: "props",
     defaultResource: "",
-    blurb: "Render individual IIIF properties anywhere in your UI.",
+    blurb: "Render IIIF a la carte",
     controls: [],
     snippetOverride: `import {
   Label,
@@ -235,13 +233,13 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
     resourceProp: "iiifContent",
     controlTarget: "options",
     defaultResource: demoResources.scroll,
-    blurb: "Long-form vertical reading.",
+    blurb: "Long-form vertical reading",
     controls: [
       {
         kind: "select",
         path: "offset",
         label: "Sticky offset",
-        hint: "Pixels reserved for a fixed site header",
+        hint: "Space for a fixed header.",
         default: "0",
         options: [
           { value: "0", label: "0" },
@@ -263,17 +261,23 @@ export const componentOrder: ComponentKey[] = [
 ];
 
 /**
- * Accent presets for the theme knob. These write `--clover-color-accent` on the
- * preview wrapper, which is all it takes for the rendered component to re-theme —
- * no `customTheme` prop, no remount.
+ * Accent presets for the page-theme knob.
+ *
+ * University brand colors, because that is who runs IIIF: a reader can pick their own
+ * institution and see Clover wearing it. Every value is the institution's published
+ * brand color, and each clears 4.5:1 against the white text Clover puts on a solid
+ * accent — burnt orange is the tightest at 4.59:1.
+ *
+ * The picker beside them accepts any hex, so these are a starting point rather than a
+ * menu.
  */
 export const accentPresets = [
-  { name: "Docs", value: "" },
-  { name: "Blue", value: "#0065C3" },
-  { name: "Violet", value: "#8E4EC6" },
-  { name: "Crimson", value: "#E5484D" },
-  { name: "Teal", value: "#0D9488" },
-  { name: "Amber", value: "#B45309" },
+  { name: "Page default", value: "" },
+  { name: "Northwestern purple", value: "#4E2A84" },
+  { name: "Harvard crimson", value: "#A51C30" },
+  { name: "Texas burnt orange", value: "#BF5700" },
+  { name: "Tulane green", value: "#006747" },
+  { name: "UCLA blue", value: "#2774AE" },
 ];
 
 /**
