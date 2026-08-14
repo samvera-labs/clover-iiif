@@ -21,6 +21,7 @@ import Painting from "../Painting/Painting";
 import React, { useRef, useState } from "react";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
+import { setupPlugins } from "src/lib/plugin-helpers";
 
 export interface ViewerContentProps {
   activeCanvas: string;
@@ -53,6 +54,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     contentStateAnnotation,
     isInformationOpen,
     configOptions,
+    plugins,
     sequence,
     visibleCanvases,
   } = useViewerState();
@@ -74,17 +76,17 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     annotationResources.length > 0 ||
     // @ts-ignore
     visibleCanvasesIds.includes(contentStateAnnotation?.target?.source?.id);
+  const hasContentSearch =
+    informationPanel?.renderContentSearch && contentSearchResource;
+  const hasPluginInformationPanel =
+    setupPlugins(plugins).pluginsWithInfoPanel.length > 0;
+  const hasInformationPanelContent =
+    informationPanel?.renderAbout ||
+    (informationPanel?.renderAnnotation && hasAnnotations) ||
+    hasContentSearch ||
+    hasPluginInformationPanel;
 
-  // Only force the aside open for annotations when no toggle is rendered.
-  // If a toggle is visible, it must control open/close behavior.
-  const isForcedAside =
-    hasAnnotations &&
-    informationPanel?.renderAnnotation &&
-    informationPanel?.renderToggle === false &&
-    isInformationOpen;
-
-  const isAside =
-    (informationPanel?.renderAbout && isInformationOpen) || isForcedAside;
+  const isAside = Boolean(isInformationOpen && hasInformationPanelContent);
 
   const renderToggle = informationPanel?.renderToggle;
   const CustomToggle = informationPanel?.toggleComponent;
