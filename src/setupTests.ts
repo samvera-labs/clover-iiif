@@ -8,6 +8,30 @@ HTMLCanvasElement.prototype.getContext = () => {
   return {} as any;
 };
 
+/*
+ * Mock matchMedia — jsdom does not implement it.
+ *
+ * Required as of OpenSeadragon 6: its default drawer is `auto`, and the resolver calls
+ * `window.matchMedia('(pointer: coarse)')` unguarded to decide whether it is on an
+ * iPad-like device (which gets the canvas drawer instead of WebGL). Every viewer
+ * construction reaches it, so without this every OSD-mounting test throws
+ * "window.matchMedia is not a function".
+ *
+ * `matches: false` presents a fine-pointer desktop, which is the right default for the
+ * suite. Clover's own callers already guard for a missing matchMedia; OpenSeadragon's
+ * does not.
+ */
+window.matchMedia = ((query: string) => ({
+  matches: false,
+  media: query,
+  onchange: null,
+  addListener: () => {},
+  removeListener: () => {},
+  addEventListener: () => {},
+  removeEventListener: () => {},
+  dispatchEvent: () => false,
+})) as unknown as typeof window.matchMedia;
+
 // Mock HTML video element
 HTMLMediaElement.prototype.load = () => {};
 //HTMLMediaElement.prototype.play = () => { /* do nothing */ };

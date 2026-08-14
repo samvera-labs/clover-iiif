@@ -824,6 +824,37 @@ const options = {
 />
 ```
 
+### Rendering Drawer
+
+OpenSeadragon draws tiles with WebGL where the device supports it, falling back to a 2D
+canvas otherwise. That is OpenSeadragon's own `auto` default and Clover does not override
+it.
+
+Each viewer holds its own WebGL context, and browsers cap how many contexts may exist at
+once. A page that mounts many viewers will log `Too many active WebGL contexts` and
+OpenSeadragon will drop the oldest, recovering on the canvas drawer. If you are placing
+several viewers on one page and would rather have predictable rendering than the faster
+path, pin the drawer:
+
+```jsx
+const options = {
+  openSeadragon: {
+    drawer: "canvas",
+  },
+};
+
+<Viewer
+  iiifContent="https://api.artic.edu/api/v1/artworks/16568/manifest.json"
+  options={options}
+/>;
+```
+
+<Callout emoji="💡">
+  Testing with jsdom? OpenSeadragon reads `window.matchMedia` while resolving
+  the drawer and does not guard for its absence, so stub it in your test setup
+  or any test that mounts the `Viewer` will throw.
+</Callout>
+
 ### Active Canvas
 
 Example on using `canvasIdCallback` to return to your consuming application the active canvas ID. This will return as a string.

@@ -12,6 +12,41 @@ assigned at release time.
 
 ### Changed
 
+- **OpenSeadragon upgraded from 4.1.1 to 6.1.0**, across two major versions. Clover's
+  public API is unchanged and no consumer code needs to change. What is worth knowing:
+  - **Rendering now uses WebGL by default.** OpenSeadragon 6 defaults its `drawer` option
+    to `auto`, which selects WebGL where available and canvas otherwise (canvas on
+    iPad-like devices). Rendering is faster, but each viewer holds a WebGL context, and
+    browsers cap how many can exist at once — a page mounting many viewers will log
+    `Too many active WebGL contexts` and OpenSeadragon will recover by falling back to
+    the canvas drawer. To opt out entirely, pass the drawer through:
+
+    ```jsx
+    <Viewer
+      iiifContent={iiifContent}
+      options={{ openSeadragon: { drawer: "canvas" } }}
+    />
+    ```
+
+  - **Overlays are now wrapped in an extra element.** Each overlay sits inside a
+    `div.openseadragon-overlay-wrapper`, which carries the absolute positioning and, when
+    the overlay has an `id`, an `overlay-wrapper-`-prefixed variant of it. Clover's
+    `clover-iiif-image-openseadragon-annotation` class stays on the overlay element
+    itself, so styling hooks are unaffected — but a selector that assumed an annotation
+    was a direct child of the OpenSeadragon canvas needs an extra level.
+
+  - **`@types/openseadragon` is no longer a dependency.** OpenSeadragon 6 ships its own
+    TypeScript definitions. Remove `@types/openseadragon` from your project if you added
+    it for Clover; keeping it alongside the bundled types risks duplicate declarations.
+
+  - **OpenSeadragon calls `window.matchMedia` unguarded** while resolving the `auto`
+    drawer. Browsers all implement it, but a jsdom-based test suite does not — if your
+    tests mount Clover's `Viewer` or `Image`, stub `window.matchMedia` in your setup file
+    or every such test will throw `window.matchMedia is not a function`.
+
+  - OpenSeadragon itself grew from roughly 57 KB to 85 KB gzipped, so anything importing
+    `Viewer`, `Image` or `Scroll` gets correspondingly larger.
+
 - Image viewer controls now color `currentColor` glyphs with Clover's secondary
   token, so the fullscreen icon inverts correctly in dark themes.
 

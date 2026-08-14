@@ -291,6 +291,12 @@ const MyCustomImage = () => {
 };
 ```
 
+Tiles are drawn with WebGL where the device supports it, which is OpenSeadragon's own
+`auto` default. Each instance holds a WebGL context and browsers cap how many can exist
+at once, so a page with many images will log `Too many active WebGL contexts` and
+OpenSeadragon will recover on the canvas drawer. Pass `drawer: "canvas"` in
+`openSeadragonConfig` to pin it instead.
+
 ## Label and ARIA
 
 The `label` prop is used to provide an accessible name for the OpenSeadragon. This is used as the `aria-label` attribute on the viewport element wrapping the OpenSeadragon canvas.
