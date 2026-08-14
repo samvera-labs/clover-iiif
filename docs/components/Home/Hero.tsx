@@ -14,7 +14,7 @@ const Hero: React.FC = () => (
     <div className={styles.glow} aria-hidden="true" />
     <div className={styles.shell}>
       <p className={styles.eyebrow}>
-        <strong>v3.12</strong>
+        <strong>v{process.env.NEXT_PUBLIC_CLOVER_VERSION}</strong>
       </p>
       <h1 className={styles.headline}>
         Build interfaces for IIIF content from a suite of UI components.

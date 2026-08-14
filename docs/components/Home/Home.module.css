@@ -38,21 +38,28 @@
   background:
     radial-gradient(
       42rem 22rem at 50% 0%,
-      color-mix(in oklab, var(--accent-9) 18%, transparent),
+      color-mix(in oklab, var(--accent-9) 30%, transparent),
       transparent 70%
     ),
     radial-gradient(
       28rem 18rem at 78% 12%,
-      color-mix(in oklab, var(--accent-11) 12%, transparent),
+      color-mix(in oklab, var(--accent-11) 22%, transparent),
       transparent 70%
     );
-  mask-image: linear-gradient(180deg, #000 0%, #000 55%, transparent 100%);
+  /* Holds full strength further down before fading, so the glow reads as light in the
+   * room rather than a band clipped off above the cards. */
+  mask-image: linear-gradient(180deg, #000 0%, #000 62%, transparent 100%);
 }
 
 .eyebrow {
   align-items: center;
   border-radius: 999px;
-  background: var(--surface);
+  /*
+   * The page background rather than a grey surface. It is opaque, so the badge reads as a
+   * clean white chip punched through the hero glow behind it — and it tracks the theme
+   * instead of pinning to white, which would go blind in dark mode.
+   */
+  background: var(--color-background);
   color: var(--gray-11);
   display: inline-flex;
   font-size: var(--text-label);
