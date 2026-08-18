@@ -138,17 +138,17 @@ describe("Painting component", () => {
   it("displays the default Image viewer for non-media files", async () => {
     await vault.loadManifest("", manifestImage);
 
-    const props = {
-      ...defaultProps,
-      activeCanvas:
-        "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif/canvas/access/2",
-    };
+    const canvasId =
+      "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif/canvas/access/2";
+
+    const props = { ...defaultProps, activeCanvas: canvasId };
 
     render(
       <ViewerProvider
         initialState={{
           ...defaultState,
           vault,
+          visibleCanvases: [{ id: canvasId, type: "Canvas" }],
         }}
       >
         <Painting {...props} />
@@ -158,6 +158,12 @@ describe("Painting component", () => {
     expect(screen.queryByTestId("placeholder-toggle")).toBeNull();
     expect(screen.queryByTestId("mock-player")).not.toBeInTheDocument();
     expect(screen.getByTestId("mock-image-viewer")).toBeInTheDocument();
+
+    // The label becomes the viewport's accessible name, so it has to arrive.
+    // These painting bodies carry no label, so the canvas names the viewport.
+    expect(vi.mocked(ImageViewer).mock.lastCall?.[0]).toMatchObject({
+      label: "Left",
+    });
   });
 
   it.skip("renders the Choice select dropdown", () => {
