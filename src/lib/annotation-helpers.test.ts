@@ -2,6 +2,7 @@ import {
   getLanguageDirection,
   parseAnnotationTarget,
   filterAnnotationsByMotivation,
+  isCaptionResource,
   AnnotationTargetExtended,
 } from "./annotation-helpers";
 
@@ -228,5 +229,66 @@ describe("filterAnnotationsByMotivation", () => {
   it("returns no annotations when motivations are explicitly empty", () => {
     const filtered = filterAnnotationsByMotivation(textualAnnotations, []);
     expect(filtered).toHaveLength(0);
+  });
+});
+
+describe("isCaptionResource", () => {
+  it("accepts a WebVTT resource declared by format", () => {
+    expect(
+      isCaptionResource({
+        id: "https://example.org/captions.vtt",
+        type: "Text",
+        format: "text/vtt",
+      }),
+    ).toBe(true);
+  });
+
+  it("accepts a SubRip resource declared by format", () => {
+    expect(
+      isCaptionResource({
+        id: "https://example.org/captions.srt",
+        type: "Text",
+        format: "application/x-subrip",
+      }),
+    ).toBe(true);
+  });
+
+  it("falls back to the file extension when no format is declared", () => {
+    expect(isCaptionResource({ id: "https://example.org/c.vtt" })).toBe(true);
+    expect(isCaptionResource({ id: "https://example.org/c.vtt?v=2" })).toBe(
+      true,
+    );
+    expect(isCaptionResource({ id: "https://example.org/notes.txt" })).toBe(
+      false,
+    );
+  });
+
+  it("rejects an embedded TextualBody", () => {
+    expect(
+      isCaptionResource({
+        id: "https://example.org/annotation/1/body",
+        type: "TextualBody",
+        format: "text/plain",
+      }),
+    ).toBe(false);
+  });
+
+  it("rejects a Vault-minted id for a body with no id of its own", () => {
+    expect(isCaptionResource({ id: "vault://57a8c405" })).toBe(false);
+  });
+
+  it("rejects a body with no id", () => {
+    expect(isCaptionResource({})).toBe(false);
+    expect(isCaptionResource(undefined)).toBe(false);
+  });
+
+  it("rejects a resource whose declared format is not a caption format", () => {
+    expect(
+      isCaptionResource({
+        id: "https://example.org/video.mp4",
+        type: "Video",
+        format: "video/mp4",
+      }),
+    ).toBe(false);
   });
 });

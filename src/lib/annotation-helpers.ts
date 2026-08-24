@@ -257,3 +257,36 @@ export {
   annotationMatchesMotivations,
   resolveAnnotationBodies,
 };
+
+/**
+ * Is this annotation body an external caption/subtitle resource?
+ *
+ * A `<track>` element needs a URL it can fetch. An AnnotationPage on an A/V
+ * canvas may legitimately carry descriptive annotations whose bodies are
+ * embedded (`TextualBody` and friends): they hold their text inline and have no
+ * dereferenceable id. Rendering those as `<track src="...">` makes the browser
+ * request a subtitle file that does not exist.
+ *
+ * Embedded bodies also have no `id` of their own, so the Vault mints a
+ * content-derived `vault://<hash>`. Two bodies with the same text share a hash,
+ * which yields duplicate React keys — one warning per collision, per render.
+ */
+export function isCaptionResource(body?: {
+  id?: string;
+  type?: string;
+  format?: string;
+}): boolean {
+  if (!body?.id) return false;
+
+  // The Vault mints `vault://<hash>` for embedded resources with no id.
+  if (String(body.id).startsWith("vault://")) return false;
+
+  // Embedded text bodies are not fetchable.
+  if (body.type === "TextualBody") return false;
+
+  const format = String(body.format ?? "").toLowerCase();
+  if (format) return format === "text/vtt" || format === "application/x-subrip";
+
+  // No format declared: fall back to the file extension.
+  return /\.(vtt|srt)(\?|#|$)/i.test(String(body.id));
+}

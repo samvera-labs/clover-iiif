@@ -12,6 +12,7 @@ import AudioVisualizer from "src/components/Viewer/Player/AudioVisualizer";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
 import Track from "src/components/Viewer/Player/Track";
+import { isCaptionResource } from "src/lib/annotation-helpers";
 import { getPaintingResource } from "src/hooks/use-iiif";
 import { isHls } from "src/lib/hls";
 
@@ -333,16 +334,32 @@ const Player: React.FC<PlayerProps> = ({
                 const annotationBody = vault.get(
                   body.id,
                 ) as LabeledIIIFExternalWebResource;
-                annotationBodies.push(annotationBody);
+
+                /**
+                 * Only external caption resources belong in a <track> element.
+                 *
+                 * An AnnotationPage on an A/V canvas may legitimately carry
+                 * descriptive annotations whose bodies are embedded TextualBody
+                 * resources (no `id`, no dereferenceable URL). Rendering those
+                 * as <track src="..."> makes the browser request a subtitle
+                 * file that does not exist.
+                 *
+                 * Embedded bodies also have no `id` of their own, so the Vault
+                 * mints a content-derived `vault://<hash>`. Two bodies with the
+                 * same text share a hash, which produced duplicate React keys
+                 * (one warning per collision, per render).
+                 */
+                if (isCaptionResource(annotationBody))
+                  annotationBodies.push(annotationBody);
               });
             });
 
-            return annotationBodies.map((body) => {
+            return annotationBodies.map((body, index) => {
               return (
                 <Track
                   resource={body}
                   ignoreCaptionLabels={configOptions.ignoreCaptionLabels || []}
-                  key={body.id}
+                  key={`${annotationPage.id}-${body.id}-${index}`}
                 />
               );
             });
