@@ -271,6 +271,35 @@ export {
  * content-derived `vault://<hash>`. Two bodies with the same text share a hash,
  * which yields duplicate React keys — one warning per collision, per render.
  */
+const CAPTION_FORMATS = new Set([
+  "text/vtt",
+  // Non-standard, but published in the wild.
+  "text/webvtt",
+  "application/x-subrip",
+  "text/srt",
+]);
+
+/**
+ * Is this annotation body a resource a `<track>` element can actually fetch?
+ *
+ * The rule is "reject what we know is not a caption", not "accept only what we
+ * recognise". Dropping a real caption is worse than keeping a dead menu entry,
+ * so anything ambiguous is kept.
+ *
+ * Rejected:
+ *  - bodies with no `id` — embedded, nothing to fetch
+ *  - `vault://<hash>` ids the Vault mints for embedded resources
+ *  - `TextualBody`, whose text is inline
+ *  - a declared `format` that is not a caption format (a PDF transcript
+ *    published as a `supplementing` body, for example)
+ *
+ * `format` is compared with its parameters stripped: the Presentation API says
+ * it "should be the value of the Content-Type header returned when the resource
+ * is dereferenced", and that header routinely carries `; charset=utf-8`.
+ *
+ * `format` is only a SHOULD, so a body without one is kept when its id is
+ * dereferenceable — captions served from an extensionless URL are common.
+ */
 export function isCaptionResource(body?: {
   id?: string;
   type?: string;
@@ -278,15 +307,25 @@ export function isCaptionResource(body?: {
 }): boolean {
   if (!body?.id) return false;
 
+  const id = String(body.id);
+
   // The Vault mints `vault://<hash>` for embedded resources with no id.
-  if (String(body.id).startsWith("vault://")) return false;
+  if (id.startsWith("vault://")) return false;
 
   // Embedded text bodies are not fetchable.
   if (body.type === "TextualBody") return false;
 
-  const format = String(body.format ?? "").toLowerCase();
-  if (format) return format === "text/vtt" || format === "application/x-subrip";
+  const format = String(body.format ?? "")
+    .toLowerCase()
+    .split(";")[0]
+    .trim();
+  if (format) return CAPTION_FORMATS.has(format);
 
-  // No format declared: fall back to the file extension.
-  return /\.(vtt|srt)(\?|#|$)/i.test(String(body.id));
+  // No format declared. A caption extension settles it either way.
+  if (/\.(vtt|srt)(\?|#|$)/i.test(id)) return true;
+  if (/\.[a-z0-9]{2,5}(\?|#|$)/i.test(id)) return false;
+
+  // No format and no extension, so we cannot rule it out. Captions served from
+  // an extensionless URL are common; keep anything the browser can dereference.
+  return /^https?:/i.test(id);
 }

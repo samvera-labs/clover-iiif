@@ -195,4 +195,176 @@ describe("Player component", () => {
     // Test for the audio visualizer
     expect(screen.getByRole("presentation")).toBeInTheDocument();
   });
+
+  /* The `<track>` branch had no coverage: every existing test passes
+     `annotationResources: []`, so none of them reach it. These render a video
+     canvas whose AnnotationPage carries a mix of bodies and assert which ones
+     become tracks. */
+  describe("caption tracks", () => {
+    const CANVAS = "https://example.org/canvas/1";
+
+    function renderWithBodies(bodies: any[]) {
+      const painting = {
+        id: "https://example.org/video.mp4",
+        type: "Video",
+        format: "video/mp4",
+        height: 720,
+        width: 1280,
+        duration: 27,
+      };
+
+      const annotationResources = [
+        {
+          id: "https://example.org/canvas/1/annotations/1",
+          type: "AnnotationPage",
+          items: [
+            {
+              id: "https://example.org/annotation/1",
+              type: "Annotation",
+              motivation: ["supplementing"],
+              body: bodies,
+              target: CANVAS,
+            },
+          ],
+        },
+      ];
+
+      const vault = new Vault();
+      vault.loadSync("", {
+        "@context": "http://iiif.io/api/presentation/3/context.json",
+        id: "https://example.org/manifest.json",
+        type: "Manifest",
+        label: { none: ["Captions"] },
+        items: [
+          {
+            id: CANVAS,
+            type: "Canvas",
+            height: 720,
+            width: 1280,
+            duration: 27,
+            items: [
+              {
+                id: "https://example.org/canvas/1/page/1",
+                type: "AnnotationPage",
+                items: [
+                  {
+                    id: "https://example.org/canvas/1/page/1/annotation/1",
+                    type: "Annotation",
+                    motivation: "painting",
+                    body: painting,
+                    target: CANVAS,
+                  },
+                ],
+              },
+            ],
+            annotations: annotationResources,
+          },
+        ],
+      } as any);
+
+      const { container } = render(
+        <ViewerProvider
+          initialState={{
+            ...defaultState,
+            activeCanvas: CANVAS,
+            activeManifest: "https://example.org/manifest.json",
+            vault,
+          }}
+        >
+          <Player
+            allSources={[painting] as LabeledIIIFExternalWebResource[]}
+            painting={painting as LabeledIIIFExternalWebResource}
+            annotationResources={annotationResources as AnnotationResources}
+          />
+        </ViewerProvider>,
+      );
+
+      return Array.from(container.querySelectorAll("track")).map((t) =>
+        t.getAttribute("src"),
+      );
+    }
+
+    it("renders a track for a WebVTT resource", () => {
+      expect(
+        renderWithBodies([
+          {
+            id: "https://example.org/captions.vtt",
+            type: "Text",
+            format: "text/vtt",
+            label: { none: ["English"] },
+          },
+        ]),
+      ).toEqual(["https://example.org/captions.vtt"]);
+    });
+
+    it("renders a track when the format carries a charset", () => {
+      expect(
+        renderWithBodies([
+          {
+            id: "https://example.org/captions",
+            type: "Text",
+            format: "text/vtt; charset=utf-8",
+            label: { none: ["English"] },
+          },
+        ]),
+      ).toEqual(["https://example.org/captions"]);
+    });
+
+    /* The bug this filter exists for: an embedded body has no dereferenceable
+       id, so the browser was asked to fetch `vault://<hash>` as a subtitle
+       file. Two bodies with the same text share a hash, which also collided
+       as a React key. */
+    it("renders no track for embedded textual bodies", () => {
+      expect(
+        renderWithBodies([
+          {
+            type: "TextualBody",
+            purpose: "describing",
+            value: "A title card on a black ground.",
+            language: "en",
+          },
+          {
+            type: "TextualBody",
+            purpose: "classifying",
+            value: "title card",
+            language: "en",
+          },
+        ]),
+      ).toEqual([]);
+    });
+
+    /* Wellcome Collection publishes a PDF transcript as a supplementing body
+       on a video canvas. */
+    it("renders no track for a PDF transcript", () => {
+      expect(
+        renderWithBodies([
+          {
+            id: "https://example.org/transcript.pdf",
+            type: "Text",
+            format: "application/pdf",
+            label: { none: ["PDF Transcript"] },
+          },
+        ]),
+      ).toEqual([]);
+    });
+
+    it("keeps the caption and drops the rest when they are mixed", () => {
+      expect(
+        renderWithBodies([
+          { type: "TextualBody", value: "A note", language: "en" },
+          {
+            id: "https://example.org/captions.vtt",
+            type: "Text",
+            format: "text/vtt",
+            label: { none: ["English"] },
+          },
+          {
+            id: "https://example.org/transcript.pdf",
+            type: "Text",
+            format: "application/pdf",
+          },
+        ]),
+      ).toEqual(["https://example.org/captions.vtt"]);
+    });
+  });
 });
