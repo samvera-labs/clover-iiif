@@ -271,12 +271,17 @@ export {
  * content-derived `vault://<hash>`. Two bodies with the same text share a hash,
  * which yields duplicate React keys — one warning per collision, per render.
  */
+/**
+ * A `<track>` renders WebVTT and nothing else — the HTML spec allows no other
+ * format and browsers silently ignore one, so a SubRip body would produce a
+ * caption menu entry that displays nothing when chosen. Publishers do send
+ * SubRip, but as `supplementing` transcripts for a panel to render, not as
+ * captions.
+ */
 const CAPTION_FORMATS = new Set([
   "text/vtt",
-  // Non-standard, but published in the wild.
+  // Non-standard spelling, published in the wild.
   "text/webvtt",
-  "application/x-subrip",
-  "text/srt",
 ]);
 
 /**
@@ -321,8 +326,9 @@ export function isCaptionResource(body?: {
     .trim();
   if (format) return CAPTION_FORMATS.has(format);
 
-  // No format declared. A caption extension settles it either way.
-  if (/\.(vtt|srt)(\?|#|$)/i.test(id)) return true;
+  // No format declared. A .vtt extension settles it; .srt falls through to the
+  // rule below and is rejected, for the reason given above.
+  if (/\.vtt(\?|#|$)/i.test(id)) return true;
   if (/\.[a-z0-9]{2,5}(\?|#|$)/i.test(id)) return false;
 
   // No format and no extension, so we cannot rule it out. Captions served from

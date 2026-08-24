@@ -243,16 +243,6 @@ describe("isCaptionResource", () => {
     ).toBe(true);
   });
 
-  it("accepts a SubRip resource declared by format", () => {
-    expect(
-      isCaptionResource({
-        id: "https://example.org/captions.srt",
-        type: "Text",
-        format: "application/x-subrip",
-      }),
-    ).toBe(true);
-  });
-
   it("falls back to the file extension when no format is declared", () => {
     expect(isCaptionResource({ id: "https://example.org/c.vtt" })).toBe(true);
     expect(isCaptionResource({ id: "https://example.org/c.vtt?v=2" })).toBe(
@@ -318,17 +308,22 @@ describe("isCaptionResource", () => {
     ).toBe(true);
   });
 
-  it("accepts .srt and its declared formats", () => {
+  /* A `<track>` renders WebVTT and nothing else, so a SubRip body would add a
+     caption menu entry that displays nothing when chosen. Indiana's Avalon
+     publishes SubRip as `supplementing` transcripts, never as captions: in 400
+     of their manifests every `/captions` body is `text/vtt`, while `text/srt`
+     and `application/x-subrip` appear only under `/transcripts`. */
+  it("rejects SubRip, which a track cannot render", () => {
     expect(
       isCaptionResource({ id: "https://example.org/c", format: "text/srt" }),
-    ).toBe(true);
+    ).toBe(false);
     expect(
       isCaptionResource({
         id: "https://example.org/c",
         format: "application/x-subrip",
       }),
-    ).toBe(true);
-    expect(isCaptionResource({ id: "https://example.org/c.srt" })).toBe(true);
+    ).toBe(false);
+    expect(isCaptionResource({ id: "https://example.org/c.srt" })).toBe(false);
   });
 
   /* `format` is a SHOULD, not a MUST. Captions served from an extensionless
