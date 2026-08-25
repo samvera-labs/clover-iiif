@@ -1,19 +1,21 @@
 import { useEffect, useState } from "react";
 
 import Slider from "src/components/Slider";
+import { type CloverSliderProps } from "src/components/Slider";
+import { demoResources } from "docs/lib/demo-resources";
 import { useRouter } from "next/router";
 
-// todo: set this as a constant somewhere?
-const defaultIiifContent =
-  "https://api.dc.library.northwestern.edu/api/v2/works/ad25d4af-8a12-4d8f-a557-79aea012e081?as=iiif";
-
+/**
+ * Forwards every Slider prop rather than naming a few.
+ *
+ * The playground turns the embedding seams — `showHeader`, `presentational`, `align`,
+ * `dragFree`, `slidesToScroll` — and an allow-list here would drop them silently, which
+ * reads as the controls doing nothing.
+ */
 const CloverSlider = ({
-  iiifContent = defaultIiifContent,
-  options,
-}: {
-  iiifContent: string;
-  options?: any;
-}) => {
+  iiifContent = demoResources.slider,
+  ...props
+}: Omit<CloverSliderProps, "iiifContent"> & { iiifContent?: string }) => {
   const [iiifResource, setIiifResource] = useState<string>();
 
   const router = useRouter();
@@ -27,9 +29,7 @@ const CloverSlider = ({
 
   if (!iiifResource) return <></>;
 
-  return (
-    <Slider iiifContent={iiifResource} options={options} key={iiifContent} />
-  );
+  return <Slider {...props} iiifContent={iiifResource} key={iiifContent} />;
 };
 
 export default CloverSlider;

@@ -1,111 +1,68 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 
 import { CollectionItems } from "@iiif/presentation-3";
 import Item from "./Item";
 import { ItemsStyled } from "src/components/Slider/Items/Items.styled";
 import LazyLoad from "src/components/UI/LazyLoad/LazyLoad";
-import { SliderItem, SliderBreakpoints } from "src/types/slider";
-import useEmblaCarousel from "embla-carousel-react";
+import { SliderItem } from "src/types/slider";
+import { type BreakpointConfig } from "src/components/Slider/useBreakpoints";
+import { type UseTrackApi } from "src/components/Shared/Track/useTrack";
 
 interface ItemsProps {
-  breakpoints?: SliderBreakpoints;
+  /** Zero the gutter, for `continuous` sequences that read as one unbroken object. */
+  seamless?: boolean;
+  config: BreakpointConfig;
   handleItemInteraction?: (item: SliderItem) => void;
-  instance: number;
-  items: CollectionItems[];
+  /**
+   * Slides, each holding one or more items. A `paged` sequence puts two items in a slide
+   * so a spread scrolls and snaps as the pair a reader sees; everything else is one.
+   */
+  slides: unknown[][];
+  /**
+   * Render a slide's contents. Without it each item is a linked figure, which is what a
+   * Collection wants; the Viewer supplies its own so a slide can be a radio-selectable
+   * canvas — or a group of them — instead.
+   */
+  renderItem?: (item: unknown, index: number) => React.ReactNode;
+  /**
+   * Drop the carousel roles when the host supplies its own semantics.
+   *
+   * The Viewer's rail sits inside a `radiogroup`, and a `role="group"` per slide between
+   * that group and its radios is both invalid nesting and enough to stop Radix handing
+   * out its single roving tab stop — which left the rail unreachable by keyboard.
+   */
+  presentational?: boolean;
+  track: UseTrackApi;
 }
 
-const defaultBreakpoints: SliderBreakpoints = {
-  640: { slidesPerView: 2, slidesPerGroup: 2, spaceBetween: 20 },
-  768: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 30 },
-  1024: { slidesPerView: 4, slidesPerGroup: 4, spaceBetween: 40 },
-  1366: { slidesPerView: 5, slidesPerGroup: 5, spaceBetween: 50 },
-  1920: { slidesPerView: 6, slidesPerGroup: 6, spaceBetween: 60 },
-};
-
 /**
- * Pick the breakpoint config that applies to the current window width by
- * matching the largest min-width breakpoint that is <= window.innerWidth.
+ * The slide row.
+ *
+ * Layout is CSS and paging is the shared track hook. What a slide *contains* is the
+ * caller's business — see `renderItem`.
  */
-const resolveBreakpoint = (breakpoints: SliderBreakpoints) => {
-  if (typeof window === "undefined") {
-    return { slidesPerView: 2, slidesPerGroup: 2, spaceBetween: 31 };
-  }
-  const width = window.innerWidth;
-  const sorted = Object.entries(breakpoints)
-    .map(([k, v]) => [Number(k), v] as const)
-    .sort((a, b) => a[0] - b[0]);
-  let active = { slidesPerView: 2, slidesPerGroup: 2, spaceBetween: 31 };
-  for (const [min, config] of sorted) {
-    if (width >= min) active = { ...active, ...config };
-  }
-  return active;
-};
-
 const Items: React.FC<ItemsProps> = ({
-  breakpoints = defaultBreakpoints,
+  config,
   handleItemInteraction,
-  instance,
-  items,
+  presentational = false,
+  renderItem,
+  seamless = false,
+  slides,
+  track,
 }) => {
-  const [config, setConfig] = useState(() => resolveBreakpoint(breakpoints));
+  const spaceBetween = seamless ? "0px" : config.spaceBetween;
+  /** Running index across the flat sequence, for labels and `renderItem`. */
+  let itemIndex = -1;
 
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "start",
-    slidesToScroll: config.slidesPerGroup,
-    containScroll: "trimSnaps",
-  });
-
-  // Update slidesToScroll on window resize so the active breakpoint stays in
-  // sync with the column count rendered by CSS below.
-  useEffect(() => {
-    const onResize = () => setConfig(resolveBreakpoint(breakpoints));
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [breakpoints]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    emblaApi.reInit({ slidesToScroll: config.slidesPerGroup });
-  }, [emblaApi, config.slidesPerGroup]);
-
-  const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
-
-  // Wire up the externally-rendered prev/next buttons in <Header /> and keep
-  // their disabled state in sync with Embla's scroll bounds.
-  useEffect(() => {
-    if (!emblaApi) return;
-
-    const prev = document.querySelector<HTMLButtonElement>(
-      `.clover-slider-previous-${instance}`,
-    );
-    const next = document.querySelector<HTMLButtonElement>(
-      `.clover-slider-next-${instance}`,
-    );
-
-    const updateDisabled = () => {
-      if (prev) prev.disabled = !emblaApi.canScrollPrev();
-      if (next) next.disabled = !emblaApi.canScrollNext();
-    };
-
-    prev?.addEventListener("click", scrollPrev);
-    next?.addEventListener("click", scrollNext);
-    emblaApi.on("select", updateDisabled);
-    emblaApi.on("reInit", updateDisabled);
-    updateDisabled();
-
-    return () => {
-      prev?.removeEventListener("click", scrollPrev);
-      next?.removeEventListener("click", scrollNext);
-      emblaApi.off("select", updateDisabled);
-      emblaApi.off("reInit", updateDisabled);
-    };
-  }, [emblaApi, instance, scrollPrev, scrollNext]);
-
+  /*
+   * `columns` divides the viewport into equal slides, which suits a Collection of evenly
+   * cropped figures. `auto` lets each slide take its natural width — needed for canvas
+   * thumbnails, whose aspect ratios vary and which would be distorted by a fixed column.
+   */
   return (
     <ItemsStyled
-      ref={emblaRef}
-      aria-roledescription="carousel"
+      ref={track.ref}
+      {...(!presentational && { "aria-roledescription": "carousel" })}
       data-testid="slider-items"
     >
       <div
@@ -113,36 +70,73 @@ const Items: React.FC<ItemsProps> = ({
         style={{
           display: "flex",
           width: "100%",
-          gap: `${config.spaceBetween}px`,
+          gap: spaceBetween,
         }}
       >
-        {items.map((item, index) => (
-          <div
-            key={`${item.id}-${index}`}
-            className="clover-slider-slide"
-            data-index={index}
-            data-type={item?.type.toLowerCase()}
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`${index + 1} of ${items.length}`}
-            style={{
-              flex: `0 0 calc((100% - ${config.spaceBetween * (config.slidesPerView - 1)}px) / ${config.slidesPerView})`,
-              minWidth: 0,
-              width: `calc((100% - ${config.spaceBetween * (config.slidesPerView - 1)}px) / ${config.slidesPerView})`,
-            }}
-          >
-            <LazyLoad>
-              <Item
-                handleItemInteraction={handleItemInteraction}
-                index={index}
-                item={item as SliderItem}
-              />
-            </LazyLoad>
-          </div>
-        ))}
+        {slides.map((slide, slideIndex) => {
+          return (
+            <div
+              key={(slide[0] as { id?: string })?.id ?? slideIndex}
+              className="clover-slider-slide"
+              data-index={slideIndex}
+              data-track-index={slideIndex}
+              data-slide-items={slide.length}
+              data-type={(slide[0] as { type?: string })?.type?.toLowerCase()}
+              {...(!presentational && {
+                role: "group",
+                "aria-roledescription": "slide",
+                "aria-label": `${slideIndex + 1} of ${slides.length}`,
+              })}
+              /*
+               * Content-sized, never a fraction of the viewport. Each item declares its
+               * own width — the card via `--clover-slider-item-width`, a canvas thumbnail
+               * via its own figure — so a slide is as wide as what it holds and the track
+               * is the sum of them. How many fit is then a consequence of the viewport
+               * rather than something divided into it.
+               */
+              style={{ flex: "0 0 auto", minWidth: 0 }}
+            >
+              {/* A slide holding a spread lays its pages out side by side. */}
+              <div
+                className="clover-slider-slide-items"
+                style={{
+                  display: "flex",
+                  /*
+                   * Flush, not gutter-spaced. The gutter belongs *between* slides; using
+                   * it inside one too would put a recto and verso exactly as far apart as
+                   * two unrelated items, and the pairing would not read as a pairing.
+                   */
+                  gap: slide.length > 1 ? "0px" : spaceBetween,
+                  width: "100%",
+                }}
+              >
+                {slide.map((item) => {
+                  itemIndex += 1;
+                  const index = itemIndex;
+                  return renderItem ? (
+                    <React.Fragment
+                      key={(item as { id?: string })?.id ?? index}
+                    >
+                      {renderItem(item, index)}
+                    </React.Fragment>
+                  ) : (
+                    <LazyLoad key={(item as { id?: string })?.id ?? index}>
+                      <Item
+                        handleItemInteraction={handleItemInteraction}
+                        index={index}
+                        item={item as SliderItem}
+                      />
+                    </LazyLoad>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </ItemsStyled>
   );
 };
 
+export type { CollectionItems };
 export default Items;

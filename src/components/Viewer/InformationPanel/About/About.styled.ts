@@ -11,9 +11,15 @@ const AboutContent = styled("div", {
   fontSize: "1rem",
   zIndex: "0",
 
+  /*
+   * A bounding box rather than a crop: `object-fit: contain` keeps the whole image visible,
+   * so these are maxima. Square by default — the height falls back to the width — and
+   * `--clover-thumbnail-height` overrides that half alone.
+   */
   img: {
-    maxWidth: "100px",
-    maxHeight: "100px",
+    maxWidth: "var(--clover-thumbnail-width, 100px)",
+    maxHeight:
+      "var(--clover-thumbnail-height, var(--clover-thumbnail-width, 100px))",
     objectFit: "contain",
     color: "transparent",
     margin: "0 0 1rem",

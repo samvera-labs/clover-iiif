@@ -9,7 +9,8 @@ const ViewAllStyled = styled(Homepage, {
   color: "$secondary",
   height: "2rem !important",
   padding: "0 $3",
-  margin: "0 0 0 $3",
+  // Spaced by the header row's gap rather than its own left margin.
+  margin: "0",
   borderRadius: "2rem",
   cursor: "pointer",
   boxSizing: "content-box !important",
@@ -23,11 +24,6 @@ const ViewAllStyled = styled(Homepage, {
 
   [`&:hover`]: {
     backgroundColor: "$accentAlt",
-    boxShadow: "3px 3px 11px #0003",
-
-    [`&:disabled`]: {
-      boxShadow: "unset",
-    },
   },
 });
 

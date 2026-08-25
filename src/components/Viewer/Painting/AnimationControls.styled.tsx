@@ -122,9 +122,17 @@ const AnimationThumbnailButton = styled("button", {
   opacity: "0.75",
   transition: "$all",
 
+  /*
+   * Height-driven, unlike the rail: a filmstrip reads better when each frame keeps its own
+   * aspect, so the width follows the image rather than being cropped square. It still
+   * answers to the shared variables — `--clover-thumbnail-height` directly, with the width
+   * as a fallback so one knob scales the strip along with everything else.
+   */
   img: {
     display: "block",
-    height: "61.8px",
+    height:
+      "var(--clover-thumbnail-height, var(--clover-thumbnail-width, 61.8px))",
+    width: "auto",
     borderRadius: "2px",
   },
 

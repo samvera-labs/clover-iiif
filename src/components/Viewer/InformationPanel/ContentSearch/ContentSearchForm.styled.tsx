@@ -24,7 +24,6 @@ const FormStyled = styled("div", {
         fontFamily: "inherit",
         fontSize: "1rem",
         lineHeight: "1rem",
-        boxShadow: "inset 1px 1px 2px #0001",
 
         "&::placeholder": {
           color: "#0006",

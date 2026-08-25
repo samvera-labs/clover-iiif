@@ -236,6 +236,16 @@ const Playground: React.FC = () => {
   };
 
   /** Control values assembled into the shape the component actually takes. */
+  /**
+   * Controls whose path starts with `--` are CSS custom properties, not props.
+   *
+   * Clover is themed and sized through custom properties, so the playground has to be able
+   * to demonstrate them. Keying off the `--` prefix keeps that general: a control declares
+   * a property name and the panel applies it to the stage, rather than each component
+   * needing its own special case in the renderer.
+   */
+  const isCssVar = (key: string) => key.startsWith("--");
+
   const assembled = useMemo(() => {
     const bag: Record<string, any> = {};
     spec.controls.forEach((control) => {
@@ -249,6 +259,19 @@ const Playground: React.FC = () => {
     return bag;
   }, [spec, controls]);
 
+  /** Custom properties to put on the stage, and the props that are actually props. */
+  const { cssVars, props: assembledProps } = useMemo(() => {
+    const vars: Record<string, string> = {};
+    const rest: Record<string, any> = {};
+    Object.entries(assembled).forEach(([key, value]) => {
+      if (isCssVar(key)) {
+        // An empty control value means "leave it unset", so the default stands.
+        if (value !== "" && value != null) vars[key] = String(value);
+      } else rest[key] = value;
+    });
+    return { cssVars: vars, props: rest };
+  }, [assembled]);
+
   /** The live JSX snippet, regenerated on every knob turn. */
   const snippet = useMemo(() => {
     if (spec.snippetOverride) return spec.snippetOverride;
@@ -256,25 +279,34 @@ const Playground: React.FC = () => {
     const props: string[] = [`  ${spec.resourceProp}="${resource}"`];
 
     if (spec.controlTarget === "options") {
-      if (Object.keys(assembled).length)
-        props.push(`  options={${printObject(assembled)}}`);
+      if (Object.keys(assembledProps).length)
+        props.push(`  options={${printObject(assembledProps)}}`);
     } else {
-      Object.entries(assembled).forEach(([key, value]) => {
+      Object.entries(assembledProps).forEach(([key, value]) => {
+        // An empty string is a control's "leave it unset" state — printing it would
+        // suggest passing a prop the component is meant not to receive.
+        if (value === "") return;
         if (value && typeof value === "object")
           props.push(`  ${key}={${printObject(value)}}`);
         else if (typeof value === "boolean")
           props.push(value ? `  ${key}` : `  ${key}={false}`);
-        else props.push(`  ${key}=${literal(value)}`);
+        // Only a string can sit bare after `=` in JSX. A number needs braces, or
+        // `slidesToScroll=1` is a syntax error rather than a value of one.
+        else if (typeof value === "string")
+          props.push(`  ${key}=${literal(value)}`);
+        else props.push(`  ${key}={${String(value)}}`);
       });
     }
 
     const overrides = [
       accent && `"--clover-color-accent": "${accent}"`,
       font && `"--clover-font-sans": "${font.replace(/"/g, "'")}"`,
+      // Whatever the knobs set, shown as CSS because that is what it is.
+      ...Object.entries(cssVars).map(([k, v]) => `"${k}": "${v}"`),
     ].filter(Boolean);
 
     const themeLine = overrides.length
-      ? `\n\n// Color and type come from the wrapper, not from props.\n` +
+      ? `\n\n// These come from the wrapper as CSS, not from props.\n` +
         `// <div style={{ ${overrides.join(", ")} }}> … </div>`
       : "";
 
@@ -282,7 +314,7 @@ const Playground: React.FC = () => {
       `import ${spec.displayName} from "${spec.importPath}";\n\n` +
       `<${spec.displayName}\n${props.join("\n")}\n/>${themeLine}`
     );
-  }, [spec, resource, assembled, accent, font]);
+  }, [spec, resource, assembledProps, cssVars, accent, font]);
 
   const copy = async () => {
     try {
@@ -302,7 +334,9 @@ const Playground: React.FC = () => {
     const key = `${active}-${resource}`;
     switch (active) {
       case "viewer":
-        return <Viewer key={key} iiifContent={resource} options={assembled} />;
+        return (
+          <Viewer key={key} iiifContent={resource} options={assembledProps} />
+        );
       case "image":
         return (
           <Image
@@ -312,7 +346,7 @@ const Playground: React.FC = () => {
              * deep-zoom component, not an `img` — the jsx-a11y/alt-text warning is
              * a false positive on the identifier name. */
             label="IIIF image preview"
-            openSeadragonConfig={assembled.openSeadragonConfig}
+            openSeadragonConfig={assembledProps.openSeadragonConfig}
           />
         );
       case "map":
@@ -320,15 +354,28 @@ const Playground: React.FC = () => {
           <Map
             key={key}
             iiifContent={resource}
-            fitToData={assembled.fitToData}
-            scrollZoom={assembled.scrollZoom}
-            useCrosshairCursor={assembled.useCrosshairCursor}
+            fitToData={assembledProps.fitToData}
+            scrollZoom={assembledProps.scrollZoom}
+            useCrosshairCursor={assembledProps.useCrosshairCursor}
           />
         );
-      case "slider":
-        return <Slider key={key} iiifContent={resource} options={assembled} />;
+      case "slider": {
+        // Custom properties are applied to the stage, so only real props reach here.
+        const { behavior, ...sliderProps } = assembledProps;
+        return (
+          <Slider
+            key={key}
+            iiifContent={resource}
+            // Empty string means "no override" — let the resource speak.
+            behavior={(behavior as any) || undefined}
+            {...(sliderProps as any)}
+          />
+        );
+      }
       case "scroll":
-        return <Scroll key={key} iiifContent={resource} options={assembled} />;
+        return (
+          <Scroll key={key} iiifContent={resource} options={assembledProps} />
+        );
       case "primitives":
         return <PrimitivesPanel />;
     }
@@ -375,9 +422,35 @@ const Playground: React.FC = () => {
     );
   };
 
-  /** Cookbook recipes that Clover is known to support, for the preset picker. */
+  /**
+   * Resources for the preset picker.
+   *
+   * The Cookbook recipes are deliberate minimal examples — most are one or two canvases,
+   * which never exercises a long thumbnail rail. The two Northwestern items ahead of them
+   * do: a 338-canvas document behaving as `individuals`, and a 138-canvas `paged` notebook
+   * whose spreads must group two-up. Between them they cover the cases where canvas
+   * navigation actually gets hard.
+   */
   const presets = useMemo(
-    () => cookbookRecipes.filter((recipe) => recipe.supported),
+    () => [
+      {
+        id: "nul-long-individuals",
+        title: "Long document, 338 canvases (individuals)",
+        resource:
+          "https://api.dc.library.northwestern.edu/api/v2/works/12531652-50d5-473b-bf1f-ca54c10e875d?as=iiif",
+        supported: true,
+        category: ["Image"],
+      },
+      {
+        id: "nul-paged-notebook",
+        title: "Paged notebook, 138 canvases (paged)",
+        resource:
+          "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif",
+        supported: true,
+        category: ["Image"],
+      },
+      ...cookbookRecipes.filter((recipe) => recipe.supported),
+    ],
     [],
   );
 
@@ -615,7 +688,11 @@ const Playground: React.FC = () => {
         <div className={styles.layout}>
           <div>
             {/* Unstyled and unconstrained; the accent now comes from :root. */}
-            <div className={styles.stage} data-component={active}>
+            <div
+              className={styles.stage}
+              data-component={active}
+              style={cssVars as React.CSSProperties}
+            >
               {preview()}
             </div>
 

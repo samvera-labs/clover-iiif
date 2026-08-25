@@ -58,7 +58,6 @@ const TextualBody = styled("div", {
         borderRadius: "3px",
         border: `1px solid rgba(${highlightColor}, 0.2)`,
         borderBottom: `1px solid rgba(${highlightColor}, 0.618)`,
-        boxShadow: `1px 1px 1px #6661`,
       },
 
       "&::after": {
@@ -88,7 +87,6 @@ const TextualBody = styled("div", {
       borderRadius: "3px",
       border: `1px solid #6663`,
       borderBottom: `1px solid #6664`,
-      boxShadow: `1px 1px 1px #6661`,
     },
 
     "&::after": {

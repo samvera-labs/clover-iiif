@@ -942,6 +942,46 @@ WebGL rather than CSS, so the accent is resolved to a concrete value when the ma
 initializes; a token changed after that point will not repaint existing layers until the
 component remounts.
 
+#### Thumbnail size
+
+Thumbnails are square by default, sized from their width. Set a height only if you want to break that ratio.
+
+| Property                    | Default                                        | Applies to                                                                                                       |
+| --------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `--clover-thumbnail-width`  | `161.8px`                                      | Canvas rail tile width, About panel bounding box, and the Slider card when `--clover-slider-item-width` is unset |
+| `--clover-thumbnail-height` | _unset_ — height follows the width, giving 1:1 | Overrides the ratio wherever a thumbnail has a box                                                               |
+
+```css
+.my-app {
+  /* wider tiles, still square */
+  --clover-thumbnail-width: 200px;
+}
+
+.my-app-letterboxed {
+  /* break the ratio: 200 x 100 tiles */
+  --clover-thumbnail-width: 200px;
+  --clover-thumbnail-height: 100px;
+}
+```
+
+Each surface applies the pair in the way that suits it, which is worth knowing before you set a value and find one of them unchanged:
+
+- **Canvas rail** — a box with `object-fit: cover`, so a non-square ratio crops rather than distorts.
+- **Animation frame strip** — height-driven, width follows each frame's own aspect. A filmstrip reads better un-cropped, so it takes the height and ignores the square default.
+- **About panel** — a `max-width`/`max-height` bounding box with `object-fit: contain`, so the whole image stays visible inside it.
+- **Slider card** — 1:1 from its width, and it prefers `--clover-slider-item-width` when that is set, so cards can be resized without touching the rest.
+
+<Callout emoji="💡">
+  The canvas rail used to be a fixed 161.8 &times; 100. It is now 161.8 square,
+  so the rail is taller than in earlier versions. Add
+  `--clover-thumbnail-height: 100px` to restore the previous proportions
+  exactly.
+</Callout>
+
+The OpenSeadragon navigator is deliberately not covered by these. It is a minimap of the
+image rather than a thumbnail, and forcing it square would misrepresent the viewport it
+draws.
+
 #### Custom Theme prop
 
 <Callout type="warning">

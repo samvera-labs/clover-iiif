@@ -11,8 +11,8 @@ const PopoverContent = styled(Popover.Content, {
   display: "flex",
   flexDirection: "column",
   fontSize: "0.8333rem",
-  border: "none",
-  boxShadow: "2px 2px 5px #0003",
+  // An edge, since there is no shadow to give it one. This floats over the viewer.
+  border: "1px solid #6663",
   zIndex: "3",
 
   button: {

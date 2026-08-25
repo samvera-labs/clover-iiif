@@ -32,12 +32,25 @@ const Duration = styled("span", {
   marginBottom: "-1px",
 });
 
+/**
+ * The thumbnail box.
+ *
+ * Square by default, derived from the width — `aspect-ratio` does that, so nothing here
+ * needs to know a pixel height. Setting `--clover-thumbnail-height` gives the box a
+ * definite height, which wins over the ratio and restores a letterboxed tile:
+ *
+ *     .my-app { --clover-thumbnail-height: 100px; }
+ *
+ * The image inside is `object-fit: cover`, so the box crops rather than distorts whatever
+ * aspect the canvas actually has.
+ */
 const FigureImage = styled("div", {
   position: "relative",
   display: "flex",
   backgroundColor: "$secondaryAlt",
-  width: "inherit",
-  height: "100px",
+  width: "100%",
+  aspectRatio: "1",
+  height: "var(--clover-thumbnail-height, auto)",
   overflow: "hidden",
   borderRadius: "3px",
 
@@ -92,7 +105,7 @@ const Item = styled(RadioGroup.Item, {
 
   figure: {
     margin: "0",
-    width: "161.8px",
+    width: "var(--clover-thumbnail-width, 161.8px)",
 
     figcaption: {
       marginTop: "0.5rem",
