@@ -1,4 +1,4 @@
-import { colorVarRefs, fontVarRefs } from "src/styles/tokens";
+import { colorVarRefs } from "src/styles/tokens";
 import { createStitches } from "@stitches/react";
 
 export const theme = {
@@ -9,7 +9,6 @@ export const theme = {
    * the host page, and falls back to Clover's own palette when nothing sets one.
    */
   colors: colorVarRefs,
-  fonts: fontVarRefs,
   fontSizes: {
     1: "12px",
     2: "13px",
@@ -64,6 +63,15 @@ export const theme = {
   },
   transitions: {
     all: "all 200ms cubic-bezier(0.16, 1, 0.3, 1)",
+    /*
+     * For a thumbnail arriving after its lazy load. Short and ease-out so it reads as the
+     * image landing rather than as an animation — a longer curve makes a rail of thumbnails
+     * feel like it is still working after it has finished.
+     *
+     * `$load` was referenced by the Slider's video rule before this token existed, which
+     * silently computed to nothing; that transition now works too.
+     */
+    load: "opacity 150ms ease-out",
   },
   zIndices: {
     1: "100",

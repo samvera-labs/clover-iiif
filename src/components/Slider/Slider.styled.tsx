@@ -9,7 +9,8 @@ import { themeVarBridge } from "src/styles/tokens";
  */
 const Wrapper = styled("div", {
   ...themeVarBridge,
-  fontFamily: "$sans",
+  // Inherited, not tokenised. Clover takes its type from whatever contains it.
+  fontFamily: "inherit",
 });
 
 export { Wrapper };

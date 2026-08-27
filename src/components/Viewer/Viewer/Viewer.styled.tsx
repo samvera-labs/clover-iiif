@@ -196,7 +196,8 @@ const Wrapper = styled("div", {
   ...themeVarBridge,
   display: "flex",
   flexDirection: "column",
-  fontFamily: "$sans",
+  // Inherited, not tokenised. Clover takes its type from whatever contains it.
+  fontFamily: "inherit",
   fontSmooth: "auto",
   webkitFontSmoothing: "antialiased",
 

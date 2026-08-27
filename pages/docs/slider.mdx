@@ -35,6 +35,8 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Collect
 - Transcribes `homepage` as an `<a>` wrapping each item "slide"
 - Supports custom breakpoints to display customized slide counts
 - Supports callback `onItemInteraction` to override default "slide" behavior
+- Doubles as a rail inside another component — the `Viewer`'s canvas navigation is this
+  component. See [Two Ways to Use It](#two-ways-to-use-it)
 
 ## Installation
 
@@ -81,6 +83,71 @@ Render the slider with IIIF Collection URI. The only required prop is the `iiifC
     <Slider iiifContent="https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif" />
   </Tab>
 </Tabs>
+
+## Two Ways to Use It
+
+`Slider` is one carousel serving two jobs. Which one you get depends on whether you let it
+draw its own slides or hand it something else to draw.
+
+### A carousel of links
+
+The default. Give it a Collection and each slide becomes an `<a>` whose `href` is that item's
+`homepage[0].id` — so a click leaves for wherever the resource says it lives. An item without a
+`homepage` falls back to `#`, and the Collection's own `homepage` becomes the header's _View
+All_ link.
+
+```jsx
+<Slider iiifContent="https://example.org/collection.json" />
+```
+
+To route a click yourself instead of following the link, pass `onItemInteraction`. It receives
+the whole item and suppresses the navigation, which is what you want inside a single-page app
+that has its own router. See [Custom Interactions](#custom-interactions).
+
+```jsx
+<Slider
+  iiifContent="https://example.org/collection.json"
+  onItemInteraction={(item) =>
+    router.push(`/items/${encodeURIComponent(item.id)}`)
+  }
+/>
+```
+
+### A rail inside another component
+
+The `Viewer`'s canvas navigation is this component. Nothing about it is Viewer-specific: the
+carousel, its arrows, its filter and its counter are the Slider's, and what the Viewer supplies
+is the part only it can know — which canvases exist, what a step means, and what a slide should
+look like.
+
+```jsx
+<Slider
+  /* draw my slides, not yours */
+  renderItem={(group) => <Thumbnail group={group} />}
+  items={groups}
+  /* keep my selection centred; one slide per snap so the index addresses a slide */
+  activeIndex={activeGroupIndex}
+  slidesToScroll={1}
+  /* the arrows step my sequence and show a counter, rather than scrolling the rail */
+  pager={{
+    current: canvasIndex + 1,
+    total: canvases.length,
+    onStep: stepCanvas,
+  }}
+  /* I own the filtering, because only I can tell what a query matches */
+  search
+  onSearch={setFilter}
+  /* I own the region's semantics: a radio group around the slides, not the header */
+  presentational
+  wrapItems={(slides) => <RadioGroup.Root>{slides}</RadioGroup.Root>}
+/>
+```
+
+The distinction that matters is `renderItem`. Supply it and the anchor-and-figure slide is
+gone, along with the homepage link — a slide is whatever you return, and clicks are yours to
+handle. Leave it out and you are in carousel mode.
+
+Each of those props is described under [Controls](#controls) and [Embedding](#embedding).
 
 ## API Reference
 
@@ -157,15 +224,24 @@ Seams for using `Slider` as a subcomponent, the way the `Viewer`'s canvas rail d
 
 ### Sizing
 
-Slides are sized by their own content, and the track is the sum of their widths — so how many are visible follows from the viewport rather than being divided into it. There is deliberately no `slidesPerView`. Set the card width in CSS:
+Slides are sized by their own content, and the track is the sum of their widths — so how many are visible follows from the viewport rather than being divided into it. There is deliberately no `slidesPerView`. Set the size in CSS:
 
 ```css
-.my-app {
-  --clover-slider-item-width: 12rem; /* defaults to 15rem */
+body {
+  --clover-thumbnail-width: 12rem; /* the Slider defaults to 15rem */
 }
 ```
 
-Cards are square, sized from that width. `--clover-slider-item-width` is the Slider's own knob; without it the card falls back to the library-wide `--clover-thumbnail-width`, so one variable can scale every thumbnail at once. See [Thumbnail size](/docs/viewer#thumbnail-size).
+Cards are square, sized from that width, unless a height is set:
+
+```css
+body {
+  --clover-thumbnail-width: 20rem;
+  --clover-thumbnail-height: 12rem;
+}
+```
+
+These are the same two properties the `Viewer`'s canvas thumbnails read, so one declaration scales every thumbnail in the library at once. The Slider only differs in what it falls back to when neither is set — `15rem`, against the rail's `161.8px`, because a carousel standing on its own wants a larger card than a strip tucked under a viewer. See [Thumbnail size](/docs/viewer#thumbnail-size).
 
 The prev/next controls advance by whatever currently fits the viewport, and centre it. That follows from slides being content-sized: a fixed count cannot know how many are on screen, so it would page past what the reader can see.
 

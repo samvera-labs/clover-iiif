@@ -7,7 +7,7 @@ export interface SliderBreakpointConfig {
    * There is deliberately no `slidesPerView`. Slides are sized by their own content and
    * the track is the sum of their widths, so how many are visible follows from the
    * viewport rather than being divided into it. Set the card width in CSS with
-   * `--clover-slider-item-width`.
+   * `--clover-thumbnail-width`.
    */
   slidesPerGroup?: number;
   /**

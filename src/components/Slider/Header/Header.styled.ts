@@ -1,3 +1,4 @@
+import { SearchInput } from "src/components/Shared/Search/Search.styled";
 import { styled } from "src/styles/stitches.config";
 
 const HeaderContent = styled("div", {
@@ -31,27 +32,6 @@ const HeaderCounter = styled("span", {
   },
 });
 
-/** The filter field, shown in place of the counter while filtering is open. */
-const HeaderSearchInput = styled("input", {
-  flexGrow: "1",
-  minWidth: "0",
-  width: "100%",
-  maxWidth: "16rem",
-  border: "none",
-  backgroundColor: "$secondaryMuted",
-  color: "$primary",
-  height: "2rem",
-  padding: "0 1rem",
-  borderRadius: "2rem",
-  fontFamily: "inherit",
-  fontSize: "1rem",
-  lineHeight: "1rem",
-
-  "&::placeholder": {
-    color: "$primaryMuted",
-  },
-});
-
 const HeaderControls = styled("div", {
   display: "flex",
   flexDirection: "row",
@@ -62,6 +42,15 @@ const HeaderControls = styled("div", {
   // Lets the filter field shrink rather than push the label out of the row.
   minWidth: "0",
   paddingLeft: "$5",
+
+  /*
+   * The ceiling on the shared field belongs here, not in the field itself. This row also
+   * holds the label and the controls, so the filter has to stop somewhere; the content
+   * search form has the panel to itself and wants none.
+   */
+  [`& ${SearchInput}`]: {
+    maxWidth: "16rem",
+  },
   paddingRight: "$4",
 
   "@xs": {
@@ -99,10 +88,4 @@ const HeaderStyled = styled("div", {
   },
 });
 
-export {
-  HeaderContent,
-  HeaderControls,
-  HeaderCounter,
-  HeaderSearchInput,
-  HeaderStyled,
-};
+export { HeaderContent, HeaderControls, HeaderCounter, HeaderStyled };

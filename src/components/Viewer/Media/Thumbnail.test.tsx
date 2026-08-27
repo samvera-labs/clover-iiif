@@ -25,6 +25,7 @@ import { render, screen, within } from "@testing-library/react";
 
 import React from "react";
 import { StyledSequence } from "src/components/Viewer/Media/Media.styled";
+import { ViewerProvider, defaultState } from "src/context/viewer-context";
 import Thumbnail from "src/components/Viewer/Media/Thumbnail";
 import { ThumbnailProps } from "src/components/Viewer/Media/Thumbnail";
 import { getThumbnail } from "@iiif/helpers/thumbnail";
@@ -84,10 +85,6 @@ describe("Thumbnail component", () => {
       expect(screen.getByTestId("fig-caption")).toHaveTextContent(
         "Mocked Label",
       );
-    });
-
-    it("renders a tag on the thumbnail", () => {
-      expect(screen.getByTestId("thumbnail-tag")).toBeInTheDocument();
     });
   });
 
@@ -189,6 +186,51 @@ describe("Thumbnail component", () => {
       );
       const tag = screen.getByTestId("thumbnail-tag");
       expect(within(tag).getByText("0:00")).toBeInTheDocument();
+    });
+  });
+
+  describe("showResourceIcons", () => {
+    const withOption = (value: boolean, overrides = {}) =>
+      render(
+        <ViewerProvider
+          initialState={{
+            ...defaultState,
+            configOptions: {
+              ...defaultState.configOptions,
+              showResourceIcons: value,
+            },
+          }}
+        >
+          <StyledSequence>
+            <Thumbnail {...props} {...overrides} />
+          </StyledSequence>
+        </ViewerProvider>,
+      );
+
+    it("hides the type badge on an image thumbnail by default", () => {
+      render(
+        <StyledSequence>
+          <Thumbnail {...props} />
+        </StyledSequence>,
+      );
+      expect(screen.queryByTestId("thumbnail-tag")).toBeNull();
+    });
+
+    it("renders the type icon when turned on", () => {
+      withOption(true);
+      const tag = screen.getByTestId("thumbnail-tag");
+      expect(within(tag).getByLabelText("Image")).toBeInTheDocument();
+    });
+
+    /*
+     * The duration is not an icon. It is the only place the rail says how long a
+     * time-based canvas runs, so it survives the option being off.
+     */
+    it("keeps the duration on a time-based canvas while icons are off", () => {
+      withOption(false, { type: "Sound" });
+      const tag = screen.getByTestId("thumbnail-tag");
+      expect(within(tag).getByText("0:00")).toBeInTheDocument();
+      expect(within(tag).queryByLabelText("Sound")).toBeNull();
     });
   });
 });

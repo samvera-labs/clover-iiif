@@ -15,6 +15,7 @@ import { Label } from "src/components/Primitives";
 import { Popover } from "src/components/UI";
 import React from "react";
 import ViewerDownload from "./Download";
+import useViewerDownload from "src/hooks/useViewerDownload";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 interface Props {
@@ -28,10 +29,19 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
 
   const { showDownload, showIIIFBadge, showTitle } = configOptions;
 
+  /*
+   * Whether the resource actually offers a download, as distinct from whether the consumer
+   * asked for the button. A Manifest or Canvas with no `rendering` has nothing to offer, and
+   * `ViewerDownload` correctly renders nothing in that case — but this bar was built on
+   * `showDownload` alone, so it still reserved its padding and grew to claim the row. The
+   * result was an invisible box in the header.
+   */
+  const { hasDownload } = useViewerDownload();
+
   /**
    * Determine if header options should be rendered.
    */
-  const hasOptions = showDownload || showIIIFBadge;
+  const hasOptions = (showDownload && hasDownload) || showIIIFBadge;
 
   const { t } = useCloverTranslation();
 
@@ -45,8 +55,8 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
         </ManifestLabel>
       )}
       {hasOptions && (
-        <HeaderOptions>
-          {showDownload && <ViewerDownload />}
+        <HeaderOptions className="clover-viewer-header-options">
+          {showDownload && hasDownload && <ViewerDownload />}
           {showIIIFBadge && (
             <Popover>
               <IIIFBadgeButton>

@@ -10,14 +10,13 @@ import { RenderingItem } from "src/types/presentation-3";
 import useViewerDownload from "src/hooks/useViewerDownload";
 
 const ViewerDownload = () => {
-  const { allPages, individualPages } = useViewerDownload();
-  const showDownloadButton = allPages.length > 0 || individualPages.length > 0;
+  const { allPages, hasDownload, individualPages } = useViewerDownload();
 
   const handleDownloadClick = (id: RenderingItem["id"]) => {
     window.open(id, "_blank");
   };
 
-  if (!showDownloadButton) {
+  if (!hasDownload) {
     return null;
   }
 

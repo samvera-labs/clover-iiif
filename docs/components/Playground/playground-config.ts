@@ -77,18 +77,6 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
     controls: [
       {
         kind: "toggle",
-        path: "informationPanel.open",
-        label: "Information panel",
-        default: true,
-      },
-      {
-        kind: "toggle",
-        path: "informationPanel.renderCanvasSummary",
-        label: "Canvas summary",
-        default: false,
-      },
-      {
-        kind: "toggle",
         path: "showTitle",
         label: "Title",
         default: true,
@@ -97,13 +85,13 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
         kind: "toggle",
         path: "showIIIFBadge",
         label: "IIIF badge",
-        default: true,
+        default: false,
       },
       {
         kind: "toggle",
         path: "showDownload",
         label: "Download",
-        default: true,
+        default: false,
       },
       /*
        * CSS custom properties rather than props — the `--` prefix is what tells the panel
@@ -138,8 +126,10 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
         kind: "select",
         path: "canvasHeight",
         label: "Canvas height",
-        default: "500px",
+        hint: "Unset falls back to Clover's own 500px.",
+        default: "",
         options: [
+          { value: "", label: "unset" },
           { value: "320px", label: "320px" },
           { value: "500px", label: "500px" },
           { value: "70vh", label: "70vh" },
@@ -257,9 +247,9 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
       },
       {
         kind: "select",
-        path: "--clover-slider-item-width",
-        label: "Card width",
-        hint: "CSS: --clover-slider-item-width. Wins over the thumbnail width below.",
+        path: "--clover-thumbnail-width",
+        label: "Thumbnail width",
+        hint: "CSS: --clover-thumbnail-width. The same property the Viewer's rail reads.",
         default: "",
         options: [
           { value: "", label: "15rem (default)" },
@@ -270,14 +260,14 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
       },
       {
         kind: "select",
-        path: "--clover-thumbnail-width",
-        label: "Thumbnail width",
-        hint: "The library-wide fallback, used when the card width above is unset.",
+        path: "--clover-thumbnail-height",
+        label: "Thumbnail height",
+        hint: "Unset means square, derived from the width.",
         default: "",
         options: [
-          { value: "", label: "unset" },
+          { value: "", label: "1:1 from width" },
           { value: "100px", label: "100px" },
-          { value: "240px", label: "240px" },
+          { value: "20rem", label: "20rem" },
         ],
       },
       {
@@ -308,13 +298,6 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
         path: "dragFree",
         label: "Drag free",
         hint: "Scroll freely instead of settling on snap boundaries.",
-        default: false,
-      },
-      {
-        kind: "toggle",
-        path: "presentational",
-        label: "Presentational",
-        hint: "Drops the carousel ARIA so a host can own the semantics.",
         default: false,
       },
     ],

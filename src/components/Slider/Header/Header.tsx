@@ -3,7 +3,6 @@ import {
   HeaderContent,
   HeaderControls,
   HeaderCounter,
-  HeaderSearchInput,
   HeaderStyled,
 } from "./Header.styled";
 import { Homepage, Label, Summary } from "src/components/Primitives";
@@ -16,6 +15,8 @@ import {
 import React, { useEffect, useState } from "react";
 
 import { ControlStyled } from "src/components/Shared/Control/Control.styled";
+import { SearchInput } from "src/components/Shared/Search/Search.styled";
+import { getLabelAsString } from "src/lib/label-helpers";
 import type { SliderPager } from "src/types/slider";
 import ViewAll from "./ViewAll";
 import useKeyPress from "src/hooks/useKeyPress";
@@ -59,6 +60,17 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const { t } = useCloverTranslation();
   const [hasHomepage, setHasHomepage] = useState<boolean>(false);
+
+  /*
+   * Whether there is any text to draw.
+   *
+   * Both default to `{ none: [""] }`, which is truthy — so a host that supplies neither, as
+   * the Viewer does, got two empty spans. They measured 0×0 but carried the
+   * `clover-slider-header-*` class hooks and the summary's top margin, which meant anyone
+   * styling those names saw phantom elements in the Viewer's header.
+   */
+  const hasLabel = Boolean(getLabelAsString(label)?.trim());
+  const hasSummary = Boolean(getLabelAsString(summary)?.trim());
   const [isFiltering, setIsFiltering] = useState<boolean>(false);
 
   useEffect(() => {
@@ -121,28 +133,33 @@ const Header: React.FC<HeaderProps> = ({
 
   return (
     <HeaderStyled data-testid="slider-header">
+      {/*
+       * Rendered even with nothing in it. `HeaderStyled` spaces its two children apart, so
+       * this element is what holds the controls to the right; drop it and they slide left.
+       */}
       <HeaderContent>
-        {hasHomepage ? (
-          <Homepage
-            // @ts-ignore
-            homepage={homepage}
-            className="clover-slider-header-homepage"
-          >
+        {hasLabel &&
+          (hasHomepage ? (
+            <Homepage
+              // @ts-ignore
+              homepage={homepage}
+              className="clover-slider-header-homepage"
+            >
+              <Label
+                label={label}
+                as="span"
+                className="clover-slider-header-label"
+              />
+            </Homepage>
+          ) : (
             <Label
               label={label}
               as="span"
               className="clover-slider-header-label"
             />
-          </Homepage>
-        ) : (
-          <Label
-            label={label}
-            as="span"
-            className="clover-slider-header-label"
-          />
-        )}
+          ))}
 
-        {summary && (
+        {hasSummary && (
           <Summary
             summary={summary}
             as="span"
@@ -156,7 +173,7 @@ const Header: React.FC<HeaderProps> = ({
          * report on the same sequence, and only one of them is useful at a time.
          */}
         {isFiltering ? (
-          <HeaderSearchInput
+          <SearchInput
             autoFocus
             className="clover-slider-search-input"
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>

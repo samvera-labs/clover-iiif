@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 
@@ -12,26 +10,30 @@ const Scroll = dynamic(() => import("src/components/Scroll"), {
 });
 
 const CloverScroll = ({
-  iiifContent = defaultIiifContent,
+  iiifContent,
   options,
 }: {
-  iiifContent: string;
+  iiifContent?: string;
   options;
 }) => {
-  const [iiifResource, setIiifResource] = useState<string>();
-
   const router = useRouter();
-  const { "iiif-content": iiifContentParam } = router.query;
 
-  useEffect(() => {
-    iiifResource
-      ? setIiifResource(iiifContentParam as string)
-      : setIiifResource(iiifContent);
-  }, [iiifContentParam]);
+  /*
+   * An explicit prop wins over the URL.
+   *
+   * `iiif-content` is how the docs hand a pasted resource to a component rendered with no
+   * prop of its own. The playground passes the resource as a prop *and* mirrors it into the
+   * URL so a configuration can be shared — so if the param won, the playground's resource
+   * field would look dead: it updates the prop as you type but only syncs the URL on blur.
+   */
+  const iiifResource =
+    iiifContent ||
+    (router.query["iiif-content"] as string) ||
+    defaultIiifContent;
 
-  if (!iiifResource) return null;
-
-  return <Scroll iiifContent={iiifResource} options={options} />;
+  return (
+    <Scroll iiifContent={iiifResource} key={iiifResource} options={options} />
+  );
 };
 
 export default CloverScroll;

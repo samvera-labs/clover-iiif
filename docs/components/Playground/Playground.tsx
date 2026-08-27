@@ -104,9 +104,9 @@ const Playground: React.FC = () => {
 
   /**
    * Read state out of the URL once the router is ready, so a shared link restores
-   * the configuration. `iiif-content` is honored as well as the shorter `r`,
-   * because that is the parameter Clover has always accepted for handing a
-   * resource to the docs.
+   * the configuration. The resource travels as `iiif-content` — the parameter Clover has
+   * always accepted for handing a resource to the docs, and the one the dynamic imports and
+   * the cookbook select already read — so a link works the same everywhere.
    */
   useEffect(() => {
     if (!router.isReady) return;
@@ -117,7 +117,6 @@ const Playground: React.FC = () => {
     ) as ComponentKey;
     const nextResource =
       (typeof q["iiif-content"] === "string" && q["iiif-content"]) ||
-      (typeof q.r === "string" && q.r) ||
       componentSpecs[nextComponent].defaultResource;
 
     setActive(nextComponent);
@@ -149,10 +148,10 @@ const Playground: React.FC = () => {
 
   /** Mirror the shareable parts of the state into the URL, without a navigation. */
   const syncUrl = useCallback(
-    (next: { c?: ComponentKey; r?: string; accent?: string }) => {
+    (next: { c?: ComponentKey; resource?: string; accent?: string }) => {
       const query: Record<string, string> = {
         c: next.c ?? active,
-        r: next.r ?? resource,
+        "iiif-content": next.resource ?? resource,
       };
       const nextAccent = next.accent ?? accent;
       if (nextAccent) query.accent = nextAccent;
@@ -165,7 +164,7 @@ const Playground: React.FC = () => {
     setActive(key);
     setControls(defaultsFor(key));
     setResource(componentSpecs[key].defaultResource);
-    syncUrl({ c: key, r: componentSpecs[key].defaultResource });
+    syncUrl({ c: key, resource: componentSpecs[key].defaultResource });
   };
 
   const updateControl = (path: string, value: string | boolean) =>
@@ -246,6 +245,26 @@ const Playground: React.FC = () => {
    */
   const isCssVar = (key: string) => key.startsWith("--");
 
+  /**
+   * Drop whatever a control left empty, at any depth.
+   *
+   * An empty select value is the control's "leave it unset" state, and the component has to
+   * not receive the key at all. `canvasHeight: ""` is not "use the default" — it is a height
+   * of nothing, and it collapsed the canvas to 0px. Nested paths are pruned too, and a
+   * branch that ends up with nothing in it is dropped rather than passed as `{}`.
+   */
+  const pruneEmpty = (value: unknown): unknown => {
+    if (value === "" || value == null) return undefined;
+    if (typeof value !== "object" || Array.isArray(value)) return value;
+
+    const kept: Record<string, unknown> = {};
+    Object.entries(value as Record<string, unknown>).forEach(([key, inner]) => {
+      const pruned = pruneEmpty(inner);
+      if (pruned !== undefined) kept[key] = pruned;
+    });
+    return Object.keys(kept).length ? kept : undefined;
+  };
+
   const assembled = useMemo(() => {
     const bag: Record<string, any> = {};
     spec.controls.forEach((control) => {
@@ -267,7 +286,10 @@ const Playground: React.FC = () => {
       if (isCssVar(key)) {
         // An empty control value means "leave it unset", so the default stands.
         if (value !== "" && value != null) vars[key] = String(value);
-      } else rest[key] = value;
+      } else {
+        const pruned = pruneEmpty(value);
+        if (pruned !== undefined) rest[key] = pruned;
+      }
     });
     return { cssVars: vars, props: rest };
   }, [assembled]);
@@ -298,22 +320,40 @@ const Playground: React.FC = () => {
       });
     }
 
-    const overrides = [
-      accent && `"--clover-color-accent": "${accent}"`,
-      font && `"--clover-font-sans": "${font.replace(/"/g, "'")}"`,
-      // Whatever the knobs set, shown as CSS because that is what it is.
-      ...Object.entries(cssVars).map(([k, v]) => `"${k}": "${v}"`),
-    ].filter(Boolean);
+    /*
+     * Custom properties, as CSS declarations rather than a style object.
+     *
+     * These are not props — they cascade, so they have to sit on an ancestor or in a
+     * stylesheet. The snippet used to show that as a commented-out `<div style={{…}}>`,
+     * which could not be copied and run; a `<style>` block is real markup.
+     *
+     * Set on `body`, which is every component's ancestor already, so the snippet needs no
+     * wrapper element and no invented class name for one. Scope them to a narrower selector
+     * when only part of a page should carry them.
+     */
+    /*
+     * No font declaration. Clover inherits its type from whatever contains it, so a page
+     * that has already set a font needs to do nothing at all — there is no property to
+     * hand it, and printing one would suggest otherwise.
+     */
+    const declarations = [
+      accent && `--clover-color-accent: ${accent};`,
+      ...Object.entries(cssVars).map(([key, value]) => `${key}: ${value};`),
+    ].filter(Boolean) as string[];
 
-    const themeLine = overrides.length
-      ? `\n\n// These come from the wrapper as CSS, not from props.\n` +
-        `// <div style={{ ${overrides.join(", ")} }}> … </div>`
-      : "";
+    const element = `<${spec.displayName}\n${props.join("\n")}\n/>`;
+    const importLine = `import ${spec.displayName} from "${spec.importPath}";`;
 
-    return (
-      `import ${spec.displayName} from "${spec.importPath}";\n\n` +
-      `<${spec.displayName}\n${props.join("\n")}\n/>${themeLine}`
-    );
+    if (!declarations.length) return `${importLine}\n\n${element}`;
+
+    const styleBlock =
+      `<style>{\`\n` +
+      `  body {\n` +
+      declarations.map((line) => `    ${line}`).join("\n") +
+      `\n  }\n` +
+      `\`}</style>`;
+
+    return `${importLine}\n\n${styleBlock}\n\n${element}`;
   }, [spec, resource, assembledProps, cssVars, accent, font]);
 
   const copy = async () => {
@@ -691,6 +731,11 @@ const Playground: React.FC = () => {
             <div
               className={styles.stage}
               data-component={active}
+              /*
+               * No font here. The font control retypesets the whole site through
+               * `--font-sans`, and the component inherits its type from the page like
+               * anything else on it.
+               */
               style={cssVars as React.CSSProperties}
             >
               {preview()}
@@ -748,7 +793,7 @@ const Playground: React.FC = () => {
                       }
                       onChange={(e) => {
                         setResource(e.target.value);
-                        syncUrl({ r: e.target.value });
+                        syncUrl({ resource: e.target.value });
                       }}
                     >
                       <option value="">Custom / demo resource</option>

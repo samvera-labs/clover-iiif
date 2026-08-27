@@ -89,8 +89,9 @@ const Items: React.FC<ItemsProps> = ({
               })}
               /*
                * Content-sized, never a fraction of the viewport. Each item declares its
-               * own width — the card via `--clover-slider-item-width`, a canvas thumbnail
-               * via its own figure — so a slide is as wide as what it holds and the track
+               * own width — both the card and a canvas thumbnail read
+               * `--clover-thumbnail-width` — so a slide is as wide as what it holds and the
+               * track
                * is the sum of them. How many fit is then a consequence of the viewport
                * rather than something divided into it.
                */

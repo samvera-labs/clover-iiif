@@ -16,14 +16,14 @@ const Viewer = dynamic(() => import("src/components/Viewer"), {
 });
 
 const CloverViewer = ({
-  iiifContent = defaultIiifContent,
+  iiifContent,
   options,
   customDisplays,
   iiifContentSearchQuery,
   plugins,
   contentStateCallback,
 }: {
-  iiifContent: string;
+  iiifContent?: string;
   options?: ViewerConfigOptions;
   customDisplays?: Array<CustomDisplay>;
   iiifContentSearchQuery?: ContentSearchQuery;
@@ -31,9 +31,18 @@ const CloverViewer = ({
   contentStateCallback?: (json: any) => void;
 }) => {
   const router = useRouter();
-  const iiifResource = router.query["iiif-content"]
-    ? (router.query["iiif-content"] as string)
-    : iiifContent;
+  /*
+   * An explicit prop wins over the URL.
+   *
+   * `iiif-content` is how the docs hand a pasted resource to a component rendered with no
+   * prop of its own. The playground passes the resource as a prop *and* mirrors it into the
+   * URL so a configuration can be shared — so if the param won, the playground's resource
+   * field would look dead: it updates the prop as you type but only syncs the URL on blur.
+   */
+  const iiifResource =
+    iiifContent ||
+    (router.query["iiif-content"] as string) ||
+    defaultIiifContent;
 
   /*
    * No `background` override. Clover defaults to `transparent`, so the Viewer picks up

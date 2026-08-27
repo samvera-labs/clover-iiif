@@ -378,6 +378,7 @@ const MyCustomViewer = () => {
 | `options.showDownload`           | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.showIIIFBadge`          | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.showMediaSearch`        | `boolean`                                                                                                                                        | No       | true                                     |
+| `options.showResourceIcons`      | `boolean`                                                                                                                                        | No       | false                                    |
 | `options.showTitle`              | `boolean`                                                                                                                                        | No       | true                                     |
 | `options.customLoadingComponent` | `React.ComponentType`                                                                                                                            | No       |                                          |
 | `options.controlButtons`         | [See Control Buttons](#control-buttons)                                                                                                          | No       |                                          |
@@ -549,6 +550,50 @@ const options = {
   showMediaSearch: false,
 };
 ```
+
+### Resource Icons
+
+Each thumbnail in the media strip can carry a small badge in its top-right corner naming the
+resource type of that canvas — image, video or sound. Set `options.showResourceIcons` to
+`true` to show it.
+
+It is off by default. On a Manifest of scanned pages every canvas is an image, so the badge
+repeats one glyph the whole way down the strip without telling the reader anything they
+cannot already see. Turn it on for a mixed Manifest, where knowing which canvases are
+time-based is worth the space it takes.
+
+<Tabs items={["Code", "Preview"]}>
+  {/* prettier-ignore */}
+  <Tab>
+    ```jsx
+      <Viewer
+        iiifContent="https://iiif.io/api/cookbook/recipe/0024-book-4-toc/manifest.json"
+        options={{ showResourceIcons: true }}
+      />;
+    ```
+
+  </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    <div style={{ position: "relative", height: "600px", zIndex: "0" }}>
+      <Viewer
+        iiifContent="https://iiif.io/api/cookbook/recipe/0024-book-4-toc/manifest.json"
+        options={{
+          showResourceIcons: true,
+          showIIIFBadge: false,
+          informationPanel: { renderAbout: false, renderToggle: false },
+        }}
+      />
+    </div>
+  </Tab>
+</Tabs>
+
+Every canvas in that example is an image, which is the case the default is chosen for: the
+badge is the same on all six thumbnails.
+
+The runtime on a video or sound canvas is not governed by this option. It is the only place
+the strip states how long a time-based canvas runs, so it shows either way — with
+`showResourceIcons` off, such a canvas carries a badge holding just its duration.
 
 ### Information Panel
 
@@ -905,7 +950,6 @@ just as it does to the `Viewer`.
 .my-app {
   --clover-color-accent: #c62828;
   --clover-color-primary: #37474f;
-  --clover-font-sans: "Helvetica Neue", sans-serif;
 }
 ```
 
@@ -920,22 +964,31 @@ changed at runtime, or wired to whatever design tokens your application already 
 
 Every token, with the value Clover falls back to when it is not set:
 
-| Custom property                  | Default   | Role                                                |
-| -------------------------------- | --------- | --------------------------------------------------- |
-| `--clover-color-primary`         | `#1A1D1E` | Black and dark grays in a light theme               |
-| `--clover-color-primary-muted`   | `#26292B` |                                                     |
-| `--clover-color-primary-alt`     | `#151718` |                                                     |
-| `--clover-color-accent`          | `#0065C3` | Key brand color                                     |
-| `--clover-color-accent-muted`    | `#50A0EC` |                                                     |
-| `--clover-color-accent-alt`      | `#0F4F8A` |                                                     |
-| `--clover-color-secondary`       | `#FFFFFF` | White and light grays in a light theme              |
-| `--clover-color-secondary-muted` | `#E6E8EB` |                                                     |
-| `--clover-color-secondary-alt`   | `#C1C8CD` |                                                     |
-| `--clover-font-sans`             | `inherit` | UI and body text; inherits the host page by default |
-| `--clover-font-display`          | `inherit` |                                                     |
+| Custom property                  | Default   | Role                                   |
+| -------------------------------- | --------- | -------------------------------------- |
+| `--clover-color-primary`         | `#1A1D1E` | Black and dark grays in a light theme  |
+| `--clover-color-primary-muted`   | `#26292B` |                                        |
+| `--clover-color-primary-alt`     | `#151718` |                                        |
+| `--clover-color-accent`          | `#0065C3` | Key brand color                        |
+| `--clover-color-accent-muted`    | `#50A0EC` |                                        |
+| `--clover-color-accent-alt`      | `#0F4F8A` |                                        |
+| `--clover-color-secondary`       | `#FFFFFF` | White and light grays in a light theme |
+| `--clover-color-secondary-muted` | `#E6E8EB` |                                        |
+| `--clover-color-secondary-alt`   | `#C1C8CD` |                                        |
 
 For contrast, `primary` and `accent` should each reach 4.5:1 or greater against
 `secondary`, and `secondary` should reach 4.5:1 against both `primary` and `accent`.
+
+There is no font property, and nothing to set. Clover's components declare
+`font-family: inherit` and take their type from whatever contains them, so a component
+dropped into a page that already uses a typeface is using it too. To give a component a
+family different from the rest of the page, set `font-family` on an element around it:
+
+```jsx
+<div style={{ fontFamily: "'Helvetica Neue', sans-serif" }}>
+  <Viewer iiifContent={iiifContent} />
+</div>
+```
 
 The `Map` component is the one exception to the cascade. Its markers are painted by
 WebGL rather than CSS, so the accent is resolved to a concrete value when the map
@@ -946,10 +999,10 @@ component remounts.
 
 Thumbnails are square by default, sized from their width. Set a height only if you want to break that ratio.
 
-| Property                    | Default                                        | Applies to                                                                                                       |
-| --------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `--clover-thumbnail-width`  | `161.8px`                                      | Canvas rail tile width, About panel bounding box, and the Slider card when `--clover-slider-item-width` is unset |
-| `--clover-thumbnail-height` | _unset_ — height follows the width, giving 1:1 | Overrides the ratio wherever a thumbnail has a box                                                               |
+| Property                    | Default                                        | Applies to                                                                                          |
+| --------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `--clover-thumbnail-width`  | `161.8px`                                      | Canvas rail tile width, About panel bounding box, and the Slider card (which falls back to `15rem`) |
+| `--clover-thumbnail-height` | _unset_ — height follows the width, giving 1:1 | Overrides the ratio wherever a thumbnail has a box                                                  |
 
 ```css
 .my-app {
@@ -969,7 +1022,7 @@ Each surface applies the pair in the way that suits it, which is worth knowing b
 - **Canvas rail** — a box with `object-fit: cover`, so a non-square ratio crops rather than distorts.
 - **Animation frame strip** — height-driven, width follows each frame's own aspect. A filmstrip reads better un-cropped, so it takes the height and ignores the square default.
 - **About panel** — a `max-width`/`max-height` bounding box with `object-fit: contain`, so the whole image stays visible inside it.
-- **Slider card** — 1:1 from its width, and it prefers `--clover-slider-item-width` when that is set, so cards can be resized without touching the rest.
+- **Slider card** — 1:1 from its width, honouring a set height like the rail does. It reads the same two properties; only its fallback differs, at `15rem` rather than `161.8px`.
 
 <Callout emoji="💡">
   The canvas rail used to be a fixed 161.8 &times; 100. It is now 161.8 square,

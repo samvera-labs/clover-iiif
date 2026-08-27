@@ -70,6 +70,15 @@ export type ViewerConfigOptions = {
   showDownload?: boolean;
   showIIIFBadge?: boolean;
   showMediaSearch?: boolean;
+  /**
+   * Show the resource-type icon on each thumbnail in the canvas rail.
+   *
+   * Off by default: on a Manifest of scanned pages every thumbnail is an image, so the badge
+   * repeats the same glyph down the whole rail without distinguishing anything. Turn it on
+   * for mixed Manifests, where knowing which canvases are video or audio is useful. The
+   * duration badge on time-based canvases is not governed by this and always shows.
+   */
+  showResourceIcons?: boolean;
   showTitle?: boolean;
   customLoadingComponent?: React.ComponentType;
   controlButtons?: ControlButtons;
@@ -209,6 +218,7 @@ const defaultConfigOptions: ViewerConfigOptions = {
   showDownload: true,
   showIIIFBadge: true,
   showMediaSearch: true,
+  showResourceIcons: false,
   showTitle: true,
   withCredentials: false,
 };

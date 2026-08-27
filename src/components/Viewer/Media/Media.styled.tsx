@@ -48,14 +48,17 @@ const StyledSequenceGroup = styled("div", {
         fontWeight: "700",
       },
 
-      [`& ${Tag}`]: {
-        backgroundColor: "$accent",
-      },
+      /*
+       * No override for the type badge. It stays the plain `$secondary` surface it is
+       * everywhere else — the active group is already marked by its accent underline, the
+       * bold caption and the outline, and a differently coloured badge on top of those was
+       * one signal too many.
+       */
 
       [`& ${ThumbnailOutline}`]: {
         background: "#0003",
         opacity: "1",
-        borderBottom: "3px solid $accent",
+        borderBottom: "5px solid $accent",
       },
 
       "&:first-of-type": {
