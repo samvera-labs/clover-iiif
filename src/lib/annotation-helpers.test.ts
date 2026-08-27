@@ -243,16 +243,6 @@ describe("isCaptionResource", () => {
     ).toBe(true);
   });
 
-  it("accepts a SubRip resource declared by format", () => {
-    expect(
-      isCaptionResource({
-        id: "https://example.org/captions.srt",
-        type: "Text",
-        format: "application/x-subrip",
-      }),
-    ).toBe(true);
-  });
-
   it("falls back to the file extension when no format is declared", () => {
     expect(isCaptionResource({ id: "https://example.org/c.vtt" })).toBe(true);
     expect(isCaptionResource({ id: "https://example.org/c.vtt?v=2" })).toBe(
@@ -290,5 +280,107 @@ describe("isCaptionResource", () => {
         format: "video/mp4",
       }),
     ).toBe(false);
+  });
+
+  /* The Presentation API says `format` "should be the value of the Content-Type
+     header returned when the resource is dereferenced", and that header
+     routinely carries a charset parameter. Comparing the raw string dropped
+     these captions. */
+  it("accepts a caption format that carries parameters", () => {
+    expect(
+      isCaptionResource({
+        id: "https://example.org/captions",
+        type: "Text",
+        format: "text/vtt; charset=utf-8",
+      }),
+    ).toBe(true);
+    expect(
+      isCaptionResource({
+        id: "https://example.org/captions",
+        format: "TEXT/VTT ; charset=UTF-8",
+      }),
+    ).toBe(true);
+  });
+
+  it("accepts the non-standard text/webvtt published in the wild", () => {
+    expect(
+      isCaptionResource({ id: "https://example.org/c", format: "text/webvtt" }),
+    ).toBe(true);
+  });
+
+  /* A `<track>` renders WebVTT and nothing else, so a SubRip body would add a
+     caption menu entry that displays nothing when chosen. Indiana's Avalon
+     publishes SubRip as `supplementing` transcripts, never as captions: in 400
+     of their manifests every `/captions` body is `text/vtt`, while `text/srt`
+     and `application/x-subrip` appear only under `/transcripts`. */
+  it("rejects SubRip, which a track cannot render", () => {
+    expect(
+      isCaptionResource({ id: "https://example.org/c", format: "text/srt" }),
+    ).toBe(false);
+    expect(
+      isCaptionResource({
+        id: "https://example.org/c",
+        format: "application/x-subrip",
+      }),
+    ).toBe(false);
+    expect(isCaptionResource({ id: "https://example.org/c.srt" })).toBe(false);
+  });
+
+  /* `format` is a SHOULD, not a MUST. Captions served from an extensionless
+     URL are common, so a body without a format is kept when it is
+     dereferenceable — dropping a real caption is worse than keeping a dead
+     menu entry. */
+  it("accepts a dereferenceable resource that declares no format", () => {
+    expect(
+      isCaptionResource({
+        id: "https://example.org/master_files/1/captions",
+        type: "Text",
+      }),
+    ).toBe(true);
+  });
+
+  it("accepts an extension behind a query string or fragment", () => {
+    expect(isCaptionResource({ id: "https://example.org/c.vtt?v=2" })).toBe(true);
+    expect(isCaptionResource({ id: "https://example.org/c.VTT#t=0" })).toBe(true);
+  });
+
+  /* A real case: Wellcome Collection publishes a PDF transcript as a
+     `supplementing` body on a video canvas. The browser was being asked to
+     parse a PDF as WebVTT. */
+  it("rejects a PDF transcript published as a supplementing body", () => {
+    expect(
+      isCaptionResource({
+        id: "https://iiif.wellcomecollection.org/file/b16659090_0001.pdf",
+        type: "Text",
+        format: "application/pdf",
+      }),
+    ).toBe(false);
+  });
+
+  /* The browser rejects a track whose response is not text/vtt, so a body
+     that declares text/plain is not usable even when its URL ends in .vtt. */
+  it("rejects a declared non-caption format even with a caption extension", () => {
+    expect(
+      isCaptionResource({ id: "https://example.org/c.vtt", format: "text/plain" }),
+    ).toBe(false);
+  });
+
+  it("rejects a relative id that declares no format", () => {
+    expect(isCaptionResource({ id: "/local/thing" })).toBe(false);
+  });
+
+  /* A recognisable extension that is not a caption extension settles it, so
+     the extensionless allowance above does not swallow every other file. */
+  it("rejects a non-caption extension when no format is declared", () => {
+    expect(isCaptionResource({ id: "https://example.org/notes.txt" })).toBe(false);
+    expect(isCaptionResource({ id: "https://example.org/t.pdf" })).toBe(false);
+  });
+
+  /* Not handled here: Cookbook recipe 0074 wraps two WebVTT files in a
+     `Choice`, which has no id of its own. It was never rendered before this
+     change either — the Vault-minted id was unfetchable — so this is not a
+     regression, but expanding `Choice.items` would make that recipe work. */
+  it("rejects a Choice, which carries no id a track can fetch", () => {
+    expect(isCaptionResource({ type: "Choice" })).toBe(false);
   });
 });

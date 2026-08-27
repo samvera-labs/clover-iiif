@@ -354,12 +354,12 @@ const Player: React.FC<PlayerProps> = ({
               });
             });
 
-            return annotationBodies.map((body, index) => {
+            return annotationBodies.map((body) => {
               return (
                 <Track
                   resource={body}
                   ignoreCaptionLabels={configOptions.ignoreCaptionLabels || []}
-                  key={`${annotationPage.id}-${body.id}-${index}`}
+                  key={`${annotationPage.id}-${body.id}`}
                 />
               );
             });
