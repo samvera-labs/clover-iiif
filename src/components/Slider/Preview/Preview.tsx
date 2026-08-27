@@ -4,8 +4,7 @@ import { Controls, Label, Overlay, PreviewStyled } from "./Preview.styled";
 import React, { useEffect, useState } from "react";
 
 import { Manifest } from "@iiif/presentation-3";
-import { NextIcon } from "src/components/Slider/Icons/NextIcon";
-import { PreviousIcon } from "src/components/Slider/Icons/PrevIcon";
+import { NextIcon, PreviousIcon } from "src/components/Shared/Control/Icons";
 
 interface PreviewProps {
   activeCanvas: number;

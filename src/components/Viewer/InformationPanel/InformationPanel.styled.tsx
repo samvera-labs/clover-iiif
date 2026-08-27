@@ -63,12 +63,16 @@ const Trigger = styled(Tabs.Trigger, {
     transform: "translateY(1rem)",
     marginRight: "0.618rem",
     zIndex: "2",
-    background: "$primary",
-    color: "$secondary",
+    /*
+     * This is the information panel toggle on a small viewport — same icon, same job as
+     * `PanelToggle`, just the one that shows when the panel is full width. It carries the
+     * same inverted palette, which it was missing because it never renders above `@sm`.
+     */
+    background: "$secondary",
+    color: "$primary",
     borderRadius: "50%",
     opacity: "1",
     fontWeight: "400",
-    boxShadow: "2px 2px 5px #0003",
 
     svg: {
       width: "1.25rem",
@@ -77,6 +81,7 @@ const Trigger = styled(Tabs.Trigger, {
 
     "&:hover, &:focus-visible": {
       background: "$accent",
+      color: "$secondary",
     },
 
     "&::after": {

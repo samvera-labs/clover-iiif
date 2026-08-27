@@ -33,7 +33,9 @@ const StyledClose = styled(Popover.Close, {
 });
 
 const StyledContent = styled(Popover.Content, {
-  border: "none",
+  // An edge, since there is no shadow to give it one. This floats over page content, and a
+  // white panel with neither border nor shadow has no boundary at all.
+  border: "1px solid #6663",
   backgroundColor: "white",
   fill: "inhrerit",
   padding: "1rem 2rem 1rem 1rem",
@@ -41,7 +43,6 @@ const StyledContent = styled(Popover.Content, {
   minWidth: "200px",
   maxWidth: "350px",
   borderRadius: "3px",
-  boxShadow: "5px 5px 13px #0002",
 
   /**
    * Animate toggle

@@ -51,8 +51,13 @@ export interface CloverViewerProps {
    * Any subset may be given; unset tokens keep their defaults. Keys outside that set
    * are ignored.
    *
-   * @deprecated Set the `--clover-color-*` and `--clover-font-*` CSS custom properties
-   * instead — on any ancestor element, or in a stylesheet. They reach every component
+   * `fonts.sans` becomes a plain `font-family` on the wrapper, because components inherit
+   * their type rather than reading a font token. `fonts.display` is accepted and ignored,
+   * as it always effectively was — nothing in the library referenced it. For type alone,
+   * setting `font-family` on any ancestor is enough and needs no prop.
+   *
+   * @deprecated Set the `--clover-color-*` CSS custom properties instead — on any
+   * ancestor element, or in a stylesheet. They reach every component
    * (including a nested Image or Map), work without a prop, and can be scoped or
    * changed at runtime. `customTheme` remains fully supported and is planned for
    * removal in the next major version.

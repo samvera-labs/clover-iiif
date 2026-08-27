@@ -22,9 +22,11 @@ const Item = styled("button", {
   margin: "0",
   fontFamily: "inherit",
   background: "none",
-  backgroundColor: "$primary",
+  // Inverted to match the other control bars: secondary surface at rest, accent on
+  // interaction. `color` was a literal `white`, which ignored the theme entirely.
+  backgroundColor: "$secondary",
   border: "none",
-  color: "white",
+  color: "$primary",
   cursor: "pointer",
   marginLeft: "0.618rem",
   transition: "$all",
@@ -47,14 +49,20 @@ const Item = styled("button", {
     height: "60%",
     width: "60%",
     padding: "20%",
-    fill: "$secondary",
-    stroke: "$secondary",
+    fill: "$primary",
+    stroke: "$primary",
     transition: "$all",
     boxSizing: "inherit",
   },
 
   "&:hover, &:focus": {
     backgroundColor: "$accent",
+    color: "$secondary",
+
+    svg: {
+      fill: "$secondary",
+      stroke: "$secondary",
+    },
   },
 });
 

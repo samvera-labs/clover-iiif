@@ -206,9 +206,10 @@
   --clover-color-secondary-muted: var(--gray-3);
   --clover-color-secondary-alt: var(--gray-6);
 
-  /* Clover's components take their type from the host page too. */
-  --clover-font-sans: var(--font-sans);
-  --clover-font-display: var(--font-display);
+  /*
+   * No font property. Clover's components inherit their type from whatever contains
+   * them, and `html, body` below already sets it.
+   */
 }
 
 /* ── Typography ──────────────────────────────────────────────────────────────

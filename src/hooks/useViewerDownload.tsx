@@ -39,5 +39,14 @@ export default function useViewerDownload() {
   return {
     allPages,
     individualPages,
+    /*
+     * Whether the resource offers anything to download at all.
+     *
+     * Returned from here so the rule lives in one place. The header needs to know before it
+     * draws the options bar — `showDownload` only says the consumer wants the button, not
+     * that the Manifest or Canvas has any `rendering` to hang off it, and a bar built on the
+     * option alone was left holding an invisible box.
+     */
+    hasDownload: allPages.length > 0 || individualPages.length > 0,
   };
 }

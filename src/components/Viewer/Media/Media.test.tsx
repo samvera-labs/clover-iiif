@@ -54,7 +54,7 @@ describe("Media component", () => {
 
   it("renders the search toggle by default", () => {
     render(<Media items={items} activeItem={0} />);
-    expect(document.querySelector(".clover-viewer-media-search")).toBeTruthy();
+    expect(document.querySelector(".clover-slider-search")).toBeTruthy();
   });
 
   it("hides the search toggle when showMediaSearch is false", () => {
@@ -67,6 +67,6 @@ describe("Media component", () => {
       </ViewerProvider>,
     );
 
-    expect(document.querySelector(".clover-viewer-media-search")).toBeNull();
+    expect(document.querySelector(".clover-slider-search")).toBeNull();
   });
 });

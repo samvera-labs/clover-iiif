@@ -36,7 +36,10 @@ const StyledScrollWrapper = styled("section", {
   ...themeVarBridge,
   margin: "0",
   gap: "1rem",
-  fontFamily: "$sans",
+  /*
+   * Inherited, not tokenised. Clover takes its type from whatever contains it.
+   */
+  fontFamily: "inherit",
   position: "relative",
   zIndex: 0,
 });

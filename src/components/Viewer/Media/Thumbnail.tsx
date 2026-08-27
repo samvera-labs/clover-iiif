@@ -58,7 +58,18 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   const [load, setLoad] = useState(false);
   const [thumbnail, setThumbnail] = useState<string>();
   const state: ViewerContextStore = useViewerState();
-  const { vault } = state;
+  const { configOptions, vault } = state;
+
+  /*
+   * The badge carries two separate things, and only one of them is an icon.
+   *
+   * `showResourceIcons` governs the type glyph. A duration is not an icon — it is the only
+   * place the rail states how long a time-based canvas runs — so it keeps showing either
+   * way, and the badge renders whenever it has something to say.
+   */
+  const hasDuration = ["Video", "Sound"].includes(type);
+  const showResourceIcon = Boolean(configOptions.showResourceIcons);
+  const showBadge = showResourceIcon || hasDuration;
 
   const size = 200;
 
@@ -94,6 +105,16 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
     setLoad(isVisible);
   };
 
+  /*
+   * Whether the thumbnail itself has arrived, which is a later moment than `load`.
+   *
+   * `load` records that the tile came on screen and the request may begin; this records that
+   * the image is actually there to show. `onError` counts as settled on purpose — a
+   * thumbnail that fails would otherwise stay at zero opacity, taking its alt text with it.
+   */
+  const [isLoaded, setIsLoaded] = useState(false);
+  const settle = () => setIsLoaded(true);
+
   return (
     <Item
       aria-checked={isActive}
@@ -103,7 +124,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
       value={canvas.id}
     >
       <figure>
-        <FigureImage>
+        <FigureImage data-loaded={isLoaded}>
           <LazyLoad
             isVisibleCallback={handleIsVisibleCallback}
             attributes={{
@@ -116,22 +137,35 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
               <img
                 alt={label}
                 data-testid="media-thumbnail-image"
+                onError={settle}
+                onLoad={settle}
                 src={thumbnail}
               />
             )}
           </LazyLoad>
           <Outline />
-          <Type>
-            <Tag isIcon data-testid="thumbnail-tag">
-              <Spacer />
-              <Icon aria-label={type}>
-                <IconPath type={type} />
-              </Icon>
-              {["Video", "Sound"].includes(type) && (
-                <Duration>{convertTime(canvas.duration as number)}</Duration>
-              )}
-            </Tag>
-          </Type>
+          {showBadge && (
+            <Type>
+              {/*
+               * `isIcon` only when the glyph is there: the variant reserves room for it with
+               * `paddingLeft`, which would otherwise leave a duration badge padded against
+               * nothing.
+               */}
+              <Tag isIcon={showResourceIcon} data-testid="thumbnail-tag">
+                {showResourceIcon && (
+                  <>
+                    <Spacer />
+                    <Icon aria-label={type}>
+                      <IconPath type={type} />
+                    </Icon>
+                  </>
+                )}
+                {hasDuration && (
+                  <Duration>{convertTime(canvas.duration as number)}</Duration>
+                )}
+              </Tag>
+            </Type>
+          )}
         </FigureImage>
         <figcaption data-testid="fig-caption">
           {canvas.label ? (

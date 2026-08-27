@@ -20,7 +20,6 @@ const StyledSelectButton = styled(Select.Trigger, {
   cursor: "pointer",
   transition: "$all",
   border: "1px solid #6663",
-  boxShadow: "2px 2px 5px #0001",
   borderRadius: "3px",
   display: "flex",
   alignItems: "center",
@@ -34,7 +33,6 @@ const StyledSelectButton = styled(Select.Trigger, {
 
 const StyledSelectContent = styled(Select.Content, {
   borderRadius: "3px",
-  boxShadow: "3px 3px 8px #0003",
   backgroundColor: "$secondary",
   paddingBottom: "0.25rem",
   maxHeight: "calc(61.8vh - 2.5rem) !important",

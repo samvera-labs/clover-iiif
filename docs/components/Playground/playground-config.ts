@@ -77,18 +77,6 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
     controls: [
       {
         kind: "toggle",
-        path: "informationPanel.open",
-        label: "Information panel",
-        default: true,
-      },
-      {
-        kind: "toggle",
-        path: "informationPanel.renderCanvasSummary",
-        label: "Canvas summary",
-        default: false,
-      },
-      {
-        kind: "toggle",
         path: "showTitle",
         label: "Title",
         default: true,
@@ -97,20 +85,51 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
         kind: "toggle",
         path: "showIIIFBadge",
         label: "IIIF badge",
-        default: true,
+        default: false,
       },
       {
         kind: "toggle",
         path: "showDownload",
         label: "Download",
-        default: true,
+        default: false,
+      },
+      /*
+       * CSS custom properties rather than props — the `--` prefix is what tells the panel
+       * to apply them to the stage. Thumbnails are square by default, derived from the
+       * width; a height only needs setting to break that ratio.
+       */
+      {
+        kind: "select",
+        path: "--clover-thumbnail-width",
+        label: "Thumbnail width",
+        hint: "CSS: --clover-thumbnail-width.",
+        default: "",
+        options: [
+          { value: "", label: "161.8px (default)" },
+          { value: "100px", label: "100px" },
+          { value: "240px", label: "240px" },
+        ],
+      },
+      {
+        kind: "select",
+        path: "--clover-thumbnail-height",
+        label: "Thumbnail height",
+        hint: "Unset means square, derived from the width.",
+        default: "",
+        options: [
+          { value: "", label: "1:1 from width" },
+          { value: "100px", label: "100px" },
+          { value: "61.8px", label: "61.8px" },
+        ],
       },
       {
         kind: "select",
         path: "canvasHeight",
         label: "Canvas height",
-        default: "500px",
+        hint: "Unset falls back to Clover's own 500px.",
+        default: "",
         options: [
+          { value: "", label: "unset" },
           { value: "320px", label: "320px" },
           { value: "500px", label: "500px" },
           { value: "70vh", label: "70vh" },
@@ -181,21 +200,105 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
     displayName: "Slider",
     docsHref: "/docs/slider",
     resourceProp: "iiifContent",
-    controlTarget: "options",
+    // `behavior` is a top-level prop, not an `options` key.
+    controlTarget: "props",
     defaultResource: demoResources.slider,
     blurb: "Browse items in a carousel",
+    /*
+     * No "slides per view": slides are sized by their own content now, so how many are
+     * visible follows from the viewport. What is worth turning is the layout behavior,
+     * which decides whether items stand alone or pair into spreads.
+     */
     controls: [
       {
         kind: "select",
-        path: "breakpoints.0.slidesPerView",
-        label: "Slides per view",
-        default: "4",
+        path: "behavior",
+        // Empty means "send no prop", so the Slider reads the resource's own behavior.
+        // Defaulting to a concrete value would silently override every resource and hide
+        // the inference entirely.
+        default: "",
+        label: "Behavior",
         options: [
-          { value: "2", label: "2" },
-          { value: "3", label: "3" },
-          { value: "4", label: "4" },
-          { value: "6", label: "6" },
+          { value: "", label: "From resource" },
+          { value: "individuals", label: "individuals" },
+          { value: "paged", label: "paged" },
+          { value: "continuous", label: "continuous" },
+          { value: "unordered", label: "unordered" },
         ],
+      },
+      /*
+       * The embedding seams. Turning these together is what makes the Slider read as a
+       * rail inside another component rather than a carousel in its own right — which is
+       * exactly how the Viewer's canvas navigation uses it.
+       */
+      {
+        kind: "toggle",
+        path: "showHeader",
+        label: "Header",
+        hint: "Label, summary and prev/next. Off when the host supplies its own.",
+        default: true,
+      },
+      {
+        kind: "toggle",
+        path: "search",
+        label: "Filter",
+        hint: "Adds a filter control to the header. The Viewer's rail turns this on.",
+        default: false,
+      },
+      {
+        kind: "select",
+        path: "--clover-thumbnail-width",
+        label: "Thumbnail width",
+        hint: "CSS: --clover-thumbnail-width. The same property the Viewer's rail reads.",
+        default: "",
+        options: [
+          { value: "", label: "15rem (default)" },
+          { value: "161.8px", label: "161.8px (Viewer rail)" },
+          { value: "8rem", label: "8rem" },
+          { value: "20rem", label: "20rem" },
+        ],
+      },
+      {
+        kind: "select",
+        path: "--clover-thumbnail-height",
+        label: "Thumbnail height",
+        hint: "Unset means square, derived from the width.",
+        default: "",
+        options: [
+          { value: "", label: "1:1 from width" },
+          { value: "100px", label: "100px" },
+          { value: "20rem", label: "20rem" },
+        ],
+      },
+      {
+        kind: "select",
+        path: "slidesToScroll",
+        label: "Slides per snap",
+        hint: "1 makes a snap mean one slide; auto pages by what fits.",
+        default: "auto",
+        options: [
+          { value: "auto", label: "auto (what fits)" },
+          { value: "1", label: "1" },
+          { value: "2", label: "2" },
+        ],
+      },
+      {
+        kind: "select",
+        path: "align",
+        label: "Align",
+        default: "center",
+        options: [
+          { value: "center", label: "center" },
+          { value: "start", label: "start" },
+          { value: "end", label: "end" },
+        ],
+      },
+      {
+        kind: "toggle",
+        path: "dragFree",
+        label: "Drag free",
+        hint: "Scroll freely instead of settling on snap boundaries.",
+        default: false,
       },
     ],
   },
@@ -342,8 +445,15 @@ export const setPath = (
 };
 
 /**
- * Coerces a control's string value back to the type the component expects —
- * `slidesPerView` and `offset` are numbers, everything else stays a string.
+ * Coerces a control's string value back to the type the component expects.
+ *
+ * `slidesToScroll` is the awkward one: it takes a number *or* the literal `"auto"`, and
+ * Embla decides between grouping modes with a `typeof` check. Leaving `"1"` a string would
+ * silently land in auto-grouping and read as the control having no effect.
  */
-export const coerce = (path: string, value: string): string | number =>
-  /slidesPerView|offset/.test(path) ? Number(value) : value;
+export const coerce = (path: string, value: string): string | number => {
+  if (/offset/.test(path)) return Number(value);
+  if (/slidesToScroll/.test(path))
+    return value === "" || Number.isNaN(Number(value)) ? value : Number(value);
+  return value;
+};

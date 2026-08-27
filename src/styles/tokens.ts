@@ -49,18 +49,16 @@ export const defaultColors = {
   secondaryAlt: "#C1C8CD",
 } as const;
 
-/**
- * Clover has never applied a font family of its own — components inherit from
- * the host page. `inherit` keeps that behavior while making the `fonts` half of
- * the documented `customTheme` prop actually take effect when it is set.
+/*
+ * There is no font token, by design.
+ *
+ * Clover applies `font-family: inherit` and takes its type from whatever contains it, so
+ * there is nothing for a consumer to set and nothing for the style layer to resolve. A
+ * `--clover-font-*` custom property would only be a longer way of writing the font the page
+ * already has.
  */
-export const defaultFonts = {
-  sans: "inherit",
-  display: "inherit",
-} as const;
 
 export type CloverColorToken = keyof typeof defaultColors;
-export type CloverFontToken = keyof typeof defaultFonts;
 
 /** `primaryMuted` -> `--clover-color-primary-muted` */
 export const cssVarName = (group: string, token: string) =>
@@ -82,7 +80,6 @@ const toVarRefs = <T extends Record<string, string>>(
  * `accent: "var(--clover-color-accent, #0065C3)"`.
  */
 export const colorVarRefs = toVarRefs("color", defaultColors);
-export const fontVarRefs = toVarRefs("font", defaultFonts);
 
 /**
  * Re-derives the style layer's own custom properties from the `--clover-*`
@@ -99,20 +96,12 @@ export const fontVarRefs = toVarRefs("font", defaultFonts);
  * `var(--clover-color-accent)` at the point of use, substitution always happens
  * in the element's own context.
  */
-export const themeVarBridge: Record<string, string> = {
-  ...Object.fromEntries(
-    Object.entries(colorVarRefs).map(([token, ref]) => [
-      `--colors-${token}`,
-      ref,
-    ]),
-  ),
-  ...Object.fromEntries(
-    Object.entries(fontVarRefs).map(([token, ref]) => [
-      `--fonts-${token}`,
-      ref,
-    ]),
-  ),
-};
+export const themeVarBridge: Record<string, string> = Object.fromEntries(
+  Object.entries(colorVarRefs).map(([token, ref]) => [
+    `--colors-${token}`,
+    ref,
+  ]),
+);
 
 /**
  * Reads a token's *resolved* value from the DOM.
@@ -153,7 +142,7 @@ export const resolveCloverColor = (
  */
 export const customThemeToCssVars = (customTheme?: {
   colors?: Partial<Record<CloverColorToken, string>>;
-  fonts?: Partial<Record<CloverFontToken, string>>;
+  fonts?: { sans?: string; display?: string };
 }): CSSProperties => {
   if (!customTheme) return {};
 
@@ -164,10 +153,15 @@ export const customThemeToCssVars = (customTheme?: {
       style[cssVarName("color", token)] = value;
   });
 
-  Object.entries(customTheme.fonts ?? {}).forEach(([token, value]) => {
-    if (value && token in defaultFonts)
-      style[cssVarName("font", token)] = value;
-  });
+  /*
+   * A font becomes a plain `font-family` on the wrapper, not a custom property.
+   *
+   * Components inherit their type, so setting the family on the element they sit in is all
+   * that is needed — and it is the only thing that still works now that there is no font
+   * token to point at. `display` is accepted for shape compatibility and ignored, as it
+   * always effectively was: nothing in the library ever referenced it.
+   */
+  if (customTheme.fonts?.sans) style.fontFamily = customTheme.fonts.sans;
 
   return style as CSSProperties;
 };

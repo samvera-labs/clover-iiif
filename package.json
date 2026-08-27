@@ -110,6 +110,7 @@
     "@stitches/react": "^1.2.8",
     "dompurify": "^3.0.2",
     "embla-carousel-react": "^8.6.0",
+    "embla-carousel-wheel-gestures": "^8.1.0",
     "flexsearch": "^0.7.43",
     "hls.js": "^1.5.17",
     "i18next": "^23.16.5",

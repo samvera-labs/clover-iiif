@@ -13,17 +13,30 @@ import {
  */
 
 export const demoResources = {
-  /** Commedia dell'Arte mask. Rich metadata, good for the information panel. */
+  /**
+   * A 138-canvas manuscript notebook declaring `behavior: ["paged"]`.
+   *
+   * Chosen over the single-canvas mask that used to sit here because the interesting
+   * parts of both components only appear at length: a thumbnail rail worth scrolling,
+   * spreads that must pair two-up, and a `behavior` the Slider can actually read.
+   */
   viewer:
-    "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif",
+    "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif",
 
   /** Multi-language Maktaba manuscript, paged for vertical reading. */
   scroll:
     "https://iiif-maktaba.dc.library.northwestern.edu/dc8ff749-adad-42a7-81e0-0eb473ef88a5.json",
 
-  /** A Collection, which is what Slider consumes. */
+  /**
+   * The same paged notebook as the Viewer.
+   *
+   * A Manifest rather than a Collection, which the Slider handles because it renders
+   * whatever `items` the resource carries — Canvases here instead of Manifests. It also
+   * declares `paged`, so it demonstrates the Slider grouping items into spreads off the
+   * resource's own behavior rather than being told to.
+   */
   slider:
-    "https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif",
+    "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif",
 
   /** A plain Image API endpoint — no Manifest involved. */
   image:

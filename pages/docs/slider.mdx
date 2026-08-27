@@ -4,12 +4,13 @@ title: Slider
 
 import Slider from "docs/components/DynamicImports/Slider";
 import IIIFBadge from "docs/components/IIIFBadge";
+import { Callout } from "nextra/components";
 import { Tabs, Tab } from "nextra/components";
 import { Steps } from "nextra/components";
 
 # Slider
 
-A UI component that renders an item carousel for the contents of a IIIF Collection using [Embla Carousel](https://www.embla-carousel.com/).
+A UI component that renders an item carousel for the contents of a IIIF Collection — or for any Presentation API `items` array you hand it — using [Embla Carousel](https://www.embla-carousel.com/).
 
 <IIIFBadge
   href="https://iiif.io/api/presentation/3.0/#21-defined-types"
@@ -34,6 +35,8 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Collect
 - Transcribes `homepage` as an `<a>` wrapping each item "slide"
 - Supports custom breakpoints to display customized slide counts
 - Supports callback `onItemInteraction` to override default "slide" behavior
+- Doubles as a rail inside another component — the `Viewer`'s canvas navigation is this
+  component. See [Two Ways to Use It](#two-ways-to-use-it)
 
 ## Installation
 
@@ -81,22 +84,172 @@ Render the slider with IIIF Collection URI. The only required prop is the `iiifC
   </Tab>
 </Tabs>
 
+## Two Ways to Use It
+
+`Slider` is one carousel serving two jobs. Which one you get depends on whether you let it
+draw its own slides or hand it something else to draw.
+
+### A carousel of links
+
+The default. Give it a Collection and each slide becomes an `<a>` whose `href` is that item's
+`homepage[0].id` — so a click leaves for wherever the resource says it lives. An item without a
+`homepage` falls back to `#`, and the Collection's own `homepage` becomes the header's _View
+All_ link.
+
+```jsx
+<Slider iiifContent="https://example.org/collection.json" />
+```
+
+To route a click yourself instead of following the link, pass `onItemInteraction`. It receives
+the whole item and suppresses the navigation, which is what you want inside a single-page app
+that has its own router. See [Custom Interactions](#custom-interactions).
+
+```jsx
+<Slider
+  iiifContent="https://example.org/collection.json"
+  onItemInteraction={(item) =>
+    router.push(`/items/${encodeURIComponent(item.id)}`)
+  }
+/>
+```
+
+### A rail inside another component
+
+The `Viewer`'s canvas navigation is this component. Nothing about it is Viewer-specific: the
+carousel, its arrows, its filter and its counter are the Slider's, and what the Viewer supplies
+is the part only it can know — which canvases exist, what a step means, and what a slide should
+look like.
+
+```jsx
+<Slider
+  /* draw my slides, not yours */
+  renderItem={(group) => <Thumbnail group={group} />}
+  items={groups}
+  /* keep my selection centred; one slide per snap so the index addresses a slide */
+  activeIndex={activeGroupIndex}
+  slidesToScroll={1}
+  /* the arrows step my sequence and show a counter, rather than scrolling the rail */
+  pager={{
+    current: canvasIndex + 1,
+    total: canvases.length,
+    onStep: stepCanvas,
+  }}
+  /* I own the filtering, because only I can tell what a query matches */
+  search
+  onSearch={setFilter}
+  /* I own the region's semantics: a radio group around the slides, not the header */
+  presentational
+  wrapItems={(slides) => <RadioGroup.Root>{slides}</RadioGroup.Root>}
+/>
+```
+
+The distinction that matters is `renderItem`. Supply it and the anchor-and-figure slide is
+gone, along with the homepage link — a slide is whatever you return, and clicks are yours to
+handle. Leave it out and you are in carousel mode.
+
+Each of those props is described under [Controls](#controls) and [Embedding](#embedding).
+
 ## API Reference
 
-`Viewer` can configured through an `options` prop, which will serve as a object for common options.
+Give `Slider` either a resource to fetch or a list of items to render. Everything else is optional.
 
-| Prop                          | Type                             | Required | Default |
-| ----------------------------- | -------------------------------- | -------- | ------- |
-| `iiifContent`                 | `string`                         | Yes      |         |
-| `collectionId` _(deprecated)_ | `string`                         | No       |         |
-| `onItemInteraction`           | `function`                       | No       |         |
-| `options.breakpoints`         | `SliderBreakpoints`              | No       |         |
-| `options.credentials`         | `omit`, `same-origin`, `include` | No       | `omit`  |
-| `options.customViewAll`       | `string`                         | No       |         |
+### Content
+
+| Prop                          | Type                                                            | Default                                    | Notes                                                                                                |
+| ----------------------------- | --------------------------------------------------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| `iiifContent`                 | `string`                                                        |                                            | URL of a IIIF resource to fetch. Optional when `items` is given.                                     |
+| `items`                       | `unknown[]`                                                     |                                            | An already-resolved Presentation API `items` array, rendered with no fetch. Wins over `iiifContent`. |
+| `behavior`                    | `"individuals"` \| `"paged"` \| `"continuous"` \| `"unordered"` | read from the resource, else `individuals` | IIIF layout behavior. See [Behavior](#behavior).                                                     |
+| `label`                       | `InternationalString`                                           | the resource's `label`                     | Heading text. Needed with `items`, where there is no resource to read it from.                       |
+| `summary`                     | `InternationalString`                                           | the resource's `summary`                   | Sub-heading text.                                                                                    |
+| `onItemInteraction`           | `(item: SliderItem) => void`                                    |                                            | Called instead of following the item's `homepage` link.                                              |
+| `collectionId` _(deprecated)_ | `string`                                                        |                                            | Use `iiifContent`.                                                                                   |
+
+### Options
+
+Passed together as an `options` object.
+
+| Prop                    | Type                                       | Default                   | Notes                                                                                            |
+| ----------------------- | ------------------------------------------ | ------------------------- | ------------------------------------------------------------------------------------------------ |
+| `options.breakpoints`   | `SliderBreakpoints`                        |                           | Per-viewport `spaceBetween` and `slidesPerGroup`. See [Custom Breakpoints](#custom-breakpoints). |
+| `options.credentials`   | `"omit"` \| `"same-origin"` \| `"include"` | `"omit"`                  | Passed to `fetch` when loading `iiifContent`.                                                    |
+| `options.customViewAll` | `string`                                   | the resource's `homepage` | URL for the header's _View All_ link.                                                            |
+
+### Controls
+
+The header's prev/next buttons are always there. A counter and a filter are opt-in, and the `Viewer` turns both on — its canvas rail is this same header, not a second implementation of one.
+
+| Prop       | Type                      | Default | Notes                                                                                                    |
+| ---------- | ------------------------- | ------- | -------------------------------------------------------------------------------------------------------- |
+| `search`   | `boolean`                 | `false` | Render a filter control in the header.                                                                   |
+| `onSearch` | `(query: string) => void` |         | Receives the query and takes the filtering over. Without it the Slider filters `items` itself, by label. |
+| `pager`    | `SliderPager`             |         | A position in your own sequence. Shows a counter, and hands the arrows to `onStep`.                      |
+| `isRtl`    | `boolean`                 | `false` | Right-to-left control order, for a paged resource read that way.                                         |
+
+Left to itself, `search` narrows the Slider's own `items` by label. Pass `onSearch` when only you can tell what a query matches — the `Viewer`'s slides are paged groups of canvas indices with no label of their own, so it filters and hands back a shorter list. Either way the carousel just re-measures on the new count.
+
+```ts
+interface SliderPager {
+  current: number; // 1-based, matching what the counter shows
+  total: number;
+  onStep: (step: -1 | 1) => void;
+}
+```
+
+`pager` changes what the arrows do. Without one they scroll the rail, which is what a Collection carousel wants. With one they step your sequence and the rail follows the selection through `activeIndex` — the `Viewer`'s arrows change the canvas on show rather than sliding the thumbnails out from under it. Availability follows from `current`: the back arrow is dead at `1`, the forward arrow at `total`.
+
+The counter is free to count in different units than the slides. The `Viewer` counts canvases while its slides are paged spreads, because a reader of a manuscript is on a page, not on a spread.
+
+### Embedding
+
+Seams for using `Slider` as a subcomponent, the way the `Viewer`'s canvas rail does. Skip these for a standalone carousel.
+
+| Prop             | Type                                          | Default         | Notes                                                                                                             |
+| ---------------- | --------------------------------------------- | --------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `renderItem`     | `(item: unknown, index: number) => ReactNode` | a linked figure | Draw a slide's contents yourself. Called once per item, so a `paged` slide calls it twice.                        |
+| `activeIndex`    | `number`                                      |                 | Index to keep centred. Changing it scrolls the track — this is how a host keeps its own selection in view.        |
+| `showHeader`     | `boolean`                                     | `true`          | Hide the label, summary and controls when the host supplies its own.                                              |
+| `presentational` | `boolean`                                     | `false`         | Drop the carousel ARIA so the host can own the semantics. Required when the rail sits inside another widget role. |
+| `align`          | `"start"` \| `"center"` \| `"end"`            | `"center"`      | Where a scrolled-to slide comes to rest.                                                                          |
+| `dragFree`       | `boolean`                                     | `false`         | Scroll freely instead of settling on snap boundaries.                                                             |
+| `slidesToScroll` | `number` \| `"auto"`                          | `"auto"`        | Slides per snap. `1` makes `activeIndex` address a single slide; `"auto"` pages by whatever fits.                 |
+| `wrapItems`      | `(items: ReactNode) => ReactNode`             | identity        | Wrap the slides, and only the slides, so you can own the region's semantics without enclosing the header.         |
+
+<Callout emoji="⚠️">
+  `presentational` is not cosmetic. Nesting the carousel's `role="group"` slides
+  inside another widget role is invalid, and enough to stop a radio group
+  handing out its single roving tab stop — which leaves the rail unreachable by
+  keyboard.
+</Callout>
+
+### Sizing
+
+Slides are sized by their own content, and the track is the sum of their widths — so how many are visible follows from the viewport rather than being divided into it. There is deliberately no `slidesPerView`. Set the size in CSS:
+
+```css
+body {
+  --clover-thumbnail-width: 12rem; /* the Slider defaults to 15rem */
+}
+```
+
+Cards are square, sized from that width, unless a height is set:
+
+```css
+body {
+  --clover-thumbnail-width: 20rem;
+  --clover-thumbnail-height: 12rem;
+}
+```
+
+These are the same two properties the `Viewer`'s canvas thumbnails read, so one declaration scales every thumbnail in the library at once. The Slider only differs in what it falls back to when neither is set — `15rem`, against the rail's `161.8px`, because a carousel standing on its own wants a larger card than a strip tucked under a viewer. See [Thumbnail size](/docs/viewer#thumbnail-size).
+
+The prev/next controls advance by whatever currently fits the viewport, and centre it. That follows from slides being content-sized: a fixed count cannot know how many are on screen, so it would page past what the reader can see.
 
 ### Custom Breakpoints
 
-`Slider` ships with sensible default breakpoints. You may customize your own by passing in a `breakpoints` object, where each key is a min-width pixel value and each value sets `slidesPerView`, `slidesPerGroup`, and/or `spaceBetween` for widths at or above that breakpoint:
+Pass a `breakpoints` object to change the gutter or pin the paging, where each key is a min-width pixel value and each value applies at or above that width.
+
+`spaceBetween` takes any CSS length — a bare number is treated as pixels, which is how this option has always behaved. `slidesPerGroup` pins the advance to a fixed number of slides instead of a viewportful, which is only useful if you have also fixed the card width.
 
 ```tsx
 const MyCustomSlider = () => {
@@ -105,17 +258,14 @@ const MyCustomSlider = () => {
 
   const customBreakpoints = {
     320: {
-      slidesPerView: 2,
       slidesPerGroup: 2,
       spaceBetween: 20,
     },
     480: {
-      slidesPerView: 3,
       slidesPerGroup: 3,
       spaceBetween: 30,
     },
     640: {
-      slidesPerView: 4,
       slidesPerGroup: 4,
       spaceBetween: 40,
     },
@@ -131,6 +281,25 @@ const MyCustomSlider = () => {
   );
 };
 ```
+
+## Behavior
+
+`Slider` lays items out according to the IIIF [`behavior`](https://iiif.io/api/presentation/3.0/#behavior) declared by the resource it opens, and falls back to `individuals` — the specification's own default — when none is declared.
+
+Pass `behavior` to override it. This is also how you set the layout when handing the component an `items` array directly, since there is no resource to read it from:
+
+```jsx
+<Slider iiifContent="https://example.org/collection.json" behavior="paged" />
+```
+
+| Value         | Layout                                                                                        |
+| ------------- | --------------------------------------------------------------------------------------------- |
+| `individuals` | One item per slide. The default.                                                              |
+| `paged`       | Items are paired into spreads, opening on a lone cover so later slides are recto/verso.       |
+| `continuous`  | One item per slide with the gutter closed, so the sequence reads as a single unbroken object. |
+| `unordered`   | One item per slide; the order carries no meaning.                                             |
+
+Only the specification's _layout_ behaviors are accepted. `facing-pages` and `non-paged` describe a single Canvas rather than the sequence, and the temporal, collection and range behaviors say nothing about layout, so all are ignored here.
 
 ### Custom Interactions
 

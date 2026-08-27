@@ -9,12 +9,10 @@ const Navigator = styled("div", {
   width: "161.8px",
   height: "100px",
   backgroundColor: "#000D",
-  boxShadow: "5px 5px 5px #0002",
   borderRadius: "3px",
 
   ".displayregion": {
     border: " 3px solid $accent !important",
-    boxShadow: "0 0 3px #0006",
   },
 
   "@sm": {

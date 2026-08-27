@@ -13,12 +13,13 @@ const ToggleStyled = styled(ButtonStyled, {
   textAlign: "center",
   transition: "$all",
   borderRadius: "50%",
-  backgroundColor: "$primary",
+  /*
+   * Colour is left entirely to the base button this extends. It used to override the
+   * surface to `$primary`, which broke once that base inverted: the override kept the dark
+   * background while the glyph inherited the base's now-dark `fill`, and the icon vanished
+   * into it.
+   */
   cursor: "pointer",
-
-  "&:hover, &:focus": {
-    backgroundColor: "$accent",
-  },
 
   variants: {
     isInteractive: {

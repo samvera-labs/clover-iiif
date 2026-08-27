@@ -37,7 +37,6 @@ const StyledSearchAnnotations = styled("div", {
 
     "&:hover": {
       opacity: "1",
-      boxShadow: "5px 5px 13px #6662",
     },
 
     "&[data-result=true]": {

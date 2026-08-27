@@ -21,22 +21,28 @@ import { fontPresets } from "docs/lib/preview-fonts";
  *    composes its own primary colours from in `hsl()` — it takes hue and saturation as
  *    variables and bakes lightness into each utility, so handing it H and S shifts the
  *    whole family while leaving Nextra's light/dark contrast choices intact.
- *  - **Font** sets `--clover-font-sans` and `--clover-font-display`. Only Clover reads
- *    those, so the docs chrome keeps its own typeface while the rendered component
- *    changes — which is a cleaner demonstration of inheritance than restyling everything,
- *    and keeps the surrounding page readable.
+ *  - **Font** sets `--font-sans`, the site's own family, so the whole website changes —
+ *    prose, chrome and headings, which follow it through `--font-display`. Clover is not
+ *    named anywhere in this: its components inherit their type from whatever contains them,
+ *    so retypesetting the page retypesets them for free. That is the demonstration.
  */
 
 const ACCENT_KEY = "clover-docs-accent";
 const FONT_KEY = "clover-docs-font";
+
+/*
+ * The site's own family, not a Clover property — there is no Clover font property. `html,
+ * body` reads this, and `--font-display` is declared as `var(--font-sans)`, so one
+ * declaration retypesets prose, headings and chrome alike, and anything inheriting from
+ * them.
+ */
+const FONT_PROPERTIES = ["--font-sans"];
 
 const ACCENT_PROPERTIES = [
   "--accent-9",
   "--nextra-primary-hue",
   "--nextra-primary-saturation",
 ];
-
-const FONT_PROPERTIES = ["--clover-font-sans", "--clover-font-display"];
 
 /**
  * The accent may be any hex, not just a preset — the picker allows arbitrary colors. A

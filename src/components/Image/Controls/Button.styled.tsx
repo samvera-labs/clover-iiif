@@ -9,9 +9,17 @@ const Item = styled("button", {
   margin: "0",
   fontFamily: "inherit",
   background: "none",
-  backgroundColor: "$primary",
+  /*
+   * Light chrome on dark imagery, inverting on interaction.
+   *
+   * These float over a canvas, so the resting state is the secondary surface with the
+   * primary colour on top; hover and focus fill with the accent and flip the glyph back to
+   * secondary. The foreground has to be restated in the hover block — at rest it is dark
+   * now, so it no longer carries over the way it did when the button was already dark.
+   */
+  backgroundColor: "$secondary",
   border: "none",
-  color: "$secondary",
+  color: "$primary",
   cursor: "pointer",
   marginLeft: "0.618rem",
   transition: "$all",
@@ -34,14 +42,20 @@ const Item = styled("button", {
     height: "60%",
     width: "60%",
     padding: "20%",
-    fill: "$secondary",
-    stroke: "$secondary",
+    fill: "$primary",
+    stroke: "$primary",
     transition: "$all",
     boxSizing: "inherit",
   },
 
   "&:hover, &:focus": {
     backgroundColor: "$accent",
+    color: "$secondary",
+
+    svg: {
+      fill: "$secondary",
+      stroke: "$secondary",
+    },
   },
 
   "&[data-button=rotate-right]": {

@@ -3,8 +3,6 @@ import {
   cssVarName,
   customThemeToCssVars,
   defaultColors,
-  defaultFonts,
-  fontVarRefs,
   themeVarBridge,
 } from "src/styles/tokens";
 
@@ -35,7 +33,7 @@ const documentedCustomTheme = {
 };
 
 describe("customThemeToCssVars", () => {
-  it("maps every colour and font key documented for customTheme", () => {
+  it("maps every colour key documented for customTheme", () => {
     const style = customThemeToCssVars(documentedCustomTheme) as Record<
       string,
       string
@@ -45,12 +43,25 @@ describe("customThemeToCssVars", () => {
       expect(style[cssVarName("color", token)]).toBe(value);
     });
 
-    Object.entries(documentedCustomTheme.fonts).forEach(([token, value]) => {
-      expect(style[cssVarName("font", token)]).toBe(value);
-    });
+    // Nine colours plus the font family, and nothing else invented along the way.
+    expect(Object.keys(style)).toHaveLength(10);
+  });
 
-    // Nine colours + two fonts, and nothing else invented along the way.
-    expect(Object.keys(style)).toHaveLength(11);
+  /*
+   * There is no font custom property to map onto. Components inherit their type, so a
+   * documented `fonts.sans` becomes a plain `font-family` on the wrapper they sit in —
+   * which is the only thing that can work without a token to point at. `display` is
+   * accepted and ignored, as it always effectively was: nothing referenced it.
+   */
+  it("applies a documented font as font-family rather than a custom property", () => {
+    const style = customThemeToCssVars(documentedCustomTheme) as Record<
+      string,
+      string
+    >;
+
+    expect(style.fontFamily).toBe(documentedCustomTheme.fonts.sans);
+    expect(style[cssVarName("font", "sans")]).toBeUndefined();
+    expect(style[cssVarName("font", "display")]).toBeUndefined();
   });
 
   it("uses kebab-case custom property names", () => {
@@ -85,11 +96,11 @@ describe("customThemeToCssVars", () => {
 describe("token plumbing", () => {
   /**
    * Guards the chain that makes `customTheme` and external theming reach the
-   * components: the style layer's own `--colors-*` / `--fonts-*` properties are
+   * components: the style layer's own `--colors-*` properties are
    * re-derived from the `--clover-*` names that `customThemeToCssVars` writes. If a
    * token were renamed on one side only, theming would silently stop working.
    */
-  it("bridges every colour and font token to a --clover-* reference", () => {
+  it("bridges every colour token to a --clover-* reference", () => {
     Object.keys(defaultColors).forEach((token) => {
       expect(themeVarBridge[`--colors-${token}`]).toBe(
         `var(${cssVarName("color", token)}, ${
@@ -97,18 +108,17 @@ describe("token plumbing", () => {
         })`,
       );
     });
+  });
 
-    Object.keys(defaultFonts).forEach((token) => {
-      expect(themeVarBridge[`--fonts-${token}`]).toBe(
-        `var(${cssVarName("font", token)}, ${
-          defaultFonts[token as keyof typeof defaultFonts]
-        })`,
-      );
+  /* Type is inherited, so the bridge has no business carrying a font. */
+  it("bridges no font token", () => {
+    Object.keys(themeVarBridge).forEach((key) => {
+      expect(key.startsWith("--fonts-")).toBe(false);
     });
   });
 
   it("carries a literal fallback for every token so the library styles itself unaided", () => {
-    Object.values({ ...colorVarRefs, ...fontVarRefs }).forEach((ref) => {
+    Object.values(colorVarRefs).forEach((ref) => {
       expect(ref).toMatch(/^var\(--clover-[a-z-]+, .+\)$/);
     });
   });

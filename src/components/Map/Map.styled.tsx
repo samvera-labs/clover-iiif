@@ -52,7 +52,6 @@ const Wrapper = styled("div", {
     padding: "0",
     borderRadius: "3px",
     border: "1px solid $secondary",
-    boxShadow: "2px 2px 5px #0001",
   },
 
   ".clover-map-popup-wrapper .maplibregl-popup-close-button": {
