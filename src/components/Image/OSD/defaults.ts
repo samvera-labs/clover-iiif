@@ -26,6 +26,10 @@ function defaultOpenSeadragonConfiguration(
     zoomInButton: `zoomIn-${openSeadragonInstance}`,
     zoomOutButton: `zoomOut-${openSeadragonInstance}`,
     showNavigator: true,
+    /*
+     * Whether Clover renders a full-screen control, not whether OpenSeadragon binds one.
+     * `OSD.tsx` hands OpenSeadragon `false` regardless — see the comment there.
+     */
     showFullPageControl: true,
     showHomeControl: true,
     showRotationControl: true,

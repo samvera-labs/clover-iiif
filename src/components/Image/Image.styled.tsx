@@ -1,3 +1,4 @@
+import { ExitFullscreenStyled } from "src/components/Shared/Fullscreen/ExitFullscreen";
 import { styled } from "src/styles/stitches.config";
 import { themeVarBridge } from "src/styles/tokens";
 
@@ -158,6 +159,35 @@ const Wrapper = styled("div", {
   position: "relative",
   zIndex: "0",
   overflow: "hidden",
+
+  /*
+   * Full screen, for an `Image` used on its own.
+   *
+   * The wrapper is already `100%` of whatever contains it, so full screen mostly takes care
+   * of itself — what is needed is the way out, and room for it. The navigator shares the
+   * top-left corner, so it drops below the exit control exactly as it does in the `Viewer`.
+   *
+   * None of this applies to an `Image` inside a `Viewer`: only one element is ever full
+   * screen, and there it is the viewer's root, so this wrapper's attribute stays `false`.
+   */
+  "&[data-fullscreen='true']": {
+    backgroundColor: "$secondary",
+
+    /*
+     * Direct child only.
+     *
+     * A descendant selector here also matched the exit control belonging to a nested `Image`,
+     * so a full-screen `Viewer` showed two of them. Each host reveals its own and no one
+     * else's.
+     */
+    [`& > ${ExitFullscreenStyled}`]: {
+      display: "flex",
+    },
+
+    [`& ${Navigator}`]: {
+      top: "4.5rem",
+    },
+  },
 
   variants: {
     hasNavigator: {

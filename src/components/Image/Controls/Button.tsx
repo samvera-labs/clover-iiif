@@ -6,9 +6,20 @@ interface ButtonProps {
   id: string;
   label: string;
   children: React.ReactChild;
+  /*
+   * Only the full-screen control passes one. The rest are bound by OpenSeadragon through
+   * their id, which is why this is optional rather than required.
+   */
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-const Button: React.FC<ButtonProps> = ({ className, id, label, children }) => {
+const Button: React.FC<ButtonProps> = ({
+  className,
+  id,
+  label,
+  children,
+  onClick,
+}) => {
   // Extract button type from id (e.g., "rotateLeft-abc123" → "rotate-left")
   // This ensures data-button is language-independent for CSS selectors
   const buttonType = id.split("-")[0];
@@ -22,6 +33,8 @@ const Button: React.FC<ButtonProps> = ({ className, id, label, children }) => {
       className={className}
       data-testid="openseadragon-button"
       data-button={dataButton}
+      onClick={onClick}
+      type="button"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

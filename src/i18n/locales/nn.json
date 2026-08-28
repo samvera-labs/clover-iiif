@@ -28,5 +28,6 @@
   "canvasAnimationPreviousFrame": "Førre bilete",
   "canvasAnimationNextFrame": "Neste bilete",
   "canvasAnimationRepeat": "Gjenta",
-  "canvasAnimationSpeed": "Hastigheit"
+  "canvasAnimationSpeed": "Hastigheit",
+  "imageExitFullScreen": "Avslutt fullskjerm"
 }

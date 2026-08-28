@@ -105,6 +105,13 @@ export type ControlButtonProps = {
     id: string;
     type: "button";
     "aria-label": string;
+    /*
+     * Present only on the full-screen control, which Clover drives itself rather than
+     * handing to OpenSeadragon. Every other control is still bound by id, so it has no
+     * handler to give. A replacement should spread `buttonProps` and not worry which is
+     * which.
+     */
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
   };
   icon: React.ReactNode;
   label: string;

@@ -27,6 +27,9 @@ import ViewerHeader from "src/components/Viewer/Viewer/Header";
 import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
 import { getVisibleCanvasesFromCanvasId } from "@iiif/helpers";
 import { media } from "src/styles/stitches.config";
+import ExitFullscreen from "src/components/Shared/Fullscreen/ExitFullscreen";
+import useFullscreen from "src/hooks/useFullscreen";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
 
 interface ViewerProps {
@@ -43,6 +46,17 @@ const Viewer: React.FC<ViewerProps> = ({
   iiifContentSearchQuery,
   contentSearchCallback,
 }) => {
+  const { t } = useCloverTranslation();
+
+  /*
+   * The root element, and whether it is the one full screen.
+   *
+   * Held in state rather than a ref so the hook re-runs once the element exists: assigning a
+   * ref does not re-render, and the listener has to know what to compare against.
+   */
+  const [rootElement, setRootElement] = useState<HTMLDivElement | null>(null);
+  const isFullscreen = useFullscreen(rootElement);
+
   /**
    * Viewer State
    */
@@ -173,8 +187,16 @@ const Viewer: React.FC<ViewerProps> = ({
         style={themeStyle}
         css={{ background: configOptions?.background }}
         data-absolute-position={isAbsolutePosition}
+        data-fullscreen={isFullscreen}
         data-information-panel-open={isInformationOpen}
+        ref={setRootElement}
       >
+        {/*
+         * Shown by CSS only while this root is full screen — see the `[data-fullscreen]`
+         * block in Viewer.styled. A standalone `Image` renders its own, so whichever root
+         * the browser put in full screen is the one offering a way back.
+         */}
+        <ExitFullscreen />
         <Collapsible.Root
           open={isInformationOpen}
           onOpenChange={setInformationOpen}
@@ -185,6 +207,7 @@ const Viewer: React.FC<ViewerProps> = ({
           />
           <ViewerContent
             activeCanvas={activeCanvas}
+            isFullscreen={isFullscreen}
             painting={painting}
             annotationResources={annotationResources}
             searchServiceUrl={searchServiceUrl}

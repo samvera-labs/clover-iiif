@@ -28,5 +28,6 @@
   "canvasAnimationPreviousFrame": "Edellinen ruutu",
   "canvasAnimationNextFrame": "Seuraava ruutu",
   "canvasAnimationRepeat": "Toista uudelleen",
-  "canvasAnimationSpeed": "Nopeus"
+  "canvasAnimationSpeed": "Nopeus",
+  "imageExitFullScreen": "Poistu koko näytöstä"
 }
