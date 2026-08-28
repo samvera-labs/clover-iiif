@@ -1,3 +1,5 @@
+import { ExitFullscreenStyled } from "src/components/Shared/Fullscreen/ExitFullscreen";
+import { Navigator } from "src/components/Image/Image.styled";
 import { styled } from "src/styles/stitches.config";
 import { themeVarBridge } from "src/styles/tokens";
 
@@ -11,65 +13,8 @@ const MediaWrapper = styled("div", {
    * the rail is the Viewer's business — a deep-zoom canvas, a video, an audio player — and
    * the Slider has no idea it is underneath any of them. Standing alone it should still sit
    * flush with whatever a consumer puts around it.
-   *
-   * Matched to the gap the header already leaves beneath itself, so the rhythm above and
-   * below the controls is even. The full-page rule below re-declares `padding` outright and
-   * wins on specificity, which is what that floating panel wants.
    */
   paddingTop: "$4",
-
-  /*
-   * Floating over OpenSeadragon's full-page view, bottom left.
-   *
-   * `position: fixed` against the viewport rather than absolute, because at this point
-   * the strip is a direct child of `<body>` — see the portal in Content.tsx. The z-index
-   * clears OpenSeadragon's own furniture: its controls sit at 100 and its full-page
-   * element is appended to body alongside this, so this has to win on both counts.
-   *
-   * Width is capped so a long sequence does not span the whole screen, and the strip
-   * scrolls within itself instead.
-   */
-  "&[data-fullpage='true']": {
-    /*
-     * The token bridge has to be re-declared here.
-     *
-     * `themeVarBridge` maps `--colors-*` onto `--clover-color-*`, and it is declared on
-     * each component's own wrapper. In full page this strip is portalled to `<body>`,
-     * outside that subtree — so every `$token` below would resolve against nothing and
-     * fall back to whatever `--clover-color-*` happened to sit on `:root`, or to
-     * transparent for a consumer who sets none. Carrying the bridge makes the strip
-     * self-sufficient wherever it is re-homed.
-     */
-    ...themeVarBridge,
-    position: "fixed",
-    zIndex: "200",
-    bottom: "1rem",
-    left: "1rem",
-    width: "auto",
-    maxWidth: "min(38rem, calc(100vw - 2rem))",
-    padding: "0.5rem",
-    borderRadius: "5px",
-    /*
-     * `$secondary` is the surface token — `$primary` is Clover's foreground (it defaults
-     * to #1A1D1E and a dark theme flips it light), so using it here painted the panel in
-     * the text colour and inverted with the theme.
-     *
-     * Solid rather than translucent: the strip sits over arbitrary imagery, and a wash
-     * lets the picture bleed through the thumbnails it is meant to distinguish.
-     *
-     * The border does what the drop shadow used to. In full page this floats over the
-     * artwork itself, so it needs some boundary of its own; a hairline is the flat way to
-     * draw one.
-     */
-    backgroundColor: "$secondary",
-    border: "1px solid #6663",
-
-    "@sm": {
-      maxWidth: "calc(100vw - 1rem)",
-      bottom: "0.5rem",
-      left: "0.5rem",
-    },
-  },
 });
 
 const Content = styled("div", {
@@ -233,6 +178,107 @@ const Wrapper = styled("div", {
 
   "&[data-information-panel-open='true']": {
     "@sm": {},
+  },
+
+  /*
+   * Full screen.
+   *
+   * This is Clover's own root, so everything it draws is still here — header, image
+   * controls, thumbnail rail, information panel. Nothing is portalled and nothing is hidden;
+   * the layout simply has a whole screen to use instead of a slot in a page.
+   *
+   * What changes is the proportion: the painting takes the height left over rather than the
+   * configured `canvasHeight`, and the rail spans the full width along the bottom instead of
+   * floating in a corner.
+   */
+  /*
+   * Keyed to the attribute rather than the `:fullscreen` pseudo-class. The attribute is set
+   * from the browser's own `fullscreenchange`, so it is just as accurate and it can be
+   * asserted on — `:fullscreen` cannot be forced, which leaves a layout keyed to it
+   * verifiable only by eye.
+   */
+
+  "&[data-fullscreen='true']": {
+    // A positioning context for the absolutely positioned exit control.
+    position: "relative",
+    width: "100vw",
+    height: "100vh",
+    maxHeight: "100vh",
+    backgroundColor: "$secondary",
+
+    /*
+     * Direct child only.
+     *
+     * A descendant selector here also matched the exit control belonging to a nested `Image`,
+     * so a full-screen `Viewer` showed two of them. Each host reveals its own and no one
+     * else's.
+     */
+    [`& > ${ExitFullscreenStyled}`]: {
+      display: "flex",
+    },
+
+    /*
+     * The header goes.
+     *
+     * Its title, IIIF badge and download live one click away in the information panel, and
+     * full screen is the one place the image should get the room instead. The panel toggle is
+     * not in the header — it sits over the painting — so it survives this.
+     */
+    ".clover-viewer-header": {
+      display: "none",
+    },
+
+    /*
+     * Room above the information panel's tabs.
+     *
+     * With the header hidden the panel starts at the very top of the screen, and its tab row
+     * sat flush against the edge. This is the space the header used to provide.
+     */
+    ".clover-viewer-information-panel": {
+      paddingTop: "$4",
+    },
+
+    /*
+     * The navigator drops below the exit control.
+     *
+     * Both want the top-left corner: the minimap sits at `1rem` and the exit control is
+     * `2.5rem` tall from `1rem`, so left alone the button lands on top of the minimap.
+     */
+    [`& ${Navigator}`]: {
+      top: "4.5rem",
+    },
+
+    ".clover-viewer-painting": {
+      display: "flex",
+      flexDirection: "column",
+      flexGrow: "1",
+      minHeight: "0",
+    },
+
+    /*
+     * `!important` because `canvasHeight` is applied as an inline style on the painting's
+     * canvas, and an inline declaration outranks any rule here. Full screen should fill what
+     * is left after the header and the rail, whatever height was configured for the embedded
+     * case.
+     */
+    ".clover-viewer-painting > div": {
+      height: "auto !important",
+      flexGrow: "1",
+      minHeight: "0",
+    },
+
+    /*
+     * The rail: a full-width band across the bottom.
+     *
+     * `Content.tsx` moves it out of `Main` for full screen, so by the time these rules apply
+     * it is a sibling of the painting-and-panel row rather than sitting inside one column of
+     * it. That is what lets `100%` mean the whole screen.
+     */
+    [`& ${MediaWrapper}`]: {
+      flexShrink: "0",
+      width: "100%",
+      paddingTop: "$3",
+    },
   },
 });
 

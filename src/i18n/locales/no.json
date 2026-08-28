@@ -28,5 +28,6 @@
   "canvasAnimationPreviousFrame": "Forrige bilde",
   "canvasAnimationNextFrame": "Neste bilde",
   "canvasAnimationRepeat": "Gjenta",
-  "canvasAnimationSpeed": "Hastighet"
+  "canvasAnimationSpeed": "Hastighet",
+  "imageExitFullScreen": "Avslutt fullskjerm"
 }

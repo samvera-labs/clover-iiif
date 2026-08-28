@@ -10,6 +10,8 @@ import { CanvasNormalized } from "@iiif/presentation-3";
 import { Options } from "openseadragon";
 import React, { useEffect } from "react";
 import { Wrapper } from "src/components/Image/Controls/Controls.styled";
+import { toggleFullscreen } from "src/lib/fullscreen";
+import useWithinFullscreen from "src/hooks/useWithinFullscreen";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
 const ZoomIn = () => {
@@ -43,6 +45,25 @@ const ZoomFullScreen = () => {
       strokeLinejoin="round"
       strokeWidth="32"
       d="M432 320v112H320M421.8 421.77L304 304M80 192V80h112M90.2 90.23L208 208M320 80h112v112M421.77 90.2L304 208M192 432H80V320M90.23 421.8L208 304"
+    />
+  );
+};
+
+/**
+ * The same four corners, arrows turned inward.
+ *
+ * Shown in place of the expand glyph while full screen is active, so the control reads as
+ * where it will take you rather than where you already are.
+ */
+const ZoomExitFullScreen = () => {
+  return (
+    <path
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="32"
+      d="M304 416v-112h112M405.77 405.77L304 304M208 96v112H96M106.23 106.23L208 208M416 208H304V96M405.77 106.23L304 208M96 304h112v112M106.23 405.77L208 304"
     />
   );
 };
@@ -103,6 +124,17 @@ const Controls = ({
   config: Options;
 }) => {
   const { t } = useCloverTranslation();
+
+  /*
+   * Whether these controls are inside whatever is full screen.
+   *
+   * Containment rather than identity, because the control cannot know which root the browser
+   * put in full screen: the `Viewer`'s when nested, the `Image`'s own wrapper when standalone.
+   */
+  const [controlsElement, setControlsElement] =
+    React.useState<HTMLDivElement | null>(null);
+  const isFullscreen = useWithinFullscreen(controlsElement);
+
   const viewerState: ViewerContextStore = useViewerState();
   const {
     activeCanvas,
@@ -127,22 +159,35 @@ const Controls = ({
     id: string,
     label: string,
     glyph: React.ReactElement,
+    onClick?: React.MouseEventHandler<HTMLButtonElement>,
   ) {
     const Custom = configOptions.controlButtons?.[key];
     if (Custom)
       return (
         <Custom
-          buttonProps={{ id, type: "button", "aria-label": label }}
+          buttonProps={{ id, type: "button", "aria-label": label, onClick }}
           icon={<ControlIcon label={label}>{glyph}</ControlIcon>}
           label={label}
         />
       );
     return (
-      <Button id={id} label={label}>
+      <Button id={id} label={label} onClick={onClick}>
         {glyph}
       </Button>
     );
   }
+
+  /*
+   * Full screen is Clover's, not OpenSeadragon's.
+   *
+   * Called straight from the click rather than routed through state: the Fullscreen API only
+   * honours a request made inside a user gesture, and a dispatch followed by an effect can
+   * land outside it. The root is found from the button itself, so the same control serves a
+   * standalone `Image` and one nested in a `Viewer` without either being told which it is.
+   */
+  const handleFullscreen: React.MouseEventHandler<HTMLButtonElement> = (
+    event,
+  ) => void toggleFullscreen(event.currentTarget);
 
   const canvas = vault.get({
     id: activeCanvas,
@@ -209,29 +254,19 @@ const Controls = ({
   }, [openSeadragonViewer]);
 
   /*
-   * OpenSeadragon moves the viewer in and out of the DOM to go full page, which
-   * drops focus. Without this a keyboard user is returned to the top of the
-   * document and has to tab back to the controls.
+   * Nothing to restore focus for any more.
+   *
+   * This listened for OpenSeadragon's `full-page` event and put focus back on the button,
+   * because OpenSeadragon moved the viewer out of the DOM and back, dropping focus on the
+   * way. Clover full-screens its own root now: no element is reparented, so focus stays
+   * where the reader left it and the event never fires.
    */
-  useEffect(() => {
-    if (!openSeadragonViewer) return;
-
-    // "full-page" fires on both entering and exiting full page mode, with
-    // fullPage true on entry. Only restore focus on exit, when OSD has just
-    // moved the viewer back into its original place in the DOM.
-    const restoreFocus = ({ fullPage }: { fullPage: boolean }) => {
-      if (fullPage) return;
-      const button = document.getElementById(config.fullPageButton as string);
-      if (button) button.focus();
-    };
-
-    openSeadragonViewer.addHandler("full-page", restoreFocus);
-    return () => openSeadragonViewer.removeHandler("full-page", restoreFocus);
-  }, [openSeadragonViewer, config.fullPageButton]);
 
   return (
     <Wrapper
+      data-fullscreen={isFullscreen}
       data-testid="clover-iiif-image-openseadragon-controls"
+      ref={setControlsElement}
       hasPlaceholder={_cloverViewerHasPlaceholder}
       hasInformationToggle={hasInformationToggle}
       panelOpen={isInformationOpen}
@@ -256,8 +291,9 @@ const Controls = ({
         renderControl(
           "fullPage",
           config.fullPageButton as string,
-          t("imageFullScreen"),
-          <ZoomFullScreen />,
+          isFullscreen ? t("imageExitFullScreen") : t("imageFullScreen"),
+          isFullscreen ? <ZoomExitFullScreen /> : <ZoomFullScreen />,
+          handleFullscreen,
         )}
       {config.showRotationControl && (
         <>

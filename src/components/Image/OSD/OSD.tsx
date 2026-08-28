@@ -7,9 +7,11 @@ import {
 } from "src/components/Image/Image.styled";
 import OpenSeadragon, { Options, Overlay } from "openseadragon";
 import React, { useEffect, useRef, useState } from "react";
+import useFullscreen from "src/hooks/useFullscreen";
 
 import { Annotation } from "@iiif/presentation-3";
 import Controls from "src/components/Image/Controls/Controls";
+import ExitFullscreen from "src/components/Shared/Fullscreen/ExitFullscreen";
 import { OpenSeadragonImageTypes } from "src/types/open-seadragon";
 import { getInfoResponse } from "src/lib/iiif";
 import { parseAnnotationTarget } from "src/lib";
@@ -75,6 +77,18 @@ const OSD: React.FC<OSDProps> = ({
 
   const annotationClassName = "clover-iiif-image-openseadragon-annotation";
 
+  /*
+   * Whether this wrapper is the element in full screen.
+   *
+   * False whenever a `Viewer` is the one full screen: the browser has only one full-screen
+   * element, and there it is the viewer's root. That is what keeps a nested `Image` from
+   * offering a second, redundant way out.
+   */
+  const [wrapperElement, setWrapperElement] = useState<HTMLDivElement | null>(
+    null,
+  );
+  const isFullscreen = useFullscreen(wrapperElement);
+
   /**
    * check the OSD config for scrollToZoom setting
    */
@@ -85,7 +99,22 @@ const OSD: React.FC<OSDProps> = ({
   useEffect(() => {
     if (!initializeOSD.current) {
       initializeOSD.current = true;
-      if (!openSeadragon) setOpenSeadragon(OpenSeadragon(config));
+      if (!openSeadragon)
+        setOpenSeadragon(
+          OpenSeadragon({
+            ...config,
+            /*
+             * Never let OpenSeadragon own the full-screen button.
+             *
+             * Given the id it binds its own `setFullPage()`, which hides every other child
+             * of `<body>` — taking Clover's header, controls, thumbnail rail and information
+             * panel with it. Clover renders the button itself and full-screens its own root
+             * instead; `config.showFullPageControl` still decides whether that button
+             * appears. See `src/lib/fullscreen.ts`.
+             */
+            showFullPageControl: false,
+          }),
+        );
     }
     return () => openSeadragon?.destroy();
   }, []);
@@ -558,9 +587,16 @@ const OSD: React.FC<OSDProps> = ({
     <Wrapper
       className="clover-iiif-image-openseadragon"
       data-testid="clover-iiif-image-openseadragon"
+      data-fullscreen={isFullscreen}
       data-openseadragon-instance={config.id}
       hasNavigator={config.showNavigator}
+      ref={setWrapperElement}
     >
+      {/*
+       * Shown by CSS only while this wrapper is the full-screen element — see the
+       * `[data-fullscreen]` block in Image.styled. A `Viewer` renders its own.
+       */}
+      <ExitFullscreen />
       <Controls
         _cloverViewerHasPlaceholder={_cloverViewerHasPlaceholder}
         config={config}

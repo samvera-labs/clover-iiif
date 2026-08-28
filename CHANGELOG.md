@@ -12,6 +12,37 @@ assigned at release time.
 
 ### Changed
 
+- **Full screen keeps the whole viewer.** It used to hand the job to OpenSeadragon's
+  `setFullPage()`, which is not the Fullscreen API: it sets `display: none` on every child of
+  `<body>` except its own canvas element. Everything else Clover draws is a sibling of that
+  element, so the header, the image controls, the thumbnail rail and the information panel all
+  disappeared — the rail only survived because it was portalled to the body on purpose, as a
+  small panel floating in one corner, and the controls could not be portalled at all because
+  OpenSeadragon binds them by element id at init.
+
+  Clover now asks the browser to full-screen its own root instead. Nothing is reparented and
+  nothing is hidden, so the reader keeps the viewer they were already using:
+  - The thumbnail rail is a band across the full width of the bottom, under both the image and
+    the information panel.
+  - The image controls and the information panel toggle stay where they are.
+  - The viewer header is hidden, giving the image the room; its title, IIIF badge and download
+    are a click away in the information panel.
+  - The OpenSeadragon navigator drops below the exit control, which shares its corner.
+  - The full-screen control turns its arrows inward while full screen is active, and renames
+    itself **Exit full screen**, so it reads as where it will take you rather than where you
+    already are.
+  - An **Exit full screen** control sits top left. `Escape` has always worked, but an
+    unadvertised keystroke is not an affordance.
+
+  A standalone `Image` gets the same treatment: it full-screens its own wrapper, offers the
+  same **Exit full screen** control, and drops its navigator clear of it. Only one element is
+  ever full screen, so an `Image` nested in a full-screen `Viewer` stays quiet and the viewer
+  provides the single way back.
+
+  `openSeadragonConfig.showFullPageControl` still decides whether the control appears.
+  A `controlButtons.fullPage` replacement now receives an `onClick` in its `buttonProps` and no
+  longer depends on rendering the id it is given.
+
 - **Thumbnails fade in once their image has loaded**, in the `Viewer`'s canvas rail and the
   `Slider` alike. Coming on screen and the image arriving are two different moments, and a
   tile used to snap from placeholder to photograph at the second one. The fade is 150ms and
