@@ -46,7 +46,7 @@ button.clover-map-control {
    * Inverted to match the other control bars: secondary surface at rest, accent on
    * interaction. `color` was a literal `white`, which ignored the theme entirely.
    */
-  background-color: var(--clover-color-secondary, #ffffff);
+  background-color: var(--clover-color-secondary, #fff);
   border: none;
   color: var(--clover-color-primary, #1a1d1e);
   cursor: pointer;
@@ -84,11 +84,11 @@ button.clover-map-control {
 .clover-map-control:hover,
 .clover-map-control:focus {
   background-color: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-secondary, #ffffff);
+  color: var(--clover-color-secondary, #fff);
 }
 
 .clover-map-control:hover svg,
 .clover-map-control:focus svg {
-  fill: var(--clover-color-secondary, #ffffff);
-  stroke: var(--clover-color-secondary, #ffffff);
+  fill: var(--clover-color-secondary, #fff);
+  stroke: var(--clover-color-secondary, #fff);
 }

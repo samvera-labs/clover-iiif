@@ -6,7 +6,7 @@
   margin-top: -0.125rem;
   margin-left: 0.5rem;
   background-color: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-secondary, #ffffff);
+  color: var(--clover-color-secondary, #fff);
   border-radius: var(--clover-radius, 3px);
   line-height: 1em;
 }

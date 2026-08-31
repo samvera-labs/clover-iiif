@@ -33,7 +33,7 @@ button.clover-exit-full-screen {
   padding: 0 1rem 0 0.75rem;
   border: none;
   border-radius: var(--clover-radius-pill, 2rem);
-  background-color: var(--clover-color-secondary, #ffffff);
+  background-color: var(--clover-color-secondary, #fff);
   color: var(--clover-color-primary, #1a1d1e);
   font-family: inherit;
   font-size: 0.8333rem;
@@ -53,5 +53,5 @@ button.clover-exit-full-screen {
 .clover-exit-full-screen:hover,
 .clover-exit-full-screen:focus-visible {
   background-color: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-secondary, #ffffff);
+  color: var(--clover-color-secondary, #fff);
 }

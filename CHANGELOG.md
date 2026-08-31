@@ -12,6 +12,9 @@ assigned at release time.
 
 ### Changed
 
+- Clover's default `secondary` color is now expressed consistently as `#fff` in the
+  public token value and every component fallback.
+
 - **Component styling now uses plain CSS instead of Stitches.** Clover no longer ships the
   `@stitches/react` runtime dependency. Each package follows its component graph and bundles
   only the colocated styles those components use; non-visual `helpers` and `i18n` entries carry

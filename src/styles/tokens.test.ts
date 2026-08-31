@@ -92,9 +92,13 @@ describe("customThemeToCssVars", () => {
 });
 
 describe("token plumbing", () => {
+  it("uses white as the default secondary color", () => {
+    expect(defaultColors.secondary).toBe("#fff");
+  });
+
   it("defines colours as plain hex, not as another design system's variables", () => {
     Object.values(defaultColors).forEach((value) => {
-      expect(value).toMatch(/^#[0-9A-F]{6}$/);
+      expect(value).toMatch(/^#(?:[0-9A-F]{3}|[0-9A-F]{6})$/i);
     });
   });
 });

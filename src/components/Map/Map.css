@@ -63,7 +63,7 @@
   overflow: hidden;
   padding: 0;
   border-radius: var(--clover-radius, 3px);
-  border: 1px solid var(--clover-color-secondary, #ffffff);
+  border: 1px solid var(--clover-color-secondary, #fff);
 }
 
 .clover-map .clover-map-popup-wrapper .maplibregl-popup-close-button {
@@ -75,7 +75,7 @@
   flex-direction: column;
   min-width: 15rem;
   max-width: 20rem;
-  background-color: var(--clover-color-secondary, #ffffff);
+  background-color: var(--clover-color-secondary, #fff);
   color: var(--clover-color-primary, #1a1d1e);
   font: inherit;
   margin: 0;
@@ -85,7 +85,7 @@
   width: 100%;
   max-height: 10.5rem;
   overflow: hidden;
-  background-color: var(--clover-color-secondary, #ffffff);
+  background-color: var(--clover-color-secondary, #fff);
 }
 
 .clover-map .clover-map-popup-media img {

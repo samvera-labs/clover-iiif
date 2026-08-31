@@ -25,7 +25,7 @@ button.clover-iiif-image-openseadragon-button {
    * secondary. The foreground has to be restated in the hover block — at rest it is dark
    * now, so it no longer carries over the way it did when the button was already dark.
    */
-  background-color: var(--clover-color-secondary, #ffffff);
+  background-color: var(--clover-color-secondary, #fff);
   border: none;
   color: var(--clover-color-primary, #1a1d1e);
   cursor: pointer;
@@ -69,13 +69,13 @@ button.clover-iiif-image-openseadragon-button {
 .clover-iiif-image-openseadragon-button:hover,
 .clover-iiif-image-openseadragon-button:focus {
   background-color: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-secondary, #ffffff);
+  color: var(--clover-color-secondary, #fff);
 }
 
 .clover-iiif-image-openseadragon-button:hover svg,
 .clover-iiif-image-openseadragon-button:focus svg {
-  fill: var(--clover-color-secondary, #ffffff);
-  stroke: var(--clover-color-secondary, #ffffff);
+  fill: var(--clover-color-secondary, #fff);
+  stroke: var(--clover-color-secondary, #fff);
 }
 
 /*

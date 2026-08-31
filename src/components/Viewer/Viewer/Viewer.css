@@ -137,7 +137,7 @@
    * glyph, filling with the accent on interaction. It sits directly beside the image
    * controls, so leaving it dark would have singled it out.
    */
-  background: var(--clover-color-secondary, #ffffff);
+  background: var(--clover-color-secondary, #fff);
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -158,11 +158,11 @@
 .clover-viewer-panel-toggle:hover,
 .clover-viewer-panel-toggle:focus-visible {
   background: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-secondary, #ffffff);
+  color: var(--clover-color-secondary, #fff);
 }
 
 .clover-viewer-panel-toggle:focus-visible {
-  outline: 2px solid var(--clover-color-secondary, #ffffff);
+  outline: 2px solid var(--clover-color-secondary, #fff);
   outline-offset: -2px;
 }
 
@@ -228,7 +228,7 @@
   width: 100vw;
   height: 100vh;
   max-height: 100vh;
-  background-color: var(--clover-color-secondary, #ffffff);
+  background-color: var(--clover-color-secondary, #fff);
 }
 
 /*

@@ -124,7 +124,7 @@
    * a near-black icon on a near-black badge and it disappeared. A token pair is opposite
    * by definition, so it holds whichever way the theme goes.
    */
-  background-color: var(--clover-color-secondary, #ffffff);
+  background-color: var(--clover-color-secondary, #fff);
   color: var(--clover-color-primary, #1a1d1e);
   fill: var(--clover-color-primary, #1a1d1e);
   /*

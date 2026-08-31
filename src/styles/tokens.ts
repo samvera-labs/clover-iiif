@@ -44,7 +44,7 @@ export const defaultColors = {
    * White and light grays in a light theme.
    * Must contrast to 4.5 or greater with `primary` and `accent`.
    */
-  secondary: "#FFFFFF",
+  secondary: "#fff",
   secondaryMuted: "#E6E8EB",
   secondaryAlt: "#C1C8CD",
 } as const;

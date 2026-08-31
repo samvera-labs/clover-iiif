@@ -39,7 +39,7 @@ button.clover-control {
   transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
 
   /* Secondary surface carrying a primary glyph, filling with the accent on interaction. */
-  background-color: var(--clover-color-secondary, #ffffff);
+  background-color: var(--clover-color-secondary, #fff);
   color: var(--clover-color-primary, #1a1d1e);
 }
 
@@ -62,13 +62,13 @@ button.clover-control {
 .clover-control:hover:enabled,
 .clover-control:focus-visible:enabled {
   background-color: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-secondary, #ffffff);
+  color: var(--clover-color-secondary, #fff);
 }
 
 .clover-control:hover:enabled svg,
 .clover-control:focus-visible:enabled svg {
-  fill: var(--clover-color-secondary, #ffffff);
-  stroke: var(--clover-color-secondary, #ffffff);
+  fill: var(--clover-color-secondary, #fff);
+  stroke: var(--clover-color-secondary, #fff);
 }
 
 /*
@@ -80,7 +80,7 @@ button.clover-control {
  * half the set stayed undimmed before.
  */
 .clover-control:disabled {
-  background-color: var(--clover-color-secondary, #ffffff);
+  background-color: var(--clover-color-secondary, #fff);
   /* Nothing to click, so nothing should suggest otherwise. */
   cursor: default;
 }

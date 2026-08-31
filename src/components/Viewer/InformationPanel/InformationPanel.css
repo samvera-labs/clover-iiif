@@ -91,7 +91,7 @@
   transform: translateY(1rem);
   margin-right: 0.618rem;
   z-index: 2;
-  background: var(--clover-color-secondary, #ffffff);
+  background: var(--clover-color-secondary, #fff);
   color: var(--clover-color-primary, #1a1d1e);
   border-radius: 50%;
   opacity: 1;
@@ -112,7 +112,7 @@
 .clover-viewer-information-panel-tab[data-value="manifest-back"]:hover,
 .clover-viewer-information-panel-tab[data-value="manifest-back"]:focus-visible {
   background: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-secondary, #ffffff);
+  color: var(--clover-color-secondary, #fff);
 }
 
 /* No underline on the back tab, active or not. */

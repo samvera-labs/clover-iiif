@@ -141,7 +141,7 @@
   left: 50%;
   transform: translate(-50%, 0);
   background-color: var(--clover-color-primary, #1a1d1e);
-  color: var(--clover-color-secondary, #ffffff);
+  color: var(--clover-color-secondary, #fff);
   transition: opacity 100ms ease-in-out;
 }
 
@@ -203,7 +203,7 @@
  * screen, and there it is the viewer's root, so this wrapper's attribute stays `false`.
  */
 .clover-iiif-image-openseadragon[data-fullscreen="true"] {
-  background-color: var(--clover-color-secondary, #ffffff);
+  background-color: var(--clover-color-secondary, #fff);
 }
 
 /*

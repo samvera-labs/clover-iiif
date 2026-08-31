@@ -48,7 +48,7 @@
   height: 2rem;
   padding: 0 15px;
   border-radius: var(--clover-radius-pill, 2rem);
-  background-color: var(--clover-color-secondary, #ffffff);
+  background-color: var(--clover-color-secondary, #fff);
   color: var(--clover-color-primary, #1a1d1e);
   font-size: 0.7222rem;
   font-weight: bold;

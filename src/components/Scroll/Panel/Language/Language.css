@@ -21,7 +21,7 @@
 }
 
 .clover-scroll-language .clover-popover-trigger svg {
-  fill: var(--clover-color-secondary, #ffffff);
+  fill: var(--clover-color-secondary, #fff);
 }
 
 .clover-scroll-language .clover-popover-content {
@@ -64,7 +64,7 @@
   .clover-scroll-language-checkbox {
   background-color: var(--clover-color-accent, #0065c3);
   border-color: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-secondary, #ffffff);
+  color: var(--clover-color-secondary, #fff);
 }
 
 .clover-scroll-language-indicator {
