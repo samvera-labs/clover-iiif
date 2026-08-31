@@ -1,10 +1,3 @@
-import {
-  Header,
-  HeaderOptions,
-  IIIFBadgeButton,
-  ManifestLabel,
-  PopoverContent,
-} from "./Header.styled";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import Collection from "src/components/Viewer/Collection/Collection";
@@ -46,23 +39,27 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
   const { t } = useCloverTranslation();
 
   return (
-    <Header className="clover-viewer-header">
+    <header className="clover-viewer-header">
       {collection?.items ? (
         <Collection />
       ) : (
-        <ManifestLabel className={!showTitle ? "visually-hidden" : ""}>
+        <span
+          className={`clover-viewer-manifest-label${
+            !showTitle ? " visually-hidden" : ""
+          }`}
+        >
           {showTitle && <Label label={manifestLabel} className="label" />}
-        </ManifestLabel>
+        </span>
       )}
       {hasOptions && (
-        <HeaderOptions className="clover-viewer-header-options">
+        <div className="clover-viewer-header-options">
           {showDownload && hasDownload && <ViewerDownload />}
           {showIIIFBadge && (
             <Popover>
-              <IIIFBadgeButton>
+              <Popover.Trigger className="clover-viewer-iiif-badge">
                 <IIIFBadge title={t("commonShare")} />
-              </IIIFBadgeButton>
-              <PopoverContent>
+              </Popover.Trigger>
+              <Popover.Content className="clover-viewer-popover-content">
                 {collection?.items && (
                   <button
                     onClick={(e) => {
@@ -91,12 +88,12 @@ const ViewerHeader: React.FC<Props> = ({ manifestId, manifestLabel }) => {
                   textPrompt={t("shareManifestCopy")}
                   textToCopy={manifestId}
                 />
-              </PopoverContent>
+              </Popover.Content>
             </Popover>
           )}
-        </HeaderOptions>
+        </div>
       )}
-    </Header>
+    </header>
   );
 };
 

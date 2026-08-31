@@ -2,8 +2,6 @@
 
 import React, { useCallback } from "react";
 
-import { AudioVisualizerWrapper } from "src/components/Viewer/Player/AudioVisualizer.styled";
-
 const AudioVisualizer = React.forwardRef(
   (_props, ref: React.RefObject<HTMLVideoElement>) => {
     const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -78,7 +76,13 @@ const AudioVisualizer = React.forwardRef(
       }
     }
 
-    return <AudioVisualizerWrapper ref={canvasRef} role="presentation" />;
+    return (
+      <canvas
+        className="clover-viewer-audio-visualizer"
+        ref={canvasRef}
+        role="presentation"
+      />
+    );
   },
 );
 

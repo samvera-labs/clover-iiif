@@ -1,9 +1,8 @@
 import * as Form from "@radix-ui/react-form";
 
-import { ControlStyled } from "src/components/Shared/Control/Control.styled";
-import { FormStyled } from "./ContentSearchForm.styled";
+import { Control } from "src/components/Shared/Control/Control";
 import { SearchIcon } from "src/components/Shared/Control/Icons";
-import { SearchInput } from "src/components/Shared/Search/Search.styled";
+import { SearchInput } from "src/components/Shared/Search/Search";
 import React, { useState } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
@@ -67,7 +66,7 @@ const SearchContent: React.FC<Props> = ({
   const placeholder = t("contentSearchPlaceholder");
 
   return (
-    <FormStyled>
+    <div className="clover-viewer-content-search-form">
       <Form.Root onSubmit={searchSubmitHandler} className="content-search-form">
         <Form.Field className="content-search-input" name="searchTerms">
           {/* `asChild` so the field is the shared input, not a restyled copy of it. */}
@@ -82,16 +81,16 @@ const SearchContent: React.FC<Props> = ({
         </Form.Field>
 
         <Form.Submit asChild>
-          <ControlStyled
+          <Control
             aria-label={t("informationPanelTabsSearch")}
             className="clover-search-submit"
             type="submit"
           >
             <SearchIcon />
-          </ControlStyled>
+          </Control>
         </Form.Submit>
       </Form.Root>
-    </FormStyled>
+    </div>
   );
 };
 

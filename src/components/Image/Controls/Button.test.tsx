@@ -2,12 +2,16 @@ import { render, screen } from "@testing-library/react";
 
 import Button from "src/components/Image/Controls/Button";
 import React from "react";
+import fs from "node:fs";
+import path from "node:path";
 
-const getInjectedCss = () =>
-  Array.from(document.querySelectorAll("style"))
-    .flatMap((style) => Array.from(style.sheet?.cssRules ?? []))
-    .map((rule) => rule.cssText.replace(/\s+/g, ""))
-    .join("\n");
+/*
+ * The glyph colours used to be asserted against Stitches' injected CSSOM. They live in
+ * Button.css now, which no test renderer loads, so the file is read directly. What the
+ * element carries — the class the stylesheet keys on — is asserted on the rendered button,
+ * so the two halves together still cover the contract.
+ */
+const css = fs.readFileSync(path.join(__dirname, "Button.css"), "utf-8");
 
 describe("Button component", () => {
   it("renders", () => {
@@ -35,6 +39,30 @@ describe("Button component", () => {
 
     const button = screen.getByTestId("openseadragon-button");
     expect(button.getAttribute("data-button")).toBe("full-page");
-    expect(getInjectedCss()).toMatch(/color:var\(--colors-secondary\)/);
+    // The class is what connects the element to the rules asserted below.
+    expect(button).toHaveClass("clover-iiif-image-openseadragon-button");
+    expect(css).toMatch(
+      /:focus \{\s*background-color: var\(--clover-color-accent/,
+    );
+    expect(css).toMatch(/color: var\(--clover-color-secondary/);
+  });
+
+  /*
+   * `data-button` is derived from the id specifically so these selectors do not depend on a
+   * localized label. If the derivation or the selectors drift apart the nudge silently
+   * stops happening, which is invisible in a screenshot.
+   */
+  it("keys the rotate nudges on data-button, not on the localized id", () => {
+    render(
+      <Button id="rotateRight-abc" label="Rotate right">
+        <path d="M0 0" />
+      </Button>,
+    );
+
+    expect(screen.getByTestId("openseadragon-button")).toHaveAttribute(
+      "data-button",
+      "rotate-right",
+    );
+    expect(css).toMatch(/\[data-button="rotate-right"\]:hover svg/);
   });
 });

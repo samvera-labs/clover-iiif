@@ -7,7 +7,6 @@ import {
 import CloverImage from "src/components/Image";
 import { Thumbnail } from "src/components/Primitives";
 import React from "react";
-import { StyledImageViewer } from "src/components/Scroll/Figure/ImageViewer.styled";
 
 interface ImageViewerProps {
   body: IIIFExternalWebResource;
@@ -33,7 +32,7 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
   }
 
   return (
-    <StyledImageViewer data-testid="scroll-figure">
+    <div className="clover-scroll-image-viewer" data-testid="scroll-figure">
       {display === "thumbnail" ? (
         <Thumbnail
           data-testid="scroll-figure-thumbnail"
@@ -54,7 +53,7 @@ const ImageViewer: React.FC<ImageViewerProps> = ({
           {...(label && { label: label })}
         />
       )}
-    </StyledImageViewer>
+    </div>
   );
 };
 

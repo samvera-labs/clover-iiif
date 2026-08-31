@@ -1,0 +1,78 @@
+/*
+ * The control cluster over the canvas.
+ *
+ * Stitches expressed the offsets as three variants plus four compound variants; they are
+ * attribute selectors here. `data-has-information-toggle` and `data-panel-open` carried no
+ * styles of their own even then — their two variants were empty objects, existing only so
+ * the compound rules below could key on them — so they appear only in combination.
+ *
+ * The compounds win on specificity rather than on source order: three attribute selectors
+ * outrank one, which is the same precedence Stitches gave them by emitting compound
+ * variants after plain ones.
+ */
+.clover-iiif-image-openseadragon-controls {
+  position: absolute;
+  z-index: 1;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+}
+
+@media (max-width: 575px) {
+  .clover-iiif-image-openseadragon-controls {
+    flex-direction: column;
+    z-index: 2;
+  }
+}
+
+/* --------------------- placeholder alone --------------------- */
+
+.clover-iiif-image-openseadragon-controls[data-has-placeholder="true"] {
+  right: 3.618rem;
+}
+
+.clover-iiif-image-openseadragon-controls[data-has-placeholder="false"] {
+  right: 1rem;
+}
+
+@media (max-width: 575px) {
+  .clover-iiif-image-openseadragon-controls[data-has-placeholder="true"] {
+    top: 3.618rem;
+    right: 1rem;
+  }
+
+  .clover-iiif-image-openseadragon-controls[data-has-placeholder="false"] {
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+/* ------------- placeholder with the information toggle ------------- */
+
+.clover-iiif-image-openseadragon-controls[data-has-placeholder="false"][data-has-information-toggle="true"][data-panel-open="false"] {
+  right: 3.618rem;
+}
+
+.clover-iiif-image-openseadragon-controls[data-has-placeholder="true"][data-has-information-toggle="true"][data-panel-open="false"] {
+  right: 6.236rem;
+}
+
+.clover-iiif-image-openseadragon-controls[data-has-placeholder="false"][data-has-information-toggle="true"][data-panel-open="true"] {
+  right: 1.382rem;
+}
+
+.clover-iiif-image-openseadragon-controls[data-has-placeholder="true"][data-has-information-toggle="true"][data-panel-open="true"] {
+  right: 4rem;
+}
+
+@media (max-width: 575px) {
+  .clover-iiif-image-openseadragon-controls[data-has-placeholder="false"][data-has-information-toggle="true"][data-panel-open="false"] {
+    top: 3.618rem;
+    right: 1rem;
+  }
+
+  .clover-iiif-image-openseadragon-controls[data-has-placeholder="true"][data-has-information-toggle="true"][data-panel-open="false"] {
+    top: 6.236rem;
+    right: 1rem;
+  }
+}

@@ -8,7 +8,6 @@ import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 import AnnotationItem from "../Annotation/Item";
 import { AnnotationResource } from "src/types/annotations";
 import ContentSearchForm from "src/components/Viewer/InformationPanel/ContentSearch/ContentSearchForm";
-import { Group } from "../Annotation/Item.styled";
 import { Label } from "src/components/Primitives";
 import { getPaintingResource } from "src/hooks/use-iiif";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
@@ -80,7 +79,11 @@ const ContentSearch: React.FC<ContentSearchProps> = ({
         Object.keys(results).map((key) => {
           canvas = vault.get(key);
           return (
-            <Group key={key} data-testid="annotation-page">
+            <div
+              className="clover-viewer-annotation-group"
+              key={key}
+              data-testid="annotation-page"
+            >
               {canvas && (
                 <header>
                   <Label label={canvas.label} />
@@ -106,7 +109,7 @@ const ContentSearch: React.FC<ContentSearchProps> = ({
                   />
                 );
               })}
-            </Group>
+            </div>
           );
         })
       )}

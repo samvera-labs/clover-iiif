@@ -1,10 +1,5 @@
 // @ts-nocheck
 
-import {
-  Navigator,
-  Viewport,
-  Wrapper,
-} from "src/components/Image/Image.styled";
 import OpenSeadragon, { Options, Overlay } from "openseadragon";
 import React, { useEffect, useRef, useState } from "react";
 import useFullscreen from "src/hooks/useFullscreen";
@@ -584,12 +579,12 @@ const OSD: React.FC<OSDProps> = ({
   }
 
   return (
-    <Wrapper
+    <div
       className="clover-iiif-image-openseadragon"
       data-testid="clover-iiif-image-openseadragon"
       data-fullscreen={isFullscreen}
+      data-has-navigator={Boolean(config.showNavigator)}
       data-openseadragon-instance={config.id}
-      hasNavigator={config.showNavigator}
       ref={setWrapperElement}
     >
       {/*
@@ -602,18 +597,20 @@ const OSD: React.FC<OSDProps> = ({
         config={config}
       />
       {config.showNavigator && (
-        <Navigator
+        <div
+          className="clover-iiif-image-openseadragon-navigator"
           id={config.navigatorId}
           data-testid="clover-iiif-image-openseadragon-navigator"
         />
       )}
-      <Viewport
+      <div
+        className="clover-iiif-image-openseadragon-viewport"
         id={config.id}
         data-testid="clover-iiif-image-openseadragon-viewport"
         role="img"
         {...(ariaLabel && { "aria-label": ariaLabel })}
       />
-    </Wrapper>
+    </div>
   );
 };
 

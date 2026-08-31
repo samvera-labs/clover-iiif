@@ -1,8 +1,3 @@
-import {
-  DownloadButton,
-  DownloadContent,
-} from "src/components/Viewer/Viewer/Download.styled";
-
 import { Icon } from "src/components/UI/Icon/Icon";
 import { Popover } from "src/components/UI";
 import React from "react";
@@ -22,12 +17,18 @@ const ViewerDownload = () => {
 
   return (
     <Popover>
-      <DownloadButton data-testid="download-button">
+      <Popover.Trigger
+        className="clover-viewer-download-trigger"
+        data-testid="download-button"
+      >
         <Icon>
           <Icon.Download />
         </Icon>
-      </DownloadButton>
-      <DownloadContent data-testid="download-content">
+      </Popover.Trigger>
+      <Popover.Content
+        className="clover-viewer-popover-content clover-viewer-download-content"
+        data-testid="download-content"
+      >
         {individualPages.length > 0 && (
           <>
             <h3>Individual Pages</h3>
@@ -57,7 +58,7 @@ const ViewerDownload = () => {
             </ul>
           </>
         )}
-      </DownloadContent>
+      </Popover.Content>
     </Popover>
   );
 };

@@ -150,8 +150,6 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     activeCanvas,
     activeManifest,
     activeSelector,
-    annotationCollection,
-    configOptions,
     isLoaded,
     openSeadragonViewer,
     pendingAnnotationTarget,

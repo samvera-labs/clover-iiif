@@ -5,12 +5,9 @@ import React from "react";
 import { getRealPropertyValue } from "src/lib/utils";
 import { parseCustomContent } from "src/lib/custom";
 import { sanitizeAttributes } from "src/lib/html-element";
-import { styled } from "src/styles/stitches.config";
-
-const StyledMetadata = styled("dl", {});
 
 const Metadata: React.FC<PrimitivesMetadata> = (props) => {
-  const { as, customValueContent, metadata } = props;
+  const { as: Tag = "dl", customValueContent, metadata } = props;
 
   if (!Array.isArray(metadata)) return <></>;
 
@@ -34,7 +31,7 @@ const Metadata: React.FC<PrimitivesMetadata> = (props) => {
         : undefined)}
     >
       {metadata.length > 0 && (
-        <StyledMetadata as={as} {...attributes}>
+        <Tag {...attributes}>
           {metadata.map((item, index) => {
             const customValue = customValueContent
               ? parseCustomContent(item.label, customValueContent)
@@ -49,7 +46,7 @@ const Metadata: React.FC<PrimitivesMetadata> = (props) => {
               />
             );
           })}
-        </StyledMetadata>
+        </Tag>
       )}
     </PrimitivesProvider>
   );

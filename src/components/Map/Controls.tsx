@@ -1,5 +1,3 @@
-import { Item, Wrapper } from "src/components/Map/Controls.styled";
-
 import React from "react";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
@@ -32,8 +30,13 @@ const Controls: React.FC<MapControlsProps> = ({ onZoomIn, onZoomOut }) => {
   const { t } = useCloverTranslation();
 
   return (
-    <Wrapper data-testid="clover-map-controls">
-      <Item type="button" onClick={onZoomIn} data-testid="clover-map-zoom-in">
+    <div className="clover-map-controls" data-testid="clover-map-controls">
+      <button
+        className="clover-map-control"
+        type="button"
+        onClick={onZoomIn}
+        data-testid="clover-map-zoom-in"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           aria-labelledby="clover-map-zoom-in-svg-title"
@@ -44,8 +47,9 @@ const Controls: React.FC<MapControlsProps> = ({ onZoomIn, onZoomOut }) => {
           <title id="clover-map-zoom-in-svg-title">{t("imageZoomIn")}</title>
           <ZoomIn />
         </svg>
-      </Item>
-      <Item
+      </button>
+      <button
+        className="clover-map-control"
         type="button"
         onClick={onZoomOut}
         data-testid="clover-map-zoom-out"
@@ -60,8 +64,8 @@ const Controls: React.FC<MapControlsProps> = ({ onZoomIn, onZoomOut }) => {
           <title id="clover-map-zoom-out-svg-title">{t("imageZoomOut")}</title>
           <ZoomOut />
         </svg>
-      </Item>
-    </Wrapper>
+      </button>
+    </div>
   );
 };
 

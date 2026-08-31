@@ -1,0 +1,32 @@
+.clover-viewer-vtt-cues {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/*
+ * Also carries `.clover-annotation-row` (see Item.css), which supplies the shape this
+ * shares with an annotation item. Only the differences live here.
+ */
+.clover-viewer-vtt-cue {
+  justify-content: space-between;
+  text-align: left;
+  flex-grow: 1;
+  margin: 0;
+  margin-left: -1rem;
+  padding: 0.618rem 1rem;
+  width: calc(100% + 2rem);
+  font-size: 1rem;
+}
+
+.clover-viewer-vtt-cue strong {
+  margin-left: 1rem;
+}
+
+.clover-viewer-vtt-cue:hover {
+  color: var(--clover-color-accent, #0065c3);
+}
+
+.clover-viewer-vtt-cue[aria-checked="true"] {
+  background: #6662;
+}

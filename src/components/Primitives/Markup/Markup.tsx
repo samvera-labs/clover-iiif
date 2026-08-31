@@ -8,12 +8,9 @@ import { createMarkup, sanitizeAttributes } from "src/lib/html-element";
 import { PrimitivesMarkup } from "src/types/primitives";
 import React from "react";
 import { getLabelAsString } from "src/lib/label-helpers";
-import { styled } from "src/styles/stitches.config";
-
-const StyledMarkup = styled("span", {});
 
 const Markup: React.FC<PrimitivesMarkup> = (props) => {
-  const { as, markup } = props;
+  const { as: Tag = "span", markup } = props;
   const { delimiter } = usePrimitivesContext();
 
   if (!markup) return <></>;
@@ -28,9 +25,7 @@ const Markup: React.FC<PrimitivesMarkup> = (props) => {
     getLabelAsString(markup, attributes.lang as string, delimiter) as string,
   );
 
-  return (
-    <StyledMarkup as={as} {...attributes} dangerouslySetInnerHTML={html} />
-  );
+  return <Tag {...attributes} dangerouslySetInnerHTML={html} />;
 };
 
 const MarkupWrapper: React.FC<PrimitivesMarkup> = (props) => {

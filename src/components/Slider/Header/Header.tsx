@@ -1,10 +1,4 @@
 import { ContentResource, InternationalString } from "@iiif/presentation-3";
-import {
-  HeaderContent,
-  HeaderControls,
-  HeaderCounter,
-  HeaderStyled,
-} from "./Header.styled";
 import { Homepage, Label, Summary } from "src/components/Primitives";
 import {
   CloseIcon,
@@ -14,8 +8,8 @@ import {
 } from "src/components/Shared/Control/Icons";
 import React, { useEffect, useState } from "react";
 
-import { ControlStyled } from "src/components/Shared/Control/Control.styled";
-import { SearchInput } from "src/components/Shared/Search/Search.styled";
+import { Control } from "src/components/Shared/Control/Control";
+import { SearchInput } from "src/components/Shared/Search/Search";
 import { getLabelAsString } from "src/lib/label-helpers";
 import type { SliderPager } from "src/types/slider";
 import ViewAll from "./ViewAll";
@@ -106,7 +100,7 @@ const Header: React.FC<HeaderProps> = ({
    * and points left. Reading direction is the reader's, not the widget's.
    */
   const back = (
-    <ControlStyled
+    <Control
       className="clover-slider-previous"
       aria-label={t("commonPrevious")}
       disabled={!canGoBack}
@@ -115,11 +109,11 @@ const Header: React.FC<HeaderProps> = ({
       type="button"
     >
       {isRtl ? <NextIcon /> : <PreviousIcon />}
-    </ControlStyled>
+    </Control>
   );
 
   const forward = (
-    <ControlStyled
+    <Control
       className="clover-slider-next"
       aria-label={t("commonNext")}
       disabled={!canGoForward}
@@ -128,16 +122,16 @@ const Header: React.FC<HeaderProps> = ({
       type="button"
     >
       {isRtl ? <PreviousIcon /> : <NextIcon />}
-    </ControlStyled>
+    </Control>
   );
 
   return (
-    <HeaderStyled data-testid="slider-header">
+    <div className="clover-slider-header" data-testid="slider-header">
       {/*
        * Rendered even with nothing in it. `HeaderStyled` spaces its two children apart, so
        * this element is what holds the controls to the right; drop it and they slide left.
        */}
-      <HeaderContent>
+      <div className="clover-slider-header-content">
         {hasLabel &&
           (hasHomepage ? (
             <Homepage
@@ -166,8 +160,8 @@ const Header: React.FC<HeaderProps> = ({
             className="clover-slider-header-summary"
           />
         )}
-      </HeaderContent>
-      <HeaderControls>
+      </div>
+      <div className="clover-slider-header-controls">
         {/*
          * The filter field takes the counter's place rather than sitting beside it. Both
          * report on the same sequence, and only one of them is useful at a time.
@@ -184,9 +178,9 @@ const Header: React.FC<HeaderProps> = ({
           />
         ) : (
           stepsPager && (
-            <HeaderCounter className="clover-slider-counter">
+            <span className="clover-slider-counter">
               {pager?.current} <em>/</em> {pager?.total}
-            </HeaderCounter>
+            </span>
           )
         )}
 
@@ -200,14 +194,14 @@ const Header: React.FC<HeaderProps> = ({
         {isRtl ? [forward, back] : [back, forward]}
 
         {search && (
-          <ControlStyled
+          <Control
             aria-label={isFiltering ? t("commonClose") : t("commonSearch")}
             className="clover-slider-search"
             onClick={handleFilterToggle}
             type="button"
           >
             {isFiltering ? <CloseIcon /> : <SearchIcon />}
-          </ControlStyled>
+          </Control>
         )}
 
         {hasHomepage && (
@@ -216,8 +210,8 @@ const Header: React.FC<HeaderProps> = ({
             className="clover-slider-header-view-all"
           />
         )}
-      </HeaderControls>
-    </HeaderStyled>
+      </div>
+    </div>
   );
 };
 

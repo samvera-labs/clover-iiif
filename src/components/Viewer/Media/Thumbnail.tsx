@@ -1,12 +1,5 @@
-import {
-  Duration,
-  FigureImage,
-  Item,
-  Outline,
-  Spacer,
-  Type,
-} from "src/components/Viewer/Media/Thumbnail.styled";
 import { Icon, Tag } from "src/components/UI";
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import React, { useEffect, useState } from "react";
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
@@ -116,15 +109,16 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
   const settle = () => setIsLoaded(true);
 
   return (
-    <Item
+    <RadioGroup.Item
       aria-checked={isActive}
+      className="clover-viewer-media-item"
       data-testid="media-thumbnail"
       data-canvas={canvasIndex}
       onClick={() => handleChange(canvas.id)}
       value={canvas.id}
     >
       <figure>
-        <FigureImage data-loaded={isLoaded}>
+        <div className="clover-viewer-media-image" data-loaded={isLoaded}>
           <LazyLoad
             isVisibleCallback={handleIsVisibleCallback}
             attributes={{
@@ -143,9 +137,9 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
               />
             )}
           </LazyLoad>
-          <Outline />
+          <span className="clover-viewer-media-outline" />
           {showBadge && (
-            <Type>
+            <span className="clover-viewer-media-type">
               {/*
                * `isIcon` only when the glyph is there: the variant reserves room for it with
                * `paddingLeft`, which would otherwise leave a duration badge padded against
@@ -154,19 +148,21 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
               <Tag isIcon={showResourceIcon} data-testid="thumbnail-tag">
                 {showResourceIcon && (
                   <>
-                    <Spacer />
+                    <span className="clover-viewer-media-spacer" />
                     <Icon aria-label={type}>
                       <IconPath type={type} />
                     </Icon>
                   </>
                 )}
                 {hasDuration && (
-                  <Duration>{convertTime(canvas.duration as number)}</Duration>
+                  <span className="clover-viewer-media-duration">
+                    {convertTime(canvas.duration as number)}
+                  </span>
                 )}
               </Tag>
-            </Type>
+            </span>
           )}
-        </FigureImage>
+        </div>
         <figcaption data-testid="fig-caption">
           {canvas.label ? (
             <Label label={canvas.label} />
@@ -175,7 +171,7 @@ const Thumbnail: React.FC<ThumbnailProps> = ({
           )}
         </figcaption>
       </figure>
-    </Item>
+    </RadioGroup.Item>
   );
 };
 

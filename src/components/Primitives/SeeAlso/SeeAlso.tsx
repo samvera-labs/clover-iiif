@@ -1,14 +1,10 @@
 import React from "react";
-import { styled } from "src/styles/stitches.config";
 import { getLabelAsString } from "src/lib/label-helpers";
 import { PrimitivesSeeAlso } from "src/types/primitives";
 import { sanitizeAttributes } from "src/lib/html-element";
 
-const StyledSeeAlso = styled("li", {});
-const StyledWrapper = styled("ul", {});
-
 const SeeAlso: React.FC<PrimitivesSeeAlso> = (props) => {
-  const { as, seeAlso } = props;
+  const { as: Wrapper = "ul", seeAlso } = props;
 
   /**
    * Create attributes and remove React props
@@ -17,7 +13,7 @@ const SeeAlso: React.FC<PrimitivesSeeAlso> = (props) => {
   const attributes = sanitizeAttributes(props, remove);
 
   return (
-    <StyledWrapper as={as}>
+    <Wrapper>
       {seeAlso &&
         seeAlso.map((resource) => {
           const label = getLabelAsString(
@@ -25,14 +21,14 @@ const SeeAlso: React.FC<PrimitivesSeeAlso> = (props) => {
             attributes.lang,
           ) as string;
           return (
-            <StyledSeeAlso key={resource.id}>
+            <li key={resource.id}>
               <a href={resource.id} {...attributes}>
                 {label ? label : resource.id}
               </a>
-            </StyledSeeAlso>
+            </li>
           );
         })}
-    </StyledWrapper>
+    </Wrapper>
   );
 };
 

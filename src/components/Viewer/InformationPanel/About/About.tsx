@@ -1,8 +1,4 @@
 import {
-  AboutContent,
-  AboutStyled,
-} from "src/components/Viewer/InformationPanel/About/About.styled";
-import {
   CanvasNormalized,
   ContentResource,
   IIIFExternalWebResource,
@@ -82,8 +78,8 @@ const About: React.FC = () => {
   if (!manifest) return <></>;
 
   return (
-    <AboutStyled>
-      <AboutContent>
+    <div className="clover-viewer-about">
+      <div className="clover-viewer-about-content">
         <Thumbnail
           thumbnail={thumbnail}
           label={manifest.label}
@@ -100,8 +96,8 @@ const About: React.FC = () => {
         <SeeAlso seeAlso={seeAlso} />
         <Rendering rendering={rendering} />
         <Id id={manifest.id} htmlLabel="IIIF Manifest" />
-      </AboutContent>
-    </AboutStyled>
+      </div>
+    </div>
   );
 };
 

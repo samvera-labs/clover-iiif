@@ -1,5 +1,9 @@
 import { build } from "vite";
-import { defineConfig } from "./base-config.mjs";
+import {
+  colocatedCssPlugin,
+  defineConfig,
+  injectCssPlugin,
+} from "./base-config.mjs";
 import { execa } from "execa";
 import fs from "fs";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -179,6 +183,10 @@ const buildOptions = {
       },
     },
     define: { "process.env.NODE_ENV": '"production"' },
-    plugins: [tsconfigPaths()]
+    plugins: [
+      tsconfigPaths(),
+      colocatedCssPlugin(),
+      injectCssPlugin("web-components"),
+    ]
   });
 })();

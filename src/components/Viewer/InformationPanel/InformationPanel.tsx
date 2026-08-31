@@ -5,7 +5,7 @@ import {
   Scroll,
   Trigger,
   Wrapper,
-} from "src/components/Viewer/InformationPanel/InformationPanel.styled";
+} from "src/components/Viewer/InformationPanel/Tabs";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   ViewerContextStore,
@@ -543,7 +543,6 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             value="manifest-back"
             data-value="manifest-back"
             onClick={handleInformationPanelClose}
-            as={"button"}
             aria-label={t("informationPanelTabsClose")}
           >
             <Icon fill="currentColor" aria-hidden="true">

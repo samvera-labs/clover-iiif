@@ -1,5 +1,4 @@
 import React from "react";
-import { styled } from "src/styles/stitches.config";
 
 interface PlaceholderProps {
   backgroundImage: string;
@@ -15,33 +14,16 @@ interface PlaceholderProps {
  */
 const Placeholder: React.FC<PlaceholderProps> = ({ backgroundImage }) => {
   return (
-    <StyledPlaceholder data-testid="slider-item-placeholder">
-      <BackgroundImage
-        css={{
-          backgroundImage: `url(${backgroundImage})`,
-        }}
+    <div
+      className="clover-slider-item-placeholder"
+      data-testid="slider-item-placeholder"
+    >
+      <div
+        className="clover-slider-item-placeholder-image"
+        style={{ backgroundImage: `url(${backgroundImage})` }}
       />
-    </StyledPlaceholder>
+    </div>
   );
 };
-
-const BackgroundImage = styled("div", {
-  width: "100%",
-  height: "100%",
-  backgroundSize: "cover",
-  backgroundRepeat: "no-repeat",
-  backgroundPosition: "50% 50%",
-  filter: "blur(3em)",
-  opacity: "0.7",
-});
-
-const StyledPlaceholder = styled("div", {
-  position: "absolute",
-  width: "100%",
-  aspectRatio: "1",
-  height: "var(--clover-thumbnail-height, auto)",
-  overflow: "hidden",
-  backgroundColor: "#716C6B",
-});
 
 export default Placeholder;

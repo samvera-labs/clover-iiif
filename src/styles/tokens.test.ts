@@ -1,9 +1,7 @@
 import {
-  colorVarRefs,
   cssVarName,
   customThemeToCssVars,
   defaultColors,
-  themeVarBridge,
 } from "src/styles/tokens";
 
 /**
@@ -94,35 +92,6 @@ describe("customThemeToCssVars", () => {
 });
 
 describe("token plumbing", () => {
-  /**
-   * Guards the chain that makes `customTheme` and external theming reach the
-   * components: the style layer's own `--colors-*` properties are
-   * re-derived from the `--clover-*` names that `customThemeToCssVars` writes. If a
-   * token were renamed on one side only, theming would silently stop working.
-   */
-  it("bridges every colour token to a --clover-* reference", () => {
-    Object.keys(defaultColors).forEach((token) => {
-      expect(themeVarBridge[`--colors-${token}`]).toBe(
-        `var(${cssVarName("color", token)}, ${
-          defaultColors[token as keyof typeof defaultColors]
-        })`,
-      );
-    });
-  });
-
-  /* Type is inherited, so the bridge has no business carrying a font. */
-  it("bridges no font token", () => {
-    Object.keys(themeVarBridge).forEach((key) => {
-      expect(key.startsWith("--fonts-")).toBe(false);
-    });
-  });
-
-  it("carries a literal fallback for every token so the library styles itself unaided", () => {
-    Object.values(colorVarRefs).forEach((ref) => {
-      expect(ref).toMatch(/^var\(--clover-[a-z-]+, .+\)$/);
-    });
-  });
-
   it("defines colours as plain hex, not as another design system's variables", () => {
     Object.values(defaultColors).forEach((value) => {
       expect(value).toMatch(/^#[0-9A-F]{6}$/);

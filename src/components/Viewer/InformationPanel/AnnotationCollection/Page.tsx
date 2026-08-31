@@ -15,12 +15,6 @@ import {
 import { zoomToOverlay } from "src/lib/openseadragon-helpers";
 import { getPaintingResource } from "src/hooks/use-iiif";
 import { Label } from "src/components/Primitives";
-import {
-  ButtonStyled,
-  Group,
-  Item,
-  StyledAnnotationContent,
-} from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
 
 type Props = {
   annotationCollection: AnnotationCollectionNormalized;
@@ -51,9 +45,12 @@ const AnnotationCollectionPage: React.FC<Props> = ({
     }
 
     manifestIds.forEach((manifestId) => {
-      vault.load(manifestId).then(() => {
-        setLoadedManifests((n) => n + 1);
-      }).catch(() => {});
+      vault
+        .load(manifestId)
+        .then(() => {
+          setLoadedManifests((n) => n + 1);
+        })
+        .catch(() => {});
     });
   }, [annotationCollection]);
 
@@ -129,7 +126,11 @@ const AnnotationCollectionPage: React.FC<Props> = ({
   return (
     <>
       {annotationCollection.pages.map((page, pageIndex) => (
-        <Group key={page.id} data-testid="annotation-collection-page">
+        <div
+          className="clover-viewer-annotation-group"
+          key={page.id}
+          data-testid="annotation-collection-page"
+        >
           {annotationCollection.pages.length > 1 && (
             <header>
               {annotationCollection.label ? (
@@ -157,12 +158,12 @@ const AnnotationCollectionPage: React.FC<Props> = ({
               const isActive = activeAnnotationId === annotation.id;
 
               return (
-                <Item
+                <div
                   key={annotation.id}
                   data-format="text/plain"
                   data-content={bodyText}
                   data-active={isActive ? "true" : undefined}
-                  className="clover-iiif-annotation-item"
+                  className="clover-annotation-row clover-iiif-annotation-item"
                   title={motivation}
                 >
                   <span
@@ -176,18 +177,19 @@ const AnnotationCollectionPage: React.FC<Props> = ({
                         : {}
                     }
                   ></span>
-                  <ButtonStyled
+                  <button
+                    className="clover-viewer-annotation-button"
                     onClick={() => handleAnnotationClick(annotation)}
                   >
-                    <StyledAnnotationContent>
+                    <div className="clover-viewer-annotation-content">
                       {bodyText}
-                    </StyledAnnotationContent>
-                  </ButtonStyled>
-                </Item>
+                    </div>
+                  </button>
+                </div>
               );
             })}
           </div>
-        </Group>
+        </div>
       ))}
     </>
   );

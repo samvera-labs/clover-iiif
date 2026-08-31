@@ -1,9 +1,5 @@
+import * as Checkbox from "@radix-ui/react-checkbox";
 import React, { useContext } from "react";
-import {
-  StyledScrollLanguageOption,
-  StyledScrollLanguageOptionCheckbox,
-  StyledScrollLanguageOptionIndicator,
-} from "./Language.styled";
 
 import { ScrollContext } from "src/context/scroll-context";
 
@@ -39,17 +35,18 @@ const LanguageOption = ({
   };
 
   return (
-    <StyledScrollLanguageOption
+    <Checkbox.Root
+      className="clover-scroll-language-option"
       checked={isChecked}
       onCheckedChange={handleCheckedChange}
     >
-      <StyledScrollLanguageOptionCheckbox>
-        <StyledScrollLanguageOptionIndicator>
+      <div className="clover-scroll-language-checkbox">
+        <Checkbox.Indicator className="clover-scroll-language-indicator">
           ✓
-        </StyledScrollLanguageOptionIndicator>
-      </StyledScrollLanguageOptionCheckbox>
+        </Checkbox.Indicator>
+      </div>
       {label}
-    </StyledScrollLanguageOption>
+    </Checkbox.Root>
   );
 };
 

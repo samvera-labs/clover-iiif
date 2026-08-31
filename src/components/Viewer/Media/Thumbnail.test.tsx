@@ -24,7 +24,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 
 import React from "react";
-import { StyledSequence } from "src/components/Viewer/Media/Media.styled";
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import { ViewerProvider, defaultState } from "src/context/viewer-context";
 import Thumbnail from "src/components/Viewer/Media/Thumbnail";
 import { ThumbnailProps } from "src/components/Viewer/Media/Thumbnail";
@@ -69,9 +69,9 @@ describe("Thumbnail component", () => {
   describe("image type", () => {
     beforeEach(() => {
       render(
-        <StyledSequence>
+        <RadioGroup.Root>
           <Thumbnail {...props} />
-        </StyledSequence>,
+        </RadioGroup.Root>,
       );
     });
 
@@ -106,9 +106,9 @@ describe("Thumbnail component", () => {
         },
       };
       render(
-        <StyledSequence>
+        <RadioGroup.Root>
           <Thumbnail {...newProps} />
-        </StyledSequence>,
+        </RadioGroup.Root>,
       );
       const lazy = await screen.findByTestId("media-thumbnail-lazyload");
       expect(lazy).toBeInTheDocument();
@@ -127,9 +127,9 @@ describe("Thumbnail component", () => {
     it("displays a thumbnail for canvas with designated thumbnail", async () => {
       const newProps = { ...props };
       render(
-        <StyledSequence>
+        <RadioGroup.Root>
           <Thumbnail {...newProps} />
-        </StyledSequence>,
+        </RadioGroup.Root>,
       );
       const lazy = await screen.findByTestId("media-thumbnail-lazyload");
       expect(lazy).toBeInTheDocument();
@@ -156,9 +156,9 @@ describe("Thumbnail component", () => {
     it("renders a fallback label for item index + 1", async () => {
       const newProps = { ...props, canvas: { ...props.canvas, label: null } };
       render(
-        <StyledSequence>
+        <RadioGroup.Root>
           <Thumbnail {...newProps} />
-        </StyledSequence>,
+        </RadioGroup.Root>,
       );
       const fig = await screen.findByTestId("fig-caption");
       expect(fig).toHaveTextContent("2");
@@ -169,9 +169,9 @@ describe("Thumbnail component", () => {
     it("renders a duration value in the tag for audio type", () => {
       const newProps = { ...props, type: "Sound" };
       render(
-        <StyledSequence>
+        <RadioGroup.Root>
           <Thumbnail {...newProps} />
-        </StyledSequence>,
+        </RadioGroup.Root>,
       );
       const tag = screen.getByTestId("thumbnail-tag");
       expect(within(tag).getByText("0:00")).toBeInTheDocument();
@@ -180,9 +180,9 @@ describe("Thumbnail component", () => {
     it("renders a duration value in the tag for video type", () => {
       const newProps = { ...props, type: "Video" };
       render(
-        <StyledSequence>
+        <RadioGroup.Root>
           <Thumbnail {...newProps} />
-        </StyledSequence>,
+        </RadioGroup.Root>,
       );
       const tag = screen.getByTestId("thumbnail-tag");
       expect(within(tag).getByText("0:00")).toBeInTheDocument();
@@ -201,17 +201,17 @@ describe("Thumbnail component", () => {
             },
           }}
         >
-          <StyledSequence>
+          <RadioGroup.Root>
             <Thumbnail {...props} {...overrides} />
-          </StyledSequence>
+          </RadioGroup.Root>
         </ViewerProvider>,
       );
 
     it("hides the type badge on an image thumbnail by default", () => {
       render(
-        <StyledSequence>
+        <RadioGroup.Root>
           <Thumbnail {...props} />
-        </StyledSequence>,
+        </RadioGroup.Root>,
       );
       expect(screen.queryByTestId("thumbnail-tag")).toBeNull();
     });

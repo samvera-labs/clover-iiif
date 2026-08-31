@@ -2,7 +2,6 @@ import React from "react";
 
 import { CollectionItems } from "@iiif/presentation-3";
 import Item from "./Item";
-import { ItemsStyled } from "src/components/Slider/Items/Items.styled";
 import LazyLoad from "src/components/UI/LazyLoad/LazyLoad";
 import { SliderItem } from "src/types/slider";
 import { type BreakpointConfig } from "src/components/Slider/useBreakpoints";
@@ -60,7 +59,8 @@ const Items: React.FC<ItemsProps> = ({
    * thumbnails, whose aspect ratios vary and which would be distorted by a fixed column.
    */
   return (
-    <ItemsStyled
+    <div
+      className="clover-slider-items"
       ref={track.ref}
       {...(!presentational && { "aria-roledescription": "carousel" })}
       data-testid="slider-items"
@@ -135,7 +135,7 @@ const Items: React.FC<ItemsProps> = ({
           );
         })}
       </div>
-    </ItemsStyled>
+    </div>
   );
 };
 

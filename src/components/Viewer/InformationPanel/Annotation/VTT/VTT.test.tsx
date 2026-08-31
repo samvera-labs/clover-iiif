@@ -40,7 +40,7 @@ describe("AnnotationItemVTT", () => {
     render(<AnnotationItemVTT {...props} />);
     expect(global.fetch).toHaveBeenCalledTimes(1);
     expect(global.fetch).toHaveBeenCalledWith("https://example.com/image.jpg", {
-      redirect: 'follow',
+      redirect: "follow",
       headers: {
         Accept: "text/vtt, text/plain, */*",
       },

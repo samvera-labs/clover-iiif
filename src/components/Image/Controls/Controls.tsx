@@ -9,7 +9,6 @@ import Button from "src/components/Image/Controls/Button";
 import { CanvasNormalized } from "@iiif/presentation-3";
 import { Options } from "openseadragon";
 import React, { useEffect } from "react";
-import { Wrapper } from "src/components/Image/Controls/Controls.styled";
 import { toggleFullscreen } from "src/lib/fullscreen";
 import useWithinFullscreen from "src/hooks/useWithinFullscreen";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
@@ -263,13 +262,14 @@ const Controls = ({
    */
 
   return (
-    <Wrapper
+    <div
+      className="clover-iiif-image-openseadragon-controls"
       data-fullscreen={isFullscreen}
+      data-has-information-toggle={hasInformationToggle}
+      data-has-placeholder={Boolean(_cloverViewerHasPlaceholder)}
+      data-panel-open={Boolean(isInformationOpen)}
       data-testid="clover-iiif-image-openseadragon-controls"
       ref={setControlsElement}
-      hasPlaceholder={_cloverViewerHasPlaceholder}
-      hasInformationToggle={hasInformationToggle}
-      panelOpen={isInformationOpen}
     >
       {config.showZoomControl && (
         <>
@@ -319,7 +319,7 @@ const Controls = ({
           <Reset />,
         )}
       {renderPlugins()}
-    </Wrapper>
+    </div>
   );
 };
 

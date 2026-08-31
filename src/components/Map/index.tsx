@@ -20,7 +20,6 @@ import type maplibregl from "maplibre-gl";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import Controls from "src/components/Map/Controls";
-import { Canvas, Wrapper } from "src/components/Map/Map.styled";
 import { resolveCloverColor } from "src/styles/tokens";
 import {
   GeoreferenceAnnotation,
@@ -961,13 +960,13 @@ const CloverMap: React.FC<CloverMapProps> = ({
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Wrapper className="clover-map" data-testid="clover-map">
+      <div className="clover-map" data-testid="clover-map">
         <Controls
           onZoomIn={() => mapRef.current?.zoomIn()}
           onZoomOut={() => mapRef.current?.zoomOut()}
         />
-        <Canvas ref={containerRef} />
-      </Wrapper>
+        <div className="clover-map-canvas" ref={containerRef} />
+      </div>
     </ErrorBoundary>
   );
 };

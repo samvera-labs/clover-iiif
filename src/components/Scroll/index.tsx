@@ -14,7 +14,6 @@ import {
 } from "@iiif/presentation-3";
 import ScrollHeader from "src/components/Scroll/Layout/Header";
 import ScrollItems from "src/components/Scroll/Items/Items";
-import { StyledScrollWrapper } from "src/components/Scroll/Layout/Layout.styled";
 import {
   extractLanguages,
   filterAnnotationsByMotivation,
@@ -69,9 +68,9 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
       if (!annotationPageId) return undefined;
 
       try {
-        const loadedPage = (await vault.load(
-          annotationPageId,
-        )) as AnnotationPageNormalized | undefined;
+        const loadedPage = (await vault.load(annotationPageId)) as
+          | AnnotationPageNormalized
+          | undefined;
         return loadedPage;
       } catch (error) {
         console.warn(
@@ -90,9 +89,9 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
         if (!canvas?.annotations) continue;
 
         for (const annotationPageRef of canvas.annotations) {
-          let annotationPage = vault.get(
-            annotationPageRef,
-          ) as AnnotationPageNormalized | undefined;
+          let annotationPage = vault.get(annotationPageRef) as
+            | AnnotationPageNormalized
+            | undefined;
 
           if (!annotationPage?.items?.length) {
             const referencedPage =
@@ -105,9 +104,9 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
 
           annotationPage?.items?.forEach(
             (annotationRef: Reference<"Annotation">) => {
-              const annotation = vault.get(
-                annotationRef,
-              ) as AnnotationNormalized | undefined;
+              const annotation = vault.get(annotationRef) as
+                | AnnotationNormalized
+                | undefined;
               if (!annotation) return;
               allAnnotations.push(annotation);
             },
@@ -172,7 +171,7 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
   if (!manifest) return null;
 
   return (
-    <StyledScrollWrapper>
+    <section className="clover-scroll">
       {manifest && (
         <>
           <ScrollHeader
@@ -182,7 +181,7 @@ const RenderCloverScroll = ({ iiifContent }: { iiifContent: string }) => {
           <ScrollItems items={manifest.items} />
         </>
       )}
-    </StyledScrollWrapper>
+    </section>
   );
 };
 

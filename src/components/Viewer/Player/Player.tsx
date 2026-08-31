@@ -10,7 +10,6 @@ import {
 import { AnnotationResources } from "src/types/annotations";
 import AudioVisualizer from "src/components/Viewer/Player/AudioVisualizer";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
-import { PlayerWrapper } from "src/components/Viewer/Player/Player.styled";
 import Track from "src/components/Viewer/Player/Track";
 import { isCaptionResource } from "src/lib/annotation-helpers";
 import { getPaintingResource } from "src/hooks/use-iiif";
@@ -293,14 +292,14 @@ const Player: React.FC<PlayerProps> = ({
   }, [playerRef, contentStateAnnotation]);
 
   return (
-    <PlayerWrapper
-      css={{
+    <div
+      className="clover-viewer-player-wrapper"
+      data-testid="player-wrapper"
+      style={{
         backgroundColor: configOptions.canvasBackgroundColor,
         maxHeight: configOptions.canvasHeight,
         position: "relative",
       }}
-      data-testid="player-wrapper"
-      className="clover-viewer-player-wrapper"
     >
       <video
         id="clover-iiif-video"
@@ -368,7 +367,7 @@ const Player: React.FC<PlayerProps> = ({
       </video>
 
       {isAudio && <AudioVisualizer ref={playerRef} />}
-    </PlayerWrapper>
+    </div>
   );
 };
 

@@ -3,11 +3,9 @@ import React, { useCallback, useEffect, useRef } from "react";
 import { PrimitivesContentResource } from "src/types/primitives";
 import { getLabelAsString } from "src/lib/label-helpers";
 import { isHls } from "src/lib/hls";
+import { join } from "src/lib/classnames";
 import { sanitizeAttributes } from "src/lib/html-element";
-import { styled } from "src/styles/stitches.config";
 import { useGetImageResource } from "src/hooks/useGetImageResource";
-
-const StyledResource = styled("img", { objectFit: "cover" });
 
 const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
   const mediaRef = useRef(null);
@@ -19,8 +17,9 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
   /**
    * Create attributes and remove React props
    */
-  const remove = ["contentResource", "altAsLabel"];
+  const remove = ["className", "contentResource", "altAsLabel"];
   const attributes = sanitizeAttributes(props, remove);
+  const className = join("clover-content-resource", props.className);
 
   const { type, id, width = 200, height = 200, duration } = contentResource;
 
@@ -124,27 +123,29 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
   switch (type) {
     case "Image":
       return (
-        <StyledResource
-          as="img"
+        <img
           alt={alt}
-          css={{ width: width, height: height }}
+          className={className}
+          height={height}
           key={id}
           src={imgSrc}
+          width={width}
           {...attributes}
         />
       );
 
     case "Video":
       return (
-        <StyledResource
-          as="video"
-          css={{ width: width, height: height }}
+        <video
+          className={className}
           disablePictureInPicture
+          height={height}
           key={id}
           loop
           muted
           onPause={playLoop}
           ref={mediaRef}
+          width={width}
           // Don't set `src` for HLS sources — the useEffect above attaches
           // the playlist via hls.js (or native HLS for Safari). Setting src
           // here would race the attach in non-Safari browsers.

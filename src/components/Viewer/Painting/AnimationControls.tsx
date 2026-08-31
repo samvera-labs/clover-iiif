@@ -1,15 +1,3 @@
-import {
-  AnimationBar,
-  AnimationButton,
-  AnimationControlsRow,
-  AnimationControlsWrapper,
-  AnimationCounter,
-  AnimationThumbnailButton,
-  AnimationThumbnailStrip,
-} from "./AnimationControls.styled";
-
-export { AnimationBar, AnimationControlsRow, AnimationThumbnailButton, AnimationThumbnailStrip };
-
 import React from "react";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 
@@ -115,8 +103,8 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
   const elapsed = frameIndex * frameDuration;
 
   return (
-    <AnimationControlsWrapper className="clover-viewer-animation-controls">
-      <AnimationCounter>
+    <div className="clover-viewer-animation-controls">
+      <span className="clover-viewer-animation-counter">
         {duration > 0 ? (
           <>
             {formatTime(elapsed)} <em>/</em> {formatTime(duration)}
@@ -126,18 +114,20 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
             {frameIndex + 1} <em>/</em> {totalFrames}
           </>
         )}
-      </AnimationCounter>
+      </span>
 
-      <AnimationButton
+      <button
+        className="clover-viewer-animation-button"
         onClick={onPrevFrame}
         disabled={frameIndex === 0}
         type="button"
         aria-label={t("canvasAnimationPreviousFrame")}
       >
         <PreviousFrameIcon title={t("canvasAnimationPreviousFrame")} />
-      </AnimationButton>
+      </button>
 
-      <AnimationButton
+      <button
+        className="clover-viewer-animation-button"
         onClick={isPlaying ? onPause : onPlay}
         type="button"
         aria-label={
@@ -149,9 +139,10 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
         ) : (
           <PlayIcon title={t("canvasAnimationPlay")} />
         )}
-      </AnimationButton>
+      </button>
 
-      <AnimationButton
+      <button
+        className="clover-viewer-animation-button"
         onClick={onToggleRepeat}
         type="button"
         aria-label={t("canvasAnimationRepeat")}
@@ -159,17 +150,18 @@ const AnimationControls: React.FC<AnimationControlsProps> = ({
         data-active={isRepeat}
       >
         <RepeatIcon title={t("canvasAnimationRepeat")} />
-      </AnimationButton>
+      </button>
 
-      <AnimationButton
+      <button
+        className="clover-viewer-animation-button"
         onClick={onNextFrame}
         disabled={frameIndex === totalFrames - 1}
         type="button"
         aria-label={t("canvasAnimationNextFrame")}
       >
         <NextFrameIcon title={t("canvasAnimationNextFrame")} />
-      </AnimationButton>
-    </AnimationControlsWrapper>
+      </button>
+    </div>
   );
 };
 
