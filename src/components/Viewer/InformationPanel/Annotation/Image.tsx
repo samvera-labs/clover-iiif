@@ -1,4 +1,3 @@
-import { ButtonStyled } from "./Item.styled";
 import React from "react";
 
 type AnnotationItemImageProps = {
@@ -13,10 +12,10 @@ const AnnotationItemImage: React.FC<AnnotationItemImageProps> = ({
   imageUri,
 }) => {
   return (
-    <ButtonStyled onClick={handleClick}>
+    <button className="clover-viewer-annotation-button" onClick={handleClick}>
       <img src={imageUri} alt={`A visual annotation for ${caption}`} />
       <span>{caption}</span>
-    </ButtonStyled>
+    </button>
   );
 };
 

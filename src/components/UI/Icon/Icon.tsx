@@ -8,10 +8,7 @@ import {
   PanelExpand,
   Video,
 } from "src/components/UI/Icons";
-import { type CSS, type VariantProps } from "src/styles/stitches.config";
-
 import React from "react";
-import { StyledIcon } from "./Icon.styled";
 
 /**
  * Define SVG sub element <title>
@@ -43,22 +40,34 @@ interface IconComposition {
   Video: React.FC;
 }
 
-type VariantComponentProps = React.SVGAttributes<SVGElement>;
-type IconVariants = VariantProps<typeof StyledIcon>;
-type IconProps = VariantComponentProps &
-  IconVariants & { css?: CSS } & IconShape;
+type IconProps = React.SVGAttributes<SVGElement> &
+  IconShape & {
+    /** Renders at 1rem square. The only size the library ever asks for. */
+    isSmall?: boolean;
+  };
 
-const Icon: React.FC<IconProps> & IconComposition = (props) => {
+const Icon: React.FC<IconProps> & IconComposition = ({
+  children,
+  className,
+  isSmall,
+  ...attributes
+}) => {
   return (
-    <StyledIcon
-      {...props}
+    <svg
+      {...attributes}
+      /*
+       * The consumer's class is kept alongside Clover's rather than replacing it, so a
+       * `className` passed in adds to the element instead of silently disabling its styles.
+       */
+      className={["clover-icon", className].filter(Boolean).join(" ")}
+      data-size={isSmall ? "small" : undefined}
       data-testid="icon-svg"
       role="img"
       viewBox="0 0 512 512"
       xmlns="http://www.w3.org/2000/svg"
     >
-      {props.children}
-    </StyledIcon>
+      {children}
+    </svg>
   );
 };
 

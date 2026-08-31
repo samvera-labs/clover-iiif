@@ -1,5 +1,4 @@
 import React from "react";
-import { ToggleStyled } from "./Painting.styled";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 import { useViewerState } from "src/context/viewer-context";
 
@@ -59,20 +58,21 @@ const Toggle: React.FC<ToggleProps> = ({
   );
 
   return (
-    <ToggleStyled
-      onClick={handleToggle}
-      isInteractive={isInteractive}
-      isMedia={isMedia}
-      hasInformationToggle={hasInformationToggle}
-      panelOpen={isInformationOpen}
+    <button
+      className="clover-iiif-image-openseadragon-button clover-viewer-painting-toggle"
+      data-has-information-toggle={Boolean(hasInformationToggle)}
+      data-interactive={Boolean(isInteractive)}
+      data-media={Boolean(isMedia)}
+      data-panel-open={Boolean(isInformationOpen)}
       data-testid="placeholder-toggle"
+      onClick={handleToggle}
     >
       {isInteractive ? (
         <CloseIcon label={t("commonClose")} />
       ) : (
         <OpenIcon isMedia={isMedia} label={t("commonOpen")} />
       )}
-    </ToggleStyled>
+    </button>
   );
 };
 

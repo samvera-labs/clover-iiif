@@ -1,4 +1,3 @@
-import { Anchor, ItemStyled } from "./Item.styled";
 import React, { MouseEvent, useState } from "react";
 
 import Figure from "src/components/Slider/Figure/Figure";
@@ -40,8 +39,9 @@ const Item: React.FC<ItemProps> = ({ handleItemInteraction, index, item }) => {
   };
 
   return (
-    <ItemStyled data-testid="slider-item">
-      <Anchor
+    <div className="clover-slider-item" data-testid="slider-item">
+      <a
+        className="clover-slider-item-anchor"
         data-testid="slider-item-anchor"
         href={href}
         onClick={handleAnchorClick}
@@ -61,8 +61,8 @@ const Item: React.FC<ItemProps> = ({ handleItemInteraction, index, item }) => {
           summary={item.summary}
           thumbnail={thumbnail}
         />
-      </Anchor>
-    </ItemStyled>
+      </a>
+    </div>
   );
 };
 

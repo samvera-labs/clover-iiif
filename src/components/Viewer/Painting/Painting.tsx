@@ -4,21 +4,11 @@ import {
   CanvasNormalized,
   InternationalString,
 } from "@iiif/presentation-3";
-import {
-  AnimationFrameImage,
-  PaintingCanvas,
-  PaintingStyled,
-} from "./Painting.styled";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Select, SelectOption } from "src/components/UI/Select";
 import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 
-import AnimationControls, {
-  AnimationBar,
-  AnimationControlsRow,
-  AnimationThumbnailButton,
-  AnimationThumbnailStrip,
-} from "./AnimationControls";
+import AnimationControls from "./AnimationControls";
 import { AnnotationResources } from "src/types/annotations";
 import ImageViewer from "src/components/Image";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
@@ -38,7 +28,6 @@ interface PaintingProps {
   isMedia: boolean;
   painting: LabeledIIIFExternalWebResource[];
 }
-
 
 const Painting: React.FC<PaintingProps> = ({
   activeCanvas,
@@ -63,7 +52,6 @@ const Painting: React.FC<PaintingProps> = ({
   const {
     activeManifest,
     annotationCollection,
-    collection,
     configOptions,
     customDisplays,
     contentStateAnnotation,
@@ -225,7 +213,6 @@ const Painting: React.FC<PaintingProps> = ({
     }
     return match;
   });
-
 
   useEffect(() => {
     if (hasContentStateAnnotation && showPlaceholder && toggleCount === 0) {
@@ -430,8 +417,9 @@ const Painting: React.FC<PaintingProps> = ({
     ?.component as unknown as React.ElementType;
 
   return (
-    <PaintingStyled className="clover-viewer-painting">
-      <PaintingCanvas
+    <div className="clover-viewer-painting">
+      <div
+        className="clover-viewer-painting-canvas"
         style={{
           backgroundColor: configOptions.canvasBackgroundColor,
           ...(configOptions.canvasHeight !== "auto" && {
@@ -502,13 +490,17 @@ const Painting: React.FC<PaintingProps> = ({
             {...customDisplay?.display.componentProps}
           />
         )}
-      </PaintingCanvas>
+      </div>
 
       {isAnimationMode && !showPlaceholder && (
-        <AnimationBar>
-          <AnimationThumbnailStrip ref={thumbnailStripRef}>
+        <div className="clover-viewer-animation-bar">
+          <div
+            className="clover-viewer-animation-strip"
+            ref={thumbnailStripRef}
+          >
             {animationFrames.map((frame, index) => (
-              <AnimationThumbnailButton
+              <button
+                className="clover-viewer-animation-frame"
                 key={index}
                 data-active={index === annotationIndex}
                 type="button"
@@ -519,10 +511,10 @@ const Painting: React.FC<PaintingProps> = ({
                 }}
               >
                 <img src={frame.body.id} alt="" />
-              </AnimationThumbnailButton>
+              </button>
             ))}
-          </AnimationThumbnailStrip>
-          <AnimationControlsRow>
+          </div>
+          <div className="clover-viewer-animation-row">
             <Select
               value={String(annotationIndex)}
               onValueChange={handleFrameChange}
@@ -558,8 +550,8 @@ const Painting: React.FC<PaintingProps> = ({
               onToggleRepeat={() => setIsRepeat((prev) => !prev)}
               onSetPlaybackRate={setPlaybackRate}
             />
-          </AnimationControlsRow>
-        </AnimationBar>
+          </div>
+        </div>
       )}
 
       {hasChoice && (
@@ -577,7 +569,7 @@ const Painting: React.FC<PaintingProps> = ({
           ))}
         </Select>
       )}
-    </PaintingStyled>
+    </div>
   );
 };
 

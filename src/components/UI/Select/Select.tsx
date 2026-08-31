@@ -1,21 +1,18 @@
 import {
+  Select as RadixSelect,
   SelectProps as RadixSelectProps,
+  SelectContent,
   SelectGroup,
+  SelectLabel,
   SelectIcon,
   SelectPortal,
   SelectScrollDownButton,
   SelectScrollUpButton,
+  SelectTrigger,
   SelectValue,
   SelectViewport,
 } from "@radix-ui/react-select";
 import React, { ReactNode } from "react";
-import {
-  StyledSelect,
-  StyledSelectButton,
-  StyledSelectContent,
-  StyledSelectLabel,
-} from "src/components/UI/Select/Select.styled";
-
 import Icon from "./Icon";
 import { InternationalString } from "@iiif/presentation-3";
 import { Label } from "src/components/Primitives";
@@ -37,19 +34,25 @@ const Select: React.FC<SelectProps> = ({
   value,
 }) => {
   return (
-    <StyledSelect onValueChange={onValueChange} value={value}>
-      <StyledSelectButton data-testid="select-button">
+    <RadixSelect onValueChange={onValueChange} value={value}>
+      <SelectTrigger
+        className="clover-select-button"
+        data-testid="select-button"
+      >
         <SelectValue data-testid="select-button-value" />
         <SelectIcon>
           <Icon direction="down" title="select" />
         </SelectIcon>
-      </StyledSelectButton>
+      </SelectTrigger>
       <SelectPortal>
-        <StyledSelectContent
-          css={{ maxHeight: `${maxHeight} !important` }}
+        <SelectContent
+          className="clover-select-content"
           data-testid="select-content"
           position="popper"
           sideOffset={4}
+          style={
+            { "--clover-select-max-height": maxHeight } as React.CSSProperties
+          }
         >
           <SelectScrollUpButton>
             <Icon direction="up" title="scroll up for more" />
@@ -57,9 +60,9 @@ const Select: React.FC<SelectProps> = ({
           <SelectViewport>
             <SelectGroup>
               {label && (
-                <StyledSelectLabel>
+                <SelectLabel className="clover-select-label">
                   <Label data-testid="select-label" label={label} />
-                </StyledSelectLabel>
+                </SelectLabel>
               )}
               {children}
             </SelectGroup>
@@ -67,9 +70,9 @@ const Select: React.FC<SelectProps> = ({
           <SelectScrollDownButton>
             <Icon direction="down" title="scroll down for more" />
           </SelectScrollDownButton>
-        </StyledSelectContent>
+        </SelectContent>
       </SelectPortal>
-    </StyledSelect>
+    </RadixSelect>
   );
 };
 

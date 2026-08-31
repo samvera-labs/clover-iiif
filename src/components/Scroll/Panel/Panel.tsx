@@ -1,14 +1,9 @@
 import React, { CSSProperties, useContext, useRef } from "react";
-import {
-  StyledScrollPanel,
-  StyledScrollSearch,
-} from "src/components/Scroll/Layout/Layout.styled";
 
 import { ScrollContext } from "src/context/scroll-context";
 import ScrollLanguage from "./Language/Language";
 import ScrollSearchResults from "src/components/Scroll/Panel/Search/Search";
 import SearchForm from "src/components/Scroll/Panel/Search/Form";
-import { StyledPanel } from "src/components/Scroll/Panel/Panel.styled";
 
 const ScrollPanel = ({ width, isFixed, hasDefinedLanguages }) => {
   const scrollAsideRef = useRef<HTMLDivElement>(null);
@@ -33,7 +28,8 @@ const ScrollPanel = ({ width, isFixed, hasDefinedLanguages }) => {
   const controlsWidth = languageEnabled ? 4.5 : 2;
 
   return (
-    <StyledScrollPanel
+    <div
+      className="clover-scroll-panel"
       ref={scrollAsideRef}
       data-testid="scroll-panel"
       style={{
@@ -55,20 +51,20 @@ const ScrollPanel = ({ width, isFixed, hasDefinedLanguages }) => {
       {!isPanelExpanded && languageEnabled && hasDefinedLanguages && (
         <ScrollLanguage />
       )}
-      <StyledScrollSearch>
+      <div className="clover-scroll-search">
         <SearchForm
           togglePanel={handlePanel}
           isPanelExpanded={isPanelExpanded}
         />
-        <StyledPanel
+        <div
+          className="clover-scroll-panel-results"
           data-testid="scroll-panel-results"
           data-panel-expanded={isPanelExpanded}
-          isPanelExpanded={isPanelExpanded}
         >
           {isPanelExpanded && <ScrollSearchResults />}
-        </StyledPanel>
-      </StyledScrollSearch>
-    </StyledScrollPanel>
+        </div>
+      </div>
+    </div>
   );
 };
 

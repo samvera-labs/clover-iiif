@@ -2,7 +2,7 @@ import * as Form from "@radix-ui/react-form";
 
 import React, { useState } from "react";
 
-import { styled } from "src/styles/stitches.config";
+import styles from "docs/components/CustomManifest/CustomManifest.module.css";
 import { useRouter } from "next/router";
 
 const CustomManifest = ({ placeholder }: { placeholder: string }) => {
@@ -24,7 +24,7 @@ const CustomManifest = ({ placeholder }: { placeholder: string }) => {
   };
 
   return (
-    <StyledCustomManifest className="nextra-search nx-relative">
+    <div className={`${styles.customManifest} nextra-search nx-relative`}>
       <Form.Root onSubmit={handleSubmit}>
         <Form.Field name="iiifContent" onChange={handleChange}>
           <Form.Label>IIIF Manifest or Collection</Form.Label>
@@ -37,21 +37,8 @@ const CustomManifest = ({ placeholder }: { placeholder: string }) => {
 
         <Form.Submit />
       </Form.Root>
-    </StyledCustomManifest>
+    </div>
   );
 };
-
-const StyledCustomManifest = styled("div", {
-  margin: "2rem auto 0",
-  input: {
-    padding: "0.75rem 1.25rem",
-  },
-
-  label: {
-    display: "none",
-    opacity: "0.5",
-    fontFamily: "inherit",
-  },
-});
 
 export default CustomManifest;

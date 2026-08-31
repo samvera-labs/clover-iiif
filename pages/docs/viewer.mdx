@@ -972,7 +972,7 @@ Every token, with the value Clover falls back to when it is not set:
 | `--clover-color-accent`          | `#0065C3` | Key brand color                        |
 | `--clover-color-accent-muted`    | `#50A0EC` |                                        |
 | `--clover-color-accent-alt`      | `#0F4F8A` |                                        |
-| `--clover-color-secondary`       | `#FFFFFF` | White and light grays in a light theme |
+| `--clover-color-secondary`       | `#fff`    | White and light grays in a light theme |
 | `--clover-color-secondary-muted` | `#E6E8EB` |                                        |
 | `--clover-color-secondary-alt`   | `#C1C8CD` |                                        |
 
@@ -994,6 +994,43 @@ The `Map` component is the one exception to the cascade. Its markers are painted
 WebGL rather than CSS, so the accent is resolved to a concrete value when the map
 initializes; a token changed after that point will not repaint existing layers until the
 component remounts.
+
+#### Corner radius and motion
+
+Two shapes and one curve account for nearly every rounded corner and transition in Clover, so
+each is a single property. Radius is the fastest way to make Clover look like the rest of an
+application; motion is the one to reach for to slow the interface down, or to stop it moving.
+
+| Custom property            | Default                              | Applies to                                                                                 |
+| -------------------------- | ------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `--clover-radius`          | `3px`                                | The small corner: thumbnails, tags, annotation rows, popovers                              |
+| `--clover-radius-pill`     | `2rem`                               | Fully rounded controls: the carousel arrows, search fields, the position counter, View All |
+| `--clover-transition`      | `all 200ms cubic-bezier(.16,1,.3,1)` | Hover, focus and layout transitions throughout                                             |
+| `--clover-transition-load` | `opacity 150ms ease-out`             | The shorter curve a thumbnail fades in on once its image has actually arrived              |
+
+```css
+body {
+  /* square everything off */
+  --clover-radius: 0;
+  --clover-radius-pill: 4px;
+}
+```
+
+Motion takes a whole shorthand, not a duration, so it can be turned off outright:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  body {
+    --clover-transition: none;
+    --clover-transition-load: none;
+  }
+}
+```
+
+A few corners are deliberately not tokenized: the animation filmstrip's `2px` frames, and the
+three controls that round with `50%` rather than a length. `50%` and a length only agree while
+those controls are square, and tying them together would make them disagree the moment a
+consumer resized one.
 
 #### Thumbnail size
 

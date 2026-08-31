@@ -1,14 +1,10 @@
 import React from "react";
-import { styled } from "src/styles/stitches.config";
 import { getLabelAsString } from "src/lib/label-helpers";
 import { PrimitivesRendering } from "src/types/primitives";
 import { sanitizeAttributes } from "src/lib/html-element";
 
-const StyledRendering = styled("li", {});
-const StyledWrapper = styled("ul", {});
-
 const Rendering: React.FC<PrimitivesRendering> = (props) => {
-  const { as, rendering } = props;
+  const { as: Wrapper = "ul", rendering } = props;
 
   /**
    * Create attributes and remove React props
@@ -17,7 +13,7 @@ const Rendering: React.FC<PrimitivesRendering> = (props) => {
   const attributes = sanitizeAttributes(props, remove);
 
   return (
-    <StyledWrapper as={as}>
+    <Wrapper>
       {rendering &&
         rendering.map((resource) => {
           const label = getLabelAsString(
@@ -25,14 +21,14 @@ const Rendering: React.FC<PrimitivesRendering> = (props) => {
             attributes.lang,
           ) as string;
           return (
-            <StyledRendering key={resource.id}>
+            <li key={resource.id}>
               <a href={resource.id} {...attributes} target="_blank">
                 {label ? label : resource.id}
               </a>
-            </StyledRendering>
+            </li>
           );
         })}
-    </StyledWrapper>
+    </Wrapper>
   );
 };
 

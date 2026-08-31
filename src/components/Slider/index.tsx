@@ -25,7 +25,6 @@ import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/Slider/ErrorFallback/ErrorFallback";
 import Header from "src/components/Slider/Header/Header";
 import Items from "src/components/Slider/Items/Items";
-import { Wrapper } from "src/components/Slider/Slider.styled";
 import { getLabelAsString } from "src/lib/label-helpers";
 import useBreakpoints from "src/components/Slider/useBreakpoints";
 import useTrack from "src/components/Shared/Track/useTrack";
@@ -296,7 +295,7 @@ const RenderSlider: React.FC<CloverSliderProps> = ({
   const renderItems = wrapItems ?? ((children: React.ReactNode) => children);
 
   return (
-    <Wrapper className="clover-slider" data-testid="clover-slider">
+    <div className="clover-slider" data-testid="clover-slider">
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         {showHeader && (
           <Header
@@ -325,7 +324,7 @@ const RenderSlider: React.FC<CloverSliderProps> = ({
           />,
         )}
       </ErrorBoundary>
-    </Wrapper>
+    </div>
   );
 };
 

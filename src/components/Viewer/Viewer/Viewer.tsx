@@ -24,12 +24,10 @@ import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
-import { Wrapper } from "src/components/Viewer/Viewer/Viewer.styled";
 import { getVisibleCanvasesFromCanvasId } from "@iiif/helpers";
-import { media } from "src/styles/stitches.config";
+import { media } from "src/styles/media";
 import ExitFullscreen from "src/components/Shared/Fullscreen/ExitFullscreen";
 import useFullscreen from "src/hooks/useFullscreen";
-import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
 
 interface ViewerProps {
@@ -46,8 +44,6 @@ const Viewer: React.FC<ViewerProps> = ({
   iiifContentSearchQuery,
   contentSearchCallback,
 }) => {
-  const { t } = useCloverTranslation();
-
   /*
    * The root element, and whether it is the one full screen.
    *
@@ -182,10 +178,24 @@ const Viewer: React.FC<ViewerProps> = ({
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Wrapper
+      <div
         className="clover-viewer"
-        style={themeStyle}
-        css={{ background: configOptions?.background }}
+        /*
+         * `background` travels as a custom property, not as an inline `background`
+         * declaration.
+         *
+         * It used to be a Stitches `css` prop, which generated a class — so the
+         * `[data-fullscreen]` rule, being two selectors deep, outranked it and full screen
+         * got its own surface. An inline declaration outranks every rule instead, which
+         * left a full-screen viewer transparent. A custom property keeps the value dynamic
+         * while leaving the cascade where it was.
+         */
+        style={
+          {
+            ...themeStyle,
+            "--clover-viewer-background": configOptions?.background,
+          } as React.CSSProperties
+        }
         data-absolute-position={isAbsolutePosition}
         data-fullscreen={isFullscreen}
         data-information-panel-open={isInformationOpen}
@@ -193,7 +203,7 @@ const Viewer: React.FC<ViewerProps> = ({
       >
         {/*
          * Shown by CSS only while this root is full screen — see the `[data-fullscreen]`
-         * block in Viewer.styled. A standalone `Image` renders its own, so whichever root
+         * block in Viewer.css. A standalone `Image` renders its own, so whichever root
          * the browser put in full screen is the one offering a way back.
          */}
         <ExitFullscreen />
@@ -219,7 +229,7 @@ const Viewer: React.FC<ViewerProps> = ({
             isAudioVideo={isAudioVideo}
           />
         </Collapsible.Root>
-      </Wrapper>
+      </div>
     </ErrorBoundary>
   );
 };

@@ -5,10 +5,7 @@ import {
   InternationalString,
 } from "@iiif/presentation-3";
 import React, { useEffect, useMemo, useState } from "react";
-import {
-  StyledSequence,
-  StyledSequenceGroup,
-} from "src/components/Viewer/Media/Media.styled";
+import * as RadioGroup from "@radix-ui/react-radio-group";
 import {
   ViewerContextStore,
   useViewerDispatch,
@@ -167,7 +164,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
     );
 
     return (
-      <StyledSequenceGroup data-active={isActiveGroup}>
+      <div className="clover-viewer-media-group" data-active={isActiveGroup}>
         {group.indices.map((index) => {
           const id = sequence[0][index]?.id;
           const entity = mediaItems.find((el) => el?.canvas?.id === id);
@@ -184,7 +181,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
             />
           );
         })}
-      </StyledSequenceGroup>
+      </div>
     );
   };
 
@@ -233,8 +230,9 @@ const Media: React.FC<MediaProps> = ({ items }) => {
        * not radios and have no business inside a `radiogroup`.
        */
       wrapItems={(slides) => (
-        <StyledSequence
+        <RadioGroup.Root
           aria-label={t("media.selectItem")}
+          className="clover-viewer-media-sequence"
           data-testid="media"
           data-active-canvas={items[activeIndex]?.id}
           data-canvas-length={items.length}
@@ -243,7 +241,7 @@ const Media: React.FC<MediaProps> = ({ items }) => {
           style={{ direction: isRtlPaged ? "rtl" : "ltr" }}
         >
           {slides}
-        </StyledSequence>
+        </RadioGroup.Root>
       )}
     />
   );

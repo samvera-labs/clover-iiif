@@ -1,5 +1,3 @@
-import { ButtonStyled, StyledAnnotationContent } from "./Item.styled";
-
 import React from "react";
 
 type AnnotationItemHTMLProps = {
@@ -12,9 +10,12 @@ const AnnotationItemHTML: React.FC<AnnotationItemHTMLProps> = ({
   handleClick,
 }) => {
   return (
-    <ButtonStyled onClick={handleClick}>
-      <StyledAnnotationContent dangerouslySetInnerHTML={{ __html: value }} />
-    </ButtonStyled>
+    <button className="clover-viewer-annotation-button" onClick={handleClick}>
+      <div
+        className="clover-viewer-annotation-content"
+        dangerouslySetInnerHTML={{ __html: value }}
+      />
+    </button>
   );
 };
 

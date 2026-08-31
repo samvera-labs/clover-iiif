@@ -1,7 +1,7 @@
-import { Description, FigureStyled, Placeholder, Title } from "./Figure.styled";
 import React, { useState } from "react";
 
 import { InternationalString } from "@iiif/presentation-3";
+import { Label, Summary } from "src/components/Primitives";
 import { Thumbnail } from "src/components/Primitives";
 
 interface FigureProps {
@@ -29,13 +29,17 @@ const Figure: React.FC<FigureProps> = ({
   const settle = () => setIsLoaded(true);
 
   return (
-    <FigureStyled data-loaded={isLoaded} isFocused={isFocused}>
+    <figure
+      className="clover-slider-figure"
+      data-focused={isFocused}
+      data-loaded={isLoaded}
+    >
       {/*
        * No `AspectRatio.Root` wrapper. The ratio is a CSS rule on `Placeholder` now, which
        * is what lets `--clover-thumbnail-height` override it — a fixed `ratio` prop could
        * not be. It also drops a dependency and a wrapper element per slide.
        */}
-      <Placeholder>
+      <span className="clover-slider-figure-placeholder">
         {/*
          * `onLoad` and `onError` reach the underlying `<img>`: the primitive spreads
          * whatever it is handed onto the element it renders.
@@ -47,12 +51,14 @@ const Figure: React.FC<FigureProps> = ({
           onLoad={settle}
           onError={settle}
         />
-      </Placeholder>
+      </span>
       <figcaption>
-        <Title label={label} />
-        {summary && <Description summary={summary} />}
+        <Label className="clover-slider-figure-title" label={label} />
+        {summary && (
+          <Summary className="clover-slider-figure-summary" summary={summary} />
+        )}
       </figcaption>
-    </FigureStyled>
+    </figure>
   );
 };
 

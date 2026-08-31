@@ -2,7 +2,6 @@ import React, { useContext, useEffect } from "react";
 
 import { EmbeddedResource } from "@iiif/presentation-3";
 import { ScrollContext } from "src/context/scroll-context";
-import { TextualBody } from "src/components/Scroll/Annotation/Body.styled";
 import { getSearchResultSnippet } from "src/lib/search-helpers";
 import { getLanguageDirection } from "src/lib/annotation-helpers";
 import useMarkdown from "src/hooks/useMarkdown";
@@ -84,7 +83,8 @@ const ScrollAnnotationBody = ({
   if (!innerHtml) return null;
 
   return (
-    <TextualBody
+    <div
+      className="clover-scroll-textual-body"
       dangerouslySetInnerHTML={{ __html: innerHtml }}
       data-active-language={
         !activeLanguages?.length || activeLanguages?.includes(lang)
@@ -93,7 +93,7 @@ const ScrollAnnotationBody = ({
       data-testid="scroll-item-body"
       id={id}
       dir={dir}
-      css={{ fontSize }}
+      style={{ fontSize }}
       lang={lang}
     />
   );

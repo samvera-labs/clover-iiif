@@ -1,0 +1,124 @@
+/*
+ * There is no rule for the Select root.
+ *
+ * Stitches styled `Select.Root` with `position: relative; z-index: 5; width: 100%`, but Radix's
+ * `Root` is a context provider that renders no element — it took the generated class and
+ * dropped it. Those three declarations never applied, so they are not carried over.
+ */
+
+.clover-select-button {
+  font-size: 1.25rem;
+  font-weight: 400;
+  font-family: inherit;
+  align-self: flex-start;
+  flex-grow: 1;
+  cursor: pointer;
+  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
+  border: 1px solid #6663;
+  border-radius: var(--clover-radius, 3px);
+  display: flex;
+  align-items: center;
+  padding-left: 0.5rem;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .clover-select-button {
+    font-size: 1rem;
+  }
+}
+
+/*
+ * The height ceiling arrives as a custom property rather than an inline style.
+ *
+ * It has to carry `!important` to beat Radix's own positioning styles, and React's `style`
+ * object cannot express that. A property the rule reads keeps the `!important` in the
+ * stylesheet where it works, and still lets the caller set the value per instance.
+ */
+.clover-select-content {
+  border-radius: var(--clover-radius, 3px);
+  background-color: var(--clover-color-secondary, #fff);
+  padding-bottom: 0.25rem;
+  max-height: var(--clover-select-max-height, calc(61.8vh - 2.5rem)) !important;
+  border: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
+  max-width: 90vw;
+  width: var(--radix-select-trigger-width);
+}
+
+.dark .clover-select-content {
+  background-color: var(--clover-color-primary, #1a1d1e);
+  border: 1px solid var(--clover-color-primary-muted, #26292b);
+}
+
+.clover-select-item {
+  display: flex;
+  align-items: center;
+  font-family: inherit;
+  padding: 0.25rem 0.5rem;
+  color: var(--clover-color-primary, #1a1d1e);
+  font-weight: 400;
+  font-size: 0.8333rem;
+  cursor: pointer;
+  background-color: var(--clover-color-secondary, #fff);
+  width: calc(100% - 1rem);
+}
+
+.clover-select-item > span {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.clover-select-item[data-state="checked"] {
+  font-weight: 700;
+  color: var(--clover-color-primary, #1a1d1e) !important;
+}
+
+.clover-select-item:hover {
+  color: var(--clover-color-accent, #0065c3);
+}
+
+.clover-select-item img {
+  width: 31px;
+  height: 31px;
+  margin-right: 0.5rem;
+  border-radius: var(--clover-radius, 3px);
+}
+
+.dark .clover-select-item {
+  color: var(--clover-color-secondary, #fff);
+  background-color: var(--clover-color-primary, #1a1d1e);
+}
+
+.dark .clover-select-item[data-state="checked"] {
+  color: var(--clover-color-secondary, #fff) !important;
+}
+
+.clover-select-label {
+  color: var(--clover-color-primary-muted, #26292b);
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.25rem;
+  border-radius: var(--clover-radius, 3px);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: var(--clover-color-secondary-muted, #e6e8eb);
+}
+
+.dark .clover-select-label {
+  color: var(--clover-color-secondary-muted, #e6e8eb);
+  background-color: var(--clover-color-primary-muted, #26292b);
+}
+
+.clover-select-icon {
+  height: 19px;
+  color: var(--clover-color-accent, #0065c3);
+  fill: var(--clover-color-accent, #0065c3);
+  stroke: var(--clover-color-accent, #0065c3);
+  display: flex;
+  margin: 0.25rem 0.85rem;
+}

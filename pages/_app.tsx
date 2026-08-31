@@ -1,3 +1,12 @@
+/*
+ * Clover's own stylesheet.
+ *
+ * The docs consume the library from source, outside the package's Vite build that discovers
+ * colocated component CSS. Import the aggregate explicitly here because Next's Pages Router
+ * only allows a global stylesheet in `_app`.
+ */
+import "src/styles/clover.css";
+
 import "docs/styles/fonts.css";
 import "docs/styles/tokens.css";
 

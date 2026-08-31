@@ -1,5 +1,4 @@
 import React from "react";
-import { StyledSearchAnnotationsResultsLabel } from "./Search.styled";
 
 interface SearchAnnotationsResultsLabelProps {
   activeIndex: number;
@@ -21,11 +20,7 @@ const SearchAnnotationsResultsLabel: React.FC<
       </>
     );
 
-  return (
-    <StyledSearchAnnotationsResultsLabel>
-      {message}
-    </StyledSearchAnnotationsResultsLabel>
-  );
+  return <div className="clover-scroll-search-results-label">{message}</div>;
 };
 
 export default SearchAnnotationsResultsLabel;

@@ -5,7 +5,6 @@ import {
 import { ViewerContextStore, useViewerState } from "src/context/viewer-context";
 
 import AnnotationItem from "src/components/Viewer/InformationPanel/Annotation/Item";
-import { Group } from "src/components/Viewer/InformationPanel/Annotation/Item.styled";
 import { Label } from "src/components/Primitives";
 import React from "react";
 import { getPaintingResource } from "src/hooks/use-iiif";
@@ -48,7 +47,10 @@ export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
     : undefined;
 
   return (
-    <Group data-testid="annotation-page">
+    <div
+      className="clover-viewer-annotation-group"
+      data-testid="annotation-page"
+    >
       {canvas && (
         <header>
           <Label label={canvas.label} />
@@ -63,7 +65,7 @@ export const AnnotationPage: React.FC<Props> = ({ annotationPage }) => {
           />
         ))}
       </div>
-    </Group>
+    </div>
   );
 };
 

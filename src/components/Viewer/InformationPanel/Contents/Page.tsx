@@ -1,9 +1,3 @@
-import {
-  ContentsButton,
-  ContentsCanvasPosition,
-  ContentsItem,
-  ContentsList,
-} from "src/components/Viewer/InformationPanel/Contents/Contents.styled";
 import React from "react";
 import type { RangeTableOfContentsNode } from "@iiif/helpers/ranges";
 import { Label } from "src/components/Primitives";
@@ -57,28 +51,29 @@ const ContentsNode = ({ node }: { node: RangeTableOfContentsNode }) => {
   };
 
   return (
-    <ContentsItem>
-      <ContentsButton
+    <li className="clover-viewer-contents-item">
+      <button
+        className="clover-viewer-contents-button"
         aria-current={targetCanvas === activeCanvas ? "page" : undefined}
         disabled={!targetCanvas}
         onClick={handleClick}
         type="button"
       >
         {canvasNumber && (
-          <ContentsCanvasPosition aria-hidden="true">
+          <span className="clover-viewer-contents-position" aria-hidden="true">
             {canvasNumber}
-          </ContentsCanvasPosition>
+          </span>
         )}
         <Label label={node.label || fallbackLabel} />
-      </ContentsButton>
+      </button>
       {children.length > 0 && (
-        <ContentsList>
+        <ol className="clover-viewer-contents-list">
           {children.map((child) => (
             <ContentsNode key={child.id} node={child} />
           ))}
-        </ContentsList>
+        </ol>
       )}
-    </ContentsItem>
+    </li>
   );
 };
 
@@ -86,11 +81,11 @@ const ContentsPage = ({ tree }: ContentsPageProps) => {
   const nodes = getTopLevelNodes(tree);
 
   return (
-    <ContentsList data-testid="contents-list">
+    <ol className="clover-viewer-contents-list" data-testid="contents-list">
       {nodes.map((node) => (
         <ContentsNode key={node.id} node={node} />
       ))}
-    </ContentsList>
+    </ol>
   );
 };
 

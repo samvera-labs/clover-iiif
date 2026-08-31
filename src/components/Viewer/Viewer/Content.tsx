@@ -4,15 +4,6 @@ import {
   IIIFExternalWebResource,
 } from "@iiif/presentation-3";
 import { AnnotationResource, AnnotationResources } from "src/types/annotations";
-import {
-  Aside,
-  Content,
-  CustomPanelToggle,
-  DragHandle,
-  Main,
-  MediaWrapper,
-  PanelToggle,
-} from "src/components/Viewer/Viewer/Viewer.styled";
 
 import { Icon } from "src/components/UI";
 import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
@@ -138,9 +129,9 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   const hasRail = sequence[1].length > 1;
 
   const rail = (
-    <MediaWrapper className="clover-viewer-media-wrapper">
+    <div className="clover-viewer-media-wrapper">
       <Media items={items} activeItem={0} />
-    </MediaWrapper>
+    </div>
   );
 
   /*
@@ -153,12 +144,13 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
    */
   return (
     <>
-      <Content
+      <div
         ref={contentRef}
         className="clover-viewer-content"
         data-testid="clover-viewer-content"
       >
-        <Main
+        <div
+          className="clover-viewer-main"
           data-aside-active={isAside}
           data-aside-toggle={renderToggle}
           style={mainStyle}
@@ -175,7 +167,10 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
 
           {renderToggle &&
             (CustomToggle ? (
-              <CustomPanelToggle data-aside-active={isAside}>
+              <span
+                className="clover-viewer-custom-panel-toggle"
+                data-aside-active={isAside}
+              >
                 <CustomToggle
                   buttonProps={{
                     type: "button",
@@ -195,9 +190,10 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
                   isOpen={isInformationOpen}
                   label={t("informationPanelToggle")}
                 />
-              </CustomPanelToggle>
+              </span>
             ) : (
-              <PanelToggle
+              <button
+                className="clover-viewer-panel-toggle"
                 data-aside-active={isAside}
                 onClick={handleToggle}
                 aria-label={t("informationPanelToggle")}
@@ -210,19 +206,21 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
                     <Icon.PanelCollapse />
                   )}
                 </Icon>
-              </PanelToggle>
+              </button>
             ))}
-        </Main>
+        </div>
         {isAside && (
           <>
-            <DragHandle
+            <div
+              className="clover-viewer-drag-handle"
               onPointerDown={handleDragStart}
               onPointerMove={handleDragMove}
               onPointerUp={handleDragEnd}
               data-dragging={dragging.current}
               aria-hidden="true"
             />
-            <Aside
+            <aside
+              className="clover-viewer-aside"
               data-aside-active={isAside}
               data-aside-toggle={renderToggle}
               style={asideStyle}
@@ -236,10 +234,10 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
                 contentSearchCallback={contentSearchCallback}
                 initialSearchQuery={initialSearchQuery}
               />
-            </Aside>
+            </aside>
           </>
         )}
-      </Content>
+      </div>
       {hasRail && isFullscreen && rail}
     </>
   );

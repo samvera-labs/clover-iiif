@@ -1,0 +1,23 @@
+/*
+ * The Embla viewport.
+ *
+ * Embla clips this element and translates the inner `.clover-slider-track`, so the
+ * overflow is hidden rather than scrollable and the slides sit one level inside. That
+ * nesting is also why slide widths can be plain percentages: the track is `width: 100%`,
+ * so a percentage resolves to the same box the viewport occupies.
+ *
+ * `touch-action: pan-y pinch-zoom` lets Embla claim horizontal drags while leaving
+ * vertical scrolling and pinch-zoom to the page.
+ */
+.clover-slider-items {
+  overflow: hidden;
+  width: 100%;
+}
+
+.clover-slider-items .clover-slider-track {
+  touch-action: pan-y pinch-zoom;
+}
+
+.clover-slider-items .clover-slider-slide {
+  transform: translate3d(0, 0, 0);
+}

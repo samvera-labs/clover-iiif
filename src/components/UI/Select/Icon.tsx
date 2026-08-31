@@ -1,5 +1,4 @@
 import React from "react";
-import { StyledSelectIcon } from "./Select.styled";
 
 interface SelectIconProps {
   direction: "up" | "down";
@@ -20,7 +19,8 @@ const SelectIcon: React.FC<SelectIconProps> = ({ direction, title }) => {
   };
 
   return (
-    <StyledSelectIcon
+    <svg
+      className="clover-select-icon"
       xmlns="http://www.w3.org/2000/svg"
       focusable="false"
       viewBox="0 0 512 512"
@@ -29,7 +29,7 @@ const SelectIcon: React.FC<SelectIconProps> = ({ direction, title }) => {
       <title>{title}</title>
       {direction === "up" && <CaretUp />}
       {direction === "down" && <CaretDown />}
-    </StyledSelectIcon>
+    </svg>
   );
 };
 

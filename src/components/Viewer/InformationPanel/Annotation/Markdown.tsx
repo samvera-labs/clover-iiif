@@ -1,5 +1,3 @@
-import { ButtonStyled, StyledAnnotationContent } from "./Item.styled";
-
 import React from "react";
 import useMarkdown from "src/hooks/useMarkdown";
 
@@ -15,11 +13,12 @@ const AnnotationItemMarkdown: React.FC<AnnotationItemPlainTextProps> = ({
   const markdownContent = useMarkdown(value);
 
   return (
-    <ButtonStyled onClick={handleClick}>
-      <StyledAnnotationContent
+    <button className="clover-viewer-annotation-button" onClick={handleClick}>
+      <div
+        className="clover-viewer-annotation-content"
         dangerouslySetInnerHTML={{ __html: markdownContent.html }}
       />
-    </ButtonStyled>
+    </button>
   );
 };
 

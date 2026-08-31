@@ -1,5 +1,6 @@
-import { Item } from "src/components/Image/Controls/Button.styled";
 import React from "react";
+
+import { join } from "src/lib/classnames";
 
 interface ButtonProps {
   className?: string;
@@ -28,9 +29,9 @@ const Button: React.FC<ButtonProps> = ({
     .toLowerCase()
     .replace(/^-/, "");
   return (
-    <Item
+    <button
       id={id}
-      className={className}
+      className={join("clover-iiif-image-openseadragon-button", className)}
       data-testid="openseadragon-button"
       data-button={dataButton}
       onClick={onClick}
@@ -47,7 +48,7 @@ const Button: React.FC<ButtonProps> = ({
         <title id={`${id}-svg-title`}>{label}</title>
         {children}
       </svg>
-    </Item>
+    </button>
   );
 };
 

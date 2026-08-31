@@ -44,7 +44,7 @@ export const defaultColors = {
    * White and light grays in a light theme.
    * Must contrast to 4.5 or greater with `primary` and `accent`.
    */
-  secondary: "#FFFFFF",
+  secondary: "#fff",
   secondaryMuted: "#E6E8EB",
   secondaryAlt: "#C1C8CD",
 } as const;
@@ -63,45 +63,6 @@ export type CloverColorToken = keyof typeof defaultColors;
 /** `primaryMuted` -> `--clover-color-primary-muted` */
 export const cssVarName = (group: string, token: string) =>
   `--clover-${group}-${token.replace(/([A-Z])/g, "-$1").toLowerCase()}`;
-
-const toVarRefs = <T extends Record<string, string>>(
-  group: string,
-  defaults: T,
-): Record<keyof T, string> =>
-  Object.fromEntries(
-    Object.entries(defaults).map(([token, fallback]) => [
-      token,
-      `var(${cssVarName(group, token)}, ${fallback})`,
-    ]),
-  ) as Record<keyof T, string>;
-
-/**
- * The values handed to the style layer, e.g.
- * `accent: "var(--clover-color-accent, #0065C3)"`.
- */
-export const colorVarRefs = toVarRefs("color", defaultColors);
-
-/**
- * Re-derives the style layer's own custom properties from the `--clover-*`
- * tokens.
- *
- * This exists because a custom property is substituted where it is *declared*,
- * not where it is used. The style layer declares `--colors-accent` once at the
- * document root, so an override applied further down the tree — the docs
- * playground scoping an accent to just its preview pane, say — would otherwise
- * be ignored. Spreading this onto each component's root wrapper makes the
- * substitution happen again below any such override.
- *
- * Phase 3 removes the need for it: once components reference
- * `var(--clover-color-accent)` at the point of use, substitution always happens
- * in the element's own context.
- */
-export const themeVarBridge: Record<string, string> = Object.fromEntries(
-  Object.entries(colorVarRefs).map(([token, ref]) => [
-    `--colors-${token}`,
-    ref,
-  ]),
-);
 
 /**
  * Reads a token's *resolved* value from the DOM.

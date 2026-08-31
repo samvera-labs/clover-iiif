@@ -12,6 +12,15 @@ assigned at release time.
 
 ### Changed
 
+- Clover's default `secondary` color is now expressed consistently as `#fff` in the
+  public token value and every component fallback.
+
+- **Component styling now uses plain CSS instead of Stitches.** Clover no longer ships the
+  `@stitches/react` runtime dependency. Each package follows its component graph and bundles
+  only the colocated styles those components use; non-visual `helpers` and `i18n` entries carry
+  no CSS. Styles are still injected automatically, so consumers do not need to import a
+  stylesheet.
+
 - **Full screen keeps the whole viewer.** It used to hand the job to OpenSeadragon's
   `setFullPage()`, which is not the Fullscreen API: it sets `display: none` on every child of
   `<body>` except its own canvas element. Everything else Clover draws is a sibling of that
@@ -294,6 +303,14 @@ assigned at release time.
   the shared one now and carries `.clover-slider-search`.
 
 ### Fixed
+
+- **The bundled stylesheet now reaches consumers.** Vite extracted every imported `.css` into
+  `dist/<pkg>/style.css` and stopped there, and nothing could reach that file: `exports` lists
+  no `.css` entry and the documentation states no stylesheet import is needed. MapLibre's CSS
+  went missing with it, so a `Map` rendered unstyled for anyone consuming the package. The
+  build now appends each entry's reachable component CSS to its JavaScript and injects it as a
+  `<style>` element at runtime, in the ESM, CJS and UMD outputs alike — verified in a browser
+  against the built UMD bundle with no `<link rel="stylesheet">` present.
 
 - The content search placeholder in the Viewer's information panel is legible. It was pinned
   to `#0006` — black at 37.5% — which measured 2.8:1 against the field in a light theme and

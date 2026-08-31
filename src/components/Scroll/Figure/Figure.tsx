@@ -1,9 +1,6 @@
+import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import React, { useContext } from "react";
 import { ScrollContext, initialState } from "src/context/scroll-context";
-import {
-  StyledFigure,
-  StyledFigurePlaceholder,
-} from "src/components/Scroll/Figure/Figure.styled";
 
 import { CanvasNormalized } from "@iiif/presentation-3";
 import FigureCaption from "src/components/Scroll/Figure/Caption";
@@ -29,28 +26,30 @@ const ScrollCanvasFigure: React.FC<CanvasProps> = ({ canvas, canvasInfo }) => {
     "image-viewer";
 
   const aspectRatio =
-    figureOptions.aspectRatio || initialState.options.figure?.aspectRatio || 100 / 61.8;
+    figureOptions.aspectRatio ||
+    initialState.options.figure?.aspectRatio ||
+    100 / 61.8;
 
   const painting = getPaintingResource(vault, canvas.id);
 
   if (!painting) return null;
 
   return (
-    <StyledFigure>
+    <figure className="clover-scroll-figure">
       {painting?.map((body) => {
         return (
-          <StyledFigurePlaceholder ratio={aspectRatio} key={body?.id}>
+          <AspectRatio ratio={aspectRatio} key={body?.id}>
             <FigureImageViewer
               body={body}
               thumbnail={canvas.thumbnail}
               label={canvas?.label}
               display={display}
             />
-          </StyledFigurePlaceholder>
+          </AspectRatio>
         );
       })}
       <FigureCaption canvas={canvas} canvasInfo={canvasInfo} />
-    </StyledFigure>
+    </figure>
   );
 };
 

@@ -1,9 +1,4 @@
 import React from "react";
-import {
-  ErrorFallbackStyled,
-  ErrorBody,
-  Headline,
-} from "./ErrorFallback.styled";
 
 interface ErrorFallbackProps {
   error: Error;
@@ -13,10 +8,12 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({ error }) => {
   const { message } = error;
 
   return (
-    <ErrorFallbackStyled role="alert">
-      <Headline data-testid="headline">Something went wrong</Headline>
-      {message && <ErrorBody>{`Error message: ${message}`} </ErrorBody>}
-    </ErrorFallbackStyled>
+    <div className="clover-slider-error" role="alert">
+      <p className="clover-slider-error-headline" data-testid="headline">
+        Something went wrong
+      </p>
+      {message && <span>{`Error message: ${message}`} </span>}
+    </div>
   );
 };
 

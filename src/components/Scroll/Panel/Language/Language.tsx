@@ -3,7 +3,6 @@ import React, { CSSProperties, useContext } from "react";
 import LanguageOption from "./Option";
 import { Popover } from "src/components/UI";
 import { ScrollContext } from "src/context/scroll-context";
-import { StyledScrollLanguage } from "./Language.styled";
 import { extractLanguages } from "src/lib/annotation-helpers";
 
 const LanguageIcon = ({
@@ -32,7 +31,7 @@ const ScrollLanguage = () => {
     : [];
 
   return (
-    <StyledScrollLanguage>
+    <div className="clover-scroll-language">
       <Popover>
         <Popover.Trigger>
           <LanguageIcon
@@ -51,7 +50,7 @@ const ScrollLanguage = () => {
           ))}
         </Popover.Content>
       </Popover>
-    </StyledScrollLanguage>
+    </div>
   );
 };
 

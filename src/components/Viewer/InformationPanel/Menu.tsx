@@ -1,5 +1,4 @@
 import Cue from "src/components/Viewer/InformationPanel/Annotation/VTT/Cue";
-import { MenuStyled } from "src/components/Viewer/InformationPanel/Menu.styled";
 import { NodeWebVttCueNested } from "src/hooks/use-webvtt";
 import React from "react";
 
@@ -8,7 +7,7 @@ interface MenuProps {
 }
 const Menu: React.FC<MenuProps> = ({ items }) => {
   return (
-    <MenuStyled>
+    <ul className="clover-viewer-annotation-menu">
       {items.map((item) => {
         const { html, text, start, end, children, identifier } = item;
         return (
@@ -18,7 +17,7 @@ const Menu: React.FC<MenuProps> = ({ items }) => {
           </li>
         );
       })}
-    </MenuStyled>
+    </ul>
   );
 };
 export default Menu;

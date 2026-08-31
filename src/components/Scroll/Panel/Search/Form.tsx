@@ -1,10 +1,4 @@
 import React, { MouseEvent, useContext, useEffect, useRef } from "react";
-import {
-  StyledSearchBackButton,
-  StyledSearchForm,
-  StyledSearchIcon,
-  StyledSearchInput,
-} from "src/components/Scroll/Panel/Search/Search.styled";
 
 import { ScrollContext } from "src/context/scroll-context";
 
@@ -117,16 +111,22 @@ const PanelToggle: React.FC<PanelToggleProps> = ({
   };
 
   return (
-    <StyledSearchForm
+    <form
+      className="clover-scroll-search-form"
       id="scroll-search"
       autoComplete="off"
-      isPanelExpanded={isPanelExpanded}
+      data-panel-expanded={isPanelExpanded}
       data-testid="scroll-panel-search-form"
     >
-      <StyledSearchIcon onClick={focusInput}>
+      <button
+        className="clover-scroll-search-icon"
+        onClick={focusInput}
+        type="button"
+      >
         <SearchIcon />
-      </StyledSearchIcon>
-      <StyledSearchInput
+      </button>
+      <input
+        className="clover-scroll-search-input"
         ref={inputRef}
         name="clover-search"
         type="text"
@@ -134,15 +134,16 @@ const PanelToggle: React.FC<PanelToggleProps> = ({
         defaultValue={searchString}
         onChange={handleSearchChange}
       />
-      <StyledSearchBackButton
+      <button
+        className="clover-scroll-search-back"
         aria-disabled={!isPanelExpanded}
         aria-label="Close search panel"
         onClick={handleClose}
         disabled={!isPanelExpanded}
       >
         <CloseIcon />
-      </StyledSearchBackButton>
-    </StyledSearchForm>
+      </button>
+    </form>
   );
 };
 

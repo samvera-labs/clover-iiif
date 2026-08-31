@@ -1,10 +1,7 @@
 import React from "react";
-import { styled } from "src/styles/stitches.config";
 import { getLabelAsString } from "src/lib/label-helpers";
 import { PrimitivesHomepage } from "src/types/primitives";
 import { sanitizeAttributes } from "src/lib/html-element";
-
-const StyledHomepage = styled("a", {});
 
 const Homepage: React.FC<PrimitivesHomepage> = (props) => {
   const { children, homepage } = props;
@@ -24,14 +21,14 @@ const Homepage: React.FC<PrimitivesHomepage> = (props) => {
             attributes.lang,
           ) as string;
           return (
-            <StyledHomepage
+            <a
               aria-label={children ? label : undefined}
               href={resource.id}
               key={resource.id}
               {...attributes}
             >
               {children ? children : label}
-            </StyledHomepage>
+            </a>
           );
         })}
     </>

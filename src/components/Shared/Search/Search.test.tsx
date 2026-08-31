@@ -10,14 +10,16 @@ import { vi } from "vitest";
 /**
  * The Slider's filter and the Viewer's content search are one search UI.
  *
- * Asserted through the generated class names rather than by eye: if the two ever drift back
- * into separate styled components, they stop matching here. The content search version used
- * to pin its placeholder to a hardcoded `#0006`, which was invisible on a dark theme, and its
- * button kept an accent fill and a drop shadow long after the rest of the library dropped
- * both.
+ * Asserted through the shared class each renders rather than by eye: if the two ever drift
+ * back into separate components, they stop carrying it and these fail. The content search
+ * version used to pin its placeholder to a hardcoded `#0006`, which was invisible on a dark
+ * theme, and its button kept an accent fill and a drop shadow long after the rest of the
+ * library dropped both.
+ *
+ * This used to compare Stitches' generated hashes on both elements. The stable class is a
+ * better subject: it is the name the stylesheet actually keys on and the one a consumer can
+ * target, where the hash was an implementation detail that happened to be comparable.
  */
-const stitchesClass = (el: Element | null) =>
-  el?.className.toString().match(/c-\w+/)?.[0];
 
 describe("shared search UI", () => {
   const renderSliderFilter = () => {
@@ -50,28 +52,38 @@ describe("shared search UI", () => {
   it("renders the same input in both places", () => {
     renderSliderFilter();
     const sliderInput = document.querySelector(".clover-slider-search-input");
-    expect(sliderInput).not.toBeNull();
-    const sliderClass = stitchesClass(sliderInput);
+    expect(sliderInput).toHaveClass("clover-search-input");
 
     document.body.innerHTML = "";
     renderContentSearch();
     const panelInput = document.querySelector(".content-search-input input");
-    expect(panelInput).not.toBeNull();
-
-    expect(stitchesClass(panelInput)).toBe(sliderClass);
+    expect(panelInput).toHaveClass("clover-search-input");
   });
 
   it("renders the same control button in both places", () => {
     renderSliderFilter();
-    const sliderButton = document.querySelector(".clover-slider-search");
-    const sliderClass = stitchesClass(sliderButton);
-    expect(sliderClass).toBeTruthy();
+    expect(document.querySelector(".clover-slider-search")).toHaveClass(
+      "clover-control",
+    );
 
     document.body.innerHTML = "";
     renderContentSearch();
-    const submit = document.querySelector(".clover-search-submit");
-    expect(submit).not.toBeNull();
+    expect(document.querySelector(".clover-search-submit")).toHaveClass(
+      "clover-control",
+    );
+  });
 
-    expect(stitchesClass(submit)).toBe(sliderClass);
+  /*
+   * The host's own class has to survive alongside the shared one. Both components merge
+   * `className` rather than replacing it, and a host that lost its class would still look
+   * right while breaking every consumer selector and the queries above.
+   */
+  it("keeps the host class alongside the shared one", () => {
+    renderSliderFilter();
+    const input = document.querySelector(".clover-search-input");
+    expect(input).toHaveClass("clover-slider-search-input");
+
+    const button = document.querySelector(".clover-slider-search");
+    expect(button).toHaveClass("clover-control", "clover-slider-search");
   });
 });

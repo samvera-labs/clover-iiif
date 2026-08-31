@@ -5,13 +5,6 @@ import {
   Reference,
   W3CAnnotationTarget,
 } from "@iiif/presentation-3";
-import {
-  PageBreak,
-  StyledItem,
-  StyledItemFigure,
-  StyledItemTextualBodies,
-  StyledLanguageColumn,
-} from "src/components/Scroll/Items/Items.styled";
 import { ScrollContext, initialState } from "src/context/scroll-context";
 
 import React from "react";
@@ -162,7 +155,8 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
     const langAttribute = group.label ? group.label : undefined;
 
     return (
-      <StyledLanguageColumn
+      <div
+        className="clover-scroll-language-column"
         key={key}
         data-language={heading}
         lang={langAttribute}
@@ -170,7 +164,7 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
         {group.bodies.map((body, index) => (
           <ScrollItemBody body={body} key={`${body.id || key}-${index}`} />
         ))}
-      </StyledLanguageColumn>
+      </div>
     );
   });
 
@@ -186,20 +180,20 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
 
   return (
     <>
-      <StyledItem
+      <article
+        className="clover-scroll-item"
         data-page-break={hasItemBreak}
         data-page-number={itemNumber}
         data-last-item={isLastItem}
       >
-        <StyledItemFigure
-          css={{
-            width: figureWidth,
-          }}
+        <div
+          className="clover-scroll-item-figure"
           data-width={figureWidth}
+          style={{ width: figureWidth }}
         >
           {canvas && <ScrollFigure canvas={canvas} canvasInfo={canvasInfo} />}
-        </StyledItemFigure>
-        <StyledItemTextualBodies>
+        </div>
+        <div className="clover-scroll-item-bodies">
           <div
             style={{ "--num-items": columnCount } as React.CSSProperties}
             data-columns={columnCount}
@@ -209,9 +203,11 @@ const ScrollItem: React.FC<ScrollItemProps> = ({
               ? visibleColumns
               : !annotationsLoading && <></>}
           </div>
-        </StyledItemTextualBodies>
-      </StyledItem>
-      {hasItemBreak && <PageBreak aria-label="Page Break" />}
+        </div>
+      </article>
+      {hasItemBreak && (
+        <hr className="clover-scroll-page-break" aria-label="Page Break" />
+      )}
     </>
   );
 };
