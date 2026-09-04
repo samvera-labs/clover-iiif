@@ -102,7 +102,7 @@ const Header: React.FC<HeaderProps> = ({
   const back = (
     <Control
       className="clover-slider-previous"
-      aria-label={t("commonPrevious")}
+      aria-label={t("sliderPrevious")}
       disabled={!canGoBack}
       key="previous"
       onClick={goBack}
@@ -115,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({
   const forward = (
     <Control
       className="clover-slider-next"
-      aria-label={t("commonNext")}
+      aria-label={t("sliderNext")}
       disabled={!canGoForward}
       key="next"
       onClick={goForward}
@@ -195,7 +195,9 @@ const Header: React.FC<HeaderProps> = ({
 
         {search && (
           <Control
-            aria-label={isFiltering ? t("commonClose") : t("commonSearch")}
+            aria-label={
+              isFiltering ? t("sliderSearchClose") : t("sliderSearch")
+            }
             className="clover-slider-search"
             onClick={handleFilterToggle}
             type="button"
