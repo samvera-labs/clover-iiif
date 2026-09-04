@@ -101,4 +101,22 @@ describe("Image component", () => {
       />,
     );
   });
+  it("names the viewport from an InternationalString label", () => {
+    render(
+      <CloverImage
+        body={{
+          id: "https://example.org/image/full/600,/0/default.jpg",
+          type: "Image",
+          format: "image/jpeg",
+          width: 600,
+          height: 600,
+        }}
+        label={{ en: ["Front cover"] }}
+      />,
+    );
+
+    expect(
+      screen.getByTestId("clover-iiif-image-openseadragon-viewport"),
+    ).toHaveAttribute("aria-label", "Front cover");
+  });
 });
