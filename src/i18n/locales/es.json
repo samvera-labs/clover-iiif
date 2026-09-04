@@ -36,5 +36,12 @@
   "canvasAnimationPreviousFrame": "Fotograma anterior",
   "canvasAnimationNextFrame": "Fotograma siguiente",
   "canvasAnimationRepeat": "Repetir",
-  "canvasAnimationSpeed": "Velocidad"
+  "canvasAnimationSpeed": "Velocidad",
+  "canvasPosition": "Elemento {{index}} de {{total}}",
+  "imageViewerOpen": "Abrir el visor de imágenes",
+  "imageViewerClose": "Cerrar el visor de imágenes",
+  "sliderNext": "Elemento siguiente",
+  "sliderPrevious": "Elemento anterior",
+  "sliderSearch": "Buscar elementos",
+  "sliderSearchClose": "Cerrar la búsqueda de elementos"
 }

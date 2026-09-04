@@ -29,5 +29,12 @@
   "canvasAnimationNextFrame": "Neste bilete",
   "canvasAnimationRepeat": "Gjenta",
   "canvasAnimationSpeed": "Hastigheit",
-  "imageExitFullScreen": "Avslutt fullskjerm"
+  "imageExitFullScreen": "Avslutt fullskjerm",
+  "canvasPosition": "Element {{index}} av {{total}}",
+  "imageViewerOpen": "Opne biletvisaren",
+  "imageViewerClose": "Lukk biletvisaren",
+  "sliderNext": "Neste element",
+  "sliderPrevious": "Førre element",
+  "sliderSearch": "Søk i element",
+  "sliderSearchClose": "Lukk elementsøk"
 }
