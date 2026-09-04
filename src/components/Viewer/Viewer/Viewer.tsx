@@ -2,11 +2,12 @@ import * as Collapsible from "@radix-ui/react-collapsible";
 
 import { AnnotationResource, AnnotationResources } from "src/types/annotations";
 import {
+  CanvasNormalized,
   ExternalResourceTypes,
   InternationalString,
   ManifestNormalized,
 } from "@iiif/presentation-3";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   ViewerContextStore,
   useViewerDispatch,
@@ -24,10 +25,12 @@ import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { IIIFExternalWebResource } from "@iiif/presentation-3";
 import ViewerContent from "src/components/Viewer/Viewer/Content";
 import ViewerHeader from "src/components/Viewer/Viewer/Header";
+import { getLabelAsString } from "src/lib/label-helpers";
 import { getVisibleCanvasesFromCanvasId } from "@iiif/helpers";
 import { media } from "src/styles/media";
 import ExitFullscreen from "src/components/Shared/Fullscreen/ExitFullscreen";
 import useFullscreen from "src/hooks/useFullscreen";
+import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
 
 interface ViewerProps {
@@ -83,6 +86,9 @@ const Viewer: React.FC<ViewerProps> = ({
 
   const isSmallViewport = useMediaQuery(media.sm);
   const [searchServiceUrl, setSearchServiceUrl] = useState();
+  const [canvasAnnouncement, setCanvasAnnouncement] = useState("");
+  const previousCanvas = useRef<string | undefined>(undefined);
+  const { t } = useCloverTranslation();
 
   const setInformationOpen = useCallback(
     (open: boolean) => {
@@ -101,6 +107,43 @@ const Viewer: React.FC<ViewerProps> = ({
   }, [isSmallViewport, configOptions?.informationPanel?.open]);
 
   useEffect(() => {}, [isSmallViewport]);
+
+  /*
+   * Changing canvas replaces the image in place, which a screen reader has no reason to
+   * report, so stepping through with the next control was silent (WCAG 4.1.3). The first
+   * canvas is skipped: it is what the viewer opened on, not a change.
+   */
+  useEffect(() => {
+    if (!activeCanvas) return;
+
+    if (previousCanvas.current === undefined) {
+      previousCanvas.current = activeCanvas;
+      return;
+    }
+    if (previousCanvas.current === activeCanvas) return;
+    previousCanvas.current = activeCanvas;
+
+    const canvas = vault.get(activeCanvas) as CanvasNormalized | undefined;
+    const label = getLabelAsString(canvas?.label as InternationalString);
+
+    if (label) {
+      setCanvasAnnouncement(label);
+      return;
+    }
+
+    // Canvases often carry no label, and an empty announcement tells the reader nothing.
+    // Position at least confirms the move happened and says how far it went.
+    const index = manifest.items?.findIndex((item) => item.id === activeCanvas);
+
+    setCanvasAnnouncement(
+      index !== undefined && index > -1
+        ? t("canvasPosition", {
+            index: index + 1,
+            total: manifest.items?.length,
+          })
+        : "",
+    );
+  }, [activeCanvas, manifest, t, vault]);
 
   useEffect(() => {
     const canvasPainting = getPaintingResource(vault, activeCanvas);
@@ -207,6 +250,17 @@ const Viewer: React.FC<ViewerProps> = ({
          * the browser put in full screen is the one offering a way back.
          */}
         <ExitFullscreen />
+        {/*
+         * `polite` so the name of the canvas the reader moved to waits for them to stop
+         * typing or navigating, rather than cutting across it.
+         */}
+        <div
+          aria-live="polite"
+          className="clover-viewer-announcer"
+          data-testid="canvas-announcer"
+        >
+          {canvasAnnouncement}
+        </div>
         <Collapsible.Root
           open={isInformationOpen}
           onOpenChange={setInformationOpen}
