@@ -6,7 +6,7 @@ import {
   Trigger,
   Wrapper,
 } from "src/components/Viewer/InformationPanel/Tabs";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ViewerContextStore,
   useViewerDispatch,
@@ -167,6 +167,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     Boolean(filteredAnnotationResources?.length) ||
     hasContentStateAnnotation ||
     hasAnnotationCollection;
+  const showAboutTab = Boolean(renderAbout);
+  const showAnnotationsTab = Boolean(renderAnnotation && hasAnnotations);
+  const showContentSearchTab = Boolean(
+    renderContentSearch && contentSearchResource,
+  );
 
   const contentsTree = useMemo(() => {
     if (!renderContents) return null;
@@ -425,7 +430,11 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
   // ── end map tab data ────────────────────────────────────────────────────────
 
-  const { pluginsWithInfoPanel } = setupPlugins(plugins);
+  const { pluginsWithInfoPanel } = useMemo(
+    () => setupPlugins(plugins),
+    [plugins],
+  );
+  const hasAppliedDefaultTab = useRef(false);
 
   function renderPluginInformationPanel(plugin: PluginConfig, i: number) {
     const PluginInformationPanelComponent = plugin?.informationPanel
@@ -459,47 +468,64 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     });
   };
 
-  useEffect(() => {
-    /**
-     * If a default tab is set, set the active tab to that value
-     */
-    if (
+  const availablePanelResources = useMemo(
+    () =>
       [
-        "manifest-about",
-        "manifest-annotations",
-        "manifest-content-search",
-        "manifest-contents",
-        "manifest-map",
-      ].includes(String(informationPanel?.defaultTab))
-    ) {
-      dispatch({
-        type: "updateInformationPanelResource",
-        informationPanelResource: informationPanel?.defaultTab,
-      });
-    } else if (hasAnnotationCollection || hasContentStateAnnotation) {
-      dispatch({
-        type: "updateInformationPanelResource",
-        informationPanelResource: "manifest-annotations",
-      });
-    } else {
-      dispatch({
-        type: "updateInformationPanelResource",
-        informationPanelResource: "manifest-about",
-      });
-    }
-  }, []);
+        showAnnotationsTab ? "manifest-annotations" : undefined,
+        showContentSearchTab ? "manifest-content-search" : undefined,
+        showAboutTab ? "manifest-about" : undefined,
+        showContentsTab ? "manifest-contents" : undefined,
+        showMapTab ? "manifest-map" : undefined,
+        ...(pluginsWithInfoPanel?.map((plugin) => plugin.id) ?? []),
+      ].filter(Boolean) as string[],
+    [
+      pluginsWithInfoPanel,
+      showAboutTab,
+      showAnnotationsTab,
+      showContentSearchTab,
+      showContentsTab,
+      showMapTab,
+    ],
+  );
+
+  const availableDefaultResource = availablePanelResources.includes(
+    String(informationPanel?.defaultTab),
+  )
+    ? informationPanel?.defaultTab
+    : undefined;
+  const currentPanelResource = availablePanelResources.includes(
+    String(informationPanelResource),
+  )
+    ? informationPanelResource
+    : undefined;
+  const activePanelResource =
+    (!hasAppliedDefaultTab.current && availableDefaultResource) ||
+    currentPanelResource ||
+    availablePanelResources[0];
 
   useEffect(() => {
     if (
-      !hasAnnotations &&
-      informationPanelResource === "manifest-annotations"
+      availableDefaultResource &&
+      activePanelResource === availableDefaultResource
+    ) {
+      hasAppliedDefaultTab.current = true;
+    }
+
+    if (
+      activePanelResource &&
+      informationPanelResource !== activePanelResource
     ) {
       dispatch({
         type: "updateInformationPanelResource",
-        informationPanelResource: "manifest-about",
+        informationPanelResource: activePanelResource,
       });
     }
-  }, [dispatch, hasAnnotations, informationPanelResource]);
+  }, [
+    activePanelResource,
+    availableDefaultResource,
+    dispatch,
+    informationPanelResource,
+  ]);
 
   function handleScroll() {
     if (!isAutoScrolling) {
@@ -528,10 +554,10 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   return (
     <Wrapper
       data-testid="information-panel"
-      defaultValue={informationPanelResource}
+      defaultValue={activePanelResource}
       onValueChange={handleValueChange}
       orientation="horizontal"
-      value={informationPanelResource}
+      value={activePanelResource}
       className="clover-viewer-information-panel"
     >
       <List
@@ -550,7 +576,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             </Icon>
           </Trigger>
         )}
-        {renderAbout && (
+        {showAboutTab && (
           <Trigger value="manifest-about">
             {t("informationPanelTabsAbout")}
           </Trigger>
@@ -560,12 +586,12 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             {t("informationPanelTabsContents")}
           </Trigger>
         )}
-        {renderContentSearch && contentSearchResource && (
+        {showContentSearchTab && (
           <Trigger value="manifest-content-search">
             {t("informationPanelTabsSearch")}
           </Trigger>
         )}
-        {renderAnnotation && hasAnnotations && (
+        {showAnnotationsTab && (
           <Trigger value="manifest-annotations">
             {informationPanel?.annotationTabLabel ||
               t("informationPanelTabsAnnotations")}
@@ -584,7 +610,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
           ))}
       </List>
       <Scroll handleScroll={handleScroll}>
-        {renderAbout && (
+        {showAboutTab && (
           <Content value="manifest-about">
             <Information />
           </Content>
@@ -594,19 +620,19 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
             <ContentsPage tree={contentsTree} />
           </Content>
         )}
-        {renderContentSearch && contentSearchResource && (
+        {showContentSearchTab && (
           <Content value="manifest-content-search">
             <ContentSearch
               searchServiceUrl={searchServiceUrl}
               setContentSearchResource={setContentSearchResource}
               activeCanvas={activeCanvas}
-              annotationPage={contentSearchResource}
+              annotationPage={contentSearchResource!}
               contentSearchCallback={contentSearchCallback}
               initialSearchQuery={initialSearchQuery}
             />
           </Content>
         )}
-        {renderAnnotation && hasAnnotations && (
+        {showAnnotationsTab && (
           <Content value="manifest-annotations">
             {contentStateAnnotation && hasContentStateAnnotation && (
               <ContentStateAnnotationPage

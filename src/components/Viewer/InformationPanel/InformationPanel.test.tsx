@@ -243,6 +243,34 @@ describe("InformationPanel", () => {
     expect(screen.queryByRole("tab", { name: "Contents" })).toBeNull();
   });
 
+  test("selects Content Search instead of a hidden About tab", () => {
+    mockState = createMockState({
+      informationPanelResource: "manifest-about",
+      configOptions: {
+        informationPanel: {
+          renderAbout: false,
+          renderAnnotation: true,
+          renderContentSearch: true,
+          renderContents: true,
+          renderToggle: false,
+        },
+      },
+    });
+
+    render(
+      <InformationPanel
+        {...props}
+        searchServiceUrl="https://example.org/iiif/search"
+        contentSearchResource={{ id: "search-results", type: "AnnotationPage" }}
+      />,
+    );
+
+    expect(mockDispatch).toHaveBeenCalledWith({
+      type: "updateInformationPanelResource",
+      informationPanelResource: "manifest-content-search",
+    });
+  });
+
   test("selects the first canvas in a range from the Contents tab", () => {
     const { manifest, vault } = createVaultWithStructures();
     mockState = createMockState({

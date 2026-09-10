@@ -214,7 +214,7 @@ describe("ViewerContent with Annotation Resources", () => {
       <ViewerProvider
         initialState={{
           ...defaultState,
-          isInformationOpen: true,
+          isInformationOpen: false,
           configOptions: {
             informationPanel: {
               ...defaultState.configOptions.informationPanel,
@@ -276,6 +276,58 @@ describe("ViewerContent with Annotation Resources", () => {
         <ViewerContent {...propsWithAnnotationResources} />
       </ViewerProvider>,
     );
+    expect(screen.queryByTestId("mock-information-panel")).toBeNull();
+  });
+});
+
+describe("ViewerContent with an IIIF Content Search service", () => {
+  const propsWithSearchService = {
+    ...props,
+    searchServiceUrl: "https://example.com/iiif/search",
+  };
+
+  test("renders InformationPanel when About and initial open state are off", () => {
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: false,
+          configOptions: {
+            informationPanel: {
+              ...defaultState.configOptions.informationPanel,
+              open: false,
+              renderAbout: false,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...propsWithSearchService} />
+      </ViewerProvider>,
+    );
+
+    expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
+  });
+
+  test("respects an explicit request not to render Content Search", () => {
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: false,
+          configOptions: {
+            informationPanel: {
+              ...defaultState.configOptions.informationPanel,
+              open: false,
+              renderAbout: false,
+              renderContentSearch: false,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...propsWithSearchService} />
+      </ViewerProvider>,
+    );
+
     expect(screen.queryByTestId("mock-information-panel")).toBeNull();
   });
 });

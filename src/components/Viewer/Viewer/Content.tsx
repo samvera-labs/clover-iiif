@@ -69,10 +69,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   const [asideWidth, setAsideWidth] = useState<number | null>(null);
   const dragging = useRef(false);
 
-  /**
-   * The information panel should be rendered if toggled true and if
-   * there is content (About or Annotations Resources) to display.
-   */
+  /** Determine which kinds of content make the information panel visible. */
   const visibleCanvasesIds = visibleCanvases.map((canvas) => canvas.id);
 
   const hasAnnotations =
@@ -80,16 +77,20 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
     // @ts-ignore
     visibleCanvasesIds.includes(contentStateAnnotation?.target?.source?.id);
 
-  // Only force the aside open for annotations when no toggle is rendered.
-  // If a toggle is visible, it must control open/close behavior.
-  const isForcedAside =
-    hasAnnotations &&
-    informationPanel?.renderAnnotation &&
-    informationPanel?.renderToggle === false &&
-    isInformationOpen;
+  const showAboutPanel = Boolean(
+    informationPanel?.renderAbout && isInformationOpen,
+  );
+  const showAnnotationsPanel = Boolean(
+    informationPanel?.renderAnnotation && hasAnnotations,
+  );
+  const showContentSearchPanel = Boolean(
+    informationPanel?.renderContentSearch && searchServiceUrl,
+  );
 
-  const isAside =
-    (informationPanel?.renderAbout && isInformationOpen) || isForcedAside;
+  // Annotations and Content Search are primary content, so their presence can
+  // make the panel visible even when About and the initial open state are off.
+  const showInformationPanel =
+    showAboutPanel || showAnnotationsPanel || showContentSearchPanel;
 
   const renderToggle = informationPanel?.renderToggle;
   const CustomToggle = informationPanel?.toggleComponent;
@@ -119,12 +120,14 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   };
 
   const mainStyle =
-    asideWidth !== null && isAside
+    asideWidth !== null && showInformationPanel
       ? { width: `${100 - asideWidth}%` }
       : undefined;
 
   const asideStyle =
-    asideWidth !== null && isAside ? { width: `${asideWidth}%` } : undefined;
+    asideWidth !== null && showInformationPanel
+      ? { width: `${asideWidth}%` }
+      : undefined;
 
   const hasRail = sequence[1].length > 1;
 
@@ -151,7 +154,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
       >
         <div
           className="clover-viewer-main"
-          data-aside-active={isAside}
+          data-aside-active={showInformationPanel}
           data-aside-toggle={renderToggle}
           style={mainStyle}
         >
@@ -169,7 +172,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
             (CustomToggle ? (
               <span
                 className="clover-viewer-custom-panel-toggle"
-                data-aside-active={isAside}
+                data-aside-active={showInformationPanel}
               >
                 <CustomToggle
                   buttonProps={{
@@ -194,7 +197,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
             ) : (
               <button
                 className="clover-viewer-panel-toggle"
-                data-aside-active={isAside}
+                data-aside-active={showInformationPanel}
                 onClick={handleToggle}
                 aria-label={t("informationPanelToggle")}
                 aria-expanded={isInformationOpen}
@@ -209,7 +212,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
               </button>
             ))}
         </div>
-        {isAside && (
+        {showInformationPanel && (
           <>
             <div
               className="clover-viewer-drag-handle"
@@ -221,7 +224,7 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
             />
             <aside
               className="clover-viewer-aside"
-              data-aside-active={isAside}
+              data-aside-active={showInformationPanel}
               data-aside-toggle={renderToggle}
               style={asideStyle}
             >

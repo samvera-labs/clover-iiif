@@ -597,29 +597,38 @@ the strip states how long a time-based canvas runs, so it shows either way — w
 
 ### Information Panel
 
-The information panel is a collapsible panel that displays information about the current Manifest and renders supplementing resources for the active canvas. It is rendered by default, but can be configured to be hidden or to render only certain tabs.
+The information panel is a collapsible panel that displays information about the current Manifest and renders annotations and IIIF Content Search for the active canvas. It is rendered by default, but can be configured to hide About or opt out of individual data-backed tabs.
 
-| Prop                                           | Type                            | Required | Default |
-| ---------------------------------------------- | ------------------------------- | -------- | ------- |
-| `options.informationPanel.open`                | `boolean`                       | No       | true    |
-| `options.informationPanel.vtt.autoScroll`      | [See Auto Scroll](#auto-scroll) | No       | true    |
-| `options.informationPanel.renderAbout`         | `boolean`                       | No       | true    |
-| `options.informationPanel.renderAnnotation`    | `boolean`                       | No       | true    |
-| `options.informationPanel.renderContents`      | `boolean`                       | No       | true    |
-| `options.informationPanel.renderSupplementing` | `boolean`                       | No       | true    |
-| `options.informationPanel.renderToggle`        | `boolean`                       | No       | true    |
-| `options.informationPanel.toggleComponent`     | `React.ComponentType`           | No       |         |
-| `options.informationPanel.renderContentSearch` | `boolean`                       | No       | true    |
-| `options.informationPanel.renderCanvasSummary` | `boolean`                       | No       | false   |
-| `options.informationPanel.defaultTab`          | `string`                        | No       |         |
-| `options.informationPanel.annotationTabLabel`  | `string`                        | No       |         |
+| Prop                                           | Type                            | Required | Default   |
+| ---------------------------------------------- | ------------------------------- | -------- | --------- |
+| `options.informationPanel.open`                | `boolean`                       | No       | true      |
+| `options.informationPanel.vtt.autoScroll`      | [See Auto Scroll](#auto-scroll) | No       | true      |
+| `options.informationPanel.renderAbout`         | `boolean`                       | No       | true      |
+| `options.informationPanel.renderAnnotation`    | `boolean`                       | No       | true      |
+| `options.informationPanel.renderContents`      | `boolean`                       | No       | true      |
+| `options.informationPanel.renderToggle`        | `boolean`                       | No       | true      |
+| `options.informationPanel.toggleComponent`     | `React.ComponentType`           | No       |           |
+| `options.informationPanel.renderContentSearch` | `boolean`                       | No       | true      |
+| `options.informationPanel.renderCanvasSummary` | `boolean`                       | No       | false     |
+| `options.informationPanel.defaultTab`          | `string`                        | No       | automatic |
+| `options.informationPanel.annotationTabLabel`  | `string`                        | No       |           |
+
+Panel visibility is based on the content Clover can actually render:
+
+- About makes the panel visible when `renderAbout` and the current open state are both true.
+- Available annotations make the panel visible when `renderAnnotation` is true, even if `open` or `renderAbout` is false.
+- An available IIIF Content Search service makes the panel visible when `renderContentSearch` is true, even if `open` or `renderAbout` is false.
+
+`open` supplies the initial open state; it is not an override that hides available Annotations or Content Search. Likewise, `renderToggle` controls whether Clover renders its open/close control, not whether the panel has content. To suppress the panel for a Manifest that provides annotations or Content Search, explicitly set the corresponding `renderAnnotation` or `renderContentSearch` option to `false`.
+
+The legacy `renderSupplementing`, `renderAnnotationCollection`, and `annotationCollectionTabLabel` fields remain in the public configuration type for compatibility, but they do not independently control current tab rendering. Use `renderAnnotation` and `annotationTabLabel` for the shared Annotations tab.
 
 Set `renderCanvasSummary` to `true` to show the active canvas's `summary` above
 the manifest's own, for manifests that describe each image rather than only the
 object. It follows the active canvas and renders nothing when that canvas has no
 summary. Off by default, since it adds text to the About tab.
 
-If `renderAbout` is true, Clover will use the About tab as the default tab. Use `options.informationPanel.defaultTab` to set the default tab.
+Use `options.informationPanel.defaultTab` to choose a preferred tab. Clover applies that preference once the tab's backing data becomes available. While an asynchronous tab is loading—or when the configured tab is unavailable—Clover selects the first available tab so the panel never opens with blank content. The built-in fallback order is Annotations, Content Search, About, Contents, then Map, followed by plugin tabs.
 
 Manifests with IIIF `structures` render a Contents tab by default. The tab uses
 Range labels as a table of contents, and selecting a range opens the first canvas
@@ -662,37 +671,14 @@ If you want content search to be the default tab, use `manifest-content-search`
 />
 ```
 
-If the manifest has annotations, and you want one of the anotations to be the default tab, use the id from the annotation page.
-
-```json
-{
-  "@context": ["http://iiif.io/api/presentation/3/context.json"],
-  "type": "Manifest",
-   ...
-  "items": [
-    {
-      "id": "http://example.com/manifest/canvas/1",
-      "type": "Canvas",
-      "height": 1000,
-      "width": 2000,
-      "annotations": [
-        {
-          "id": "http://example.com/manifest/annotation/1",
-          "type": "AnnotationPage",
-          "items": [...]
-        }
-      ]
-    }
-  ]
-}
-```
+To make the shared Annotations tab the default when the active canvas has annotations, use `manifest-annotations`.
 
 ```jsx
 <Viewer
   iiifContent="https://example.com/manifest/1"
   options={{
     informationPanel: {
-      defaultTab: "http://example.com/manifest/annotation/1",
+      defaultTab: "manifest-annotations",
     },
   }}
 />
@@ -758,7 +744,7 @@ You can use the `contentStateCallback` prop to receive the current content state
         options={{
           showTitle: false,
           informationPanel: {
-            open: "false",
+            open: false,
             renderAbout: false,
             renderToggle: false,
           }
@@ -770,7 +756,7 @@ You can use the `contentStateCallback` prop to receive the current content state
 
 ### IIIF Content Search
 
-Clover supports IIIF Content Search v2. In order to display content search in the information panel, add a content search service to the manifest.
+To display IIIF Content Search in the information panel, add a supported Content Search service to the Manifest and leave `options.informationPanel.renderContentSearch` enabled.
 
 ```json
 {
@@ -786,19 +772,19 @@ Clover supports IIIF Content Search v2. In order to display content search in th
 }
 ```
 
-| Prop                                             | Type      | Required | Default  |
-| ------------------------------------------------ | --------- | -------- | -------- |
-| `iiifContentSearchQuery.q`                       | `string`  | No       |          |
-| `options.contentSearch.searchResultsLimit`       | `number`  | No       | 20       |
-| `options.contentSearch.overlays.backgroundColor` | `string`  | No       | #ff66660 |
-| `options.contentSearch.overlays.borderColor`     | `string`  | No       | #990000  |
-| `options.contentSearch.overlays.borderType`      | `string`  | No       | solid    |
-| `options.contentSearch.overlays.borderWidth`     | `string`  | No       | 1px      |
-| `options.contentSearch.overlays.opacity`         | `string`  | No       | 0.5      |
-| `options.contentSearch.overlays.renderOverlays`  | `boolean` | No       | true     |
-| `options.contentSearch.overlays.zoomLevel`       | `number`  | No       | 4        |
+| Prop                                             | Type      | Required | Default |
+| ------------------------------------------------ | --------- | -------- | ------- |
+| `iiifContentSearchQuery.q`                       | `string`  | No       |         |
+| `options.contentSearch.searchResultsLimit`       | `number`  | No       | 20      |
+| `options.contentSearch.overlays.backgroundColor` | `string`  | No       | #ff6666 |
+| `options.contentSearch.overlays.borderColor`     | `string`  | No       | #990000 |
+| `options.contentSearch.overlays.borderType`      | `string`  | No       | solid   |
+| `options.contentSearch.overlays.borderWidth`     | `string`  | No       | 1px     |
+| `options.contentSearch.overlays.opacity`         | `number`  | No       | 0.5     |
+| `options.contentSearch.overlays.renderOverlays`  | `boolean` | No       | true    |
+| `options.contentSearch.overlays.zoomLevel`       | `number`  | No       | 4       |
 
-Many sites have a search functionality that returns a list objects that match the search terms. Clicking on a search result will display a details page for one object. If you want to highlight the search terms when the Clover image viewer loads on the details page, use `iiifContentSearchQuery` when setting up the viewer.
+Many sites have search functionality that returns a list of objects matching the search terms. Clicking a search result displays the details page for one object. To highlight search terms when the Clover image viewer loads on that details page, use `iiifContentSearchQuery` when setting up the viewer.
 
 ```jsx
 <Viewer
