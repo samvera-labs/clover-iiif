@@ -3,6 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import InformationPanel from "src/components/Viewer/InformationPanel/InformationPanel";
 import React from "react";
 import { Vault } from "@iiif/helpers/vault";
+import type { AnnotationResource } from "src/types/annotations";
 
 const mockDispatch = vi.fn();
 
@@ -261,7 +262,9 @@ describe("InformationPanel", () => {
       <InformationPanel
         {...props}
         searchServiceUrl="https://example.org/iiif/search"
-        contentSearchResource={{ id: "search-results", type: "AnnotationPage" }}
+        contentSearchResource={
+          { id: "search-results", type: "AnnotationPage" } as AnnotationResource
+        }
       />,
     );
 

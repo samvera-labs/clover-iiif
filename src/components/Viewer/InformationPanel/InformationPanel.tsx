@@ -117,17 +117,18 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
   } = viewerState;
   const { informationPanel } = configOptions;
 
-  const renderAbout = informationPanel?.renderAbout;
-  const renderAnnotation = informationPanel?.renderAnnotation;
-  const renderContents = informationPanel?.renderContents;
+  // Every `render*` option defaults to true; only an explicit `false` hides a tab.
+  const renderAbout = informationPanel?.renderAbout !== false;
+  const renderAnnotation = informationPanel?.renderAnnotation !== false;
+  const renderContents = informationPanel?.renderContents !== false;
   const hasAnnotationCollection = Boolean(annotationCollection?.pages?.length);
   const canvas = vault.get({
     id: activeCanvas,
     type: "Canvas",
   }) as CanvasNormalized;
 
-  const renderContentSearch = informationPanel?.renderContentSearch;
-  const renderToggle = informationPanel?.renderToggle;
+  const renderContentSearch = informationPanel?.renderContentSearch !== false;
+  const renderToggle = informationPanel?.renderToggle !== false;
   const allowedAnnotationMotivations = configOptions?.annotations?.motivations;
   const contentStateAnnotationSource =
     // @ts-ignore
@@ -167,11 +168,10 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
     Boolean(filteredAnnotationResources?.length) ||
     hasContentStateAnnotation ||
     hasAnnotationCollection;
-  const showAboutTab = Boolean(renderAbout);
-  const showAnnotationsTab = Boolean(renderAnnotation && hasAnnotations);
-  const showContentSearchTab = Boolean(
-    renderContentSearch && contentSearchResource,
-  );
+  const showAboutTab = renderAbout;
+  const showAnnotationsTab = renderAnnotation && hasAnnotations;
+  const showContentSearchTab =
+    renderContentSearch && Boolean(contentSearchResource);
 
   const contentsTree = useMemo(() => {
     if (!renderContents) return null;

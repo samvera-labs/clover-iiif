@@ -44,10 +44,13 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   painting,
 }) => {
   const {
+    activeManifest,
+    annotationCollection,
     contentStateAnnotation,
     isInformationOpen,
     configOptions,
     sequence,
+    vault,
     visibleCanvases,
   } = useViewerState();
   const dispatch = useViewerDispatch();
@@ -69,30 +72,46 @@ const ViewerContent: React.FC<ViewerContentProps> = ({
   const [asideWidth, setAsideWidth] = useState<number | null>(null);
   const dragging = useRef(false);
 
-  /** Determine which kinds of content make the information panel visible. */
+  /*
+   * Which content can the information panel show?
+   *
+   * Every `render*` option defaults to true: a tab is only withheld when the option is
+   * set to `false` explicitly. Annotations (including VTT chapters and transcripts),
+   * a Contents table built from the Manifest's `structures`, and an IIIF Content Search
+   * service are primary content, so they can make the panel visible on their own.
+   */
+  const renderAbout = informationPanel?.renderAbout !== false;
+  const renderAnnotation = informationPanel?.renderAnnotation !== false;
+  const renderContents = informationPanel?.renderContents !== false;
+  const renderContentSearch = informationPanel?.renderContentSearch !== false;
+  const renderToggle = informationPanel?.renderToggle !== false;
+
   const visibleCanvasesIds = visibleCanvases.map((canvas) => canvas.id);
 
   const hasAnnotations =
     annotationResources.length > 0 ||
+    Boolean(annotationCollection?.pages?.length) ||
     // @ts-ignore
     visibleCanvasesIds.includes(contentStateAnnotation?.target?.source?.id);
+  const hasStructures = Boolean(vault.get(activeManifest)?.structures?.length);
 
-  const showAboutPanel = Boolean(
-    informationPanel?.renderAbout && isInformationOpen,
-  );
-  const showAnnotationsPanel = Boolean(
-    informationPanel?.renderAnnotation && hasAnnotations,
-  );
-  const showContentSearchPanel = Boolean(
-    informationPanel?.renderContentSearch && searchServiceUrl,
-  );
+  const hasAnnotationsContent = renderAnnotation && hasAnnotations;
+  const hasContentsContent = renderContents && hasStructures;
+  const hasContentSearchContent =
+    renderContentSearch && Boolean(searchServiceUrl);
+  const hasPrimaryContent =
+    hasAnnotationsContent || hasContentsContent || hasContentSearchContent;
+  const hasPanelContent = renderAbout || hasPrimaryContent;
 
-  // Annotations and Content Search are primary content, so their presence can
-  // make the panel visible even when About and the initial open state are off.
-  const showInformationPanel =
-    showAboutPanel || showAnnotationsPanel || showContentSearchPanel;
+  /*
+   * When Clover renders its toggle, the toggle owns open and closed: `open` sets the
+   * initial state and the reader changes it. Without a toggle there is no way to open
+   * the panel, so primary content forces it visible even when `open` is false.
+   */
+  const showInformationPanel = renderToggle
+    ? isInformationOpen && hasPanelContent
+    : (isInformationOpen && hasPanelContent) || hasPrimaryContent;
 
-  const renderToggle = informationPanel?.renderToggle;
   const CustomToggle = informationPanel?.toggleComponent;
 
   const handleToggle = () => {

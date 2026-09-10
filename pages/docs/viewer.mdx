@@ -597,7 +597,7 @@ the strip states how long a time-based canvas runs, so it shows either way — w
 
 ### Information Panel
 
-The information panel is a collapsible panel that displays information about the current Manifest and renders annotations and IIIF Content Search for the active canvas. It is rendered by default, but can be configured to hide About or opt out of individual data-backed tabs.
+The information panel is a collapsible panel that displays information about the current Manifest and renders annotations, a Contents table built from the Manifest's `structures`, and IIIF Content Search for the active canvas. It is rendered by default, but can be configured to hide About or opt out of individual data-backed tabs.
 
 | Prop                                           | Type                            | Required | Default   |
 | ---------------------------------------------- | ------------------------------- | -------- | --------- |
@@ -613,13 +613,16 @@ The information panel is a collapsible panel that displays information about the
 | `options.informationPanel.defaultTab`          | `string`                        | No       | automatic |
 | `options.informationPanel.annotationTabLabel`  | `string`                        | No       |           |
 
-Panel visibility is based on the content Clover can actually render:
+Every `render*` option is on by default: a tab is only withheld when its option is explicitly set to `false`. Panel visibility is then based on the content Clover can actually render:
 
-- About makes the panel visible when `renderAbout` and the current open state are both true.
-- Available annotations make the panel visible when `renderAnnotation` is true, even if `open` or `renderAbout` is false.
-- An available IIIF Content Search service makes the panel visible when `renderContentSearch` is true, even if `open` or `renderAbout` is false.
+- About is available whenever `renderAbout` is not `false`.
+- Annotations (including VTT chapters and transcripts) are available when the active canvas has them and `renderAnnotation` is not `false`.
+- Contents is available when the Manifest has `structures` and `renderContents` is not `false`.
+- IIIF Content Search is available when the Manifest has a Content Search service and `renderContentSearch` is not `false`.
 
-`open` supplies the initial open state; it is not an override that hides available Annotations or Content Search. Likewise, `renderToggle` controls whether Clover renders its open/close control, not whether the panel has content. To suppress the panel for a Manifest that provides annotations or Content Search, explicitly set the corresponding `renderAnnotation` or `renderContentSearch` option to `false`.
+When Clover renders its toggle (the default), the toggle owns the panel: `open` supplies the initial state, the reader opens and closes it, and the panel appears only when it is open and has something to show.
+
+When `renderToggle` is `false` there is no way for the reader to open the panel, so available Annotations, Contents, or Content Search make the panel visible even if `open` or `renderAbout` is false. About alone still respects `open`. To suppress the panel for such a Manifest, set the corresponding `renderAnnotation`, `renderContents`, or `renderContentSearch` option to `false`.
 
 The legacy `renderSupplementing`, `renderAnnotationCollection`, and `annotationCollectionTabLabel` fields remain in the public configuration type for compatibility, but they do not independently control current tab rendering. Use `renderAnnotation` and `annotationTabLabel` for the shared Annotations tab.
 

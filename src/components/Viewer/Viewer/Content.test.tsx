@@ -9,6 +9,8 @@ import InformationPanel from "../InformationPanel/InformationPanel";
 import Painting from "src/components/Viewer/Painting/Painting";
 import React from "react";
 import type { PanelToggleProps } from "src/context/viewer-context";
+import { Vault } from "@iiif/helpers/vault";
+import type { AnnotationCollectionNormalized } from "src/types/annotation-collection";
 
 vi.mock("@radix-ui/react-collapsible");
 
@@ -280,13 +282,182 @@ describe("ViewerContent with Annotation Resources", () => {
   });
 });
 
+describe("ViewerContent with Annotation Resources and a toggle", () => {
+  const propsWithAnnotationResources = {
+    ...props,
+    annotationResources,
+  };
+
+  test("keeps the panel closed until the reader opens it", () => {
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: false,
+          configOptions: {
+            informationPanel: {
+              ...defaultState.configOptions.informationPanel,
+              open: false,
+              renderToggle: true,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...propsWithAnnotationResources} />
+      </ViewerProvider>,
+    );
+    expect(screen.queryByTestId("mock-information-panel")).toBeNull();
+  });
+
+  test("renders annotations when the render options are not set at all", () => {
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: false,
+          // No render* flags: everything defaults to on, so annotations show
+          // even though About is off and the panel starts closed.
+          configOptions: {
+            informationPanel: {
+              open: false,
+              renderAbout: false,
+              renderToggle: false,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...propsWithAnnotationResources} />
+      </ViewerProvider>,
+    );
+    expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
+  });
+});
+
+describe("ViewerContent with an Annotation Collection", () => {
+  const annotationCollection: AnnotationCollectionNormalized = {
+    id: "https://example.org/annotations",
+    type: "AnnotationCollection",
+    pages: [
+      {
+        id: "https://example.org/annotations/page/1",
+        type: "AnnotationPage",
+        items: [],
+      },
+    ],
+  };
+
+  test("renders the panel for collection annotations when About and the toggle are off", () => {
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          annotationCollection,
+          isInformationOpen: false,
+          configOptions: {
+            informationPanel: {
+              ...defaultState.configOptions.informationPanel,
+              open: false,
+              renderAbout: false,
+              renderToggle: false,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...props} />
+      </ViewerProvider>,
+    );
+
+    expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
+  });
+});
+
+describe("ViewerContent with Manifest structures", () => {
+  const createVaultWithStructures = () => {
+    const vault = new Vault();
+    const manifest = vault.loadSync("https://example.org/manifest", {
+      id: "https://example.org/manifest",
+      type: "Manifest",
+      label: { none: ["Book"] },
+      items: [
+        {
+          id: "https://example.org/canvas/1",
+          type: "Canvas",
+          height: 100,
+          width: 100,
+          items: [],
+        },
+      ],
+      structures: [
+        {
+          id: "https://example.org/range/1",
+          type: "Range",
+          label: { none: ["Table of Contents"] },
+          items: [{ id: "https://example.org/canvas/1", type: "Canvas" }],
+        },
+      ],
+    }) as { id: string };
+    return { manifest, vault };
+  };
+
+  test("renders InformationPanel for a Contents tab when About and initial open state are off", () => {
+    const { manifest, vault } = createVaultWithStructures();
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          activeManifest: manifest.id,
+          vault,
+          isInformationOpen: false,
+          configOptions: {
+            informationPanel: {
+              ...defaultState.configOptions.informationPanel,
+              open: false,
+              renderAbout: false,
+              renderToggle: false,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...props} />
+      </ViewerProvider>,
+    );
+    expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
+  });
+
+  test("respects an explicit request not to render Contents", () => {
+    const { manifest, vault } = createVaultWithStructures();
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          activeManifest: manifest.id,
+          vault,
+          isInformationOpen: false,
+          configOptions: {
+            informationPanel: {
+              ...defaultState.configOptions.informationPanel,
+              open: false,
+              renderAbout: false,
+              renderContents: false,
+              renderToggle: false,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...props} />
+      </ViewerProvider>,
+    );
+    expect(screen.queryByTestId("mock-information-panel")).toBeNull();
+  });
+});
+
 describe("ViewerContent with an IIIF Content Search service", () => {
   const propsWithSearchService = {
     ...props,
     searchServiceUrl: "https://example.com/iiif/search",
   };
 
-  test("renders InformationPanel when About and initial open state are off", () => {
+  test("renders InformationPanel without a toggle when About and initial open state are off", () => {
     render(
       <ViewerProvider
         initialState={{
@@ -297,6 +468,7 @@ describe("ViewerContent with an IIIF Content Search service", () => {
               ...defaultState.configOptions.informationPanel,
               open: false,
               renderAbout: false,
+              renderToggle: false,
             },
           },
         }}
@@ -306,6 +478,31 @@ describe("ViewerContent with an IIIF Content Search service", () => {
     );
 
     expect(screen.getByTestId("mock-information-panel")).toBeInTheDocument();
+  });
+
+  test("lets a rendered toggle keep the panel closed", () => {
+    render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          isInformationOpen: false,
+          configOptions: {
+            informationPanel: {
+              ...defaultState.configOptions.informationPanel,
+              open: false,
+              renderToggle: true,
+            },
+          },
+        }}
+      >
+        <ViewerContent {...propsWithSearchService} />
+      </ViewerProvider>,
+    );
+
+    expect(screen.queryByTestId("mock-information-panel")).toBeNull();
+    expect(
+      screen.getByRole("button", { name: "More Information" }),
+    ).toBeInTheDocument();
   });
 
   test("respects an explicit request not to render Content Search", () => {
@@ -320,6 +517,7 @@ describe("ViewerContent with an IIIF Content Search service", () => {
               open: false,
               renderAbout: false,
               renderContentSearch: false,
+              renderToggle: false,
             },
           },
         }}
