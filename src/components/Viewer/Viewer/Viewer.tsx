@@ -82,7 +82,6 @@ const Viewer: React.FC<ViewerProps> = ({
     useState<AnnotationResource>();
 
   const isSmallViewport = useMediaQuery(media.sm);
-  const [searchServiceUrl, setSearchServiceUrl] = useState();
 
   const setInformationOpen = useCallback(
     (open: boolean) => {
@@ -144,25 +143,12 @@ const Viewer: React.FC<ViewerProps> = ({
     })();
   }, [visibleCanvases]);
 
-  const hasSearchService = manifest.service.some((service: any) =>
+  const searchService: any = manifest.service.find((service: any) =>
     ["SearchService1", "SearchService2"].includes(
       service.type || service["@type"],
     ),
   );
-
-  // check if search service exists in the manifest
-  useEffect(() => {
-    if (hasSearchService) {
-      const searchService: any = manifest.service.find((service: any) =>
-        ["SearchService1", "SearchService2"].includes(
-          service.type || service["@type"],
-        ),
-      );
-      if (searchService) {
-        setSearchServiceUrl(searchService.id || searchService["@id"]);
-      }
-    }
-  }, [manifest, hasSearchService]);
+  const searchServiceUrl = searchService?.id || searchService?.["@id"];
 
   // make request to content search service using iiifContentSearchQuery prop
   useEffect(() => {

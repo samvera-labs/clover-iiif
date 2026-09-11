@@ -48,6 +48,7 @@ export type ViewerConfigOptions = {
     overlayScope?: "manifest" | "canvas";
   };
   informationPanel?: {
+    /** Initial panel state. Available Annotations or Content Search can still make the panel visible. */
     open?: boolean;
     renderAbout?: boolean;
     renderSupplementing?: boolean;
@@ -61,6 +62,7 @@ export type ViewerConfigOptions = {
     };
     renderContentSearch?: boolean;
     renderCanvasSummary?: boolean;
+    /** Preferred tab id; applied when that tab's backing data becomes available. */
     defaultTab?: string;
     annotationTabLabel?: string;
     annotationCollectionTabLabel?: string;
