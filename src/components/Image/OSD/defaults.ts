@@ -18,6 +18,19 @@ function defaultOpenSeadragonConfiguration(
   return {
     id: `openseadragon-${openSeadragonInstance}`,
     navigatorId: `openseadragon-navigator-${openSeadragonInstance}`,
+    /*
+     * EXPERIMENT — pins OpenSeadragon's canvas drawer.
+     *
+     * OSD 6 defaults to `drawer: ["auto"]`, which prefers WebGL. The WebGL drawer can lose a
+     * one-shot draw: the first image is drawn once, and if the compositor reads the drawing
+     * buffer after it is cleared the stage looks empty until something drives continuous
+     * redraws — which is exactly what clicking zoom does. This machine's preview falls back
+     * to the 2D canvas drawer, where the symptom does not appear, so this pins that drawer
+     * to test whether the WebGL one is the cause.
+     *
+     * Revert by deleting this line if it makes no difference.
+     */
+    drawer: "canvas",
     loadTilesWithAjax: true,
     fullPageButton: `fullPage-${openSeadragonInstance}`,
     homeButton: `reset-${openSeadragonInstance}`,
