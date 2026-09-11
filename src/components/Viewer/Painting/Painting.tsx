@@ -18,6 +18,7 @@ import Toggle from "./Toggle";
 import { getAnimationFrames } from "src/hooks/use-iiif/getAnimationFrames";
 import { getCanvasBehavior } from "src/hooks/use-iiif/getCanvasBehavior";
 import { getPaintingResource } from "src/hooks/use-iiif";
+import { getViewportLabel } from "src/lib/label-helpers";
 import { hashCode } from "src/lib/utils";
 import { getManifestFromAnnotationTarget } from "src/lib/annotation-collection";
 
@@ -349,12 +350,13 @@ const Painting: React.FC<PaintingProps> = ({
     visibleCanvases,
   ]);
 
+  const orderedCanvases = useMemo(
+    () => (isRtlPaged ? [...visibleCanvases].reverse() : visibleCanvases),
+    [isRtlPaged, visibleCanvases],
+  );
+
   useEffect(() => {
     if (isMedia) return;
-
-    const orderedCanvases = isRtlPaged
-      ? [...visibleCanvases].reverse()
-      : visibleCanvases;
 
     const body = orderedCanvases
       .map((canvas) => {
@@ -389,8 +391,7 @@ const Painting: React.FC<PaintingProps> = ({
     annotationCollection,
     annotationIndex,
     activeCanvas,
-    isRtlPaged,
-    visibleCanvases,
+    orderedCanvases,
     isMedia,
     normalizedCanvas,
   ]);
@@ -398,6 +399,27 @@ const Painting: React.FC<PaintingProps> = ({
   useEffect(() => {
     setAnnotationIndex(0);
   }, [visibleCanvases]);
+
+  // OpenSeadragon exposes the viewport as a focusable role="img", so it needs a
+  // name even when the manifest describes nothing.
+  const viewportLabel = useMemo(() => {
+    const paintingAnnotations = orderedCanvases.map((canvas) => {
+      const normalized: CanvasNormalized = vault.get(canvas.id);
+      const annotationPage = normalized?.items?.[0]
+        ? vault.get(normalized.items[0])
+        : undefined;
+      const items = annotationPage?.items ?? [];
+      return items[annotationIndex] ? vault.get(items[annotationIndex]) : undefined;
+    });
+
+    return getViewportLabel({
+      bodies: imageBody,
+      annotations: paintingAnnotations.filter(Boolean) as Annotation[],
+      canvases: orderedCanvases.map(
+        (canvas) => vault.get(canvas.id) as CanvasNormalized,
+      ),
+    });
+  }, [annotationIndex, imageBody, orderedCanvases, vault]);
 
   const handleOpenSeadragonCallback = (viewer) => {
     if (
@@ -477,6 +499,7 @@ const Painting: React.FC<PaintingProps> = ({
                 body={imageBody}
                 instanceId={instanceId}
                 key={instanceId}
+                label={viewportLabel}
                 openSeadragonCallback={handleOpenSeadragonCallback}
                 openSeadragonConfig={configOptions.openSeadragon}
               />

@@ -1,5 +1,9 @@
 import { InternationalString } from "@iiif/presentation-3";
-import { getLabelAsString, getLabelEntries } from "./label-helpers";
+import {
+  getLabelAsString,
+  getLabelEntries,
+  getViewportLabel,
+} from "./label-helpers";
 
 const singleEntry = { none: ["Subject"] };
 const multipleEntries = { none: ["Honey", "Bee"] };
@@ -45,5 +49,64 @@ describe("getLabelEntries()", () => {
       nonValidLabel as unknown as InternationalString,
     );
     expect(nonValid).toStrictEqual(["Raspberry"]);
+  });
+});
+
+describe("getViewportLabel()", () => {
+  it("prefers the body label", () => {
+    expect(
+      getViewportLabel({
+        bodies: [{ label: { none: ["Recto"] } }],
+        canvases: [{ label: { none: ["Image 1"] } }],
+      }),
+    ).toBe("Recto");
+  });
+
+  it("falls back through annotation to canvas", () => {
+    expect(
+      getViewportLabel({
+        bodies: [{}],
+        annotations: [{ label: { none: ["Painting"] } }],
+        canvases: [{ label: { none: ["Image 1"] } }],
+      }),
+    ).toBe("Painting");
+
+    expect(
+      getViewportLabel({
+        bodies: [{}],
+        annotations: [{}],
+        canvases: [{ label: { none: ["Image 1"] } }],
+      }),
+    ).toBe("Image 1");
+  });
+
+  it("joins a few labels and counts many", () => {
+    expect(
+      getViewportLabel({
+        canvases: [{ label: { none: ["Left"] } }, { label: { none: ["Right"] } }],
+      }),
+    ).toBe("Left, Right");
+
+    expect(
+      getViewportLabel({
+        canvases: Array.from({ length: 5 }, (_, index) => ({
+          label: { none: [`Image ${index + 1}`] },
+        })),
+      }),
+    ).toBe("5 canvases");
+  });
+
+  it("skips a level that is only partly labelled", () => {
+    expect(
+      getViewportLabel({
+        bodies: [{ label: { none: ["Recto"] } }, {}],
+        canvases: [{ label: { none: ["Left"] } }, { label: { none: ["Right"] } }],
+      }),
+    ).toBe("Left, Right");
+  });
+
+  it("returns a generic name when nothing is described", () => {
+    expect(getViewportLabel({ bodies: [{}], canvases: [{}] })).toBe("Image");
+    expect(getViewportLabel({})).toBe("Image");
   });
 });
