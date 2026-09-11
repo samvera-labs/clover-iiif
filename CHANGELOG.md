@@ -399,6 +399,15 @@ assigned at release time.
 - The Slider's arrows step and centre the next group of items. They previously jumped by the
   breakpoint's group size regardless of what was on screen, overshooting by several screens.
 
+- **A second `Viewer` on the same page no longer renders into the first one's OpenSeadragon
+  container.** `defaultState` is computed once, at module load, and `Viewer` spread it into
+  `ViewerProvider`'s `initialState` without giving `viewerId` a fresh value the way it already
+  did for `vault`. Every `Viewer` that did not supply its own `initialState` inherited the
+  exact same `viewerId`, which becomes part of the OpenSeadragon container's DOM id — so a
+  second, simultaneously mounted instance's canvas silently ended up targeting the first
+  instance's element via `document.getElementById`, and appeared blank. `viewerId` is now
+  generated fresh per instance, alongside `vault`.
+
 ### Documentation
 
 - New homepage built around an interactive playground: pick a component, point it at a
