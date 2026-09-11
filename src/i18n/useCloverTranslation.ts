@@ -6,8 +6,20 @@ import { CLOVER_I18N_NAMESPACE } from "src/i18n/config";
 
 const FALLBACK_MAP = en as Record<string, string>;
 
-function getFallbackValue(key: string) {
-  return FALLBACK_MAP[key] ?? key;
+/*
+ * The fallback interpolates too. Without it a key carrying placeholders reaches the
+ * reader verbatim ("Item {{index}} of {{total}}") whenever i18next hands the key back,
+ * which it does when a consumer sets `fallbackLng: false`.
+ */
+export function getFallbackValue(key: string, options?: unknown) {
+  const value = FALLBACK_MAP[key] ?? key;
+  const values = options as Record<string, unknown> | undefined;
+
+  if (!values) return value;
+
+  return value.replace(/\{\{(\w+)\}\}/g, (match, name) =>
+    name in values ? String(values[name]) : match,
+  );
 }
 
 export function useCloverTranslation(namespace = CLOVER_I18N_NAMESPACE) {
@@ -18,7 +30,7 @@ export function useCloverTranslation(namespace = CLOVER_I18N_NAMESPACE) {
     (key: string, options?: unknown) => {
       const value = t(key, options as any);
       if (typeof value !== "string" || value === key) {
-        return getFallbackValue(key);
+        return getFallbackValue(key, options);
       }
       return value;
     },

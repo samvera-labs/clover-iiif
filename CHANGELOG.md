@@ -279,6 +279,12 @@ assigned at release time.
 
 ### Deprecated
 
+- **`commonOpen`, `commonClose`, `commonNext`, `commonPrevious` and `commonSearch`.** No
+  component reads these any more, so overriding one has no effect. Move the override to the
+  key that replaced it: `imageViewerOpen`, `imageViewerClose`, `sliderNext`,
+  `sliderPrevious` or `sliderSearch`. They still ship, and `commonSearchPlaceholder` is
+  unaffected and still in use.
+
 - **`customTheme` on `Viewer`.** Use the `--clover-color-*` custom properties instead, and
   plain `font-family` for type. `customTheme` continues to work and is planned for removal in the
   next major version; no change is required today.
@@ -303,6 +309,40 @@ assigned at release time.
   the shared one now and carries `.clover-slider-search`.
 
 ### Fixed
+
+- **Accessible names on the painting toggle and the slider controls.** The button over a
+  canvas was named "Open" or "Close", and the rail's controls "Next", "Previous" and
+  "Search", none of which said what they acted on (WCAG 4.1.2). They now read "Open image
+  viewer" / "Close image viewer", "Next item", "Previous item", "Search items" and "Close
+  item search", from the new `imageViewerOpen`, `imageViewerClose`, `sliderNext`,
+  `sliderPrevious`, `sliderSearch` and `sliderSearchClose` keys. Every bundled locale
+  carries all six.
+
+- The painting toggle and the map's zoom controls name their icons through `role="img"` and
+  a `<title>` alone. Both used `aria-labelledby` against a hard-coded id, so two viewers on
+  one page repeated it and every button resolved to the first title.
+
+- Metadata pairs are no longer wrapped in a `role="group"` element. `dl` accepts a plain
+  `div` between itself and its `dt`/`dd` children but not that role, which broke the
+  pairs' association (WCAG 1.3.1). The `data-label` selector hook is unchanged.
+
+- The image control cluster stays within the canvas at high zoom. It was anchored top-right
+  with no bound of its own, so at 400% on a 1280px viewport the buttons ran past the bottom
+  edge and the last of them could not be reached (WCAG 1.4.10). It now wraps into a second
+  line within a height budget derived from its own top offset, and a wrapped row stays
+  anchored to the edge the cluster is offset from.
+
+- The information panel shows where keyboard focus has landed. Radix gives the tab panel a
+  tab stop so its content can be scrolled without a pointer, but nothing rendered a focus
+  indicator for it (WCAG 2.4.7).
+
+- Moving between canvases is announced. The image was replaced in place with nothing said,
+  so a screen reader user stepping through the rail got no confirmation the canvas changed
+  (WCAG 4.1.3). A polite live region names the new canvas, falling back to its position
+  ("Item 2 of 4", from the new `canvasPosition` key) where the canvas has no label.
+
+- `useCloverTranslation` interpolates values into its English fallback. A key carrying
+  placeholders reached the reader verbatim when i18next handed the key back.
 
 - **The bundled stylesheet now reaches consumers.** Vite extracted every imported `.css` into
   `dist/<pkg>/style.css` and stopped there, and nothing could reach that file: `exports` lists

@@ -36,6 +36,26 @@
   max-height: 100%;
 }
 
+/*
+ * Announces the canvas a reader moved to. Off-screen rather than `display: none`, which
+ * would take it out of the accessibility tree and silence it. It is a direct child of the
+ * root, so it has to undo the flex sizing above.
+ */
+.clover-viewer > .clover-viewer-announcer {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+  display: block;
+  flex-grow: 0;
+  max-height: 1px;
+}
+
 @media (max-width: 767px) {
   .clover-viewer {
     padding: 0;

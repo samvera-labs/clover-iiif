@@ -150,6 +150,18 @@
   overflow-y: scroll;
 }
 
+/*
+ * Radix gives the tab panel a tab stop so its content can be scrolled from the keyboard,
+ * but nothing showed where that focus had landed (WCAG 2.4.7).
+ *
+ * Inset, because the panel fills the scrolling region: an outline drawn outside the
+ * border box is clipped on three sides.
+ */
+.clover-viewer-information-panel-content:focus-visible {
+  outline: 3px solid var(--clover-color-accent, #0065c3);
+  outline-offset: -3px;
+}
+
 .clover-viewer-map-tab-body {
   width: 100%;
   height: 100%;

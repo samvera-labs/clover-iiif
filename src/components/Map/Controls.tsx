@@ -39,12 +39,11 @@ const Controls: React.FC<MapControlsProps> = ({ onZoomIn, onZoomOut }) => {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          aria-labelledby="clover-map-zoom-in-svg-title"
           focusable="false"
           viewBox="0 0 512 512"
           role="img"
         >
-          <title id="clover-map-zoom-in-svg-title">{t("imageZoomIn")}</title>
+          <title>{t("imageZoomIn")}</title>
           <ZoomIn />
         </svg>
       </button>
@@ -56,12 +55,11 @@ const Controls: React.FC<MapControlsProps> = ({ onZoomIn, onZoomOut }) => {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          aria-labelledby="clover-map-zoom-out-svg-title"
           focusable="false"
           viewBox="0 0 512 512"
           role="img"
         >
-          <title id="clover-map-zoom-out-svg-title">{t("imageZoomOut")}</title>
+          <title>{t("imageZoomOut")}</title>
           <ZoomOut />
         </svg>
       </button>

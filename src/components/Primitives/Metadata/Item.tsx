@@ -16,8 +16,10 @@ const MetadataItem: React.FC<PrimitivesMetadataItem> = (props) => {
     ?.replace(" ", "-")
     .toLowerCase();
 
+  // `dl` accepts a plain `div` wrapper but not a `role="group"` child, which cost the
+  // dt/dd pairs their association (WCAG 1.3.1).
   return (
-    <div role="group" data-label={dataAttribute}>
+    <div data-label={dataAttribute}>
       <Label as="dt" label={label} lang={lang} />
       {customValueContent ? (
         <CustomValue

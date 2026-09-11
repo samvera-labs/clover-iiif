@@ -29,5 +29,12 @@
   "canvasAnimationNextFrame": "Seuraava ruutu",
   "canvasAnimationRepeat": "Toista uudelleen",
   "canvasAnimationSpeed": "Nopeus",
-  "imageExitFullScreen": "Poistu koko näytöstä"
+  "imageExitFullScreen": "Poistu koko näytöstä",
+  "canvasPosition": "Kohde {{index}} / {{total}}",
+  "imageViewerOpen": "Avaa kuvakatselin",
+  "imageViewerClose": "Sulje kuvakatselin",
+  "sliderNext": "Seuraava kohde",
+  "sliderPrevious": "Edellinen kohde",
+  "sliderSearch": "Hae kohteita",
+  "sliderSearchClose": "Sulje kohdehaku"
 }

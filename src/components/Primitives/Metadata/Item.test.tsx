@@ -76,6 +76,29 @@ describe("metadata primitive (item)", () => {
     expect(el).toBeNull;
   });
 
+  /*
+   * `dl` accepts a plain `div` wrapper but not a `role="group"` child, which broke the
+   * dt/dd association (WCAG 1.3.1).
+   */
+  it("wraps the pair without an ARIA role", () => {
+    const { container } = render(
+      withProvider(<Item item={itemForCustomValue} />),
+    );
+
+    const wrapper = container.querySelector("[data-label]");
+    expect(wrapper?.tagName).toBe("DIV");
+    expect(wrapper?.getAttribute("role")).toBeNull();
+    expect(screen.queryByRole("group")).toBeNull();
+  });
+
+  it("keeps the data-label selector hook", () => {
+    const { container } = render(
+      withProvider(<Item item={itemForCustomValue} />),
+    );
+
+    expect(container.querySelector("[data-label='subject']")).not.toBeNull();
+  });
+
   /**
    * Test passing customValueContent
    */

@@ -54,10 +54,10 @@ jobs:
           mkdir -p playwright/html
           cp dist/web-components/index.umd.js playwright/html/wc.js
 
-      - name: Run WC smoke test (webServer managed)
+      - name: Run WC smoke and reflow tests (webServer managed)
         working-directory: playwright
         env:
           BASE_URL: http://127.0.0.1:3002
           WEB_SERVER_CMD: python3 -m http.server 3002 --bind 127.0.0.1 --directory html
           CI: "1"
-        run: npx playwright test e2e/wc.spec.ts --config=playwright.config.ts --workers=1
+        run: npx playwright test e2e/wc.spec.ts e2e/reflow.spec.ts --config=playwright.config.ts --workers=1

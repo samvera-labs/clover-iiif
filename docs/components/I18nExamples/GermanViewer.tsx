@@ -20,8 +20,8 @@ const GermanViewer: React.FC = () => {
       resources: {
         de: {
           clover: {
-            commonClose: "Schließen",
-            commonNext: "Weiter",
+            imageViewerClose: "Bildbetrachter schließen",
+            sliderNext: "Nächstes Element",
             informationPanelTabsAbout: "Über",
             informationPanelTabsContents: "Inhalt",
             informationPanelTabsSearch: "Suche",

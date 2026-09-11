@@ -32,6 +32,32 @@ describe("Header component", () => {
     });
   });
 
+  /*
+   * "Next" and "Previous" named the direction without saying what moves (WCAG 4.1.2).
+   */
+  test("navigation controls name what they navigate", () => {
+    render(<Header {...headerProps} />);
+
+    expect(
+      screen.getByRole("button", { name: "Previous item" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Next item" }),
+    ).toBeInTheDocument();
+  });
+
+  test("the search control names what it searches", () => {
+    render(<Header {...headerProps} search onSearch={vi.fn()} />);
+
+    const search = screen.getByRole("button", { name: "Search items" });
+    expect(search).toBeInTheDocument();
+
+    fireEvent.click(search);
+    expect(
+      screen.getByRole("button", { name: "Close item search" }),
+    ).toBeInTheDocument();
+  });
+
   test("renders linked homepage title and view all button if homepage is present", () => {
     const headerWithHomepage = {
       ...headerProps,
