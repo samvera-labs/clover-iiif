@@ -261,15 +261,28 @@ const OSD: React.FC<OSDProps> = ({
              * this is because the simple image does not have a tile source
              * and we need to know the dimensions for annotations overlay coordinates
              */
-            if (annotations) {
+            /*
+             * `annotations?.length`, not `annotations`.
+             *
+             * `annotations` is an array, and an empty one is truthy — so a canvas with no
+             * annotations still decoded every image here. On an animated canvas that is a
+             * decode per frame, ten times a second, for dimensions nothing reads.
+             */
+            if (annotations?.length) {
               const img = new Image();
               img.src = url;
 
               await img.decode();
-              setSrcDimensions((prev) => [
-                ...prev,
-                { width: img?.width, height: img?.height },
-              ]);
+              /*
+               * Positional, not appended. These are read back by world-item index
+               * (`srcDimensions[targetIndex]`), so appending both broke that indexing after
+               * the first swap and grew the array without bound as frames advanced.
+               */
+              setSrcDimensions((prev) => {
+                const next = prev.slice();
+                next[i] = { width: img?.width, height: img?.height };
+                return next;
+              });
             }
 
             try {
@@ -295,7 +308,19 @@ const OSD: React.FC<OSDProps> = ({
                     openSeadragon.world.removeItem(item),
                   );
                   fitBoundsOnAllLoaded();
-                  setOsdDrawn((prev) => [...prev, url]);
+                  /*
+                   * Ask for a draw now that the world is final.
+                   *
+                   * Adding and removing world items leaves OpenSeadragon to notice on its own,
+                   * which is not reliable for the very first image: the frame can be composited
+                   * before anything is drawn, so nothing appears until some later event — a
+                   * zoom click, a resize — schedules the next draw. The other redraw calls in
+                   * this file all run *before* the swap, so none of them cover this.
+                   */
+                  openSeadragon.forceRedraw();
+                  // What is drawn now — not every URL ever drawn. Appending grew this
+                  // array once per animation frame and never released.
+                  setOsdDrawn(osdUri.slice());
                   if (typeof dispatch === "function") {
                     dispatch({
                       type: "updateOSDImageLoaded",
@@ -362,7 +387,10 @@ const OSD: React.FC<OSDProps> = ({
                     openSeadragon.world.removeItem(item),
                   );
                   fitBoundsOnAllLoaded(clip, clipScale);
-                  setOsdDrawn((prev) => [...prev, url]);
+                  // See the simple-image path: the world changed, so ask for a draw.
+                  openSeadragon.forceRedraw();
+                  // See the simple-image path: replace, do not append.
+                  setOsdDrawn(osdUri.slice());
                   if (typeof dispatch === "function") {
                     dispatch({
                       type: "updateOSDImageLoaded",
@@ -387,11 +415,19 @@ const OSD: React.FC<OSDProps> = ({
     load().catch((error) => console.error("Error drawing tiles", error));
   }, [osdUri, osdClips, imageType, openSeadragon]);
 
+  /*
+   * Zoom to an annotation on click.
+   *
+   * Registered once per OpenSeadragon instance, and removed on teardown. This used to key
+   * on `osdDrawn` with no cleanup, so every redraw added another handler and none were
+   * ever released — an animated canvas accumulated one per frame (~600 a minute), each one
+   * re-running on every click. The handler reads overlays at click time and needs nothing
+   * from the drawn state, so the instance is the only real dependency.
+   */
   useEffect(() => {
-    if (!osdDrawn.length) return;
+    if (!openSeadragon) return;
 
-    // handles zoom to annotation on click
-    openSeadragon?.addHandler("canvas-click", (event) => {
+    const handleCanvasClick = (event) => {
       const overlay: Overlay = openSeadragon?.getOverlayById(
         event.originalTarget.id,
       );
@@ -407,8 +443,11 @@ const OSD: React.FC<OSDProps> = ({
         openSeadragon?.viewport.fitBounds(bounds, false);
         return (event.preventDefaultAction = true);
       }
-    });
-  }, [osdDrawn]);
+    };
+
+    openSeadragon.addHandler("canvas-click", handleCanvasClick);
+    return () => openSeadragon.removeHandler("canvas-click", handleCanvasClick);
+  }, [openSeadragon]);
 
   useEffect(() => {
     function computeX(x, targetIndex, scale) {
@@ -430,7 +469,9 @@ const OSD: React.FC<OSDProps> = ({
       return computedX;
     }
 
-    if (annotations) {
+    // `annotations?.length` — an empty array is truthy, and clearing overlays plus
+    // walking an empty list ran on every frame of an animated canvas for nothing.
+    if (annotations?.length) {
       // remove previous overlays
       openSeadragon?.clearOverlays();
 
