@@ -10,6 +10,8 @@ import { Vault } from "@iiif/helpers/vault";
 import { ViewerProvider, defaultState } from "src/context/viewer-context";
 import manifestSimpleAudio from "src/fixtures/viewer/player/manifest-simple-audio.json";
 import manifestStreaming from "src/fixtures/viewer/player/manifest-streaming-audio.json";
+import multiLanguageManifest from "src/fixtures/iiif-cookbook/0074-multiple-language-captions.json";
+import { getAnnotationResources } from "src/hooks/use-iiif/getAnnotationResources";
 
 describe("Player component", () => {
   let originalLoad: any;
@@ -366,5 +368,119 @@ describe("Player component", () => {
         ]),
       ).toEqual(["https://example.org/captions.vtt"]);
     });
+  });
+});
+
+/**
+ * `Player` is now a switch between the browser's own controls and Clover's. Every test above
+ * exercises the native path through it, since that is the default; these pin the switch
+ * itself, and above all that an existing consumer who sets nothing keeps the native player.
+ */
+describe("Player control selection", () => {
+  const painting = {
+    id: "https://example.org/video.mp4",
+    type: "Video",
+    format: "video/mp4",
+  } as LabeledIIIFExternalWebResource;
+
+  async function renderWithOptions(player?: {
+    controls?: "native" | "custom";
+  }) {
+    const vault = new Vault();
+    await vault.loadManifest("", structuredClone(manifestSimpleAudio) as any);
+
+    return render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          activeCanvas:
+            "https://iiif.io/api/cookbook/recipe/0002-mvm-audio/canvas",
+          activeManifest:
+            "https://iiif.io/api/cookbook/recipe/0002-mvm-audio/manifest.json",
+          configOptions: {
+            ...defaultState.configOptions,
+            ...(player ? { player } : {}),
+          },
+          vault,
+        }}
+      >
+        <Player
+          allSources={[painting]}
+          annotationResources={[] as unknown as AnnotationResources}
+          painting={painting}
+        />
+      </ViewerProvider>,
+    );
+  }
+
+  it("renders the native player when nothing is configured", async () => {
+    const { container } = await renderWithOptions();
+    expect(container.querySelector("video#clover-iiif-video")).not.toBeNull();
+    expect(container.querySelector(".clover-viewer-player")).toBeNull();
+  });
+
+  it("renders the native player when controls are explicitly native", async () => {
+    const { container } = await renderWithOptions({ controls: "native" });
+    expect(container.querySelector("video#clover-iiif-video")).not.toBeNull();
+  });
+
+  it("does not render the native video element when controls are custom", async () => {
+    const { container } = await renderWithOptions({ controls: "custom" });
+    // The custom player loads Vidstack behind a lazy boundary, so all that is
+    // synchronously observable is that the native element is gone.
+    expect(container.querySelector("video#clover-iiif-video")).toBeNull();
+    expect(screen.getByTestId("player-wrapper")).toBeInTheDocument();
+  });
+});
+
+/**
+ * Cookbook 0074 expresses one caption per language as a `Choice` inside the supplementing
+ * annotation. The Vault mints a `vault://<hash>` id for the Choice, which the caption gate
+ * rejects — so walking bodies alone found nothing and the recipe rendered no tracks at all.
+ * Both paths now share `collectCaptionResources`, which opens the Choice.
+ *
+ * @see https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/
+ */
+describe("multiple language captions (Cookbook 0074)", () => {
+  const CANVAS =
+    "https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/canvas";
+
+  it("renders a track per language on the native path", async () => {
+    const vault = new Vault();
+    await vault.loadManifest("", structuredClone(multiLanguageManifest) as any);
+    const annotationResources = await getAnnotationResources(vault, CANVAS);
+
+    const painting = {
+      id: "https://example.org/video.mp4",
+      type: "Video",
+      format: "video/mp4",
+    } as LabeledIIIFExternalWebResource;
+
+    const { container } = render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          activeCanvas: CANVAS,
+          activeManifest:
+            "https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/manifest.json",
+          vault,
+        }}
+      >
+        <Player
+          allSources={[painting]}
+          annotationResources={annotationResources as AnnotationResources}
+          painting={painting}
+        />
+      </ViewerProvider>,
+    );
+
+    expect(
+      [...container.querySelectorAll("track")].map((t) =>
+        t.getAttribute("src"),
+      ),
+    ).toEqual([
+      "https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/Per_voi_signore_Modelli_francesi_en.vtt",
+      "https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/Per_voi_signore_Modelli_francesi_it.vtt",
+    ]);
   });
 });

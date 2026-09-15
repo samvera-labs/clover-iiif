@@ -88,9 +88,7 @@ const parseAnnotationTarget = (target: AnnotationTargetExtended | string) => {
       };
     } else if (target.selector?.type === "FragmentSelector") {
       const sourceId =
-        typeof target.source === "string"
-          ? target.source
-          : target.source?.id;
+        typeof target.source === "string" ? target.source : target.source?.id;
 
       if (target.selector?.value.includes("xywh=") && sourceId) {
         const parts = target.selector?.value.split("xywh=");
@@ -117,9 +115,7 @@ const parseAnnotationTarget = (target: AnnotationTargetExtended | string) => {
       // Vault normalizes "&t=" query-param style targets to SpecificResource
       // without a selector (it only splits on "#"). Extract time from source.id.
       const sourceId =
-        typeof target.source === "string"
-          ? target.source
-          : target.source?.id;
+        typeof target.source === "string" ? target.source : target.source?.id;
       if (sourceId?.includes("&t=")) {
         const parts = sourceId.split("&t=");
         if (parts[1]) {
@@ -155,7 +151,11 @@ const resolveAnnotationBodies = (
       }
 
       if (typeof body === "object") {
-        if ("value" in body || "language" in body || body?.["type"] === "TextualBody") {
+        if (
+          "value" in body ||
+          "language" in body ||
+          body?.["type"] === "TextualBody"
+        ) {
           return body as EmbeddedResource;
         }
 
@@ -170,9 +170,7 @@ const resolveAnnotationBodies = (
     .filter((body): body is EmbeddedResource => Boolean(body));
 };
 
-function normalizeMotivations(
-  motivation?: string | string[] | null,
-): string[] {
+function normalizeMotivations(motivation?: string | string[] | null): string[] {
   if (!motivation) return [];
   return Array.isArray(motivation) ? motivation : [motivation];
 }
@@ -193,10 +191,9 @@ function annotationMatchesMotivations(
   );
 }
 
-function filterAnnotationsByMotivation<T extends { motivation?: string | string[] | null }>(
-  annotations: Array<T | undefined>,
-  allowedMotivations?: string[],
-): T[] {
+function filterAnnotationsByMotivation<
+  T extends { motivation?: string | string[] | null },
+>(annotations: Array<T | undefined>, allowedMotivations?: string[]): T[] {
   if (!annotations || annotations.length === 0) return [];
   if (!allowedMotivations) return annotations.filter(Boolean) as T[];
   if (allowedMotivations.length === 0) return [];
@@ -334,4 +331,74 @@ export function isCaptionResource(body?: {
   // No format and no extension, so we cannot rule it out. Captions served from
   // an extensionless URL are common; keep anything the browser can dereference.
   return /^https?:/i.test(id);
+}
+
+/**
+ * Every caption resource on a canvas, in document order and deduplicated by URL.
+ *
+ * A `supplementing` annotation may carry its captions directly, or wrap them in a `Choice` —
+ * which is how the Cookbook's "Multiple Language Captions" recipe expresses one track per
+ * language. The Vault mints a `vault://<hash>` id for that Choice because it has none of its
+ * own, and `isCaptionResource` rightly rejects such ids, so walking bodies alone finds
+ * nothing at all on those manifests. The Choice has to be opened and its items resolved.
+ *
+ * Shared by both player paths and the information panel's transcript, so the `<track>`
+ * elements, the captions menu and the transcript can never disagree about what counts as a
+ * caption. `expandCaptionResources` is the per-annotation form, for callers that already hold
+ * one annotation rather than the page list.
+ *
+ * @see https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/
+ */
+export function expandCaptionResources(
+  vault: any,
+  bodies?: any[],
+  seen: Set<string> = new Set(),
+): any[] {
+  const resources: any[] = [];
+
+  const consider = (resource: any, depth = 0) => {
+    if (!resource) return;
+
+    /*
+     * A Choice of captions. Depth-guarded rather than trusted: `items` is resolved through
+     * the Vault, and a malformed manifest could point a Choice back at itself.
+     */
+    if (resource.type === "Choice" && Array.isArray(resource.items)) {
+      if (depth > 2) return;
+      resource.items.forEach((item: any) =>
+        consider(item?.id ? vault.get(item.id) : item, depth + 1),
+      );
+      return;
+    }
+
+    if (!isCaptionResource(resource)) return;
+
+    const id = String(resource.id);
+    if (seen.has(id)) return;
+    seen.add(id);
+    resources.push(resource);
+  };
+
+  bodies?.forEach((bodyRef: any) =>
+    consider(bodyRef?.id ? vault.get(bodyRef.id) : bodyRef),
+  );
+
+  return resources;
+}
+
+export function collectCaptionResources(
+  vault: any,
+  annotationResources?: Array<{ items?: Array<{ id: string }> }>,
+): any[] {
+  const seen = new Set<string>();
+  const resources: any[] = [];
+
+  annotationResources?.forEach((page) => {
+    page.items?.forEach((annotationRef) => {
+      const annotation: any = vault.get(annotationRef.id);
+      resources.push(...expandCaptionResources(vault, annotation?.body, seen));
+    });
+  });
+
+  return resources;
 }

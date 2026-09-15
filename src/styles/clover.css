@@ -46,12 +46,14 @@
 @import "../components/Viewer/InformationPanel/About/About.css";
 @import "../components/Viewer/InformationPanel/Contents/Page.css";
 @import "../components/Viewer/InformationPanel/Annotation/Item.css";
+@import "../components/Viewer/InformationPanel/Annotation/VTT/VTT.css";
 @import "../components/Viewer/InformationPanel/Annotation/VTT/Cue.css";
 @import "../components/Viewer/InformationPanel/Menu.css";
 @import "../components/Viewer/Painting/Painting.css";
 @import "../components/Viewer/Painting/Placeholder.css";
 @import "../components/Viewer/Painting/Toggle.css";
 @import "../components/Viewer/Painting/AnimationControls.css";
+@import "../components/Viewer/Player/Custom/PlayerControls.css";
 @import "../components/Viewer/Media/Thumbnail.css";
 @import "../components/Viewer/Media/Media.css";
 @import "../components/Viewer/InformationPanel/InformationPanel.css";

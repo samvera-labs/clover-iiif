@@ -10,6 +10,50 @@ assigned at release time.
 
 ## Unreleased
 
+### Added
+
+- **Opt-in custom audio/video player.** `options.player.controls: "custom"` replaces the
+  browser's `<video controls>` on an audio or video canvas with a Clover-styled transport bar
+  built on [Vidstack](https://vidstack.io/docs). The bar overlays the bottom of the media,
+  appears on hover or keyboard focus, and fades after `options.player.hideDelay` (default
+  `2000`ms); a Sound canvas never auto-hides, having no video surface to hover.
+
+  The default is `"native"` and nothing changes unless you ask for it:
+
+  ```jsx
+  <Viewer
+    iiifContent={iiifContent}
+    options={{ player: { controls: "custom" } }}
+  />
+  ```
+
+  What the bar shows is read from the Manifest rather than configured: captions from
+  `supplementing` annotations with a `text/vtt` body (carrying their IIIF labels and declared
+  languages, and honoring `ignoreCaptionLabels`), chapter markers from `structures` Ranges
+  whose canvas target has a `#t=` fragment, a quality menu from a painting-annotation
+  `Choice`, and the poster and initial scrubber width from the Canvas.
+
+  Two behaviors differ from the native path when `"custom"` is set. The `<source>` fallback
+  list is gone — Vidstack applies its own source selection, so the single body the viewer has
+  already resolved is passed and the rest appear in the quality menu. And on a Sound canvas
+  the frequency-bar `AudioVisualizer` is replaced by a [wavesurfer.js](https://wavesurfer.xyz)
+  waveform; audio is decoded up front below a 30-minute cap, and HLS or anything longer falls
+  back to capturing the waveform live as it plays.
+
+  `activePlayer` still publishes the underlying media element, so transcript-cue seeking in
+  the information panel is unchanged.
+
+  The bar follows `--clover-color-accent` and the radius tokens, and inherits its type like
+  every other component. It deliberately does not follow `--clover-color-primary` /
+  `-secondary`: it floats over media, which is dark whatever the page theme is, so inverting
+  with the theme would paint a near-black pill onto a dark frame. It has its own palette for
+  that — `--clover-player-surface`, `-on-surface`, `-text`, `-track`, `-track-shadow`,
+  `-menu-surface`, `-menu-hover`, `-caption-surface` and `-caption-text` — documented with
+  defaults in the Viewer docs.
+
+- Two new runtime dependencies, both loaded behind a lazy boundary and only reached when
+  `player.controls` is `"custom"`: `@vidstack/react` and `wavesurfer.js`.
+
 ### Changed
 
 - Clover's default `secondary` color is now expressed consistently as `#fff` in the
@@ -188,6 +232,44 @@ assigned at release time.
 
 - **`Slider`'s `options.spaceBetween` accepts a CSS length string** as well as a number, so
   a gutter can be expressed in `rem`. The default is now `1rem`.
+
+### Fixed
+
+- **Captions wrapped in a `Choice` are now found.** A `supplementing` annotation may carry
+  its caption bodies directly or wrap them in a `Choice`, which is how a manifest expresses
+  one track per language — the pattern in the Cookbook's
+  [Multiple Language Captions](https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/)
+  recipe. The Vault mints a `vault://<hash>` id for that Choice, and the caption gate rightly
+  rejects such ids, so walking annotation bodies alone found nothing: those manifests rendered
+  no `<track>` elements at all. Both player paths now share `collectCaptionResources`, which
+  opens a Choice and resolves its items, so the `<track>` list and the custom player's captions
+  menu can never disagree about what counts as a caption.
+
+  Caption `srcLang` also now comes from the body's own `language` where it declares one,
+  instead of always being `"en"`.
+
+  The information panel's transcript understands the same `Choice`. It previously read only
+  the first body, found a Choice with no `format`, and rendered the literal string `"None"`;
+  it now offers a button per language and renders that track's cues.
+
+- **The transcript and the player agree on which caption track is selected.** Choosing a
+  language in the player's captions menu moves the information panel's transcript to the same
+  track, and choosing one in the panel moves the player's overlay — but only when the overlay
+  is already on, since picking a transcript to read is not a request to start drawing captions
+  over the video.
+
+  Switching captions **off** hides the overlay and nothing else: the transcript stays
+  navigable, and the selected language is remembered. The two are separate concerns and the
+  new `activeCaptionSrc` in the viewer store is a selection, never a visibility flag.
+
+- **Full screen no longer leaves the host page's text colour behind.**
+  `.clover-viewer[data-fullscreen="true"]` (and the `Image` equivalent) painted
+  `--clover-color-secondary` as the background but let the text colour keep inheriting from
+  the page. An app with a dark theme that had not retheme'd Clover's tokens therefore got its
+  own light text on Clover's white full-screen ground — measured at **1.16:1** against the
+  WebVTT cues in the information panel, against 16.96:1 after the fix. Background and colour
+  are now set together, so the pair stays consistent whether the tokens are themed or left at
+  their defaults.
 
 ### Added
 

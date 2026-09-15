@@ -204,6 +204,17 @@
  */
 .clover-iiif-image-openseadragon[data-fullscreen="true"] {
   background-color: var(--clover-color-secondary, #fff);
+  /*
+   * Colour is set with the background, not left to inherit.
+   *
+   * Clover takes its type colour from whatever contains it, which is right while the
+   * background is also the host page's. Full screen replaces the background and nothing
+   * else — so a dark-themed app that has not retheme'd Clover's tokens ended up with its
+   * own light text on this white ground: measured at 1.16:1 against the VTT cues in the
+   * information panel. Setting the pair together keeps them consistent however the tokens
+   * are themed, or left alone.
+   */
+  color: var(--clover-color-primary, #1a1d1e);
 }
 
 /*
