@@ -101,3 +101,45 @@ describe("Clover custom properties", () => {
     expect(wrong).toEqual([]);
   });
 });
+
+/**
+ * The first half of the contract above says a `var()` reference always carries its literal
+ * fallback, "because exactly one property is declared anywhere in the library". That sentence
+ * was prose, and nothing held it to account.
+ *
+ * It matters more than it reads. A property declared on an element sets it *on* that element,
+ * which outranks any value inherited from an ancestor — so declaring a token where it is used
+ * silently ignores a consumer who themes it from a wrapper, which is the only way Clover
+ * documents theming. The player's overlay palette was introduced that way and could not be
+ * themed at all until the declarations came out.
+ */
+describe("Clover custom property declarations", () => {
+  const declarations = (css: string) => {
+    const out: string[] = [];
+    const re = /(^|[;{])\s*(--clover-[a-z0-9-]+)\s*:/g;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(css))) out.push(m[2]);
+    return out;
+  };
+
+  it("declares only the one property that is meant to be declared", () => {
+    /*
+     * `--clover-scroll-highlight` is deliberate: it is a shared channel triple, not a theming
+     * token, and every use already carries the channels as a fallback. Anything else added
+     * here should be a token nobody is expected to override.
+     */
+    const allowed = new Set(["--clover-scroll-highlight"]);
+
+    const found = new Map<string, string[]>();
+    for (const file of files) {
+      for (const name of declarations(
+        stripComments(fs.readFileSync(file, "utf-8")),
+      )) {
+        if (allowed.has(name)) continue;
+        found.set(name, [...(found.get(name) ?? []), path.basename(file)]);
+      }
+    }
+
+    expect(Object.fromEntries(found)).toEqual({});
+  });
+});

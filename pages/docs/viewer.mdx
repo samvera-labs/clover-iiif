@@ -927,6 +927,126 @@ export default function App() {
 
 ---
 
+### Custom Player
+
+By default an audio or video canvas renders the browser's own `<video controls>`. Those
+controls differ from browser to browser, cannot be themed, and — more to the point for a
+IIIF viewer — cannot show anything the Manifest knows about the resource.
+
+Setting `player.controls` to `"custom"` swaps in a Clover-styled transport bar built on
+[Vidstack](https://vidstack.io/docs). The bar overlays the bottom of the media, appears on
+hover or keyboard focus, and fades after `player.hideDelay`.
+
+```jsx
+export default function App() {
+  const options = {
+    player: {
+      controls: "custom",
+      hideDelay: 2000,
+    },
+  };
+
+  return <Viewer iiifContent={iiifContent} options={options} />;
+}
+```
+
+Everything in the bar beyond play and volume is read from the Manifest:
+
+| Control          | IIIF source                                                                     |
+| ---------------- | ------------------------------------------------------------------------------- |
+| Captions menu    | `supplementing` annotations with a `text/vtt` body, labeled and language-tagged |
+| Chapter markers  | `structures` Ranges whose canvas target carries a `#t=` time fragment           |
+| Quality menu     | The bodies of a painting annotation `Choice`                                    |
+| Poster           | `placeholderCanvas`, then `accompanyingCanvas`                                  |
+| Initial scrubber | The Canvas `duration`, so the bar renders full width before metadata loads      |
+
+`ignoreCaptionLabels` applies to the captions menu exactly as it does to the native
+`<track>` elements.
+
+<Callout emoji="💡">
+  The custom player is opt-in and the native controls remain the default. It has not yet
+  been verified against the `<clover-viewer>` web component, which is built with Preact — a
+  framework Vidstack does not list as supported. Prefer the native controls there for now.
+</Callout>
+
+#### Captions and the transcript
+
+A `supplementing` annotation may carry one caption file per language inside a `Choice` — the
+pattern in the Cookbook's
+[Multiple Language Captions](https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/)
+recipe. Every track appears in the player's captions menu and in the information panel's
+transcript, each labelled with its own IIIF label and tagged with its declared `language`.
+
+The two stay on the same track. Choosing a language in the player moves the transcript with
+it, and choosing one in the transcript moves the player's overlay — though only when the
+overlay is already on, since picking something to read is not a request to start drawing
+captions over the video.
+
+Turning captions **off** hides the overlay and nothing else. The transcript stays navigable
+and the chosen language is remembered, so a reader who prefers to follow along in the panel
+is not forced to keep captions burned over the picture.
+
+#### Theming the player
+
+The bar reads `--clover-color-accent` for the scrubber, the active menu row and focus rings,
+and `--clover-radius` / `--clover-radius-pill` for its shapes, so it follows a theme set
+anywhere above the Viewer like the rest of Clover. Type is inherited, as everywhere else —
+there is no font token, so a `font-family` on a containing element is all that is needed.
+
+What it deliberately does **not** follow is `--clover-color-primary` / `-secondary`. The
+OpenSeadragon controls invert with those because they sit on a canvas that follows the page;
+this bar floats over media, which is dark whatever the page is set to, so inverting would
+paint a near-black pill onto a dark frame. It has its own palette instead:
+
+| Custom property                   | Default                      | Role                           |
+| --------------------------------- | ---------------------------- | ------------------------------ |
+| `--clover-player-surface`         | `#fff`                       | Button background              |
+| `--clover-player-on-surface`      | `#1A1D1E`                    | Button glyph                   |
+| `--clover-player-text`            | `#fff`                       | Time, chapter title, menu text |
+| `--clover-player-track`           | `rgb(255 255 255 / 45%)`     | Unfilled slider track          |
+| `--clover-player-track-shadow`    | `0 0 0 1px rgb(0 0 0 / 35%)` | Track edge                     |
+| `--clover-player-menu-surface`    | `#151718`                    | Menu background                |
+| `--clover-player-menu-hover`      | `#26292B`                    | Menu row hover                 |
+| `--clover-player-caption-surface` | `rgb(0 0 0 / 85%)`           | Caption box                    |
+| `--clover-player-caption-text`    | `#fff`                       | Caption text                   |
+
+```css
+.my-app {
+  --clover-color-accent: #00e5a0;
+  --clover-player-surface: #102a43;
+  --clover-player-on-surface: #00e5a0;
+  --clover-player-text: #00e5a0;
+}
+```
+
+Captions carry their own pair rather than reusing the bar's: the box paints its own dark
+ground over the picture, so inverting the bar for a light theme must not turn the cues
+dark-on-dark.
+
+#### Audio waveform
+
+A `Sound` canvas draws its waveform as the timeline, using
+[wavesurfer.js](https://wavesurfer.xyz). The waveform itself is decorative — the control
+layered over it is a real ARIA slider, so seeking works with the keyboard and with a screen
+reader.
+
+Waveform data has to come from somewhere, and that constrains what is possible:
+
+- **Progressive files** (MP3, WAV, M4A) are decoded up front, so the whole shape is visible
+  before playback. Decoding is capped at 30 minutes and downmixed to mono at 4 kHz, because
+  an hour of stereo audio retains hundreds of megabytes of PCM.
+- **HLS**, and anything past that cap, cannot be decoded at all: an `.m3u8` is not a
+  container, and the element's source under MSE is a `blob:` URL that cannot be fetched.
+  These fall back to capturing the waveform live as it plays, so the shape fills in behind
+  the playhead rather than being known in advance.
+
+Live capture reads the audio through the Web Audio API, which requires the media response
+to carry CORS headers. Without them the browser returns silence rather than an error, so
+Clover detects the flat signal and draws a neutral bar field instead of a convincing but
+false silent waveform.
+
+---
+
 ### Theming
 
 Clover reads its colors and fonts from CSS custom properties. Set any of them on an
