@@ -16,7 +16,10 @@ import AnnotationItemMarkdown from "./Markdown";
 import AnnotationItemPlainText from "./PlainText";
 import AnnotationItemVTT from "./VTT/VTT";
 import { NodeWebVttCueNested } from "src/hooks/use-webvtt";
-import { getLanguageDirection } from "src/lib/annotation-helpers";
+import {
+  expandCaptionResources,
+  getLanguageDirection,
+} from "src/lib/annotation-helpers";
 
 type Props = {
   annotation: AnnotationNormalized;
@@ -64,6 +67,20 @@ export const AnnotationItem: React.FC<Props> = ({
     ? annotation?.body?.map((body) => vault.get(body.id))
     : [];
 
+  /**
+   * The caption resources this annotation actually offers.
+   *
+   * A `supplementing` annotation may wrap one track per language in a `Choice`, in which case
+   * `annotationBody[0]` is the Choice itself — no `format`, and a Vault-minted `vault://` id.
+   * Read naively that fell through to the plain-text branch and rendered the literal string
+   * "None". Expanding it here gives the transcript the same view of a canvas's captions that
+   * the player's menu has.
+   */
+  const captionResources = React.useMemo(
+    () => expandCaptionResources(vault, annotation?.body),
+    [vault, annotation],
+  );
+
   // ignore due to `chars` not being defined in annotation bodies
   const {
     format = selectorType === "PointSelector" ? "text/vtt" : "text/plain",
@@ -73,7 +90,10 @@ export const AnnotationItem: React.FC<Props> = ({
     chars = "",
   } = annotationBody[0] ? annotationBody[0] : {};
 
-  const renderFormat = selectorType === "PointSelector" ? "text/vtt" : format;
+  const renderFormat =
+    selectorType === "PointSelector" || captionResources.length > 0
+      ? "text/vtt"
+      : format;
 
   const label = annotationBody[0]?.label || { none: ["t"] };
 
@@ -176,9 +196,12 @@ export const AnnotationItem: React.FC<Props> = ({
       case "text/vtt":
         return (
           <AnnotationItemVTT
+            captionResources={captionResources}
             inlineCues={inlineCues}
             label={label}
-            vttUri={annotationBody[0]?.id || undefined}
+            vttUri={
+              captionResources[0]?.id || annotationBody[0]?.id || undefined
+            }
           />
         );
       case format?.match(/^image\//)?.input:
