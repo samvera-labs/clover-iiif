@@ -95,7 +95,7 @@
     "node": ">=20.10.0"
   },
   "dependencies": {
-    "@allmaps/maplibre": "^1.0.0-beta.43",
+    "@allmaps/maplibre": "^1.0.0-beta.44",
     "@iiif/helpers": "^1.2.19",
     "@iiif/parser": "^2.1.4",
     "@radix-ui/react-aspect-ratio": "^1.1.0",

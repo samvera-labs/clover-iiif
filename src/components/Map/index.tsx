@@ -15,7 +15,7 @@
  */
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import type maplibregl from "maplibre-gl";
+import type * as maplibregl from "maplibre-gl";
 
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
@@ -663,7 +663,7 @@ const CloverMap: React.FC<CloverMapProps> = ({
     async function initMap() {
       if (!containerRef.current || mapRef.current) return;
       await import("maplibre-gl/dist/maplibre-gl.css");
-      const { default: ml } = await import("maplibre-gl");
+      const ml = await import("maplibre-gl");
       if (!isMounted || !containerRef.current) return;
       mlRef.current = ml;
       startMap(ml);
