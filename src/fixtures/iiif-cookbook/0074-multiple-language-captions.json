@@ -3,24 +3,16 @@
   "id": "https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/manifest.json",
   "type": "Manifest",
   "label": {
-    "it": [
-      "Per voi signore. Modelli francesi"
-    ],
-    "en": [
-      "For ladies. French models"
-    ]
+    "it": ["Per voi signore. Modelli francesi"],
+    "en": ["For ladies. French models"]
   },
   "rights": "http://rightsstatements.org/vocab/InC/1.0/",
   "requiredStatement": {
     "label": {
-      "en": [
-        "Rights"
-      ]
+      "en": ["Rights"]
     },
     "value": {
-      "en": [
-        "All rights reserved Cinecittà Luce spa"
-      ]
+      "en": ["All rights reserved Cinecittà Luce spa"]
     }
   },
   "items": [
@@ -69,9 +61,7 @@
                     "type": "Text",
                     "format": "text/vtt",
                     "label": {
-                      "en": [
-                        "Captions in WebVTT format"
-                      ]
+                      "en": ["Captions in WebVTT format"]
                     },
                     "language": "en"
                   },
@@ -80,9 +70,7 @@
                     "type": "Text",
                     "format": "text/vtt",
                     "label": {
-                      "it": [
-                        "Sottotitoli in formato WebVTT"
-                      ]
+                      "it": ["Sottotitoli in formato WebVTT"]
                     },
                     "language": "it"
                   }

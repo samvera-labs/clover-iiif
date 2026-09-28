@@ -140,7 +140,6 @@ const NativePlayer: React.FC<NativePlayerProps> = ({
       className="clover-viewer-player-wrapper"
       data-testid="player-wrapper"
       style={{
-        backgroundColor: configOptions.canvasBackgroundColor,
         maxHeight: configOptions.canvasHeight,
         position: "relative",
       }}

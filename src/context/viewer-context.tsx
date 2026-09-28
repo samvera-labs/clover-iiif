@@ -73,12 +73,14 @@ export type ViewerConfigOptions = {
     /**
      * Which transport controls an audio/video canvas renders.
      *
-     * `"native"` (the default) is the browser's own `<video controls>`: it differs per
-     * browser and cannot be themed, but it is the accessible baseline every browser ships.
+     * `"custom"` (the default) is a Clover-styled bar driven by the Manifest — captions
+     * from supplementing annotations, chapters from `structures`, sources from a painting
+     * `Choice` — and it plays and looks the same in every browser.
      *
-     * `"custom"` swaps in a Clover-styled bar driven by the Manifest — captions from
-     * supplementing annotations, chapters from `structures`, sources from a painting
-     * `Choice`. It is not yet the default; see the Player docs for the current caveats.
+     * `"native"` falls back to the browser's own `<video controls>`, which differs per
+     * browser and cannot be themed, but is the smallest possible surface: it renders no
+     * Vidstack, so nothing beyond play, volume and the browser's own caption control is
+     * available.
      */
     controls?: "native" | "custom";
     /**
@@ -244,7 +246,7 @@ const defaultConfigOptions: ViewerConfigOptions = {
   },
   openSeadragon: {},
   player: {
-    controls: "native",
+    controls: "custom",
     hideDelay: 2000,
   },
   requestHeaders: { "Content-Type": "application/json" },

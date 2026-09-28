@@ -7,6 +7,26 @@ import { useMediaState } from "@vidstack/react";
 import { useProgressivePeaks } from "src/components/Viewer/Player/Custom/useProgressivePeaks";
 
 /**
+ * The unplayed wave, anchored rather than themed.
+ *
+ * `.clover-viewer-player-wrapper` is always black, so the waveform paints on black whatever
+ * the page theme is. A colour token would invert with the theme and disappear — the same
+ * reasoning as the control bar's palette, and it reads from the same custom property so the
+ * two stay in step. Progress stays on `accent`, which is a brand colour and carries on black.
+ */
+const WAVE_FALLBACK = "rgb(255 255 255 / 45%)";
+
+function resolveWaveColor(element?: Element | null) {
+  if (typeof window === "undefined") return WAVE_FALLBACK;
+  const scope = element ?? document.documentElement;
+  const value = window
+    .getComputedStyle(scope)
+    .getPropertyValue("--clover-player-track")
+    .trim();
+  return value || WAVE_FALLBACK;
+}
+
+/**
  * Past this, decoding is not worth the memory. wavesurfer resamples while decoding, but it
  * still retains the whole PCM buffer: an hour of stereo at 8kHz is ~230MB, and oral histories
  * and concert recordings of exactly that length are ordinary IIIF A/V content.
@@ -16,8 +36,14 @@ const DECODE_DURATION_CAP_SECONDS = 30 * 60;
 /** Ample for bar rendering, and a quarter of the memory of the 8000 default. */
 const DECODE_SAMPLE_RATE = 4000;
 
-const BAR_WIDTH = 2;
-const BAR_GAP = 1;
+/*
+ * Wide enough that the bars read as separate marks rather than a solid trace, which matters
+ * because the waveform is the timeline: the slider layered over it means clicking a bar goes
+ * to that moment, so a reader has to be able to aim at one. The progressive fallback derives
+ * its bucket count from the same pair, keeping both paths at the same resolution.
+ */
+const BAR_WIDTH = 4;
+const BAR_GAP = 2;
 
 interface WaveformProps {
   media: HTMLMediaElement | null;
@@ -85,7 +111,7 @@ const Waveform: React.FC<WaveformProps> = ({ media, src }) => {
         sampleRate: DECODE_SAMPLE_RATE,
         // Mono. Two channels is twice the memory for a picture that reads the same.
         splitChannels: undefined,
-        waveColor: resolveCloverColor("secondaryAlt", containerRef.current),
+        waveColor: resolveWaveColor(containerRef.current),
       });
 
       surfer.on("decode", () => !cancelled && setDecoded(true));
@@ -170,7 +196,7 @@ function useProgressiveCanvas(
 ) {
   const colors = useMemo(
     () => ({
-      wave: resolveCloverColor("secondaryAlt", canvasRef.current ?? undefined),
+      wave: resolveWaveColor(canvasRef.current),
       accent: resolveCloverColor("accent", canvasRef.current ?? undefined),
     }),
     [canvasRef],

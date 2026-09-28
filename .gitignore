@@ -16,6 +16,7 @@ html/
 !playwright/html/**
 # Ignore generated UMD copy used by WC test
 playwright/html/wc.js
+playwright/html/sample.webm
 test-results/
 playwright-report/
 

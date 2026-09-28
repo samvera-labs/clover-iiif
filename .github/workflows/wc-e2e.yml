@@ -53,6 +53,10 @@ jobs:
         run: |
           mkdir -p playwright/html
           cp dist/web-components/index.umd.js playwright/html/wc.js
+          # VP9, because Playwright's Chromium has no proprietary codecs: an H.264 fixture
+          # never reaches `canplay` there and the player rightly keeps its controls hidden,
+          # which is indistinguishable from the player being broken.
+          cp public/media/video/dickson_greeting.ogv.120p.vp9.webm playwright/html/sample.webm
 
       - name: Run WC smoke and reflow tests (webServer managed)
         working-directory: playwright

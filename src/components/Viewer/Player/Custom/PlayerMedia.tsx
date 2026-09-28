@@ -1,5 +1,6 @@
 import {
   Captions,
+  Gesture,
   MediaAnnouncer,
   MediaPlayer,
   MediaPlayerInstance,
@@ -240,6 +241,24 @@ const PlayerMedia: React.FC<CustomPlayerProps> = ({
       {isAudio && <Waveform media={media} src={painting.id as string} />}
 
       <MediaAnnouncer translations={announcerTranslations} />
+
+      {/*
+        Click the picture to play or pause, as every other video player does.
+
+        Video only. A Sound canvas layers the seek control over its whole waveform, so a click
+        there means "go to this moment" — toggling playback instead would take that away.
+
+        Pointer-only by design, and that is fine: it adds a shortcut, never the only way. The
+        transport bar's play button remains the focusable, labelled control, so nothing here is
+        reachable by pointer alone.
+      */}
+      {!isAudio && (
+        <Gesture
+          action="toggle:paused"
+          className="clover-viewer-player-gesture"
+          event="pointerup"
+        />
+      )}
 
       <CaptionSync />
 
