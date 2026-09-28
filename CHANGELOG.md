@@ -12,18 +12,19 @@ assigned at release time.
 
 ### Added
 
-- **Opt-in custom audio/video player.** `options.player.controls: "custom"` replaces the
-  browser's `<video controls>` on an audio or video canvas with a Clover-styled transport bar
-  built on [Vidstack](https://vidstack.io/docs). The bar overlays the bottom of the media,
-  appears on hover or keyboard focus, and fades after `options.player.hideDelay` (default
-  `2000`ms); a Sound canvas never auto-hides, having no video surface to hover.
+- **Custom audio/video player.** An audio or video canvas now renders a Clover-styled
+  transport bar built on [Vidstack](https://vidstack.io/docs) in place of the browser's
+  `<video controls>`. The bar overlays the bottom of the media, appears on hover or keyboard
+  focus, and fades after `options.player.hideDelay` (default `2000`ms); a Sound canvas never
+  auto-hides, having no video surface to hover.
 
-  The default is `"native"` and nothing changes unless you ask for it:
+  This is the default. `options.player.controls: "native"` goes back to the browser's own
+  controls:
 
   ```jsx
   <Viewer
     iiifContent={iiifContent}
-    options={{ player: { controls: "custom" } }}
+    options={{ player: { controls: "native" } }}
   />
   ```
 
@@ -33,28 +34,53 @@ assigned at release time.
   whose canvas target has a `#t=` fragment, a quality menu from a painting-annotation
   `Choice`, and the poster and initial scrubber width from the Canvas.
 
-  Two behaviors differ from the native path when `"custom"` is set. The `<source>` fallback
-  list is gone — Vidstack applies its own source selection, so the single body the viewer has
-  already resolved is passed and the rest appear in the quality menu. And on a Sound canvas
-  the frequency-bar `AudioVisualizer` is replaced by a [wavesurfer.js](https://wavesurfer.xyz)
-  waveform; audio is decoded up front below a 30-minute cap, and HLS or anything longer falls
-  back to capturing the waveform live as it plays.
+  Two behaviors differ from the native path. The `<source>` fallback list is gone — Vidstack
+  applies its own source selection, so the single body the viewer has already resolved is
+  passed and the rest appear in the quality menu. And on a Sound canvas the frequency-bar
+  `AudioVisualizer` is replaced by a [wavesurfer.js](https://wavesurfer.xyz) waveform; audio
+  is decoded up front below a 30-minute cap, and HLS or anything longer falls back to
+  capturing the waveform live as it plays.
+
+  On a Sound canvas that waveform _is_ the timeline: the seek control is layered over it, so
+  clicking a bar goes to that moment. The waveform itself stays decorative — a canvas takes no
+  focus and wavesurfer's own click-to-seek is pointer-only — so the control doing the work is
+  the same ARIA slider the keyboard and screen reader drive.
+
+  Clicking a video toggles play and pause, as every other player does; a Sound canvas does not,
+  because a click on its waveform already means "go to this moment". The gesture is a pointer
+  shortcut only — the transport bar's play button stays the focusable, labelled control, so
+  nothing is reachable by pointer alone.
 
   `activePlayer` still publishes the underlying media element, so transcript-cue seeking in
   the information panel is unchanged.
 
-  The bar follows `--clover-color-accent` and the radius tokens, and inherits its type like
-  every other component. It deliberately does not follow `--clover-color-primary` /
-  `-secondary`: it floats over media, which is dark whatever the page theme is, so inverting
-  with the theme would paint a near-black pill onto a dark frame. It has its own palette for
-  that — `--clover-player-surface`, `-on-surface`, `-text`, `-track`, `-track-shadow`,
-  `-menu-surface`, `-menu-hover`, `-caption-surface` and `-caption-text` — documented with
+  The bar's buttons are the OpenSeadragon control down to the declarations — the same
+  `--clover-color-secondary` surface, `-primary` glyph and `-accent` hover — so a control looks
+  the same wherever it appears, and themes with the rest of Clover. Type is inherited as
+  everywhere else.
+
+  What sits bare on the scrim cannot follow those tokens: the time, the chapter title, the
+  slider track, the menu and the cue box have no surface of their own, and their only ground
+  is the scrim, which is dark in every theme — `-primary` would put near-black text on
+  near-black in a light theme. Those read `--clover-player-text`, `-track`, `-track-shadow`,
+  `-menu-surface`, `-menu-hover`, `-caption-surface` and `-caption-text`, documented with
   defaults in the Viewer docs.
 
-- Two new runtime dependencies, both loaded behind a lazy boundary and only reached when
-  `player.controls` is `"custom"`: `@vidstack/react` and `wavesurfer.js`.
+- Two new runtime dependencies: `@vidstack/react` and `wavesurfer.js`. Both sit behind a lazy
+  boundary, so an image-only Manifest — or one running on `player.controls: "native"` —
+  evaluates neither. They are still **bundled rather than code-split**: the library is built
+  with `inlineDynamicImports`, which collapses the lazy chunk back into the single entry, so
+  the bytes ship whichever setting you use. Measured gzip, against the previous release:
+  `dist/viewer/index.mjs` 671 KB → 808 KB, and `dist/web-components/index.umd.js` 927 KB →
+  1040 KB.
 
 ### Changed
+
+- **Audio and video canvases use the custom player by default.** `options.player.controls`
+  defaults to `"custom"` rather than `"native"`, so an existing consumer who configures
+  nothing gets the new transport bar. Set it to `"native"` to keep the browser's own
+  controls, which keeps the `<source>` fallback list and the frequency-bar `AudioVisualizer`
+  as they were. It does not shrink the bundle — see the dependency note above.
 
 - Clover's default `secondary` color is now expressed consistently as `#fff` in the
   public token value and every component fallback.
@@ -261,6 +287,14 @@ assigned at release time.
   Switching captions **off** hides the overlay and nothing else: the transcript stays
   navigable, and the selected language is remembered. The two are separate concerns and the
   new `activeCaptionSrc` in the viewer store is a selection, never a visibility flag.
+
+- **An audio or video canvas now letterboxes onto black**, instead of taking
+  `options.canvasBackgroundColor`. That option's `#6662` default is translucent, so the bars
+  either side of a letterboxed frame composited over whatever sat behind the Viewer — grey in
+  a light theme, and inverting with the theme in a dark one. Black is what the rest of the web
+  letterboxes onto, and it is the ground the caption box and the control bar's palette are
+  pitched against. `canvasBackgroundColor` still applies to image canvases; to change the
+  colour behind media, style `.clover-viewer-player-wrapper`.
 
 - **Full screen no longer leaves the host page's text colour behind.**
   `.clover-viewer[data-fullscreen="true"]` (and the `Image` equivalent) painted

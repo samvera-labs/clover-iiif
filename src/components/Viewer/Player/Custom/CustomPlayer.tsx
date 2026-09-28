@@ -33,7 +33,6 @@ const CustomPlayer: React.FC<CustomPlayerProps> = (props) => {
       className="clover-viewer-player-wrapper"
       data-testid="player-wrapper"
       style={{
-        backgroundColor: configOptions.canvasBackgroundColor,
         maxHeight: configOptions.canvasHeight,
         position: "relative",
       }}

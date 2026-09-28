@@ -13,6 +13,16 @@ import manifestStreaming from "src/fixtures/viewer/player/manifest-streaming-aud
 import multiLanguageManifest from "src/fixtures/iiif-cookbook/0074-multiple-language-captions.json";
 import { getAnnotationResources } from "src/hooks/use-iiif/getAnnotationResources";
 
+/**
+ * `player.controls` defaults to `"custom"`. The tests in this file were written against the
+ * native `<video controls>` and its `<track>` children — the custom path renders neither —
+ * so they opt back into native explicitly rather than riding whatever the default is.
+ */
+const nativeConfigOptions = {
+  ...defaultState.configOptions,
+  player: { ...defaultState.configOptions.player, controls: "native" as const },
+};
+
 describe("Player component", () => {
   let originalLoad: any;
 
@@ -72,6 +82,7 @@ describe("Player component", () => {
       <ViewerProvider
         initialState={{
           ...defaultState,
+          configOptions: nativeConfigOptions,
           activeCanvas:
             "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/d2a423b1-6b5e-45cb-9956-46a99cd62cfd?as=iiif/canvas/access/0",
           activeManifest:
@@ -128,6 +139,7 @@ describe("Player component", () => {
       <ViewerProvider
         initialState={{
           ...defaultState,
+          configOptions: nativeConfigOptions,
           activeCanvas:
             "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/d2a423b1-6b5e-45cb-9956-46a99cd62cfd?as=iiif/canvas/access/0",
           activeManifest:
@@ -181,6 +193,7 @@ describe("Player component", () => {
       <ViewerProvider
         initialState={{
           ...defaultState,
+          configOptions: nativeConfigOptions,
           activeCanvas:
             "https://iiif.io/api/cookbook/recipe/0002-mvm-audio/canvas",
           activeManifest:
@@ -268,6 +281,7 @@ describe("Player component", () => {
         <ViewerProvider
           initialState={{
             ...defaultState,
+            configOptions: nativeConfigOptions,
             activeCanvas: CANVAS,
             activeManifest: "https://example.org/manifest.json",
             vault,
@@ -372,9 +386,9 @@ describe("Player component", () => {
 });
 
 /**
- * `Player` is now a switch between the browser's own controls and Clover's. Every test above
- * exercises the native path through it, since that is the default; these pin the switch
- * itself, and above all that an existing consumer who sets nothing keeps the native player.
+ * `Player` is a switch between Clover's controls and the browser's own. Every test above
+ * opts explicitly into the native path; these pin the switch itself, and above all that a
+ * consumer who sets nothing gets the custom player.
  */
 describe("Player control selection", () => {
   const painting = {
@@ -413,23 +427,24 @@ describe("Player control selection", () => {
     );
   }
 
-  it("renders the native player when nothing is configured", async () => {
+  it("renders the custom player when nothing is configured", async () => {
     const { container } = await renderWithOptions();
-    expect(container.querySelector("video#clover-iiif-video")).not.toBeNull();
-    expect(container.querySelector(".clover-viewer-player")).toBeNull();
-  });
-
-  it("renders the native player when controls are explicitly native", async () => {
-    const { container } = await renderWithOptions({ controls: "native" });
-    expect(container.querySelector("video#clover-iiif-video")).not.toBeNull();
-  });
-
-  it("does not render the native video element when controls are custom", async () => {
-    const { container } = await renderWithOptions({ controls: "custom" });
     // The custom player loads Vidstack behind a lazy boundary, so all that is
     // synchronously observable is that the native element is gone.
     expect(container.querySelector("video#clover-iiif-video")).toBeNull();
     expect(screen.getByTestId("player-wrapper")).toBeInTheDocument();
+  });
+
+  it("renders the custom player when controls are explicitly custom", async () => {
+    const { container } = await renderWithOptions({ controls: "custom" });
+    expect(container.querySelector("video#clover-iiif-video")).toBeNull();
+    expect(screen.getByTestId("player-wrapper")).toBeInTheDocument();
+  });
+
+  it("renders the native player when controls are native", async () => {
+    const { container } = await renderWithOptions({ controls: "native" });
+    expect(container.querySelector("video#clover-iiif-video")).not.toBeNull();
+    expect(container.querySelector(".clover-viewer-player")).toBeNull();
   });
 });
 
@@ -460,6 +475,7 @@ describe("multiple language captions (Cookbook 0074)", () => {
       <ViewerProvider
         initialState={{
           ...defaultState,
+          configOptions: nativeConfigOptions,
           activeCanvas: CANVAS,
           activeManifest:
             "https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/manifest.json",
