@@ -106,6 +106,7 @@
     "@radix-ui/react-radio-group": "^1.2.1",
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-tabs": "^1.1.1",
+    "@vidstack/react": "^1.15.6",
     "dompurify": "^3.0.2",
     "embla-carousel-react": "^8.6.0",
     "embla-carousel-wheel-gestures": "^8.1.0",
@@ -121,7 +122,8 @@
     "react-error-boundary": "^4.1.2",
     "react-i18next": "^15.1.1",
     "react-lazy-load-image-component": "^1.6.2",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "wavesurfer.js": "^7.12.12"
   },
   "devDependencies": {
     "@iiif/presentation-3": "^1.1.3",

@@ -68,6 +68,27 @@ export type ViewerConfigOptions = {
     annotationCollectionTabLabel?: string;
   };
   openSeadragon?: OpenSeadragonOptions;
+  player?: {
+    /**
+     * Which transport controls an audio/video canvas renders.
+     *
+     * `"custom"` (the default) is a Clover-styled bar driven by the Manifest — captions
+     * from supplementing annotations, chapters from `structures`, sources from a painting
+     * `Choice` — and it plays and looks the same in every browser.
+     *
+     * `"native"` falls back to the browser's own `<video controls>`, which differs per
+     * browser and cannot be themed, but is the smallest possible surface: it renders no
+     * Vidstack, so nothing beyond play, volume and the browser's own caption control is
+     * available.
+     */
+    controls?: "native" | "custom";
+    /**
+     * Milliseconds the custom control bar stays visible after the pointer stops moving.
+     * Ignored by `"native"`, and ignored on Sound canvases, which have no video surface to
+     * hover and so never auto-hide.
+     */
+    hideDelay?: number;
+  };
   requestHeaders?: IncomingHttpHeaders;
   showDownload?: boolean;
   showIIIFBadge?: boolean;
@@ -223,6 +244,10 @@ const defaultConfigOptions: ViewerConfigOptions = {
     renderCanvasSummary: false,
   },
   openSeadragon: {},
+  player: {
+    controls: "custom",
+    hideDelay: 2000,
+  },
   requestHeaders: { "Content-Type": "application/json" },
   showDownload: true,
   showIIIFBadge: true,
@@ -307,6 +332,15 @@ export interface ViewerContextStore {
   activeAnnotationId?: string | null;
   activeManifest: string;
   activePlayer: HTMLVideoElement | HTMLAudioElement | null;
+  /**
+   * The caption/transcript track the reader has chosen, by URL.
+   *
+   * Deliberately separate from whether captions are being *drawn*. The player's captions
+   * menu turns the on-screen overlay on and off; the information panel uses the same
+   * selection to decide which transcript to navigate. Switching the overlay off must not
+   * take the transcript away with it, so "off" clears the overlay and leaves this alone.
+   */
+  activeCaptionSrc?: string;
   activeSelector?: string | Record<string, unknown>;
   OSDImageLoaded?: boolean;
   annotationCollection?: AnnotationCollectionNormalized;
@@ -337,6 +371,7 @@ export interface ViewerContextStore {
 export interface ViewerAction {
   type: string;
   activeAnnotationId?: string | null;
+  activeCaptionSrc?: string;
   canvasId: string;
   selector?: string | Record<string, unknown>;
   annotationCollection?: AnnotationCollectionNormalized;
@@ -434,6 +469,7 @@ export const createDefaultState = (): ViewerContextStore => ({
   activeAnnotationId: null,
   activeManifest: "",
   activePlayer: null,
+  activeCaptionSrc: undefined,
   activeSelector: undefined,
   OSDImageLoaded: false,
   pendingAnnotationTarget: null,
@@ -502,6 +538,12 @@ function viewerReducer(
       return {
         ...state,
         activePlayer: action.player,
+      };
+    }
+    case "updateActiveCaptionSrc": {
+      return {
+        ...state,
+        activeCaptionSrc: action.activeCaptionSrc,
       };
     }
     case "updateOSDImageLoaded": {

@@ -355,35 +355,36 @@ const MyCustomViewer = () => {
 
 `Viewer` can configured through an `options` prop, which will serve as a object for common options.
 
-| Prop                             | Type                                                                                                                                             | Required | Default                                  |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ---------------------------------------- |
-| `iiifContent`                    | `string` as URI, or JSON `object` as `Manifest` or `Collection`                                                                                  | Yes      |                                          |
-| `iiifContentSearchQuery`         | [See Content Search](#content-search)                                                                                                            | No       |                                          |
-| `canvasIdCallback`               | `function`                                                                                                                                       | No       |                                          |
-| `contentStateCallback`           | [See IIIF Content State](#iiif-content-state)                                                                                                    | No       |                                          |
-| `customDisplays`                 | [See Custom Displays](#custom-displays)                                                                                                          | No       |                                          |
-| `customTheme`                    | `object`                                                                                                                                         | No       |                                          |
-| `plugins`                        | [See Plugins](#plugins)                                                                                                                          | No       |                                          |
-| `options`                        | `object`                                                                                                                                         | No       |                                          |
-| `options.background`             | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background)                                                                      | No       | `transparent`                            |
-| `options.canvasBackgroundColor`  | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background)                                                                      | No       | `#1a1d1e`                                |
-| `options.canvasHeight`           | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/height)                                                                          | No       | `500px`                                  |
-| `options.crossOrigin`            | `anonymous`, `use-credentials`, or `undefined` [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/crossorigin) | No       | `anonymous`                              |
-| `options.ignoreCaptionLabels`    | `string[]`                                                                                                                                       | No       | []                                       |
-| `options.openSeadragon`          | `OpenSeadragon.Options`                                                                                                                          | No       |                                          |
-| `options.map`                    | [See Map Display](#map-display)                                                                                                                  | No       |                                          |
-| `options.informationPanel`       | [See Information Panel](#information-panel)                                                                                                      | No       |                                          |
-| `options.annotations`            | `{ motivations?: string[] }`                                                                                                                     | No       | All motivations                          |
-| `options.requestHeaders`         | `IncomingHttpHeaders`                                                                                                                            | No       | `{ "Content-Type": "application/json" }` |
-| `options.showDownload`           | `boolean`                                                                                                                                        | No       | true                                     |
-| `options.showIIIFBadge`          | `boolean`                                                                                                                                        | No       | true                                     |
-| `options.showMediaSearch`        | `boolean`                                                                                                                                        | No       | true                                     |
-| `options.showResourceIcons`      | `boolean`                                                                                                                                        | No       | false                                    |
-| `options.showTitle`              | `boolean`                                                                                                                                        | No       | true                                     |
-| `options.customLoadingComponent` | `React.ComponentType`                                                                                                                            | No       |                                          |
-| `options.controlButtons`         | [See Control Buttons](#control-buttons)                                                                                                          | No       |                                          |
-| `options.withCredentials`        | `boolean`                                                                                                                                        | No       | false                                    |
-| `options.contentSearch`          | [See Content Search](#content-search)                                                                                                            | No       |                                          |
+| Prop                             | Type                                                                                                                                             | Required | Default                                   |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ----------------------------------------- |
+| `iiifContent`                    | `string` as URI, or JSON `object` as `Manifest` or `Collection`                                                                                  | Yes      |                                           |
+| `iiifContentSearchQuery`         | [See Content Search](#content-search)                                                                                                            | No       |                                           |
+| `canvasIdCallback`               | `function`                                                                                                                                       | No       |                                           |
+| `contentStateCallback`           | [See IIIF Content State](#iiif-content-state)                                                                                                    | No       |                                           |
+| `customDisplays`                 | [See Custom Displays](#custom-displays)                                                                                                          | No       |                                           |
+| `customTheme`                    | `object`                                                                                                                                         | No       |                                           |
+| `plugins`                        | [See Plugins](#plugins)                                                                                                                          | No       |                                           |
+| `options`                        | `object`                                                                                                                                         | No       |                                           |
+| `options.background`             | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background)                                                                      | No       | `transparent`                             |
+| `options.canvasBackgroundColor`  | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background)                                                                      | No       | `#1a1d1e`                                 |
+| `options.canvasHeight`           | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/height)                                                                          | No       | `500px`                                   |
+| `options.crossOrigin`            | `anonymous`, `use-credentials`, or `undefined` [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/crossorigin) | No       | `anonymous`                               |
+| `options.ignoreCaptionLabels`    | `string[]`                                                                                                                                       | No       | []                                        |
+| `options.openSeadragon`          | `OpenSeadragon.Options`                                                                                                                          | No       |                                           |
+| `options.player`                 | [See Player](#player)                                                                                                                            | No       | `{ controls: "custom", hideDelay: 2000 }` |
+| `options.map`                    | [See Map Display](#map-display)                                                                                                                  | No       |                                           |
+| `options.informationPanel`       | [See Information Panel](#information-panel)                                                                                                      | No       |                                           |
+| `options.annotations`            | `{ motivations?: string[] }`                                                                                                                     | No       | All motivations                           |
+| `options.requestHeaders`         | `IncomingHttpHeaders`                                                                                                                            | No       | `{ "Content-Type": "application/json" }`  |
+| `options.showDownload`           | `boolean`                                                                                                                                        | No       | true                                      |
+| `options.showIIIFBadge`          | `boolean`                                                                                                                                        | No       | true                                      |
+| `options.showMediaSearch`        | `boolean`                                                                                                                                        | No       | true                                      |
+| `options.showResourceIcons`      | `boolean`                                                                                                                                        | No       | false                                     |
+| `options.showTitle`              | `boolean`                                                                                                                                        | No       | true                                      |
+| `options.customLoadingComponent` | `React.ComponentType`                                                                                                                            | No       |                                           |
+| `options.controlButtons`         | [See Control Buttons](#control-buttons)                                                                                                          | No       |                                           |
+| `options.withCredentials`        | `boolean`                                                                                                                                        | No       | false                                     |
+| `options.contentSearch`          | [See Content Search](#content-search)                                                                                                            | No       |                                           |
 
 - Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
 - Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
@@ -924,6 +925,190 @@ export default function App() {
   return <Viewer iiifContent={iiifContent} options={options} />;
 }
 ```
+
+---
+
+### Player
+
+An audio or video canvas renders a Clover-styled transport bar built on
+[Vidstack](https://vidstack.io/docs). The bar overlays the bottom of the media, appears on
+hover or keyboard focus, and fades after `player.hideDelay`.
+
+This is the default because the alternative — the browser's own `<video controls>` — differs
+from browser to browser, cannot be themed, and, more to the point for a IIIF viewer, cannot
+show anything the Manifest knows about the resource. Set `player.controls` to `"native"` to
+go back to it.
+
+<Tabs items={["Code", "Preview"]}>
+  {/* prettier-ignore */}
+  <Tab>
+    ```jsx
+      // Nothing to configure — this is the default.
+      <Viewer iiifContent="https://iiif.io/api/cookbook/recipe/0219-using-caption-file/manifest.json" />
+
+      // The browser's own controls instead.
+      <Viewer
+        iiifContent="https://iiif.io/api/cookbook/recipe/0219-using-caption-file/manifest.json"
+        options={{ player: { controls: "native" } }}
+      />
+    ```
+
+  </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    <div style={{ position: "relative", height: "700px", zIndex: "0" }}>
+      <Viewer
+        iiifContent="https://iiif.io/api/cookbook/recipe/0219-using-caption-file/manifest.json"
+        options={{
+          showTitle: false,
+          informationPanel: { open: true, renderAbout: false },
+        }}
+      />
+    </div>
+  </Tab>
+</Tabs>
+
+Everything in the bar beyond play and volume is read from the Manifest:
+
+| Control          | IIIF source                                                                     |
+| ---------------- | ------------------------------------------------------------------------------- |
+| Captions menu    | `supplementing` annotations with a `text/vtt` body, labeled and language-tagged |
+| Chapter markers  | `structures` Ranges whose canvas target carries a `#t=` time fragment           |
+| Quality menu     | The bodies of a painting annotation `Choice`                                    |
+| Poster           | `placeholderCanvas`, then `accompanyingCanvas`                                  |
+| Initial scrubber | The Canvas `duration`, so the bar renders full width before metadata loads      |
+
+`ignoreCaptionLabels` applies to the captions menu exactly as it does to the native
+`<track>` elements.
+
+<Callout emoji="💡">
+  The player behaves the same through the `<clover-viewer>` web component, which is built
+  with Preact rather than React — covered by `playwright/e2e/wc.spec.ts`.
+</Callout>
+
+Vidstack and wavesurfer.js are only evaluated by a canvas that actually plays something, so
+an image-only Manifest never touches them. They are still part of the bundle either way —
+Clover builds to a single entry per package — so `"native"` is a choice about the interface,
+not a way to ship less code.
+
+#### The media canvas
+
+An audio or video canvas letterboxes onto black rather than onto
+`options.canvasBackgroundColor`. That option's translucent default composited over whatever
+sat behind the Viewer, which tinted the bars either side of a frame and inverted them with a
+dark theme; black is what the caption box, the scrim and the control bar are all pitched
+against. `canvasBackgroundColor` still governs image canvases. To change the colour behind
+media, style `.clover-viewer-player-wrapper`.
+
+#### Captions and the transcript
+
+A `supplementing` annotation may carry one caption file per language inside a `Choice` — the
+pattern in the Cookbook's
+[Multiple Language Captions](https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/)
+recipe. Every track appears in the player's captions menu and in the information panel's
+transcript, each labelled with its own IIIF label and tagged with its declared `language`.
+
+The two stay on the same track. Choosing a language in the player moves the transcript with
+it, and choosing one in the transcript moves the player's overlay — though only when the
+overlay is already on, since picking something to read is not a request to start drawing
+captions over the video.
+
+Turning captions **off** hides the overlay and nothing else. The transcript stays navigable
+and the chosen language is remembered, so a reader who prefers to follow along in the panel
+is not forced to keep captions burned over the picture.
+
+#### Theming the player
+
+The bar reads `--clover-color-accent` for the scrubber, the active menu row and focus rings,
+and `--clover-radius` / `--clover-radius-pill` for its shapes, so it follows a theme set
+anywhere above the Viewer like the rest of Clover. Type is inherited, as everywhere else —
+there is no font token, so a `font-family` on a containing element is all that is needed.
+
+Its **buttons** are the OpenSeadragon control, down to the declarations — the same
+`--clover-color-secondary` surface, `-primary` glyph and `-accent` hover — so a control looks
+the same wherever it appears. A pill is opaque and carries its own foreground with its own
+background, so the pair stays legible however you theme it.
+
+What cannot follow those tokens is everything sitting **bare on the scrim**: the time, the
+chapter title, the slider track, the menu and the cue box have no surface of their own, and
+their only ground is the scrim, which is dark in every theme. Pointing them at `-primary`
+would put near-black text on near-black in a light theme. Those have their own palette:
+
+| Custom property                   | Default                      | Role                           |
+| --------------------------------- | ---------------------------- | ------------------------------ |
+| `--clover-player-text`            | `#fff`                       | Time, chapter title, menu text |
+| `--clover-player-track`           | `rgb(255 255 255 / 45%)`     | Unfilled slider track          |
+| `--clover-player-track-shadow`    | `0 0 0 1px rgb(0 0 0 / 35%)` | Track edge                     |
+| `--clover-player-menu-surface`    | `#151718`                    | Menu background                |
+| `--clover-player-menu-hover`      | `#26292B`                    | Menu row hover                 |
+| `--clover-player-caption-surface` | `rgb(0 0 0 / 85%)`           | Caption box                    |
+| `--clover-player-caption-text`    | `#fff`                       | Caption text                   |
+
+```css
+.my-app {
+  /* Buttons, the scrubber and focus rings follow the theme tokens. */
+  --clover-color-accent: #00e5a0;
+  --clover-color-secondary: #102a43;
+  --clover-color-primary: #f0f4f8;
+
+  /* Anything bare on the scrim is set on its own. */
+  --clover-player-text: #00e5a0;
+  --clover-player-menu-surface: #0b1b2b;
+}
+```
+
+Captions carry their own pair rather than reusing the bar's: the box paints its own dark
+ground over the picture, so inverting the bar for a light theme must not turn the cues
+dark-on-dark.
+
+#### Audio waveform
+
+A `Sound` canvas draws its waveform as the timeline, using
+[wavesurfer.js](https://wavesurfer.xyz). The waveform itself is decorative — the control
+layered over it is a real ARIA slider, so seeking works with the keyboard and with a screen
+reader.
+
+Waveform data has to come from somewhere, and that constrains what is possible:
+
+- **Progressive files** (MP3, WAV, M4A) are decoded up front, so the whole shape is visible
+  before playback. Decoding is capped at 30 minutes and downmixed to mono at 4 kHz, because
+  an hour of stereo audio retains hundreds of megabytes of PCM.
+- **HLS**, and anything past that cap, cannot be decoded at all: an `.m3u8` is not a
+  container, and the element's source under MSE is a `blob:` URL that cannot be fetched.
+  These fall back to capturing the waveform live as it plays, so the shape fills in behind
+  the playhead rather than being known in advance.
+
+Live capture reads the audio through the Web Audio API, which requires the media response
+to carry CORS headers. Without them the browser returns silence rather than an error, so
+Clover detects the flat signal and draws a neutral bar field instead of a convincing but
+false silent waveform.
+
+<Tabs items={["Code", "Preview"]}>
+  {/* prettier-ignore */}
+  <Tab>
+    ```jsx
+      <Viewer iiifContent="https://iiif.io/api/cookbook/recipe/0002-mvm-audio/manifest.json" />
+    ```
+
+  </Tab>
+  {/* prettier-ignore */}
+  <Tab>
+    **Note:** this recording runs to 33 minutes, past the decode cap, so it is the live
+    capture path — the bars fill in behind the playhead as it plays rather than being
+    drawn up front.
+
+    <div style={{ position: "relative", height: "700px", zIndex: "0" }}>
+      <Viewer
+        iiifContent="https://iiif.io/api/cookbook/recipe/0002-mvm-audio/manifest.json"
+        options={{
+          showTitle: false,
+          informationPanel: { open: false },
+        }}
+      />
+    </div>
+
+  </Tab>
+</Tabs>
 
 ---
 
