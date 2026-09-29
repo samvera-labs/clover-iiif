@@ -144,7 +144,7 @@ Provide a IIIF `navPlace` GeoJSON value, a Georeference Extension annotation, or
 - Optionally renders a warped IIIF image overlay via [@allmaps/maplibre](https://allmaps.org/) when `showImageOverlay` is enabled
 - Auto-fits the viewport to all displayed data with `fitToData`
 - Accepts a click callback for coordinate picking (`onMapClick`)
-- Configurable tile layer (defaults to [OpenStreetMap](https://www.openstreetmap.org/))
+- Draws a terrain basemap by default, or any MapLibre style or raster tiles you supply
 
 ### Scroll to zoom
 
@@ -651,33 +651,28 @@ interface MapCenter {
 interface MapTileLayer {
   url: string; // e.g. "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   attribution: string;
-  maxZoom?: number; // deepest zoom the provider serves; MapLibre overzooms past it
-  referenceUrl?: string; // transparent labels/borders overlay drawn above `url`
-  referenceMaxZoom?: number; // same, for referenceUrl
+  maxZoom?: number; // deepest zoom the provider serves
+  referenceUrl?: string; // labels and borders drawn above `url`
+  referenceMaxZoom?: number; // deepest zoom the overlay serves
 }
 ```
 
-The default basemap is [OpenFreeMap's Liberty](https://openfreemap.org/) style — vector
-tiles, free, no API key and no usage limits — reshaped by Clover: the road layers are
-removed and a hillshade is added from [Mapzen Terrain Tiles](https://registry.opendata.aws/terrain-tiles/)
-on AWS Open Data. The result is terrain with political borders, country and state names and
-major cities, and no roads, staying sharp at every zoom because it is vector rather than
-raster. No free vector basemap ships terrain of its own, which is why the relief is layered
-in separately.
+### Basemap
 
-Pass `styleUrl` for a different MapLibre style. Clover uses it exactly as authored — it does
-not strip roads from it or add a hillshade to it, the way it shapes its own default:
+The default basemap is [OpenFreeMap Liberty](https://openfreemap.org/), a free vector style
+that needs no API key. Clover removes its roads and adds shaded relief from
+[Mapzen Terrain Tiles](https://registry.opendata.aws/terrain-tiles/). The map shows terrain,
+political borders, country and state names, and major cities. It stays sharp at every zoom.
+
+To use another MapLibre style, pass its URL as `styleUrl`. Clover draws the style as written.
 
 ```jsx
 <Map styleUrl="https://tiles.openfreemap.org/styles/positron" />
 ```
 
-Pass `tileLayer` for raster tiles instead, which takes precedence over `styleUrl`.
-`referenceUrl` draws a transparent overlay above the base tiles, so a plain terrain or
-imagery base can carry labels and borders without the roads a combined street basemap would
-bring. `maxZoom` and `referenceMaxZoom` cap each source: MapLibre requests raster tiles to
-zoom 22 by default, so a provider that stops short of that goes blank once the reader zooms
-past it — set them and MapLibre overzooms the last real tiles instead.
+To use raster tiles, pass `tileLayer`; it takes precedence over `styleUrl`. Set `maxZoom` to
+the deepest zoom your provider serves. Beyond it, MapLibre enlarges the last tiles rather
+than drawing blank ones.
 
 ```jsx
 <Map
@@ -690,30 +685,32 @@ past it — set them and MapLibre overzooms the last real tiles instead.
 />
 ```
 
-Clover's own layers are drawn after the basemap either way, so navPlace geometry and markers
-stay on top.
+To add labels and borders to a base that has none, such as terrain or imagery, pass the
+overlay as `referenceUrl` and its deepest zoom as `referenceMaxZoom`.
+
+Clover draws navPlace geometry and markers above any basemap.
 
 ### MapLibre's web worker
 
-Nothing to do here — this section is background.
+MapLibre 6 loads its web worker from a separate file. By default and for convenience, Clover
+bundles the worker for you. The map works as installed, whether you bundle Clover or load it
+from a `<script>` tag.
 
-MapLibre 6 stopped inlining its web worker and now loads one from a URL it resolves against
-its own module. Every bundler rewrites that module, so the worker file is no longer beside
-it and the request fails. The failure is silent: raster tiles never touch the worker, so a
-basemap still draws while every GeoJSON-backed layer — navPlace geometry, control points,
-`geoJson` — quietly never appears.
+If your implementation has trouble loading the worker, you can set `workerUrl` to a copy of
+the worker that your app serves. For example, the bundled worker runs from a `blob:` URL,
+which a strict Content-Security-Policy may block. Check `worker-src`; if it is not set,
+browsers apply `script-src` to workers instead. The map then shows no navPlace geometry,
+control points, or `geoJson`, and the default basemap loads without its labels and borders.
 
-Clover bundles the worker into its own output and hands MapLibre a blob URL, which is what
-MapLibre 5 did. Installing the package is enough, in a bundler or from a `<script>` tag.
-
-The one case that needs anything is a Content-Security-Policy whose `worker-src` omits
-`blob:`. Serve both files out of one directory of your own — the worker imports the shared
-chunk by relative path, so they have to stay together — and point `workerUrl` at the worker:
+To serve the worker yourself, copy these two files into one directory:
 
 ```
 node_modules/maplibre-gl/dist/maplibre-gl-worker.mjs
 node_modules/maplibre-gl/dist/maplibre-gl-shared.mjs
 ```
+
+Keep them together; the worker loads the shared file by relative path. Then point `workerUrl`
+at the worker:
 
 ```jsx
 <Map workerUrl="/maplibre/maplibre-gl-worker.mjs" />
