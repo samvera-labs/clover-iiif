@@ -5,7 +5,7 @@ import React from "react";
 
 describe("Panel", () => {
   it("should render the panel", () => {
-    render(<Panel width={1000} isFixed={false} />);
+    render(<Panel width={1000} isFixed={false} hasDefinedLanguages={false} />);
 
     const panel = screen.getByTestId("scroll-panel");
     expect(panel).toBeInTheDocument();
@@ -25,7 +25,7 @@ describe("Panel", () => {
   });
 
   it("should adjust styles if isFixed ", () => {
-    render(<Panel width={1000} isFixed={true} />);
+    render(<Panel width={1000} isFixed={true} hasDefinedLanguages={false} />);
 
     const panel = screen.getByTestId("scroll-panel");
     expect(panel).toBeInTheDocument();

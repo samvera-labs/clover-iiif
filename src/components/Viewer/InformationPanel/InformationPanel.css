@@ -162,10 +162,14 @@
   outline-offset: -3px;
 }
 
+.clover-viewer-information-panel-content-map[data-state="active"] {
+  height: 100%;
+  padding: 0;
+}
+
 .clover-viewer-map-tab-body {
   width: 100%;
   height: 100%;
-  padding: 0 1rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;

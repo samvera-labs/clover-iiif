@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 
 import CloverMap from "src/components/Map";
 import React from "react";
-import maplibregl from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
 import {
   DC_WILMETTE_GEOREF_ANNOTATION_OVERLAY,
   EXAMPLE_NAV_PLACE,

@@ -3,11 +3,11 @@
  * stub instead of the real package.
  *
  * It lives here rather than in a per-file `vi.mock(…, factory)` because CloverMap
- * acquires MapLibre with a dynamic `import("maplibre-gl")` inside an effect, and
- * maplibre-gl ships CJS only (no `exports`/`module` field). A factory mock is not
- * reliably in place before that first import resolves, which let the real bundle
- * load and throw on `window.URL.createObjectURL`. A `__mocks__` module adjacent to
- * node_modules is registered up front, so the dynamic import always gets the stub.
+ * acquires MapLibre with a dynamic `import("maplibre-gl")` inside an effect. A
+ * factory mock is not reliably in place before that first import resolves, which
+ * let the real bundle load and throw on `window.URL.createObjectURL`. A `__mocks__`
+ * module adjacent to node_modules is registered up front, so the dynamic import
+ * always gets the stub.
  */
 
 /**
@@ -31,6 +31,7 @@ export const Map = vi.fn(() => ({
   })),
   getLayer: vi.fn().mockReturnValue(null),
   getSource: vi.fn().mockReturnValue(null),
+  getStyle: vi.fn(() => ({ layers: [] })),
   remove: vi.fn(),
   removeLayer: vi.fn(),
   removeSource: vi.fn(),
@@ -40,6 +41,8 @@ export const Map = vi.fn(() => ({
   zoomIn: vi.fn(),
   zoomOut: vi.fn(),
 }));
+
+export const setWorkerUrl = vi.fn();
 
 export const Popup = vi.fn(() => ({
   setLngLat: vi.fn().mockReturnThis(),
@@ -55,6 +58,3 @@ export const LngLatBounds = vi.fn(() => ({
   getSouthWest: vi.fn(() => ({ lng: 0, lat: 0 })),
   getCenter: vi.fn(() => ({ lng: 0, lat: 0 })),
 }));
-
-/** CloverMap reads the default export: `const { default: ml } = await import(…)`. */
-export default { Map, Popup, LngLatBounds };

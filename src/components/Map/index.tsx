@@ -15,7 +15,8 @@
  */
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import type maplibregl from "maplibre-gl";
+import type * as maplibregl from "maplibre-gl";
+import maplibreWorkerSource from "src/components/Map/maplibre-worker.generated";
 
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
@@ -57,6 +58,9 @@ export interface MapCenter {
 export interface MapTileLayer {
   url: string;
   attribution: string;
+  maxZoom?: number;
+  referenceUrl?: string;
+  referenceMaxZoom?: number;
 }
 
 export interface CloverMapProps {
@@ -161,20 +165,36 @@ export interface CloverMapProps {
    */
   scrollZoom?: boolean;
 
-  /** Tile layer. Defaults to OpenStreetMap. */
   tileLayer?: MapTileLayer;
+
+  styleUrl?: string;
+
+  workerUrl?: string;
 }
 
 // ── Defaults ──────────────────────────────────────────────────────────────────
 
 const DEFAULT_CENTER: MapCenter = { latitude: 20, longitude: 0, zoom: 2 };
-const DEFAULT_TILE_LAYER: MapTileLayer = {
-  url: "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+const DEFAULT_STYLE_URL = "https://tiles.openfreemap.org/styles/liberty";
+
+const DEFAULT_TERRAIN = {
+  tiles: [
+    "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png",
+  ],
+  encoding: "terrarium" as const,
+  maxzoom: 15,
   attribution:
-    "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors &copy; <a href='https://carto.com/attributions'>CARTO</a>",
+    "Elevation: <a href='https://registry.opendata.aws/terrain-tiles/'>Mapzen Terrain Tiles</a>",
 };
 
+const ROAD_LAYER_PATTERN =
+  /road|highway|motorway|trunk|primary|secondary|tertiary|street|bridge|tunnel|railway|transit|aeroway|ferry|shield|path|pier/i;
+
 // Source / layer ID constants
+const TILES_REFERENCE_SOURCE = "clover-tiles-reference";
+const TILES_REFERENCE_LAYER = "clover-tiles-reference";
+const TERRAIN_SOURCE = "clover-terrain";
+const TERRAIN_LAYER = "clover-hillshade";
 const NAVPLACE_SOURCE = "clover-navplace";
 const NAVPLACE_FILL_LAYER = "clover-navplace-fill";
 const NAVPLACE_LINE_LAYER = "clover-navplace-line";
@@ -191,6 +211,67 @@ const WARPED_LAYER_ID = "clover-warped";
 
 /** Color used for GCP control point markers */
 const GCP_COLOR = "#c05c00";
+
+let inlineWorkerUrl: string | undefined;
+
+function getInlineWorkerUrl(): string | undefined {
+  if (inlineWorkerUrl) return inlineWorkerUrl;
+  if (typeof URL === "undefined" || typeof URL.createObjectURL !== "function") {
+    return undefined;
+  }
+  try {
+    inlineWorkerUrl = URL.createObjectURL(
+      new Blob([maplibreWorkerSource], { type: "text/javascript" }),
+    );
+  } catch {
+    return undefined;
+  }
+  return inlineWorkerUrl;
+}
+
+function applyDefaultBasemap(map: maplibregl.Map) {
+  const layers = map.getStyle().layers ?? [];
+
+  for (const layer of layers) {
+    if (ROAD_LAYER_PATTERN.test(layer.id)) {
+      try {
+        map.removeLayer(layer.id);
+      } catch {
+        /* noop */
+      }
+    }
+  }
+
+  const firstOverlay = layers.find(
+    (layer) => layer.type === "symbol" || /boundary|admin/i.test(layer.id),
+  );
+
+  try {
+    map.addSource(TERRAIN_SOURCE, {
+      type: "raster-dem",
+      tileSize: 256,
+      ...DEFAULT_TERRAIN,
+    });
+    map.addLayer(
+      {
+        id: TERRAIN_LAYER,
+        type: "hillshade",
+        source: TERRAIN_SOURCE,
+        paint: {
+          "hillshade-exaggeration": 0.3,
+          "hillshade-shadow-color": "#6b5b47",
+          "hillshade-highlight-color": "#ffffff",
+          "hillshade-accent-color": "#8a7a66",
+        },
+      },
+      firstOverlay && map.getLayer(firstOverlay.id)
+        ? firstOverlay.id
+        : undefined,
+    );
+  } catch {
+    /* noop */
+  }
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -403,8 +484,10 @@ const CloverMap: React.FC<CloverMapProps> = ({
   markers = [],
   onMapClick,
   useCrosshairCursor = false,
-  tileLayer = DEFAULT_TILE_LAYER,
+  tileLayer,
+  styleUrl,
   scrollZoom = false,
+  workerUrl,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
@@ -529,26 +612,52 @@ const CloverMap: React.FC<CloverMapProps> = ({
     function startMap(ml: typeof maplibregl) {
       if (!containerRef.current) return;
 
+      const rasterStyle: maplibregl.StyleSpecification | undefined = tileLayer
+        ? {
+            version: 8,
+            sources: {
+              "clover-tiles": {
+                type: "raster",
+                tiles: expandTileUrls(tileLayer.url),
+                tileSize: 256,
+                attribution: tileLayer.attribution,
+                ...(tileLayer.maxZoom && { maxzoom: tileLayer.maxZoom }),
+              },
+              ...(tileLayer.referenceUrl && {
+                [TILES_REFERENCE_SOURCE]: {
+                  type: "raster" as const,
+                  tiles: expandTileUrls(tileLayer.referenceUrl),
+                  tileSize: 256,
+                  ...(tileLayer.referenceMaxZoom && {
+                    maxzoom: tileLayer.referenceMaxZoom,
+                  }),
+                },
+              }),
+            },
+            layers: [
+              {
+                id: "clover-tiles",
+                type: "raster",
+                source: "clover-tiles",
+              },
+              ...(tileLayer.referenceUrl
+                ? [
+                    {
+                      id: TILES_REFERENCE_LAYER,
+                      type: "raster" as const,
+                      source: TILES_REFERENCE_SOURCE,
+                    },
+                  ]
+                : []),
+            ],
+          }
+        : undefined;
+
+      const usingDefaultBasemap = !rasterStyle && !styleUrl;
+
       const map = new ml.Map({
         container: containerRef.current,
-        style: {
-          version: 8,
-          sources: {
-            "clover-tiles": {
-              type: "raster",
-              tiles: expandTileUrls(tileLayer.url),
-              tileSize: 256,
-              attribution: tileLayer.attribution,
-            },
-          },
-          layers: [
-            {
-              id: "clover-tiles",
-              type: "raster",
-              source: "clover-tiles",
-            },
-          ],
-        },
+        style: rasterStyle ?? styleUrl ?? DEFAULT_STYLE_URL,
         center: [center.longitude, center.latitude],
         zoom: center.zoom,
         maxPitch: 0,
@@ -559,6 +668,7 @@ const CloverMap: React.FC<CloverMapProps> = ({
 
       map.on("load", () => {
         if (!isMounted) return;
+        if (usingDefaultBasemap) applyDefaultBasemap(map);
         // Register permanent event handlers using stable layer IDs
         const layers = [
           NAVPLACE_FILL_LAYER,
@@ -663,7 +773,9 @@ const CloverMap: React.FC<CloverMapProps> = ({
     async function initMap() {
       if (!containerRef.current || mapRef.current) return;
       await import("maplibre-gl/dist/maplibre-gl.css");
-      const { default: ml } = await import("maplibre-gl");
+      const ml = await import("maplibre-gl");
+      const resolvedWorkerUrl = workerUrl ?? getInlineWorkerUrl();
+      if (resolvedWorkerUrl) ml.setWorkerUrl(resolvedWorkerUrl);
       if (!isMounted || !containerRef.current) return;
       mlRef.current = ml;
       startMap(ml);

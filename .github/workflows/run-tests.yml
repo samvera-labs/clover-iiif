@@ -41,5 +41,8 @@ jobs:
             echo "Rollup not found in package-lock.json; skipping explicit binary install"
           fi
 
+      - name: Typecheck
+        run: npm run typecheck
+
       - name: Run tests
         run: npm run test:ci

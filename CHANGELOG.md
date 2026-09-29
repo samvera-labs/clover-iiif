@@ -12,6 +12,70 @@ assigned at release time.
 
 ### Changed
 
+- **`maplibre-gl` upgraded to 6**, closing
+  [GHSA-jrc7-96c5-q579](https://github.com/advisories/GHSA-jrc7-96c5-q579), which has no fix
+  in the 5.x line. No action needed on upgrade.
+
+  MapLibre 6 is ESM-only and stopped inlining its web worker, loading one from a URL it
+  resolves against its own module instead. Every bundler rewrites that module, so the worker
+  file is no longer beside it and the request fails — silently, because raster tiles never
+  touch the worker, so a basemap keeps drawing while navPlace geometry, control points and
+  `geoJson` never appear. Clover now bundles the worker into its own output and hands
+  MapLibre a blob URL, the way MapLibre 5 did, so installing the package is enough in a
+  bundler or from a `<script>` tag.
+
+  This costs about 500 KB in each bundle that contains the map, and it needs `blob:` in a
+  Content-Security-Policy `worker-src`. Under a CSP that forbids blob workers, serve
+  `maplibre-gl-worker.mjs` and `maplibre-gl-shared.mjs` from `node_modules/maplibre-gl/dist/`
+  out of one directory of your own — they must stay together — and point Clover at the
+  worker:
+
+  ```jsx
+  <Map workerUrl="/maplibre/maplibre-gl-worker.mjs" />
+
+  <Viewer
+    options={{ map: { enabled: true, workerUrl: "/maplibre/maplibre-gl-worker.mjs" } }}
+  />
+  ```
+
+- **The Viewer's map tab now runs to the edges of the Information Panel.** Every other tab
+  holds text, which wants the panel's gutter; a basemap inset the same way read as a widget
+  dropped into the tab rather than the panel's map view, and the inset cost the thing that
+  matters most in a panel this narrow. Text tabs are unchanged.
+
+- **The default basemap changed from CARTO Positron to OpenFreeMap's Liberty vector style,
+  reshaped by Clover.** CARTO moved their basemaps behind an API key and now serve
+  "API KEY REQUIRED" placeholder tiles, so the old default rendered a watermarked map for
+  everyone. The new one is vector, free and keyless: Clover removes its road layers and
+  adds a hillshade from Mapzen Terrain Tiles on AWS Open Data, giving terrain with political
+  borders, country and state names and major cities, sharp at every zoom.
+
+- **`Map` gained a `styleUrl` prop** for a different MapLibre style. Clover uses it exactly
+  as authored, without stripping roads or adding relief the way it shapes its own default:
+
+  ```jsx
+  <Map styleUrl="https://tiles.openfreemap.org/styles/positron" />
+  ```
+
+- **`tileLayer` no longer has a default, and gained `maxZoom`, `referenceUrl` and
+  `referenceMaxZoom`.** Pass it for raster tiles instead of a vector style; it takes
+  precedence over `styleUrl`. `referenceUrl` draws a transparent overlay above the base
+  tiles, so a plain terrain or imagery base can carry labels and borders without the roads
+  a combined street basemap would bring. The two `maxZoom` fields cap each source: MapLibre
+  requests raster tiles to zoom 22 by default, so a provider that stops short of that goes
+  blank once the reader zooms past it — set them and MapLibre overzooms instead:
+
+  ```jsx
+  <Map
+    tileLayer={{
+      url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+      attribution:
+        "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
+      maxZoom: 19,
+    }}
+  />
+  ```
+
 - Clover's default `secondary` color is now expressed consistently as `#fff` in the
   public token value and every component fallback.
 
