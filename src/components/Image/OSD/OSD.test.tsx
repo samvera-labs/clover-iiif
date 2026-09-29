@@ -16,7 +16,7 @@ describe("OSD", () => {
         ariaLabel="My aria label"
         config={config}
         imageType={OpenSeadragonImageTypes.SimpleImage}
-        uri="https://example.com/image.jpg"
+        uri={["https://example.com/image.jpg"]}
       />,
     );
     const osd = screen.getByTestId("clover-iiif-image-openseadragon");

@@ -581,23 +581,25 @@ Use `onMapClick` and `useCrosshairCursor` to turn the map into a coordinate pick
 
 ### Map props
 
-| Prop                  | Type                                                    | Required | Default       |
-| --------------------- | ------------------------------------------------------- | -------- | ------------- |
-| `navPlace`            | `GeoJSON.FeatureCollection \| Feature \| Geometry`      | No       |               |
-| `iiifContent`         | `string \| object`                                      | No       |               |
-| `navPlaceLevel`       | `Collection \| Manifest \| Canvas \| Annotation \| all` | No       | `all`         |
-| `georefAnnotation`    | [`GeoreferenceAnnotation`](#georefannotation-type)      | No       |               |
-| `showControlPoints`   | `boolean`                                               | No       | `true`        |
-| `showImageOverlay`    | `boolean`                                               | No       | `false`       |
-| `imageOverlayOpacity` | `number` (0-1)                                          | No       | `0.65`        |
-| `geoJson`             | `GeoJSON.FeatureCollection \| Feature`                  | No       |               |
-| `markers`             | [`MapMarker[]`](#mapmarker-type)                        | No       | `[]`          |
-| `center`              | [`MapCenter`](#mapcenter-type)                          | No       | World view    |
-| `fitToData`           | `boolean`                                               | No       | `false`       |
-| `onMapClick`          | `(coordinates: [number, number]) => void`               | No       |               |
-| `useCrosshairCursor`  | `boolean`                                               | No       | `false`       |
-| `scrollZoom`          | `boolean`                                               | No       | `false`       |
-| `tileLayer`           | [`MapTileLayer`](#maptilelayer-type)                    | No       | OpenStreetMap |
+| Prop                  | Type                                                    | Required | Default    |
+| --------------------- | ------------------------------------------------------- | -------- | ---------- |
+| `navPlace`            | `GeoJSON.FeatureCollection \| Feature \| Geometry`      | No       |            |
+| `iiifContent`         | `string \| object`                                      | No       |            |
+| `navPlaceLevel`       | `Collection \| Manifest \| Canvas \| Annotation \| all` | No       | `all`      |
+| `georefAnnotation`    | [`GeoreferenceAnnotation`](#georefannotation-type)      | No       |            |
+| `showControlPoints`   | `boolean`                                               | No       | `true`     |
+| `showImageOverlay`    | `boolean`                                               | No       | `false`    |
+| `imageOverlayOpacity` | `number` (0-1)                                          | No       | `0.65`     |
+| `geoJson`             | `GeoJSON.FeatureCollection \| Feature`                  | No       |            |
+| `markers`             | [`MapMarker[]`](#mapmarker-type)                        | No       | `[]`       |
+| `center`              | [`MapCenter`](#mapcenter-type)                          | No       | World view |
+| `fitToData`           | `boolean`                                               | No       | `false`    |
+| `onMapClick`          | `(coordinates: [number, number]) => void`               | No       |            |
+| `useCrosshairCursor`  | `boolean`                                               | No       | `false`    |
+| `scrollZoom`          | `boolean`                                               | No       | `false`    |
+| `tileLayer`           | [`MapTileLayer`](#maptilelayer-type)                    | No       |            |
+| `styleUrl`            | `string`                                                | No       |            |
+| `workerUrl`           | `string`                                                | No       |            |
 
 ### `GeoreferenceAnnotation` type
 
@@ -649,7 +651,76 @@ interface MapCenter {
 interface MapTileLayer {
   url: string; // e.g. "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   attribution: string;
+  maxZoom?: number; // deepest zoom the provider serves; MapLibre overzooms past it
+  referenceUrl?: string; // transparent labels/borders overlay drawn above `url`
+  referenceMaxZoom?: number; // same, for referenceUrl
 }
+```
+
+The default basemap is [OpenFreeMap's Liberty](https://openfreemap.org/) style — vector
+tiles, free, no API key and no usage limits — reshaped by Clover: the road layers are
+removed and a hillshade is added from [Mapzen Terrain Tiles](https://registry.opendata.aws/terrain-tiles/)
+on AWS Open Data. The result is terrain with political borders, country and state names and
+major cities, and no roads, staying sharp at every zoom because it is vector rather than
+raster. No free vector basemap ships terrain of its own, which is why the relief is layered
+in separately.
+
+Pass `styleUrl` for a different MapLibre style. Clover uses it exactly as authored — it does
+not strip roads from it or add a hillshade to it, the way it shapes its own default:
+
+```jsx
+<Map styleUrl="https://tiles.openfreemap.org/styles/positron" />
+```
+
+Pass `tileLayer` for raster tiles instead, which takes precedence over `styleUrl`.
+`referenceUrl` draws a transparent overlay above the base tiles, so a plain terrain or
+imagery base can carry labels and borders without the roads a combined street basemap would
+bring. `maxZoom` and `referenceMaxZoom` cap each source: MapLibre requests raster tiles to
+zoom 22 by default, so a provider that stops short of that goes blank once the reader zooms
+past it — set them and MapLibre overzooms the last real tiles instead.
+
+```jsx
+<Map
+  tileLayer={{
+    url: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    attribution:
+      "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors",
+    maxZoom: 19,
+  }}
+/>
+```
+
+Clover's own layers are drawn after the basemap either way, so navPlace geometry and markers
+stay on top.
+
+### MapLibre's web worker
+
+Nothing to do here — this section is background.
+
+MapLibre 6 stopped inlining its web worker and now loads one from a URL it resolves against
+its own module. Every bundler rewrites that module, so the worker file is no longer beside
+it and the request fails. The failure is silent: raster tiles never touch the worker, so a
+basemap still draws while every GeoJSON-backed layer — navPlace geometry, control points,
+`geoJson` — quietly never appears.
+
+Clover bundles the worker into its own output and hands MapLibre a blob URL, which is what
+MapLibre 5 did. Installing the package is enough, in a bundler or from a `<script>` tag.
+
+The one case that needs anything is a Content-Security-Policy whose `worker-src` omits
+`blob:`. Serve both files out of one directory of your own — the worker imports the shared
+chunk by relative path, so they have to stay together — and point `workerUrl` at the worker:
+
+```
+node_modules/maplibre-gl/dist/maplibre-gl-worker.mjs
+node_modules/maplibre-gl/dist/maplibre-gl-shared.mjs
+```
+
+```jsx
+<Map workerUrl="/maplibre/maplibre-gl-worker.mjs" />
+
+<Viewer
+  options={{ map: { enabled: true, workerUrl: "/maplibre/maplibre-gl-worker.mjs" } }}
+/>
 ```
 
 ---

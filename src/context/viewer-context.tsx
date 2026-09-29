@@ -46,6 +46,7 @@ export type ViewerConfigOptions = {
     imageOverlayOpacity?: number;
     showControlPoints?: boolean;
     overlayScope?: "manifest" | "canvas";
+    workerUrl?: string;
   };
   informationPanel?: {
     /** Initial panel state. Available Annotations or Content Search can still make the panel visible. */

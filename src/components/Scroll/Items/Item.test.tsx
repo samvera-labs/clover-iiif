@@ -46,7 +46,7 @@ const renderItem = (stateOverrides: Partial<StateType> = {}) => {
   const contextValue = {
     state: {
       ...initialState,
-      annotations: annotationFixtures,
+      annotations: annotationFixtures as unknown as StateType["annotations"],
       vault,
       ...stateOverrides,
     },

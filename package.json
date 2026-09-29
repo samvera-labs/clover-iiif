@@ -63,6 +63,12 @@
   "scripts": {
     "build": "npm run clean && node --experimental-json-modules ./build/build.mjs",
     "build:docs": "next build",
+    "build:maplibre-worker": "node ./scripts/build-maplibre-worker.mjs",
+    "prebuild": "npm run build:maplibre-worker",
+    "prebuild:docs": "npm run build:maplibre-worker",
+    "predev": "npm run build:maplibre-worker",
+    "pretest:ci": "npm run build:maplibre-worker",
+    "pretypecheck": "npm run build:maplibre-worker",
     "clean": "rimraf dist",
     "coverage": "vitest --ui --coverage",
     "dev": "next dev",

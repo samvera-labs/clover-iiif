@@ -147,8 +147,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
         const filteredItems = annotationPage.items.filter((item) => {
           const annotation = vault.get(item.id) as
-            | AnnotationNormalized
-            | undefined;
+            AnnotationNormalized | undefined;
           return annotationMatchesMotivations(
             annotation,
             allowedAnnotationMotivations,
@@ -654,7 +653,10 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
         )}
 
         {showMapTab && (
-          <Content value="manifest-map">
+          <Content
+            value="manifest-map"
+            className="clover-viewer-information-panel-content-map"
+          >
             <MapTabBody>
               <Map
                 navPlace={mapNavPlace}
@@ -663,6 +665,7 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
                 imageOverlayOpacity={configOptions.map?.imageOverlayOpacity}
                 showControlPoints={configOptions.map?.showControlPoints}
                 fitToData={configOptions.map?.fitToData}
+                workerUrl={configOptions.map?.workerUrl}
               />
             </MapTabBody>
           </Content>

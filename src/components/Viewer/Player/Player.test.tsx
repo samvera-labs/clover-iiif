@@ -274,7 +274,9 @@ describe("Player component", () => {
           <Player
             allSources={[painting] as LabeledIIIFExternalWebResource[]}
             painting={painting as LabeledIIIFExternalWebResource}
-            annotationResources={annotationResources as AnnotationResources}
+            annotationResources={
+              annotationResources as unknown as AnnotationResources
+            }
           />
         </ViewerProvider>,
       );
