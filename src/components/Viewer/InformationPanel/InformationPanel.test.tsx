@@ -293,7 +293,13 @@ describe("InformationPanel", () => {
     });
   });
 
-  test("renders canvas numbers for Contents ranges", () => {
+  /**
+   * The list shows what the Manifest says and nothing else. It used to print a number beside
+   * each Range, but that was the canvas's position in the viewer's own sequence rather than
+   * anything the Manifest declared — on a Range spanning several canvases it read as an
+   * arbitrary jump (1, 3, 3, 5) against labels that carried their own numbering.
+   */
+  test("renders Range labels without inventing a position number", () => {
     const { manifest, vault } = createVaultWithStructures();
     mockState = createMockState({
       activeCanvas: "https://example.org/canvas/1",
@@ -305,10 +311,10 @@ describe("InformationPanel", () => {
 
     render(<InformationPanel {...props} />);
 
-    expect(screen.getByText("1")).toBeInTheDocument();
-    expect(screen.getByText("2")).toBeInTheDocument();
     expect(screen.queryByText(/Canvas/)).not.toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Chapter 2" })).toBeTruthy();
+    expect(screen.queryByText("1")).not.toBeInTheDocument();
+    expect(screen.queryByText("2")).not.toBeInTheDocument();
   });
 
   test("selects the first canvas in newspaper ranges with SpecificResource targets", () => {
@@ -327,8 +333,6 @@ describe("InformationPanel", () => {
       screen.getByRole("button", { name: "Tagesneuigkeiten" }),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Das Turnier" })).toBeTruthy();
-    expect(screen.getByText("2")).toBeInTheDocument();
-    expect(screen.getByText("3")).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "Tagesneuigkeiten" }));
 

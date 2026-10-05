@@ -162,7 +162,7 @@ export const pendOreilleNavPlaceManifestJson = {
 
 # Viewer
 
-A UI component that renders a multicanvas IIIF item viewer with pan-zoom support for `Image` via [OpenSeadragon](https://openseadragon.github.io/) and `Video` and `Sound` content resources using the [HTML video element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video).
+A UI component that renders a multicanvas IIIF item viewer with pan-zoom support for `Image` via [OpenSeadragon](https://openseadragon.github.io/) and `Video` and `Sound` content resources using a [Vidstack](https://vidstack.io/docs)-backed player driven by the Manifest.
 
 <IIIFBadge
   href="https://iiif.io/api/presentation/3.0/#21-defined-types"
@@ -188,7 +188,7 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Manifes
 - Renders a multi-canvas _Video_, _Sound_, and _Image_ viewer
 - Renders thumbnails as navigation between canvases
 - Renders annotations with the [motivation](https://iiif.io/api/presentation/3.0/#values-for-motivation) of `supplementing` with a content resource having the format of `text/vtt` for _Video_ and _Sound_
-- _Video_ and _Sound_ are rendered within a HTML5 `<video>` element
+- _Video_ and _Sound_ are rendered with a Clover-styled player whose captions, chapters and quality options come from the Manifest; `options.player.controls: "native"` falls back to the browser's own `<video controls>`
 - _Image_ canvases are renderered with [OpenSeadragon](https://openseadragon.github.io/)
 - Can optionally render IIIF navPlace data with the Clover Map component
 - Supports HLS streaming for Video and Audio canvases
@@ -386,7 +386,7 @@ const MyCustomViewer = () => {
 | `options.withCredentials`        | `boolean`                                                                                                                                        | No       | false                                     |
 | `options.contentSearch`          | [See Content Search](#content-search)                                                                                                            | No       |                                           |
 
-- Options `canvasBackgroundColor` and `canvasHeight` will apply to both `<video>` elements and the OpenseaDragon canvas.
+- Option `canvasHeight` applies to both the media player and the OpenSeadragon canvas. `canvasBackgroundColor` applies to _Image_ canvases only — an audio or video canvas letterboxes onto black, for the reasons given under [Player](#player).
 - Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
 - Option `options.openSeadragon` will grant you ability to override the [OpenSeadragon default options](https://openseadragon.github.io/docs/OpenSeadragon.html#.Options) set within the Clover IIIF Viewer to adjust touch and mouse gesture settings and various other configurations.
 - When the visitor's OS is set to `prefers-reduced-motion: reduce`, Clover sets OpenSeadragon's `animationTime` to `0` so zoom and pan happen instantly instead of easing. Pass your own `animationTime` in `options.openSeadragon` to override this.
@@ -911,7 +911,7 @@ return (
 
 ### Captions
 
-WebVTT content resources are the source for both content mapped closed captioning `<track/>` elements in the HTML 5 video player and to the navigator panel adjacent to it. You may ignore these resources as tracks if they are not intended for closed captioning or subtitling by string values matching the label of the content resource. This is a manual option within the viewer as there is no defined way for a manifest to prescribe motivation for these resources beyond `supplementing`.
+WebVTT content resources are the source for both the player's captions and the transcript in the panel adjacent to it. You may ignore these resources as tracks if they are not intended for closed captioning or subtitling by string values matching the label of the content resource. This is a manual option within the viewer as there is no defined way for a manifest to prescribe motivation for these resources beyond `supplementing`.
 
 ```jsx
 export default function App() {

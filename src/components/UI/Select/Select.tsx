@@ -30,11 +30,16 @@ const Select: React.FC<SelectProps> = ({
   children,
   label,
   maxHeight,
+  onOpenChange,
   onValueChange,
   value,
 }) => {
   return (
-    <RadixSelect onValueChange={onValueChange} value={value}>
+    <RadixSelect
+      onOpenChange={onOpenChange}
+      onValueChange={onValueChange}
+      value={value}
+    >
       <SelectTrigger
         className="clover-select-button"
         data-testid="select-button"

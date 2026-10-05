@@ -5,8 +5,12 @@ import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
 import * as RadioGroup from "@radix-ui/react-radio-group";
 import { InternationalString } from "@iiif/presentation-3";
 import Menu from "src/components/Viewer/InformationPanel/Menu";
+import { Select, SelectOption } from "src/components/UI/Select";
 import { getLabel } from "src/hooks/use-iiif";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
+
+/** Long enough to outlast choosing from the list, short enough to recover if a close is missed. */
+const SCROLL_HOLD_TIMEOUT = 30_000;
 
 type CaptionResource = {
   id?: string;
@@ -40,10 +44,61 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
 }) => {
   const { t } = useCloverTranslation();
   const dispatch = useViewerDispatch();
-  const { activeCaptionSrc } = useViewerState();
+  const { activeCaptionSrc, isUserScrolling } = useViewerState();
 
   const tracks = captionResources ?? [];
   const hasChoice = tracks.length > 1;
+
+  /**
+   * Hold the transcript still while the language list is open.
+   *
+   * The panel re-centres itself on the cue being spoken 1.5s after the reader stops scrolling.
+   * That is right when they are reading along and wrong when they are reaching for a control in
+   * the same panel: the list slides away mid-reach, the click lands on whatever moved into its
+   * place, and the menu never opens.
+   *
+   * Two flags are needed, and they are the same pair `Cue.tsx` already sets around its own
+   * scrolling. `isUserScrolling` is what stops a cue from scrolling the panel; `isAutoScrolling`
+   * is what stops the panel's scroll handler from treating movement as the reader scrolling and
+   * re-arming the 1.5s expiry, which would otherwise overwrite the hold a moment later.
+   *
+   * The hold carries a timer so an abandoned one always expires, and closing the list hands
+   * control straight back.
+   */
+  const scrollHold = React.useRef<number>();
+
+  const releaseScroll = React.useCallback(() => {
+    window.clearTimeout(scrollHold.current);
+    scrollHold.current = undefined;
+    dispatch({ type: "updateUserScrolling", isUserScrolling: undefined });
+    dispatch({ type: "updateAutoScrolling", isAutoScrolling: false });
+  }, [dispatch]);
+
+  const handleOpenChange = React.useCallback(
+    (open: boolean) => {
+      if (!open) {
+        releaseScroll();
+        return;
+      }
+
+      window.clearTimeout(scrollHold.current);
+      window.clearTimeout(isUserScrolling);
+
+      scrollHold.current = window.setTimeout(
+        releaseScroll,
+        SCROLL_HOLD_TIMEOUT,
+      );
+
+      dispatch({
+        type: "updateUserScrolling",
+        isUserScrolling: scrollHold.current,
+      });
+      dispatch({ type: "updateAutoScrolling", isAutoScrolling: true });
+    },
+    [dispatch, isUserScrolling, releaseScroll],
+  );
+
+  React.useEffect(() => () => window.clearTimeout(scrollHold.current), []);
 
   /**
    * Which transcript to render.
@@ -68,32 +123,55 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
 
   useEffect(
     () => {
-      if (!inlineCues && selectedSrc) {
-        setIsNetworkError(undefined);
-        fetch(selectedSrc, {
-          redirect: "follow",
-          headers: {
-            Accept: "text/vtt, text/plain, */*",
-          },
+      if (inlineCues || !selectedSrc) return;
+
+      /**
+       * Only the newest request may write.
+       *
+       * Switching language twice in quick succession leaves two fetches in flight, and they
+       * do not necessarily land in the order they were sent. Without this the slower one wins
+       * and the transcript shows a language the picker says is not selected — a disagreement
+       * that never corrects itself, because nothing re-fetches.
+       *
+       * Aborting handles the request; the flag is still needed because parsing is a second
+       * async hop, which a response that already arrived will reach regardless.
+       */
+      const controller = new AbortController();
+      let superseded = false;
+
+      setIsNetworkError(undefined);
+      fetch(selectedSrc, {
+        redirect: "follow",
+        headers: {
+          Accept: "text/vtt, text/plain, */*",
+        },
+        signal: controller.signal,
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          return response.text();
         })
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.text();
-          })
-          .then((data) => {
-            parseVttData(data).then((flatCues) => {
-              const orderedCues = orderCuesByTime(flatCues);
-              const nestedCues = createNestedCues(orderedCues);
-              setCues(nestedCues);
-            });
-          })
-          .catch((error) => {
-            console.error(selectedSrc, error.toString());
-            setIsNetworkError(error);
+        .then((data) => {
+          parseVttData(data).then((flatCues) => {
+            if (superseded) return;
+            const orderedCues = orderCuesByTime(flatCues);
+            const nestedCues = createNestedCues(orderedCues);
+            setCues(nestedCues);
           });
-      }
+        })
+        .catch((error) => {
+          // An abort is this effect tidying up after itself, not a failure to report.
+          if (superseded || error?.name === "AbortError") return;
+          console.error(selectedSrc, error.toString());
+          setIsNetworkError(error);
+        });
+
+      return () => {
+        superseded = true;
+        controller.abort();
+      };
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [selectedSrc, inlineCues],
@@ -106,25 +184,28 @@ const AnnotationItemVTT: React.FC<AnnotationItemVTTProps> = ({
           className="clover-viewer-vtt-tracks"
           data-testid="annotation-item-vtt-tracks"
         >
-          <span className="clover-viewer-vtt-tracks-label">
-            {t("playerCaptions")}
-          </span>
-          {tracks.map((track, index) => (
-            <button
-              aria-pressed={track.id === selectedSrc}
-              className="clover-viewer-vtt-track"
-              key={track.id}
-              onClick={() =>
-                dispatch({
-                  type: "updateActiveCaptionSrc",
-                  activeCaptionSrc: track.id,
-                })
-              }
-              type="button"
-            >
-              {labelFor(track, index)}
-            </button>
-          ))}
+          {/*
+            The same dropdown a painting `Choice` and a Collection use. A row of toggles grew
+            a line at a time as a Manifest offered more languages, reflowing the transcript
+            under it; a dropdown is one control at one height however many tracks there are.
+          */}
+          <Select
+            label={{ none: [t("playerCaptions")] }}
+            maxHeight="200px"
+            onOpenChange={handleOpenChange}
+            onValueChange={(activeCaptionSrc) =>
+              dispatch({ type: "updateActiveCaptionSrc", activeCaptionSrc })
+            }
+            value={selectedSrc}
+          >
+            {tracks.map((track, index) => (
+              <SelectOption
+                key={track.id}
+                label={{ none: [labelFor(track, index)] }}
+                value={track.id as string}
+              />
+            ))}
+          </Select>
         </div>
       )}
 

@@ -12,50 +12,14 @@
  */
 .clover-viewer-vtt-tracks {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.382rem;
   margin-bottom: 0.618rem;
 }
 
-.clover-viewer-vtt-tracks-label {
-  font-size: 0.75rem;
-  opacity: 0.7;
-  margin-right: 0.236rem;
-}
-
-button.clover-viewer-vtt-track {
-  display: inline-flex;
-  align-items: center;
-  /* 24px minimum target, per WCAG 2.5.8. */
-  min-height: 24px;
-  padding: 0.236rem 0.618rem;
-  border: 1px solid var(--clover-color-secondary-alt, #c1c8cd);
-  border-radius: var(--clover-radius-pill, 2rem);
-  background: none;
-  background-color: transparent;
-  color: inherit;
-  font-family: inherit;
-  font-size: 0.75rem;
-  cursor: pointer;
-  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
-}
-
-.clover-viewer-vtt-track:hover,
-.clover-viewer-vtt-track:focus-visible {
-  border-color: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-accent, #0065c3);
-}
-
-.clover-viewer-vtt-track[aria-pressed="true"] {
-  border-color: var(--clover-color-accent, #0065c3);
-  background-color: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-secondary, #fff);
-}
-
-@media (forced-colors: active) {
-  .clover-viewer-vtt-track[aria-pressed="true"] {
-    background-color: Highlight;
-    color: HighlightText;
-  }
+/*
+ * The shared `Select` is sized for a canvas-level control; here it labels a panel column, so
+ * it takes the panel's own type scale rather than carrying heading-sized text into a list of
+ * transcript cues.
+ */
+.clover-viewer-vtt-tracks .clover-select-button {
+  font-size: 0.8333rem;
 }

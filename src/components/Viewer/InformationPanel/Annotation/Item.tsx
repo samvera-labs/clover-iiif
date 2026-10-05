@@ -227,7 +227,14 @@ export const AnnotationItem: React.FC<Props> = ({
   return (
     <div
       dir={readingDirection}
-      data-format={format}
+      /*
+       * The format this row actually renders, not the one the first body happens to declare.
+       * A `Choice` of caption tracks has no `format` of its own, so publishing the raw value
+       * said `text/plain` for a row showing a transcript — and the stylesheet keys its layout
+       * off this attribute, so the row kept the thumbnail well and the gap meant for a text
+       * annotation and indented the whole transcript past them.
+       */
+      data-format={renderFormat}
       data-content={content}
       data-active={activeAnnotationId === annotation.id ? "true" : undefined}
       className="clover-annotation-row clover-iiif-annotation-item"

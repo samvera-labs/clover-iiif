@@ -367,20 +367,27 @@ button.clover-viewer-player-button {
   touch-action: none;
 }
 
+/* The gap between chapters is the tick — no separate marker element needed. */
 .clover-viewer-player-slider-chapters {
   display: flex;
   align-items: center;
   width: 100%;
   height: 100%;
+  gap: 2px;
 }
 
+/*
+ * Width is Vidstack's to set — it writes each chapter's share of the duration as an inline
+ * percentage — so nothing here may declare one. `flex-shrink` lets the gaps come out of the
+ * segments rather than overflowing the bar, and `min-width: 0` keeps a very short chapter from
+ * being floored at its content's width.
+ */
 .clover-viewer-player-slider-chapter {
   display: flex;
   align-items: center;
-  width: 100%;
+  flex: 0 1 auto;
+  min-width: 0;
   height: 100%;
-  /* The gap between chapters is the tick — no separate marker element needed. */
-  gap: 2px;
 }
 
 .clover-viewer-player-slider-track {

@@ -59,7 +59,7 @@ function labelToString(label: unknown, language = "en"): string {
  * `"30"`, `"0,30"` and `"0,"` are all legal time fragments. Returns undefined rather than
  * NaN so a malformed fragment drops the chapter instead of producing one at time NaN.
  */
-function parseTimeFragment(
+export function parseTimeFragment(
   t?: string,
 ): { start: number; end?: number } | undefined {
   if (!t) return undefined;

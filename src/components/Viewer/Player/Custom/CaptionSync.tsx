@@ -1,48 +1,53 @@
-import { useActiveTextTrack, useMediaPlayer } from "@vidstack/react";
-import { useViewerDispatch, useViewerState } from "src/context/viewer-context";
-
+import { useMediaPlayer } from "@vidstack/react";
 import { useEffect } from "react";
 
+import { useViewerState } from "src/context/viewer-context";
+
 /**
- * Keeps the player's caption choice and the information panel's transcript on the same track.
+ * Applies the shared caption selection to the player.
+ *
+ * `activeCaptionSrc` is the single source of truth, and this is the only thing that writes a
+ * track's mode. Whichever menu the reader used — the player's or the transcript's — published
+ * the choice when they made it, so there is one direction of travel and nothing to echo.
+ *
+ * It used to run the other way as well, mirroring Vidstack's active track back into the store.
+ * That could not settle: `useActiveTextTrack` and the `mode` flags on the track list disagree
+ * with each other during a switch, so the two effects read different answers and corrected one
+ * another several hundred times a second, refetching a WebVTT file on every pass and leaving
+ * the picker and the transcript showing different languages.
  *
  * Renders nothing. It exists as a component rather than living in `PlayerMedia` because
  * Vidstack's hooks read the media context, and `PlayerMedia` is the component that *creates*
  * `<MediaPlayer>` — calling them there throws. This has to be mounted inside it.
- *
- * The selection and the overlay are deliberately separate. Turning captions off hides the
- * cues drawn over the video; it says nothing about which transcript the reader wants to read
- * in the panel, so "off" never clears the selection.
  */
 const CaptionSync: React.FC = () => {
   const player = useMediaPlayer();
-  const activeTextTrack = useActiveTextTrack("captions");
   const { activeCaptionSrc } = useViewerState();
-  const viewerDispatch = useViewerDispatch();
 
-  /** Player → panel: the language chosen here is the transcript the panel shows. */
-  useEffect(() => {
-    const src = (activeTextTrack as any)?.src;
-    if (!src || src === activeCaptionSrc) return;
-    viewerDispatch({ type: "updateActiveCaptionSrc", activeCaptionSrc: src });
-  }, [activeTextTrack, activeCaptionSrc, viewerDispatch]);
-
-  /**
-   * Panel → player: follow the panel's choice, but only when captions are already showing.
-   * Picking a transcript to read is not a request to start drawing captions over the video.
-   */
   useEffect(() => {
     const tracks: any = player?.textTracks;
     if (!activeCaptionSrc || !tracks) return;
 
     const all = Array.from(tracks as Iterable<any>);
     const target = all.find((track) => track?.src === activeCaptionSrc);
-    if (!target || target.mode === "showing") return;
+    if (!target) return;
 
-    const isShowingCaptions = all.some(
+    const showing = all.filter(
       (track) => track?.kind === "captions" && track.mode === "showing",
     );
-    if (isShowingCaptions) target.mode = "showing";
+
+    /**
+     * Captions are off, so the selection stays a selection. Picking a transcript to read is
+     * not a request to start drawing captions over the video.
+     */
+    if (!showing.length) return;
+    if (showing.length === 1 && showing[0] === target) return;
+
+    /* Exactly one captions track may be showing, or the overlay draws two languages at once. */
+    showing.forEach((track) => {
+      if (track !== target) track.mode = "disabled";
+    });
+    target.mode = "showing";
   }, [activeCaptionSrc, player]);
 
   return null;

@@ -146,6 +146,20 @@ assigned at release time.
   controls, which keeps the `<source>` fallback list and the frequency-bar `AudioVisualizer`
   as they were. It does not shrink the bundle — see the dependency note above.
 
+  Four things an existing integration may have reached for are no longer in the default
+  path's output. All of them still exist under `player.controls: "native"`:
+
+  | Gone from the default path                            | What replaces it                                                                                                  |
+  | ----------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+  | `<video id="clover-iiif-video">`                      | Vidstack builds the media element; target `.clover-viewer-player` or the `[data-media-player]` attributes instead |
+  | `<source>` children, one per `Choice` body            | A single resolved source, with the rest in the quality menu                                                       |
+  | The frequency-bar `AudioVisualizer` on a Sound canvas | The wavesurfer.js waveform, which is also the seek control                                                        |
+  | `--clover-color-primary-alt` as the media background  | Black, fixed; style `.clover-viewer-player-wrapper` to change it                                                  |
+
+  If you query `#clover-iiif-video` to drive playback, read `activePlayer` from the viewer
+  store instead — it still publishes the underlying media element on both paths, and always
+  did.
+
 - Clover's default `secondary` color is now expressed consistently as `#fff` in the
   public token value and every component fallback.
 
@@ -340,7 +354,9 @@ assigned at release time.
 
   The information panel's transcript understands the same `Choice`. It previously read only
   the first body, found a Choice with no `format`, and rendered the literal string `"None"`;
-  it now offers a button per language and renders that track's cues.
+  it now offers a dropdown of languages and renders the selected track's cues. The dropdown is
+  the same control a painting `Choice` and a Collection use, so it stays one control at one
+  height however many languages a Manifest carries.
 
 - **The transcript and the player agree on which caption track is selected.** Choosing a
   language in the player's captions menu moves the information panel's transcript to the same
@@ -351,6 +367,148 @@ assigned at release time.
   Switching captions **off** hides the overlay and nothing else: the transcript stays
   navigable, and the selected language is remembered. The two are separate concerns and the
   new `activeCaptionSrc` in the viewer store is a selection, never a visibility flag.
+
+- **Choosing a chapter in the table of contents goes to that chapter.** It only ever changed
+  canvas, and returned early when the canvas was already the one on screen — so on a Manifest
+  whose chapters are time fragments of a single canvas, which is what `structures` on an A/V
+  Manifest usually are, every chapter did nothing at all. The Cookbook's
+  [table of contents for A/V content](https://iiif.io/api/cookbook/recipe/0026-toc-opera/) is
+  the case: all four of its entries now seek, including the one that declares a start with no
+  end. Where a chapter is on another canvas, as in
+  [the multiple-canvas variant](https://iiif.io/api/cookbook/recipe/0065-opera-multiple-canvases/),
+  the canvas changes and the seek is applied once that canvas's media reports its duration.
+
+  Playback is left as it was found: a paused reader browsing the contents is not asking to
+  start it, and one already playing carries on from the new position.
+
+- **The table of contents marks one row, the one you are actually in.** Every Range targeting
+  the active canvas was marked current, so an entire act lit up at once — the parent and both
+  of its chapters — and several rows competed in bold. The row marked now is the deepest one
+  whose `#t=` span holds the playhead, which is the same thing the transcript does with the cue
+  being spoken, and it moves between chapters as playback crosses them. A Manifest whose Ranges
+  carry no time fragment still matches on canvas alone, so an image Manifest behaves as before
+  — except that there too only the deepest matching row is marked rather than the whole
+  ancestry.
+
+  The highlight belongs to the **chapter**, not the line: the wash and marker run down the whole
+  containing chapter, past its sub-chapters, and the sub-chapter you are on is distinguished by
+  weight alone. There is one vertical rule and one bold in the list at any time.
+
+- **The contents chapter and the transcript cue share one active treatment.** Both are a list of
+  places to jump to, and both now mark where you are the same way: a faint wash and an accent
+  marker down the leading edge, bled past the panel gutter. The two rules are kept deliberately
+  in step and cross-reference each other.
+
+### Removed
+
+- **The number beside each row in the table of contents.** It was the target canvas's position
+  in the viewer's own sequence, not anything the Manifest declared, so on Ranges spanning
+  several canvases it read as an arbitrary sequence (1, 3, 3, 5) next to labels that often carry
+  their own numbering. Nothing in the panel now renders a value the Manifest did not supply.
+
+- **The scrubber no longer flickers on hover, and the chapter title keeps up.** The chapters
+  track was handed a fresh `{ cues }` object on every render. Vidstack compares that prop by
+  identity, so the track was torn down and rebuilt constantly, and a rebuilt track is briefly
+  empty — which the scrubber draws as one full-width segment before the real markers return.
+  Hovering the bar re-renders often enough to make that read as a flicker, and it left the
+  active-chapter state with nothing stable to track, so the title and the chapters menu stayed
+  on the first chapter however far playback moved. The title now changes at the chapter
+  boundary, and five hover passes over the bar produce one stable layout where they previously
+  alternated between two.
+
+- **The captions button is gone when a Manifest has no captions.** Vidstack's caption options
+  always include an "Off" entry, so counting them found one option on a Manifest with no
+  `supplementing` VTT at all, and offered a button whose only choice was to switch off captions
+  that never existed. Whether the control appears now follows the real tracks.
+
+- **Chapter markers on the scrubber are drawn one per chapter, at their real lengths.** The
+  segments were nested inside a single wrapper that Vidstack then treated as the only chapter:
+  it was sized to the whole duration, so the segments divided the bar evenly instead of by
+  length — a five-minute prelude drawn as wide as the hour that followed it — and they all
+  shared the slider's fill, so every segment advanced at once. On the Cookbook's
+  [multiple canvases](https://iiif.io/api/cookbook/recipe/0065-opera-multiple-canvases/) opera
+  the two chapters now measure 7.6% and 92.4% of the bar, matching their `#t=` fragments, and
+  each fills over its own span.
+
+- **A transcript from a `Choice` is no longer indented past an empty thumbnail well.** The
+  annotation row published the format of the first body on `data-format`, and a `Choice` of
+  caption tracks has no format of its own, so the row read as `text/plain`. The stylesheet keys
+  its layout off that attribute, so a transcript kept the 2rem thumbnail square and the 1rem gap
+  meant for a text annotation and started 48px in from the panel edge. The row now publishes the
+  format it actually renders.
+
+- **The cue being spoken is visible again.** It was marked up correctly the whole time —
+  `aria-checked` has always tracked playback — but the only styling was a 13% grey wash, which
+  comes out at 1.11:1 against the panel in either theme. The active cue now carries an accent
+  marker down its leading edge, drawn as an inset shadow so the row keeps its width and the list
+  cannot shift as playback moves between cues. `forced-colors` gets a `Highlight` outline.
+
+- **Switching caption language no longer leaves the player and the transcript fighting.** The
+  two were kept in step by a pair of effects that mirrored each other: one wrote Vidstack's
+  active track into the viewer store, the other applied the store back to the track list. They
+  could not settle, because Vidstack's idea of the active track and the `mode` flags on the
+  track list disagree while a switch is in progress — so each effect read a different answer and
+  corrected the other. Toggling between two languages set them flipping several hundred times a
+  second, refetching a WebVTT file on every pass, with the picker naming one language while the
+  transcript below it showed the other.
+
+  Both caption menus belong to Clover, so each now publishes the reader's choice directly when
+  they make it, and a single effect applies that choice to the player. One direction of travel,
+  nothing to echo. Three toggles that previously produced about 2,500 fetches now produce four.
+
+  A switch is also exclusive: the chosen track was turned on without the previous one being
+  turned off, which left two caption tracks showing at once.
+
+- **The transcript holds still while its language list is open.** The panel re-centres itself on
+  the cue being spoken 1.5 seconds after the reader stops scrolling. That is what you want while
+  reading along and the opposite of what you want while reaching for the control above it: the
+  list slid away mid-reach and the click landed on whatever had moved into its place, so the
+  menu appeared not to open at all.
+
+  Opening the list now holds the panel where it is and hands control back on close, using the
+  same two flags `Cue.tsx` already sets around its own scrolling — one to stop a cue scrolling
+  the panel, one to stop the panel's scroll handler re-arming the expiry a moment later. The
+  hold carries a timer, so an abandoned one always expires.
+
+- **"Off" in the captions menu is translated.** The string was in all eight locale files as
+  `playerCaptionsOff` but was never handed to Vidstack, which composes that row itself and
+  labels it with its own English default — so the one entry in the menu that is not a track
+  name stayed in English beside entries that were not.
+
+- `Select` now forwards `onOpenChange`. Its props extended Radix's, which advertised the
+  callback, but the component never passed it on.
+
+- **Dropdowns follow the page's theme instead of inverting against it.** `Select` carried
+  `.dark` overrides that pointed its surface at `--clover-color-primary` and its text at
+  `-secondary`. A page with a dark theme already maps dark values onto those properties, so the
+  overrides swapped a correctly dark dropdown back to light — a pale panel on a dark page, in the
+  painting `Choice`, the Collection picker and the caption picker alike.
+
+  They were also the only rules in the library keyed off a `.dark` class, which is the host
+  page's convention rather than Clover's; every other component takes its dark mode from the
+  tokens alone. Removing them leaves one set of rules that is correct in both themes: measured
+  against the docs site, a menu row reads 15.98:1 in light and 16.25:1 in dark, on a surface that
+  matches the page either way.
+
+- **The dropdown no longer shifts the page when it opens, or lets content show through it.**
+  Both affected every Clover dropdown — a painting `Choice` and a Collection as much as the new
+  caption picker.
+
+  Opening one locks the page scroll, which takes the scrollbar and its gutter away; the width
+  was handed back as a right margin, which a body sized to the full viewport ignores, so a
+  centred page slid sideways by half the scrollbar. The gutter is now restored as padding,
+  which is inside the width whatever the body is sized by.
+
+  The list also had no stacking order of its own, so anything the Viewer positions above the
+  flow — transcript cues, the control bar, the panel tabs — painted over the open list. It now
+  carries `z-index: var(--clover-select-z-index, 100)`; raise it if your own overlays sit higher.
+
+- **Switching transcript language twice in quick succession no longer leaves the panel showing
+  the wrong one.** Each language change starts a fetch, and two in flight did not necessarily
+  land in the order they were sent — the slower response wrote last, so the picker said one
+  language while the cues below it were in the other. Nothing re-fetched, so the disagreement
+  stayed until the canvas changed. A superseded request is now abandoned and can no longer
+  write.
 
 - **An audio or video canvas now letterboxes onto black**, instead of taking
   `options.canvasBackgroundColor`. That option's `#6662` default is translucent, so the bars

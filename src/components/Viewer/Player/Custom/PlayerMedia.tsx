@@ -155,6 +155,18 @@ const PlayerMedia: React.FC<CustomPlayerProps> = ({
     [resources.chapters],
   );
 
+  /**
+   * The track's content object, memoized with the cues it wraps.
+   *
+   * Vidstack compares this prop by identity and rebuilds the text track when it changes. A
+   * fresh `{ cues }` literal on every render meant the chapters track was torn down and
+   * recreated constantly — and a rebuilt track is briefly empty, which the scrubber draws as
+   * one full-width segment before the real ones return. Hovering the bar re-renders often
+   * enough to make that read as a flicker, and it left the active-chapter state with nothing
+   * stable to track.
+   */
+  const chapterContent = useMemo(() => ({ cues: chapterCues }), [chapterCues]);
+
   const announcerTranslations = useMemo(
     () => ({
       Play: t("playerPlay"),
@@ -228,7 +240,7 @@ const PlayerMedia: React.FC<CustomPlayerProps> = ({
         ))}
         {chapterCues.length > 0 && (
           <Track
-            content={{ cues: chapterCues }}
+            content={chapterContent}
             default
             kind="chapters"
             label={t("playerChapters")}
