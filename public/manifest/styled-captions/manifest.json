@@ -3,9 +3,7 @@
   "id": "http://localhost:3000/manifest/styled-captions/manifest.json",
   "type": "Manifest",
   "label": {
-    "en": [
-      "Apollo 11: The Eagle Has Landed"
-    ]
+    "en": ["Apollo 11: The Eagle Has Landed"]
   },
   "description": {
     "en": [
@@ -15,21 +13,15 @@
   "metadata": [
     {
       "label": {
-        "en": [
-          "Title"
-        ]
+        "en": ["Title"]
       },
       "value": {
-        "en": [
-          "Apollo 11: The Eagle Has Landed"
-        ]
+        "en": ["Apollo 11: The Eagle Has Landed"]
       }
     },
     {
       "label": {
-        "en": [
-          "Description"
-        ]
+        "en": ["Description"]
       },
       "value": {
         "en": [
@@ -39,14 +31,10 @@
     },
     {
       "label": {
-        "en": [
-          "Date"
-        ]
+        "en": ["Date"]
       },
       "value": {
-        "en": [
-          "1969-07-20"
-        ]
+        "en": ["1969-07-20"]
       }
     }
   ],
@@ -54,7 +42,7 @@
     {
       "id": "http://localhost:3000/manifest/styled-captions/manifest.json/canvas",
       "type": "Canvas",
-      "duration": 11.520,
+      "duration": 11.52,
       "items": [
         {
           "id": "http://localhost:3000/manifest/styled-captions/manifest.json/canvas/page",
@@ -67,7 +55,7 @@
               "body": {
                 "id": "http://localhost:3000/media/audio/a11_touchdown.m4a",
                 "type": "Sound",
-                "duration": 11.520,
+                "duration": 11.52,
                 "format": "audio/mp4"
               },
               "target": "http://localhost:3000/manifest/styled-captions/manifest.json/canvas"
@@ -89,9 +77,7 @@
                 "type": "Text",
                 "format": "text/vtt",
                 "label": {
-                  "en": [
-                    "Captions in WebVTT format"
-                  ]
+                  "en": ["Captions in WebVTT format"]
                 },
                 "language": "en"
               },

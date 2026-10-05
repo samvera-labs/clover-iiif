@@ -11,17 +11,17 @@ test("WC HTML example loads and registers custom element", async ({ page }) => {
 
   // Ensure the custom element is defined and present in the DOM
   await expect(page.locator("clover-viewer")).toHaveCount(1);
-  const defined = await page.evaluate(
-    () => !!customElements.get("clover-viewer"),
-  );
-  expect(defined).toBe(true);
+  // The classic script bootstraps ESM; registration completes asynchronously.
+  await expect
+    .poll(() => page.evaluate(() => !!customElements.get("clover-viewer")))
+    .toBe(true);
 });
 
 /**
  * The custom A/V player under Preact.
  *
  * `build/build.mjs` builds the web component with React aliased to `preact/compat`, and
- * `external: []` bundles Vidstack into it wholesale. Vidstack does not list Preact among its
+ * `external: []` bundles Vidstack into a deferred chunk. Vidstack does not list Preact among its
  * supported frameworks, so this pins that the two behave the same — it is the test that would
  * catch a compat regression making the player mount but not work.
  *

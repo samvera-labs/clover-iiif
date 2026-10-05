@@ -1,39 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-/**
- * One WebAudio source node per media element, forever.
- *
- * `createMediaElementSource` may be called only once for a given element: a second call
- * throws, and the element's audio is then routed into a graph nobody is listening to, so it
- * goes silent permanently. React will re-run effects, so the node has to outlive them —
- * keyed weakly so a discarded element can still be collected.
- */
-const sourceNodes = new WeakMap<
-  HTMLMediaElement,
-  { context: AudioContext; source: MediaElementAudioSourceNode }
->();
-
-function getSourceNode(media: HTMLMediaElement) {
-  const existing = sourceNodes.get(media);
-  if (existing) return existing;
-
-  const Ctor =
-    window.AudioContext ?? (window as any).webkitAudioContext ?? undefined;
-  if (!Ctor) return undefined;
-
-  try {
-    const context: AudioContext = new Ctor();
-    const source = context.createMediaElementSource(media);
-    // Without this the element's audio never reaches the speakers.
-    source.connect(context.destination);
-    const entry = { context, source };
-    sourceNodes.set(media, entry);
-    return entry;
-  } catch {
-    // Already routed by something else, or blocked. Either way there is no waveform.
-    return undefined;
-  }
-}
+import { getAudioSource } from "./audioSource";
 
 export interface ProgressivePeaks {
   /** Normalized 0–1 amplitude per bucket. Zero means "not heard yet". */
@@ -49,9 +16,7 @@ export interface ProgressivePeaks {
 /**
  * Builds a waveform from what has actually been played.
  *
- * This is the fallback for sources that cannot be decoded ahead of time — HLS above all,
- * where the element's `src` is a MediaSource `blob:` URL that cannot be fetched at all, and
- * anything past the decode duration cap. It can only ever show the past: the region ahead of
+ * This is the fallback for non-HLS files beyond the decode duration cap. It can only ever show the past: the region ahead of
  * the playhead stays empty until it is heard.
  */
 export function useProgressivePeaks(
@@ -73,7 +38,7 @@ export function useProgressivePeaks(
   useEffect(() => {
     if (!enabled || !media || !duration || duration <= 0) return;
 
-    const node = getSourceNode(media);
+    const node = getAudioSource(media);
     if (!node) {
       setIsCapturing(false);
       return;

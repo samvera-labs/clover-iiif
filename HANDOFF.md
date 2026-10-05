@@ -10,30 +10,20 @@ description; this document covers what landed, how it was verified, and what is 
 
 ## 1. State of the branch
 
-|                                |                                                                                                                        |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| Commits ahead of `origin/main` | 2 — `9b037553 Introduce custom A/V component.`, `b486ede3 Refine.`                                                     |
-| Commits behind `origin/main`   | 2                                                                                                                      |
-| Uncommitted                    | 18 modified files, ~840 insertions / 218 deletions                                                                     |
-| Untracked                      | `src/components/Map/maplibre-worker.generated.ts` (generated; `main`'s `.gitignore` covers it, this branch's does not) |
-| Total vs `origin/main`         | 45 files, ~4,362 insertions / 441 deletions                                                                            |
+The human completed the rebase onto `origin/main` at `5586d99c` (3.16.2).
+The branch is three commits ahead and none behind that base:
 
-Per `AGENTS.md` no agent commits were made. The working tree holds the most recent round of fixes
-and needs a human commit.
+- `62bb215a` — Introduce custom A/V component.
+- `8c3e4d4b` — Refine.
+- `5c376653` — Continue refinements.
 
-### Blocker before merge
+The MapLibre 6 updates are present and typechecking now passes. The original
+uncommitted work described by this handoff is included in the third commit.
 
-**`origin/main` must be merged in.** Main moved `maplibre-gl` 5 → 6 and changed the import style.
-`node_modules` already has 6.11.1, so this branch's `Map/index.tsx` fails typecheck:
-
-```
-src/components/Map/index.tsx(18,13): Module 'maplibre-gl' has no default export
-src/components/Map/index.tsx(666,15): Property 'default' does not exist
-src/components/Map/index.test.tsx(6,8): Module 'maplibre-gl' has no default export
-```
-
-That is the entire typecheck regression (5 baseline → 8) and the one extra Prettier offender.
-**None of it is A/V work.** The merge also brings the `.gitignore` entry for the generated worker.
+The working tree now contains an unstaged follow-up: transcript listener cleanup,
+removal of the "None" fallback, PointSelector support at zero seconds, HLS audio
+canvas bars, deferred player chunks, regression tests, and documentation updates. No agent staging or
+commits were performed.
 
 ---
 
@@ -41,18 +31,19 @@ That is the entire typecheck regression (5 baseline → 8) and the one extra Pre
 
 New modules under `src/components/Viewer/Player/`:
 
-| File                                              | Role                                                                                         |
-| ------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| `Player.tsx`                                      | Thin switch on `options.player.controls`                                                     |
-| `NativePlayer.tsx`                                | The previous `<video controls>`, lifted verbatim                                             |
-| `usePlayerBindings.ts`                            | Shared element-bound effects (activePlayer dispatch, poster, timeupdate, content-state seek) |
-| `Custom/CustomPlayer.tsx`                         | Lazy boundary around the Vidstack subtree                                                    |
-| `Custom/PlayerMedia.tsx`                          | `MediaPlayer` / `MediaProvider`, tracks, chapters, poster, gestures                          |
-| `Custom/PlayerControls.tsx` + `.css`              | The transport bar, menus, scrubber                                                           |
-| `Custom/CaptionSync.tsx`                          | Applies the shared caption selection to the player                                           |
-| `Custom/Waveform.tsx`, `useProgressivePeaks.ts`   | wavesurfer.js timeline for Sound canvases                                                    |
-| `Custom/Icons.tsx`                                | Control glyphs                                                                               |
-| `src/hooks/use-iiif/getPlayerResources.ts` + test | The IIIF → player model (captions, chapters, sources, poster, duration)                      |
+| File                                                            | Role                                                                                          |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `Player.tsx`                                                    | Thin switch on `options.player.controls`                                                      |
+| `NativePlayer.tsx`                                              | The previous `<video controls>`, lifted verbatim                                              |
+| `usePlayerBindings.ts`                                          | Shared element-bound effects (activePlayer dispatch, poster, timeupdate, content-state seek)  |
+| `Custom/CustomPlayer.tsx`                                       | Lazy boundary around the Vidstack subtree                                                     |
+| `Custom/PlayerMedia.tsx`                                        | `MediaPlayer` / `MediaProvider`, tracks, chapters, poster, gestures                           |
+| `Custom/PlayerControls.tsx` + `.css`                            | The transport bar, menus, scrubber                                                            |
+| `Custom/CaptionSync.tsx`                                        | Applies the shared caption selection to the player                                            |
+| `Custom/Waveform.tsx`, `useProgressivePeaks.ts`                 | wavesurfer.js timeline for non-HLS Sound files, with progressive peaks above the decoding cap |
+| `Custom/HlsAudioBars.tsx`, `audioSource.ts`, `waveformStyle.ts` | HLS live frequency bars, shared Web Audio source, and shared bar styling                      |
+| `Custom/Icons.tsx`                                              | Control glyphs                                                                                |
+| `src/hooks/use-iiif/getPlayerResources.ts` + test               | The IIIF → player model (captions, chapters, sources, poster, duration)                       |
 
 `getPlayerResources` is the part worth reviewing first: it is pure, fully unit-tested, and holds
 all the Manifest interpretation. Everything Vidstack-specific binds to its output.
@@ -66,19 +57,41 @@ all the Manifest interpretation. Everything Vidstack-specific binds to its outpu
 
 Neither carries a deprecation notice; `npm install --dry-run` reports none.
 
-### Bundle cost
+### Packaging and bundle cost
 
-Measured gzip, built from `origin/main` in a throwaway worktree for the baseline:
+The builds preserve dynamic imports instead of flattening them with
+`inlineDynamicImports`. Vidstack stays bundled (including for CommonJS compatibility),
+but its player chunk loads only when a custom A/V player mounts. WaveSurfer is a
+separate chunk requested only for non-HLS Sound within the decoding limit. Image-only
+viewers and native controls load neither. Other existing dynamic imports, including
+MapLibre and marked, also retain their loading boundaries.
 
-|                                    | before | after       |
-| ---------------------------------- | ------ | ----------- |
-| `dist/viewer/index.mjs`            | 671 KB | **808 KB**  |
-| `dist/web-components/index.umd.js` | 927 KB | **1040 KB** |
+The web-component entry is now ESM with Preact shared across the chunks.
+`dist/web-components/index.umd.js` remains as a classic-script bootstrap, resolving
+`index.mjs` beside itself. Self-hosters must copy the whole directory, serve `.mjs`
+as JavaScript, and allow CORS for cross-origin hosting. Registration is asynchronous;
+use `customElements.whenDefined()` before immediately calling an element's API.
+The HTML CI fixtures copy all chunks and wait for registration.
 
-Both deps sit behind a lazy boundary, so an image-only Manifest never evaluates them — but the
-library builds to a single entry per package (`inlineDynamicImports`), so the **bytes ship either
-way**. `player.controls: "native"` is a choice about the interface, not a way to ship less code.
-This is the main open judgement call for a reviewer.
+Measured with Node gzip, decimal kB, summing the entry and its static imports:
+
+| Build              | Initial JS and embedded CSS | Deferred player chunk | Separate WaveSurfer chunk |
+| ------------------ | --------------------------: | --------------------: | ------------------------: |
+| Viewer ESM         |                   299.05 kB |              96.86 kB |                  13.66 kB |
+| Viewer CommonJS    |                   277.32 kB |              81.91 kB |                  12.31 kB |
+| Web components ESM |                   563.02 kB |              96.87 kB |                  13.65 kB |
+
+The web-component bootstrap adds less than 0.4 kB gzip. Player figures exclude
+Vidstack's additional on-demand provider/caption chunks and hls.js. ESM/CommonJS
+figures exclude external dependencies; the consumer bundler controls final delivery.
+These are loading-stage sizes, not a PR-versus-main comparison. Before this packaging
+change, the branch shipped 1,097.41 kB gzip in the Viewer ESM entry and 1,330.48 kB
+in the web-component UMD entry. The reduction also reflects deferred map/Markdown code,
+not just A/V. Downloading all optional chunks still carries their total package cost.
+
+`npm run test:build` checks the real emitted ESM, CommonJS, and web-component graphs:
+neither dependency is statically reachable from the entry, Vidstack is reachable from
+the deferred player, and WaveSurfer remains behind another dynamic boundary.
 
 ---
 
@@ -216,7 +229,7 @@ Checks that are easy to lose and worth re-running after any change:
   locally in `onProviderChange`. Confirmed zero matching requests.
 - **Canvas toggling leaks nothing.** Six switches on the mixed NU Manifest: media elements
   `0↔1`, OSD canvases `0↔2`, no accumulation, zero console errors.
-- **Preact parity.** `playwright/e2e/wc.spec.ts` drives the real UMD bundle, which is built with
+- **Preact parity.** `playwright/e2e/wc.spec.ts` drives the built web-component chunks through the classic script loader, with
   `react` aliased to `preact/compat`. The fixture is local VP9 on purpose — Playwright's Chromium
   has no proprietary codecs, so an H.264 fixture never reaches `canplay` and reads exactly like a
   compat failure.
@@ -225,24 +238,56 @@ Checks that are easy to lose and worth re-running after any change:
 
 ## 6. Left to do
 
-Ordered by what blocks a merge.
+Nothing outstanding for the A/V work. The three deliberately out-of-scope items from the
+original plan are listed at the end of this section.
 
-1. **Merge `origin/main`** — see §1. Resolves the 3 typecheck errors and the untracked generated
-   worker. _Blocked on a human; agents may not commit._
+Completed in this follow-up:
 
-2. **Decide on the bundle cost** — §2. ~137 KB gzip on `/viewer` for a feature that cannot be
-   tree-shaken out. Externalising is the lever, at the cost of CJS consumers on Node.
+- The repository's pre-existing lint failures are cleared, so `npm run lint` exits 0 for the
+  first time on this branch. 23 files were Prettier-formatted (no semantic change; the three
+  JSON manifests and four JSON configs were parsed before and after and compared equal). Three
+  ESLint errors were fixed at the source rather than suppressed: an unused `commentingCount` in
+  `annotation-helpers.test.ts` was removed — the single-motivation path is already covered by
+  the tagging test, which also asserts every result's motivation — and the two anonymous
+  `React.memo` / `React.forwardRef` components in `utils.test.ts` were given names, which is
+  what `react/display-name` is asking for and what a stack trace needs.
 
-3. **`Cue.tsx` leaks `timeupdate` listeners.** It adds one per render, and the cleanup calls
-   `document.removeEventListener("timeupdate", () => {})` — wrong target _and_ a fresh function
-   reference, so it removes nothing. Pre-existing, but now on the default path.
-   `Contents/Page.tsx`'s `useCurrentTime` shows the correct shape.
-
-4. **`data-content="None"` on every VTT annotation row.** `value || chars || "None"`, and a VTT
-   body has neither. Pre-existing, also on `main`. Harmless but meaningless.
-
-5. **A PointSelector annotation renders a cue whose text is literally "None"** — same cause as 4,
-   but visible to a reader. Reproduces on `public/manifest/content-state/point-selector.json`.
+- Vidstack and WaveSurfer are emitted as deferred chunks in all published builds.
+  Build regression checks are included in the web-component CI workflow. Browser
+  verification of the built web component confirmed native controls request neither,
+  video requests the player but no WaveSurfer, and HLS Sound requests the player/HLS
+  chunks while using live canvas bars. A short non-HLS Sound file requests the separate
+  WaveSurfer chunk and renders a decoded waveform with the correct duration. WaveSurfer
+  now waits for the current file's metadata before initializing: the Canvas duration
+  hint previously allowed it to read an empty/stale source and disrupt playback.
+  A regression test covers the delayed metadata and stale source case.
+  The classic script resolves modules correctly
+  from an assets directory separate from the embedding page.
+- The human rebased onto main; the MapLibre typecheck blocker is gone.
+- HLS Sound resources use a live canvas frequency visualizer, with the same centered,
+  rounded 4px bars, 2px gaps, and colors as the file waveform. Both URL and MIME-type
+  HLS detection bypass the WaveSurfer dynamic import. Videos never render the waveform.
+  The shared Web Audio source preserves playback when a media element is reused;
+  animation frames, event listeners, and analyser connections are cleaned up.
+  Seven new tests cover routing, source switching, indefinite-duration playback,
+  pause, resize, remount, and unavailable Web Audio. Browser verification used audio
+  from the existing public Mux HLS fixture in a temporary Sound preview; live bars
+  rendered without console errors. The temporary preview page was removed afterward.
+- Transcript cue rows carry a stable React key. `use-webvtt` mints an identifier for every
+  parsed cue, but the cue synthesised for a PointSelector annotation in `Item.tsx` had none,
+  so React warned and rebuilt the list on each render instead of updating it. The synthesised
+  cue now takes the annotation's id, and `Menu` falls back to the cue's timing rather than
+  trusting a field its own type marks optional. Verified: no key warning on a clean load of
+  the PointSelector fixture.
+- `Cue.tsx` removes each `timeupdate` callback from the same media element that
+  received it. Current-cue state is initialized when the player or cue changes.
+  Tests cover canvas changes, cue replacement, and StrictMode unmount cleanup.
+- Empty annotation bodies no longer invent "None" or publish `data-content="None"`.
+  Bodyless PointSelectors keep a timestamp-only cue; `t: 0` is accepted too.
+- In the rebased preview, caption selection was verified in both directions
+  between player and transcript, captions Off preserved all 22 transcript cues,
+  and keyboard cue activation sought and started playback. The PointSelector
+  fixture visibly renders `38:38` with no placeholder text.
 
 Deliberately out of scope, carried from the original plan:
 
@@ -256,15 +301,14 @@ Deliberately out of scope, carried from the original plan:
 ## 7. Gate
 
 ```
-npx vitest run     457 passed | 1 skipped (89 files)
-npx tsc --noEmit   8 errors   — 5 baseline + 3 maplibre (see §1)
-npx prettier       24 offenders — all baseline, none in this branch's changed set
-npx next lint      3 errors   — all baseline, in files this branch does not touch
-npm run build      clean
+npx vitest run      471 passed | 1 skipped (91 files)
+npm run test:build  passed (2 build tests, 3 output formats)
+npm run typecheck   0 errors
+npm run lint        exit 0 — 0 Prettier offenders, 0 ESLint errors
+npm run build       passed
 ```
 
-`npm run lint` exits 1 on `main` as well; the three ESLint errors live in
-`src/lib/annotation-helpers.test.ts` and `src/lib/utils.test.ts` and predate this work.
+`npm run lint` previously exited 1 on this branch _and_ on `main`; §6 covers the cleanup.
 
 ---
 

@@ -97,18 +97,29 @@ export const AnnotationItem: React.FC<Props> = ({
 
   const label = annotationBody[0]?.label || { none: ["t"] };
 
-  const content = value || chars || "None";
+  const content = value || chars || "";
   const readingDirection = language
     ? getLanguageDirection(language).toLocaleLowerCase()
     : "LTR";
 
+  const pointTime =
+    selectorType === "PointSelector"
+      ? (target as { selector?: { t?: unknown } })?.selector?.t
+      : undefined;
   const inlineCues: NodeWebVttCueNested[] | undefined =
-    // @ts-ignore
-    selectorType === "PointSelector" && target?.selector?.t
+    typeof pointTime === "number" &&
+    Number.isFinite(pointTime) &&
+    pointTime >= 0
       ? [
           {
-            // @ts-ignore
-            start: target?.selector?.t,
+            /**
+             * `use-webvtt` mints one for every parsed cue, because a WebVTT file is not
+             * required to carry cue identifiers and the list needs a stable React key. A cue
+             * synthesised here needs the same, and the annotation it came from is already
+             * unique.
+             */
+            identifier: annotation.id,
+            start: pointTime,
             end: 0,
             html: content,
             text: content,
@@ -235,7 +246,7 @@ export const AnnotationItem: React.FC<Props> = ({
        * annotation and indented the whole transcript past them.
        */
       data-format={renderFormat}
-      data-content={content}
+      data-content={content || undefined}
       data-active={activeAnnotationId === annotation.id ? "true" : undefined}
       className="clover-annotation-row clover-iiif-annotation-item"
     >

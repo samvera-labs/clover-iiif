@@ -1,12 +1,8 @@
 import { build } from "vite";
-import {
-  colocatedCssPlugin,
-  defineConfig,
-  injectCssPlugin,
-} from "./base-config.mjs";
+import { defineConfig } from "./base-config.mjs";
+import { webComponentsConfig } from "./web-components-config.mjs";
 import { execa } from "execa";
 import fs from "fs";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 const buildOptions = {
   image: {
@@ -56,9 +52,9 @@ const buildOptions = {
       name: "CloverIIIFScroll",
       entry: "./src/components/Scroll/index.tsx",
       fileName: "index",
-    }
+    },
   },
-  'helpers': {
+  helpers: {
     lib: {
       name: "CloverIIIFHelpers",
       entry: "./src/lib/index.ts",
@@ -120,8 +116,6 @@ const buildOptions = {
     "--no-check",
   ]);
 
-
-
   // build sub packages
   for (const [key, value] of Object.entries(buildOptions)) {
     // Build packages
@@ -135,58 +129,41 @@ const buildOptions = {
     ]);
 
     // Copy React shims alongside each subpackage output for ESM/CJS default compatibility
-    fs.copyFileSync("build/shims/react-shim.mjs", `${DIST}/${key}/react-shim.mjs`);
-    fs.copyFileSync("build/shims/react-dom-shim.mjs", `${DIST}/${key}/react-dom-shim.mjs`);
-    fs.copyFileSync("build/shims/react-shim.cjs", `${DIST}/${key}/react-shim.cjs`);
-    fs.copyFileSync("build/shims/react-dom-shim.cjs", `${DIST}/${key}/react-dom-shim.cjs`);
+    fs.copyFileSync(
+      "build/shims/react-shim.mjs",
+      `${DIST}/${key}/react-shim.mjs`,
+    );
+    fs.copyFileSync(
+      "build/shims/react-dom-shim.mjs",
+      `${DIST}/${key}/react-dom-shim.mjs`,
+    );
+    fs.copyFileSync(
+      "build/shims/react-shim.cjs",
+      `${DIST}/${key}/react-shim.cjs`,
+    );
+    fs.copyFileSync(
+      "build/shims/react-dom-shim.cjs",
+      `${DIST}/${key}/react-dom-shim.cjs`,
+    );
   }
 
   // Copy react shims to the root dist for top-level entry usage
   fs.copyFileSync("build/shims/react-shim.mjs", `${DIST}/react-shim.mjs`);
-  fs.copyFileSync("build/shims/react-dom-shim.mjs", `${DIST}/react-dom-shim.mjs`);
+  fs.copyFileSync(
+    "build/shims/react-dom-shim.mjs",
+    `${DIST}/react-dom-shim.mjs`,
+  );
   fs.copyFileSync("build/shims/react-shim.cjs", `${DIST}/react-shim.cjs`);
-  fs.copyFileSync("build/shims/react-dom-shim.cjs", `${DIST}/react-dom-shim.cjs`);
+  fs.copyFileSync(
+    "build/shims/react-dom-shim.cjs",
+    `${DIST}/react-dom-shim.cjs`,
+  );
 
-  // build web components
-  await build({
-    publicDir: false,
-    resolve: {
-      alias: {
-        react: "preact/compat",
-        "react/jsx-runtime": "preact/jsx-runtime",
-      },
-    },
-    esbuild: {
-      jsx: "automatic",
-      jsxImportSource: "preact",
-    },
-    build: {
-      sourcemap: false,
-      outDir: `${DIST}/web-components`,
-      lib: {
-        entry: "src/web-components/index.ts",
-        formats: ["umd"],
-        name: "CloverIIIFWC",
-        fileName: () => {
-          return `index.umd.js`;
-        },
-      },
-      minify: "esbuild",
-      plugins: [],
-      rollupOptions: {
-        treeshake: true,
-        external: [],
-        output: {
-          globals: {},
-          inlineDynamicImports: true,
-        },
-      },
-    },
-    define: { "process.env.NODE_ENV": '"production"' },
-    plugins: [
-      tsconfigPaths(),
-      colocatedCssPlugin(),
-      injectCssPlugin("web-components"),
-    ]
-  });
+  // UMD cannot split dynamic imports. Keep its script URL as a small bootstrap
+  // for a self-contained ESM build with shared Preact and deferred player code.
+  await build(webComponentsConfig());
+  fs.copyFileSync(
+    "build/web-components-loader.js",
+    `${DIST}/web-components/index.umd.js`,
+  );
 })();

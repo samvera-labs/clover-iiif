@@ -204,7 +204,8 @@
 
 /*
  * The waveform already shows position — wavesurfer paints the played portion in `accent`, and
- * the progressive fallback fills in behind the playhead — so the slider draws no track of its
+ * the progressive fallback fills in behind the playhead. HLS frequency bars share the same
+ * progress coloring while showing the current sound. The slider draws no track of its
  * own here. Only the playhead remains, as a full-height line rather than a knob on a rail.
  */
 .clover-viewer-player-controls[data-audio] .clover-viewer-player-slider-track {

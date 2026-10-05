@@ -7,4 +7,13 @@ import PanelCollapse from "./PanelCollapse";
 import PanelExpand from "./PanelExpand";
 import Video from "./Video";
 
-export { Add, Audio, Close, Download, Image, PanelCollapse, PanelExpand, Video };
+export {
+  Add,
+  Audio,
+  Close,
+  Download,
+  Image,
+  PanelCollapse,
+  PanelExpand,
+  Video,
+};

@@ -64,13 +64,13 @@ npm run dev
 
 Clover IIIF utilizes [vitest](https://vitest.dev/) for unit testing.
 
-````shell
+```shell
 # Run tests
 npm run test
 
 # Run coverage report on the tests
 npm run coverage
-````
+```
 
 ### E2E (HTML WC example)
 

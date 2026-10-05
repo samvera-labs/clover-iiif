@@ -250,7 +250,13 @@ const PlayerMedia: React.FC<CustomPlayerProps> = ({
         )}
       </MediaProvider>
 
-      {isAudio && <Waveform media={media} src={painting.id as string} />}
+      {isAudio && (
+        <Waveform
+          media={media}
+          src={painting.id as string}
+          format={painting.format}
+        />
+      )}
 
       <MediaAnnouncer translations={announcerTranslations} />
 

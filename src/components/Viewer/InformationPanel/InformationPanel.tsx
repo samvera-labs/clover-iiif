@@ -147,7 +147,8 @@ export const InformationPanel: React.FC<NavigatorProps> = ({
 
         const filteredItems = annotationPage.items.filter((item) => {
           const annotation = vault.get(item.id) as
-            AnnotationNormalized | undefined;
+            | AnnotationNormalized
+            | undefined;
           return annotationMatchesMotivations(
             annotation,
             allowedAnnotationMotivations,

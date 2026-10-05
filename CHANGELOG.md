@@ -38,8 +38,8 @@ assigned at release time.
   applies its own source selection, so the single body the viewer has already resolved is
   passed and the rest appear in the quality menu. And on a Sound canvas the frequency-bar
   `AudioVisualizer` is replaced by a [wavesurfer.js](https://wavesurfer.xyz) waveform; audio
-  is decoded up front below a 30-minute cap, and HLS or anything longer falls back to
-  capturing the waveform live as it plays.
+  is decoded up front below a 30-minute cap, and longer files capture peaks as they play.
+  HLS audio uses live canvas frequency bars with matching styling instead of WaveSurfer.
 
   On a Sound canvas that waveform _is_ the timeline: the seek control is layered over it, so
   clicking a bar goes to that moment. The waveform itself stays decorative — a canvas takes no
@@ -66,15 +66,32 @@ assigned at release time.
   `-menu-surface`, `-menu-hover`, `-caption-surface` and `-caption-text`, documented with
   defaults in the Viewer docs.
 
-- Two new runtime dependencies: `@vidstack/react` and `wavesurfer.js`. Both sit behind a lazy
-  boundary, so an image-only Manifest — or one running on `player.controls: "native"` —
-  evaluates neither. They are still **bundled rather than code-split**: the library is built
-  with `inlineDynamicImports`, which collapses the lazy chunk back into the single entry, so
-  the bytes ship whichever setting you use. Measured gzip, against the previous release:
-  `dist/viewer/index.mjs` 671 KB → 808 KB, and `dist/web-components/index.umd.js` 927 KB →
-  1040 KB.
+- Two new runtime dependencies: `@vidstack/react` and `wavesurfer.js`, included as
+  separate chunks. Vidstack loads for custom audio/video players; WaveSurfer loads
+  only for non-HLS Sound files within the decoding limit. Image-only viewers and
+  native controls load neither. ESM and CommonJS consumers need no import changes;
+  their application bundler controls final chunking. WaveSurfer waits for the
+  selected file's metadata before initializing, preserving the player's source
+  and duration when its module loads asynchronously.
 
 ### Changed
+
+- **Web-component scripts now load ES modules asynchronously.** The existing
+  `dist/web-components/index.umd.js` URL remains available as a small loader, keeping
+  Vidstack and WaveSurfer out of the initial download. Self-hosters must copy the
+  **entire `dist/web-components/` directory**, serve `.mjs` files with a JavaScript
+  MIME type, and enable CORS for cross-origin hosting. If accessing an element
+  immediately after loading the script, wait for its registration:
+
+  ```js
+  await customElements.whenDefined("clover-viewer");
+  ```
+
+- **HLS Sound canvases use live canvas frequency bars.** The bars match the file
+  waveform's centered shape, rounded ends, spacing, and colors. URL and MIME-type
+  HLS detection both bypass WaveSurfer; its dynamic import is reached only for
+  non-HLS Sound files within the decoding limit. HLS bars work without a finite
+  duration and stop animating on pause. No player configuration changes are required.
 
 - **`maplibre-gl` upgraded to 6**, closing
   [GHSA-jrc7-96c5-q579](https://github.com/advisories/GHSA-jrc7-96c5-q579), which has no fix
@@ -339,6 +356,12 @@ assigned at release time.
 
 ### Fixed
 
+- Transcript cues now release their playback listeners when replaced or unmounted,
+  and highlight the current cue immediately when the transcript or player changes.
+- Annotations without body text no longer render the placeholder "None" or expose it
+  in `data-content`. Bodyless PointSelector annotations retain a timestamp-only seek
+  control, including points at `0` seconds. No consumer changes are required.
+
 - **Captions wrapped in a `Choice` are now found.** A `supplementing` annotation may carry
   its caption bodies directly or wrap them in a `Choice`, which is how a manifest expresses
   one track per language — the pattern in the Cookbook's
@@ -442,6 +465,12 @@ assigned at release time.
   comes out at 1.11:1 against the panel in either theme. The active cue now carries an accent
   marker down its leading edge, drawn as an inset shadow so the row keeps its width and the list
   cannot shift as playback moves between cues. `forced-colors` gets a `Highlight` outline.
+
+- **Transcript cue rows keep a stable identity across renders.** Every parsed WebVTT cue is
+  given an identifier, because a WebVTT file need not carry cue ids — but the cue synthesised
+  for a `PointSelector` annotation had none, so React was rebuilding the list on each render
+  rather than updating it. The synthesised cue now takes the annotation's id, and the list falls
+  back to the cue's timing rather than trusting a field its own type marks optional.
 
 - **Switching caption language no longer leaves the player and the transcript fighting.** The
   two were kept in step by a pair of effects that mirrored each other: one wrote Vidstack's

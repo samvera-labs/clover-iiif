@@ -182,6 +182,12 @@ When using the IIIF annotation `body` from IIIF Manifest, the `Image` component 
 
 The Viewer can also be implemented in Vanilla Javascript by use of a web component. This web component example sources a registered `<clover-viewer>` web component.
 
+The script loads ES modules asynchronously. If self-hosting, copy the entire
+`dist/web-components/` directory, including `index.mjs` and its adjacent chunks.
+Serve `.mjs` files with a JavaScript MIME type and enable CORS for cross-origin
+hosting. Wait for `customElements.whenDefined("clover-image")` before using the
+element's API immediately after loading the script.
+
 <Tabs items={["Code", "Preview"]}>
   <Tab>
     ```html

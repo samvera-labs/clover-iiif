@@ -69,8 +69,12 @@ test("Test result of deepMerge()", () => {
 test("Test deepMerge keeps a component's identity rather than rebuilding it.", () => {
   // memo and forwardRef components are objects, so merging into them would
   // return a new object each time and remount the component.
-  const Memo = React.memo(() => null);
-  const Fwd = React.forwardRef<HTMLButtonElement>(() => null);
+  const Memo = React.memo(function Memo() {
+    return null;
+  });
+  const Fwd = React.forwardRef<HTMLButtonElement>(function Fwd() {
+    return null;
+  });
 
   const result = deepMerge(
     { controlButtons: {} },

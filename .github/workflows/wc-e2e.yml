@@ -49,9 +49,13 @@ jobs:
       - name: Build library
         run: npm run build
 
+      - name: Verify deferred player chunks
+        run: npm run test:build
+
       - name: Prepare HTML example with WC bundle
         run: |
           mkdir -p playwright/html
+          cp dist/web-components/* playwright/html/
           cp dist/web-components/index.umd.js playwright/html/wc.js
           # VP9, because Playwright's Chromium has no proprietary codecs: an H.264 fixture
           # never reaches `canplay` there and the player rightly keeps its controls hidden,

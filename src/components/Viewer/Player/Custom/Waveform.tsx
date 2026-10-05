@@ -1,30 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
+import HlsAudioBars from "./HlsAudioBars";
+import { BAR_GAP, BAR_WIDTH, resolveWaveColor } from "./waveformStyle";
 import { isHls } from "src/lib/hls";
 import { resolveCloverColor } from "src/styles/tokens";
 import { useCloverTranslation } from "src/i18n/useCloverTranslation";
 import { useMediaState } from "@vidstack/react";
 import { useProgressivePeaks } from "src/components/Viewer/Player/Custom/useProgressivePeaks";
-
-/**
- * The unplayed wave, anchored rather than themed.
- *
- * `.clover-viewer-player-wrapper` is always black, so the waveform paints on black whatever
- * the page theme is. A colour token would invert with the theme and disappear — the same
- * reasoning as the control bar's palette, and it reads from the same custom property so the
- * two stay in step. Progress stays on `accent`, which is a brand colour and carries on black.
- */
-const WAVE_FALLBACK = "rgb(255 255 255 / 45%)";
-
-function resolveWaveColor(element?: Element | null) {
-  if (typeof window === "undefined") return WAVE_FALLBACK;
-  const scope = element ?? document.documentElement;
-  const value = window
-    .getComputedStyle(scope)
-    .getPropertyValue("--clover-player-track")
-    .trim();
-  return value || WAVE_FALLBACK;
-}
 
 /**
  * Past this, decoding is not worth the memory. wavesurfer resamples while decoding, but it
@@ -36,18 +18,10 @@ const DECODE_DURATION_CAP_SECONDS = 30 * 60;
 /** Ample for bar rendering, and a quarter of the memory of the 8000 default. */
 const DECODE_SAMPLE_RATE = 4000;
 
-/*
- * Wide enough that the bars read as separate marks rather than a solid trace, which matters
- * because the waveform is the timeline: the slider layered over it means clicking a bar goes
- * to that moment, so a reader has to be able to aim at one. The progressive fallback derives
- * its bucket count from the same pair, keeping both paths at the same resolution.
- */
-const BAR_WIDTH = 4;
-const BAR_GAP = 2;
-
 interface WaveformProps {
   media: HTMLMediaElement | null;
   src: string;
+  format?: string;
 }
 
 /**
@@ -59,22 +33,23 @@ interface WaveformProps {
  * keyboard seeking and chapter ticks. That split is what makes the waveform navigable and
  * accessible at the same time rather than one at the expense of the other.
  */
-const Waveform: React.FC<WaveformProps> = ({ media, src }) => {
+const Waveform: React.FC<WaveformProps> = ({ media, src, format }) =>
+  isHls(src, format) ? (
+    <HlsAudioBars key={src} media={media} />
+  ) : (
+    <FileWaveform key={src} media={media} src={src} />
+  );
+
+// Only non-HLS Sound resources can reach the wavesurfer import below.
+const FileWaveform: React.FC<WaveformProps> = ({ media, src }) => {
   const { t } = useCloverTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const duration = useMediaState("duration");
 
-  /**
-   * HLS gives us nothing to decode: an `.m3u8` is not a container, and under MSE the
-   * element's `src` is a `blob:` MediaSource URL that cannot even be fetched. wavesurfer
-   * swallows that rejection silently, so decide up front rather than waiting for a failure
-   * that never arrives.
-   */
   const canDecode =
     Boolean(src) &&
-    !isHls(src) &&
     Boolean(duration) &&
     duration <= DECODE_DURATION_CAP_SECONDS;
 
@@ -85,8 +60,27 @@ const Waveform: React.FC<WaveformProps> = ({ media, src }) => {
 
     let surfer: any;
     let cancelled = false;
+    let loading = false;
 
-    (async () => {
+    const loadWaveform = async () => {
+      // The Canvas duration can arrive before the provider selects its source.
+      // Wait for this file's metadata so WaveSurfer cannot read an empty/stale src
+      // and replace the source that Vidstack owns while trying to decode it.
+      const expected = new URL(src, document.baseURI);
+      const current = new URL(media.currentSrc || document.baseURI);
+      expected.hash = current.hash = "";
+      if (
+        cancelled ||
+        loading ||
+        media.readyState < HTMLMediaElement.HAVE_METADATA ||
+        !media.currentSrc ||
+        current.href !== expected.href ||
+        !Number.isFinite(media.duration) ||
+        media.duration > DECODE_DURATION_CAP_SECONDS
+      )
+        return;
+
+      loading = true;
       const { default: WaveSurfer } = await import("wavesurfer.js");
       if (cancelled || !containerRef.current) return;
 
@@ -116,10 +110,14 @@ const Waveform: React.FC<WaveformProps> = ({ media, src }) => {
 
       surfer.on("decode", () => !cancelled && setDecoded(true));
       surfer.on("error", () => !cancelled && setDecoded(false));
-    })();
+    };
+
+    media.addEventListener("loadedmetadata", loadWaveform);
+    loadWaveform();
 
     return () => {
       cancelled = true;
+      media.removeEventListener("loadedmetadata", loadWaveform);
       setDecoded(false);
       // Safe: wavesurfer skips element teardown for media it did not create.
       surfer?.destroy();

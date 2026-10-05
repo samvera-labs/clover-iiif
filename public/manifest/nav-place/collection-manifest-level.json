@@ -40,7 +40,9 @@
           "type": "Text",
           "format": "text/html",
           "label": {
-            "none": ["Homepage at Northwestern University Libraries Digital Collections"]
+            "none": [
+              "Homepage at Northwestern University Libraries Digital Collections"
+            ]
           }
         }
       ],
@@ -103,7 +105,9 @@
     {
       "id": "http://localhost:3000/manifest/nav-place/collection-manifest-level.json/manifest/2",
       "type": "Manifest",
-      "label": { "en": ["Map of the Township of Evanston, Cook County, Illinois"] },
+      "label": {
+        "en": ["Map of the Township of Evanston, Cook County, Illinois"]
+      },
       "summary": {
         "en": [
           "An 1874 cadastral plat map of Evanston, Illinois from Northwestern University Libraries Digital Collections."
@@ -131,7 +135,9 @@
           "type": "Text",
           "format": "text/html",
           "label": {
-            "en": ["Homepage at Northwestern University Libraries Digital Collections"]
+            "en": [
+              "Homepage at Northwestern University Libraries Digital Collections"
+            ]
           }
         }
       ],
