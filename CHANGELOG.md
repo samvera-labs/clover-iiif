@@ -683,6 +683,9 @@ assigned at release time.
 
 ### Fixed
 
+- **`@radix-ui/react-form` upgraded to 0.1**, so installing Clover alongside React 19 no
+  longer prints peer-dependency warnings. No action needed on upgrade.
+
 - **Accessible names on the painting toggle and the slider controls.** The button over a
   canvas was named "Open" or "Close", and the rail's controls "Next", "Previous" and
   "Search", none of which said what they acted on (WCAG 4.1.2). They now read "Open image
