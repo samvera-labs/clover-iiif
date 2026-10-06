@@ -200,6 +200,23 @@ const Playground: React.FC = () => {
    * treated as an outside click — hence the containment check rather than a blur handler.
    */
   const [accentOpen, setAccentOpen] = useState(false);
+
+  /*
+   * The options tray is a drawer, not a column, so the stage gets the full width of the
+   * page. It is non-modal on purpose — no backdrop, nothing inert — because the point of
+   * opening it is to change a value and watch the stage respond.
+   */
+  const [configOpen, setConfigOpen] = useState(false);
+  const configTriggerRef = useRef<HTMLButtonElement>(null);
+  const configCloseRef = useRef<HTMLButtonElement>(null);
+  const closeConfig = useCallback(() => {
+    setConfigOpen(false);
+    configTriggerRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    if (configOpen) configCloseRef.current?.focus();
+  }, [configOpen]);
   const accentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -591,7 +608,7 @@ const Playground: React.FC = () => {
                 className={styles.segmented}
                 role="group"
               >
-                {(["light", "dark", "system"] as const).map((option) => (
+                {(["light", "dark"] as const).map((option) => (
                   <button
                     aria-pressed={mounted ? theme === option : false}
                     className={styles.segment}
@@ -599,11 +616,7 @@ const Playground: React.FC = () => {
                     onClick={() => setTheme(option)}
                     type="button"
                   >
-                    {option === "system"
-                      ? "System"
-                      : option === "light"
-                        ? "Light"
-                        : "Dark"}
+                    {option === "light" ? "Light" : "Dark"}
                   </button>
                 ))}
               </div>
@@ -717,12 +730,18 @@ const Playground: React.FC = () => {
                 </div>
               )}
             </div>
-          </div>
 
-          <p className={styles.environmentNote}>
-            Clover easily and automatically uses the fonts and colors of your
-            web app.
-          </p>
+            <button
+              aria-controls="pg-config"
+              aria-expanded={configOpen}
+              className={styles.configTrigger}
+              onClick={() => (configOpen ? closeConfig() : setConfigOpen(true))}
+              ref={configTriggerRef}
+              type="button"
+            >
+              Configure {spec.label}
+            </button>
+          </div>
         </div>
 
         <div className={styles.layout}>
@@ -741,94 +760,123 @@ const Playground: React.FC = () => {
               {preview()}
             </div>
 
-            <div className={styles.codePanel}>
-              <div className={styles.codeHead}>
-                <p className={styles.codeTitle}>Generated code</p>
-                <button
-                  className={styles.copyButton}
-                  onClick={copy}
-                  type="button"
-                >
-                  {copied ? "Copied" : "Copy"}
-                </button>
+            {/* The generated code belongs to configuring, so it appears only while the drawer is open. */}
+            {configOpen && (
+              <div className={styles.codePanel}>
+                <div className={styles.codeHead}>
+                  <p className={styles.codeTitle}>Generated code</p>
+                  <button
+                    className={styles.copyButton}
+                    onClick={copy}
+                    type="button"
+                  >
+                    {copied ? "Copied" : "Copy"}
+                  </button>
+                </div>
+                <pre className={styles.code}>{snippet}</pre>
               </div>
-              <pre className={styles.code}>{snippet}</pre>
-            </div>
+            )}
           </div>
 
-          <aside className={styles.aside}>
-            {/*
+          {configOpen && (
+            <aside
+              aria-label={`${spec.label} options`}
+              className={styles.aside}
+              id="pg-config"
+              onKeyDown={(e) => {
+                if (e.key === "Escape") {
+                  e.stopPropagation();
+                  closeConfig();
+                }
+              }}
+              role="dialog"
+            >
+              <button
+                aria-label="Close options"
+                className={styles.configClose}
+                onClick={closeConfig}
+                ref={configCloseRef}
+                type="button"
+              >
+                ×
+              </button>
+
+              {/*
               The prominent way through to the active component's reference. Sits
               above the control tray and inside the sticky column, so it stays
               reachable however far the stage scrolls. Uses the same global class as
               the hero's "Get started".
             */}
-            <Link
-              className={`cta-solid ${styles.docsCta}`}
-              href={spec.docsHref}
-              key={spec.key}
-            >
-              {spec.label} documentation
-              <span className="cta-arrow" aria-hidden="true">
-                →
-              </span>
-            </Link>
+              <Link
+                className={`cta-solid ${styles.docsCta}`}
+                href={spec.docsHref}
+                key={spec.key}
+              >
+                {spec.label} documentation
+                <span className="cta-arrow" aria-hidden="true">
+                  →
+                </span>
+              </Link>
 
-            <div className={styles.rail}>
-              {/* Primitives take IIIF property values, not a resource URL. */}
-              {spec.resourceProp && (
-                <div className={styles.group}>
-                  <p className={styles.groupTitle}>Resource</p>
-                  <div className={styles.field}>
-                    <label className={styles.fieldLabel} htmlFor="pg-preset">
-                      IIIF Cookbook preset
-                    </label>
-                    <select
-                      className={styles.select}
-                      id="pg-preset"
-                      value={
-                        presets.some((p) => p.resource === resource)
-                          ? resource
-                          : ""
-                      }
-                      onChange={(e) => {
-                        setResource(e.target.value);
-                        syncUrl({ resource: e.target.value });
-                      }}
-                    >
-                      <option value="">Custom / demo resource</option>
-                      {presets.map((recipe) => (
-                        <option key={recipe.id} value={recipe.resource}>
-                          {recipe.title}
-                        </option>
-                      ))}
-                    </select>
+              <div className={styles.rail}>
+                {/* Primitives take IIIF property values, not a resource URL. */}
+                {spec.resourceProp && (
+                  <div className={styles.group}>
+                    <p className={styles.groupTitle}>Resource</p>
+                    <div className={styles.field}>
+                      <label className={styles.fieldLabel} htmlFor="pg-preset">
+                        IIIF Cookbook preset
+                      </label>
+                      <select
+                        className={styles.select}
+                        id="pg-preset"
+                        value={
+                          presets.some((p) => p.resource === resource)
+                            ? resource
+                            : ""
+                        }
+                        onChange={(e) => {
+                          setResource(e.target.value);
+                          syncUrl({ resource: e.target.value });
+                        }}
+                      >
+                        <option value="">Custom / demo resource</option>
+                        {presets.map((recipe) => (
+                          <option key={recipe.id} value={recipe.resource}>
+                            {recipe.title}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className={styles.field}>
+                      <label
+                        className={styles.fieldLabel}
+                        htmlFor="pg-resource"
+                      >
+                        {spec.resourceProp}
+                      </label>
+                      <input
+                        className={`${styles.input} ${styles.resourceInput}`}
+                        id="pg-resource"
+                        type="url"
+                        value={resource}
+                        onChange={(e) => setResource(e.target.value)}
+                        onBlur={() => syncUrl({})}
+                        spellCheck={false}
+                      />
+                    </div>
                   </div>
-                  <div className={styles.field}>
-                    <label className={styles.fieldLabel} htmlFor="pg-resource">
-                      {spec.resourceProp}
-                    </label>
-                    <input
-                      className={`${styles.input} ${styles.resourceInput}`}
-                      id="pg-resource"
-                      type="url"
-                      value={resource}
-                      onChange={(e) => setResource(e.target.value)}
-                      onBlur={() => syncUrl({})}
-                      spellCheck={false}
-                    />
-                  </div>
-                </div>
-              )}
+                )}
 
-              {spec.controls.length > 0 && (
-                <div className={styles.group}>
-                  <p className={styles.groupTitle}>Options</p>
-                  {spec.controls.map(renderControl)}
-                </div>
-              )}
-            </div>
-          </aside>
+                {spec.controls.length > 0 && (
+                  <div className={styles.group}>
+                    <p className={styles.groupTitle}>Options</p>
+                    {spec.controls.map(renderControl)}
+                  </div>
+                )}
+              </div>
+            </aside>
+          )}
         </div>
       </div>
     </section>

@@ -16,8 +16,7 @@
 }
 
 .shell {
-  margin: 0 auto;
-  max-width: 88rem;
+  width: 100%;
 }
 
 /* ── Component switcher: radio cards ─────────────────────────────────────── */
@@ -123,34 +122,15 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem 1.5rem;
-  justify-content: space-between;
+  justify-content: center;
   margin-bottom: var(--stage-gutter);
   padding: 0.25rem 0 0.75rem;
-}
-
-/*
- * The note is the whole of the copy here. A "PAGE THEME" eyebrow sat above it, but the
- * sentence names its own subject, so the label only said it twice. This is now the flex
- * item paired against the controls, hence `min-width: 0` — previously carried by a
- * wrapper that had no other job.
- */
-.environmentNote {
-  /* `--gray-11` is the scale's muted step — 5.79:1 on the light background and 9.06:1
-   * on the dark one, so it stays clear of the 4.5:1 floor at this size. */
-  color: var(--gray-11);
-  font-size: var(--text-md);
-  line-height: 1.5;
-  margin: 0;
-  max-width: 52rem;
-  min-width: 0;
-  /* Sits at the right end of the row, so its text hugs that edge rather than
-   * floating mid-gap. Reverted to the left when the row wraps — see below. */
-  text-align: right;
 }
 
 .environmentControls {
   align-items: flex-end;
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -164,7 +144,7 @@
 }
 
 .environmentLabel {
-  color: var(--gray-12);
+  color: var(--gray-11);
   font-size: var(--text-sm);
 }
 
@@ -215,25 +195,7 @@
 /* ── Layout: stage beside control rail ────────────────────────────────────── */
 
 .layout {
-  align-items: start;
-  display: grid;
-  gap: var(--stage-gutter);
-  grid-template-columns: minmax(0, 1fr) 18rem;
-}
-
-@media (max-width: 1024px) {
-  .layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  /*
-   * Around here the environment row runs out of width and wraps the note onto its own
-   * line beneath the controls. Right-aligned text under left-aligned controls reads as
-   * a mistake, so it goes back to the left once the two no longer share a line.
-   */
-  .environmentNote {
-    text-align: left;
-  }
+  display: block;
 }
 
 /*
@@ -270,23 +232,63 @@
 }
 
 /*
- * The sticky column. Holds the documentation button and the control tray, so both
- * travel together as the stage scrolls — the button would be useless pinned to the
- * top of a stage that can be many screens tall.
+ * The options drawer. Fixed to the right edge beneath Nextra's navbar and non-modal, so
+ * the stage stays live behind it. Holds the documentation button and the control tray;
+ * the tray scrolls internally when the controls outrun the viewport.
  */
 .aside {
+  background: var(--color-background);
+  box-shadow:
+    0 0 0 1px var(--gray-6),
+    0 12px 40px rgb(0 0 0 / 0.18);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  position: sticky;
-  top: 5rem;
-  /*
-   * Capped to the viewport, like Nextra's own sidebar. A sticky element can only
-   * travel the difference between its own height and its containing block, so an
-   * aside as tall as the section barely moves. Bounding it here maximises that
-   * travel; the tray scrolls internally when the controls do not fit.
-   */
-  max-height: calc(100vh - 6.5rem);
+  inset: 4rem 0 0 auto;
+  padding: 3rem 1rem 1rem;
+  position: fixed;
+  width: min(22rem, 100vw);
+  z-index: 40;
+}
+
+.configClose {
+  background: none;
+  border: 0;
+  border-radius: var(--radius-3);
+  color: var(--gray-12);
+  cursor: pointer;
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 0.25rem 0.625rem;
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+}
+
+.configClose:hover {
+  background: var(--surface);
+}
+
+.configClose:focus-visible,
+.configTrigger:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+.configTrigger {
+  background: var(--accent-9);
+  border: 0;
+  border-radius: var(--radius-3);
+  color: var(--accent-contrast);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--text-sm);
+  padding: 0.5rem 0.875rem;
+  white-space: nowrap;
+}
+
+.configTrigger[aria-expanded="true"] {
+  background: var(--accent-11);
 }
 
 /* Full width of the column, and centred, so it reads as a primary action rather
@@ -303,17 +305,6 @@
    * the documentation button above it is never pushed out of view. */
   min-height: 0;
   overflow-y: auto;
-}
-
-@media (max-width: 1024px) {
-  .aside {
-    max-height: none;
-    position: static;
-  }
-
-  .rail {
-    overflow-y: visible;
-  }
 }
 
 /*

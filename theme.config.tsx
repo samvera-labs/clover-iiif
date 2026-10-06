@@ -17,7 +17,8 @@ const siteDescription =
 const config: DocsThemeConfig = {
   darkMode: true,
   nextThemes: {
-    defaultTheme: "system",
+    defaultTheme: "light",
+    enableSystem: false,
   },
   docsRepositoryBase: "https://github.com/samvera-labs/clover-iiif",
 

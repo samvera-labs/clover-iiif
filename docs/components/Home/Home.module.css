@@ -5,9 +5,7 @@
 }
 
 .shell {
-  margin: 0 auto;
-  max-width: 88rem;
-  padding: 0 1.5rem;
+  padding: 0 2rem;
 }
 
 @media (max-width: 640px) {
