@@ -16,7 +16,7 @@ export default defineConfig({
     reporters: ["default"],
     setupFiles: "./src/setupTests.ts",
     // Avoid Node worker thread pool; use forked processes instead for stability in CI
-    pool: 'forks',
+    pool: "forks",
     maxConcurrency: 1,
   },
 });

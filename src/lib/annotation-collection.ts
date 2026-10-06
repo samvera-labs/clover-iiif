@@ -22,7 +22,9 @@ async function fetchPage(url: string): Promise<AnnotationPageRaw | null> {
  * Follows the `next` chain starting from an already-fetched AnnotationPage,
  * returning all pages as an array.
  */
-async function collectPages(firstPage: AnnotationPageRaw): Promise<AnnotationPageRaw[]> {
+async function collectPages(
+  firstPage: AnnotationPageRaw,
+): Promise<AnnotationPageRaw[]> {
   const pages: AnnotationPageRaw[] = [firstPage];
   let nextUrl = firstPage.next;
   while (nextUrl) {

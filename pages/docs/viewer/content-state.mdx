@@ -68,6 +68,10 @@ export const handleBodyChange = (e) => {
 
 This is a helper page to demonstrate the retrieving the current IIIF Content State of a Viewer component.
 
+A temporal `PointSelector` without annotation body text appears as a timestamp-only
+seek control in the Annotations tab. Points at `0` seconds are supported. If body
+text is supplied, it appears alongside the timestamp.
+
 <CustomManifest placeholder="IIIF Manifest or Collection" />
 
 <Viewer

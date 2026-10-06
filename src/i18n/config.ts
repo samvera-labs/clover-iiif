@@ -46,16 +46,22 @@ function applyResourceOverrides(resources?: InitOptions["resources"]) {
 
 export function initCloverI18n(options: InitOptions = {}) {
   if (!initialized) {
-    const resources = mergeResources(defaultOptions.resources, options.resources);
-    i18next.use(detector).use(initReactI18next).init({
-      ...defaultOptions,
-      ...options,
-      resources,
-      // Preserve our namespace defaults unless explicitly overridden.
-      ns: options.ns ?? defaultOptions.ns,
-      defaultNS: options.defaultNS ?? defaultOptions.defaultNS,
-      fallbackLng: options.fallbackLng ?? defaultOptions.fallbackLng,
-    });
+    const resources = mergeResources(
+      defaultOptions.resources,
+      options.resources,
+    );
+    i18next
+      .use(detector)
+      .use(initReactI18next)
+      .init({
+        ...defaultOptions,
+        ...options,
+        resources,
+        // Preserve our namespace defaults unless explicitly overridden.
+        ns: options.ns ?? defaultOptions.ns,
+        defaultNS: options.defaultNS ?? defaultOptions.defaultNS,
+        fallbackLng: options.fallbackLng ?? defaultOptions.fallbackLng,
+      });
     initialized = true;
   } else {
     applyResourceOverrides(options.resources);

@@ -6,6 +6,20 @@
  * dropped it. Those three declarations never applied, so they are not carried over.
  */
 
+/*
+ * There is no dark-mode branch here, deliberately.
+ *
+ * Clover takes its palette from the `--clover-color-*` properties the host page sets, and a page
+ * with a dark theme maps dark values onto them — so `secondary` is already the page's surface and
+ * `primary` already its text, whichever theme is showing. This file used to add `.dark` overrides
+ * that swapped the two back, inverting the dropdown a second time and rendering it light on a
+ * dark page.
+ *
+ * It was also the only place in the library keyed off a `.dark` class. That class is the host's
+ * convention rather than Clover's, and every other component takes its dark mode from the tokens
+ * alone. Mapping a palette onto those names is the host page's job — see `src/styles/tokens.ts`.
+ */
+
 .clover-select-button {
   font-size: 1.25rem;
   font-weight: 400;
@@ -43,11 +57,31 @@
   border: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
   max-width: 90vw;
   width: var(--radix-select-trigger-width);
+  /*
+   * Declared here rather than on the wrapper Radix renders around this element, because Radix
+   * copies this value onto that wrapper — and the wrapper is the positioned box, so it is the
+   * one that has to win. Without it the wrapper is `z-index: auto` and anything the Viewer
+   * positions above the flow paints through the open list: the transcript cues, the control
+   * bar, the panel tabs. Keyed to a property so a consumer with its own overlays can raise it.
+   */
+  z-index: var(--clover-select-z-index, 100);
 }
 
-.dark .clover-select-content {
-  background-color: var(--clover-color-primary, #1a1d1e);
-  border: 1px solid var(--clover-color-primary-muted, #26292b);
+/*
+ * Opening the list locks the page scroll, and the lock must not move the page underneath it.
+ *
+ * `react-remove-scroll`, which Radix uses, hides the body overflow — taking the scrollbar and
+ * its gutter with it — then zeroes `padding-right` and hands the width back as a right
+ * margin. A margin only narrows a box that is sized by what is left over, and a body whose
+ * width resolves to the full viewport is not: the margin overflows instead, the content box
+ * grows by the scrollbar's width, and a centred page slides sideways by half of it.
+ *
+ * Padding is inside the width, so it gives the gutter back whatever the body is sized by.
+ * The width comes from the locking library's own custom property, so it always matches the
+ * scrollbar that was removed, and the rule only exists while something holds the lock.
+ */
+body[data-scroll-locked] {
+  padding-right: var(--removed-body-scroll-bar-size, 0px) !important;
 }
 
 .clover-select-item {
@@ -85,15 +119,6 @@
   border-radius: var(--clover-radius, 3px);
 }
 
-.dark .clover-select-item {
-  color: var(--clover-color-secondary, #fff);
-  background-color: var(--clover-color-primary, #1a1d1e);
-}
-
-.dark .clover-select-item[data-state="checked"] {
-  color: var(--clover-color-secondary, #fff) !important;
-}
-
 .clover-select-label {
   color: var(--clover-color-primary-muted, #26292b);
   font-family: inherit;
@@ -107,11 +132,6 @@
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   background-color: var(--clover-color-secondary-muted, #e6e8eb);
-}
-
-.dark .clover-select-label {
-  color: var(--clover-color-secondary-muted, #e6e8eb);
-  background-color: var(--clover-color-primary-muted, #26292b);
 }
 
 .clover-select-icon {

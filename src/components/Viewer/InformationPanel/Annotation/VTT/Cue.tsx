@@ -52,12 +52,17 @@ const Cue: React.FC<Props> = ({ html, text, start, end }) => {
   const video = activePlayer as HTMLVideoElement;
 
   useEffect(() => {
-    video?.addEventListener("timeupdate", () => {
-      const { currentTime } = video;
-      updateIsActive(start <= currentTime && currentTime < end);
-    });
+    const updateActiveCue = () => {
+      const currentTime = video?.currentTime;
+      updateIsActive(
+        currentTime !== undefined && start <= currentTime && currentTime < end,
+      );
+    };
 
-    return () => document.removeEventListener("timeupdate", () => {});
+    updateActiveCue();
+    video?.addEventListener("timeupdate", updateActiveCue);
+
+    return () => video?.removeEventListener("timeupdate", updateActiveCue);
   }, [end, start, video]);
 
   useEffect(() => {

@@ -41,7 +41,9 @@ export const getCanvasBehavior = (
 
   // Canvas inherits from manifest when it has no behavior of its own
   const effectiveBehavior =
-    canvasBehaviorArray.length > 0 ? canvasBehaviorArray : manifestBehaviorArray;
+    canvasBehaviorArray.length > 0
+      ? canvasBehaviorArray
+      : manifestBehaviorArray;
 
   return {
     isAutoAdvance: effectiveBehavior.includes("auto-advance"),

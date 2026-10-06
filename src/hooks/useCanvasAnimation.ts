@@ -78,5 +78,13 @@ export const useCanvasAnimation = ({
     setFrameIndex((prev) => Math.min(totalFrames - 1, prev + 1));
   }, [totalFrames]);
 
-  return { frameIndex, isPlaying, totalFrames, play, pause, prevFrame, nextFrame };
+  return {
+    frameIndex,
+    isPlaying,
+    totalFrames,
+    play,
+    pause,
+    prevFrame,
+    nextFrame,
+  };
 };

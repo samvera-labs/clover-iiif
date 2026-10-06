@@ -100,7 +100,10 @@ describe("parseAnnotationTarget", () => {
   it("handles vault-normalized SpecificResource with &t= in source id (no selector)", () => {
     const target = {
       type: "SpecificResource" as const,
-      source: { id: "http://example.com/canvas/1&t=0,2", type: "Canvas" as const },
+      source: {
+        id: "http://example.com/canvas/1&t=0,2",
+        type: "Canvas" as const,
+      },
     };
 
     // @ts-ignore - testing non-standard vault normalization shape
@@ -197,9 +200,6 @@ describe("filterAnnotationsByMotivation", () => {
     .flatMap((page) => page.items || []);
 
   const totalAnnotations = textualAnnotations.length;
-  const commentingCount = textualAnnotations.filter(
-    (annotation) => annotation.motivation === "commenting",
-  ).length;
   const taggingCount = textualAnnotations.filter(
     (annotation) => annotation.motivation === "tagging",
   ).length;
@@ -222,8 +222,9 @@ describe("filterAnnotationsByMotivation", () => {
       "tagging",
     ]);
     expect(filtered).toHaveLength(taggingCount);
-    expect(filtered.every((annotation) => annotation.motivation === "tagging"))
-      .toBe(true);
+    expect(
+      filtered.every((annotation) => annotation.motivation === "tagging"),
+    ).toBe(true);
   });
 
   it("returns no annotations when motivations are explicitly empty", () => {
@@ -340,8 +341,12 @@ describe("isCaptionResource", () => {
   });
 
   it("accepts an extension behind a query string or fragment", () => {
-    expect(isCaptionResource({ id: "https://example.org/c.vtt?v=2" })).toBe(true);
-    expect(isCaptionResource({ id: "https://example.org/c.VTT#t=0" })).toBe(true);
+    expect(isCaptionResource({ id: "https://example.org/c.vtt?v=2" })).toBe(
+      true,
+    );
+    expect(isCaptionResource({ id: "https://example.org/c.VTT#t=0" })).toBe(
+      true,
+    );
   });
 
   /* A real case: Wellcome Collection publishes a PDF transcript as a
@@ -361,7 +366,10 @@ describe("isCaptionResource", () => {
      that declares text/plain is not usable even when its URL ends in .vtt. */
   it("rejects a declared non-caption format even with a caption extension", () => {
     expect(
-      isCaptionResource({ id: "https://example.org/c.vtt", format: "text/plain" }),
+      isCaptionResource({
+        id: "https://example.org/c.vtt",
+        format: "text/plain",
+      }),
     ).toBe(false);
   });
 
@@ -372,7 +380,9 @@ describe("isCaptionResource", () => {
   /* A recognisable extension that is not a caption extension settles it, so
      the extensionless allowance above does not swallow every other file. */
   it("rejects a non-caption extension when no format is declared", () => {
-    expect(isCaptionResource({ id: "https://example.org/notes.txt" })).toBe(false);
+    expect(isCaptionResource({ id: "https://example.org/notes.txt" })).toBe(
+      false,
+    );
     expect(isCaptionResource({ id: "https://example.org/t.pdf" })).toBe(false);
   });
 

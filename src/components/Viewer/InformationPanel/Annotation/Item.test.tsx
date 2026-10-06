@@ -13,6 +13,7 @@ import htmlAnnotationManifest from "src/fixtures/iiif-cookbook/0019-html-in-anno
 import imageInAnntationManifest from "src/fixtures/iiif-cookbook/0377-image-in-annotation.json";
 import simpleAnnotationManifest from "src/fixtures/iiif-cookbook/simple-annotation.json";
 import vttAnnotationManifest from "src/fixtures/iiif-cookbook/0219-using-caption-file.json";
+import pointSelector from "../../../../../public/manifest/content-state/point-selector.json";
 
 vi.mock("src/components/Viewer/InformationPanel/Annotation/HTML");
 vi.mocked(AnnotationItemHTML).mockReturnValue(<div>HTML</div>);
@@ -87,5 +88,34 @@ describe("AnnotationItem", () => {
       </ViewerProvider>,
     );
     expect(screen.getByText("VTT")).toBeInTheDocument();
+    expect(
+      screen.getByText("VTT").closest(".clover-iiif-annotation-item"),
+    ).not.toHaveAttribute("data-content");
   });
+
+  it.each([0, 2318])(
+    "keeps a bodyless PointSelector at %s as a timestamp-only cue",
+    (time) => {
+      const annotation = {
+        ...pointSelector,
+        target: {
+          ...pointSelector.target,
+          selector: { type: "PointSelector", t: time },
+        },
+      } as unknown as AnnotationNormalized;
+      render(
+        <ViewerProvider initialState={{ ...defaultState, vault }}>
+          <AnnotationItem annotation={annotation} />
+        </ViewerProvider>,
+      );
+      const props = vi.mocked(AnnotationItemVTT).mock.calls.at(-1)?.[0];
+      expect(props?.inlineCues).toEqual([
+        expect.objectContaining({ start: time, text: "", html: "" }),
+      ]);
+      expect(props?.vttUri).toBeUndefined();
+      expect(
+        screen.getByText("VTT").closest(".clover-iiif-annotation-item"),
+      ).not.toHaveAttribute("data-content");
+    },
+  );
 });
