@@ -1,4 +1,3 @@
-import { CanvasNormalized } from "@iiif/presentation-3";
 import React, { useEffect } from "react";
 import {
   ViewerContextStore,
@@ -6,7 +5,7 @@ import {
   useViewerState,
 } from "src/context/viewer-context";
 
-import { getPaintingResource } from "src/hooks/use-iiif";
+import { usePlayerPoster } from "./usePlayerPoster";
 
 /**
  * Everything the Viewer needs wired to a media element, independent of who created it.
@@ -25,7 +24,7 @@ export function usePlayerBindings(
   onEnded?: () => void,
 ) {
   const [currentTime, setCurrentTime] = React.useState<number>(0);
-  const [poster, setPoster] = React.useState<string | undefined>();
+  const poster = usePlayerPoster(currentTime);
 
   const onEndedRef = React.useRef(onEnded);
   useEffect(() => {
@@ -34,8 +33,7 @@ export function usePlayerBindings(
 
   const viewerDispatch = useViewerDispatch();
   const viewerState: ViewerContextStore = useViewerState();
-  const { activeCanvas, contentStateAnnotation, isMediaPlaying, vault } =
-    viewerState;
+  const { activeCanvas, contentStateAnnotation, isMediaPlaying } = viewerState;
 
   /**
    * Publish the element itself, not a player wrapper. `Cue.tsx` sets `currentTime` and calls
@@ -48,30 +46,6 @@ export function usePlayerBindings(
       player: media as HTMLVideoElement | HTMLAudioElement,
     });
   }, [media, viewerDispatch]);
-
-  useEffect(() => {
-    const canvas: CanvasNormalized = vault.get(activeCanvas);
-    if (!canvas) return;
-
-    const accompanyingCanvas = canvas.accompanyingCanvas?.id
-      ? getPaintingResource(vault, canvas.accompanyingCanvas?.id)
-      : null;
-
-    const placeholderCanvas = canvas.placeholderCanvas?.id
-      ? getPaintingResource(vault, canvas.placeholderCanvas?.id)
-      : null;
-
-    const conflictingCanvas = !!(accompanyingCanvas && placeholderCanvas);
-
-    if (conflictingCanvas) {
-      currentTime === 0
-        ? setPoster(placeholderCanvas[0].id)
-        : setPoster(accompanyingCanvas[0].id);
-    } else {
-      if (accompanyingCanvas) setPoster(accompanyingCanvas[0].id);
-      if (placeholderCanvas) setPoster(placeholderCanvas[0].id);
-    }
-  }, [activeCanvas, currentTime, vault]);
 
   useEffect(() => {
     if (!media) return;

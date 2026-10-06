@@ -201,6 +201,7 @@ const PlayerMedia: React.FC<CustomPlayerProps> = ({
        * only mounts a player for the canvas it is showing, so there is nothing to defer.
        */
       load="eager"
+      posterLoad="eager"
       onEnded={onEnded}
       onProviderChange={onProviderChange}
       playsInline

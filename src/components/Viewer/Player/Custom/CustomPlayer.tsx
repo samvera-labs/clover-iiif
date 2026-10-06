@@ -3,6 +3,7 @@ import React from "react";
 import { AnnotationResources } from "src/types/annotations";
 import { LabeledIIIFExternalWebResource } from "src/types/presentation-3";
 import { useViewerState } from "src/context/viewer-context";
+import { usePlayerPoster } from "../usePlayerPoster";
 
 export interface CustomPlayerProps {
   allSources: LabeledIIIFExternalWebResource[];
@@ -27,6 +28,7 @@ const PlayerMedia = React.lazy(
 
 const CustomPlayer: React.FC<CustomPlayerProps> = (props) => {
   const { configOptions } = useViewerState();
+  const poster = usePlayerPoster();
 
   return (
     <div
@@ -42,7 +44,17 @@ const CustomPlayer: React.FC<CustomPlayerProps> = (props) => {
           <div
             className="clover-viewer-player-loading"
             data-testid="player-loading"
-          />
+          >
+            {poster && (
+              // eslint-disable-next-line @next/next/no-img-element -- This library also renders outside Next.js.
+              <img
+                alt=""
+                className="clover-viewer-player-poster"
+                data-visible=""
+                src={poster}
+              />
+            )}
+          </div>
         }
       >
         <PlayerMedia {...props} />

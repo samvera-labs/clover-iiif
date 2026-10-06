@@ -356,6 +356,12 @@ assigned at release time.
 
 ### Fixed
 
+- **Video placeholder images appear before playback again.** Images supplied by
+  `placeholderCanvas`, including Cookbook recipe 0013, show while the custom player
+  loads and above the initial video frame. They disappear when playback starts.
+  Moving to a canvas without a preview clears the previous poster. No configuration
+  changes are required.
+
 - Transcript cues now release their playback listeners when replaced or unmounted,
   and highlight the current cue immediately when the transcript or player changes.
 - Annotations without body text no longer render the placeholder "None" or expose it

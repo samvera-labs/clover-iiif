@@ -1009,6 +1009,11 @@ await customElements.whenDefined("clover-viewer");
 
 #### The media canvas
 
+An image supplied by `placeholderCanvas` is shown while the custom player loads and
+until playback starts, as in the Cookbook's
+[preview image recipe](https://iiif.io/api/cookbook/recipe/0013-placeholderCanvas/).
+If no placeholder is supplied, an `accompanyingCanvas` image is used as the poster.
+
 An audio or video canvas letterboxes onto black rather than onto
 `options.canvasBackgroundColor`. That option's translucent default composited over whatever
 sat behind the Viewer, which tinted the bars either side of a frame and inverted them with a
