@@ -113,7 +113,9 @@ const Playground: React.FC = () => {
 
     const q = router.query;
     const nextComponent = (
-      typeof q.c === "string" && q.c in componentSpecs ? q.c : "viewer"
+      typeof q.c === "string" && componentOrder.includes(q.c as ComponentKey)
+        ? q.c
+        : "viewer"
     ) as ComponentKey;
     const nextResource =
       (typeof q["iiif-content"] === "string" && q["iiif-content"]) ||
@@ -528,220 +530,51 @@ const Playground: React.FC = () => {
          * gets arrow-key navigation and a single tab stop for free, and the card is the
          * label, so the whole surface is clickable without extra handlers.
          */}
-        <fieldset className={styles.cards} data-region="component">
-          <legend className={styles.cardsLegend}>Component</legend>
-          {componentOrder.map((key) => (
-            <label
-              className={styles.card}
-              data-selected={key === active}
-              key={key}
-            >
-              <input
-                checked={key === active}
-                className={styles.cardInput}
-                name="playground-component"
-                onChange={() => selectComponent(key)}
-                type="radio"
-                value={key}
-              />
-              <span className={styles.cardLabel}>
-                {componentSpecs[key].label}
-              </span>
-              <span className={styles.cardBlurb}>
-                {componentSpecs[key].blurb}
-              </span>
-            </label>
-          ))}
-        </fieldset>
-
-        {/*
-         * The accent lives here, beside the component cards, rather than in the options
-         * tray on the right. Everything in that tray is a prop or an `options` key on the
-         * selected component; this is not. Clover reads its colours and type from CSS
-         * custom properties on whatever contains it, so this control belongs to the page,
-         * not to the component. The generated snippet still spells the distinction out in
-         * a comment; the note here only promises that it works, since a reader standing in
-         * front of a live control does not need the mechanism explained.
-         */}
-        <div className={styles.environment}>
-          {/*
-           * Controls before the note in the DOM, not reordered with CSS `order`, so that
-           * reading order and tab order match what is on screen.
-           */}
-          <div className={styles.environmentControls}>
-            <div className={styles.environmentControl}>
-              <label className={styles.environmentLabel} htmlFor="pg-font">
-                Font family
-              </label>
-              {/* Grouped so the sans/serif split is visible while staying one control. */}
-              <select
-                className={styles.select}
-                id="pg-font"
-                onChange={(e) => setFont(e.target.value)}
-                value={font}
+        <div className={styles.toolbar}>
+          <fieldset className={styles.cards} data-region="component">
+            <legend className={styles.cardsLegend}>Component</legend>
+            {componentOrder.map((key) => (
+              <label
+                className={styles.card}
+                title={componentSpecs[key].blurb}
+                data-selected={key === active}
+                key={key}
               >
-                {fontPresets
-                  .filter((preset) => !preset.category)
-                  .map((preset) => (
-                    <option key={preset.name} value={preset.value}>
-                      {preset.name}
-                    </option>
-                  ))}
-                {(["Sans serif", "Serif"] as const).map((category) => (
-                  <optgroup key={category} label={category}>
-                    {fontPresets
-                      .filter((preset) => preset.category === category)
-                      .map((preset) => (
-                        <option key={preset.name} value={preset.value}>
-                          {preset.name}
-                        </option>
-                      ))}
-                  </optgroup>
-                ))}
-              </select>
-            </div>
-
-            <div className={styles.environmentControl}>
-              <span className={styles.environmentLabel}>Appearance</span>
-              <div
-                aria-label="Appearance"
-                className={styles.segmented}
-                role="group"
-              >
-                {(["light", "dark"] as const).map((option) => (
-                  <button
-                    aria-pressed={mounted ? theme === option : false}
-                    className={styles.segment}
-                    key={option}
-                    onClick={() => setTheme(option)}
-                    type="button"
-                  >
-                    {option === "light" ? "Light" : "Dark"}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.environmentControl} ref={accentRef}>
-              {/* Labelled "Color" for readers; `accent` stays the internal name and the
-               * URL parameter, so links shared before this rename still resolve. */}
-              <span className={styles.environmentLabel} id="pg-accent-label">
-                Color
-              </span>
-
-              {/*
-               * A disclosure rather than a listbox: the panel holds a colour input and a
-               * text field as well as the presets, which is more than a set of options.
-               * The trigger shows the hex actually in force, so it reports the state as
-               * well as opening the menu.
-               */}
-              <button
-                aria-expanded={accentOpen}
-                aria-haspopup="true"
-                aria-labelledby="pg-accent-label"
-                className={styles.accentTrigger}
-                onClick={() => setAccentOpen((open) => !open)}
-                type="button"
-              >
-                <span
-                  aria-hidden="true"
-                  className={styles.accentDot}
-                  style={{ background: effectiveAccent }}
+                <input
+                  checked={key === active}
+                  className={styles.cardInput}
+                  name="playground-component"
+                  onChange={() => selectComponent(key)}
+                  type="radio"
+                  value={key}
                 />
-                <span className={styles.accentHex}>
-                  {effectiveAccent.toUpperCase()}
+                <span className={styles.cardLabel}>
+                  {componentSpecs[key].label}
                 </span>
-                <span aria-hidden="true" className={styles.accentCaret}>
-                  ▾
-                </span>
-              </button>
-
-              {accentOpen && (
-                <div className={styles.accentMenu}>
-                  {accentPresets.map((preset) => (
-                    <button
-                      aria-current={
-                        (preset.value || "") === accent ? "true" : undefined
-                      }
-                      className={styles.accentOption}
-                      key={preset.name}
-                      onClick={() => {
-                        setAccent(preset.value);
-                        syncUrl({ accent: preset.value });
-                        setAccentOpen(false);
-                      }}
-                      type="button"
-                    >
-                      <span
-                        aria-hidden="true"
-                        className={`${styles.accentDot} ${
-                          preset.value ? "" : styles.accentDotDefault
-                        }`}
-                        style={
-                          preset.value
-                            ? { background: preset.value }
-                            : undefined
-                        }
-                      />
-                      <span className={styles.accentOptionName}>
-                        {preset.name}
-                      </span>
-                    </button>
-                  ))}
-
-                  {/*
-                   * Custom. The wheel opens the platform picker; `onChange` fires as it is
-                   * dragged, which is what makes the preview track live, while the URL is
-                   * only rewritten on commit so dragging does not push a history entry per
-                   * frame. The field beside it takes a hex directly, and carries the row on
-                   * its own — an editable field reads as the way in more plainly than the
-                   * word "Custom" sitting next to it did.
-                   */}
-                  <div
-                    className={styles.accentCustom}
-                    data-active={isCustomAccent}
-                  >
-                    <label className={styles.swatchPicker} title="Color wheel">
-                      <span className={styles.visuallyHidden}>Color wheel</span>
-                      <input
-                        className={styles.swatchInput}
-                        onBlur={() => syncUrl({})}
-                        onChange={(e) => setAccent(e.target.value)}
-                        type="color"
-                        value={effectiveAccent}
-                      />
-                    </label>
-                    <input
-                      aria-label="Custom hex color"
-                      className={styles.hexInput}
-                      maxLength={7}
-                      onBlur={() => {
-                        if (!commitHex(hexDraft)) setHexDraft(accent);
-                      }}
-                      onChange={(e) => {
-                        setHexDraft(e.target.value);
-                        commitHex(e.target.value);
-                      }}
-                      placeholder={DEFAULT_ACCENT.toUpperCase()}
-                      spellCheck={false}
-                      value={hexDraft}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <button
-              aria-controls="pg-config"
-              aria-expanded={configOpen}
-              className={styles.configTrigger}
-              onClick={() => (configOpen ? closeConfig() : setConfigOpen(true))}
-              ref={configTriggerRef}
-              type="button"
+              </label>
+            ))}
+          </fieldset>
+          <button
+            aria-controls="pg-config"
+            aria-expanded={configOpen}
+            aria-label={`Configure ${spec.label}`}
+            className={styles.configTrigger}
+            onClick={() => (configOpen ? closeConfig() : setConfigOpen(true))}
+            ref={configTriggerRef}
+            title={`Configure ${spec.label}`}
+            type="button"
+          >
+            <svg
+              aria-hidden="true"
+              fill="currentColor"
+              height="18"
+              viewBox="0 0 24 24"
+              width="18"
             >
-              Configure {spec.label}
-            </button>
-          </div>
+              <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+            </svg>
+            <span className={styles.configLabel}>Configure</span>
+          </button>
         </div>
 
         <div className={styles.layout}>
@@ -819,6 +652,192 @@ const Playground: React.FC = () => {
               </Link>
 
               <div className={styles.rail}>
+                <div className={styles.group}>
+                  <p className={styles.groupTitle}>Page</p>
+                  {/*
+                   * Not props: Clover reads its colours and type from CSS custom properties on
+                   * whatever contains it, so these belong to the page, not the component.
+                   */}
+                  <div className={styles.environmentControls}>
+                    <div className={styles.environmentControl}>
+                      <label
+                        className={styles.environmentLabel}
+                        htmlFor="pg-font"
+                      >
+                        Font family
+                      </label>
+                      {/* Grouped so the sans/serif split is visible while staying one control. */}
+                      <select
+                        className={styles.select}
+                        id="pg-font"
+                        onChange={(e) => setFont(e.target.value)}
+                        value={font}
+                      >
+                        {fontPresets
+                          .filter((preset) => !preset.category)
+                          .map((preset) => (
+                            <option key={preset.name} value={preset.value}>
+                              {preset.name}
+                            </option>
+                          ))}
+                        {(["Sans serif", "Serif"] as const).map((category) => (
+                          <optgroup key={category} label={category}>
+                            {fontPresets
+                              .filter((preset) => preset.category === category)
+                              .map((preset) => (
+                                <option key={preset.name} value={preset.value}>
+                                  {preset.name}
+                                </option>
+                              ))}
+                          </optgroup>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className={styles.environmentControl}>
+                      <span className={styles.environmentLabel}>
+                        Appearance
+                      </span>
+                      <div
+                        aria-label="Appearance"
+                        className={styles.segmented}
+                        role="group"
+                      >
+                        {(["light", "dark"] as const).map((option) => (
+                          <button
+                            aria-pressed={mounted ? theme === option : false}
+                            className={styles.segment}
+                            key={option}
+                            onClick={() => setTheme(option)}
+                            type="button"
+                          >
+                            {option === "light" ? "Light" : "Dark"}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className={styles.environmentControl} ref={accentRef}>
+                      {/* Labelled "Color" for readers; `accent` stays the internal name and the
+                       * URL parameter, so links shared before this rename still resolve. */}
+                      <span
+                        className={styles.environmentLabel}
+                        id="pg-accent-label"
+                      >
+                        Color
+                      </span>
+
+                      {/*
+                       * A disclosure rather than a listbox: the panel holds a colour input and a
+                       * text field as well as the presets, which is more than a set of options.
+                       * The trigger shows the hex actually in force, so it reports the state as
+                       * well as opening the menu.
+                       */}
+                      <button
+                        aria-expanded={accentOpen}
+                        aria-haspopup="true"
+                        aria-labelledby="pg-accent-label"
+                        className={styles.accentTrigger}
+                        onClick={() => setAccentOpen((open) => !open)}
+                        type="button"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className={styles.accentDot}
+                          style={{ background: effectiveAccent }}
+                        />
+                        <span className={styles.accentHex}>
+                          {effectiveAccent.toUpperCase()}
+                        </span>
+                        <span aria-hidden="true" className={styles.accentCaret}>
+                          ▾
+                        </span>
+                      </button>
+
+                      {accentOpen && (
+                        <div className={styles.accentMenu}>
+                          {accentPresets.map((preset) => (
+                            <button
+                              aria-current={
+                                (preset.value || "") === accent
+                                  ? "true"
+                                  : undefined
+                              }
+                              className={styles.accentOption}
+                              key={preset.name}
+                              onClick={() => {
+                                setAccent(preset.value);
+                                syncUrl({ accent: preset.value });
+                                setAccentOpen(false);
+                              }}
+                              type="button"
+                            >
+                              <span
+                                aria-hidden="true"
+                                className={`${styles.accentDot} ${
+                                  preset.value ? "" : styles.accentDotDefault
+                                }`}
+                                style={
+                                  preset.value
+                                    ? { background: preset.value }
+                                    : undefined
+                                }
+                              />
+                              <span className={styles.accentOptionName}>
+                                {preset.name}
+                              </span>
+                            </button>
+                          ))}
+
+                          {/*
+                           * Custom. The wheel opens the platform picker; `onChange` fires as it is
+                           * dragged, which is what makes the preview track live, while the URL is
+                           * only rewritten on commit so dragging does not push a history entry per
+                           * frame. The field beside it takes a hex directly, and carries the row on
+                           * its own — an editable field reads as the way in more plainly than the
+                           * word "Custom" sitting next to it did.
+                           */}
+                          <div
+                            className={styles.accentCustom}
+                            data-active={isCustomAccent}
+                          >
+                            <label
+                              className={styles.swatchPicker}
+                              title="Color wheel"
+                            >
+                              <span className={styles.visuallyHidden}>
+                                Color wheel
+                              </span>
+                              <input
+                                className={styles.swatchInput}
+                                onBlur={() => syncUrl({})}
+                                onChange={(e) => setAccent(e.target.value)}
+                                type="color"
+                                value={effectiveAccent}
+                              />
+                            </label>
+                            <input
+                              aria-label="Custom hex color"
+                              className={styles.hexInput}
+                              maxLength={7}
+                              onBlur={() => {
+                                if (!commitHex(hexDraft)) setHexDraft(accent);
+                              }}
+                              onChange={(e) => {
+                                setHexDraft(e.target.value);
+                                commitHex(e.target.value);
+                              }}
+                              placeholder={DEFAULT_ACCENT.toUpperCase()}
+                              spellCheck={false}
+                              value={hexDraft}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
                 {/* Primitives take IIIF property values, not a resource URL. */}
                 {spec.resourceProp && (
                   <div className={styles.group}>

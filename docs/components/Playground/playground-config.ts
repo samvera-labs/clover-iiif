@@ -354,13 +354,16 @@ export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
   },
 };
 
+/*
+ * The tabs the playground offers. `primitives` keeps its spec and preview but is left out
+ * for now: the tab did not make clear what the primitives are. Add it back here to restore it.
+ */
 export const componentOrder: ComponentKey[] = [
   "viewer",
   "image",
   "map",
   "slider",
   "scroll",
-  "primitives",
 ];
 
 /**

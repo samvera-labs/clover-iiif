@@ -21,16 +21,24 @@
 
 /* ── Component switcher: radio cards ─────────────────────────────────────── */
 
-/* A fieldset for the grouping semantics, reset to behave as a plain grid. */
+/* The component switcher and the Configure button share one centered row. */
+.toolbar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+/* A fieldset for the grouping semantics, reset to a single wrapping row of tabs. */
 .cards {
   border: 0;
-  display: grid;
-  gap: 0.75rem;
-  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-  /* Separates the cards from the theme row beneath, which is a different kind of control
-   * — component choice versus page appearance. The environment row itself owns the
-   * remaining gutter down to the stage. */
-  margin: 0 0 1.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 0;
   min-width: 0;
   padding: 0;
 }
@@ -52,8 +60,7 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 0.1875rem;
-  padding: 0.875rem 1rem;
+  padding: 0.5rem 1rem;
   position: relative;
   transition:
     box-shadow 120ms ease,
@@ -92,7 +99,7 @@
 
 .cardLabel {
   color: inherit;
-  font-size: var(--text-lg);
+  font-size: var(--text-md);
   line-height: 1.3;
 }
 
@@ -100,39 +107,12 @@
   font-weight: var(--weight-bold);
 }
 
-.cardBlurb {
-  color: inherit;
-  opacity: 0.72;
-  font-size: var(--text-label);
-  line-height: 1.45;
-}
-
-/* ── Page theme ───────────────────────────────────────────────────────────── */
-
-/*
- * A band spanning the full width, grouped with the component cards rather than with the
- * per-component options on the right. Nothing here is a prop, so it must not sit in the
- * tray that holds them.
- */
-.environment {
-  align-items: center;
-  /* Transparent: this row frames the preview rather than being a panel of its own, and
-   * a third filled block between the cards and the stage read as clutter. */
-  background: transparent;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.5rem;
-  justify-content: center;
-  margin-bottom: var(--stage-gutter);
-  padding: 0.25rem 0 0.75rem;
-}
+/* ── Page theme (inside the options drawer) ─────────────────────────────── */
 
 .environmentControls {
-  align-items: flex-end;
   display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  gap: 0.875rem;
 }
 
 .environmentControl {
@@ -153,13 +133,13 @@
  * filled, because the band behind it is transparent.
  */
 .environmentControls .select {
-  background: var(--surface);
-  min-width: 11rem;
-  width: auto;
+  background: var(--surface-sunken);
+  width: 100%;
 }
 
 /* Segmented control for appearance. */
 .segmented {
+  align-self: flex-start;
   background: var(--surface);
   border-radius: var(--radius-3);
   display: flex;
@@ -275,20 +255,53 @@
   outline: none;
 }
 
-.configTrigger {
-  background: var(--accent-9);
+/*
+ * Dressed as one of the viewer's own controls — the OpenSeadragon buttons in
+ * `Image/Controls/Button.css` — so the playground reads as part of the thing it
+ * configures: the secondary surface with the primary glyph at rest, filled with the accent
+ * and flipped to the secondary glyph on hover, focus, and while the drawer is open. The
+ * tabs beside it are a choice among peers and take the accent when selected; this opens a
+ * tool, so it stays quiet until touched.
+ */
+button.configTrigger {
+  align-items: center;
+  background: var(--clover-color-secondary);
   border: 0;
-  border-radius: var(--radius-3);
-  color: var(--accent-contrast);
+  border-radius: var(--clover-radius-pill, 2rem);
+  color: var(--clover-color-primary);
   cursor: pointer;
+  display: inline-flex;
   font: inherit;
   font-size: var(--text-sm);
-  padding: 0.5rem 0.875rem;
-  white-space: nowrap;
+  gap: 0.375rem;
+  height: 2rem;
+  justify-content: center;
+  margin-left: 0.5rem;
+  /* A pill around the icon and its label, the same height as the viewer's round controls. */
+  padding: 0 0.75rem 0 0.5rem;
+  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
 }
 
-.configTrigger[aria-expanded="true"] {
-  background: var(--accent-11);
+.configTrigger svg {
+  flex: none;
+  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.configLabel {
+  line-height: 1;
+}
+
+button.configTrigger:hover,
+button.configTrigger:focus-visible,
+button.configTrigger[aria-expanded="true"] {
+  background: var(--clover-color-accent);
+  color: var(--clover-color-secondary);
+}
+
+.configTrigger:hover svg,
+.configTrigger:focus-visible svg,
+.configTrigger[aria-expanded="true"] svg {
+  rotate: 45deg;
 }
 
 /* Full width of the column, and centred, so it reads as a primary action rather
@@ -475,12 +488,11 @@
   flex-direction: column;
   min-width: 13rem;
   padding: 0.375rem;
-  position: absolute;
+  position: static;
   /* Opens rightward from the trigger's left edge. It was `right: 0` while this control
    * sat at the right end of the row; anchored that way from its new left-hand position
    * the panel would open back toward the page edge. */
-  left: 0;
-  top: calc(100% + 0.375rem);
+  margin-top: 0.375rem;
   /*
    * Has to clear the rendered component, not just the page. The Viewer's information
    * panel toggle sits at `z-index: 100` (src/components/Viewer/Painting/Toggle.styled.ts),

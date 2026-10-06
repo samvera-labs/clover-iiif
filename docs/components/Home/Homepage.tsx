@@ -47,42 +47,44 @@ const Homepage: React.FC = () => (
     <main className={styles.shell}>
       <Playground />
 
-      <div className={styles.sectionHead}>
-        <div>
-          <h2 className={styles.sectionTitle}>Why Clover</h2>
-          <p className={styles.sectionNote}>
-            Built for IIIF Presentation 3.0, from the primitives up.
-          </p>
-        </div>
-        <Link href="/docs" className={styles.sectionLink}>
-          Read the docs →
-        </Link>
-      </div>
-
-      <div className={styles.features}>
-        {features.map((feature) => (
-          <div className={styles.feature} key={feature.label}>
-            <p className={styles.featureLabel}>{feature.label}</p>
-            <h3 className={styles.featureTitle}>{feature.title}</h3>
-            <p className={styles.featureBody}>{feature.body}</p>
+      <div className={styles.contained}>
+        <div className={styles.sectionHead}>
+          <div>
+            <h2 className={styles.sectionTitle}>Why Clover</h2>
+            <p className={styles.sectionNote}>
+              Built for IIIF Presentation 3.0, from the primitives up.
+            </p>
           </div>
-        ))}
-      </div>
+          <Link href="/docs" className={styles.sectionLink}>
+            Read the docs →
+          </Link>
+        </div>
 
-      <div className={styles.sectionHead}>
-        <h2 className={styles.sectionTitle}>Install</h2>
-      </div>
+        <div className={styles.features}>
+          {features.map((feature) => (
+            <div className={styles.feature} key={feature.label}>
+              <p className={styles.featureLabel}>{feature.label}</p>
+              <h3 className={styles.featureTitle}>{feature.title}</h3>
+              <p className={styles.featureBody}>{feature.body}</p>
+            </div>
+          ))}
+        </div>
 
-      <div className={styles.install}>
-        <code className={styles.installCode}>
-          npm install @samvera/clover-iiif
-        </code>
-        <Link href="/docs" className="cta-solid">
-          Get started
-          <span className="cta-arrow" aria-hidden="true">
-            →
-          </span>
-        </Link>
+        <div className={styles.sectionHead}>
+          <h2 className={styles.sectionTitle}>Install</h2>
+        </div>
+
+        <div className={styles.install}>
+          <code className={styles.installCode}>
+            npm install @samvera/clover-iiif
+          </code>
+          <Link href="/docs" className="cta-solid">
+            Get started
+            <span className="cta-arrow" aria-hidden="true">
+              →
+            </span>
+          </Link>
+        </div>
       </div>
     </main>
   </div>

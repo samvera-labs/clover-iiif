@@ -14,10 +14,19 @@
   }
 }
 
+/*
+ * The playground runs the full width of the page; the reading sections below it ("Why
+ * Clover", "Install") are held to a readable measure and centred.
+ */
+.contained {
+  margin: 0 auto;
+  max-width: 1300px;
+}
+
 /* ── Hero ─────────────────────────────────────────────────────────────────── */
 
 .hero {
-  padding: 5rem 0 4rem;
+  padding: 4rem 0 3rem;
   position: relative;
   isolation: isolate;
   text-align: center;
@@ -36,12 +45,12 @@
   background:
     radial-gradient(
       42rem 22rem at 50% 0%,
-      color-mix(in oklab, var(--accent-9) 30%, transparent),
+      color-mix(in oklab, var(--accent-9) 20%, transparent),
       transparent 70%
     ),
     radial-gradient(
       28rem 18rem at 78% 12%,
-      color-mix(in oklab, var(--accent-11) 22%, transparent),
+      color-mix(in oklab, var(--accent-11) 14%, transparent),
       transparent 70%
     );
   /* Holds full strength further down before fading, so the glow reads as light in the
@@ -49,45 +58,22 @@
   mask-image: linear-gradient(180deg, #000 0%, #000 62%, transparent 100%);
 }
 
-.eyebrow {
-  align-items: center;
-  border-radius: 999px;
-  /*
-   * The page background rather than a grey surface. It is opaque, so the badge reads as a
-   * clean white chip punched through the hero glow behind it — and it tracks the theme
-   * instead of pinning to white, which would go blind in dark mode.
-   */
-  background: var(--color-background);
-  color: var(--gray-11);
-  display: inline-flex;
-  font-size: var(--text-label);
-  gap: 0.5rem;
-  letter-spacing: 0.01em;
-  margin-bottom: 1.5rem;
-  padding: 0.3125rem 0.75rem;
-}
-
-.eyebrow strong {
-  color: var(--gray-12);
-  font-weight: var(--weight-bold);
-}
-
 .headline {
   /* Sized to break over two lines at the measure below. Smaller than it was as a
    * three-line block — the headline reads as one statement rather than a stack. */
-  font-size: clamp(2.125rem, 5.2vw, 3.875rem);
+  font-size: clamp(1.875rem, 4.4vw, 3rem);
   font-weight: var(--weight-bold);
   letter-spacing: -0.032em;
   line-height: 1.1;
-  margin: 0 auto 1.25rem;
+  margin: 1.5rem auto 2rem;
   max-width: 64rem;
   text-wrap: balance;
 }
 
 .subtitle {
-  color: var(--gray-11);
-  font-size: clamp(1.0625rem, 2vw, 1.25rem);
-  line-height: 1.6;
+  color: var(--gray-12);
+  font-size: 1rem;
+  line-height: 1.5;
   /* No bottom margin: the hero's own bottom padding sets the gap to the playground
    * now that no buttons sit between them. */
   margin: 0 auto;

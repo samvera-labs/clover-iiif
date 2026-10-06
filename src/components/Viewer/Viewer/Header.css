@@ -15,7 +15,9 @@
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  padding: 1rem;
+  /* No top padding: the row sits flush with the top of the Viewer, as the other components
+   * do, so the title is not pushed 1rem down before any content begins. */
+  padding: 0 1rem 1rem;
   flex-shrink: 0;
   flex-grow: 1;
 }
@@ -25,7 +27,9 @@
   align-self: flex-start;
   flex-grow: 0;
   flex-shrink: 1;
-  padding: 1rem;
+  /* No top padding: the row sits flush with the top of the Viewer, as the other components
+   * do, so the title is not pushed 1rem down before any content begins. */
+  padding: 0 1rem 1rem;
 }
 
 @media (max-width: 767px) {

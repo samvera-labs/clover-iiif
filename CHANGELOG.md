@@ -356,6 +356,19 @@ assigned at release time.
 
 ### Fixed
 
+- **The Viewer's title row no longer adds space above itself.** The manifest title and the
+  options beside it had `1rem` of padding on every side, so with the title shown the Viewer
+  started 16px lower than `Image`, `Map` or `Slider`. The top padding is gone and the title
+  now sits flush with the top edge; the row is 16px shorter. If you relied on the old gap,
+  restore it from your own stylesheet:
+
+  ```css
+  .clover-viewer-manifest-label,
+  .clover-viewer-header-options {
+    padding-top: 1rem;
+  }
+  ```
+
 - **Video placeholder images appear before playback again.** Images supplied by
   `placeholderCanvas`, including Cookbook recipe 0013, show while the custom player
   loads and above the initial video frame. They disappear when playback starts.
