@@ -286,6 +286,15 @@ html .nx-font-bold {
   font-weight: var(--weight-bold);
 }
 
+/*
+ * The sidebar's section titles ("IIIF Components" and the rest) are the one place the
+ * flattening above is undone: they are separators, not links, and read as headings only
+ * if they are heavier than the links beneath them.
+ */
+html .nextra-sidebar-container li.nx-font-semibold {
+  font-weight: var(--weight-bold);
+}
+
 code,
 kbd,
 samp,
