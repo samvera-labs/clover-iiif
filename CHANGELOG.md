@@ -76,6 +76,13 @@ assigned at release time.
 
 ### Changed
 
+- **Zoom buttons disable at the zoom limits.** OpenSeadragon is bumped to a release that
+  disables the zoom-in button at maximum zoom and the zoom-out button at minimum zoom
+  ([openseadragon#2995](https://github.com/openseadragon/openseadragon/pull/2995)). The
+  button gets `disabled`, `aria-disabled="true"` and an inline `opacity: 0.2`. A custom
+  `controlButtons.zoomIn` / `zoomOut` component receives the same attributes on the
+  element carrying the id, so add a `:disabled` style if 0.2 opacity does not suit it.
+
 - **Web-component scripts now load ES modules asynchronously.** The existing
   `dist/web-components/index.umd.js` URL remains available as a small loader, keeping
   Vidstack and WaveSurfer out of the initial download. Self-hosters must copy the
