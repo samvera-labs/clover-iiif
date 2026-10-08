@@ -62,7 +62,6 @@
  */
 .body {
   flex: 1 1 0;
-  margin: 1.5rem;
   min-height: 0;
   position: relative;
 }
@@ -71,4 +70,14 @@
   .panel {
     transition: none;
   }
+}
+
+/* With the Viewer flush to the header, its information panel's tabs would touch the border. */
+.body :global(.clover-viewer-information-panel) {
+  padding-top: 1rem;
+}
+
+/* Likewise the thumbnail strip, whose first item would otherwise touch the panel's left edge. */
+.body :global(.clover-viewer-media-wrapper) {
+  padding-left: 2rem;
 }
