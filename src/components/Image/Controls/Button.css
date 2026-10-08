@@ -79,6 +79,20 @@ button.clover-iiif-image-openseadragon-button {
 }
 
 /*
+ * OpenSeadragon disables the zoom buttons at the zoom limits. `:hover` still matches a
+ * disabled button, so without this it fills with the accent and reads as clickable.
+ */
+button.clover-iiif-image-openseadragon-button:disabled {
+  background-color: var(--clover-color-secondary, #fff);
+  cursor: default;
+}
+
+button.clover-iiif-image-openseadragon-button:disabled svg {
+  fill: var(--clover-color-primary, #1a1d1e);
+  stroke: var(--clover-color-primary, #1a1d1e);
+}
+
+/*
  * `data-button` rather than the id, so the nudge is language-independent — the ids carry a
  * localized label, the attribute does not.
  */
