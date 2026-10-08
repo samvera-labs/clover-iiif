@@ -79,7 +79,6 @@ Agents make code changes. Committing, versioning and releasing are done by a hum
 - Stable layer ID constants are defined at the top of `src/components/Map/index.tsx` (`NAVPLACE_SOURCE`, `WARPED_LAYER_ID`, etc.).
 - MapLibre feature properties with nested objects (`iiifResource`, `label`, `summary`) are JSON-stringified in event handlers; use `parseMaplibreFeature()` to re-parse them.
 - Tests must mock `maplibre-gl` and `@allmaps/maplibre` in any test file that imports a component which (transitively) imports Map — including `InformationPanel.test.tsx`. The mock fires the `load` event synchronously.
-- Docs examples at `pages/docs/viewer/map.mdx` use `informationPanel: { open: true, defaultTab: "manifest-map" }` to show the panel open on the Map tab.
 - `Map` is a composable standalone component, just as `Image` is. The Viewer wraps both — but consumers can use `Map` directly outside the Viewer. Keep this composability in mind when changing either component's props or internals.
 
 ## Environment & Tooling

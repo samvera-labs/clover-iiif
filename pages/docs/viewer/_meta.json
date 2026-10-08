@@ -1,10 +1,9 @@
 {
   "demo": {
+    "title": "Demo",
     "theme": {
-      "layout": "full",
-      "sidebar": false
-    },
-    "title": "Demo"
+      "toc": false
+    }
   },
   "contentsearch": {
     "display": "hidden",
@@ -20,13 +19,6 @@
       "sidebar": false
     },
     "title": "Content State"
-  },
-  "map": {
-    "theme": {
-      "layout": "full",
-      "sidebar": false
-    },
-    "title": "Map"
   },
   "prefetched": {
     "display": "hidden",

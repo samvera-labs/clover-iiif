@@ -129,14 +129,14 @@
     "title": "Table of Contents for Book Chapters",
     "id": "https://iiif.io/api/cookbook/recipe/0024-book-4-toc/",
     "resource": "https://iiif.io/api/cookbook/recipe/0024-book-4-toc/manifest.json",
-    "supported": false,
+    "supported": true,
     "category": ["Structuring Resources"]
   },
   {
     "title": "Table of Contents for A/V Content",
     "id": "https://iiif.io/api/cookbook/recipe/0026-toc-opera/",
     "resource": "https://iiif.io/api/cookbook/recipe/0026-toc-opera/manifest.json",
-    "supported": false,
+    "supported": true,
     "category": ["Structuring Resources", "Audio/Visual"]
   },
   {
@@ -241,14 +241,14 @@
     "title": "Table of Contents for Multiple A/V Files on Multiple Canvases",
     "id": "https://iiif.io/api/cookbook/recipe/0065-opera-multiple-canvases/",
     "resource": "https://iiif.io/api/cookbook/recipe/0065-opera-multiple-canvases/manifest.json",
-    "supported": false,
+    "supported": true,
     "category": ["Audio/Visual"]
   },
   {
     "title": "Using Caption and Subtitle Files in Multiple Languages with Video Content",
     "id": "https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/",
     "resource": "https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/manifest.json",
-    "supported": false,
+    "supported": true,
     "category": ["Audio/Visual"]
   },
   {

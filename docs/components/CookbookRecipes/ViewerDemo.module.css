@@ -1,0 +1,5 @@
+/* Reads as the paragraphs MDX renders around it, which a node passed as a prop does not get. */
+.intro {
+  line-height: 1.75rem;
+  margin: 1.5rem 0 0;
+}

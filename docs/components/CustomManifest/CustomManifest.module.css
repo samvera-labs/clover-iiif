@@ -7,12 +7,64 @@
 }
 
 /*
- * `opacity` and `font-family` alongside `display: none` were inert — the label is never
- * shown — but they are carried over rather than trimmed, since hiding it is the only thing
- * that matters here and the rest is harmless.
+ * Hidden from sight but not from assistive technology. This was `display: none`, which
+ * removes the label from the accessibility tree too and left the field named by its
+ * placeholder alone.
  */
-.customManifest label {
-  display: none;
-  opacity: 0.5;
-  font-family: inherit;
+.label {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+.error {
+  color: #b42318;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  margin: 0.5rem 0.25rem 0;
+}
+
+:global(.dark) .error {
+  color: #fda29b;
+}
+
+/* Field and button side by side; the button is as tall as the field. */
+.row {
+  align-items: stretch;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.row input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* The primary action: the accent fill the homepage uses for a selected tab. */
+.submit {
+  background: var(--accent-9);
+  border: 0;
+  border-radius: var(--radius-3);
+  color: var(--accent-contrast);
+  cursor: pointer;
+  flex: none;
+  font: inherit;
+  font-size: var(--text-md);
+  padding: 0 1.25rem;
+  transition:
+    box-shadow 120ms ease,
+    background-color 120ms ease;
+}
+
+.submit:hover {
+  background: var(--accent-10);
+}
+
+.submit:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
 }

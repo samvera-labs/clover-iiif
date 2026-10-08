@@ -1,0 +1,62 @@
+/* A bordered panel for the examples, so they read as one group apart from the field above. */
+.container {
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  border-radius: var(--radius-3);
+  margin: 1.5rem 0 0;
+  padding: 2rem;
+}
+
+/* Four across, so eight items make two rows; two across on narrow screens. */
+.grid {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.card {
+  background: none;
+  border: 0;
+  border-radius: var(--radius-3);
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font: inherit;
+  gap: 0.625rem;
+  height: 100%;
+  padding: 0;
+  text-align: left;
+  transition: box-shadow 120ms ease;
+  width: 100%;
+}
+
+.card:hover .title {
+  text-decoration: underline;
+}
+
+.card:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+.thumbnail {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-3);
+  display: block;
+  object-fit: cover;
+  width: 100%;
+}
+
+.title {
+  font-size: var(--text-md);
+  line-height: 1.3;
+}

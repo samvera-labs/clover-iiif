@@ -1,0 +1,7 @@
+/*
+ * Nextra keeps the table-of-contents column as an empty 256px placeholder when a page turns
+ * it off (`theme.toc: false`) or has no headings, squeezing the article. Collapse it.
+ */
+nav.nextra-toc:empty {
+  display: none !important;
+}

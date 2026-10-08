@@ -1,0 +1,203 @@
+.coverage table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.coverage th,
+.coverage td {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+/* Fixed widths keep the columns aligned from one section's table to the next. */
+/* The icon box (1.75rem) plus the cell's 0.75rem padding on each side. */
+.coverage th:nth-child(1) {
+  width: 3.25rem;
+}
+
+.coverage th:nth-child(3) {
+  width: 13rem;
+}
+
+.summary {
+  font-size: 1.1rem;
+  margin: 1rem 0 2rem;
+}
+
+.slug {
+  display: block;
+  font-family: monospace;
+  font-size: 0.75rem;
+  opacity: 0.6;
+}
+
+/* A solid rounded square in the state's colour with a white icon. */
+.status {
+  background: var(--status-color);
+  border-radius: 0.375rem;
+  box-sizing: border-box;
+  color: #fff;
+  display: block;
+  height: 1.75rem;
+  padding: 0.3rem;
+  width: 1.75rem;
+}
+
+.status[data-status="yes"] {
+  --status-color: #1a8f3a;
+}
+
+.status[data-status="partial"] {
+  --status-color: #b07a00;
+}
+
+.status[data-status="no"] {
+  --status-color: #b3b8c0;
+}
+
+/* Matches the homepage playground's component tabs. */
+.view {
+  background: var(--surface);
+  border: 0;
+  border-radius: var(--radius-4);
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--text-md);
+  line-height: 1.3;
+  padding: 0.5rem 1rem;
+  transition:
+    box-shadow 120ms ease,
+    background-color 120ms ease,
+    color 120ms ease;
+}
+
+.view:hover {
+  background: var(--surface-sunken);
+}
+
+.view:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.view:disabled:hover {
+  background: var(--surface);
+}
+
+.view:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+/* Keeps a column header in the accessibility tree without drawing it. */
+.visuallyHidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* The recipe title opens the recipe in Clover, so it reads as text rather than a button. */
+.title {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  text-align: left;
+}
+
+.title:hover {
+  text-decoration: underline;
+}
+
+.title:focus-visible {
+  border-radius: 4px;
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+a.view {
+  display: inline-block;
+  text-decoration: none;
+}
+
+/* Section names are iiif.io's own, so the grouping matches the Cookbook index. */
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin: 2.5rem 0 0.75rem;
+}
+
+.titleRow {
+  align-items: center;
+  display: flex;
+  gap: 0.375rem;
+}
+
+/* The tooltip is drawn from `data-tooltip` so it needs no script and shows on focus too. */
+.info {
+  background: none;
+  border: 0;
+  color: #b07a00;
+  cursor: help;
+  display: inline-flex;
+  height: 1.125rem;
+  padding: 0;
+  position: relative;
+  width: 1.125rem;
+}
+
+.info svg {
+  height: 100%;
+  width: 100%;
+}
+
+.info::after {
+  background: var(--gray-12, #1f2937);
+  border-radius: 0.375rem;
+  bottom: calc(100% + 0.5rem);
+  color: #fff;
+  content: attr(data-tooltip);
+  font-size: 0.8125rem;
+  left: 50%;
+  line-height: 1.4;
+  opacity: 0;
+  padding: 0.375rem 0.625rem;
+  pointer-events: none;
+  position: absolute;
+  text-align: left;
+  transform: translateX(-50%);
+  transition: opacity 120ms ease;
+  visibility: hidden;
+  white-space: nowrap;
+  z-index: 5;
+}
+
+.info:hover::after,
+.info:focus-visible::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.info:focus-visible {
+  border-radius: 50%;
+  box-shadow: var(--focus-ring);
+  outline: none;
+}

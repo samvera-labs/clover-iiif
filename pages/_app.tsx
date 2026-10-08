@@ -8,6 +8,7 @@
 import "src/styles/clover.css";
 
 import "docs/styles/fonts.css";
+import "docs/styles/layout.css";
 import "docs/styles/tokens.css";
 
 import type { AppProps } from "next/app";

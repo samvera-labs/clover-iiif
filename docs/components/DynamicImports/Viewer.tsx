@@ -15,6 +15,15 @@ const Viewer = dynamic(() => import("src/components/Viewer"), {
   ssr: false,
 });
 
+/**
+ * Starts loading the Viewer's code without rendering it. Webpack gives both `import()`s one
+ * chunk, so calling this on hover or focus means the chunk is already there when the Viewer
+ * is first rendered. A failed preload is harmless: rendering the Viewer will try again.
+ */
+export const preloadViewer = () => {
+  import("src/components/Viewer").catch(() => undefined);
+};
+
 const CloverViewer = ({
   iiifContent,
   options,

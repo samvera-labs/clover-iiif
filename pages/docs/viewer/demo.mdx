@@ -1,30 +1,13 @@
-import Viewer from "docs/components/DynamicImports/Viewer";
-import CookbookRecipeSelect from "docs/components/CookbookRecipes/CookbookRecipeSelect";
-import CustomManifest from "docs/components/CustomManifest/CustomManifest";
-import CallToAction from "docs/components/CallToAction";
+import ViewerDemo from "docs/components/CookbookRecipes/ViewerDemo";
 
-## Viewer
+## Demo
 
-<br />
+<ViewerDemo
+  intro="Clover's Viewer is an accessible IIIF viewer that renders multi-canvas items with pan-and-zoom for images and a built-in player for audio and video, all driven by the Manifest. Paste the address of your own IIIF Manifest or Collection below to try it out, or start with one of ours."
+>
 
-<CallToAction href="/docs/viewer" text="Docs" size="small" />
+### Cookbook Recipes
 
-<CookbookRecipeSelect />
+The [IIIF Cookbook](https://iiif.io/api/cookbook/) is a set of recipes showing how to model real-world resources in IIIF. Below is every recipe it advertises, grouped as on iiif.io, and whether the Clover [Viewer](/docs/viewer) covers it. Choose **View** to open a recipe in a Clover Viewer that slides in over the page.
 
-<CustomManifest placeholder="IIIF Manifest or Collection" />
-
-A UI component that renders a multicanvas IIIF item viewer with pan-zoom support for `Image` via [OpenSeadragon](https://openseadragon.github.io/) and `Video` and `Sound` content resources using a [Vidstack](https://vidstack.io/docs)-backed player driven by the Manifest.
-
----
-
-<Viewer
-  options={{
-    canvasHeight: "640px",
-    openSeadragon: {
-      gestureSettingsMouse: {
-        scrollToZoom: false,
-      },
-    },
-    showIIIFBadge: false,
-  }}
-/>
+</ViewerDemo>

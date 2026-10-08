@@ -30,7 +30,7 @@ import PrimitivesPanel from "docs/components/Playground/PrimitivesPanel";
 import Scroll from "docs/components/DynamicImports/Scroll";
 import Slider from "docs/components/DynamicImports/Slider";
 import Viewer from "docs/components/DynamicImports/Viewer";
-import { cookbookRecipes } from "docs/components/CookbookRecipes/CookbookRecipeSelect";
+import { cookbookRecipes } from "docs/components/CookbookRecipes/cookbookRecipes";
 import styles from "docs/components/Playground/Playground.module.css";
 import { useRouter } from "next/router";
 import { useTheme } from "nextra-theme-docs";
