@@ -1435,8 +1435,9 @@ Each replacement receives `buttonProps` (the id OpenSeadragon binds to, `type`, 
 
 Each control is still gated on its OpenSeadragon flag (`showZoomControl`, `showFullPageControl`, `showRotationControl`, `showHomeControl`), so a replacement for a hidden control is not rendered. Note that `options.openSeadragon.navImages` has no effect: Clover supplies OpenSeadragon with button elements, and OpenSeadragon skips its own control images when it is given one.
 
-Two things to know when writing a replacement:
+Three things to know when writing a replacement:
 
+- **Style the disabled state of zoom replacements.** OpenSeadragon disables `zoomIn` at maximum zoom and `zoomOut` at minimum zoom: it sets `aria-disabled="true"` and an inline `opacity: 0.2` on the element, and `disabled` as well when it is a `<button>`. Select it with `[aria-disabled="true"]`, which works whatever element you render.
 - **Spread `buttonProps`.** It carries the id OpenSeadragon binds its handlers to and the accessible name. A component that drops it renders a button that looks right and does nothing; Clover logs a warning outside production when that happens.
 - **Define the component at module scope.** A component declared inline in `options` is a new type on each render, which remounts the button and leaves OpenSeadragon bound to the discarded element.
 

@@ -129,7 +129,7 @@
     "marked": "^18.0.2",
     "marked-footnote": "^1.4.0",
     "node-webvtt": "^1.9.4",
-    "openseadragon": "^6.1.0",
+    "openseadragon": "github:lukew-cogapp/openseadragon#e6792e3cc70d862ed0efe3f08c310c9fa8b60d68",
     "react-error-boundary": "^4.1.2",
     "react-lazy-load-image-component": "^1.6.2",
     "uuid": "^9.0.1",
