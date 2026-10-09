@@ -1,0 +1,52 @@
+/*
+ * The Choice menu: hangs below the control cluster, right-aligned with it, over the
+ * picture. Clover's surface and type colours, so it themes with everything else.
+ */
+.clover-canvas-choice {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  z-index: 2;
+  min-width: 12rem;
+  max-width: min(20rem, 80vw);
+  padding: 0.5rem;
+  border-radius: var(--clover-radius, 6px);
+  background: var(--clover-color-secondary, #fff);
+  color: var(--clover-color-primary, #1a1d1e);
+  box-shadow: 0 4px 16px #0001;
+}
+
+.clover-canvas-choice-group {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.clover-canvas-choice-group + .clover-canvas-choice-group {
+  margin-top: 0.5rem;
+}
+
+.clover-canvas-choice-legend {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--clover-color-primary-muted, #26292b);
+}
+
+.clover-canvas-choice-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.5rem;
+  border-radius: var(--clover-radius, 6px);
+  cursor: pointer;
+  font-size: 0.9375rem;
+}
+
+.clover-canvas-choice-item:hover {
+  background: var(--clover-color-secondary-muted, #e6e8eb);
+}
+
+.clover-canvas-choice-item input {
+  margin: 0;
+  accent-color: var(--clover-color-accent, #0065c3);
+}

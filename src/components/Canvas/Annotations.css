@@ -1,0 +1,67 @@
+/*
+ * Annotation hotspots, styled as `Image` styles its OpenSeadragon overlays: a quiet
+ * outline at rest; on hover or focus an accent ring, a dimmed surround, and the label.
+ */
+.clover-canvas-overlays {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  /* The layer passes input through; only the hotspots themselves take it. */
+  pointer-events: none;
+}
+
+.clover-canvas-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: center;
+  pointer-events: auto;
+}
+
+.clover-canvas-annotation {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  cursor: zoom-in;
+  background-color: transparent;
+  border: 2px solid #0001;
+  border-radius: var(--clover-radius, 3px);
+  box-shadow: 0 0 38vw 38vw transparent;
+  z-index: 0;
+}
+
+.clover-canvas-annotation label {
+  opacity: 0;
+  position: absolute;
+  line-height: 1.47rem;
+  pointer-events: none;
+  text-align: center;
+  min-width: 300px;
+  max-width: 20vw;
+  padding: 0.5rem;
+  border-radius: var(--clover-radius, 3px);
+  top: calc(100% + 0.5rem);
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: var(--clover-color-primary, #1a1d1e);
+  color: var(--clover-color-secondary, #fff);
+  transition: opacity 100ms ease-in-out;
+}
+
+.clover-canvas-annotation[data-active="true"] {
+  border: 1px solid #fff2;
+  outline: 2px solid var(--clover-color-accent, #0065c3);
+  outline-offset: 0;
+  box-shadow: 0 0 38vw 38vw #0001;
+  z-index: 1;
+}
+
+.clover-canvas-annotation[data-active="true"] label {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clover-canvas-annotation label {
+    transition: none;
+  }
+}

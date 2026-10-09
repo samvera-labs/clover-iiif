@@ -1,5 +1,6 @@
 import { DocsThemeConfig } from "nextra-theme-docs";
 import Logo from "./docs/components/Logo";
+import PageSettings from "./docs/components/PageSettings/PageSettings";
 import React from "react";
 import { useConfig } from "nextra-theme-docs";
 import { useMemo } from "react";
@@ -73,17 +74,21 @@ const config: DocsThemeConfig = {
     };
   },
   logo: <Logo />,
+  /* Font, appearance and colour, behind a gear at the end of the header row. */
+  navbar: {
+    extraContent: <PageSettings />,
+  },
   project: {
     link: "https://github.com/samvera-labs/clover-iiif",
   },
   /*
-   * #3A5BC7 = hsl(226 56% 50%). Nextra bakes its own lightness per utility and reads
+   * #4E2A84 (Northwestern purple) = hsl(264 52% 34%). Nextra bakes its own lightness per utility and reads
    * only these two, so the saturation has to be set alongside the hue — left at its
    * default of 100% the accent renders fluorescent.
    * Kept in step with `--accent-9` in docs/styles/tokens.css.
    */
-  primaryHue: 226,
-  primarySaturation: 56,
+  primaryHue: 264,
+  primarySaturation: 52,
   sidebar: {
     autoCollapse: true,
     defaultMenuCollapseLevel: 1,

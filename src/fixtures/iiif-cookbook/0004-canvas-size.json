@@ -1,0 +1,37 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://iiif.io/api/cookbook/recipe/0004-canvas-size/manifest.json",
+  "type": "Manifest",
+  "label": {
+    "en": ["Still image from an opera performance at Indiana University"]
+  },
+  "items": [
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0004-canvas-size/canvas/p1",
+      "type": "Canvas",
+      "height": 1080,
+      "width": 1920,
+      "items": [
+        {
+          "id": "https://iiif.io/api/cookbook/recipe/0004-canvas-size/page/p1/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://iiif.io/api/cookbook/recipe/0004-canvas-size/annotation/p0001-image",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://fixtures.iiif.io/video/indiana/donizetti-elixir/act1-thumbnail.png",
+                "type": "Image",
+                "format": "image/png",
+                "height": 360,
+                "width": 640
+              },
+              "target": "https://iiif.io/api/cookbook/recipe/0004-canvas-size/canvas/p1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -11,10 +11,9 @@
     "title": "Documentation",
     "type": "page"
   },
-  "contact": {
-    "title": "IIIF Presentation API ↗",
+  "demo": {
+    "title": "Demo",
     "type": "page",
-    "href": "https://iiif.io/api/presentation",
-    "newWindow": true
+    "href": "/docs/viewer/demo"
   }
 }

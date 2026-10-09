@@ -1,0 +1,164 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/manifest-ttb.json",
+  "type": "Manifest",
+  "label": {
+    "en": ["Diary with Top-to-Bottom Viewing Direction"]
+  },
+  "summary": {
+    "en": [
+      "William Lewis Sachtleben was an American long-distance cyclist who rode across Asia from Istanbul to Peking in 1891 to 1892 with Thomas Gaskell Allen Jr., his classmate from Washington University. This was part of a longer journey that began the day after they had graduated from college, when they travelled to New York and on to Liverpool; in all they travelled 15,044 miles by bicycle, 'the longest continuous land journey ever made around the world' as reported in their book <cite>Across Asia on a bicycle</cite> (1895). Sachtleben documented his travels with photographs and diaries, the latter of which he numbered sequentially. The diary of notebook 'No. 10' covers a portion of their journey through the Armenian area of Turkey from April 12 to May 9 (there is a 2-page reading list at the end). During this time they rode from Ankara (Angora in the diary) to Sivas, where they stayed for ten days while Allen had a bout of typhoid fever, and the first half of a ten-day excursion to Merzifon (Mersovan in the diary), taken by Sachtleben to give Allen additional time to recover."
+    ]
+  },
+  "viewingDirection": "top-to-bottom",
+  "items": [
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/canvas/v1",
+      "type": "Canvas",
+      "label": {
+        "en": ["image 1"]
+      },
+      "width": 2251,
+      "height": 3152,
+      "items": [
+        {
+          "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/page/v1/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/annotation/v0001-image",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://iiif.io/api/image/3.0/example/reference/9ee11092dfd2782634f5e8e2c87c16d5-uclamss_1841_diary_07_02/full/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "width": 2251,
+                "height": 3152,
+                "service": [
+                  {
+                    "id": "https://iiif.io/api/image/3.0/example/reference/9ee11092dfd2782634f5e8e2c87c16d5-uclamss_1841_diary_07_02",
+                    "type": "ImageService3",
+                    "profile": "level1"
+                  }
+                ]
+              },
+              "target": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/canvas/v1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/canvas/v2",
+      "type": "Canvas",
+      "label": {
+        "en": ["image 2"]
+      },
+      "width": 2268,
+      "height": 3135,
+      "items": [
+        {
+          "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/page/v2/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/annotation/v0002-image",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://iiif.io/api/image/3.0/example/reference/9ee11092dfd2782634f5e8e2c87c16d5-uclamss_1841_diary_07_03/full/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "width": 2268,
+                "height": 3135,
+                "service": [
+                  {
+                    "id": "https://iiif.io/api/image/3.0/example/reference/9ee11092dfd2782634f5e8e2c87c16d5-uclamss_1841_diary_07_03",
+                    "type": "ImageService3",
+                    "profile": "level1"
+                  }
+                ]
+              },
+              "target": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/canvas/v2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/canvas/v3",
+      "type": "Canvas",
+      "label": {
+        "en": ["image 3"]
+      },
+      "width": 2274,
+      "height": 3135,
+      "items": [
+        {
+          "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/page/v3/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/annotation/v0003-image",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://iiif.io/api/image/3.0/example/reference/9ee11092dfd2782634f5e8e2c87c16d5-uclamss_1841_diary_07_04/full/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "width": 2274,
+                "height": 3135,
+                "service": [
+                  {
+                    "id": "https://iiif.io/api/image/3.0/example/reference/9ee11092dfd2782634f5e8e2c87c16d5-uclamss_1841_diary_07_04",
+                    "type": "ImageService3",
+                    "profile": "level1"
+                  }
+                ]
+              },
+              "target": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/canvas/v3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/canvas/v4",
+      "type": "Canvas",
+      "label": {
+        "en": ["image 4"]
+      },
+      "width": 2268,
+      "height": 3135,
+      "items": [
+        {
+          "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/page/v4/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/annotation/v0004-image",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://iiif.io/api/image/3.0/example/reference/9ee11092dfd2782634f5e8e2c87c16d5-uclamss_1841_diary_07_05/full/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "width": 2268,
+                "height": 3135,
+                "service": [
+                  {
+                    "id": "https://iiif.io/api/image/3.0/example/reference/9ee11092dfd2782634f5e8e2c87c16d5-uclamss_1841_diary_07_05",
+                    "type": "ImageService3",
+                    "profile": "level1"
+                  }
+                ]
+              },
+              "target": "https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/canvas/v4"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

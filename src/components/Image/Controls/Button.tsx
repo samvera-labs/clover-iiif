@@ -8,10 +8,13 @@ interface ButtonProps {
   label: string;
   children: React.ReactChild;
   /*
-   * Only the full-screen control passes one. The rest are bound by OpenSeadragon through
-   * their id, which is why this is optional rather than required.
+   * Optional because `Image`'s controls (all but full screen) are bound by OpenSeadragon
+   * through their id instead. `Canvas` passes one to every control.
    */
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  /** For a control that opens something (Canvas's Choice menu): its state and target. */
+  expanded?: boolean;
+  controls?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -20,6 +23,8 @@ const Button: React.FC<ButtonProps> = ({
   label,
   children,
   onClick,
+  expanded,
+  controls,
 }) => {
   // Extract button type from id (e.g., "rotateLeft-abc123" → "rotate-left")
   // This ensures data-button is language-independent for CSS selectors
@@ -35,6 +40,8 @@ const Button: React.FC<ButtonProps> = ({
       data-testid="openseadragon-button"
       data-button={dataButton}
       onClick={onClick}
+      aria-expanded={expanded}
+      aria-controls={controls}
       type="button"
     >
       <svg

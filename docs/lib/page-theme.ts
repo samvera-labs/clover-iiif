@@ -1,3 +1,5 @@
+import { useSyncExternalStore } from "react";
+
 import { hexToHueSaturation } from "docs/components/Playground/playground-config";
 import { fontPresets } from "docs/lib/preview-fonts";
 
@@ -137,3 +139,35 @@ export const readStoredPageTheme = (): PageTheme => {
 
 /** Restores whatever was stored. Called once from `_app` on a cold load. */
 export const restorePageTheme = () => applyPageTheme(readStoredPageTheme());
+
+/*
+ * The current theme, shared by everything that shows or uses it: the settings in the
+ * site header, and the playground, whose generated code and share link carry the accent.
+ * Read lazily from storage, because `localStorage` does not exist during SSR.
+ */
+const SERVER_THEME: PageTheme = { accent: "", font: "" };
+let current: PageTheme | null = null;
+const listeners = new Set<() => void>();
+
+const getPageTheme = (): PageTheme =>
+  (current ??=
+    typeof window === "undefined" ? SERVER_THEME : readStoredPageTheme());
+
+const subscribePageTheme = (listener: () => void) => {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+};
+
+/** Change the accent and/or font: applied to the page, remembered, and announced. */
+export const setPageTheme = (next: Partial<PageTheme>) => {
+  current = { ...getPageTheme(), ...next };
+  applyPageTheme(next);
+  storePageTheme(next);
+  listeners.forEach((listener) => listener());
+};
+
+/** The current accent and font, re-rendering when either changes. */
+export const usePageTheme = (): PageTheme =>
+  useSyncExternalStore(subscribePageTheme, getPageTheme, () => SERVER_THEME);

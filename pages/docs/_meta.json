@@ -5,6 +5,7 @@
     "type": "separator",
     "title": "IIIF Components"
   },
+  "canvas": "Canvas (experimental)",
   "image": "Image",
   "map": "Map",
   "scroll": {

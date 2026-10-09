@@ -1,0 +1,469 @@
+---
+title: Canvas
+---
+
+import CanvasHandleDemo from "docs/components/Canvas/CanvasHandleDemo";
+import CanvasRecipe from "docs/components/Canvas/CanvasRecipe";
+
+export const RECIPES = "https://iiif.io/api/cookbook/recipe";
+import { Callout } from "nextra/components";
+
+# Canvas
+
+<Callout type="warning">
+  **Experimental.** `Canvas` is Clover's own 2D renderer, under development as a
+  possible replacement for OpenSeadragon and Vidstack. Its API may change in any
+  release. `Image` and the Viewer's default path are unaffected.
+</Callout>
+
+A pan and zoom surface for IIIF images, video and sound, drawn with WebGL2 and falling
+back to Canvas2D. Everything on a IIIF Canvas shares one camera, so it moves together.
+
+<CanvasHandleDemo
+  body={{
+    id: "https://iiif.io/api/image/3.0/example/reference/918ecd18c2592080851777620de9bcb5-gottingen/full/max/0/default.jpg",
+    type: "Image",
+    format: "image/jpeg",
+    height: 3024,
+    width: 4032,
+    service: [
+      {
+        id: "https://iiif.io/api/image/3.0/example/reference/918ecd18c2592080851777620de9bcb5-gottingen",
+        profile: "level1",
+        type: "ImageService3",
+      },
+    ],
+  }}
+/>
+
+The painting body from the IIIF Cookbook's
+[Image Service recipe](https://iiif.io/api/cookbook/recipe/0005-image-service/), tiled
+from its Image API 3.0 service.
+
+### Image API 2.1.1 and 2.0
+
+The same image from the reference server's 2.1 and 2.0 endpoints, given as `src` with
+`isTiledImage`, and a Northwestern level 2 service that lists its own tiles.
+
+<CanvasHandleDemo
+  id="v2-1"
+  isTiledImage
+  src="https://iiif.io/api/image/2.1/example/reference/918ecd18c2592080851777620de9bcb5-gottingen/info.json"
+/>
+
+<CanvasHandleDemo
+  id="v2-0"
+  isTiledImage
+  src="https://iiif.io/api/image/2.0/example/reference/918ecd18c2592080851777620de9bcb5-gottingen"
+/>
+
+<CanvasHandleDemo
+  id="northwestern"
+  body={{
+    id: "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace/full/600,/0/default.jpg",
+    type: "Image",
+    format: "image/jpeg",
+    height: 5709,
+    width: 8949,
+    service: [
+      {
+        "@id":
+          "https://iiif.dc.library.northwestern.edu/iiif/2/6ca016c5-de7f-4373-ae8f-7047fecf6ace",
+        "@type": "ImageService2",
+        profile: "http://iiif.io/api/image/2/level2.json",
+      },
+    ],
+  }}
+/>
+
+### Annotations
+
+Rectangular (`xywh`) annotation targets become hotspots, as in `Image`: hover or focus
+one to see its label, and click it (or press <kbd>Enter</kbd>) to zoom to it.
+
+<CanvasHandleDemo
+  id="annotations"
+  isTiledImage
+  src="https://iiif.io/api/image/3.0/example/reference/918ecd18c2592080851777620de9bcb5-gottingen"
+  annotations={[
+    {
+      targetIndex: 0,
+      annotation: {
+        id: "https://example.org/anno/fountain",
+        type: "Annotation",
+        motivation: "commenting",
+        body: [{ type: "TextualBody", value: "The Gänseliesel fountain" }],
+        target: "https://example.org/canvas#xywh=900,820,600,1020",
+      },
+    },
+    {
+      targetIndex: 0,
+      annotation: {
+        id: "https://example.org/anno/rathaus",
+        type: "Annotation",
+        motivation: "commenting",
+        body: [
+          {
+            type: "TextualBody",
+            value: "<b>Old Town Hall</b> (Altes Rathaus)",
+          },
+        ],
+        target: "https://example.org/canvas#xywh=0,0,2000,1400",
+      },
+    },
+  ]}
+/>
+
+## IIIF Canvases
+
+`Canvas` draws IIIF Canvases: pass one, or the few you want shown together, as
+`canvases`. Each Canvas's painting annotations are composed at their targets, and
+several Canvases are laid out in reading order by `viewingDirection`.
+
+`Canvas` knows nothing of the Manifest around those Canvases. Deciding what to show —
+reading `behavior` to group a Manifest into single pages, spreads or one joined object —
+and stepping between views is the host's job, as it is the Viewer's. Each example below
+is a small host doing exactly that for a IIIF Cookbook recipe, with its previous / next
+below the `Canvas` rather than inside it. The grouping rules it uses are Clover's own
+(`groupViews` in `src/lib/iiif-sequence.ts`), the same ones the Viewer follows.
+
+### `individuals`
+
+One Canvas at a time — the spec's default.
+([0011](https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/))
+
+<CanvasRecipe
+  id="individuals"
+  iiifContent={`${RECIPES}/0011-book-3-behavior/manifest-individuals.json`}
+/>
+
+### `paged`
+
+Spreads, two Canvases at a time, after a cover that stands alone.
+([0009](https://iiif.io/api/cookbook/recipe/0009-book-1/))
+
+<CanvasRecipe id="paged" iiifContent={`${RECIPES}/0009-book-1/manifest.json`} />
+
+### `paged`, with a `non-paged` Canvas
+
+A Canvas marked `non-paged` is never paired — here, a foldout photographed unfolded —
+and pairing carries on after it.
+([0035](https://iiif.io/api/cookbook/recipe/0035-foldouts/))
+
+<CanvasRecipe
+  id="non-paged"
+  iiifContent={`${RECIPES}/0035-foldouts/manifest.json`}
+/>
+
+### `paged`, with a `facing-pages` Canvas
+
+A Canvas marked `facing-pages` is already a spread, so it is shown alone. No recipe has
+one, so this marks the third Canvas of the book above `facing-pages`.
+
+<CanvasRecipe
+  id="facing-pages"
+  iiifContent={`${RECIPES}/0009-book-1/manifest.json`}
+  adapt={(manifest) => ({
+    ...manifest,
+    items: manifest.items.map((canvas, index) =>
+      index === 2 ? { ...canvas, behavior: ["facing-pages"] } : canvas,
+    ),
+  })}
+/>
+
+### `continuous`
+
+One object in several Canvases — a scroll photographed in sections — joined edge to edge
+in a single view. ([0011](https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/))
+
+<CanvasRecipe
+  id="continuous"
+  height={280}
+  iiifContent={`${RECIPES}/0011-book-3-behavior/manifest-continuous.json`}
+/>
+
+### `right-to-left`
+
+The recipe shows its Canvases individually, so "next" is the button on the left. As
+spreads (`behavior="paged"`), each spread's first page is on the right.
+([0010](https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/))
+
+<CanvasRecipe
+  id="right-to-left"
+  iiifContent={`${RECIPES}/0010-book-2-viewing-direction/manifest-rtl.json`}
+/>
+
+<CanvasRecipe
+  id="right-to-left-paged"
+  behavior="paged"
+  iiifContent={`${RECIPES}/0010-book-2-viewing-direction/manifest-rtl.json`}
+/>
+
+### `top-to-bottom`
+
+Individually, the buttons point up and down. Joined (`behavior="continuous"`), the
+Canvases stack downward. ([0010](https://iiif.io/api/cookbook/recipe/0010-book-2-viewing-direction/))
+
+<CanvasRecipe
+  id="top-to-bottom"
+  iiifContent={`${RECIPES}/0010-book-2-viewing-direction/manifest-ttb.json`}
+/>
+
+<CanvasRecipe
+  id="top-to-bottom-continuous"
+  behavior="continuous"
+  height={560}
+  iiifContent={`${RECIPES}/0010-book-2-viewing-direction/manifest-ttb.json`}
+/>
+
+### `bottom-to-top`
+
+No recipe reads upward, so this is the one above with `viewingDirection="bottom-to-top"`:
+the first Canvas at the bottom, the stack growing up.
+
+<CanvasRecipe
+  id="bottom-to-top"
+  behavior="continuous"
+  viewingDirection="bottom-to-top"
+  height={560}
+  iiifContent={`${RECIPES}/0010-book-2-viewing-direction/manifest-ttb.json`}
+/>
+
+## Several images on one Canvas
+
+### Composition
+
+Each painting annotation's target places its image on the Canvas: here a detail,
+photographed separately, is inset over the page it comes from.
+([0036](https://iiif.io/api/cookbook/recipe/0036-composition-from-multiple-images/))
+
+<CanvasRecipe
+  id="composition"
+  iiifContent={`${RECIPES}/0036-composition-from-multiple-images/manifest.json`}
+/>
+
+### Choice
+
+A `Choice` offers alternative images of the same thing. The first is shown; the bullet
+control in the cluster lists the others to switch to, keeping your place.
+([0033](https://iiif.io/api/cookbook/recipe/0033-choice/))
+
+<CanvasRecipe
+  id="choice"
+  iiifContent={`${RECIPES}/0033-choice/manifest.json`}
+/>
+
+### A Canvas larger than its image
+
+World coordinates are the Canvas's: a 640 × 360 image painted on a 1920 × 1080 Canvas is
+stretched to fill it, and annotations on the Canvas land where they should.
+([0004](https://iiif.io/api/cookbook/recipe/0004-canvas-size/))
+
+<CanvasRecipe
+  id="canvas-size"
+  iiifContent={`${RECIPES}/0004-canvas-size/manifest.json`}
+/>
+
+## Video and sound
+
+A time-based Canvas plays in Clover's own transport: play, a seek bar, volume, time and
+captions, styled as the Viewer's Player. On its own, a video is fitted to the stage and
+stays put. Beside other Canvases, it is placed in the scene like an image and moves with
+them. The media code loads only
+when a Canvas paints video or sound, so a page of images never downloads it.
+
+### Video
+
+([0003](https://iiif.io/api/cookbook/recipe/0003-mvm-video/))
+
+<CanvasRecipe
+  id="video"
+  iiifContent={`${RECIPES}/0003-mvm-video/manifest.json`}
+/>
+
+### Captions
+
+A `supplementing` annotation with a WebVTT body becomes a caption track. The first is
+shown by default; the captions control switches tracks or turns them off. Clover draws
+the cues itself, so they stay a readable size at any zoom.
+([0219](https://iiif.io/api/cookbook/recipe/0219-using-caption-file/))
+
+<CanvasRecipe
+  id="captions"
+  iiifContent={`${RECIPES}/0219-using-caption-file/manifest.json`}
+/>
+
+A `Choice` of caption files offers each language.
+([0074](https://iiif.io/api/cookbook/recipe/0074-multiple-language-captions/))
+
+<CanvasRecipe
+  id="caption-languages"
+  iiifContent={`${RECIPES}/0074-multiple-language-captions/manifest.json`}
+/>
+
+### Poster from a placeholder Canvas
+
+The `placeholderCanvas`'s image is shown until playback starts.
+([0013](https://iiif.io/api/cookbook/recipe/0013-placeholderCanvas/))
+
+<CanvasRecipe
+  id="placeholder"
+  iiifContent={`${RECIPES}/0013-placeholderCanvas/manifest.json`}
+/>
+
+### Video drawn into the canvas
+
+By default a video is a real `<video>` element positioned by the camera. The browser
+composites it, so picture-in-picture, AirPlay and HDR keep working. With
+`options.media.presentation: "texture"`, each frame is drawn into the WebGL canvas
+instead, in paint order with the images around it. Frames upload only as the video
+decodes them. This needs CORS on the media: without it, that video falls back to
+`dom`.
+
+<CanvasRecipe
+  id="video-texture"
+  iiifContent={`${RECIPES}/0003-mvm-video/manifest.json`}
+  options={{ media: { presentation: "texture" } }}
+/>
+
+### Sound
+
+Sound plays through the same transport. With no picture of its own,
+the Canvas is a 16:9 stage.
+([0002](https://iiif.io/api/cookbook/recipe/0002-mvm-audio/))
+
+<CanvasRecipe
+  id="sound"
+  iiifContent={`${RECIPES}/0002-mvm-audio/manifest.json`}
+/>
+
+### Sound with an accompanying Canvas
+
+The `accompanyingCanvas` (else the `placeholderCanvas`) is shown while it plays.
+([0014](https://iiif.io/api/cookbook/recipe/0014-accompanyingcanvas/))
+
+<CanvasRecipe
+  id="sound-accompanying"
+  iiifContent={`${RECIPES}/0014-accompanyingcanvas/manifest.json`}
+/>
+
+## Features
+
+`Canvas` covers what `Image` does, apart from OpenSeadragon's own configuration:
+
+- **IIIF Image API 3.0, 2.1.1 and 2.0.** Each service is tiled from its `info.json`:
+  - from its `tiles` when it lists them
+  - from its `sizes` when it is a level 0 tree that lists only sizes
+  - from tiles Clover cuts itself when it is level 1 or 2 and lists none
+
+  Requests use each version's canonical spelling, which is all a static level 0 tree
+  answers to. A body whose service cannot be reached falls back to its `id`.
+
+- **Deep zoom.** It loads the coarsest level first, then the level that fits the screen,
+  nearest the centre first. Tiles that scroll out of view are cancelled. Tiles stay cached
+  up to a memory budget.
+- **Several images** (`body` or `src` arrays) are laid out side by side at a common
+  height, and **`body.region`** (`x,y,w,h` or `pct:x,y,w,h`) shows only that part of an
+  image.
+- **Annotations** with rectangular targets become hotspots.
+- **Controls:** the same cluster as `Image`, including `controlButtons` replacements.
+- **Navigator, full screen and rotation.**
+- **No CORS needed.** Images served without CORS are still shown: WebGL may not read
+  them, so they are placed as real `<img>` elements by the same camera.
+- **Video and sound** (`Video` and `Sound` painting bodies, HLS included) play in
+  Clover's own transport, with WebVTT captions, a placeholder poster, and an
+  accompanying image for sound.
+
+## Interaction
+
+The controls, navigator, a video or sound's transport, and a soft scrim behind them appear
+while the pointer moves over the Canvas or focus is anywhere inside it. They fade after
+`hideDelay`, or a second after the pointer or keyboard focus leaves, as the Viewer's
+Player does. Chrome shown by keyboard focus stays while focus is inside.
+
+| Input                       | Action                                  |
+| --------------------------- | --------------------------------------- |
+| Drag                        | Pan, with momentum on release           |
+| Click                       | Zoom in (<kbd>Shift</kbd>-click: out)   |
+| Pinch                       | Zoom about the pinch                    |
+| Trackpad pinch              | Zoom about the pointer                  |
+| Wheel                       | Scrolls the page, unless `scrollToZoom` |
+| Double tap (touch)          | Zoom in                                 |
+| Arrow keys                  | Pan (<kbd>Shift</kbd>: further)         |
+| <kbd>+</kbd> / <kbd>-</kbd> | Zoom in / out                           |
+| <kbd>0</kbd>                | Home, upright                           |
+| <kbd>r</kbd> / <kbd>R</kbd> | Rotate 90° clockwise / anticlockwise    |
+| Navigator                   | Press or drag to move there             |
+
+A single video or sound Canvas is a player rather than a picture to explore. It is always
+fitted to the stage, at the video's own aspect, and does not pan, zoom or rotate. Its
+only chrome is the transport at the bottom, which carries full screen; there are no top
+controls or scrim. A click on the picture plays and pauses, and
+the focused Canvas takes these keys:
+
+| Input                           | Action                     |
+| ------------------------------- | -------------------------- |
+| <kbd>Space</kbd> / <kbd>k</kbd> | Play / pause               |
+| <kbd>j</kbd> / <kbd>l</kbd>     | Back / forward ten seconds |
+| <kbd>m</kbd>                    | Mute                       |
+
+## Usage
+
+```jsx
+import Canvas from "@samvera/clover-iiif/canvas";
+
+<Canvas
+  src="https://iiif.io/api/image/3.0/example/reference/918ecd18c2592080851777620de9bcb5-gottingen"
+  isTiledImage
+  label="Göttingen market square"
+  onReady={(canvas) => canvas.zoomBy(2)}
+  onViewportChange={(bounds) => console.log(bounds)}
+/>;
+```
+
+## Props
+
+| Prop                 | Type                                             | Description                                                       |
+| -------------------- | ------------------------------------------------ | ----------------------------------------------------------------- |
+| `canvases`           | IIIF Canvas objects                              | One Canvas, or several shown together (a spread).                 |
+| `viewingDirection`   | `"left-to-right"` and so on                      | How to lay out several `canvases`.                                |
+| `body`               | IIIF painting body, or an array                  | Image resources to draw. Takes precedence over `src`.             |
+| `src`                | `string \| string[]`                             | Image URLs, or image service URIs with `isTiledImage`.            |
+| `isTiledImage`       | `boolean`                                        | Treat each `src` as an image service (base URI or `info.json`).   |
+| `label`              | `InternationalString \| string`                  | Accessible name for the viewport.                                 |
+| `instanceId`         | `string`                                         | A new id remounts the renderer.                                   |
+| `annotations`        | `{ annotation, targetIndex }[]`                  | Hotspots, as `Image` takes them. Rectangular targets only.        |
+| `onAnnotationActive` | `(id: string \| null) => void`                   | The hovered or focused hotspot.                                   |
+| `navigator`          | `boolean`                                        | Show the overview. Default `true`.                                |
+| `controls`           | `boolean \| { zoom, fullPage, rotation, reset }` | Which controls to show. Default all.                              |
+| `controlButtons`     | `ControlButtons`                                 | Replace any control, as the Viewer's `controlButtons`.            |
+| `options`            | `CloverCanvasOptions`                            | See below.                                                        |
+| `onReady`            | `(handle: CanvasHandle) => void`                 | Called once the first images are laid out and fitted.             |
+| `onViewportChange`   | `(bounds: Rect) => void`                         | The visible region, in image coordinates, at most once per frame. |
+| `onMediaElement`     | `(element: HTMLVideoElement \| null) => void`    | A time-based Canvas's media element, for a host's own transcript. |
+| `onEnded`            | `() => void`                                     | Playback reached the end: a host's cue to advance.                |
+
+### `options`
+
+| Option               | Default  | Description                                                                            |
+| -------------------- | -------- | -------------------------------------------------------------------------------------- |
+| `backend`            | `"auto"` | `"auto"`, `"webgl2"` or `"canvas2d"`.                                                  |
+| `gestures`           |          | `clickToZoom`, `dblClickToZoom`, `pinchToZoom`, `scrollToZoom` (`false`).              |
+| `maxZoomPixelRatio`  | `1.1`    | Largest zoom, in CSS pixels per image pixel.                                           |
+| `minZoomImageRatio`  | `0.9`    | Smallest zoom, as a fraction of the home zoom.                                         |
+| `animationTime`      | `0.09`   | Easing time constant in seconds. `0` under reduced motion.                             |
+| `hideDelay`          | `2000`   | Milliseconds the controls and navigator stay after the pointer stops, as the Player's. |
+| `withCredentials`    | `false`  | Send cookies with `info.json` and image requests.                                      |
+| `requestHeaders`     |          | Extra headers for those requests (these force a CORS preflight).                       |
+| `media.presentation` | `"dom"`  | `"dom"` places a real `<video>`; `"texture"` draws its frames into the canvas (CORS).  |
+
+### `CanvasHandle`
+
+Coordinates are world units, which are the first image's own coordinates (its declared
+`width`/`height`). That makes `getBounds()` an `xywh=` region as it stands.
+
+`fitBounds(rect)`, `fitItemRect(index, rect)`, `itemRectToWorld(index, rect)`,
+`getBounds()`, `getHomeBounds()`, `home()`, `zoomBy(factor, at?)`, `panBy(dx, dy)`,
+`setRotation(degrees)`, `rotateBy(degrees)`, `getRotation()`, `getCamera()`,
+`worldToScreenPoint(point)`, `screenToWorldPoint(point)`, and `on(event, listener)` for
+`"viewport"`, `"change"`, `"error"` and `"backend"`.

@@ -1,15 +1,9 @@
 .clover-viewer-player-wrapper {
   position: relative;
   /*
-   * Always black, and not `canvasBackgroundColor`.
-   *
-   * This is the ground a letterboxed frame sits on, so it is part of the picture rather than
-   * part of the page. The image canvas's translucent `#6662` default composited over whatever
-   * was behind the Viewer, which tinted the bars grey in a light theme and inverted them with
-   * the theme in a dark one. Black is what the rest of the web letterboxes onto, and it is
-   * what the scrim, the bar palette and the caption box are all pitched against.
+   * No ground of its own: the canvas behind it paints `options.canvasBackgroundColor`
+   * (default `#0001`), so audio and video letterbox onto the same field as images.
    */
-  background-color: #000;
   display: flex;
   flex-grow: 0;
   flex-shrink: 1;

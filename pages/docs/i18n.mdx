@@ -6,11 +6,17 @@ import GermanViewer from "docs/components/I18nExamples/GermanViewer";
 
 # i18n
 
-Clover ships its own i18next instance so you can localize the UI without wiring anything else. To reduce Clover's bundle size, translations are not loaded automatically. Call `initCloverI18n()` once near your app entry point, then render any Clover component.
+Clover translates its own interface. It detects the reader's language from the browser
+(then the page's `<html lang>`), and falls back to English for any string a language does
+not have. To choose a language yourself, or to add one, call `initCloverI18n()` once near
+your app's entry point, then render any Clover component.
+
+Translations need no extra dependency: Clover's own translator is under 1 kB, and the
+languages it ships add about 2.5 kB gzipped.
 
 ## Default Locale (English)
 
-If you never call `initCloverI18n`, Clover defaults to English (`en`) and uses the bundled translations from `src/i18n/locales/en.json`.
+If you never call `initCloverI18n`, Clover uses the reader's browser language when it ships one, and English (`src/i18n/locales/en.json`) otherwise.
 
 ```tsx filename="src/app.tsx"
 import Viewer from "@samvera/clover-iiif/viewer";

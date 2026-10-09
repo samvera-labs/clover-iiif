@@ -26,8 +26,13 @@
 @import "../components/Shared/Control/Control.css";
 @import "../components/Shared/Search/Search.css";
 @import "../components/Shared/Fullscreen/ExitFullscreen.css";
+@import "../components/Canvas/Annotations.css";
+@import "../components/Canvas/Canvas.css";
+@import "../components/Canvas/ChoiceMenu.css";
+@import "../components/Canvas/media/MediaStage.css";
+@import "../components/Canvas/media/Transport.css";
 @import "../components/Image/Image.css";
-@import "../components/Image/Controls/Controls.css";
+@import "../components/Image/Controls/ControlCluster.css";
 @import "../components/Image/Controls/Button.css";
 @import "../components/Map/Map.css";
 @import "../components/Map/Controls.css";

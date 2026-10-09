@@ -11,7 +11,6 @@ import styles from "docs/components/Home/Home.module.css";
  */
 const Hero: React.FC = () => (
   <header className={styles.hero}>
-    <div className={styles.glow} aria-hidden="true" />
     <div className={styles.shell}>
       <h1 className={styles.headline}>
         Build interfaces for IIIF content from a suite of UI components

@@ -366,7 +366,7 @@ const MyCustomViewer = () => {
 | `plugins`                        | [See Plugins](#plugins)                                                                                                                          | No       |                                           |
 | `options`                        | `object`                                                                                                                                         | No       |                                           |
 | `options.background`             | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background)                                                                      | No       | `transparent`                             |
-| `options.canvasBackgroundColor`  | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background)                                                                      | No       | `#1a1d1e`                                 |
+| `options.canvasBackgroundColor`  | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/background)                                                                      | No       | `#0001`                                   |
 | `options.canvasHeight`           | `string` [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS/height)                                                                          | No       | `500px`                                   |
 | `options.crossOrigin`            | `anonymous`, `use-credentials`, or `undefined` [crossorigin](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/crossorigin) | No       | `anonymous`                               |
 | `options.ignoreCaptionLabels`    | `string[]`                                                                                                                                       | No       | []                                        |
@@ -386,7 +386,7 @@ const MyCustomViewer = () => {
 | `options.withCredentials`        | `boolean`                                                                                                                                        | No       | false                                     |
 | `options.contentSearch`          | [See Content Search](#content-search)                                                                                                            | No       |                                           |
 
-- Option `canvasHeight` applies to both the media player and the OpenSeadragon canvas. `canvasBackgroundColor` applies to _Image_ canvases only — an audio or video canvas letterboxes onto black, for the reasons given under [Player](#player).
+- Option `canvasHeight` applies to both the media player and the OpenSeadragon canvas. `canvasBackgroundColor` applies to every canvas: image, audio and video.
 - Option `withCredentials` being set as `true` will inform IIIF resource requests to be made [using credentials](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials) such as cookies, authorization headers or TLS client certificates.
 - Option `options.openSeadragon` will grant you ability to override the [OpenSeadragon default options](https://openseadragon.github.io/docs/OpenSeadragon.html#.Options) set within the Clover IIIF Viewer to adjust touch and mouse gesture settings and various other configurations.
 - When the visitor's OS is set to `prefers-reduced-motion: reduce`, Clover sets OpenSeadragon's `animationTime` to `0` so zoom and pan happen instantly instead of easing. Pass your own `animationTime` in `options.openSeadragon` to override this.
@@ -1014,12 +1014,11 @@ until playback starts, as in the Cookbook's
 [preview image recipe](https://iiif.io/api/cookbook/recipe/0013-placeholderCanvas/).
 If no placeholder is supplied, an `accompanyingCanvas` image is used as the poster.
 
-An audio or video canvas letterboxes onto black rather than onto
-`options.canvasBackgroundColor`. That option's translucent default composited over whatever
-sat behind the Viewer, which tinted the bars either side of a frame and inverted them with a
-dark theme; black is what the caption box, the scrim and the control bar are all pitched
-against. `canvasBackgroundColor` still governs image canvases. To change the colour behind
-media, style `.clover-viewer-player-wrapper`.
+An audio or video canvas letterboxes onto `options.canvasBackgroundColor`, as an image
+canvas does. The default, `#0001`, is a translucent wash over whatever sits behind the
+Viewer. The control bar keeps its own dark scrim and the captions their own box, so both
+stay legible on it. For the black letterbox Clover used before, set
+`canvasBackgroundColor: "#000"`.
 
 #### Captions and the transcript
 

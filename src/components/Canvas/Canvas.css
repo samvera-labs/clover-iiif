@@ -1,0 +1,288 @@
+/*
+ * Canvas (experimental) — Clover's own 2D renderer.
+ *
+ * The viewport is the renderer's host: it holds the drawing surface (a <canvas>), then a
+ * layer of real <img>/<video> elements the same camera positions. Both are decoration
+ * from the input's point of view — every pointer event lands on the viewport itself.
+ */
+.clover-canvas {
+  position: relative;
+  /* The Viewer's default canvas ground: a translucent wash, for images and media alike. */
+  background-color: #0001;
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/*
+ * Full screen, for a `Canvas` used on its own — as `Image` does it: the page's background
+ * and type colour set together, the exit control revealed (direct child only, so a nested
+ * one stays quiet), and the navigator dropped below it.
+ */
+.clover-canvas[data-fullscreen="true"] {
+  background-color: var(--clover-color-secondary, #fff);
+  color: var(--clover-color-primary, #1a1d1e);
+}
+
+.clover-canvas[data-fullscreen="true"] > .clover-exit-full-screen {
+  display: flex;
+}
+
+.clover-canvas[data-fullscreen="true"] > .clover-canvas-navigator {
+  top: 4.5rem;
+}
+
+.clover-canvas-viewport {
+  position: absolute;
+  inset: 0;
+  /*
+   * Its own stacking layer, below the chrome. Everything drawn in the viewport — the
+   * image, hotspots (an active one raises itself), the focus ring — stacks within it, so
+   * none of it can rise above the controls or the navigator, which sit at z-index 1 in
+   * the wrapper.
+   */
+  z-index: 0;
+  isolation: isolate;
+  overflow: hidden;
+  /* The renderer owns drag and pinch; the page must not scroll or zoom underneath. */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: grab;
+  outline: none;
+}
+
+.clover-canvas-viewport:active {
+  cursor: grabbing;
+}
+
+/* A lone video or sound does not move: a click plays, so no grab hand. */
+.clover-canvas[data-navigable="false"] > .clover-canvas-viewport {
+  cursor: default;
+}
+
+.clover-canvas-surface,
+.clover-canvas-dom-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.clover-canvas-surface {
+  display: block;
+}
+
+.clover-canvas-dom-layer {
+  overflow: hidden;
+}
+
+/*
+ * A DOM item is a crop box carrying the camera transform, with its element offset inside
+ * it. Both transform about their own top-left corner, matching the renderer's maths.
+ */
+.clover-canvas-dom-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  transform-origin: 0 0;
+}
+
+.clover-canvas-dom-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  max-width: none;
+  max-height: none;
+  transform-origin: 0 0;
+  -webkit-user-drag: none;
+}
+
+/* ============================= Chrome ============================== */
+
+/*
+ * The controls, the navigator, a video or sound's transport and a scrim behind them come
+ * and go together, as the Player's control bar does: shown on pointer activity
+ * (`data-chrome="visible"`, from `useChromeVisibility`), faded after a pause or when the
+ * pointer leaves. They also stay while keyboard focus (`:focus-visible`) is anywhere in
+ * the Canvas — the image, a hotspot, a control — since chrome that vanishes under the
+ * keyboard fails WCAG 2.2, and while a menu is open.
+ *
+ * Keyboard focus rather than any focus: a click on the picture focuses it too, and a
+ * video clicked to play would otherwise keep its bar over the picture until blurred.
+ *
+ * The scrim is a dark wash from the top edge, where the controls sit, so their pale
+ * buttons read over a bright picture without darkening it while they are away.
+ */
+.clover-canvas-scrim {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 1;
+  height: 7rem;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 45%),
+    rgb(0 0 0 / 20%) 45%,
+    rgb(0 0 0 / 0%)
+  );
+  opacity: 0;
+  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.clover-canvas > .clover-iiif-image-openseadragon-controls {
+  z-index: 2;
+  opacity: 0;
+  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+/* A faded control is not a click target. */
+.clover-canvas > .clover-iiif-image-openseadragon-controls > * {
+  pointer-events: none;
+}
+
+/*
+ * Shown while the pointer is active over the Canvas, keyboard focus is inside it, or a
+ * menu is open. One
+ * rule for every piece of chrome (the controls, the scrim, and a video or sound's
+ * transport) so they appear and fade together.
+ */
+.clover-canvas:is(
+    [data-chrome="visible"],
+    :has(:focus-visible, [aria-expanded="true"])
+  )
+  > :is(.clover-canvas-scrim, .clover-iiif-image-openseadragon-controls),
+.clover-canvas:is(
+    [data-chrome="visible"],
+    :has(:focus-visible, [aria-expanded="true"])
+  )
+  > .clover-canvas-media
+  > .clover-canvas-transport {
+  opacity: 1;
+}
+
+.clover-canvas:is(
+    [data-chrome="visible"],
+    :has(:focus-visible, [aria-expanded="true"])
+  )
+  > .clover-iiif-image-openseadragon-controls
+  > *,
+.clover-canvas:is(
+    [data-chrome="visible"],
+    :has(:focus-visible, [aria-expanded="true"])
+  )
+  > .clover-canvas-media
+  > .clover-canvas-transport
+  > * {
+  pointer-events: auto;
+}
+
+/* Still appears and disappears — hiding it outright would leave no way back — unanimated. */
+@media (prefers-reduced-motion: reduce) {
+  .clover-canvas-scrim,
+  .clover-canvas > .clover-iiif-image-openseadragon-controls {
+    transition: none;
+  }
+}
+
+/* ============================ Navigator ============================ */
+
+/*
+ * The overview: small, and shown with the controls (see Chrome, below), so it never sits
+ * on the picture otherwise. It is a pointer convenience —
+ * the keyboard and the zoom controls reach everything it does — so it is hidden from
+ * assistive technology rather than given a role.
+ */
+.clover-canvas-navigator {
+  position: absolute;
+  z-index: 2;
+  top: 1rem;
+  left: 1rem;
+  width: 120px;
+  height: 74.2px;
+  overflow: hidden;
+  background-color: #000d;
+  border-radius: var(--clover-radius, 3px);
+  cursor: pointer;
+  touch-action: none;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 150ms ease,
+    visibility 0s linear 150ms;
+}
+
+.clover-canvas:is(
+    [data-chrome="visible"],
+    :has(:focus-visible, [aria-expanded="true"])
+  )
+  > .clover-canvas-navigator {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 150ms ease,
+    visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clover-canvas-navigator,
+  .clover-canvas:is(
+      [data-chrome="visible"],
+      :has(:focus-visible, [aria-expanded="true"])
+    )
+    > .clover-canvas-navigator {
+    transition: none;
+  }
+}
+
+.clover-canvas-navigator-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.clover-canvas-navigator-region {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  border: 2px solid var(--clover-color-accent, #0065c3);
+  pointer-events: none;
+}
+
+@media (max-width: 575px) {
+  .clover-canvas-navigator {
+    width: 96px;
+    height: 59.3px;
+  }
+}
+
+/*
+ * Keyboard focus ring, matching Image's: two tones so it reads over any artwork, drawn
+ * as a pseudo-element above the surface rather than an outline beneath it.
+ */
+.clover-canvas-viewport:focus-visible::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 0 3px var(--clover-color-accent, #0065c3),
+    inset 0 0 0 6px #fff;
+  opacity: 0.75;
+}
+
+@media (forced-colors: active) {
+  .clover-canvas-viewport:focus-visible {
+    outline: 3px solid CanvasText;
+    outline-offset: -3px;
+  }
+}

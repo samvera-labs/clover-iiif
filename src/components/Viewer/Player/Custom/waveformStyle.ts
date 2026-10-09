@@ -5,10 +5,10 @@ export const BAR_GAP = 2;
 /**
  * The unplayed wave, anchored rather than themed.
  *
- * `.clover-viewer-player-wrapper` is always black, so the waveform paints on black whatever
- * the page theme is. A colour token would invert with the theme and disappear — the same
- * reasoning as the control bar's palette, and it reads from the same custom property so the
- * two stay in step. Progress stays on `accent`, which is a brand colour and carries on black.
+ * The waveform paints on the canvas background (a translucent `#0001` by default) under
+ * the bar's dark scrim, whatever the page theme is. A colour token would invert with the
+ * theme — the same reasoning as the control bar's palette, and it reads from the same custom
+ * property so the two stay in step. Progress stays on `accent`, a brand colour.
  */
 const WAVE_FALLBACK = "rgb(255 255 255 / 45%)";
 

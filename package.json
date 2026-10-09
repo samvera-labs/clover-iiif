@@ -14,6 +14,11 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
+    "./canvas": {
+      "types": "./dist/canvas/index.d.ts",
+      "import": "./dist/canvas/index.mjs",
+      "require": "./dist/canvas/index.cjs"
+    },
     "./image": {
       "types": "./dist/image/index.d.ts",
       "import": "./dist/image/index.mjs",
@@ -120,15 +125,12 @@
     "embla-carousel-wheel-gestures": "^8.1.0",
     "flexsearch": "^0.7.43",
     "hls.js": "^1.5.17",
-    "i18next": "^23.16.5",
-    "i18next-browser-languagedetector": "^8.0.0",
     "maplibre-gl": "^6.4.1",
     "marked": "^18.0.2",
     "marked-footnote": "^1.4.0",
     "node-webvtt": "^1.9.4",
     "openseadragon": "^6.1.0",
     "react-error-boundary": "^4.1.2",
-    "react-i18next": "^15.1.1",
     "react-lazy-load-image-component": "^1.6.2",
     "uuid": "^9.0.1",
     "wavesurfer.js": "^7.12.12"
@@ -179,6 +181,9 @@
     "*": {
       "viewer": [
         "dist/viewer/index.d.ts"
+      ],
+      "canvas": [
+        "dist/canvas/index.d.ts"
       ],
       "image": [
         "dist/image/index.d.ts"

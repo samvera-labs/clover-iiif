@@ -1,44 +1,25 @@
-import { useCallback } from "react";
-import { useTranslation } from "react-i18next";
+import { useCallback, useSyncExternalStore } from "react";
 
-import en from "src/i18n/locales/en.json";
-import { CLOVER_I18N_NAMESPACE } from "src/i18n/config";
+import { CLOVER_I18N_NAMESPACE, cloverI18n } from "src/i18n/config";
 
-const FALLBACK_MAP = en as Record<string, string>;
-
-/*
- * The fallback interpolates too. Without it a key carrying placeholders reaches the
- * reader verbatim ("Item {{index}} of {{total}}") whenever i18next hands the key back,
- * which it does when a consumer sets `fallbackLng: false`.
+/**
+ * Clover's strings in the current language. Re-renders when `initCloverI18n` changes the
+ * language or adds strings.
  */
-export function getFallbackValue(key: string, options?: unknown) {
-  const value = FALLBACK_MAP[key] ?? key;
-  const values = options as Record<string, unknown> | undefined;
-
-  if (!values) return value;
-
-  return value.replace(/\{\{(\w+)\}\}/g, (match, name) =>
-    name in values ? String(values[name]) : match,
-  );
-}
-
 export function useCloverTranslation(namespace = CLOVER_I18N_NAMESPACE) {
-  const translation = useTranslation(namespace as any);
-  const { t } = translation;
-
-  const safeTranslate = useCallback(
-    (key: string, options?: unknown) => {
-      const value = t(key, options as any);
-      if (typeof value !== "string" || value === key) {
-        return getFallbackValue(key, options);
-      }
-      return value;
-    },
-    [t],
+  const version = useSyncExternalStore(
+    cloverI18n.subscribe,
+    cloverI18n.getSnapshot,
+    cloverI18n.getSnapshot,
   );
 
-  return {
-    ...translation,
-    t: safeTranslate,
-  };
+  const t = useCallback(
+    (key: string, values?: Record<string, unknown>) =>
+      cloverI18n.t(key, values, namespace),
+    // `version` stands for "the strings changed": a new `t` re-renders memoised readers.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [namespace, version],
+  );
+
+  return { t, i18n: cloverI18n };
 }

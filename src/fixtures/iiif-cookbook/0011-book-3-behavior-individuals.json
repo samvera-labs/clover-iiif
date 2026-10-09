@@ -1,0 +1,161 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/manifest-individuals.json",
+  "type": "Manifest",
+  "label": {
+    "ca": [
+      "[Conoximent de las orines] Ihesus, Ihesus. En nom de Deu et dela beneyeta sa mare e de tots los angels i archangels e de tots los sants e santes de paradis yo micer Johannes comense aquest libre de reseptes en l’ayn Mi 466."
+    ]
+  },
+  "behavior": ["individuals"],
+  "items": [
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/canvas/v1",
+      "type": "Canvas",
+      "label": {
+        "en": ["inside cover; 1r"]
+      },
+      "width": 3375,
+      "height": 2250,
+      "items": [
+        {
+          "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/page/v1/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/annotation/v0001-image",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://iiif.io/api/image/3.0/example/reference/85a96c630f077e6ac6cb984f1b752bbf-0-21198-zz00022840-1-master/full/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "width": 3375,
+                "height": 2250,
+                "service": [
+                  {
+                    "id": "https://iiif.io/api/image/3.0/example/reference/85a96c630f077e6ac6cb984f1b752bbf-0-21198-zz00022840-1-master",
+                    "type": "ImageService3",
+                    "profile": "level1"
+                  }
+                ]
+              },
+              "target": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/canvas/v1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/canvas/v2",
+      "type": "Canvas",
+      "label": {
+        "en": ["2v, 3r"]
+      },
+      "width": 3375,
+      "height": 2250,
+      "items": [
+        {
+          "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/page/v2/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/annotation/v0002-image",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://iiif.io/api/image/3.0/example/reference/85a96c630f077e6ac6cb984f1b752bbf-1-21198-zz00022882-1-master/full/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "width": 3375,
+                "height": 2250,
+                "service": [
+                  {
+                    "id": "https://iiif.io/api/image/3.0/example/reference/85a96c630f077e6ac6cb984f1b752bbf-1-21198-zz00022882-1-master",
+                    "type": "ImageService3",
+                    "profile": "level1"
+                  }
+                ]
+              },
+              "target": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/canvas/v2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/canvas/v3",
+      "type": "Canvas",
+      "label": {
+        "en": ["3v, 4r"]
+      },
+      "width": 3375,
+      "height": 2250,
+      "items": [
+        {
+          "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/page/v3/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/annotation/v0003-image",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://iiif.io/api/image/3.0/example/reference/85a96c630f077e6ac6cb984f1b752bbf-2-21198-zz000228b3-1-master/full/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "width": 3375,
+                "height": 2250,
+                "service": [
+                  {
+                    "id": "https://iiif.io/api/image/3.0/example/reference/85a96c630f077e6ac6cb984f1b752bbf-2-21198-zz000228b3-1-master",
+                    "type": "ImageService3",
+                    "profile": "level1"
+                  }
+                ]
+              },
+              "target": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/canvas/v3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/canvas/v4",
+      "type": "Canvas",
+      "label": {
+        "en": ["4v, 5r"]
+      },
+      "width": 3375,
+      "height": 2250,
+      "items": [
+        {
+          "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/page/v4/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/annotation/v0004-image",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://iiif.io/api/image/3.0/example/reference/85a96c630f077e6ac6cb984f1b752bbf-3-21198-zz000228d4-1-master/full/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "width": 3375,
+                "height": 2250,
+                "service": [
+                  {
+                    "id": "https://iiif.io/api/image/3.0/example/reference/85a96c630f077e6ac6cb984f1b752bbf-3-21198-zz000228d4-1-master",
+                    "type": "ImageService3",
+                    "profile": "level1"
+                  }
+                ]
+              },
+              "target": "https://iiif.io/api/cookbook/recipe/0011-book-3-behavior/canvas/v4"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

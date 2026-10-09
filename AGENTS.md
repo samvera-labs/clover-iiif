@@ -81,6 +81,105 @@ Agents make code changes. Committing, versioning and releasing are done by a hum
 - Tests must mock `maplibre-gl` and `@allmaps/maplibre` in any test file that imports a component which (transitively) imports Map — including `InformationPanel.test.tsx`. The mock fires the `load` event synchronously.
 - `Map` is a composable standalone component, just as `Image` is. The Viewer wraps both — but consumers can use `Map` directly outside the Viewer. Keep this composability in mind when changing either component's props or internals.
 
+## Canvas Component (experimental)
+
+- `Canvas` (`src/components/Canvas/`, package export `./canvas`) is Clover's own **2D**
+  renderer, an experiment toward replacing OpenSeadragon (images) and Vidstack (A/V). It is
+  2D only. 3D (IIIF Presentation 4 Scenes) is reserved for a future, separate `Scene`
+  component, so do not add 3D abstractions such as 4×4 matrices or perspective cameras.
+- The renderer core is framework-free in `src/lib/renderer/`. `CanvasRenderer` owns the
+  camera (`camera/`), frame loop (`loop/`), input (`input/`), loading (`io/`) and painters
+  (`backends/`). The React component is a thin host.
+- Painters sit behind one `Backend` interface. WebGL2 is primary and Canvas2D is a
+  full-fidelity fallback. `DomLayers` positions real `<img>`/`<video>` elements with the same
+  camera transform.
+- Cross-origin pixels without CORS cannot be uploaded to WebGL. They are shown as a DOM
+  layer, decided **per item, never per instance**.
+- World units are the first image's own pixels (its declared IIIF `width`/`height` when
+  known), so `getBounds()` is directly an `xywh=` region.
+- Image services: `sources/imageService.ts` parses `info.json` for 3.0, 2.1.1 and 2.0 and
+  spells **canonical** request URLs. A level 0 static tree answers to nothing else, which
+  is also why a tile covering the whole image uses the region `full`.
+  `sources/tilePyramid.ts` builds levels from `tiles`, from `sizes`, or from tiles Clover
+  derives itself.
+- Each frame is decided by `scene/planFrame.ts`, which is pure. `io/TileCache.ts` follows
+  its required set: abort on supersede, a priority window, one retry, a negative cache,
+  and a byte LRU. Tiles are keyed by URL and shared across items.
+- Controls render `Image/Controls/ControlCluster.tsx`, the presentational half of
+  `Image`'s controls, with click handlers. Do not import `viewer-context` into Canvas:
+  it adds about 21 kB gzip. Viewer concerns (`controlButtons`, plugins, active
+  annotation) come in as props. Labels come from `useCloverTranslation`, as in `Image`.
+- `Canvas` draws the IIIF Canvases it is handed (`canvases`) and nothing Manifest-level.
+  It has no stepper, no `behavior`, and no Manifest fetching: which Canvases to show,
+  and moving between them, is the host's job.
+  - `src/components/Canvas/layout.ts` is pure. Its painted images are scaled into each
+    annotation's `#xywh=` target. Several Canvases are laid along the `viewingDirection`
+    axis at a common height (in a row) or width (in a column). World units are Canvas
+    coordinates.
+  - For hosts, `src/lib/iiif-sequence.ts` groups a Manifest into views by `behavior`.
+    `paged` must match `@iiif/helpers`' `getManifestSequence`, which the Viewer uses.
+- Chrome follows the Player: `useChromeVisibility` sets `data-chrome="visible"` on pointer
+  activity, with a `hideDelay` timeout. CSS also shows the chrome on keyboard focus
+  (`:has(:focus-visible)`), which is required. The media transport uses the same hook. `Choice` selection is Canvas-level state
+  (`findChoices` / `ChoiceSelections` in `layout.ts`), not the host's.
+- Video and sound live in `src/components/Canvas/media/`. `MediaStage` is `React.lazy`,
+  so its code loads only when a Canvas paints media. Its CSS still ships with the entry,
+  as every package's CSS is injected there.
+  - `useMediaElement` makes the `<video>` imperatively. The renderer moves it into its
+    DOM layer, so React must not own it. Sound plays through a `<video>` too, never
+    placed in the scene.
+  - A video is a `SceneImage` with `media: { element, presentation }`. `dom` (the
+    default) positions the real element. `texture` uploads frames with `texImage2D`,
+    once per `requestVideoFrameCallback` frame. Do not switch to `texSubImage2D`: from
+    a video it uploads black in Chrome.
+  - Only `texture` asks for CORS. If the CORS load fails outright, the element is
+    remade without it and presented as `dom`. This also covers a cached non-CORS copy
+    of the same URL.
+  - Captions are fetched with CORS and handed to `<track>` as blob URLs, because a
+    cross-origin track is refused on a video without `crossorigin`. Tracks stay
+    `hidden`; Clover draws the active cues itself.
+  - `useMediaController` is the headless state; `Transport.tsx` is native range inputs
+    and buttons styled as the Player's bar. Sound has no waveform in Canvas: do not
+    import the Player's `Waveform` (or `wavesurfer.js`, or `@vidstack/react`).
+  - With media, `clickToZoom` is off and a click (renderer `"tap"`) plays and pauses.
+  - A lone media Canvas (`canvases.length === 1`) is always fitted: `navigable: false`
+    on the gestures, `fit: true` on every `setImages`, and the world is the video's rect
+    at its intrinsic aspect (`containAspect`). It has no top cluster, scrim or
+    navigator; full screen is the last button in the transport. The cluster returns only
+    to offer a `Choice`.
+  - The transport fades with the rest of the chrome, through the single reveal rule
+    in `Canvas.css`. Do not add "stay visible while paused" or similar overrides. The
+    reveal is `data-chrome` (pointer, from `useChromeVisibility`, lingering
+    `LEAVE_DELAY` after leave or blur) or `:has(:focus-visible)`. It is not
+    `:focus-within`: a click focuses the viewport and would pin a video's bar.
+- Fixtures: `src/fixtures/iiif-image/info.ts` holds the reference server's Göttingen
+  `info.json` for 3.0, 2.1 and 2.0, which is the image in Cookbook recipe 0005. The
+  Cookbook recipes the layout tests use are in `src/fixtures/iiif-cookbook/`.
+- Draws happen only in `requestAnimationFrame` and on demand. A hidden tab or preview pane
+  never fires rAF, so verify rendering in a visible browser or headless Playwright.
+- It is not yet exported from the package root or wired into the Viewer. The plan is
+  `options.renderer: "openseadragon" | "canvas"`, with OpenSeadragon remaining the default.
+- When `Canvas` is merged into the Viewer, the Sound waveform goes altogether: delete
+  `Viewer/Player/Custom/Waveform.tsx` and its helpers (`HlsAudioBars`,
+  `useProgressivePeaks`, `waveformStyle`, `audioSource`) and drop the `wavesurfer.js`
+  dependency. Until then, leave the Player's waveform as it is.
+
+## i18n
+
+- Clover translates with its own small translator in `src/i18n/config.ts`. No i18next:
+  it was about 20 kB gzip, and Clover used only key lookup, `{{name}}` interpolation,
+  fallback and detection.
+- Resources keep i18next's shape, `resources[lng][namespace][key]`, with the `clover`
+  namespace, so `initCloverI18n({ lng, fallbackLng, resources })` is unchanged for
+  consumers.
+- Lookup order: the set `lng`, or else the browser's languages and then `<html lang>`.
+  After that come `fallbackLng`, and English last. Each regional tag also tries its base
+  language (`pt-BR` → `pt`).
+- Components call `useCloverTranslation()` and use only `t`. It re-renders through
+  `useSyncExternalStore` when `initCloverI18n` changes the language or the strings.
+- Add a locale by adding `src/i18n/locales/<tag>.json` and listing it in
+  `src/i18n/locales/index.ts`. All locales are bundled, which is about 2.5 kB gzip.
+
 ## Environment & Tooling
 
 - Node: `20.5.0` (see `.tool-versions`).

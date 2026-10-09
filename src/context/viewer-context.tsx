@@ -130,12 +130,15 @@ export type ControlButtonProps = {
     type: "button";
     "aria-label": string;
     /*
-     * Present only on the full-screen control, which Clover drives itself rather than
-     * handing to OpenSeadragon. Every other control is still bound by id, so it has no
-     * handler to give. A replacement should spread `buttonProps` and not worry which is
-     * which.
+     * In `Image`, present only on the full-screen control, which Clover drives itself
+     * rather than handing to OpenSeadragon; every other control is bound by id. `Canvas`
+     * gives every control one. A replacement should spread `buttonProps` and not worry
+     * which is which.
      */
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
+    /** On a control that opens a menu (`Canvas`'s Choice): its state and target. */
+    "aria-expanded"?: boolean;
+    "aria-controls"?: string;
   };
   icon: React.ReactNode;
   label: string;
@@ -154,6 +157,8 @@ export type ControlButtons = {
   rotateRight?: React.ComponentType<ControlButtonProps>;
   rotateLeft?: React.ComponentType<ControlButtonProps>;
   reset?: React.ComponentType<ControlButtonProps>;
+  /** `Canvas` only: picks among a Canvas's `Choice` of images. */
+  choice?: React.ComponentType<ControlButtonProps>;
 };
 
 /**
@@ -202,7 +207,7 @@ const defaultConfigOptions: ViewerConfigOptions = {
     motivations: undefined,
   },
   background: "transparent",
-  canvasBackgroundColor: "#6662",
+  canvasBackgroundColor: "#0001",
   canvasHeight: "500px",
   contentSearch: {
     searchResultsLimit: 20,

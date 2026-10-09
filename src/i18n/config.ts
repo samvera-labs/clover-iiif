@@ -1,83 +1,143 @@
-import detector from "i18next-browser-languagedetector";
-import i18next, { type InitOptions } from "i18next";
-import { initReactI18next } from "react-i18next";
 import locales from "src/i18n/locales";
+
+/**
+ * Clover's translations, without a translation library.
+ *
+ * Clover needs a key lookup with a fallback chain, `{{name}}` interpolation and browser
+ * language detection. i18next did that at about 20 kB gzipped across three packages;
+ * this does it in well under one. Languages are still defined the way i18next defines
+ * them, so existing `initCloverI18n` calls keep working:
+ *
+ *     initCloverI18n({
+ *       lng: "de",
+ *       fallbackLng: ["de", "en"],
+ *       resources: { de: { clover: { informationPanelTabsAbout: "Über" } } },
+ *     });
+ */
 
 export const CLOVER_I18N_NAMESPACE = "clover";
 
-/**
- * Namespaces locales by inserting a "clover"
- * key within each unique locale object.
- */
-const namespacedLocales = Object.fromEntries(
-  Object.entries(locales).map(([key, value]) => [
-    key,
-    { [CLOVER_I18N_NAMESPACE]: value },
+/** `resources[language][namespace][key]` — i18next's resource shape. */
+export type CloverI18nResources = Record<
+  string,
+  Record<string, Record<string, string>>
+>;
+
+export interface CloverI18nOptions {
+  /** The language to use. Detected from the browser when not given. */
+  lng?: string;
+  /** Languages to try, in order, when a key is missing. English is always last. */
+  fallbackLng?: string | readonly string[] | false;
+  /** Strings to add or override, merged into what Clover ships. */
+  resources?: CloverI18nResources;
+}
+
+const resources: CloverI18nResources = Object.fromEntries(
+  Object.entries(locales).map(([lng, strings]) => [
+    lng,
+    { [CLOVER_I18N_NAMESPACE]: { ...strings } },
   ]),
 );
 
-const defaultOptions: InitOptions = {
-  defaultNS: CLOVER_I18N_NAMESPACE,
-  fallbackLng: "en",
-  ns: [CLOVER_I18N_NAMESPACE],
-  resources: { ...namespacedLocales },
+let language: string | undefined;
+let fallbacks: string[] = [];
+let version = 0;
+const listeners = new Set<() => void>();
+
+function notify() {
+  version++;
+  listeners.forEach((listener) => listener());
+}
+
+/** `pt-BR` → `pt-BR`, `pt`: a regional tag falls back to its base language. */
+function withBase(lng: string): string[] {
+  const base = lng.split("-")[0];
+  return base && base !== lng ? [lng, base] : [lng];
+}
+
+/** The reader's languages, most preferred first: the browser's, then the page's. */
+function preferredLanguages(): string[] {
+  const found: string[] = [];
+  if (typeof navigator !== "undefined") {
+    found.push(...(navigator.languages ?? []), navigator.language);
+  }
+  if (typeof document !== "undefined")
+    found.push(document.documentElement.lang);
+  return found.filter(Boolean);
+}
+
+/** Every language to look in, in order, ending with English. */
+function lookupChain(): string[] {
+  const requested = language ? [language] : preferredLanguages();
+  return [
+    ...new Set([...requested, ...fallbacks].flatMap(withBase).concat("en")),
+  ];
+}
+
+export const cloverI18n = {
+  /** The language set, or else the first of the reader's that Clover has strings for. */
+  get language(): string {
+    return language ?? lookupChain().find((lng) => resources[lng]) ?? "en";
+  },
+
+  changeLanguage(lng: string) {
+    language = lng;
+    notify();
+  },
+
+  t(
+    key: string,
+    values?: Record<string, unknown>,
+    namespace: string = CLOVER_I18N_NAMESPACE,
+  ): string {
+    let text = key;
+    for (const lng of lookupChain()) {
+      const value = resources[lng]?.[namespace]?.[key];
+      if (value !== undefined) {
+        text = value;
+        break;
+      }
+    }
+    if (!values) return text;
+    return text.replace(/\{\{(\w+)\}\}/g, (match, name) =>
+      name in values ? String(values[name]) : match,
+    );
+  },
+
+  /** For `useSyncExternalStore`: re-render readers when the language or strings change. */
+  subscribe(listener: () => void) {
+    listeners.add(listener);
+    return () => {
+      listeners.delete(listener);
+    };
+  },
+
+  getSnapshot(): number {
+    return version;
+  },
 };
 
-const mergeResources = (
-  base?: InitOptions["resources"],
-  override?: InitOptions["resources"],
-) => ({
-  ...(base || {}),
-  ...(override || {}),
-});
+export type CloverI18n = typeof cloverI18n;
 
-let initialized = false;
-
-function applyResourceOverrides(resources?: InitOptions["resources"]) {
-  if (!resources) return;
-  for (const [lng, namespaces] of Object.entries(resources)) {
-    if (!namespaces) continue;
-    for (const [namespace, resource] of Object.entries(namespaces)) {
-      if (!resource) continue;
-      i18next.addResourceBundle(lng, namespace, resource, true, true);
+/**
+ * Set Clover's language and add or override strings. Safe to call more than once: each
+ * call merges its `resources` and applies any `lng` or `fallbackLng` it is given.
+ */
+export function initCloverI18n(options: CloverI18nOptions = {}): CloverI18n {
+  for (const [lng, namespaces] of Object.entries(options.resources ?? {})) {
+    for (const [namespace, strings] of Object.entries(namespaces ?? {})) {
+      resources[lng] ??= {};
+      resources[lng][namespace] = {
+        ...resources[lng][namespace],
+        ...strings,
+      };
     }
   }
-}
-
-export function initCloverI18n(options: InitOptions = {}) {
-  if (!initialized) {
-    const resources = mergeResources(
-      defaultOptions.resources,
-      options.resources,
-    );
-    i18next
-      .use(detector)
-      .use(initReactI18next)
-      .init({
-        ...defaultOptions,
-        ...options,
-        resources,
-        // Preserve our namespace defaults unless explicitly overridden.
-        ns: options.ns ?? defaultOptions.ns,
-        defaultNS: options.defaultNS ?? defaultOptions.defaultNS,
-        fallbackLng: options.fallbackLng ?? defaultOptions.fallbackLng,
-      });
-    initialized = true;
-  } else {
-    applyResourceOverrides(options.resources);
-    if (options.lng) {
-      i18next.changeLanguage(options.lng);
-    }
-    if (options.fallbackLng) {
-      i18next.options.fallbackLng = options.fallbackLng;
-    }
+  if (options.fallbackLng !== undefined) {
+    fallbacks =
+      options.fallbackLng === false ? [] : [options.fallbackLng].flat();
   }
-
-  return i18next;
+  if (options.lng) language = options.lng;
+  notify();
+  return cloverI18n;
 }
-
-// Maintain backwards compatibility for callers that relied on the old
-// side-effecting import by initializing immediately.
-initCloverI18n();
-
-export default i18next;

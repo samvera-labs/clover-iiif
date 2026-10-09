@@ -378,8 +378,8 @@ export const componentOrder: ComponentKey[] = [
  * menu.
  */
 export const accentPresets = [
-  { name: "Page default", value: "" },
-  { name: "Northwestern purple", value: "#4E2A84" },
+  /* The site's own accent (`--accent-9` in tokens.css), so choosing it clears the override. */
+  { name: "Northwestern purple", value: "" },
   { name: "Harvard crimson", value: "#A51C30" },
   { name: "Texas burnt orange", value: "#BF5700" },
   { name: "Tulane green", value: "#006747" },

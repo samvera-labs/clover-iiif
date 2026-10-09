@@ -1,7 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
 
 import AnnotationItemVTT from "./VTT";
-import { I18NextTestingProvider } from "src/lib/testing-helpers/i18n";
 import Menu from "src/components/Viewer/InformationPanel/Menu";
 import React from "react";
 import * as viewerContext from "src/context/viewer-context";
@@ -42,11 +41,7 @@ const props = {
 
 describe("AnnotationItemVTT", () => {
   it("should render the component and aria-label caption", () => {
-    render(
-      <I18NextTestingProvider>
-        <AnnotationItemVTT {...props} />
-      </I18NextTestingProvider>,
-    );
+    render(<AnnotationItemVTT {...props} />);
     const el = screen.getByTestId("annotation-item-vtt");
     expect(el).toHaveAttribute("aria-label", "Captions in WebVTT format");
   });
@@ -116,9 +111,7 @@ describe("AnnotationItemVTT with a Choice of caption tracks", () => {
     vitest.spyOn(viewerContext, "useViewerDispatch").mockReturnValue(dispatch);
 
     const result = render(
-      <I18NextTestingProvider>
-        <AnnotationItemVTT {...props} captionResources={captionResources} />
-      </I18NextTestingProvider>,
+      <AnnotationItemVTT {...props} captionResources={captionResources} />,
     );
     return { ...result, dispatch };
   }
@@ -208,9 +201,7 @@ describe("AnnotationItemVTT with a Choice of caption tracks", () => {
       activeCaptionSrc: "https://example.org/it.vtt",
     } as any);
     rerender(
-      <I18NextTestingProvider>
-        <AnnotationItemVTT {...props} captionResources={captionResources} />
-      </I18NextTestingProvider>,
+      <AnnotationItemVTT {...props} captionResources={captionResources} />,
     );
 
     // Both land, oldest last.

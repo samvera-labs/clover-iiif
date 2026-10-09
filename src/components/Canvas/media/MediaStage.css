@@ -1,0 +1,60 @@
+/*
+ * A Canvas's media layer: the transport and the captions. It
+ * covers the stage but takes no pointer events itself, so drag, pinch and the click that
+ * plays still reach the viewport beneath; its children opt back in.
+ */
+.clover-canvas-media {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  /* Captions size against the stage, not the window. */
+  container-type: inline-size;
+}
+
+/* ── captions ────────────────────────────────────────────────────────────── */
+
+/*
+ * Drawn by Clover from the active track's cues, never by the browser, so they stay a
+ * readable size at any zoom. Above the bar, whose scrim would otherwise wash them out, and
+ * lifted clear of it while it shows.
+ */
+.clover-canvas-captions {
+  position: absolute;
+  inset: auto 0 1rem;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0 1rem;
+  pointer-events: none;
+  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.clover-canvas:is(
+    [data-chrome="visible"],
+    :has(:focus-visible, [aria-expanded="true"])
+  )
+  .clover-canvas-captions {
+  bottom: 5.5rem;
+}
+
+.clover-canvas-captions-cue {
+  max-width: 90%;
+  padding: 0.25em 0.5em;
+  border-radius: var(--clover-radius, 3px);
+  background-color: var(--clover-player-caption-surface, rgb(0 0 0 / 85%));
+  color: var(--clover-player-caption-text, #fff);
+  font-size: clamp(0.875rem, 2.6cqw, 1.25rem);
+  line-height: 1.35;
+  text-align: center;
+  text-wrap: balance;
+  white-space: pre-line;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clover-canvas-captions {
+    transition: none;
+  }
+}

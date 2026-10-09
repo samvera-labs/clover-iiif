@@ -8,20 +8,13 @@ import React, {
 import {
   type ComponentKey,
   type Control,
-  accentPresets,
   coerce,
   componentOrder,
   componentSpecs,
   setPath,
 } from "docs/components/Playground/playground-config";
 
-import { fontPresets } from "docs/lib/preview-fonts";
-import {
-  applyPageTheme,
-  normalizeHex,
-  readStoredPageTheme,
-  storePageTheme,
-} from "docs/lib/page-theme";
+import { normalizeHex, setPageTheme, usePageTheme } from "docs/lib/page-theme";
 
 import Image from "docs/components/DynamicImports/Image";
 import Link from "next/link";
@@ -33,17 +26,9 @@ import Viewer from "docs/components/DynamicImports/Viewer";
 import { cookbookRecipes } from "docs/components/CookbookRecipes/cookbookRecipes";
 import styles from "docs/components/Playground/Playground.module.css";
 import { useRouter } from "next/router";
-import { useTheme } from "nextra-theme-docs";
 
 /** Control values keyed by dot path, per component. */
 type ControlState = Record<string, string | boolean>;
-
-/**
- * What the colour picker shows when no accent is set. A native `<input type="color">`
- * has no empty state, so it needs some hex to display; this is the docs' own
- * `--accent-9`, which is what the page is actually using at that point.
- */
-const DEFAULT_ACCENT = "#3a5bc7";
 
 const defaultsFor = (key: ComponentKey): ControlState =>
   componentSpecs[key].controls.reduce<ControlState>((acc, control) => {
@@ -86,19 +71,12 @@ const Playground: React.FC = () => {
     componentSpecs.viewer.defaultResource,
   );
   const [controls, setControls] = useState<ControlState>(defaultsFor("viewer"));
-  const [accent, setAccent] = useState("");
-  const [font, setFont] = useState("");
-  const [copied, setCopied] = useState(false);
-
   /*
-   * Appearance shares Nextra's next-themes state rather than keeping its own, so this
-   * control and the one in Nextra's chrome always agree. `theme` is undefined until the
-   * client mounts — next-themes cannot know the resolved value during SSR — so the
-   * active state is withheld until then instead of guessing and mismatching on hydration.
+   * The page's accent, set from the gear in the site header. The playground reads it for
+   * its generated code and carries it in the share link; a link that names one sets it.
    */
-  const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const { accent } = usePageTheme();
+  const [copied, setCopied] = useState(false);
 
   const spec = componentSpecs[active];
 
@@ -125,28 +103,13 @@ const Playground: React.FC = () => {
     setResource(nextResource);
     setControls(defaultsFor(nextComponent));
 
-    // A shared link wins; otherwise pick up whatever is already in effect so the
-    // matching swatch and dropdown option read as selected.
-    const stored = readStoredPageTheme();
-    setAccent(
-      typeof q.accent === "string" ? normalizeHex(q.accent) : stored.accent,
-    );
-    setFont(stored.font);
+    // A shared link's accent wins over the reader's stored one.
+    if (typeof q.accent === "string") {
+      setPageTheme({ accent: normalizeHex(q.accent) });
+    }
     // Only on first ready — later changes are pushed by the handlers below.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
-
-  /**
-   * Push the chosen accent and font at the document root, and remember both.
-   *
-   * Deliberately no cleanup on unmount: these are page-level settings, so they have to
-   * outlive this component when the reader navigates into the docs. `_app` restores them
-   * on a cold load. See `docs/lib/page-theme.ts`.
-   */
-  useEffect(() => {
-    applyPageTheme({ accent, font });
-    storePageTheme({ accent, font });
-  }, [accent, font]);
 
   /** Mirror the shareable parts of the state into the URL, without a navigation. */
   const syncUrl = useCallback(
@@ -162,6 +125,23 @@ const Playground: React.FC = () => {
     [active, resource, accent, router],
   );
 
+  /*
+   * Keep the link's accent in step with the header's. Debounced, because the colour
+   * wheel reports every frame of a drag and each would otherwise be a history entry.
+   */
+  const accentSynced = useRef(false);
+  useEffect(() => {
+    if (!router.isReady) return;
+    if (!accentSynced.current) {
+      accentSynced.current = true;
+      return;
+    }
+    const timer = setTimeout(() => syncUrl({}), 300);
+    return () => clearTimeout(timer);
+    // Only the accent changing should rewrite the link here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [accent, router.isReady]);
+
   const selectComponent = (key: ComponentKey) => {
     setActive(key);
     setControls(defaultsFor(key));
@@ -171,37 +151,6 @@ const Playground: React.FC = () => {
 
   const updateControl = (path: string, value: string | boolean) =>
     setControls((prev) => ({ ...prev, [path]: value }));
-
-  /** True when the accent came from the picker rather than a preset swatch. */
-  const isCustomAccent =
-    Boolean(accent) &&
-    !accentPresets.some(
-      (preset) => preset.value.toLowerCase() === accent.toLowerCase(),
-    );
-
-  /**
-   * The hex in force. An unset accent still paints something — the docs' own
-   * `--accent-9` — so the trigger and the colour input report that rather than nothing.
-   */
-  const effectiveAccent = accent || DEFAULT_ACCENT;
-
-  /*
-   * The hex field keeps its own draft so it can be typed into. Binding it straight to
-   * `accent` would fight the typist: the first keystroke of "#0f766e" is "#", which is
-   * not a colour, so state would clear it before the second character arrived. The draft
-   * follows `accent` whenever the change came from somewhere else — a swatch, the wheel,
-   * a shared link.
-   */
-  const [hexDraft, setHexDraft] = useState("");
-  useEffect(() => setHexDraft(accent), [accent]);
-
-  /*
-   * Accent menu. Closes on Escape and on a click outside, and returns focus to the
-   * trigger on Escape so the keyboard is never stranded. The colour input opens a native
-   * picker that lives outside the document, so `pointerdown` inside the panel must not be
-   * treated as an outside click — hence the containment check rather than a blur handler.
-   */
-  const [accentOpen, setAccentOpen] = useState(false);
 
   /*
    * The options tray is a drawer, not a column, so the stage gets the full width of the
@@ -219,40 +168,6 @@ const Playground: React.FC = () => {
   useEffect(() => {
     if (configOpen) configCloseRef.current?.focus();
   }, [configOpen]);
-  const accentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!accentOpen) return;
-
-    const onPointerDown = (event: PointerEvent) => {
-      if (!accentRef.current?.contains(event.target as Node))
-        setAccentOpen(false);
-    };
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
-      setAccentOpen(false);
-      accentRef.current?.querySelector("button")?.focus();
-    };
-
-    document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [accentOpen]);
-
-  const commitHex = (raw: string) => {
-    const value = raw.trim();
-    const hex = value.startsWith("#") ? value : `#${value}`;
-    if (!/^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(hex)) return false;
-
-    const normalized = normalizeHex(hex);
-    setAccent(normalized);
-    syncUrl({ accent: normalized });
-    return true;
-  };
-
   /** Control values assembled into the shape the component actually takes. */
   /**
    * Controls whose path starts with `--` are CSS custom properties, not props.
@@ -373,7 +288,7 @@ const Playground: React.FC = () => {
       `\`}</style>`;
 
     return `${importLine}\n\n${styleBlock}\n\n${element}`;
-  }, [spec, resource, assembledProps, cssVars, accent, font]);
+  }, [spec, resource, assembledProps, cssVars, accent]);
 
   const copy = async () => {
     try {
@@ -652,192 +567,6 @@ const Playground: React.FC = () => {
               </Link>
 
               <div className={styles.rail}>
-                <div className={styles.group}>
-                  <p className={styles.groupTitle}>Page</p>
-                  {/*
-                   * Not props: Clover reads its colours and type from CSS custom properties on
-                   * whatever contains it, so these belong to the page, not the component.
-                   */}
-                  <div className={styles.environmentControls}>
-                    <div className={styles.environmentControl}>
-                      <label
-                        className={styles.environmentLabel}
-                        htmlFor="pg-font"
-                      >
-                        Font family
-                      </label>
-                      {/* Grouped so the sans/serif split is visible while staying one control. */}
-                      <select
-                        className={styles.select}
-                        id="pg-font"
-                        onChange={(e) => setFont(e.target.value)}
-                        value={font}
-                      >
-                        {fontPresets
-                          .filter((preset) => !preset.category)
-                          .map((preset) => (
-                            <option key={preset.name} value={preset.value}>
-                              {preset.name}
-                            </option>
-                          ))}
-                        {(["Sans serif", "Serif"] as const).map((category) => (
-                          <optgroup key={category} label={category}>
-                            {fontPresets
-                              .filter((preset) => preset.category === category)
-                              .map((preset) => (
-                                <option key={preset.name} value={preset.value}>
-                                  {preset.name}
-                                </option>
-                              ))}
-                          </optgroup>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className={styles.environmentControl}>
-                      <span className={styles.environmentLabel}>
-                        Appearance
-                      </span>
-                      <div
-                        aria-label="Appearance"
-                        className={styles.segmented}
-                        role="group"
-                      >
-                        {(["light", "dark"] as const).map((option) => (
-                          <button
-                            aria-pressed={mounted ? theme === option : false}
-                            className={styles.segment}
-                            key={option}
-                            onClick={() => setTheme(option)}
-                            type="button"
-                          >
-                            {option === "light" ? "Light" : "Dark"}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className={styles.environmentControl} ref={accentRef}>
-                      {/* Labelled "Color" for readers; `accent` stays the internal name and the
-                       * URL parameter, so links shared before this rename still resolve. */}
-                      <span
-                        className={styles.environmentLabel}
-                        id="pg-accent-label"
-                      >
-                        Color
-                      </span>
-
-                      {/*
-                       * A disclosure rather than a listbox: the panel holds a colour input and a
-                       * text field as well as the presets, which is more than a set of options.
-                       * The trigger shows the hex actually in force, so it reports the state as
-                       * well as opening the menu.
-                       */}
-                      <button
-                        aria-expanded={accentOpen}
-                        aria-haspopup="true"
-                        aria-labelledby="pg-accent-label"
-                        className={styles.accentTrigger}
-                        onClick={() => setAccentOpen((open) => !open)}
-                        type="button"
-                      >
-                        <span
-                          aria-hidden="true"
-                          className={styles.accentDot}
-                          style={{ background: effectiveAccent }}
-                        />
-                        <span className={styles.accentHex}>
-                          {effectiveAccent.toUpperCase()}
-                        </span>
-                        <span aria-hidden="true" className={styles.accentCaret}>
-                          ▾
-                        </span>
-                      </button>
-
-                      {accentOpen && (
-                        <div className={styles.accentMenu}>
-                          {accentPresets.map((preset) => (
-                            <button
-                              aria-current={
-                                (preset.value || "") === accent
-                                  ? "true"
-                                  : undefined
-                              }
-                              className={styles.accentOption}
-                              key={preset.name}
-                              onClick={() => {
-                                setAccent(preset.value);
-                                syncUrl({ accent: preset.value });
-                                setAccentOpen(false);
-                              }}
-                              type="button"
-                            >
-                              <span
-                                aria-hidden="true"
-                                className={`${styles.accentDot} ${
-                                  preset.value ? "" : styles.accentDotDefault
-                                }`}
-                                style={
-                                  preset.value
-                                    ? { background: preset.value }
-                                    : undefined
-                                }
-                              />
-                              <span className={styles.accentOptionName}>
-                                {preset.name}
-                              </span>
-                            </button>
-                          ))}
-
-                          {/*
-                           * Custom. The wheel opens the platform picker; `onChange` fires as it is
-                           * dragged, which is what makes the preview track live, while the URL is
-                           * only rewritten on commit so dragging does not push a history entry per
-                           * frame. The field beside it takes a hex directly, and carries the row on
-                           * its own — an editable field reads as the way in more plainly than the
-                           * word "Custom" sitting next to it did.
-                           */}
-                          <div
-                            className={styles.accentCustom}
-                            data-active={isCustomAccent}
-                          >
-                            <label
-                              className={styles.swatchPicker}
-                              title="Color wheel"
-                            >
-                              <span className={styles.visuallyHidden}>
-                                Color wheel
-                              </span>
-                              <input
-                                className={styles.swatchInput}
-                                onBlur={() => syncUrl({})}
-                                onChange={(e) => setAccent(e.target.value)}
-                                type="color"
-                                value={effectiveAccent}
-                              />
-                            </label>
-                            <input
-                              aria-label="Custom hex color"
-                              className={styles.hexInput}
-                              maxLength={7}
-                              onBlur={() => {
-                                if (!commitHex(hexDraft)) setHexDraft(accent);
-                              }}
-                              onChange={(e) => {
-                                setHexDraft(e.target.value);
-                                commitHex(e.target.value);
-                              }}
-                              placeholder={DEFAULT_ACCENT.toUpperCase()}
-                              spellCheck={false}
-                              value={hexDraft}
-                            />
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
                 {/* Primitives take IIIF property values, not a resource URL. */}
                 {spec.resourceProp && (
                   <div className={styles.group}>

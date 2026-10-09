@@ -38,14 +38,15 @@ export const isFullscreenSupported = (): boolean => {
 /**
  * Clover's root, found from an element inside it.
  *
- * `.clover-viewer` is checked first on purpose. Both selectors match when an `Image` is
- * nested in a `Viewer`, and the image wrapper is the nearer ancestor — so a plain
+ * `.clover-viewer` is checked first on purpose. Both selectors match when an `Image` (or a
+ * `Canvas`) is nested in a `Viewer`, and the image wrapper is the nearer ancestor — so a plain
  * `closest()` over both would full-screen the image alone and leave the rest of the viewer
  * behind, which is the problem this is here to solve.
  */
 export const getCloverRoot = (from: Element | null): HTMLElement | null =>
   (from?.closest(".clover-viewer") as HTMLElement | null) ??
-  (from?.closest(".clover-iiif-image-openseadragon") as HTMLElement | null);
+  (from?.closest(".clover-iiif-image-openseadragon") as HTMLElement | null) ??
+  (from?.closest(".clover-canvas") as HTMLElement | null);
 
 /**
  * Enter or leave full screen for the Clover root containing `from`.

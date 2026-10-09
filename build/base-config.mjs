@@ -12,9 +12,6 @@ const PEER_NAMES = new Set([...Object.keys(pkg.peerDependencies || {})]);
 const FORCED_EXTERNALS = new Set([
   "@iiif/helpers",
   "@iiif/parser",
-  "i18next",
-  "react-i18next",
-  "i18next-browser-languagedetector",
   "openseadragon",
   "swiper",
   // hls.js is loaded dynamically only for HLS sources. Externalising it
@@ -145,6 +142,13 @@ export function defineConfig(options, key) {
       },
     },
     define: { "process.env.NODE_ENV": '"production"' },
+    /*
+     * JSON as one `JSON.parse("…")` per file. Vite's default gives every key its own
+     * named export, which turns the locale files' ~500 strings into ~500 bindings: about
+     * 2.7 kB gzipped of names, in every entry that translates. Nothing imports a key by
+     * name, and a parsed string also loads faster than the equivalent object literal.
+     */
+    json: { stringify: true },
     build: {
       outDir: `dist/${key}`,
       sourcemap: false,
