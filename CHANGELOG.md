@@ -147,11 +147,14 @@ assigned at release time.
     />
     ```
 
+  Nothing is fetched until a `Canvas` comes within half a screen of view: no image
+  service, tiles, video, sound or captions. A hidden `Canvas` waits until it is shown.
+
   Viewport coordinates are in the image's own coordinates, ready to use as an `xywh=`
   region. An image served without CORS is still displayed, as a real `<img>` placed by
   the same camera.
 
-  A standalone `Canvas` is 31.5 kB gzipped, translations and all its CSS included,
+  A standalone `Canvas` is 31.6 kB gzipped, translations and all its CSS included,
   against 121.5 kB for `Image` with OpenSeadragon. Video and sound add a separate 4.1 kB
   chunk, loaded only when a Canvas paints them.
 

@@ -155,6 +155,10 @@ Agents make code changes. Committing, versioning and releasing are done by a hum
 - Fixtures: `src/fixtures/iiif-image/info.ts` holds the reference server's Göttingen
   `info.json` for 3.0, 2.1 and 2.0, which is the image in Cookbook recipe 0005. The
   Cookbook recipes the layout tests use are in `src/fixtures/iiif-cookbook/`.
+- Loading is lazy: `useNearViewport` holds back `setImages` and the media stage until the
+  Canvas is within half a screen of view, once, and never unloads. Tests install
+  `stubViewport()` (`Canvas/testing/viewport.ts`), since the suite's IntersectionObserver
+  mock never reports.
 - Draws happen only in `requestAnimationFrame` and on demand. A hidden tab or preview pane
   never fires rAF, so verify rendering in a visible browser or headless Playwright.
 - It is not yet exported from the package root or wired into the Viewer. The plan is

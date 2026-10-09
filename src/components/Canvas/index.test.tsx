@@ -7,6 +7,7 @@ import rtl from "src/fixtures/iiif-cookbook/0010-book-2-viewing-direction-rtl.js
 import choice from "src/fixtures/iiif-cookbook/0033-choice.json";
 import { initCloverI18n } from "src/i18n";
 import { CanvasRenderer } from "src/lib/renderer";
+import { stubViewport } from "src/components/Canvas/testing/viewport";
 
 const listeners: Record<string, (detail?: unknown) => void> = {};
 let renderer: Record<string, any>;
@@ -15,6 +16,13 @@ vi.mock("src/lib/renderer", async (importOriginal) => ({
   ...(await importOriginal<typeof import("src/lib/renderer")>()),
   CanvasRenderer: vi.fn().mockImplementation(() => renderer),
 }));
+
+// Each Canvas is on screen, so it loads; see the lazy-loading test for one that is not.
+let viewport: ReturnType<typeof stubViewport>;
+beforeEach(() => {
+  viewport = stubViewport();
+});
+afterEach(() => viewport.restore());
 
 beforeEach(() => {
   vi.clearAllMocks();

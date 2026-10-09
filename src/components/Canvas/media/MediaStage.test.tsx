@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 
 import Canvas, { containAspect } from "src/components/Canvas";
+import { stubViewport } from "src/components/Canvas/testing/viewport";
 import { formatTime } from "src/components/Canvas/media/useMediaController";
 import audio from "src/fixtures/iiif-cookbook/0002-mvm-audio.json";
 import video from "src/fixtures/iiif-cookbook/0003-mvm-video.json";
@@ -47,6 +48,13 @@ beforeAll(() => {
     value: () => undefined,
   });
 });
+
+// Each Canvas is on screen, so it loads; see the lazy-loading test for one that is not.
+let viewport: ReturnType<typeof stubViewport>;
+beforeEach(() => {
+  viewport = stubViewport();
+});
+afterEach(() => viewport.restore());
 
 beforeEach(() => {
   vi.clearAllMocks();
@@ -287,6 +295,39 @@ describe("Canvas media", () => {
     expect(screen.getByTestId("clover-canvas")).not.toHaveAttribute(
       "data-media",
     );
+  });
+});
+
+describe("lazy loading", () => {
+  it("fetches nothing, images or media, until the Canvas nears the screen", async () => {
+    viewport.restore();
+    viewport = stubViewport({ onScreen: false });
+    const fetch = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValue(new Response("WEBVTT\n"));
+    URL.createObjectURL = vi.fn(() => "blob:http://localhost/captions");
+    const onMediaElement = vi.fn();
+    render(
+      <Canvas
+        canvases={captions.items as any}
+        onMediaElement={onMediaElement}
+      />,
+    );
+    const canvas = screen.getByTestId("clover-canvas");
+
+    expect(renderer.setImages).not.toHaveBeenCalled();
+    expect(screen.queryByTestId("clover-canvas-transport")).toBeNull();
+    expect(onMediaElement).not.toHaveBeenCalled();
+    expect(fetch).not.toHaveBeenCalled();
+
+    act(() => viewport.scrollIntoView(canvas));
+    await transport();
+    expect(renderer.setImages).toHaveBeenCalled();
+    expect(onMediaElement.mock.calls.at(-1)?.[0]).toBeInstanceOf(
+      HTMLVideoElement,
+    );
+    // Captions are fetched only now.
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
 });
 

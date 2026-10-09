@@ -359,6 +359,9 @@ The `accompanyingCanvas` (else the `placeholderCanvas`) is shown while it plays.
   Requests use each version's canonical spelling, which is all a static level 0 tree
   answers to. A body whose service cannot be reached falls back to its `id`.
 
+- **Lazy loading.** Nothing is fetched until a Canvas comes within half a screen of
+  view: no `info.json` or tiles, and no video, sound or captions. A page of many Canvases
+  costs nothing until it is scrolled, and a hidden one waits until it is shown.
 - **Deep zoom.** It loads the coarsest level first, then the level that fits the screen,
   nearest the centre first. Tiles that scroll out of view are cancelled. Tiles stay cached
   up to a memory budget.

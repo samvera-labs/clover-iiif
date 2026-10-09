@@ -28,6 +28,7 @@ import {
 } from "src/components/Canvas/layout";
 import ExitFullscreen from "src/components/Shared/Fullscreen/ExitFullscreen";
 import { useChromeVisibility } from "src/components/Canvas/useChromeVisibility";
+import { useNearViewport } from "src/components/Canvas/useNearViewport";
 import useFullscreen from "src/hooks/useFullscreen";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
 import { join } from "src/lib/classnames";
@@ -106,6 +107,11 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
   // Controls and navigator show on pointer activity and fade after a pause, as the
   // Player's bar does.
   const chromeVisible = useChromeVisibility(wrapperElement, options?.hideDelay);
+  /*
+   * Nothing is fetched until the Canvas comes within half a screen of view: no
+   * `info.json` or tiles, and no video, sound or captions (nor the media code itself).
+   */
+  const nearViewport = useNearViewport(wrapperElement);
   // A stable id per mounted instance, for control ids; never a new one per render.
   const [instance] = useState(
     () => instanceId ?? `clover-canvas-${++instances}`,
@@ -317,7 +323,7 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
 
   useEffect(() => {
     const renderer = rendererRef.current;
-    if (!renderer) return;
+    if (!renderer || !nearViewport) return;
     if (!renderer.isOpen) setStatus("loading");
     const fit =
       mediaOnly ||
@@ -326,7 +332,7 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
     renderer.setImages(images, { world: world ?? undefined, fit });
     // `imagesKey` stands in for `images`, whose identity changes on every parent render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imagesKey, instanceId, mediaElement]);
+  }, [imagesKey, instanceId, mediaElement, nearViewport]);
 
   return (
     <div
@@ -378,7 +384,7 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
         aria-busy={status === "loading"}
         tabIndex={0}
       />
-      {renderer && media && (
+      {renderer && media && nearViewport && (
         <Suspense fallback={null}>
           <MediaStage
             key={media.id}
