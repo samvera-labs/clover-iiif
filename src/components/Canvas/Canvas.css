@@ -7,6 +7,8 @@
  */
 .clover-canvas {
   position: relative;
+  /* A <figure>, whose caption is the Canvases' information: no browser margins. */
+  margin: 0;
   /* The Viewer's default canvas ground: a translucent wash, for images and media alike. */
   background-color: #0001;
   width: 100%;

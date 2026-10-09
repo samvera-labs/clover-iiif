@@ -66,12 +66,6 @@ button.clover-canvas-transport-button {
   font-family: inherit;
   background: none;
   background-color: var(--clover-color-secondary, #fff);
-  /* 85% at rest, so a little of the picture shows through; hover fills it. */
-  background-color: color-mix(
-    in srgb,
-    var(--clover-color-secondary, #fff) 85%,
-    transparent
-  );
   color: var(--clover-color-primary, #1a1d1e);
   cursor: pointer;
   transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));

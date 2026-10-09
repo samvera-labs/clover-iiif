@@ -47,12 +47,6 @@ button.clover-map-control {
    * interaction. `color` was a literal `white`, which ignored the theme entirely.
    */
   background-color: var(--clover-color-secondary, #fff);
-  /* 85% at rest, so a little of the picture shows through; hover fills it. */
-  background-color: color-mix(
-    in srgb,
-    var(--clover-color-secondary, #fff) 85%,
-    transparent
-  );
   border: none;
   color: var(--clover-color-primary, #1a1d1e);
   cursor: pointer;

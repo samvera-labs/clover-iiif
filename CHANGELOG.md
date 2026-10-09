@@ -12,18 +12,6 @@ assigned at release time.
 
 ### Changed
 
-- **Control buttons are 85% opaque at rest.** The image controls, the Player's transport,
-  the exit-full-screen control and the map controls now show a little of the picture
-  through their background, and fill solid on hover or focus as before. To keep them
-  solid, set the background yourself:
-
-  ```css
-  button.clover-iiif-image-openseadragon-button,
-  button.clover-viewer-player-button {
-    background-color: var(--clover-color-secondary, #fff);
-  }
-  ```
-
 - **Canvases default to a `#0001` background, and audio and video no longer letterbox onto
   black.** `options.canvasBackgroundColor` now defaults to `#0001` (it was `#6662`) and
   applies to every canvas: `.clover-viewer-player-wrapper` no longer paints `#000` over it.
@@ -113,6 +101,13 @@ assigned at release time.
   - **An annotations menu.** With `annotations`, a comment control in the cluster lists
     them by their text. Picking one zooms to it and keeps its hotspot highlighted, as
     clicking the hotspot does. `controls={{ annotations: false }}` hides it.
+  - **A caption of Canvas information.** When a shown Canvas has a `summary` or
+    `metadata` (Cookbook 0029, "metadata anywhere"), an `i` control in the cluster slides
+    out a closable box over the picture with each Canvas's label, summary and metadata.
+    `Canvas` renders as a `<figure>` (it was a `<div>`), and the box is its `<figcaption>`;
+    the captioned Canvases' labels name the figure. Values keep IIIF's limited HTML,
+    sanitised as the Primitives do, and the sanitiser loads only when the box first opens.
+    `controls={{ information: false }}` hides it.
 
   It also draws IIIF Canvases: pass one, or the few shown together (a spread), as
   `canvases`.

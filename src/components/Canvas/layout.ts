@@ -27,6 +27,9 @@ export interface IIIFCanvas {
   height?: number;
   behavior?: string[] | string;
   label?: unknown;
+  /** Descriptive text and label/value pairs, shown from the Canvas's information control. */
+  summary?: unknown;
+  metadata?: Array<{ label?: unknown; value?: unknown }>;
   /** Seconds, on a time-based Canvas. */
   duration?: number;
   items?: Array<{ items?: Array<IIIFAnnotation> }>;

@@ -34,12 +34,6 @@ button.clover-exit-full-screen {
   border: none;
   border-radius: var(--clover-radius-pill, 2rem);
   background-color: var(--clover-color-secondary, #fff);
-  /* 85% at rest, so a little of the picture shows through; hover fills it. */
-  background-color: color-mix(
-    in srgb,
-    var(--clover-color-secondary, #fff) 85%,
-    transparent
-  );
   color: var(--clover-color-primary, #1a1d1e);
   font-family: inherit;
   font-size: 0.8333rem;

@@ -4,6 +4,7 @@ import React from "react";
 import Canvas from "src/components/Canvas";
 import book from "src/fixtures/iiif-cookbook/0009-book-1.json";
 import rtl from "src/fixtures/iiif-cookbook/0010-book-2-viewing-direction-rtl.json";
+import metadataAnywhere from "src/fixtures/iiif-cookbook/0029-metadata-anywhere.json";
 import choice from "src/fixtures/iiif-cookbook/0033-choice.json";
 import { initCloverI18n } from "src/i18n";
 import { CanvasRenderer } from "src/lib/renderer";
@@ -475,6 +476,82 @@ describe("Canvas", () => {
       fireEvent.keyDown(document, { key: "Escape" });
       expect(screen.queryByTestId("clover-canvas-choice")).toBeNull();
       expect(control).toHaveFocus();
+    });
+  });
+
+  describe("information", () => {
+    const [natural, xray] = metadataAnywhere.items as any[];
+    const about = () => screen.getByRole("button", { name: "About" });
+    const caption = () => screen.getByTestId("clover-canvas-caption");
+
+    it("offers an information control only when a Canvas has a summary or metadata", () => {
+      const { rerender } = render(
+        <Canvas canvases={book.items.slice(0, 1) as any} />,
+      );
+      expect(screen.queryByRole("button", { name: "About" })).toBeNull();
+      expect(screen.queryByTestId("clover-canvas-caption")).toBeNull();
+
+      rerender(<Canvas canvases={[natural]} />);
+      expect(about()).toHaveAttribute("data-button", "information");
+      expect(about()).toHaveAttribute("aria-expanded", "false");
+      expect(about()).toHaveAttribute("aria-controls", caption().id);
+      expect(caption().tagName).toBe("FIGCAPTION");
+      expect(caption()).toHaveAttribute("data-open", "false");
+
+      rerender(
+        <Canvas
+          canvases={[
+            { ...natural, metadata: undefined, summary: { en: ["A note"] } },
+          ]}
+        />,
+      );
+      expect(about()).toBeInTheDocument();
+    });
+
+    it("is hidden when turned off", () => {
+      render(<Canvas canvases={[natural]} controls={{ information: false }} />);
+      expect(screen.queryByRole("button", { name: "About" })).toBeNull();
+      expect(screen.queryByTestId("clover-canvas-caption")).toBeNull();
+    });
+
+    it("slides out the Canvas's label and metadata, naming the figure", async () => {
+      render(<Canvas canvases={[natural]} />);
+      expect(
+        screen.getByRole("figure", { name: "Painting under natural light" }),
+      ).toBe(screen.getByTestId("clover-canvas"));
+
+      fireEvent.click(about());
+      expect(about()).toHaveAttribute("aria-expanded", "true");
+      expect(caption()).toHaveAttribute("data-open", "true");
+      expect(caption()).toHaveFocus();
+      expect(await screen.findByText("Description")).toBeInTheDocument();
+      expect(screen.getByText(/house at Mortlake/)).toBeInTheDocument();
+
+      fireEvent.click(about());
+      expect(caption()).toHaveAttribute("data-open", "false");
+    });
+
+    it("captions each Canvas of a spread", async () => {
+      render(<Canvas canvases={[natural, xray]} />);
+      fireEvent.click(about());
+      expect(
+        screen.getByText("Painting under natural light"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("X-ray view of painting")).toBeInTheDocument();
+      expect(await screen.findAllByText("Description")).toHaveLength(2);
+    });
+
+    it("closes from its close button or Escape, returning focus to the control", () => {
+      render(<Canvas canvases={[natural]} />);
+      fireEvent.click(about());
+      fireEvent.click(screen.getByRole("button", { name: "Close" }));
+      expect(caption()).toHaveAttribute("data-open", "false");
+      expect(about()).toHaveFocus();
+
+      fireEvent.click(about());
+      fireEvent.keyDown(caption(), { key: "Escape" });
+      expect(caption()).toHaveAttribute("data-open", "false");
+      expect(about()).toHaveFocus();
     });
   });
 

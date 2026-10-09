@@ -1,0 +1,152 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://iiif.io/api/cookbook/recipe/0029-metadata-anywhere/manifest.json",
+  "type": "Manifest",
+  "label": {
+    "en": ["John Dee performing an experiment before Queen Elizabeth I."]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": ["Creator"]
+      },
+      "value": {
+        "en": ["Glindoni, Henry Gillard, 1852-1913"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Date"]
+      },
+      "value": {
+        "en": ["1800-1899"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Physical Description"]
+      },
+      "value": {
+        "en": ["1 painting : oil on canvas ; canvas 152 x 244.4 cm"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Reference"]
+      },
+      "value": {
+        "en": ["Wellcome Library no. 47369i"]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": ["Attribution"]
+    },
+    "value": {
+      "en": [
+        "Wellcome Collection. Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)"
+      ]
+    }
+  },
+  "items": [
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0029-metadata-anywhere/canvas/p1",
+      "type": "Canvas",
+      "label": {
+        "en": ["Painting under natural light"]
+      },
+      "height": 1271,
+      "width": 2000,
+      "metadata": [
+        {
+          "label": {
+            "en": ["Description"]
+          },
+          "value": {
+            "en": [
+              "The scene is the house at Mortlake of Dr John Dee (1527-1608). At the court of Queen Elizabeth I, Dee was revered for the range of his scientific knowledge, which embraced the fields of mathematics, navigation, geography, alchemy/chemistry, medicine and optics. In the painting he is showing the effect of combining two elements, either to cause combustion or to extinguish it. Behind him is his assistant Edward Kelly, wearing a long skullcap to conceal the fact that his ears had been cropped as a punishment for forgery."
+            ]
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": "https://iiif.io/api/cookbook/recipe/0029-metadata-anywhere/page/p1/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://iiif.io/api/cookbook/recipe/0029-metadata-anywhere/annotation/p0001-image",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://iiif.io/api/image/3.0/example/reference/421e65be2ce95439b3ad6ef1f2ab87a9-dee-natural/full/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 1271,
+                "width": 2000,
+                "service": [
+                  {
+                    "id": "https://iiif.io/api/image/3.0/example/reference/421e65be2ce95439b3ad6ef1f2ab87a9-dee-natural",
+                    "profile": "level1",
+                    "type": "ImageService3"
+                  }
+                ]
+              },
+              "target": "https://iiif.io/api/cookbook/recipe/0029-metadata-anywhere/canvas/p1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0029-metadata-anywhere/canvas/p2",
+      "type": "Canvas",
+      "label": {
+        "en": ["X-ray view of painting"]
+      },
+      "height": 1271,
+      "width": 2000,
+      "metadata": [
+        {
+          "label": {
+            "en": ["Description"]
+          },
+          "value": {
+            "en": [
+              "The painting originally showed Dee standing in a circle of skulls on the floor, stretching from the floor area in front of the Queen (on the left) to the floor near Edward Kelly (on the right). The skulls were at an early stage painted over, but have since become visible. Another pentimento is visible in the tapestry on the right: shelves containing monstrous animals are visible behind it. The pentimenti were clarified when the painting was X-rayed in 2015."
+            ]
+          }
+        }
+      ],
+      "items": [
+        {
+          "id": "https://iiif.io/api/cookbook/recipe/0029-metadata-anywhere/page/p2/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://iiif.io/api/cookbook/recipe/0029-metadata-anywhere/annotation/p0002-image",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://iiif.io/api/image/3.0/example/reference/421e65be2ce95439b3ad6ef1f2ab87a9-dee-xray/full/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 1271,
+                "width": 2000,
+                "service": [
+                  {
+                    "id": "https://iiif.io/api/image/3.0/example/reference/421e65be2ce95439b3ad6ef1f2ab87a9-dee-xray",
+                    "profile": "level1",
+                    "type": "ImageService3"
+                  }
+                ]
+              },
+              "target": "https://iiif.io/api/cookbook/recipe/0029-metadata-anywhere/canvas/p2"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

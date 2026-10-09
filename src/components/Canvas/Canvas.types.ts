@@ -27,6 +27,11 @@ export interface CanvasControlsConfig {
    * only when some annotation can be drawn.
    */
   annotations?: boolean;
+  /**
+   * An `i` control that slides out the Canvases' `summary` and `metadata` as a caption.
+   * Shown only when a Canvas has either.
+   */
+  information?: boolean;
 }
 
 export interface CloverCanvasOptions {

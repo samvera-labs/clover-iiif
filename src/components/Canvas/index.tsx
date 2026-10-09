@@ -14,6 +14,10 @@ import Annotations, {
   type PlacedAnnotation,
   placeAnnotations,
 } from "src/components/Canvas/Annotations";
+import Caption, {
+  captionLabelId,
+  hasInformation,
+} from "src/components/Canvas/Caption";
 import type {
   CanvasControlsConfig,
   CanvasHandle,
@@ -53,6 +57,7 @@ const ALL_CONTROLS: Required<CanvasControlsConfig> = {
   rotation: true,
   reset: true,
   annotations: true,
+  information: true,
 };
 
 let instances = 0;
@@ -103,7 +108,7 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
   const [renderer, setRenderer] = useState<CanvasRenderer | null>(null);
   const [navigatorElement, setNavigatorElement] =
     useState<HTMLDivElement | null>(null);
-  const [wrapperElement, setWrapperElement] = useState<HTMLDivElement | null>(
+  const [wrapperElement, setWrapperElement] = useState<HTMLElement | null>(
     null,
   );
   const isFullscreen = useFullscreen(wrapperElement);
@@ -151,6 +156,27 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
   const [selections, setSelections] = useState<ChoiceSelections>({});
   const selectChoice = (key: string, index: number) =>
     setSelections((current) => ({ ...current, [key]: index }));
+  /*
+   * The shown Canvases with a `summary` or `metadata`, for the caption the information
+   * control slides out. It stays open as the host moves between Canvases, wherever there
+   * is something to show.
+   */
+  const showInformation = Boolean(controlsConfig?.information);
+  const captioned = useMemo(
+    () => (showInformation ? (canvases ?? []).filter(hasInformation) : []),
+    [canvases, showInformation],
+  );
+  const captionId = `caption-${instance}`;
+  const [captionOpen, setCaptionOpen] = useState(false);
+  const isCaptionOpen = captionOpen && captioned.length > 0;
+  const closeCaption = useCallback(
+    (restoreFocus: boolean) => {
+      setCaptionOpen(false);
+      if (restoreFocus)
+        document.getElementById(`information-${instance}`)?.focus();
+    },
+    [instance],
+  );
   const scene = useMemo(
     () =>
       canvases?.length ? canvasScene(canvases, direction, selections) : null,
@@ -192,11 +218,11 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
   /*
    * A lone media Canvas carries all its chrome in the transport at the bottom: full
    * screen moves there, and the top cluster (and the scrim behind it) is shown only for a
-   * `Choice` to pick from.
+   * `Choice` to pick from or information to read.
    */
   const shownControls =
     controlsConfig && mediaOnly
-      ? choices.length
+      ? choices.length || captioned.length
         ? {
             ...controlsConfig,
             zoom: false,
@@ -267,6 +293,18 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
   const ariaLabel =
     typeof label === "string" ? label : getLabelAsString(label) || undefined;
   const hasAnnotations = Boolean(annotations?.length);
+  const hasCaption = Boolean(shownControls) && captioned.length > 0;
+  // The captioned Canvases' labels name the figure, whether or not the caption is open.
+  const figureLabel = hasCaption
+    ? captioned
+        .map((canvas, index) =>
+          getLabelAsString(canvas.label as any)
+            ? captionLabelId(captionId, index)
+            : null,
+        )
+        .filter(Boolean)
+        .join(" ") || undefined
+    : undefined;
 
   /*
    * An annotation lands on the Canvas it targets, wherever that Canvas has been placed;
@@ -374,7 +412,8 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
   }, [imagesKey, instanceId, mediaElement, nearViewport]);
 
   return (
-    <div
+    <figure
+      aria-labelledby={figureLabel}
       className={join("clover-canvas", className)}
       data-testid="clover-canvas"
       data-status={status}
@@ -404,6 +443,9 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
           selectedAnnotation={selectedAnnotation}
           onAnnotationSelect={selectAnnotation}
           onAnnotationActivate={activateAnnotation}
+          captionId={hasCaption ? captionId : undefined}
+          captionOpen={isCaptionOpen}
+          onCaptionToggle={() => setCaptionOpen((open) => !open)}
         />
       )}
       {showNavigator && (
@@ -454,7 +496,16 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
           onSelect={selectAnnotation}
         />
       )}
-    </div>
+      {/* Last, as a `<figcaption>` must be first or last in its `<figure>`. */}
+      {hasCaption && (
+        <Caption
+          id={captionId}
+          canvases={captioned}
+          open={isCaptionOpen}
+          onClose={closeCaption}
+        />
+      )}
+    </figure>
   );
 };
 

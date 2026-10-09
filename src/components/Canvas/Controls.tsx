@@ -4,7 +4,7 @@ import type { CanvasControlsConfig } from "src/components/Canvas/Canvas.types";
 import AnnotationMenu from "src/components/Canvas/AnnotationMenu";
 import type { PlacedAnnotation } from "src/components/Canvas/Annotations";
 import ChoiceMenu from "src/components/Canvas/ChoiceMenu";
-import { Comment } from "src/components/Canvas/glyphs";
+import { Comment, Information } from "src/components/Canvas/glyphs";
 import Button from "src/components/Image/Controls/Button";
 import type {
   ChoiceGroup,
@@ -48,6 +48,13 @@ interface CanvasControlsProps {
   selectedAnnotation?: string | null;
   onAnnotationSelect?: (annotation: PlacedAnnotation) => void;
   onAnnotationActivate?: (id: string | null) => void;
+  /**
+   * The id of the Canvas's caption when it has information to show (`Caption`, which the
+   * Canvas renders in its `<figure>`), whether it is open, and the toggle.
+   */
+  captionId?: string;
+  captionOpen?: boolean;
+  onCaptionToggle?: () => void;
   children?: React.ReactNode;
 }
 
@@ -71,6 +78,9 @@ const Controls: React.FC<CanvasControlsProps> = ({
   selectedAnnotation = null,
   onAnnotationSelect,
   onAnnotationActivate,
+  captionId,
+  captionOpen = false,
+  onCaptionToggle,
   children,
 }) => {
   const { t } = useCloverTranslation();
@@ -90,6 +100,7 @@ const Controls: React.FC<CanvasControlsProps> = ({
   );
   const showAnnotations =
     config.annotations && annotations.length > 0 && onAnnotationSelect;
+  const showInformation = config.information && captionId && onCaptionToggle;
   const choiceId = `choice-${instance}`;
   /*
    * The control is named by the Manifest where it can be: the Choice's own `label` when
@@ -189,8 +200,8 @@ const Controls: React.FC<CanvasControlsProps> = ({
       isPanelOpen={isPanelOpen}
     >
       {/*
-        Not a `ControlSpec`: those are keyed by the Viewer's `ControlButtons`, and this
-        control is Canvas's alone, so it is not replaceable through `controlButtons`.
+        Not `ControlSpec`s: those are keyed by the Viewer's `ControlButtons`, and these
+        controls are Canvas's alone, so they are not replaceable through `controlButtons`.
       */}
       {showAnnotations && (
         <Button
@@ -201,6 +212,17 @@ const Controls: React.FC<CanvasControlsProps> = ({
           controls={annotationsMenuId}
         >
           <Comment />
+        </Button>
+      )}
+      {showInformation && (
+        <Button
+          id={`information-${instance}`}
+          label={t("informationPanelTabsAbout")}
+          onClick={onCaptionToggle}
+          expanded={captionOpen}
+          controls={captionId}
+        >
+          <Information />
         </Button>
       )}
       {children}

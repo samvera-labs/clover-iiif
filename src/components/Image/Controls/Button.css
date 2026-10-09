@@ -26,12 +26,6 @@ button.clover-iiif-image-openseadragon-button {
    * now, so it no longer carries over the way it did when the button was already dark.
    */
   background-color: var(--clover-color-secondary, #fff);
-  /* 85% at rest, so a little of the picture shows through; hover fills it. */
-  background-color: color-mix(
-    in srgb,
-    var(--clover-color-secondary, #fff) 85%,
-    transparent
-  );
   border: none;
   color: var(--clover-color-primary, #1a1d1e);
   cursor: pointer;
