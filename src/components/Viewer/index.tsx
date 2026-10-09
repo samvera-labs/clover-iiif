@@ -17,6 +17,7 @@ import {
 
 import { encodeContentState, getManifestSequence } from "@iiif/helpers";
 import { Vault } from "@iiif/helpers/vault";
+import { v4 as uuidv4 } from "uuid";
 import Viewer from "src/components/Viewer/Viewer/Viewer";
 import { customThemeToCssVars } from "src/styles/tokens";
 import { getRequest } from "src/lib/xhr";
@@ -108,6 +109,11 @@ const CloverViewer: React.FC<CloverViewerProps> = ({
         plugins,
         isAutoScrollEnabled: autoScrollOptions.enabled,
         isInformationOpen: Boolean(options?.informationPanel?.open),
+        // `defaultState` is a module-level singleton, computed once. Without this,
+        // every `Viewer` that does not supply its own `initialState` inherits the
+        // same `viewerId` from that one shared object, which two instances on one
+        // page then use as the same OpenSeadragon container id.
+        viewerId: uuidv4(),
         vault: new Vault({
           customFetcher: (url: string) =>
             getRequest(url, {
