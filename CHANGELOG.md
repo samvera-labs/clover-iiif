@@ -12,6 +12,18 @@ assigned at release time.
 
 ### Changed
 
+- **Control buttons are 85% opaque at rest.** The image controls, the Player's transport,
+  the exit-full-screen control and the map controls now show a little of the picture
+  through their background, and fill solid on hover or focus as before. To keep them
+  solid, set the background yourself:
+
+  ```css
+  button.clover-iiif-image-openseadragon-button,
+  button.clover-viewer-player-button {
+    background-color: var(--clover-color-secondary, #fff);
+  }
+  ```
+
 - **Canvases default to a `#0001` background, and audio and video no longer letterbox onto
   black.** `options.canvasBackgroundColor` now defaults to `#0001` (it was `#6662`) and
   applies to every canvas: `.clover-viewer-player-wrapper` no longer paints `#000` over it.
@@ -91,7 +103,16 @@ assigned at release time.
     clips.
   - **Annotation hotspots.**
   - **Controls:** the same cluster as `Image`, with `controlButtons`.
-  - **Navigator, full screen, rotation and keyboard control.**
+  - **Full screen, rotation and keyboard control**, and a **navigator** (an overview in
+    the top left). The navigator is off by default; turn it on with `navigator`:
+
+    ```jsx
+    <Canvas src={src} isTiledImage navigator />
+    ```
+
+  - **An annotations menu.** With `annotations`, a comment control in the cluster lists
+    them by their text. Picking one zooms to it and keeps its hotspot highlighted, as
+    clicking the hotspot does. `controls={{ annotations: false }}` hides it.
 
   It also draws IIIF Canvases: pass one, or the few shown together (a spread), as
   `canvases`.
@@ -103,7 +124,7 @@ assigned at release time.
   - **Choice.** A control in the cluster (a bullet-list icon) lists a Canvas's `Choice`
     items and swaps between them, keeping the reader's view. It is added to
     `ControlButtons` as `choice`, so it can be replaced like the others.
-  - **Chrome on demand.** The controls, a smaller navigator and a dark scrim behind them
+  - **Chrome on demand.** The controls, the navigator (when on) and a dark scrim behind them
     appear on pointer activity or keyboard focus inside the Canvas, and fade after
     `options.hideDelay` (2000 ms), as the Player's bar does.
   - **No Manifest awareness.** `Canvas` does not step through a Manifest. Grouping
@@ -154,7 +175,7 @@ assigned at release time.
   region. An image served without CORS is still displayed, as a real `<img>` placed by
   the same camera.
 
-  A standalone `Canvas` is 31.6 kB gzipped, translations and all its CSS included,
+  A standalone `Canvas` is 32.3 kB gzipped, translations and all its CSS included,
   against 121.5 kB for `Image` with OpenSeadragon. Video and sound add a separate 4.1 kB
   chunk, loaded only when a Canvas paints them.
 

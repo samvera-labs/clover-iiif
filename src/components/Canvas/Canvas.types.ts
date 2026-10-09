@@ -22,6 +22,11 @@ export interface CanvasControlsConfig {
   fullPage?: boolean;
   rotation?: boolean;
   reset?: boolean;
+  /**
+   * A control listing the `annotations` by their text; picking one zooms to it. Shown
+   * only when some annotation can be drawn.
+   */
+  annotations?: boolean;
 }
 
 export interface CloverCanvasOptions {

@@ -217,16 +217,16 @@ describe("Canvas", () => {
   });
 
   describe("navigator", () => {
-    it("attaches an overview by default", () => {
+    it("is off by default", () => {
       render(<Canvas src="a.jpg" />);
-      const navigator = screen.getByTestId("clover-canvas-navigator");
-      expect(renderer.attachNavigator).toHaveBeenCalledWith(navigator);
-    });
-
-    it("can be turned off", () => {
-      render(<Canvas src="a.jpg" navigator={false} />);
       expect(screen.queryByTestId("clover-canvas-navigator")).toBeNull();
       expect(renderer.attachNavigator).not.toHaveBeenCalled();
+    });
+
+    it("attaches an overview when turned on", () => {
+      render(<Canvas src="a.jpg" navigator />);
+      const navigator = screen.getByTestId("clover-canvas-navigator");
+      expect(renderer.attachNavigator).toHaveBeenCalledWith(navigator);
     });
   });
 
@@ -298,6 +298,56 @@ describe("Canvas", () => {
       expect(onAnnotationActive).toHaveBeenLastCalledWith(null);
       fireEvent.focus(button);
       expect(button).toHaveAttribute("data-active", "true");
+    });
+
+    it("lists them in a menu from a comment control; picking one zooms to it", () => {
+      render(<Canvas src="a.jpg" annotations={annotations} />);
+      open();
+      const control = screen.getByRole("button", { name: "Annotations" });
+      expect(control).toHaveAttribute("data-button", "annotations");
+      expect(control).toHaveAttribute("aria-expanded", "false");
+
+      fireEvent.click(control);
+      expect(control).toHaveAttribute("aria-expanded", "true");
+      // Only the drawable (rectangular) annotation is listed, by its text.
+      const items = screen.getAllByRole("radio");
+      expect(items).toHaveLength(1);
+      const item = screen.getByRole("radio", { name: "Fountain & square" });
+      expect(item).not.toBeChecked();
+
+      fireEvent.click(item);
+      expect(item).toBeChecked();
+      expect(renderer.fitAnnotation).toHaveBeenCalledWith({
+        x: 10,
+        y: 20,
+        width: 30,
+        height: 40,
+      });
+      // Its hotspot stays highlighted as the current one.
+      expect(
+        screen.getByRole("button", { name: "Fountain & square" }),
+      ).toHaveAttribute("data-active", "true");
+
+      fireEvent.keyDown(document, { key: "Escape" });
+      expect(control).toHaveAttribute("aria-expanded", "false");
+      expect(control).toHaveFocus();
+    });
+
+    it("offers no annotations control without drawable annotations, or when turned off", () => {
+      const { unmount } = render(<Canvas src="a.jpg" />);
+      open();
+      expect(screen.queryByRole("button", { name: "Annotations" })).toBeNull();
+      unmount();
+
+      render(
+        <Canvas
+          src="a.jpg"
+          annotations={annotations}
+          controls={{ annotations: false }}
+        />,
+      );
+      open();
+      expect(screen.queryByRole("button", { name: "Annotations" })).toBeNull();
     });
 
     it("zooms to its target on click", () => {

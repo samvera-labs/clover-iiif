@@ -79,7 +79,9 @@ The same image from the reference server's 2.1 and 2.0 endpoints, given as `src`
 ### Annotations
 
 Rectangular (`xywh`) annotation targets become hotspots, as in `Image`: hover or focus
-one to see its label, and click it (or press <kbd>Enter</kbd>) to zoom to it.
+one to see its label, and click it (or press <kbd>Enter</kbd>) to zoom to it. The comment
+control in the cluster lists them by their text; picking one zooms to it and keeps its
+hotspot highlighted.
 
 <CanvasHandleDemo
   id="annotations"
@@ -370,7 +372,9 @@ The `accompanyingCanvas` (else the `placeholderCanvas`) is shown while it plays.
   image.
 - **Annotations** with rectangular targets become hotspots.
 - **Controls:** the same cluster as `Image`, including `controlButtons` replacements.
-- **Navigator, full screen and rotation.**
+- **Full screen and rotation**, and a **navigator** (an overview, off by default:
+  `navigator` turns it on).
+- **An annotations menu**, from a comment control, when there are annotations.
 - **No CORS needed.** Images served without CORS are still shown: WebGL may not read
   them, so they are placed as real `<img>` elements by the same camera.
 - **Video and sound** (`Video` and `Sound` painting bodies, HLS included) play in
@@ -426,25 +430,25 @@ import Canvas from "@samvera/clover-iiif/canvas";
 
 ## Props
 
-| Prop                 | Type                                             | Description                                                       |
-| -------------------- | ------------------------------------------------ | ----------------------------------------------------------------- |
-| `canvases`           | IIIF Canvas objects                              | One Canvas, or several shown together (a spread).                 |
-| `viewingDirection`   | `"left-to-right"` and so on                      | How to lay out several `canvases`.                                |
-| `body`               | IIIF painting body, or an array                  | Image resources to draw. Takes precedence over `src`.             |
-| `src`                | `string \| string[]`                             | Image URLs, or image service URIs with `isTiledImage`.            |
-| `isTiledImage`       | `boolean`                                        | Treat each `src` as an image service (base URI or `info.json`).   |
-| `label`              | `InternationalString \| string`                  | Accessible name for the viewport.                                 |
-| `instanceId`         | `string`                                         | A new id remounts the renderer.                                   |
-| `annotations`        | `{ annotation, targetIndex }[]`                  | Hotspots, as `Image` takes them. Rectangular targets only.        |
-| `onAnnotationActive` | `(id: string \| null) => void`                   | The hovered or focused hotspot.                                   |
-| `navigator`          | `boolean`                                        | Show the overview. Default `true`.                                |
-| `controls`           | `boolean \| { zoom, fullPage, rotation, reset }` | Which controls to show. Default all.                              |
-| `controlButtons`     | `ControlButtons`                                 | Replace any control, as the Viewer's `controlButtons`.            |
-| `options`            | `CloverCanvasOptions`                            | See below.                                                        |
-| `onReady`            | `(handle: CanvasHandle) => void`                 | Called once the first images are laid out and fitted.             |
-| `onViewportChange`   | `(bounds: Rect) => void`                         | The visible region, in image coordinates, at most once per frame. |
-| `onMediaElement`     | `(element: HTMLVideoElement \| null) => void`    | A time-based Canvas's media element, for a host's own transcript. |
-| `onEnded`            | `() => void`                                     | Playback reached the end: a host's cue to advance.                |
+| Prop                 | Type                                                          | Description                                                       |
+| -------------------- | ------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `canvases`           | IIIF Canvas objects                                           | One Canvas, or several shown together (a spread).                 |
+| `viewingDirection`   | `"left-to-right"` and so on                                   | How to lay out several `canvases`.                                |
+| `body`               | IIIF painting body, or an array                               | Image resources to draw. Takes precedence over `src`.             |
+| `src`                | `string \| string[]`                                          | Image URLs, or image service URIs with `isTiledImage`.            |
+| `isTiledImage`       | `boolean`                                                     | Treat each `src` as an image service (base URI or `info.json`).   |
+| `label`              | `InternationalString \| string`                               | Accessible name for the viewport.                                 |
+| `instanceId`         | `string`                                                      | A new id remounts the renderer.                                   |
+| `annotations`        | `{ annotation, targetIndex }[]`                               | Hotspots, as `Image` takes them. Rectangular targets only.        |
+| `onAnnotationActive` | `(id: string \| null) => void`                                | The hovered or focused hotspot.                                   |
+| `navigator`          | `boolean`                                                     | Show the overview in the top left. Default `false`.               |
+| `controls`           | `boolean \| { zoom, fullPage, rotation, reset, annotations }` | Which controls to show. Default all.                              |
+| `controlButtons`     | `ControlButtons`                                              | Replace any control, as the Viewer's `controlButtons`.            |
+| `options`            | `CloverCanvasOptions`                                         | See below.                                                        |
+| `onReady`            | `(handle: CanvasHandle) => void`                              | Called once the first images are laid out and fitted.             |
+| `onViewportChange`   | `(bounds: Rect) => void`                                      | The visible region, in image coordinates, at most once per frame. |
+| `onMediaElement`     | `(element: HTMLVideoElement \| null) => void`                 | A time-based Canvas's media element, for a host's own transcript. |
+| `onEnded`            | `() => void`                                                  | Playback reached the end: a host's cue to advance.                |
 
 ### `options`
 

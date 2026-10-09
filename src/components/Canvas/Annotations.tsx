@@ -21,41 +21,24 @@ export type AnnotationPlacer = (
   targetIndex: number,
 ) => Rect | null;
 
-interface AnnotationsProps {
-  renderer: CanvasRenderer;
-  annotations: CanvasAnnotation[];
-  /** Defaults to placing by `targetIndex` among the scene's images. */
-  place?: AnnotationPlacer;
-  /** Bumped when the scene is laid out again, so targets are re-placed. */
-  sceneVersion: number;
-  onActiveChange?: (id: string | null) => void;
-}
-
-interface Placed {
+/** An annotation with a rectangular target, placed in the world. */
+export interface PlacedAnnotation {
   id: string;
+  /** Its text, if it has any: what its hotspot and its menu item are called. */
   label?: string;
   /** In world units. */
   world: Rect;
 }
 
 /**
- * Annotation hotspots: a focusable button over each rectangular target, as `Image` draws
- * them — named by the annotation's text, marked active on hover or focus, and zoomed to
- * (with OpenSeadragon's padding) on click, Enter or Space.
- *
- * Rendered by React into the renderer's overlay layer, which pins each button to its
- * world rectangle every frame.
+ * The annotations that can be drawn — those with a rectangular (`xywh`) target that lands
+ * on something in the scene — in the order they were given.
  */
-const Annotations: React.FC<AnnotationsProps> = ({
-  renderer,
-  annotations,
-  sceneVersion,
-  onActiveChange,
-  place = (rect, _, targetIndex) => renderer.itemRectToWorld(targetIndex, rect),
-}) => {
-  const [active, setActive] = useState<string | null>(null);
-
-  const placed: Placed[] = [];
+export function placeAnnotations(
+  annotations: CanvasAnnotation[],
+  place: AnnotationPlacer,
+): PlacedAnnotation[] {
+  const placed: PlacedAnnotation[] = [];
   for (const { annotation, targetIndex } of annotations) {
     const target = parseAnnotationTarget(annotation?.target as any);
     if (!target?.rect) continue;
@@ -68,26 +51,52 @@ const Annotations: React.FC<AnnotationsProps> = ({
       world,
     });
   }
+  return placed;
+}
 
+interface AnnotationsProps {
+  renderer: CanvasRenderer;
+  placed: PlacedAnnotation[];
+  /** Bumped when the scene is laid out again, so targets are re-placed. */
+  sceneVersion: number;
+  /** The highlighted annotation: hovered, focused, or picked from the menu. */
+  active: string | null;
+  onActivate: (id: string | null) => void;
+  /** A hotspot clicked: zoom to it, and it becomes the menu's current annotation. */
+  onSelect: (annotation: PlacedAnnotation) => void;
+}
+
+/**
+ * Annotation hotspots: a focusable button over each rectangular target, as `Image` draws
+ * them — named by the annotation's text, marked active on hover or focus, and zoomed to
+ * (with OpenSeadragon's padding) on click, Enter or Space.
+ *
+ * Rendered by React into the renderer's overlay layer, which pins each button to its
+ * world rectangle every frame.
+ */
+const Annotations: React.FC<AnnotationsProps> = ({
+  renderer,
+  placed,
+  sceneVersion,
+  active,
+  onActivate,
+  onSelect,
+}) => {
   // Largest first, so a hotspot nested inside another stays on top and reachable.
-  placed.sort(
+  const ordered = [...placed].sort(
     (a, b) => b.world.width * b.world.height - a.world.width * a.world.height,
   );
 
-  const activate = (id: string | null) => {
-    setActive(id);
-    onActiveChange?.(id);
-  };
-
   return createPortal(
     <>
-      {placed.map((entry) => (
+      {ordered.map((entry) => (
         <AnnotationButton
           key={`${entry.id}|${sceneVersion}`}
           entry={entry}
           renderer={renderer}
           active={active === entry.id}
-          onActivate={activate}
+          onActivate={onActivate}
+          onSelect={onSelect}
         />
       ))}
     </>,
@@ -96,11 +105,12 @@ const Annotations: React.FC<AnnotationsProps> = ({
 };
 
 const AnnotationButton: React.FC<{
-  entry: Placed;
+  entry: PlacedAnnotation;
   renderer: CanvasRenderer;
   active: boolean;
   onActivate: (id: string | null) => void;
-}> = ({ entry, renderer, active, onActivate }) => {
+  onSelect: (annotation: PlacedAnnotation) => void;
+}> = ({ entry, renderer, active, onActivate, onSelect }) => {
   const [element, setElement] = useState<HTMLButtonElement | null>(null);
   // Re-pinned when the numbers change, not whenever a new object carries the same ones.
   const { x, y, width, height } = entry.world;
@@ -126,8 +136,7 @@ const AnnotationButton: React.FC<{
       onBlur={() => onActivate(null)}
       onClick={(event) => {
         event.stopPropagation();
-        onActivate(entry.id);
-        renderer.fitAnnotation(entry.world);
+        onSelect(entry);
       }}
     >
       {entry.label && <label>{entry.label}</label>}
@@ -139,7 +148,7 @@ const AnnotationButton: React.FC<{
  * The annotation's text, as plain text. A body may be HTML (`text/html`); it is read for
  * its text only, never injected as markup.
  */
-function annotationText(annotation: Annotation): string | undefined {
+export function annotationText(annotation: Annotation): string | undefined {
   const bodies = ([] as unknown[]).concat((annotation as any)?.body ?? []);
   const value = (bodies[0] as { value?: unknown } | undefined)?.value;
   if (typeof value !== "string" || !value.trim()) return undefined;

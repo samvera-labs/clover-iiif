@@ -78,7 +78,15 @@ beforeEach(() => {
   document.body.appendChild(host);
 });
 
-const transport = () => screen.findByTestId("clover-canvas-transport");
+/*
+ * The transport renders before its element exists: the element is made in an effect,
+ * handed up, and only then placed in the scene. Settle those effects before asserting.
+ */
+const transport = async () => {
+  const bar = await screen.findByTestId("clover-canvas-transport");
+  await act(async () => {});
+  return bar;
+};
 
 describe("Canvas media", () => {
   it("places a video in the scene once its element exists", async () => {

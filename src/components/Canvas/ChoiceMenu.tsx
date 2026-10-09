@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
+import ControlMenu from "src/components/Canvas/ControlMenu";
 import type {
   ChoiceGroup,
   ChoiceSelections,
@@ -18,13 +19,7 @@ interface ChoiceMenuProps {
   onClose: (restoreFocus: boolean) => void;
 }
 
-/**
- * The items of each `Choice` on the Canvas, as radio buttons: one is painted at a time.
- *
- * Native radios in a fieldset, so a reader moves between items with the arrow keys and
- * hears the group's name and the current item. It closes on Escape, returning focus to
- * the control, and on a press outside.
- */
+/** The items of each `Choice` on the Canvas, as radio buttons: one is painted at a time. */
 const ChoiceMenu: React.FC<ChoiceMenuProps> = ({
   id,
   triggerId,
@@ -33,70 +28,45 @@ const ChoiceMenu: React.FC<ChoiceMenuProps> = ({
   selections,
   onSelect,
   onClose,
-}) => {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    ref.current?.querySelector<HTMLInputElement>("input:checked")?.focus();
-
-    const onPointerDown = (event: PointerEvent) => {
-      const target = event.target as Element | null;
-      if (ref.current?.contains(target)) return;
-      // The control that opens the menu toggles it itself.
-      if (document.getElementById(triggerId)?.contains(target)) return;
-      onClose(false);
-    };
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose(true);
-    };
-    document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [triggerId, onClose]);
-
-  return (
-    <div
-      className="clover-canvas-choice"
-      data-testid="clover-canvas-choice"
-      id={id}
-      ref={ref}
-    >
-      {choices.map((group, g) => {
-        // Only text the Manifest provides is shown; the group's name falls back to the
-        // control's for assistive technology alone.
-        const heading = getLabelAsString(group.label as any);
-        return (
-          <fieldset
-            aria-label={heading ? undefined : label}
-            className="clover-canvas-choice-group"
-            key={group.key}
-          >
-            {heading && (
-              <legend className="clover-canvas-choice-legend">{heading}</legend>
-            )}
-            {group.items.map((item, index) => {
-              const text = getLabelAsString(item.label as any);
-              return (
-                <label className="clover-canvas-choice-item" key={index}>
-                  <input
-                    type="radio"
-                    name={`${id}-${g}`}
-                    aria-label={text ? undefined : String(index + 1)}
-                    checked={(selections[group.key] ?? 0) === index}
-                    onChange={() => onSelect(group.key, index)}
-                  />
-                  {text && <span>{text}</span>}
-                </label>
-              );
-            })}
-          </fieldset>
-        );
-      })}
-    </div>
-  );
-};
+}) => (
+  <ControlMenu
+    data-testid="clover-canvas-choice"
+    id={id}
+    onClose={onClose}
+    triggerId={triggerId}
+  >
+    {choices.map((group, g) => {
+      // Only text the Manifest provides is shown; the group's name falls back to the
+      // control's for assistive technology alone.
+      const heading = getLabelAsString(group.label as any);
+      return (
+        <fieldset
+          aria-label={heading ? undefined : label}
+          className="clover-canvas-menu-group"
+          key={group.key}
+        >
+          {heading && (
+            <legend className="clover-canvas-menu-legend">{heading}</legend>
+          )}
+          {group.items.map((item, index) => {
+            const text = getLabelAsString(item.label as any);
+            return (
+              <label className="clover-canvas-menu-item" key={index}>
+                <input
+                  type="radio"
+                  name={`${id}-${g}`}
+                  aria-label={text ? undefined : String(index + 1)}
+                  checked={(selections[group.key] ?? 0) === index}
+                  onChange={() => onSelect(group.key, index)}
+                />
+                {text && <span>{text}</span>}
+              </label>
+            );
+          })}
+        </fieldset>
+      );
+    })}
+  </ControlMenu>
+);
 
 export default ChoiceMenu;

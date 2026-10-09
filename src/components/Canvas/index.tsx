@@ -11,6 +11,8 @@ import { ErrorBoundary } from "react-error-boundary";
 
 import Annotations, {
   type AnnotationPlacer,
+  type PlacedAnnotation,
+  placeAnnotations,
 } from "src/components/Canvas/Annotations";
 import type {
   CanvasControlsConfig,
@@ -50,6 +52,7 @@ const ALL_CONTROLS: Required<CanvasControlsConfig> = {
   fullPage: true,
   rotation: true,
   reset: true,
+  annotations: true,
 };
 
 let instances = 0;
@@ -85,7 +88,7 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
   instanceId,
   className,
   options,
-  navigator = true,
+  navigator = false,
   controls = true,
   controlButtons,
   annotations,
@@ -200,6 +203,7 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
             rotation: false,
             reset: false,
             fullPage: false,
+            annotations: false,
           }
         : null
       : controlsConfig;
@@ -279,6 +283,41 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
         : null;
     };
   }, [scene, canvases]);
+
+  /*
+   * The annotations that can be drawn, shared by the hotspots and the annotations menu,
+   * with one highlight between them: the hovered or focused one, else the one last
+   * picked (from the menu or by clicking its hotspot).
+   */
+  const placedAnnotations = useMemo<PlacedAnnotation[]>(
+    () =>
+      renderer && annotations?.length && sceneVersion > 0
+        ? placeAnnotations(
+            annotations,
+            placeAnnotation ??
+              ((rect, _, targetIndex) =>
+                renderer.itemRectToWorld(targetIndex, rect)),
+          )
+        : [],
+    [renderer, annotations, sceneVersion, placeAnnotation],
+  );
+  const [hoveredAnnotation, setHoveredAnnotation] = useState<string | null>(
+    null,
+  );
+  const [selectedAnnotation, setSelectedAnnotation] = useState<string | null>(
+    null,
+  );
+  const onAnnotationActiveRef = useRef(onAnnotationActive);
+  onAnnotationActiveRef.current = onAnnotationActive;
+  const activateAnnotation = useCallback((id: string | null) => {
+    setHoveredAnnotation(id);
+    onAnnotationActiveRef.current?.(id);
+  }, []);
+  const selectAnnotation = useCallback((annotation: PlacedAnnotation) => {
+    setSelectedAnnotation(annotation.id);
+    onAnnotationActiveRef.current?.(annotation.id);
+    rendererRef.current?.fitAnnotation(annotation.world);
+  }, []);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -361,6 +400,10 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
           choices={choices}
           selections={selections}
           onSelect={selectChoice}
+          annotations={placedAnnotations}
+          selectedAnnotation={selectedAnnotation}
+          onAnnotationSelect={selectAnnotation}
+          onAnnotationActivate={activateAnnotation}
         />
       )}
       {showNavigator && (
@@ -404,10 +447,11 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
       {renderer && hasAnnotations && sceneVersion > 0 && (
         <Annotations
           renderer={renderer}
-          annotations={annotations!}
+          placed={placedAnnotations}
           sceneVersion={sceneVersion}
-          onActiveChange={onAnnotationActive}
-          place={placeAnnotation}
+          active={hoveredAnnotation ?? selectedAnnotation}
+          onActivate={activateAnnotation}
+          onSelect={selectAnnotation}
         />
       )}
     </div>

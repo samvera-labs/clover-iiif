@@ -1,7 +1,11 @@
 import React, { useCallback, useState } from "react";
 
 import type { CanvasControlsConfig } from "src/components/Canvas/Canvas.types";
+import AnnotationMenu from "src/components/Canvas/AnnotationMenu";
+import type { PlacedAnnotation } from "src/components/Canvas/Annotations";
 import ChoiceMenu from "src/components/Canvas/ChoiceMenu";
+import { Comment } from "src/components/Canvas/glyphs";
+import Button from "src/components/Image/Controls/Button";
 import type {
   ChoiceGroup,
   ChoiceSelections,
@@ -39,6 +43,11 @@ interface CanvasControlsProps {
   choices?: ChoiceGroup[];
   selections?: ChoiceSelections;
   onSelect?: (key: string, index: number) => void;
+  /** The Canvas's drawable annotations. With any, a control to list them appears. */
+  annotations?: PlacedAnnotation[];
+  selectedAnnotation?: string | null;
+  onAnnotationSelect?: (annotation: PlacedAnnotation) => void;
+  onAnnotationActivate?: (id: string | null) => void;
   children?: React.ReactNode;
 }
 
@@ -58,10 +67,29 @@ const Controls: React.FC<CanvasControlsProps> = ({
   choices = [],
   selections = {},
   onSelect,
+  annotations = [],
+  selectedAnnotation = null,
+  onAnnotationSelect,
+  onAnnotationActivate,
   children,
 }) => {
   const { t } = useCloverTranslation();
   const [choiceOpen, setChoiceOpen] = useState(false);
+  const [annotationsOpen, setAnnotationsOpen] = useState(false);
+  const annotationsId = `annotations-${instance}`;
+  const annotationsMenuId = `${annotationsId}-menu`;
+  // The Information panel's word for them, so no new string is needed.
+  const annotationsLabel = t("informationPanelTabsAnnotations");
+  const closeAnnotations = useCallback(
+    (restoreFocus: boolean) => {
+      setAnnotationsOpen(false);
+      onAnnotationActivate?.(null);
+      if (restoreFocus) document.getElementById(annotationsId)?.focus();
+    },
+    [annotationsId, onAnnotationActivate],
+  );
+  const showAnnotations =
+    config.annotations && annotations.length > 0 && onAnnotationSelect;
   const choiceId = `choice-${instance}`;
   /*
    * The control is named by the Manifest where it can be: the Choice's own `label` when
@@ -160,7 +188,34 @@ const Controls: React.FC<CanvasControlsProps> = ({
       hasInformationToggle={hasInformationToggle}
       isPanelOpen={isPanelOpen}
     >
+      {/*
+        Not a `ControlSpec`: those are keyed by the Viewer's `ControlButtons`, and this
+        control is Canvas's alone, so it is not replaceable through `controlButtons`.
+      */}
+      {showAnnotations && (
+        <Button
+          id={annotationsId}
+          label={annotationsLabel}
+          onClick={() => setAnnotationsOpen((open) => !open)}
+          expanded={annotationsOpen}
+          controls={annotationsMenuId}
+        >
+          <Comment />
+        </Button>
+      )}
       {children}
+      {annotationsOpen && showAnnotations && (
+        <AnnotationMenu
+          id={annotationsMenuId}
+          triggerId={annotationsId}
+          label={annotationsLabel}
+          annotations={annotations}
+          selected={selectedAnnotation}
+          onSelect={onAnnotationSelect}
+          onActivate={(id) => onAnnotationActivate?.(id)}
+          onClose={closeAnnotations}
+        />
+      )}
       {choiceOpen && choices.length > 0 && onSelect && (
         <ChoiceMenu
           id={menuId}

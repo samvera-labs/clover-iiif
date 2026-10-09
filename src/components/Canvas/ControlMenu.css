@@ -1,8 +1,9 @@
 /*
- * The Choice menu: hangs below the control cluster, right-aligned with it, over the
- * picture. Clover's surface and type colours, so it themes with everything else.
+ * A control's menu (Choice, annotations): hangs below the control cluster, right-aligned
+ * with it, over the picture. Clover's surface and type colours, so it themes with
+ * everything else.
  */
-.clover-canvas-choice {
+.clover-canvas-menu {
   position: absolute;
   top: calc(100% + 0.5rem);
   right: 0;
@@ -16,23 +17,23 @@
   box-shadow: 0 4px 16px #0001;
 }
 
-.clover-canvas-choice-group {
+.clover-canvas-menu-group {
   margin: 0;
   padding: 0;
   border: 0;
 }
 
-.clover-canvas-choice-group + .clover-canvas-choice-group {
+.clover-canvas-menu-group + .clover-canvas-menu-group {
   margin-top: 0.5rem;
 }
 
-.clover-canvas-choice-legend {
+.clover-canvas-menu-legend {
   padding: 0.25rem 0.5rem;
   font-size: 0.8125rem;
   color: var(--clover-color-primary-muted, #26292b);
 }
 
-.clover-canvas-choice-item {
+.clover-canvas-menu-item {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -42,11 +43,21 @@
   font-size: 0.9375rem;
 }
 
-.clover-canvas-choice-item:hover {
+.clover-canvas-menu-item:hover {
   background: var(--clover-color-secondary-muted, #e6e8eb);
 }
 
-.clover-canvas-choice-item input {
+.clover-canvas-menu-item input {
   margin: 0;
   accent-color: var(--clover-color-accent, #0065c3);
+}
+
+/* A long list (many annotations) scrolls rather than running off the Canvas. */
+.clover-canvas-menu {
+  max-height: min(24rem, 70vh);
+  overflow-y: auto;
+}
+
+.clover-canvas-menu-item[data-active="true"] {
+  background: var(--clover-color-secondary-muted, #e6e8eb);
 }
