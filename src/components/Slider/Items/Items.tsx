@@ -69,7 +69,12 @@ const Items: React.FC<ItemsProps> = ({
         className="clover-slider-track"
         style={{
           display: "flex",
-          width: "100%",
+          /*
+           * As wide as its slides, and at least the strip: the scroll container measures
+           * this row's overflow to know how far it can scroll.
+           */
+          width: "max-content",
+          minWidth: "100%",
           gap: spaceBetween,
         }}
       >

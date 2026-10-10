@@ -14,11 +14,6 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
-    "./canvas": {
-      "types": "./dist/canvas/index.d.ts",
-      "import": "./dist/canvas/index.mjs",
-      "require": "./dist/canvas/index.cjs"
-    },
     "./image": {
       "types": "./dist/image/index.d.ts",
       "import": "./dist/image/index.mjs",
@@ -65,11 +60,17 @@
     }
   },
   "types": "./dist/index.d.ts",
+  "workspaces": [
+    "packages/clover"
+  ],
   "scripts": {
-    "build": "npm run clean && node --experimental-json-modules ./build/build.mjs",
+    "build": "npm run build:iiif && npm run build:clover",
+    "build:iiif": "npm run clean && node --experimental-json-modules ./build/build.mjs",
+    "build:clover": "npm run build -w @nulib/clover",
     "build:docs": "next build",
+    "build:mocks": "vite-node scripts/build-mocks.mjs",
     "build:maplibre-worker": "node ./scripts/build-maplibre-worker.mjs",
-    "prebuild": "npm run build:maplibre-worker",
+    "prebuild:iiif": "npm run build:maplibre-worker",
     "prebuild:docs": "npm run build:maplibre-worker",
     "predev": "npm run build:maplibre-worker",
     "pretest:ci": "npm run build:maplibre-worker",
@@ -79,18 +80,18 @@
     "dev": "next dev",
     "dev:vite": "vite",
     "lint": "prettier . --check && next lint",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "npm run build:iiif",
     "prettier": "prettier . --check",
     "prettier:fix": "prettier --write .",
     "start": "next start",
     "test": "vitest",
     "test:ci": "vitest run",
     "pretest:build": "npm run build:maplibre-worker",
-    "test:build": "node --test build/*.test.mjs",
+    "test:build": "node --test build/*.test.mjs && npm run test:build -w @nulib/clover",
     "e2e": "playwright test --config=playwright/playwright.config.ts",
     "e2e:install": "playwright install --with-deps",
     "e2e:html": "BASE_URL=http://localhost:3002 WEB_SERVER_CMD=\"python3 -m http.server 3002 --directory playwright/html\" playwright test e2e/wc.spec.ts e2e/reflow.spec.ts --config=playwright/playwright.config.ts",
-    "typecheck": "tsc --incremental --noEmit",
+    "typecheck": "tsc --incremental --noEmit && npm run typecheck -w @nulib/clover",
     "prepare": "husky install"
   },
   "repository": {
@@ -121,8 +122,6 @@
     "@radix-ui/react-tabs": "^1.1.1",
     "@vidstack/react": "^1.15.6",
     "dompurify": "^3.0.2",
-    "embla-carousel-react": "^8.6.0",
-    "embla-carousel-wheel-gestures": "^8.1.0",
     "flexsearch": "^0.7.43",
     "hls.js": "^1.5.17",
     "maplibre-gl": "^6.4.1",
@@ -153,6 +152,7 @@
     "@vitest/ui": "2.1.5",
     "cross-fetch": "^4.0.0",
     "dts-bundle-generator": "8.0.1",
+    "esbuild": "^0.21.5",
     "eslint-config-next": "14.1.0",
     "eslint-config-prettier": "^9.1.0",
     "execa": "^8.0.1",
@@ -181,9 +181,6 @@
     "*": {
       "viewer": [
         "dist/viewer/index.d.ts"
-      ],
-      "canvas": [
-        "dist/canvas/index.d.ts"
       ],
       "image": [
         "dist/image/index.d.ts"

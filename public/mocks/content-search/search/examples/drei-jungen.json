@@ -1,0 +1,188 @@
+{
+  "@context": "http://iiif.io/api/search/2/context.json",
+  "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/examples/drei-jungen.json",
+  "type": "AnnotationPage",
+  "partOf": {
+    "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search?q=drei%20jungen",
+    "type": "AnnotationCollection",
+    "total": 4,
+    "first": {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/examples/drei-jungen.json",
+      "type": "AnnotationPage"
+    },
+    "last": {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/examples/drei-jungen.json",
+      "type": "AnnotationPage"
+    }
+  },
+  "startIndex": 0,
+  "items": [
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p1-w311",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p1",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=362,2296,168,33"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p1-w339",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p1",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=195,2392,167,34"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p1-w955",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p1",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=1004,1599,888,60"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p1-w1395",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p1",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=2298,2202,209,28"
+        }
+      }
+    }
+  ],
+  "annotations": [
+    {
+      "type": "AnnotationPage",
+      "items": [
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p1-w311/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p1-w311",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "m, fert iberiagant, ſich mit den ",
+                "exact": "drei jungen",
+                "suffix": " Männern, den zwei Reichs- mrn hen"
+              }
+            ]
+          }
+        },
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p1-w339/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p1-w339",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "der allgütigen ruſſiſchen Tſcheka ſind. Tiefe ",
+                "exact": "drei jungen",
+                "suffix": " Männex, der ſchon mit dem Doktortitel"
+              }
+            ]
+          }
+        },
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p1-w955/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p1-w955",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "im Reichstag über die Gefangenhaltung der ",
+                "exact": "drei jungen",
+                "suffix": " Deutſchen in Moskau und andere deutſche"
+              }
+            ]
+          }
+        },
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p1-w1395/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p1-w1395",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "geſchwächt. Soweit die „I3weſtia“. WaZ3 die ",
+                "exact": "drei jungen",
+                "suffix": " Deutſ<en angeht, jo liegt eine amtliche"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

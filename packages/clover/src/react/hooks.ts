@@ -1,0 +1,119 @@
+import { useMemo } from "react";
+
+import {
+  type AnnotationSet,
+  selectAnnotationSets,
+} from "../core/annotation-sets";
+import type { CloverStatus } from "../core/clover";
+import type { Container, Manifest } from "../core/presentation";
+import {
+  type Sequence,
+  selectPosition,
+  selectSequence,
+  selectVisibleCanvases,
+} from "../core/selectors";
+import {
+  type LanguageMapLike,
+  type LocalizedValue,
+  localize,
+} from "../core/value";
+import { useCloverTranslation } from "../i18n/useCloverTranslation";
+import { useClover, useCloverSelector } from "./context";
+
+/**
+ * Hooks for building parts of your own. Each reads one slice of the nearest `Root`'s
+ * state and re-renders only when that slice changes.
+ */
+
+/** Loading, ready or error, and the error. */
+export function useStatus(): { status: CloverStatus; error: Error | null } {
+  const status = useCloverSelector((state) => state.status);
+  const error = useCloverSelector((state) => state.error);
+  return useMemo(() => ({ status, error }), [status, error]);
+}
+
+/** The Manifest shown, in Presentation 4; null until loaded. */
+export function useManifest(): Manifest | null {
+  return useCloverSelector((state) => state.manifest);
+}
+
+/** The Canvases and Timelines, their grouping into views, and the reading direction. */
+export function useSequence(): Sequence {
+  return useCloverSelector((state) => selectSequence(state.manifest));
+}
+
+/** The Canvases of the current view: one, or a spread. */
+export function useVisibleCanvases(): Container[] {
+  return useCloverSelector((state) =>
+    selectVisibleCanvases(state.manifest, state.canvasId),
+  );
+}
+
+/** The Canvas the reader is on (the first of the current view). */
+export function useActiveCanvas(): Container | null {
+  return useCloverSelector(
+    (state) =>
+      selectSequence(state.manifest).canvases.find(
+        (canvas) => canvas.id === state.canvasId,
+      ) ?? null,
+  );
+}
+
+export interface Navigation {
+  /** Zero-based index of the current view. */
+  position: number;
+  total: number;
+  hasPrevious: boolean;
+  hasNext: boolean;
+  previous(): void;
+  next(): void;
+  first(): void;
+  last(): void;
+  goTo(canvasId: string): void;
+}
+
+/** Moving between views. Steps by view, so a spread moves two pages at a time. */
+export function useNavigation(): Navigation {
+  const { clover } = useClover("useNavigation");
+  const position = useCloverSelector((state) =>
+    selectPosition(state.manifest, state.canvasId),
+  );
+  const total = useCloverSelector(
+    (state) => selectSequence(state.manifest).views.length,
+  );
+  return useMemo(
+    () => ({
+      position,
+      total,
+      hasPrevious: position > 0,
+      hasNext: position + 1 < total,
+      previous: () => clover.previous(),
+      next: () => clover.next(),
+      first: () => clover.first(),
+      last: () => clover.last(),
+      goTo: (canvasId: string) => clover.goTo(canvasId),
+    }),
+    [clover, position, total],
+  );
+}
+
+/** Every annotation set: the Manifest's own (fetched so far) and any the host added. */
+export function useAnnotationSets(): AnnotationSet[] {
+  return useCloverSelector((state) =>
+    selectAnnotationSets(state.manifest, state.addedSets),
+  );
+}
+
+/** A IIIF language map as text in the Root's language, with the tag it is in. */
+export function useLocalized(value: LanguageMapLike): LocalizedValue {
+  const { language } = useClover("useLocalized");
+  return useMemo(() => localize(value, language), [value, language]);
+}
+
+/** Clover's interface strings in the current language: `t("commonClose")`. */
+export function useT(): (
+  key: string,
+  values?: Record<string, unknown>,
+) => string {
+  return useCloverTranslation().t;
+}

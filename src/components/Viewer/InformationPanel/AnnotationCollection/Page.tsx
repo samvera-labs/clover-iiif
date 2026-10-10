@@ -3,6 +3,7 @@ import {
   ViewerContextStore,
   useViewerDispatch,
   useViewerState,
+  useViewportAdapter,
 } from "src/context/viewer-context";
 import {
   AnnotationCollectionNormalized,
@@ -12,7 +13,6 @@ import {
   getAnnotationBodyText,
   getManifestFromAnnotationTarget,
 } from "src/lib/annotation-collection";
-import { zoomToOverlay } from "src/lib/openseadragon-helpers";
 import { getPaintingResource } from "src/hooks/use-iiif";
 import { Label } from "src/components/Primitives";
 
@@ -25,13 +25,9 @@ const AnnotationCollectionPage: React.FC<Props> = ({
 }) => {
   const viewerState: ViewerContextStore = useViewerState();
   const viewerDispatch = useViewerDispatch();
-  const {
-    activeAnnotationId,
-    activeManifest,
-    openSeadragonViewer,
-    vault,
-    visibleCanvases,
-  } = viewerState;
+  const { activeAnnotationId, activeManifest, vault, visibleCanvases } =
+    viewerState;
+  const viewportAdapter = useViewportAdapter();
 
   const [, setLoadedManifests] = useState(0);
 
@@ -103,12 +99,11 @@ const AnnotationCollectionPage: React.FC<Props> = ({
     });
 
     if (isVisible) {
-      if (openSeadragonViewer)
-        zoomToOverlay(openSeadragonViewer, annotation.id);
+      viewportAdapter?.zoomToAnnotation(annotation.id);
       return;
     }
 
-    // Canvas not yet visible — defer highlight until OSD draws the overlay.
+    // Canvas not yet visible — defer highlight until its hotspot is drawn.
     viewerDispatch({
       type: "updatePendingAnnotationTarget",
       pendingAnnotationTarget: { canvasId, annotationId: annotation.id },

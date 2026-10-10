@@ -1,0 +1,11 @@
+{
+  "canvasInitialGzip": 38500,
+  "viewerInitialGzip": 61000,
+  "stylesGzip": 6500,
+  "classicInitialGzip": 60000,
+  "documentInitialGzip": 61000,
+  "templatesStylesGzip": 2200,
+  "mapInitialGzip": 20000,
+  "mapOnDemandGzip": 300000,
+  "webComponentsGzip": 90000
+}

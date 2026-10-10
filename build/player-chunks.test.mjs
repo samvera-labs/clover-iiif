@@ -72,6 +72,20 @@ function checkPlayerChunks(output) {
     "Sound must be able to load WaveSurfer",
   );
 
+  // 3.x and the 4.x package (@nulib/clover, in packages/) never share code.
+  for (const chunk of chunks.values()) {
+    assert.ok(
+      !Object.keys(chunk.modules).some((id) => id.includes("/packages/")),
+      "3.x builds must not bundle the 4.x package",
+    );
+    assert.ok(
+      ![...chunk.imports, ...chunk.dynamicImports].some((id) =>
+        id.startsWith("@nulib/clover"),
+      ),
+      "3.x builds must not import @nulib/clover",
+    );
+  }
+
   for (const chunk of chunks.values()) {
     assert.ok(
       !chunk.imports.some((id) => id.startsWith("@vidstack/react")),

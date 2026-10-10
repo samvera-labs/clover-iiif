@@ -1,0 +1,190 @@
+import { fireEvent, render, screen, within } from "@testing-library/react";
+import React from "react";
+
+import bookJson from "../../fixtures/iiif-cookbook/0009-book-1.json";
+import rtlJson from "../../fixtures/iiif-cookbook/0010-book-2-viewing-direction-rtl.json";
+import { initCloverI18n } from "../../i18n";
+import * as Clover from "../../index";
+
+const canvasIds = bookJson.items.map((canvas) => canvas.id);
+
+const collection = {
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  id: "https://example.org/collection",
+  type: "Collection",
+  label: { en: ["Shelf"] },
+  summary: { en: ["<b>Two</b> books"] },
+  homepage: [{ id: "https://example.org/shelf", type: "Text" }],
+  items: [
+    {
+      id: "https://example.org/m1",
+      type: "Manifest",
+      label: { en: ["First book"] },
+      homepage: [{ id: "https://example.org/first", type: "Text" }],
+      thumbnail: [{ id: "https://example.org/first.jpg", type: "Image" }],
+    },
+    {
+      id: "https://example.org/m2",
+      type: "Manifest",
+      label: { en: ["Second book"] },
+      thumbnail: [{ id: "https://example.org/second.jpg", type: "Image" }],
+    },
+  ],
+};
+
+beforeEach(() => initCloverI18n({ lng: "en" }));
+
+describe("Items in a Root", () => {
+  const renderInRoot = (props: Partial<Clover.ItemsProps> = {}) =>
+    render(
+      <Clover.Root iiifContent={bookJson}>
+        <Clover.Label of="canvas" data-testid="active" />
+        <Clover.Items {...props} />
+      </Clover.Root>,
+    );
+
+  it("is a listbox of views, a spread as one option, the current one selected", async () => {
+    renderInRoot();
+    const listbox = await screen.findByRole("listbox", { name: "Items" });
+    const options = within(listbox).getAllByRole("option");
+    expect(options).toHaveLength(3);
+    expect(options[1]).toHaveTextContent("Frontispiece – Title page");
+    expect(options[0]).toHaveAttribute("aria-selected", "true");
+    expect(options.map((option) => option.tabIndex)).toEqual([0, -1, -1]);
+  });
+
+  it("moves focus with arrows and selects with Enter, one tab stop throughout", async () => {
+    renderInRoot();
+    const options = await screen.findAllByRole("option");
+    options[0].focus();
+    fireEvent.keyDown(options[0], { key: "ArrowRight" });
+    expect(options[1]).toHaveFocus();
+    // Moving is not selecting.
+    expect(screen.getByTestId("active")).toHaveTextContent("Blank page");
+    fireEvent.keyDown(options[1], { key: "End" });
+    expect(options[2]).toHaveFocus();
+    fireEvent.keyDown(options[2], { key: "Enter" });
+    expect(options[2]).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByTestId("active")).toHaveTextContent(
+      bookJson.items[3].label.en[0],
+    );
+    expect(options.map((option) => option.tabIndex)).toEqual([-1, -1, 0]);
+  });
+
+  it("selects on click, and follows a selection made elsewhere", async () => {
+    const onSelect = vi.fn();
+    render(
+      <Clover.Root iiifContent={bookJson}>
+        <Clover.Items onSelect={onSelect} />
+        <Clover.Next />
+      </Clover.Root>,
+    );
+    const options = await screen.findAllByRole("option");
+    fireEvent.click(options[1]);
+    expect(onSelect).toHaveBeenCalledWith(
+      expect.objectContaining({ id: canvasIds[1] }),
+      expect.anything(),
+    );
+    expect(options[1]).toHaveAttribute("aria-selected", "true");
+    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+    expect(options[2]).toHaveAttribute("aria-selected", "true");
+    expect(options[2].tabIndex).toBe(0);
+  });
+
+  it("reads right to left: the left arrow goes forward", async () => {
+    render(
+      <Clover.Root iiifContent={rtlJson}>
+        <Clover.Items />
+      </Clover.Root>,
+    );
+    const options = await screen.findAllByRole("option");
+    options[0].focus();
+    fireEvent.keyDown(options[0], { key: "ArrowLeft" });
+    expect(options[1]).toHaveFocus();
+  });
+
+  it("narrows by label with the filter", async () => {
+    renderInRoot({ filter: true });
+    await screen.findAllByRole("option");
+    fireEvent.change(screen.getByRole("searchbox", { name: "Search items" }), {
+      target: { value: "bookplate" },
+    });
+    expect(screen.getAllByRole("option")).toHaveLength(1);
+  });
+
+  it("lays out as a list or a grid", async () => {
+    const { container } = renderInRoot({ layout: "grid" });
+    await screen.findAllByRole("option");
+    expect(container.querySelector(".clover-items")).toHaveAttribute(
+      "data-layout",
+      "grid",
+    );
+    expect(screen.getByRole("listbox")).toHaveAttribute(
+      "aria-orientation",
+      "vertical",
+    );
+  });
+});
+
+describe("Items standalone", () => {
+  it("lists a Collection's members as links, with its header", async () => {
+    const fetch = vi.fn(async () => new Response(JSON.stringify(collection)));
+    render(
+      <Clover.Items
+        iiifContent={collection.id}
+        request={{ fetch, credentials: "include" }}
+      />,
+    );
+    const first = await screen.findByRole("link", { name: /First book/ });
+    expect(first).toHaveAttribute("href", "https://example.org/first");
+    expect(screen.getByRole("link", { name: /Second book/ })).toHaveAttribute(
+      "href",
+      "https://example.org/m2",
+    );
+    expect(screen.getByRole("heading", { name: "Shelf" })).toBeInTheDocument();
+    expect(screen.getByText("Two books")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "View All" })).toHaveAttribute(
+      "href",
+      "https://example.org/shelf",
+    );
+    expect((fetch.mock.calls[0] as unknown[])[1]).toMatchObject({
+      credentials: "include",
+    });
+    expect(screen.queryByRole("listbox")).toBeNull();
+  });
+
+  it("hands a link's click to onSelect, which may keep the reader on the page", async () => {
+    const onSelect = vi.fn((_, event) => event.preventDefault());
+    render(<Clover.Items items={collection.items} onSelect={onSelect} />);
+    const link = screen.getByRole("link", { name: /First book/ });
+    const click = new MouseEvent("click", { bubbles: true, cancelable: true });
+    link.dispatchEvent(click);
+    expect(onSelect).toHaveBeenCalledWith(
+      expect.objectContaining({ id: "https://example.org/m1" }),
+      expect.anything(),
+    );
+    expect(click.defaultPrevented).toBe(true);
+  });
+
+  it("renders an item of your own", () => {
+    render(
+      <Clover.Items
+        items={collection.items}
+        renderItem={(item) => <span>custom {item.id}</span>}
+      />,
+    );
+    expect(
+      screen.getByText("custom https://example.org/m2"),
+    ).toBeInTheDocument();
+  });
+
+  it("lazy-loads each thumbnail at the size asked, alt left to the label", () => {
+    render(<Clover.Items items={collection.items} thumbnailSize={120} />);
+    const image = screen
+      .getByRole("link", { name: /First book/ })
+      .querySelector("img")!;
+    expect(image).toHaveAttribute("loading", "lazy");
+    expect(image).toHaveAttribute("width", "120");
+    expect(image).toHaveAttribute("alt", "");
+  });
+});

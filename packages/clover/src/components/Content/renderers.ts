@@ -1,0 +1,101 @@
+import type React from "react";
+
+import { bodiesOf } from "../../core/annotations";
+import type { Container } from "../../core/presentation";
+
+/**
+ * Renderers of your own for some views, drawn by `Content` in place of `Canvas`: a 3D
+ * model, a PDF, a map, anything a Canvas paints that Clover does not draw, or draws
+ * differently than you want. The successor to 3.x's `customDisplays`.
+ */
+
+export interface ContentRendererProps {
+  /** The view's Canvases, in Presentation 4: one, or two for a spread. */
+  canvases: Container[];
+  /**
+   * The bodies the view's Canvases paint, unwrapped: a `Choice` as its first item, a
+   * `SpecificResource` as its `source`, Presentation 4's groups as their items.
+   */
+  bodies: Array<Record<string, any>>;
+  /** `Content`'s children (its controls), to place if the renderer wants them. */
+  children?: React.ReactNode;
+}
+
+export interface ContentRenderer {
+  /** Draws a view showing one of these Canvases… */
+  canvasId?: string[];
+  /** …or painting a body of one of these formats (`model/gltf-binary`, `application/pdf`)… */
+  format?: string[];
+  /** …or any view this says yes to. */
+  match?: (view: Omit<ContentRendererProps, "children">) => boolean;
+  /**
+   * What draws it. It renders inside the Root, so Clover's hooks work in it
+   * (`useActiveCanvas`, `useNavigation`, `useClover`…), as 3.x's `hooks` prop gave.
+   */
+  component: React.ComponentType<ContentRendererProps>;
+}
+
+const asArray = (value: unknown): unknown[] =>
+  Array.isArray(value) ? value : value == null ? [] : [value];
+
+/** Every body the Canvases paint, unwrapped, in painting order. */
+export function paintingBodies(
+  canvases: Container[],
+): Array<Record<string, any>> {
+  const bodies: Array<Record<string, any>> = [];
+  for (const canvas of canvases as Array<Record<string, any>>) {
+    for (const page of asArray(canvas.items) as Array<Record<string, any>>) {
+      for (const annotation of asArray(page?.items) as Array<
+        Record<string, any>
+      >) {
+        const motivation = asArray(annotation?.motivation);
+        if (motivation.length && !motivation.includes("painting")) continue;
+        for (let body of bodiesOf(annotation)) {
+          if (body?.type === "Choice") body = asArray(body.items)[0] as never;
+          if (body?.type === "SpecificResource") {
+            body =
+              typeof body.source === "string"
+                ? { id: body.source }
+                : (body.source as never);
+          }
+          if (body) bodies.push(body);
+        }
+      }
+    }
+  }
+  return bodies;
+}
+
+/** The first renderer that draws this view, or null for `Canvas` to draw it. */
+export function pickRenderer(
+  renderers: ContentRenderer[] | undefined,
+  view: Omit<ContentRendererProps, "children">,
+): ContentRenderer | null {
+  if (!renderers?.length || !view.canvases.length) return null;
+  const ids = view.canvases.map((canvas) => canvas.id);
+  const formats = view.bodies.map((body) => body?.format).filter(Boolean);
+  return (
+    renderers.find(
+      (renderer) =>
+        renderer.canvasId?.some((id) => ids.includes(id)) ||
+        renderer.format?.some((format) => formats.includes(format)) ||
+        Boolean(renderer.match?.(view)),
+    ) ?? null
+  );
+}
+
+/** Whether two lists of renderers are the same, item by item: what an inline array is. */
+export function sameRenderers(
+  a: ContentRenderer[] | undefined,
+  b: ContentRenderer[] | undefined,
+): boolean {
+  if (a === b) return true;
+  if (!a || !b || a.length !== b.length) return false;
+  return a.every(
+    (renderer, index) =>
+      renderer.component === b[index].component &&
+      renderer.match === b[index].match &&
+      JSON.stringify([renderer.canvasId, renderer.format]) ===
+        JSON.stringify([b[index].canvasId, b[index].format]),
+  );
+}

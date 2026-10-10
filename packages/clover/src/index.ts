@@ -1,0 +1,152 @@
+/*
+ * @nulib/clover: named exports only, so `import * as Clover from "@nulib/clover"` gives
+ * dot notation (`<Clover.Root>`, `<Clover.Canvas />`) and still tree-shakes.
+ */
+
+// Parts
+export { Root } from "./components/Root/Root";
+export type { RootProps } from "./components/Root/Root";
+export { Viewer } from "./components/Viewer/Viewer";
+export type { ViewerProps } from "./components/Viewer/Viewer";
+export { Content } from "./components/Content/Content";
+export type { ContentProps } from "./components/Content/Content";
+export type {
+  ContentRenderer,
+  ContentRendererProps,
+} from "./components/Content/renderers";
+export { Label } from "./components/Label/Label";
+export type { LabelProps } from "./components/Label/Label";
+export { Next, Pager, Position, Previous } from "./components/Pager/Pager";
+export type { PagerProps, PositionProps } from "./components/Pager/Pager";
+export { Items } from "./components/Items/Items";
+export type { ItemsLayout, ItemsProps } from "./components/Items/Items";
+export { Status } from "./components/Status/Status";
+export {
+  Homepage,
+  Id,
+  Metadata,
+  PartOf,
+  Rendering,
+  RequiredStatement,
+  Rights,
+  SeeAlso,
+  Summary,
+  Thumbnail,
+  Value,
+} from "./components/Primitives/Primitives";
+export {
+  InformationPanel,
+  Tab,
+} from "./components/InformationPanel/InformationPanel";
+export type {
+  InformationPanelProps,
+  TabProps,
+} from "./components/InformationPanel/InformationPanel";
+export { About } from "./components/InformationPanel/About";
+export { Annotations } from "./components/Annotations/Annotations";
+export type { AnnotationsProps } from "./components/Annotations/Annotations";
+export { Share, shareUrl } from "./components/Share/Share";
+export { Transcript } from "./components/Transcript/Transcript";
+export { Contents } from "./components/Contents/Contents";
+export type { ContentsProps } from "./components/Contents/Contents";
+export { Download } from "./components/Download/Download";
+export type { DownloadProps } from "./components/Download/Download";
+export { Search } from "./components/Search/Search";
+export type { SearchProps } from "./components/Search/Search";
+export { search } from "./core/search";
+export { SEARCH_SET_ID, searchServiceOf } from "./core/search-service";
+/** Where MapLibre's worker is served from, for every map (a Viewer's Map tab included). */
+export { setMapWorkerUrl } from "./core/map-config";
+export type {
+  SearchHit,
+  SearchResults,
+  SearchService,
+} from "./core/search-service";
+export { CollectionSelect } from "./components/CollectionSelect/CollectionSelect";
+export type { CollectionSelectProps } from "./components/CollectionSelect/CollectionSelect";
+export type { TranscriptProps } from "./components/Transcript/Transcript";
+export type { ShareProps } from "./components/Share/Share";
+export type { AboutProps } from "./components/InformationPanel/About";
+export { PanelToggle } from "./components/InformationPanel/PanelToggle";
+export type { PanelToggleProps } from "./components/InformationPanel/PanelToggle";
+export type { StatusProps } from "./components/Status/Status";
+export { default as Canvas } from "./components/Canvas";
+export type {
+  CanvasHandle,
+  CloverCanvasOptions,
+  CloverCanvasProps,
+  IIIFCanvas,
+} from "./components/Canvas";
+export type {
+  CanvasControlsConfig,
+  LabeledIIIFExternalWebResource,
+} from "./components/Canvas/Canvas.types";
+export type { ControlButtonProps, ControlButtons } from "./ui/controlButtons";
+
+// Hooks, for parts of your own
+export {
+  useActiveCanvas,
+  useAnnotationSets,
+  useLocalized,
+  useManifest,
+  useNavigation,
+  useSequence,
+  useStatus,
+  useT,
+  useVisibleCanvases,
+} from "./react/hooks";
+/** Inline styles that hide text from sight but not from assistive technology. */
+export { visuallyHidden } from "./ui/visuallyHidden";
+export type { Navigation } from "./react/hooks";
+export { useClover, useCloverSelector } from "./react/context";
+
+// Data
+export { createClover } from "./core/clover";
+export type {
+  Clover,
+  CloverOptions,
+  CloverState,
+  CloverStatus,
+  ViewportState,
+} from "./core/clover";
+export { isPresentation4, toPresentation4 } from "./core/presentation";
+export type {
+  Canvas as Presentation4Canvas,
+  Collection,
+  Container,
+  Manifest,
+  Timeline,
+} from "./core/presentation";
+export type { IIIFContent } from "./core/load";
+export type { CloverRequest } from "./core/request";
+export type { ContentStateOutput, Target } from "./core/content-state";
+export {
+  buildContentState,
+  decodeContentState,
+  encodeContentState,
+} from "./core/content-state";
+export type {
+  AnnotationBodyEntry,
+  AnnotationEntry,
+  AnnotationSet,
+} from "./core/annotation-sets";
+export type { AnnotationsInput } from "./core/annotation-collection";
+export { cueAt, parseVtt } from "./core/vtt";
+export type { Cue } from "./core/vtt";
+export { chaptersOf, currentContents, tableOfContents } from "./core/ranges";
+export type { Chapter, ContentsNode } from "./core/ranges";
+export { localize } from "./core/value";
+export { toPlainText } from "./core/text";
+export type { ItemModel, ItemPart } from "./core/items";
+export { thumbnailSource, resolveThumbnail } from "./core/thumbnail";
+export type { LocalizedValue } from "./core/value";
+export { groupViews, resolveBehavior, resolveDirection } from "./core/sequence";
+export type { SequenceBehavior, View, ViewingDirection } from "./core/sequence";
+
+export {
+  CLOVER_I18N_NAMESPACE,
+  initCloverI18n,
+  type CloverI18n,
+  type CloverI18nOptions,
+  type CloverI18nResources,
+} from "./i18n";

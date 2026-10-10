@@ -12,10 +12,26 @@ assigned at release time.
 
 ### Changed
 
+- **The Slider and the Viewer's thumbnail strip scroll natively; Embla is gone.** Both
+  strips are now the browser's own scroll container with CSS scroll snapping, in place of
+  Embla Carousel, which clipped the strip and moved it with transforms. The
+  `embla-carousel-react` and `embla-carousel-wheel-gestures` dependencies are removed.
+  - Wheel, trackpad, touch and keyboard scrolling work as on any page. A vertical mouse
+    wheel now scrolls the page rather than the strip; scroll the strip with a trackpad's
+    sideways swipe, Shift and the wheel, the previous / next controls, or a drag.
+  - Dragging with a mouse still scrolls, and the click that ends a drag still does not
+    open an item.
+  - The scrolling element is still `.clover-slider-items`; its slides now snap with
+    `scroll-snap-align`. If you styled `.clover-slider-track` with a transform, or relied
+    on `overflow: hidden` on `.clover-slider-items`, remove that: the strip scrolls
+    itself now, and hides its scrollbar.
+  - Props are unchanged. `isRtl` is read from CSS `direction`, which the Viewer already
+    sets for a right-to-left object.
+
 - **Canvases default to a `#0001` background, and audio and video no longer letterbox onto
   black.** `options.canvasBackgroundColor` now defaults to `#0001` (it was `#6662`) and
   applies to every canvas: `.clover-viewer-player-wrapper` no longer paints `#000` over it.
-  The standalone `Canvas` uses the same `#0001` ground. To keep the old look:
+  To keep the old look:
 
   ```jsx
   <Viewer iiifContent={manifest} options={{ canvasBackgroundColor: "#000" }} />
@@ -65,116 +81,6 @@ assigned at release time.
     that uses i18next itself is unaffected by Clover.
 
 ### Added
-
-- **`Canvas` (experimental).** A new standalone component at
-  `@samvera/clover-iiif/canvas`: Clover's own 2D pan-and-zoom renderer, drawn with WebGL2
-  and falling back to Canvas2D, under development as a possible replacement for
-  OpenSeadragon and Vidstack. Nothing else changes: `Image` and the Viewer still use
-  OpenSeadragon, and `Canvas` is not exported from the package root.
-
-  ```jsx
-  import Canvas from "@samvera/clover-iiif/canvas";
-
-  <Canvas
-    body={paintingBody}
-    label="A letter"
-    onReady={(canvas) => canvas.zoomBy(2)}
-    onViewportChange={({ x, y, width, height }) => {}}
-  />;
-  ```
-
-  It covers what `Image` does, apart from OpenSeadragon's own configuration:
-  - **Image services.** IIIF Image API 3.0, 2.1.1 and 2.0, tiled from `tiles`, from a
-    level 0 tree's `sizes`, or from tiles Clover cuts itself. Requests use each version's
-    canonical URLs.
-  - **Images and regions.** `body` and `src` arrays, `isTiledImage`, and `body.region`
-    clips.
-  - **Annotation hotspots.**
-  - **Controls:** the same cluster as `Image`, with `controlButtons`.
-  - **Full screen, rotation and keyboard control**, and a **navigator** (an overview in
-    the top left). The navigator is off by default; turn it on with `navigator`:
-
-    ```jsx
-    <Canvas src={src} isTiledImage navigator />
-    ```
-
-  - **An annotations menu.** With `annotations`, a comment control in the cluster lists
-    them by their text. Picking one zooms to it and keeps its hotspot highlighted, as
-    clicking the hotspot does. `controls={{ annotations: false }}` hides it.
-  - **A caption of Canvas information.** When a shown Canvas has a `summary` or
-    `metadata` (Cookbook 0029, "metadata anywhere"), an `i` control in the cluster slides
-    out a closable box over the picture with each Canvas's label, summary and metadata.
-    `Canvas` renders as a `<figure>` (it was a `<div>`), and the box is its `<figcaption>`;
-    the captioned Canvases' labels name the figure. Values keep IIIF's limited HTML,
-    sanitised as the Primitives do, and the sanitiser loads only when the box first opens.
-    `controls={{ information: false }}` hides it.
-
-  It also draws IIIF Canvases: pass one, or the few shown together (a spread), as
-  `canvases`.
-  - **Several images on one Canvas.** Each painting annotation's image is placed at its
-    target. A `Choice` paints its first item, and a Canvas larger than its image is
-    filled.
-  - **Several Canvases** are laid out in reading order by `viewingDirection`, in any of
-    the four directions.
-  - **Choice.** A control in the cluster (a bullet-list icon) lists a Canvas's `Choice`
-    items and swaps between them, keeping the reader's view. It is added to
-    `ControlButtons` as `choice`, so it can be replaced like the others.
-  - **Chrome on demand.** The controls, the navigator (when on) and a dark scrim behind them
-    appear on pointer activity or keyboard focus inside the Canvas, and fade after
-    `options.hideDelay` (2000 ms), as the Player's bar does.
-  - **No Manifest awareness.** `Canvas` does not step through a Manifest. Grouping
-    Canvases by `behavior` (`individuals`, `paged` spreads with `facing-pages` and
-    `non-paged`, `continuous`) and moving between them is the host's job.
-
-  ```jsx
-  <Canvas canvases={[leftPage, rightPage]} viewingDirection="right-to-left" />
-  ```
-
-  - **Video and sound.** A Canvas painting a `Video` or `Sound` body plays in Clover's
-    own transport, styled as the Player's bar: play, seek, volume, time and captions,
-    with no Vidstack.
-    - **Video.** A single video or sound Canvas is always fitted to the stage, at the
-      video's own aspect. It does not pan, zoom or rotate. Full screen moves into the
-      transport at the bottom, and the top controls and scrim are not shown. Click the picture to play or pause, and use
-      <kbd>Space</kbd>/<kbd>k</kbd>, <kbd>j</kbd>/<kbd>l</kbd> and <kbd>m</kbd> on the
-      focused Canvas.
-    - **Shared chrome.** The transport shows and fades with the controls, through the
-      same `hideDelay`, pointer-leave and focus rules. Chrome now lingers for a second
-      after the pointer or focus leaves the Canvas, rather than vanishing at once.
-      Mouse focus (a click on the picture) no longer keeps it showing; keyboard focus
-      still does.
-    - **`navigable` gesture option.** `options.gestures.navigable: false` holds the
-      camera still for any Canvas.
-    - **Captions.** WebVTT files from `supplementing` annotations, one per language for
-      a `Choice`, become caption tracks.
-    - **Poster.** A `placeholderCanvas` image is the video's poster.
-    - **Sound** plays through the same transport, over the
-      accompanying (or placeholder) Canvas's image. It has no waveform.
-    - **New props and options.** `onMediaElement` hands a host the element, and
-      `onEnded` fires at the end. `options.media.presentation: "texture"` draws video
-      frames into the WebGL canvas instead of positioning a `<video>`. This needs CORS,
-      and a video without it falls back.
-
-    ```jsx
-    <Canvas
-      canvases={[videoCanvas]}
-      onMediaElement={(video) => {}}
-      onEnded={next}
-    />
-    ```
-
-  Nothing is fetched until a `Canvas` comes within half a screen of view: no image
-  service, tiles, video, sound or captions. A hidden `Canvas` waits until it is shown.
-
-  Viewport coordinates are in the image's own coordinates, ready to use as an `xywh=`
-  region. An image served without CORS is still displayed, as a real `<img>` placed by
-  the same camera.
-
-  A standalone `Canvas` is 32.3 kB gzipped, translations and all its CSS included,
-  against 121.5 kB for `Image` with OpenSeadragon. Video and sound add a separate 4.1 kB
-  chunk, loaded only when a Canvas paints them.
-
-  The API is experimental and may change in any release.
 
 - **`Image`'s control cluster is now a shared component.** Nothing changes in what it
   renders: its class names, `data-*` attributes, `controlButtons` contract and plugin
@@ -958,6 +864,15 @@ assigned at release time.
 
 ### Documentation
 
+- A new [Mocks](https://samvera-labs.github.io/clover-iiif/docs/mocks) page, and the first
+  published mock: a two-page newspaper with line and word OCR (`xywh`, `textGranularity`)
+  and a IIIF Content Search 2.0 service, at `/mocks/content-search/`. `npm run dev` serves
+  a live copy that answers any query, and `npm run build:mocks` regenerates the files. A
+  second mock, `/mocks/georeference/`, is Northwestern's Evanston township map with a
+  stored georeference annotation and a navPlace.
+- The docs' dev server runs API routes again. The static-export setting had turned them off
+  in `npm run dev` too, so the Viewer's existing Content Search mock
+  (`/api/fixtures/content-search/1`) answered 404.
 - New homepage built around an interactive playground: pick a component, point it at a
   IIIF resource, turn its options, and copy the generated JSX. Its state is held in the
   URL, so a configuration can be shared as a link.

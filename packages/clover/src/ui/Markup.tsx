@@ -1,0 +1,106 @@
+import type { MetadataItem } from "@iiif/presentation-3";
+import React, { useEffect, useState } from "react";
+
+import { hasMarkup, toPlainText } from "../core/text";
+import { type LanguageMapLike, localize } from "../core/value";
+
+/**
+ * A IIIF value, which may hold the HTML the Presentation API allows.
+ *
+ * Plain values render as text, at once. A value with markup renders as text first and
+ * becomes sanitised HTML once the sanitiser (DOMPurify, loaded on demand) arrives, so a
+ * page whose values carry no markup never loads it.
+ */
+function useSanitized(text: string, markdown = false): string | null {
+  const markup = markdown || hasMarkup(text);
+  const [html, setHtml] = useState<{ for: string; html: string } | null>(null);
+  useEffect(() => {
+    if (!markup) return;
+    let live = true;
+    Promise.all([
+      import("../core/sanitize"),
+      markdown ? import("../core/markdown") : null,
+    ]).then(([{ sanitizeHTML }, md]) => {
+      const source = md ? md.markdownToHtml(text) : text;
+      if (live) setHtml({ for: text, html: sanitizeHTML(source) });
+    });
+    return () => {
+      live = false;
+    };
+  }, [text, markup, markdown]);
+  return markup && html?.for === text ? html.html : null;
+}
+
+type MarkupProps = {
+  as?: React.ElementType;
+  markup?: LanguageMapLike;
+  /** `text/markdown` is converted to HTML (then sanitised); anything else is HTML. */
+  format?: string;
+  /** The language to read the value in; the reader's by default. */
+  language?: string;
+} & Omit<React.HTMLAttributes<HTMLElement>, "dangerouslySetInnerHTML" | "lang">;
+
+/** A IIIF language map, in the closest language, as sanitised HTML. Nothing when empty. */
+export const Markup: React.FC<MarkupProps> = ({
+  as: Tag = "span",
+  markup,
+  language,
+  format,
+  ...rest
+}) => {
+  const { text, lang } = localize(markup, language);
+  const html = useSanitized(text, format === "text/markdown");
+  if (!text) return null;
+  return html !== null ? (
+    <Tag {...rest} lang={lang} dangerouslySetInnerHTML={{ __html: html }} />
+  ) : (
+    <Tag {...rest} lang={lang}>
+      {toPlainText(text)}
+    </Tag>
+  );
+};
+
+type MetadataListProps = {
+  metadata?: MetadataItem[] | null;
+  language?: string;
+  /** Your own rendering of a value; Clover's for the rest when it returns undefined. */
+  renderValue?: (item: MetadataItem) => React.ReactNode;
+} & Omit<React.HTMLAttributes<HTMLDListElement>, "lang">;
+
+/** IIIF `metadata` (or a `requiredStatement`) as a description list. */
+export const MetadataList: React.FC<MetadataListProps> = ({
+  metadata,
+  language,
+  renderValue,
+  ...rest
+}) => {
+  if (!metadata?.length) return null;
+  return (
+    <dl {...rest}>
+      {metadata.map((item, index) => {
+        const label = localize(item.label as LanguageMapLike, language);
+        const custom = renderValue?.(item);
+        return (
+          // `dl` accepts a plain `div` around each pair, keeping dt and dd associated.
+          <div
+            key={index}
+            data-label={localize(item.label as LanguageMapLike, "none")
+              .text.replace(/\s+/g, "-")
+              .toLowerCase()}
+          >
+            <dt lang={label.lang}>{label.text}</dt>
+            {custom !== undefined ? (
+              <dd>{custom}</dd>
+            ) : (
+              <Markup
+                as="dd"
+                markup={item.value as LanguageMapLike}
+                language={language}
+              />
+            )}
+          </div>
+        );
+      })}
+    </dl>
+  );
+};

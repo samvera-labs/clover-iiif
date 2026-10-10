@@ -313,23 +313,8 @@ export function removeOverlaysFromViewer(
   }
 }
 
-export function zoomToOverlay(
-  viewer: OpenSeadragon.Viewer,
-  annotationId: string,
-): boolean {
-  const overlay = viewer.getOverlayById(annotationId);
-  if (!overlay || !viewer.viewport) return false;
-
-  // @ts-ignore
-  if (overlay.element) overlay.element.focus();
-  const bounds = overlay.getBounds(viewer.viewport);
-  bounds.x -= 0.2;
-  bounds.y -= 0.2;
-  bounds.width += 0.5;
-  bounds.height += 0.5;
-  viewer.viewport.fitBounds(bounds, false);
-  return true;
-}
+// Lives with the viewport adapter, which must not pull in OpenSeadragon itself.
+export { zoomToOverlay } from "src/lib/viewport-adapter";
 
 export function panToTarget(openSeadragonViewer, zoomLevel, target, canvas) {
   const parsedAnnotationTarget = parseAnnotationTarget(target);

@@ -5,13 +5,6 @@ import { execa } from "execa";
 import fs from "fs";
 
 const buildOptions = {
-  canvas: {
-    lib: {
-      name: "CloverIIIFCanvas",
-      entry: "./src/components/Canvas/index.tsx",
-      fileName: "index",
-    },
-  },
   image: {
     lib: {
       name: "CloverIIIFImage",

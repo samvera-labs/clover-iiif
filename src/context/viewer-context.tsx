@@ -13,6 +13,11 @@ import { AnnotationCollectionNormalized } from "src/types/annotation-collection"
 import { deepMerge } from "src/lib/utils";
 import type { NavPlaceDisplayLevel } from "src/lib/georef-helpers";
 import { v4 as uuidv4 } from "uuid";
+import {
+  type ViewportAdapter,
+  openSeadragonAdapter,
+  toXywh,
+} from "src/lib/viewport-adapter";
 
 export type AutoScrollSettings = {
   behavior: string; // ScrollBehavior ("auto" | "instant" | "smooth")
@@ -157,8 +162,6 @@ export type ControlButtons = {
   rotateRight?: React.ComponentType<ControlButtonProps>;
   rotateLeft?: React.ComponentType<ControlButtonProps>;
   reset?: React.ComponentType<ControlButtonProps>;
-  /** `Canvas` only: picks among a Canvas's `Choice` of images. */
-  choice?: React.ComponentType<ControlButtonProps>;
 };
 
 /**
@@ -715,38 +718,23 @@ const ViewerProvider: React.FC<ViewerProviderProps> = ({
     },
   );
 
-  const { openSeadragonViewer } = state;
+  const adapter = resolveViewportAdapter(state);
 
+  // The visible region, as the content state's selector.
   useEffect(() => {
-    if (openSeadragonViewer) {
-      openSeadragonViewer.addHandler("update-viewport", () => {
-        const osd = openSeadragonViewer.viewport;
-        const bounds = osd.getBounds();
-        const rect = osd.viewportToImageRectangle(bounds);
-
-        // for each value, round to the nearest integer
-        const xywh = [
-          Math.round(rect.x),
-          Math.round(rect.y),
-          Math.round(rect.width),
-          Math.round(rect.height),
-        ];
-
-        const value = `xywh=${xywh.join(",")}`;
-        dispatch({
-          type: "updateActiveSelector",
-          selector: {
-            type: "FragmentSelector",
-            value,
-          },
-        });
+    if (!adapter) return;
+    return adapter.onViewportChange(() => {
+      const region = adapter.getVisibleRegion();
+      if (!region) return;
+      dispatch({
+        type: "updateActiveSelector",
+        selector: {
+          type: "FragmentSelector",
+          value: toXywh(region),
+        },
       });
-
-      return () => {
-        openSeadragonViewer.removeAllHandlers("update-viewport");
-      };
-    }
-  }, [openSeadragonViewer]);
+    });
+  }, [adapter]);
 
   /*
    * Several reducer cases assign an optional action field to a required store
@@ -778,4 +766,26 @@ function useViewerDispatch() {
   return context;
 }
 
-export { ViewerProvider, useViewerState, useViewerDispatch };
+/** The adapter for the OpenSeadragon viewer, or null before there is one. */
+function resolveViewportAdapter(state: {
+  openSeadragonViewer?: OpenSeadragon.Viewer | null;
+}): ViewportAdapter | null {
+  return state.openSeadragonViewer
+    ? openSeadragonAdapter(state.openSeadragonViewer)
+    : null;
+}
+
+/**
+ * The image viewer as the Viewer needs it: zoom to an annotation, read the visible
+ * region. Stable for a given OpenSeadragon viewer, so it can be an effect dependency.
+ */
+function useViewportAdapter(): ViewportAdapter | null {
+  return resolveViewportAdapter(useViewerState());
+}
+
+export {
+  ViewerProvider,
+  useViewerState,
+  useViewerDispatch,
+  useViewportAdapter,
+};

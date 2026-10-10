@@ -1,0 +1,101 @@
+/* Annotations: sets of entries, each entry its content and a button to find it. */
+.clover-annotations {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.clover-annotations-set-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.clover-annotations-title {
+  margin: 0;
+  font-size: inherit;
+  font-weight: 700;
+}
+
+.clover-annotations-markers {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875em;
+  color: var(--clover-color-primary-muted, #26292b);
+}
+
+.clover-annotations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.clover-annotations-entry {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0.625rem;
+  border-inline-start: 3px solid transparent;
+  border-radius: var(--clover-radius, 3px);
+  cursor: pointer;
+  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+.clover-annotations-entry[data-highlighted="true"] {
+  background-color: var(--clover-color-secondary-muted, #f1f1f1);
+}
+
+.clover-annotations-entry[data-selected="true"] {
+  border-inline-start-color: var(--clover-color-accent, #0065c3);
+  background-color: rgb(0 101 195 / 0.08);
+}
+
+.clover-annotations-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.clover-annotations-body p {
+  margin: 0;
+}
+
+.clover-annotations-body a {
+  color: var(--clover-color-accent, #0065c3);
+}
+
+.clover-annotations-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--clover-radius, 3px);
+}
+
+/* `button.x`: one class ties with a reset's `[type="button"]`. See `ui/Button.css`. */
+button.clover-annotations-show {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--clover-radius-pill, 2rem);
+  background: none;
+  color: var(--clover-color-primary-muted, #26292b);
+  cursor: pointer;
+}
+
+button.clover-annotations-show:is(:hover, :focus-visible),
+button.clover-annotations-show[aria-pressed="true"] {
+  border-color: var(--clover-color-accent, #0065c3);
+  color: var(--clover-color-accent, #0065c3);
+}

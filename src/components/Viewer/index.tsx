@@ -11,6 +11,7 @@ import {
   expandAutoScrollOptions,
   useViewerDispatch,
   useViewerState,
+  useViewportAdapter,
   CustomDisplay,
   PluginConfig,
 } from "src/context/viewer-context";
@@ -34,7 +35,6 @@ import {
   getFirstManifestFromAnnotationCollection,
   getFirstAnnotationTarget,
 } from "src/lib/annotation-collection";
-import { zoomToOverlay } from "src/lib/openseadragon-helpers";
 import { hashCode } from "src/lib/utils";
 
 export interface CloverViewerProps {
@@ -151,11 +151,11 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     activeManifest,
     activeSelector,
     isLoaded,
-    openSeadragonViewer,
     pendingAnnotationTarget,
     vault,
     visibleCanvases,
   } = store;
+  const viewportAdapter = useViewportAdapter();
   const [iiifResource, setIiifResource] = useState<
     CollectionNormalized | ManifestNormalized | AnnotationNormalized | undefined
   >();
@@ -189,13 +189,13 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
    */
   useEffect(() => {
     if (!pendingAnnotationTarget) return;
-    if (!openSeadragonViewer) return;
+    if (!viewportAdapter) return;
     if (activeCanvas !== pendingAnnotationTarget.canvasId) return;
 
     const { annotationId } = pendingAnnotationTarget;
 
     const intervalId = setInterval(() => {
-      if (zoomToOverlay(openSeadragonViewer, annotationId)) {
+      if (viewportAdapter.zoomToAnnotation(annotationId)) {
         dispatch({
           type: "updatePendingAnnotationTarget",
           pendingAnnotationTarget: null,
@@ -205,7 +205,7 @@ const RenderViewer: React.FC<CloverViewerProps> = ({
     }, 300);
 
     return () => clearInterval(intervalId);
-  }, [pendingAnnotationTarget, openSeadragonViewer, activeCanvas]);
+  }, [pendingAnnotationTarget, viewportAdapter, activeCanvas]);
 
   /**
    * On change, pass the activeCanvas up to the wrapping `<App/>`

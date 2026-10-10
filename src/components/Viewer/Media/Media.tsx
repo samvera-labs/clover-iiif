@@ -219,9 +219,8 @@ const Media: React.FC<MediaProps> = ({ items }) => {
       renderItem={renderGroup}
       search={configOptions.showMediaSearch}
       /*
-       * One slide per snap. Embla's `scrollTo` addresses snap points, so without this
-       * the group index handed to `activeIndex` would be multiplied by the breakpoint's
-       * group size and the rail would fly several screens past the active spread.
+       * One slide per page, so the rail's previous / next step a spread at a time rather
+       * than a screenful, matching the selection they move.
        */
       slidesToScroll={1}
       /*

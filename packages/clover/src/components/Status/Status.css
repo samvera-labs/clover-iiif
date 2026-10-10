@@ -1,0 +1,13 @@
+.clover-status {
+  margin: 0;
+  padding: 1rem;
+  color: var(--clover-color-primary-muted, #26292b);
+}
+
+.clover-status[data-status="error"] p {
+  margin: 0;
+}
+
+.clover-status-detail {
+  font-size: 0.875em;
+}

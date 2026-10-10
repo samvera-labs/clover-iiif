@@ -1,0 +1,272 @@
+import React, { useEffect, useRef, useState } from "react";
+
+import type { AnimationFrame } from "./layout";
+import type { CanvasRenderer } from "../../lib/renderer";
+import { useCloverTranslation } from "../../i18n/useCloverTranslation";
+import { PauseIcon, PlayIcon } from "../../ui/mediaIcons";
+
+export interface AnimationState {
+  frame: number;
+  playing: boolean;
+  /** Loop at the end: the `repeat` behavior to start with, then the reader's choice. */
+  repeat: boolean;
+  setFrame: (frame: number) => void;
+  setPlaying: (playing: boolean) => void;
+  setRepeat: (repeat: boolean) => void;
+}
+
+/** How long a frame not yet loaded is waited for before it is looked at again. */
+const HOLD_MS = 50;
+
+/**
+ * An animation's clock: the frame shown and whether it plays. Each frame stays for its
+ * own span; at the end it loops when asked, and stops otherwise. A new animation (`key`)
+ * starts from its first frame, playing if `autoplay` — never for a reader who asks the
+ * system for reduced motion.
+ *
+ * A frame that `isReady` says cannot be drawn yet is not shown: the current one holds,
+ * and the next is looked at again shortly, so a first pass over frames still loading
+ * never blinks empty.
+ */
+export function useAnimation(
+  frames: AnimationFrame[],
+  key: string | null,
+  {
+    autoplay = false,
+    loop = false,
+    isReady,
+    onEnded,
+  }: {
+    autoplay?: boolean;
+    loop?: boolean;
+    isReady?: (frame: number) => boolean;
+    /** The last frame has had its time, not looping: a Root's auto-advance moves on. */
+    onEnded?: () => void;
+  },
+): AnimationState {
+  const [frame, setFrame] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const [repeat, setRepeat] = useState(loop);
+  const ready = useRef(isReady);
+  ready.current = isReady;
+  const ended = useRef(onEnded);
+  ended.current = onEnded;
+
+  useEffect(() => {
+    setFrame(0);
+    setRepeat(loop);
+    const reduced =
+      typeof matchMedia === "function" &&
+      matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setPlaying(autoplay && frames.length > 1 && !reduced);
+    // A new animation, not a new array for the same one.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key]);
+
+  useEffect(() => {
+    if (!playing || frames.length < 2) return;
+    const current = frames[Math.min(frame, frames.length - 1)];
+    const ms = Math.max(40, (current.end - current.start) * 1000);
+    let timer = setTimeout(function advance() {
+      const atEnd = frame + 1 >= frames.length;
+      if (atEnd && !repeat) {
+        setPlaying(false);
+        ended.current?.();
+        return;
+      }
+      const next = atEnd ? 0 : frame + 1;
+      if (ready.current && !ready.current(next)) {
+        timer = setTimeout(advance, HOLD_MS);
+        return;
+      }
+      setFrame(next);
+    }, ms);
+    return () => clearTimeout(timer);
+  }, [playing, frame, frames, repeat]);
+
+  return { frame, playing, repeat, setFrame, setPlaying, setRepeat };
+}
+
+/**
+ * The bar of an animation Canvas: a scrubber over its frames, previous, play or pause,
+ * next, and which frame shows. Styled as, and fading with, the media transport.
+ */
+export function FrameControls({
+  frames,
+  animation,
+}: {
+  frames: AnimationFrame[];
+  animation: AnimationState;
+}) {
+  const { t } = useCloverTranslation();
+  const { frame, playing, repeat, setFrame, setPlaying, setRepeat } = animation;
+  const last = frames.length - 1;
+  const position = t("framePosition", {
+    index: frame + 1,
+    total: frames.length,
+  });
+  // Stepping by hand pauses, and stops at the ends, as the pager does.
+  const step = (by: number) => {
+    setPlaying(false);
+    setFrame(Math.min(last, Math.max(0, frame + by)));
+  };
+  return (
+    <div
+      className="clover-canvas-transport"
+      data-kind="frames"
+      data-testid="clover-canvas-frames"
+    >
+      <div className="clover-canvas-transport-seek-area">
+        <input
+          aria-label={t("frameSeek")}
+          aria-valuetext={position}
+          className="clover-canvas-transport-seek"
+          max={last}
+          min={0}
+          step={1}
+          type="range"
+          value={frame}
+          onChange={(event) => {
+            setPlaying(false);
+            setFrame(Number(event.target.value));
+          }}
+          style={
+            {
+              "--clover-transport-progress": `${last ? (frame / last) * 100 : 0}%`,
+            } as React.CSSProperties
+          }
+        />
+      </div>
+      <div className="clover-canvas-transport-bar">
+        <button
+          type="button"
+          className="clover-canvas-transport-button"
+          aria-label={t("framePrevious")}
+          disabled={frame === 0}
+          onClick={() => step(-1)}
+        >
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M10 3L5 8l5 5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <button
+          type="button"
+          className="clover-canvas-transport-button"
+          data-button={playing ? "pause" : "play"}
+          aria-label={playing ? t("playerPause") : t("playerPlay")}
+          onClick={() => {
+            // Playing from the last frame starts again.
+            if (!playing && frame === last) setFrame(0);
+            setPlaying(!playing);
+          }}
+        >
+          {playing ? <PauseIcon /> : <PlayIcon />}
+        </button>
+        <button
+          type="button"
+          className="clover-canvas-transport-button"
+          aria-label={t("frameNext")}
+          disabled={frame === last}
+          onClick={() => step(1)}
+        >
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M6 3l5 5-5 5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <button
+          type="button"
+          className="clover-canvas-transport-button"
+          data-button="repeat"
+          aria-label={t("frameRepeat")}
+          aria-pressed={repeat}
+          onClick={() => setRepeat(!repeat)}
+        >
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M3 7V6a2 2 0 0 1 2-2h7l-2-2M13 9v1a2 2 0 0 1-2 2H4l2 2"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <span className="clover-canvas-transport-time" aria-live="off">
+          {position}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/**
+ * An animation Canvas's frames, played: its clock, which frame the renderer shows (the
+ * others stay loaded, hidden), and its bar. Loaded on demand: few Canvases are animations.
+ */
+export default function FrameAnimation({
+  renderer,
+  frames,
+  byFrame,
+  animationKey,
+  sceneVersion,
+  autoplay,
+  loop,
+  onEnded,
+}: {
+  renderer: CanvasRenderer;
+  frames: AnimationFrame[];
+  /** The scene's image ids for each frame (`canvasScene().frames`). */
+  byFrame: string[][];
+  animationKey: string;
+  /** Bumped when the renderer's items change, so the current frame is shown again. */
+  sceneVersion: number;
+  autoplay?: boolean;
+  loop?: boolean;
+  onEnded?: () => void;
+}) {
+  const animation = useAnimation(frames, animationKey, {
+    autoplay,
+    loop,
+    onEnded,
+    isReady: (frame) =>
+      (byFrame[frame] ?? []).every((id) => renderer.isReady(id)),
+  });
+  useEffect(() => {
+    const shown = new Set(byFrame[animation.frame] ?? []);
+    renderer.setHidden(byFrame.flat().filter((id) => !shown.has(id)));
+  }, [renderer, byFrame, animation.frame, sceneVersion]);
+  return <FrameControls frames={frames} animation={animation} />;
+}

@@ -1,0 +1,472 @@
+{
+  "@context": "http://iiif.io/api/search/2/context.json",
+  "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/examples/nicht-2.json",
+  "type": "AnnotationPage",
+  "partOf": {
+    "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search?q=nicht",
+    "type": "AnnotationCollection",
+    "total": 36,
+    "first": {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/examples/nicht.json",
+      "type": "AnnotationPage"
+    },
+    "last": {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/examples/nicht-2.json",
+      "type": "AnnotationPage"
+    }
+  },
+  "startIndex": 25,
+  "prev": {
+    "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/examples/nicht.json",
+    "type": "AnnotationPage"
+  },
+  "items": [
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w732",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p2",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=2005,2161,78,28"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w771",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p2",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=3008,718,56,29"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w798",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p2",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=2744,856,55,29"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w916",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p2",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=2898,1344,54,27"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w929",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p2",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=3076,1373,54,26"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w1215",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p2",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=2935,2322,56,28"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w1234",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p2",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=2547,2357,56,30"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w1603",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p2",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=2217,2927,56,29"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w2195",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p2",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=1891,3799,56,28"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w2286",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p2",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=2415,3893,78,28"
+        }
+      }
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w2291",
+      "type": "Annotation",
+      "motivation": "highlighting",
+      "target": {
+        "type": "SpecificResource",
+        "source": {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/canvas/p2",
+          "type": "Canvas",
+          "partOf": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/manifest.json",
+              "type": "Manifest"
+            }
+          ]
+        },
+        "selector": {
+          "type": "FragmentSelector",
+          "conformsTo": "http://www.w3.org/TR/media-frags/",
+          "value": "xywh=3139,3879,57,29"
+        }
+      }
+    }
+  ],
+  "annotations": [
+    {
+      "type": "AnnotationPage",
+      "items": [
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w732/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w732",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "ſein.“ Sauerwein er- flärt e8 aber ",
+                "exact": "nicht",
+                "suffix": " für wünſchen8wert, daß Deutſc<h- mator8 wiedergibt,"
+              }
+            ]
+          }
+        },
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w771/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w771",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "notwendig 1ſt, dürfen ſie ſich auch) ",
+                "exact": "nicht",
+                "suffix": " der weiteren Erkenntnis verſchließ dieſe Unterſ<rift"
+              }
+            ]
+          }
+        },
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w798/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w798",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "für ein Abkommen zu gewinnen, bei ",
+                "exact": "nicht",
+                "suffix": " mitreden durfte, wird auf Schwierigkeiten treffen."
+              }
+            ]
+          }
+        },
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w916/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w916",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "zu verzichten, wenn Deutichland ſein verſprechen ",
+                "exact": "nicht",
+                "suffix": " auch auf die öſtliche Grenze ausdehnt."
+              }
+            ]
+          }
+        },
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w929/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w929",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "jo fährt er fort, „es iſt ",
+                "exact": "nicht",
+                "suffix": " geſagt, daß England fiH auch kunft"
+              }
+            ]
+          }
+        },
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w1215/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w1215",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "auf das Kontrollreht zu verzichten\". Bedingungen ",
+                "exact": "nicht",
+                "suffix": " erfüllt und whg it auch Polen"
+              }
+            ]
+          }
+        },
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w1234/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w1234",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "Wenn Herr Sauerwein mit dieſen Worten ",
+                "exact": "nicht",
+                "suffix": " bloß Schußſyſtem aufgenommen werde, ſci der"
+              }
+            ]
+          }
+        },
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w1603/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w1603",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "Regierung gewünjc) die Beit ſchwebende Strafunterſuchung ",
+                "exact": "nicht",
+                "suffix": " ſtören zu wollen, die Klage parteilicher"
+              }
+            ]
+          }
+        },
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w2195/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w2195",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "wieder hergeſtellt ſind Der Ausſchuß rung ",
+                "exact": "nicht",
+                "suffix": " abgeliefert hat. Wir werden gegen ihn"
+              }
+            ]
+          }
+        },
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w2286/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w2286",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "unver- Grundſaß, gleiche Brüder gleiche Kappen, ",
+                "exact": "nicht",
+                "suffix": " verfahren Protektorat8 überhaupt gar nicht gefaßt"
+              }
+            ]
+          }
+        },
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w2291/context",
+          "type": "Annotation",
+          "motivation": "contextualizing",
+          "target": {
+            "type": "SpecificResource",
+            "source": "https://samvera-labs.github.io/clover-iiif/mocks/content-search/search/hit/p2-w2291",
+            "selector": [
+              {
+                "type": "TextQuoteSelector",
+                "prefix": "Kappen, nicht verfahren Protektorat8 überhaupt gar ",
+                "exact": "nicht",
+                "suffix": " gefaßt worden; die ganz meidlich in"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

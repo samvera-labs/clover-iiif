@@ -6,6 +6,11 @@
  * only allows a global stylesheet in `_app`.
  */
 import "src/styles/clover.css";
+// The 4.x package, @nulib/clover, ships its own stylesheet; consumers import it the same way.
+import "@nulib/clover/styles.css";
+import "@nulib/clover/templates.css";
+// The 4.x Map draws with MapLibre, whose stylesheet a consumer imports beside Clover's.
+import "maplibre-gl/dist/maplibre-gl.css";
 
 import "docs/styles/fonts.css";
 import "docs/styles/layout.css";

@@ -409,7 +409,9 @@ const Painting: React.FC<PaintingProps> = ({
         ? vault.get(normalized.items[0])
         : undefined;
       const items = annotationPage?.items ?? [];
-      return items[annotationIndex] ? vault.get(items[annotationIndex]) : undefined;
+      return items[annotationIndex]
+        ? vault.get(items[annotationIndex])
+        : undefined;
     });
 
     return getViewportLabel({
@@ -431,6 +433,18 @@ const Painting: React.FC<PaintingProps> = ({
       dispatch({
         type: "updateOpenSeadragonViewer",
         openSeadragonViewer: viewer,
+      });
+    }
+  };
+
+  /** At the end of a time-based Canvas with auto-advance: on to the next Canvas. */
+  const advanceCanvas = () => {
+    const allCanvases = sequence[0];
+    const currentIdx = allCanvases.findIndex((c) => c.id === activeCanvas);
+    if (currentIdx >= 0 && currentIdx < allCanvases.length - 1) {
+      dispatch({
+        type: "updateActiveCanvas",
+        canvasId: allCanvases[currentIdx + 1].id,
       });
     }
   };
@@ -471,25 +485,7 @@ const Painting: React.FC<PaintingProps> = ({
               allSources={painting}
               painting={painting[annotationIndex]}
               annotationResources={annotationResources}
-              onEnded={
-                isManifestAutoAdvance
-                  ? () => {
-                      const allCanvases = sequence[0];
-                      const currentIdx = allCanvases.findIndex(
-                        (c) => c.id === activeCanvas,
-                      );
-                      if (
-                        currentIdx >= 0 &&
-                        currentIdx < allCanvases.length - 1
-                      ) {
-                        dispatch({
-                          type: "updateActiveCanvas",
-                          canvasId: allCanvases[currentIdx + 1].id,
-                        });
-                      }
-                    }
-                  : undefined
-              }
+              onEnded={isManifestAutoAdvance ? advanceCanvas : undefined}
             />
           ) : (
             painting && (

@@ -1,0 +1,86 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+
+/**
+ * One tab stop for a set of options, moved with the arrow keys: the WAI-ARIA "roving
+ * tabindex". The option in focus has `tabIndex={0}`, the rest `-1`, so Tab enters and
+ * leaves the set in one press.
+ *
+ * Activation is manual: arrows only move focus, Enter or Space selects. Moving through a
+ * long list of pages must not load each page on the way.
+ */
+export interface RovingFocusOptions {
+  /** Which arrows step: left/right, up/down, or both (a grid read as one line). */
+  orientation?: "horizontal" | "vertical" | "both";
+  /** Right-to-left: the left arrow steps forward. */
+  rtl?: boolean;
+  /** Enter or Space on an option. */
+  onActivate?: (index: number) => void;
+}
+
+export function useRovingFocus(
+  count: number,
+  selected: number,
+  { orientation = "both", rtl = false, onActivate }: RovingFocusOptions = {},
+) {
+  const [focused, setFocused] = useState(Math.max(0, selected));
+  const elements = useRef<Array<HTMLElement | null>>([]);
+  const activate = useRef(onActivate);
+  activate.current = onActivate;
+
+  // A selection made elsewhere (a pager, a link) moves the tab stop with it.
+  useEffect(() => {
+    if (selected >= 0) setFocused(selected);
+  }, [selected]);
+
+  const clamped = Math.min(focused, Math.max(0, count - 1));
+
+  const focusAt = useCallback((index: number) => {
+    setFocused(index);
+    elements.current[index]?.focus();
+  }, []);
+
+  const onKeyDown = useCallback(
+    (event: React.KeyboardEvent, index: number) => {
+      const forward = rtl ? "ArrowLeft" : "ArrowRight";
+      const backward = rtl ? "ArrowRight" : "ArrowLeft";
+      const horizontal = orientation !== "vertical";
+      const vertical = orientation !== "horizontal";
+      let next: number | null = null;
+      if (
+        (horizontal && event.key === forward) ||
+        (vertical && event.key === "ArrowDown")
+      ) {
+        next = Math.min(count - 1, index + 1);
+      } else if (
+        (horizontal && event.key === backward) ||
+        (vertical && event.key === "ArrowUp")
+      ) {
+        next = Math.max(0, index - 1);
+      } else if (event.key === "Home") {
+        next = 0;
+      } else if (event.key === "End") {
+        next = count - 1;
+      } else if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        activate.current?.(index);
+        return;
+      }
+      if (next === null) return;
+      event.preventDefault();
+      focusAt(next);
+    },
+    [count, orientation, rtl, focusAt],
+  );
+
+  /** Props for option `index`. */
+  const itemProps = (index: number) => ({
+    ref: (element: HTMLElement | null) => {
+      elements.current[index] = element;
+    },
+    tabIndex: index === clamped ? 0 : -1,
+    onKeyDown: (event: React.KeyboardEvent) => onKeyDown(event, index),
+    onFocus: () => setFocused(index),
+  });
+
+  return { focused: clamped, itemProps };
+}

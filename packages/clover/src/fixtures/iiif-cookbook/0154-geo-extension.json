@@ -1,0 +1,70 @@
+{
+  "@context": [
+    "http://iiif.io/api/extension/navplace/context.json",
+    "http://iiif.io/api/presentation/3/context.json"
+  ],
+  "id": "https://iiif.io/api/cookbook/recipe/0154-geo-extension/manifest.json",
+  "type": "Manifest",
+  "label": {
+    "it": ["Bronzo Laocoonte e i suoi figli"]
+  },
+  "navPlace": {
+    "id": "https://iiif.io/api/cookbook/recipe/0154-geo-extension/feature-collection/1",
+    "type": "FeatureCollection",
+    "features": [
+      {
+        "id": "https://iiif.io/api/cookbook/recipe/0154-geo-extension/feature/1",
+        "type": "Feature",
+        "properties": {
+          "label": {
+            "en": ["The Laocoön Bronze"],
+            "it": ["Bronzo Laocoonte e i suoi figli"]
+          }
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [-118.4745559, 34.0776376]
+        }
+      }
+    ]
+  },
+  "items": [
+    {
+      "id": "https://iiif.io/api/cookbook/recipe/0154-geo-extension/canvas/1",
+      "type": "Canvas",
+      "height": 3000,
+      "width": 2315,
+      "label": {
+        "en": ["Front of Bronze"]
+      },
+      "items": [
+        {
+          "id": "https://iiif.io/api/cookbook/recipe/0154-geo-extension/anno-page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://iiif.io/api/cookbook/recipe/0154-geo-extension/anno/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://iiif.io/api/image/3.0/example/reference/28473c77da3deebe4375c3a50572d9d3-laocoon/full/max/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 3000,
+                "width": 2315,
+                "service": [
+                  {
+                    "id": "https://iiif.io/api/image/3.0/example/reference/28473c77da3deebe4375c3a50572d9d3-laocoon",
+                    "profile": "level1",
+                    "type": "ImageService3"
+                  }
+                ]
+              },
+              "target": "https://iiif.io/api/cookbook/recipe/0154-geo-extension/canvas/1"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

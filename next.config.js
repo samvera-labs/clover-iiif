@@ -32,7 +32,14 @@ module.exports = (phase) => {
     // Skip ESLint during the docs build; we run lint separately.
     eslint: {
       ignoreDuringBuilds: true,
+      // `next lint` covers pages and src by default; the 4.x package is linted with them.
+      dirs: ["pages", "src", "packages/clover/src"],
     },
-    output: "export",
+    /*
+     * The docs build is a static export (GitHub Pages). Only the build: an export turns API
+     * routes off in `next dev` too, and the dev-only mocks under `pages/api` (see
+     * /docs/mocks) need them.
+     */
+    ...(isDev ? {} : { output: "export" }),
   });
 };

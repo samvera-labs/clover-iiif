@@ -1,0 +1,279 @@
+import React, { Suspense, forwardRef, lazy, useRef, useState } from "react";
+
+import { About } from "./About";
+import { Annotations } from "../Annotations/Annotations";
+import { canvasCaptions, type IIIFCanvas } from "../Canvas/layout";
+import { Transcript } from "../Transcript/Transcript";
+import { Contents } from "../Contents/Contents";
+import { Search } from "../Search/Search";
+import { searchServiceOf } from "../../core/search-service";
+import { hasMapData } from "../../core/geo-detect";
+import { tableOfContents } from "../../core/ranges";
+import { selectVisibleCanvases } from "../../core/selectors";
+import { selectAnnotationSets } from "../../core/annotation-sets";
+import { useCloverTranslation } from "../../i18n/useCloverTranslation";
+import { join } from "../../lib/classnames";
+import { useClover, useCloverSelector } from "../../react/context";
+import { type TabSpec, Tabs } from "../../ui/Tabs";
+
+/*
+ * The map, and MapLibre with it, load only when a Manifest with places or georeferences
+ * opens its Map tab. Its module imports no `Root`, so the lazy chunk adds nothing to what
+ * a page without a map loads.
+ */
+const RootMap = lazy(() =>
+  import("../Map/MapView").then((module) => ({ default: module.RootMap })),
+);
+
+export interface TabProps {
+  /** Identifies the tab, for `value` / `defaultValue` on the panel. */
+  value: string;
+  /** What the tab says. */
+  label: React.ReactNode;
+  children?: React.ReactNode;
+}
+
+/**
+ * One tab of an `InformationPanel`: its label and what it shows. Anything can go in a
+ * tab — `Clover.About`, your own component reading the Root through hooks — which is how
+ * 3.x's information panel plugins are written now.
+ *
+ * It renders nothing itself: `InformationPanel` reads its props and renders the tab.
+ */
+export const Tab: React.FC<TabProps> = () => null;
+
+export interface InformationPanelProps
+  extends Omit<React.HTMLAttributes<HTMLElement>, "defaultValue"> {
+  /** The tab shown, controlled. */
+  value?: string;
+  /** The tab shown first. Default: the first. */
+  defaultValue?: string;
+  onValueChange?: (value: string) => void;
+  /**
+   * The panel can be closed: a close button appears in it. Closing from inside the panel
+   * hands focus back to the control that opens it (whatever has `aria-controls` naming the
+   * panel or an element around it), so focus is never left on something hidden.
+   */
+  onClose?: () => void;
+  /**
+   * Escape inside the panel closes it too. For a panel floating over the page; one docked
+   * beside the stage is better left where it is.
+   */
+  closeOnEscape?: boolean;
+  /** The element to render. Default `aside`. */
+  as?: React.ElementType;
+  /**
+   * `Clover.Tab`s. Without any, the panel has the tabs Clover has data for: About,
+   * Contents when the Manifest has Ranges, Search when it has a Content Search service, a
+   * Map when it (or a Canvas or annotation) has navPlace or a georeference,
+   * a Transcript when the view's media has captions, and Annotations when there are any.
+   */
+  children?: React.ReactNode;
+}
+
+/**
+ * Tabs of information about the Root's resource. Its default is an About tab; give it
+ * `Clover.Tab` children to choose the tabs, in order, including your own:
+ *
+ * ```jsx
+ * <Clover.InformationPanel>
+ *   <Clover.Tab value="about" label="About"><Clover.About /></Clover.Tab>
+ *   <Clover.Tab value="notes" label="Notes"><MyNotes /></Clover.Tab>
+ * </Clover.InformationPanel>
+ * ```
+ */
+export const InformationPanel = forwardRef<HTMLElement, InformationPanelProps>(
+  function InformationPanel(
+    {
+      value,
+      defaultValue,
+      onValueChange,
+      onClose,
+      closeOnEscape = false,
+      as: Tag = "aside",
+      className,
+      children,
+      onKeyDown,
+      ...rest
+    },
+    ref,
+  ) {
+    useClover("InformationPanel");
+    const element = useRef<HTMLElement | null>(null);
+    const { t } = useCloverTranslation();
+    const hasAnnotations = useCloverSelector(
+      (state) =>
+        selectAnnotationSets(state.manifest, state.addedSets).length > 0,
+    );
+    const hasTranscript = useCloverSelector((state) =>
+      (
+        selectVisibleCanvases(
+          state.manifest,
+          state.canvasId,
+        ) as unknown as IIIFCanvas[]
+      ).some((canvas) => canvasCaptions(canvas).length > 0),
+    );
+    const hasContents = useCloverSelector(
+      (state) => tableOfContents(state.manifest).length > 0,
+    );
+    const hasSearch = useCloverSelector((state) =>
+      Boolean(searchServiceOf(state.manifest)),
+    );
+    const hasMap = useCloverSelector((state) =>
+      hasMapData(state.manifest, state.collection),
+    );
+    const given = React.Children.toArray(children).filter(
+      (child): child is React.ReactElement<TabProps> =>
+        React.isValidElement(child) && child.type === Tab,
+    );
+    const tabs: TabSpec[] = given.length
+      ? given.map(({ props }) => ({
+          value: props.value,
+          label: props.label,
+          content: props.children,
+        }))
+      : [
+          {
+            value: "about",
+            label: t("informationPanelTabsAbout"),
+            content: <About />,
+          },
+          ...(hasContents
+            ? [
+                {
+                  value: "contents",
+                  label: t("informationPanelTabsContents"),
+                  content: <Contents />,
+                },
+              ]
+            : []),
+          ...(hasSearch
+            ? [
+                {
+                  value: "search",
+                  label: t("informationPanelTabsSearch"),
+                  content: <Search />,
+                },
+              ]
+            : []),
+          ...(hasMap
+            ? [
+                {
+                  value: "map",
+                  label: t("informationPanelTabsMap"),
+                  content: (
+                    <Suspense fallback={null}>
+                      <RootMap />
+                    </Suspense>
+                  ),
+                },
+              ]
+            : []),
+          ...(hasTranscript
+            ? [
+                {
+                  value: "transcript",
+                  label: t("transcriptLabel"),
+                  content: <Transcript />,
+                },
+              ]
+            : []),
+          ...(hasAnnotations
+            ? [
+                {
+                  value: "annotations",
+                  label: t("informationPanelTabsAnnotations"),
+                  content: <Annotations />,
+                },
+              ]
+            : []),
+        ];
+
+    const [own, setOwn] = useState(defaultValue ?? tabs[0]?.value);
+    const shown = value ?? own;
+    if (!tabs.length) return null;
+
+    const close = () => {
+      const panel = element.current;
+      if (panel?.contains(document.activeElement)) controlOf(panel)?.focus();
+      onClose?.();
+    };
+
+    return (
+      <Tag
+        ref={(node: HTMLElement | null) => {
+          element.current = node;
+          if (typeof ref === "function") ref(node);
+          else if (ref) ref.current = node;
+        }}
+        className={join("clover-information-panel", className)}
+        data-closable={onClose ? "" : undefined}
+        onKeyDown={(event: React.KeyboardEvent<HTMLElement>) => {
+          onKeyDown?.(event);
+          if (
+            closeOnEscape &&
+            onClose &&
+            event.key === "Escape" &&
+            !event.defaultPrevented
+          ) {
+            event.preventDefault();
+            close();
+          }
+        }}
+        {...rest}
+      >
+        {onClose && (
+          <button
+            type="button"
+            className="clover-information-panel-close"
+            aria-label={t("informationPanelClose")}
+            onClick={close}
+          >
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              width="14"
+              height="14"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M3 3l10 10M13 3L3 13"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+        )}
+        <Tabs
+          tabs={tabs}
+          value={shown}
+          label={t("informationPanelTabs")}
+          onValueChange={(next) => {
+            if (value === undefined) setOwn(next);
+            onValueChange?.(next);
+          }}
+        />
+      </Tag>
+    );
+  },
+);
+
+/**
+ * The control that opens the panel: one whose `aria-controls` names the panel, or the
+ * nearest element around it with an id (a template may hide a wrapper, not the panel).
+ */
+function controlOf(panel: HTMLElement): HTMLElement | null {
+  for (
+    let node: HTMLElement | null = panel;
+    node && node !== document.body;
+    node = node.parentElement
+  ) {
+    if (!node.id) continue;
+    const control = document.querySelector<HTMLElement>(
+      `[aria-controls~="${node.id.replace(/["\\]/g, "\\$&")}"]`,
+    );
+    if (control) return control;
+  }
+  return null;
+}

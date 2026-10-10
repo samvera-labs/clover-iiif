@@ -1,23 +1,25 @@
 /*
- * The Embla viewport.
+ * The scrolling strip.
  *
- * Embla clips this element and translates the inner `.clover-slider-track`, so the
- * overflow is hidden rather than scrollable and the slides sit one level inside. That
- * nesting is also why slide widths can be plain percentages: the track is `width: 100%`,
- * so a percentage resolves to the same box the viewport occupies.
- *
- * `touch-action: pan-y pinch-zoom` lets Embla claim horizontal drags while leaving
- * vertical scrolling and pinch-zoom to the page.
+ * `useTrack` makes `.clover-slider-items` a native scroll container with scroll snapping
+ * (set inline, so it holds without this file) and publishes `--clover-track-align` for
+ * the slides' snap points. Here the scrollbar is hidden — the header's controls, wheel,
+ * trackpad, touch and dragging all scroll it — and a drag in progress shows as one.
  */
 .clover-slider-items {
-  overflow: hidden;
   width: 100%;
+  scrollbar-width: none;
 }
 
-.clover-slider-items .clover-slider-track {
-  touch-action: pan-y pinch-zoom;
+.clover-slider-items::-webkit-scrollbar {
+  display: none;
+}
+
+.clover-slider-items[data-dragging] {
+  cursor: grabbing;
+  user-select: none;
 }
 
 .clover-slider-items .clover-slider-slide {
-  transform: translate3d(0, 0, 0);
+  scroll-snap-align: var(--clover-track-align, start);
 }

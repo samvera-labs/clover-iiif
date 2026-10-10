@@ -1,0 +1,55 @@
+/* The lightbox: a modal dialog holding the stage. */
+.clover-template-lightbox {
+  width: min(96vw, 72rem);
+  max-height: 94vh;
+  padding: 0;
+  border: 0;
+  border-radius: var(--clover-radius, 3px);
+  background: var(--clover-color-secondary, #fff);
+  color: var(--clover-color-primary, #1a1d1e);
+  box-shadow: 0 8px 40px rgb(0 0 0 / 0.35);
+}
+
+.clover-template-lightbox::backdrop {
+  background: rgb(0 0 0 / 0.6);
+}
+
+.clover-template-lightbox-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  --clover-content-height: min(70vh, 48rem);
+}
+
+.clover-template-lightbox-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.clover-template-lightbox-header h3 {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+button.clover-template-lightbox-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--clover-radius-pill, 2rem);
+  background: var(--clover-color-secondary-muted, #f1f1f1);
+  color: inherit;
+  cursor: pointer;
+}
+
+button.clover-template-lightbox-close:is(:hover, :focus-visible) {
+  background: var(--clover-color-accent, #0065c3);
+  color: var(--clover-color-secondary, #fff);
+}

@@ -1,8 +1,12 @@
 import CloverCanvas from "docs/components/DynamicImports/Canvas";
-import type { CloverCanvasOptions } from "src/components/Canvas";
 import { useEffect, useMemo, useState } from "react";
-import { resolveDirection } from "src/components/Canvas/layout";
-import { groupViews, resolveBehavior } from "src/lib/iiif-sequence";
+import {
+  type CloverCanvasOptions,
+  groupViews,
+  resolveBehavior,
+  resolveDirection,
+  toPresentation4,
+} from "@nulib/clover";
 
 /**
  * A IIIF Cookbook recipe, shown the way a host shows a Manifest with `Canvas`.
@@ -15,6 +19,9 @@ import { groupViews, resolveBehavior } from "src/lib/iiif-sequence";
  * Two cases have no recipe of their own, a `facing-pages` Canvas and a `bottom-to-top`
  * sequence, so those adapt a real recipe: `adapt` edits the Manifest after fetching it,
  * and `behavior` / `viewingDirection` stand in for the Manifest's own.
+ *
+ * `Canvas` reads Presentation 4, so the fetched recipe (Presentation 3) is upgraded with
+ * `toPresentation4()` first, as any host holding older IIIF does.
  */
 const CanvasRecipe = ({
   id,
@@ -41,9 +48,10 @@ const CanvasRecipe = ({
     let cancelled = false;
     fetch(iiifContent)
       .then((response) => response.json())
-      .then((json) => {
+      .then((json) => toPresentation4(adapt ? adapt(json) : json))
+      .then((upgraded) => {
         if (cancelled) return;
-        setManifest(adapt ? adapt(json) : json);
+        setManifest(upgraded);
         setViewIndex(0);
       });
     return () => {

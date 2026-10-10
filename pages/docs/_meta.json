@@ -3,9 +3,8 @@
   "composing": "Composing",
   "--components": {
     "type": "separator",
-    "title": "IIIF Components"
+    "title": "IIIF Components (current)"
   },
-  "canvas": "Canvas (experimental)",
   "image": "Image",
   "map": "Map",
   "scroll": {
@@ -14,6 +13,12 @@
   },
   "slider": "Slider",
   "viewer": "Viewer",
+  "4.x": {
+    "title": "IIIF Components (4.x)",
+    "theme": {
+      "collapsed": false
+    }
+  },
   "--primitives": {
     "type": "separator",
     "title": "IIIF Primitives"
@@ -31,5 +36,6 @@
     "type": "separator",
     "title": "Contribute"
   },
-  "i18n": "i18n"
+  "i18n": "i18n",
+  "mocks": "Mocks"
 }

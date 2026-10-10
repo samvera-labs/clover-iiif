@@ -1,0 +1,145 @@
+/*
+ * The information panel: tabs over a scrolling body. Its height follows the stage's
+ * (`--clover-content-height`) beside it in the Viewer; elsewhere it is as tall as its
+ * content.
+ */
+.clover-information-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  color: var(--clover-color-primary, #1a1d1e);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* A closable panel: the close button at the end of the tab row, over its padding. */
+.clover-information-panel[data-closable] {
+  position: relative;
+}
+
+.clover-information-panel[data-closable] .clover-tabs-list {
+  padding-inline-end: 2.5rem;
+}
+
+/* `button.x`: one class ties with a reset's `[type="button"]`. See `ui/Button.css`. */
+button.clover-information-panel-close {
+  position: absolute;
+  inset-block-start: 0.25rem;
+  inset-inline-end: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--clover-radius-pill, 2rem);
+  background: none;
+  color: var(--clover-color-primary-muted, #26292b);
+  cursor: pointer;
+}
+
+button.clover-information-panel-close:hover {
+  background-color: var(--clover-color-secondary-muted, #e6e8eb);
+  color: var(--clover-color-primary, #1a1d1e);
+}
+
+button.clover-information-panel-close:focus-visible {
+  outline: 2px solid var(--clover-color-accent, #0065c3);
+  outline-offset: -2px;
+}
+
+.clover-tabs-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  border-bottom: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
+}
+
+/* `button.x`: one class ties with a reset's `[type="button"]`. See `ui/Button.css`. */
+button.clover-tabs-tab {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  color: var(--clover-color-primary-muted, #26292b);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.clover-tabs-tab[aria-selected="true"] {
+  border-bottom-color: var(--clover-color-accent, #0065c3);
+  color: var(--clover-color-primary, #1a1d1e);
+}
+
+button.clover-tabs-tab:focus-visible {
+  outline: 2px solid var(--clover-color-accent, #0065c3);
+  outline-offset: -2px;
+}
+
+.clover-tabs-panel {
+  padding: 1rem 0.25rem;
+  outline: none;
+}
+
+.clover-tabs-panel:focus-visible {
+  outline: 2px solid var(--clover-color-accent, #0065c3);
+}
+
+/* ---------- About ---------- */
+
+.clover-about {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.clover-about-thumbnail {
+  display: block;
+  width: auto;
+  max-width: min(100%, var(--clover-about-thumbnail-width, 10rem));
+  height: auto;
+  border-radius: var(--clover-radius, 3px);
+  background-color: var(--clover-color-secondary-muted, #e6e8eb);
+}
+
+.clover-about p,
+.clover-about-summary {
+  margin: 0;
+}
+
+.clover-about a {
+  color: var(--clover-color-accent, #0065c3);
+  overflow-wrap: anywhere;
+}
+
+.clover-about dl {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.clover-about dt,
+.clover-about-heading {
+  margin: 0 0 0.25rem;
+  font-size: inherit;
+  font-weight: 700;
+}
+
+.clover-about dd {
+  margin: 0;
+}
+
+.clover-about ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.clover-link-format {
+  color: var(--clover-color-primary-muted, #26292b);
+  font-size: 0.875em;
+}

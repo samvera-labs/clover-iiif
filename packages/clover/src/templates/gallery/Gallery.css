@@ -1,0 +1,23 @@
+/* Gallery: a heading, then a grid of views that open in the lightbox. */
+.clover-template-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--clover-color-primary, #1a1d1e);
+}
+
+.clover-template-gallery-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.clover-template-gallery-title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.clover-template-gallery-summary {
+  margin: 0;
+  color: var(--clover-color-primary-muted, #26292b);
+}

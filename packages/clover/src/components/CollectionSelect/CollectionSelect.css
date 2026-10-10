@@ -1,0 +1,29 @@
+.clover-collection-select {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.clover-collection-select-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--clover-color-primary-muted, #26292b);
+}
+
+.clover-collection-select-control {
+  min-width: 0;
+  max-width: 100%;
+  padding: 0.375rem 2rem 0.375rem 0.625rem;
+  border: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
+  border-radius: var(--clover-radius, 3px);
+  background: var(--clover-color-secondary, #fff);
+  color: var(--clover-color-primary, #1a1d1e);
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+.clover-collection-select-control:focus-visible {
+  outline: 2px solid var(--clover-color-accent, #0065c3);
+  outline-offset: 2px;
+}

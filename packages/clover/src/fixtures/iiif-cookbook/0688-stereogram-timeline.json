@@ -1,0 +1,175 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688-stereogram-timeline.json",
+  "type": "Manifest",
+  "label": {
+    "en": ["Alternating Stereogram Views on a Timeline"]
+  },
+  "requiredStatement": {
+    "label": {
+      "en": ["Source"]
+    },
+    "value": {
+      "en": ["Yale University Library, Fort Marion (stereograms)"]
+    }
+  },
+  "items": [
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/1",
+      "type": "Canvas",
+      "label": {
+        "en": ["Animated stereogram (spatial region)"]
+      },
+      "height": 1518,
+      "width": 1303,
+      "duration": 0.2,
+      "behavior": ["repeat", "auto-advance"],
+      "items": [
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/1/page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/1/annotation/left-eye",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/1/annotation/left-eye/body/1",
+                "type": "SpecificResource",
+                "source": {
+                  "id": "https://collections.library.yale.edu/iiif/2/1073279/0,0,1409,1628/full/0/default.jpg",
+                  "type": "Image",
+                  "format": "image/jpeg",
+                  "height": 1628,
+                  "width": 1409,
+                  "service": [
+                    {
+                      "@id": "https://collections.library.yale.edu/iiif/2/1073279",
+                      "@type": "ImageService2",
+                      "profile": "http://iiif.io/api/image/2/level2.json"
+                    }
+                  ]
+                },
+                "selector": {
+                  "type": "ImageApiSelector",
+                  "region": "100,55,1303,1518"
+                }
+              },
+              "target": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/1#t=0,1"
+            },
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/1/annotation/right-eye",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/1/annotation/right-eye/body/1",
+                "type": "SpecificResource",
+                "source": {
+                  "id": "https://collections.library.yale.edu/iiif/2/1073279/1409,0,1409,1628/full/0/default.jpg",
+                  "type": "Image",
+                  "format": "image/jpeg",
+                  "height": 1628,
+                  "width": 1409,
+                  "service": [
+                    {
+                      "@id": "https://collections.library.yale.edu/iiif/2/1073279",
+                      "@type": "ImageService2",
+                      "profile": "http://iiif.io/api/image/2/level2.json"
+                    }
+                  ]
+                },
+                "selector": {
+                  "type": "ImageApiSelector",
+                  "region": "1403,55,1303,1518"
+                }
+              },
+              "target": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/1#t=0.1,0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/3",
+      "type": "Canvas",
+      "label": {
+        "en": ["Animated stereogram (no service)"]
+      },
+      "height": 1518,
+      "width": 1303,
+      "duration": 0.2,
+      "behavior": ["repeat", "auto-advance"],
+      "items": [
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/3/page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/3/annotation/left-eye",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://collections.library.yale.edu/iiif/2/1073279/100,55,1303,1518/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 1518,
+                "width": 1303
+              },
+              "target": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/3#t=0,0.1"
+            },
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/3/annotation/right-eye",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://collections.library.yale.edu/iiif/2/1073279/1403,55,1303,1518/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 1518,
+                "width": 1303
+              },
+              "target": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688/canvas/3#t=0.1,0.2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/manifest/cookbook/0688-stereogram-timeline.json/canvas/2",
+      "type": "Canvas",
+      "label": {
+        "en": ["Original image"]
+      },
+      "height": 1628,
+      "width": 2818,
+      "items": [
+        {
+          "id": "{{ id.path }}/canvas/2/page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "{{ id.path }}/canvas/2/annotation/left-eye",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://collections.library.yale.edu/iiif/2/1073279/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 1628,
+                "width": 2818,
+                "service": [
+                  {
+                    "@id": "https://collections.library.yale.edu/iiif/2/1073279",
+                    "@type": "ImageService2",
+                    "profile": "http://iiif.io/api/image/2/level2.json"
+                  }
+                ]
+              },
+              "target": "{{ id.path }}/canvas/2"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

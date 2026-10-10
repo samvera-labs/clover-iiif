@@ -1,0 +1,433 @@
+{
+  "@context": "https://iiif.io/api/presentation/3/context.json",
+  "id": "https://nulib-ds.github.io/muybridge/iiif/plate-number-626-annie-g-galloping.json",
+  "type": "Manifest",
+  "label": {
+    "en": ["Plate Number 626. \"Annie G.\" galloping"]
+  },
+  "behavior": ["repeat", "auto-advance"],
+  "metadata": [
+    {
+      "label": {
+        "en": ["Date"]
+      },
+      "value": {
+        "en": ["1887"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Plate Number"]
+      },
+      "value": {
+        "en": ["626"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Animal"]
+      },
+      "value": {
+        "en": ["Horse"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Movement"]
+      },
+      "value": {
+        "en": ["Galloping"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Frames"]
+      },
+      "value": {
+        "en": ["16"]
+      }
+    },
+    {
+      "label": {
+        "en": ["Provider"]
+      },
+      "value": {
+        "en": ["National Gallery of Art"]
+      }
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://nulib-ds.github.io/muybridge/images/thumbnails/plate-number-626-annie-g-galloping.gif",
+      "type": "Image",
+      "format": "image/gif"
+    }
+  ],
+  "items": [
+    {
+      "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json",
+      "type": "Canvas",
+      "label": {
+        "en": ["Plate Number 626. \"Annie G.\" galloping"]
+      },
+      "height": 595,
+      "width": 790,
+      "duration": 1.6,
+      "placeholderCanvas": {
+        "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/placeholder",
+        "type": "Canvas",
+        "width": 790,
+        "height": 595,
+        "items": [
+          {
+            "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/placeholder/page/1",
+            "type": "AnnotationPage",
+            "items": [
+              {
+                "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/placeholder/page/1/annotation/1",
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://nulib-ds.github.io/muybridge/images/thumbnails/plate-number-626-annie-g-galloping.gif",
+                  "type": "Image",
+                  "format": "image/gif",
+                  "width": 790,
+                  "height": 595
+                },
+                "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/placeholder"
+              }
+            ]
+          }
+        ]
+      },
+      "items": [
+        {
+          "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["1"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:1.2882,1.2152,23.6669,23.3242/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 595,
+                "width": 790
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=0,0.1"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/2",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["2"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:25.1348,1.2936,24.4158,23.2066/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 592,
+                "width": 815
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=0.1,0.2"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/3",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["3"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:49.6105,1.3328,24.5357,23.2066/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 592,
+                "width": 819
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=0.2,0.3"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/4",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["4"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:74.2061,1.3328,24.0563,23.2458/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 593,
+                "width": 803
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=0.3,0.4"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/5",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["5"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:1.0485,27.2050,23.8466,21.7562/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 555,
+                "width": 796
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=0.4,0.5"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/6",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["6"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:25.0150,27.0482,24.5057,22.1874/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 566,
+                "width": 818
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=0.5,0.6"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/7",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["7"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:49.6105,27.0090,24.4158,22.5794/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 576,
+                "width": 815
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=0.6,0.7"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/8",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["8"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:74.1162,27.1658,24.1462,22.4618/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 573,
+                "width": 806
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=0.7,0.8"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/9",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["9"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:1.0785,52.0188,23.7567,21.8738/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 558,
+                "width": 793
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=0.8,0.9"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/10",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["10"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:24.9850,52.0972,24.5357,21.9522/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 560,
+                "width": 819
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=0.9,1"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/11",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["11"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:49.6105,52.1756,24.2660,21.9522/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 560,
+                "width": 810
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=1,1.1"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/12",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["12"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:73.9964,52.2540,24.3259,21.8738/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 558,
+                "width": 812
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=1.1,1.2"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/13",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["13"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:1.1684,76.6758,23.7268,21.9914/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 561,
+                "width": 792
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=1.2,1.3"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/14",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["14"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:25.0150,76.7150,24.4757,21.9914/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 561,
+                "width": 817
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=1.3,1.4"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/15",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["15"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:49.5806,76.8326,24.4158,21.9914/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 561,
+                "width": 815
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=1.4,1.5"
+            },
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json/page/1/annotation/16",
+              "type": "Annotation",
+              "motivation": "painting",
+              "label": {
+                "en": ["16"]
+              },
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:74.1162,77.1070,24.2960,21.7562/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 555,
+                "width": 811
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-frames.json#t=1.5,1.6"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-original.json",
+      "type": "Canvas",
+      "label": {
+        "en": ["Plate Number 626. \"Annie G.\" galloping"]
+      },
+      "height": 2551,
+      "width": 3338,
+      "placeholderCanvas": {
+        "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-original.json/placeholder",
+        "type": "Canvas",
+        "width": 800,
+        "height": 611,
+        "items": [
+          {
+            "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-original.json/placeholder/page/1",
+            "type": "AnnotationPage",
+            "items": [
+              {
+                "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-original.json/placeholder/page/1/annotation/1",
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/full/800,/0/default.jpg",
+                  "type": "Image",
+                  "format": "image/jpeg",
+                  "width": 800,
+                  "height": 611
+                },
+                "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-original.json/placeholder"
+              }
+            ]
+          }
+        ]
+      },
+      "items": [
+        {
+          "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-original.json/page/1",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-original.json/page/1/annotation/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/full/full/0/default.jpg",
+                "type": "Image",
+                "format": "image/jpeg",
+                "height": 2551,
+                "width": 3338,
+                "service": [
+                  {
+                    "id": "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e",
+                    "type": "ImageService2",
+                    "profile": "level2"
+                  }
+                ]
+              },
+              "target": "https://nulib-ds.github.io/muybridge/iiif/canvas/plate-number-626-annie-g-galloping-original.json"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

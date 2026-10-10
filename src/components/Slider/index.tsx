@@ -235,8 +235,8 @@ const RenderSlider: React.FC<CloverSliderProps> = ({
      * A fixed group count was jumping well past the visible run: slides are sized by
      * their own content now, so a count taken from the viewport width cannot know how
      * many are actually on screen, and `align: "start"` then pushed the target to the
-     * edge on top of that. `"auto"` lets Embla group by what the viewport holds, and
-     * centring lands that group in view rather than flush against a side.
+     * edge on top of that. `"auto"` pages by what the viewport holds, and centring
+     * lands that group in view rather than flush against a side.
      */
     slidesToScroll: slidesToScroll ?? config.slidesPerGroup ?? "auto",
   });

@@ -1,6 +1,6 @@
 import CloverCanvas from "docs/components/DynamicImports/Canvas";
 import { useRef, useState } from "react";
-import type { CanvasHandle } from "src/components/Canvas";
+import type { CanvasHandle } from "@nulib/clover";
 
 /**
  * Drives a Canvas through the handle `onReady` returns, and reports the visible region

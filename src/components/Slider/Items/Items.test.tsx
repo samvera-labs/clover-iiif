@@ -38,7 +38,7 @@ const config: BreakpointConfig = {
  * jsdom does not provide.
  */
 const trackStub = (): UseTrackApi => ({
-  // Embla hands back a callback ref, so the stub is a no-op function rather than an object.
+  // The track hands back a callback ref, so the stub is a no-op function.
   ref: () => {},
   canScrollPrev: false,
   canScrollNext: true,
@@ -77,7 +77,7 @@ describe("Slider Items", () => {
 
   it("sizes slides from the resolved breakpoint", () => {
     render(<Items slides={slides} config={config} track={trackStub()} />);
-    // Embla translates an inner track inside the viewport, so the gap lives there.
+    // The slides sit in an inner row inside the scrolling strip, so the gap lives there.
     const track = screen
       .getByTestId("slider-items")
       .querySelector<HTMLElement>(".clover-slider-track");

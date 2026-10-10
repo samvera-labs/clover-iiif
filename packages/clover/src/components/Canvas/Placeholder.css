@@ -1,0 +1,145 @@
+/*
+ * A Canvas's placeholder: a still image fitted to the stage and centred, over a viewport
+ * that waits, empty and hidden, until the reader opens the Canvas.
+ *
+ * The frame is sized from the stage (a size container) and the stills' combined aspect
+ * (`--ratio`), so a spread of several stills is fitted as one picture, edge to edge.
+ */
+.clover-canvas-placeholder {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  container-type: size;
+  cursor: zoom-in;
+}
+
+/* Opened, and waiting for the first tiles: still in view, but the Canvas's to use. */
+.clover-canvas-placeholder[data-lingering="true"] {
+  pointer-events: none;
+}
+
+.clover-canvas-placeholder-frame {
+  display: flex;
+  width: min(100cqw, 100cqh * var(--ratio));
+  aspect-ratio: var(--ratio);
+}
+
+.clover-canvas-placeholder[data-vertical="true"]
+  > .clover-canvas-placeholder-frame {
+  flex-direction: column;
+}
+
+.clover-canvas-placeholder-frame > img {
+  display: block;
+  min-width: 0;
+  min-height: 0;
+  object-fit: contain;
+  /* No broken-image glyph or alt text drawn over the stage while it loads. */
+  color: transparent;
+}
+
+.clover-canvas-placeholder:not([data-vertical="true"])
+  > .clover-canvas-placeholder-frame
+  > img {
+  height: 100%;
+}
+
+.clover-canvas-placeholder[data-vertical="true"]
+  > .clover-canvas-placeholder-frame
+  > img {
+  width: 100%;
+}
+
+/* Nothing of the Canvas shows behind it, nor takes focus, until it is opened. */
+.clover-canvas[data-placeholder="true"] > .clover-canvas-viewport {
+  visibility: hidden;
+}
+
+/*
+ * The toggle sits in the top right, where the control cluster makes room for it
+ * (`data-has-placeholder`). While the placeholder shows it is the only control, and always
+ * there; once the Canvas is open it comes and goes with the rest of the chrome.
+ */
+button.clover-canvas-placeholder-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 2;
+  margin: 0;
+  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
+}
+
+/*
+ * In a Viewer, its information toggle sits at this corner too: step aside for it, as the
+ * Viewer's own placeholder toggle does (`Viewer/Painting/Toggle.css`).
+ */
+.clover-canvas[data-has-information-toggle="true"]
+  > button.clover-canvas-placeholder-toggle {
+  right: 3.618rem;
+}
+
+.clover-canvas[data-has-information-toggle="true"][data-panel-open="true"]
+  > button.clover-canvas-placeholder-toggle {
+  right: 1.382rem;
+}
+
+@media (max-width: 575px) {
+  .clover-canvas[data-has-information-toggle="true"]
+    > button.clover-canvas-placeholder-toggle {
+    top: 3.618rem;
+    right: 1rem;
+  }
+}
+
+/*
+ * Video or sound: a large play button in the middle of the still, as a video player
+ * has. Once open, it is the close control in the top right like any other.
+ */
+.clover-canvas[data-placeholder="true"][data-media]
+  > button.clover-canvas-placeholder-toggle {
+  top: 50%;
+  right: 50%;
+  width: 4rem;
+  height: 4rem;
+  transform: translate(50%, -50%);
+  box-shadow: 0 4px 16px #0003;
+}
+
+.clover-canvas-placeholder[data-media="true"] {
+  cursor: pointer;
+}
+
+.clover-canvas[data-placeholder="false"] > .clover-canvas-placeholder-toggle {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.clover-canvas:is(
+    [data-chrome="visible"],
+    :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
+  )[data-placeholder="false"]
+  > .clover-canvas-placeholder-toggle {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/*
+ * Over the placeholder the cluster holds only the information control, which stays to
+ * hand beside the toggle rather than fading.
+ */
+.clover-canvas[data-placeholder="true"] > .clover-canvas-controls {
+  opacity: 1;
+}
+
+.clover-canvas[data-placeholder="true"] > .clover-canvas-controls > * {
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button.clover-canvas-placeholder-toggle {
+    transition: none;
+  }
+}

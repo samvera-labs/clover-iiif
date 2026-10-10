@@ -10,7 +10,7 @@ import { Steps } from "nextra/components";
 
 # Slider
 
-A UI component that renders an item carousel for the contents of a IIIF Collection — or for any Presentation API `items` array you hand it — using [Embla Carousel](https://www.embla-carousel.com/).
+A UI component that renders an item carousel for the contents of a IIIF Collection — or for any Presentation API `items` array you hand it — on the browser's own scrolling.
 
 <IIIFBadge
   href="https://iiif.io/api/presentation/3.0/#21-defined-types"
@@ -21,7 +21,7 @@ A UI component that renders an item carousel for the contents of a IIIF Collecti
 
 <Slider iiifContent="https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif" />
 
-> **Note:** Clover IIIF has discontinued use of [Swiper](https://swiperjs.com/) due to dependency security vulnerabilities and its impact on bundle size. We recommend upgrading to Clover IIIF `3.7.x` or later, which now uses the lighter [Embla Carousel](https://www.embla-carousel.com/) as a precaution.
+> **Note:** The Slider no longer uses a carousel library. It moved from [Swiper](https://swiperjs.com/) to [Embla Carousel](https://www.embla-carousel.com/) in `3.7.x`, and from Embla to native scrolling with CSS scroll snapping in `4.0`.
 
 ## Features
 
@@ -65,7 +65,7 @@ Provide a [IIIF Presentation API](https://iiif.io/api/presentation/3.0/) Collect
 
 ### React
 
-Add the `Slider` component to your `jsx` or `tsx` code. The Slider uses [Embla Carousel](https://www.embla-carousel.com/) and ships with the styles it needs, so no additional stylesheet imports are required.
+Add the `Slider` component to your `jsx` or `tsx` code. The Slider scrolls natively, with CSS scroll snapping, and ships with the styles it needs, so no additional stylesheet imports are required. Wheel, trackpad, touch and keyboard scrolling work as on any page, and a mouse can drag the strip.
 
 ```jsx
 import Slider from "@samvera/clover-iiif/slider";

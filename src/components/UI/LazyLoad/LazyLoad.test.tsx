@@ -28,6 +28,9 @@ describe("LazyLoad", () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
+    // `restoreAllMocks` leaves `stubGlobal` in place; without this the stub leaks into
+    // later tests in the same worker.
+    vi.unstubAllGlobals();
   });
 
   it("renders children once visible", async () => {
@@ -37,10 +40,12 @@ describe("LazyLoad", () => {
       </LazyLoad>,
     );
 
-    // Wait for the next tick so the setTimeout and callback can run
-    await new Promise((resolve) => setTimeout(resolve, 10));
-
-    expect(screen.getByText("Lazy Content")).toBeInTheDocument();
+    /*
+     * Wait for the content rather than for a fixed time. The observer fires from a timer,
+     * and React applies the state it sets on its own schedule; under a loaded test run a
+     * 10 ms wait sometimes ended before the render did.
+     */
+    expect(await screen.findByText("Lazy Content")).toBeInTheDocument();
     expect(observeMock).toHaveBeenCalled();
     expect(disconnectMock).toHaveBeenCalled();
   });

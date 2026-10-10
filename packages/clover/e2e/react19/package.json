@@ -1,0 +1,9 @@
+{
+  "name": "clover-e2e-react19",
+  "private": true,
+  "description": "React 19 for the @nulib/clover end-to-end run: the same harness, with React aliased here (see ../vite.react19.config.mjs).",
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

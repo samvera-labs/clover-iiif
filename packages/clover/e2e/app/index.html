@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Clover 4.x end-to-end</title>
+    <script>
+      /*
+       * The harness never plays sound, in any browser or on a device: every play() mutes
+       * first, and any element that unmutes itself is muted again at once.
+       */
+      (() => {
+        const hush = (media) => {
+          media.muted = true;
+          media.volume = 0;
+        };
+        const play = HTMLMediaElement.prototype.play;
+        HTMLMediaElement.prototype.play = function () {
+          hush(this);
+          return play.call(this);
+        };
+        for (const type of ["volumechange", "play", "playing"]) {
+          document.addEventListener(
+            type,
+            (event) => {
+              const media = event.target;
+              if (
+                media instanceof HTMLMediaElement &&
+                (!media.muted || media.volume)
+              )
+                hush(media);
+            },
+            true,
+          );
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <main id="app"></main>
+    <script type="module" src="./main.tsx"></script>
+  </body>
+</html>

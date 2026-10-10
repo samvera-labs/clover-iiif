@@ -1,0 +1,157 @@
+import React, { useEffect, useId, useRef, useState } from "react";
+
+import { selectVisibleCanvases } from "../../core/selectors";
+import { type LanguageMapLike, localize } from "../../core/value";
+import { useCloverTranslation } from "../../i18n/useCloverTranslation";
+import { join } from "../../lib/classnames";
+import { useClover, useCloverSelector } from "../../react/context";
+
+export interface DownloadProps
+  extends Omit<React.HTMLAttributes<HTMLElement>, "children"> {
+  /** What the button says. Default: a translated "Download". */
+  children?: React.ReactNode;
+}
+
+interface Rendering {
+  id: string;
+  label: string;
+  lang?: string;
+  format?: string;
+}
+
+const asArray = (value: unknown): unknown[] =>
+  Array.isArray(value) ? value : value == null ? [] : [value];
+
+function renderingsOf(
+  resources: Array<Record<string, any> | null | undefined>,
+  language: string | undefined,
+): Rendering[] {
+  const seen = new Set<string>();
+  const out: Rendering[] = [];
+  for (const resource of resources) {
+    for (const item of asArray(resource?.rendering) as Array<
+      Record<string, any>
+    >) {
+      const id = item?.id ?? item?.["@id"];
+      if (typeof id !== "string" || seen.has(id)) continue;
+      seen.add(id);
+      const label = localize(item.label as LanguageMapLike, language);
+      out.push({
+        id,
+        label: label.text || item.format || id,
+        lang: label.lang,
+        format: item.format,
+      });
+    }
+  }
+  return out;
+}
+
+/** About as wide as the panel opens (its `min-width`, 14rem, with a margin). */
+const PANEL_WIDTH = 256;
+
+/**
+ * Downloads, as 3.x's Viewer offers them: the `rendering` of the Canvases in view ("This
+ * page") and of the Manifest ("All pages") — a PDF, a text, a high-resolution file —
+ * behind one button, each a link. Escape or a press outside closes it. Renders nothing
+ * when there is nothing to download.
+ */
+export function Download({ className, children, ...rest }: DownloadProps) {
+  const { t } = useCloverTranslation();
+  const { language } = useClover("Download");
+  const manifest = useCloverSelector((state) => state.manifest);
+  const shown = useCloverSelector((state) =>
+    selectVisibleCanvases(state.manifest, state.canvasId),
+  );
+  const page = renderingsOf(shown as never, language);
+  const all = renderingsOf([manifest as never], language);
+  const [open, setOpen] = useState(false);
+  // Which way the panel opens: towards the side with room, measured as it opens.
+  const [align, setAlign] = useState<"start" | "end">("end");
+  const id = useId();
+  const root = useRef<HTMLDivElement>(null);
+  const button = useRef<HTMLButtonElement>(null);
+
+  // A press outside closes it.
+  useEffect(() => {
+    if (!open) return;
+    const away = (event: PointerEvent) => {
+      if (!root.current?.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", away);
+    return () => document.removeEventListener("pointerdown", away);
+  }, [open]);
+
+  if (!page.length && !all.length) return null;
+
+  const list = (title: string, items: Rendering[], key: string) =>
+    items.length > 0 && (
+      <section
+        className="clover-download-group"
+        aria-labelledby={`${id}-${key}`}
+      >
+        <h3 className="clover-download-title" id={`${id}-${key}`}>
+          {title}
+        </h3>
+        <ul className="clover-download-list">
+          {items.map((item) => (
+            <li key={item.id}>
+              <a
+                className="clover-download-link"
+                href={item.id}
+                target="_blank"
+                rel="noopener noreferrer"
+                lang={item.lang}
+              >
+                {item.label}
+                {item.format && item.format !== item.label && (
+                  <span className="clover-download-format">
+                    {" "}
+                    ({item.format})
+                  </span>
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    );
+
+  return (
+    <div
+      ref={root}
+      className={join("clover-download", className)}
+      data-open={open}
+      data-align={align}
+      onKeyDown={(event) => {
+        if (event.key !== "Escape" || !open) return;
+        event.stopPropagation();
+        setOpen(false);
+        button.current?.focus();
+      }}
+      {...rest}
+    >
+      <button
+        ref={button}
+        type="button"
+        className="clover-download-button"
+        aria-expanded={open}
+        aria-controls={`${id}-panel`}
+        onClick={() => {
+          const rect = button.current?.getBoundingClientRect();
+          if (rect && typeof window !== "undefined") {
+            const room = window.innerWidth - rect.left;
+            setAlign(room >= PANEL_WIDTH ? "start" : "end");
+          }
+          setOpen(!open);
+        }}
+      >
+        {children ?? t("download")}
+      </button>
+      <div id={`${id}-panel`} className="clover-download-panel" hidden={!open}>
+        {list(t("downloadPage"), page, "page")}
+        {list(t("downloadAll"), all, "all")}
+      </div>
+    </div>
+  );
+}

@@ -8,6 +8,7 @@ import {
   ViewerContextStore,
   useViewerDispatch,
   useViewerState,
+  useViewportAdapter,
 } from "src/context/viewer-context";
 
 import AnnotationItemHTML from "./HTML";
@@ -56,8 +57,8 @@ export const AnnotationItem: React.FC<Props> = ({
   const viewerState: ViewerContextStore = useViewerState();
   const viewerDispatch = useViewerDispatch();
 
-  const { activeAnnotationId, openSeadragonViewer, vault, visibleCanvases } =
-    viewerState;
+  const { activeAnnotationId, vault, visibleCanvases } = viewerState;
+  const viewportAdapter = useViewportAdapter();
 
   const annotationBody: Array<
     EmbeddedResource & {
@@ -130,37 +131,22 @@ export const AnnotationItem: React.FC<Props> = ({
       : undefined;
 
   function handleOverlayZoom() {
-    const overlay = openSeadragonViewer?.getOverlayById(annotation.id);
-
-    if (overlay && openSeadragonViewer?.viewport) {
-      // @ts-ignore
-      if (overlay?.element) overlay.element?.focus();
-      const bounds = overlay?.getBounds(openSeadragonViewer.viewport);
-
-      // add some padding to the bounds
-      bounds.x -= 0.2;
-      bounds.y -= 0.2;
-      bounds.width += 0.5;
-      bounds.height += 0.5;
-
-      openSeadragonViewer.viewport.fitBounds(bounds, false);
-    }
+    viewportAdapter?.zoomToAnnotation(annotation.id);
   }
 
+  // A content state's target: zoom to it once its hotspot is drawn.
   useEffect(() => {
-    if (!openSeadragonViewer || !isContentState) return;
+    if (!viewportAdapter || !isContentState) return;
 
     const intervalId = setInterval(() => {
-      const overlay = openSeadragonViewer?.getOverlayById(annotation.id);
-      if (overlay) {
-        handleOverlayZoom();
-        openSeadragonViewer.container.className = "clover-iiif-content-state";
+      if (viewportAdapter.zoomToAnnotation(annotation.id)) {
+        viewportAdapter.markContentState();
         clearInterval(intervalId);
       }
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [openSeadragonViewer, isContentState]);
+  }, [viewportAdapter, isContentState]);
 
   function handleClick(e) {
     e.preventDefault();

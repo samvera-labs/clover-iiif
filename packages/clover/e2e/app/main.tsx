@@ -1,0 +1,191 @@
+/**
+ * The end-to-end harness: one scene of @nulib/clover, chosen by the query string, over
+ * the package's source.
+ *
+ *   ?scene=viewer|items|classic|document|composed   what to render (default viewer);
+ *                                          `composed` publishes the viewport channel
+ *                                          as `window.__viewport` for gesture tests
+ *   &presentation=texture                  (composed) draw video into the canvas
+ *   &content=<url or content state>        its iiifContent
+ *   &css=0                                 leave the stylesheet out (the plain layout)
+ *   &headers=1                             send `X-Clover: e2e` and credentials
+ *   &debug=1                               a fixed readout of the media element and the
+ *                                          chrome, for devices with no console at hand
+ */
+import React from "react";
+import { createRoot } from "react-dom/client";
+
+import * as Clover from "../../src/index";
+import * as Templates from "../../src/templates/index";
+
+const params = new URLSearchParams(location.search);
+const scene = params.get("scene") ?? "viewer";
+const content =
+  params.get("content") ?? "https://fixtures.test/0009-book-1.json";
+const request =
+  params.get("headers") === "1"
+    ? { headers: { "X-Clover": "e2e" }, credentials: "include" as const }
+    : undefined;
+
+/** The viewport channel, on `window`, so a spec can tell that a gesture moved the camera. */
+function ViewportProbe() {
+  const { clover } = Clover.useClover();
+  React.useEffect(
+    () =>
+      clover.viewport.subscribe((view) => {
+        (window as any).__viewport = view;
+      }),
+    [clover],
+  );
+  return null;
+}
+
+function Scene() {
+  switch (scene) {
+    case "items":
+      return (
+        <Clover.Root iiifContent={content} request={request}>
+          <Clover.Label as="h1" />
+          <Clover.Label of="canvas" as="p" data-testid="canvas-label" />
+          <Clover.Items layout="list" />
+          <button type="button">After the items</button>
+        </Clover.Root>
+      );
+    case "composed":
+      return (
+        <Clover.Root iiifContent={content} request={request}>
+          <Clover.Label as="h1" />
+          <Clover.Content
+            style={{ height: "60vh" }}
+            options={
+              params.get("presentation") === "texture"
+                ? { media: { presentation: "texture" } }
+                : undefined
+            }
+          />
+          <Clover.Pager />
+          <ViewportProbe />
+        </Clover.Root>
+      );
+    case "classic":
+      return <Templates.Classic iiifContent={content} request={request} />;
+    case "document":
+      return <Templates.Document iiifContent={content} request={request} />;
+    default:
+      return <Clover.Viewer iiifContent={content} request={request} />;
+  }
+}
+
+/** Media and chrome state, as text, every half second: read off a device's screen. */
+function DebugReadout() {
+  const [text, setText] = React.useState("");
+  React.useEffect(() => {
+    // Events, not samples: a tap's chrome may come and go between two readings.
+    const seen = {
+      down: 0,
+      target: "-",
+      visible: 0,
+      types: new Set<string>(),
+      clicks: 0,
+      clicked: "-",
+      media: [] as string[],
+    };
+    const onClick = (event: MouseEvent) => {
+      seen.clicks++;
+      const button = (event.target as Element).closest?.("button");
+      seen.clicked =
+        button?.getAttribute("aria-label") ??
+        ((event.target as Element).className?.toString().slice(0, 30) || "-");
+    };
+    document.addEventListener("click", onClick, true);
+    const onMedia = (event: Event) => {
+      seen.media = [...seen.media.slice(-3), event.type];
+    };
+    for (const type of [
+      "play",
+      "playing",
+      "pause",
+      "waiting",
+      "error",
+      "stalled",
+    ])
+      document.addEventListener(type, onMedia, true);
+    const onDown = (event: PointerEvent) => {
+      seen.down++;
+      seen.types.add(event.pointerType);
+      seen.target =
+        (event.target as Element).className?.toString().slice(0, 30) || "-";
+    };
+    document.addEventListener("pointerdown", onDown, true);
+    const observer = new MutationObserver((records) => {
+      for (const record of records) {
+        if ((record.target as HTMLElement).dataset.chrome === "visible")
+          seen.visible++;
+      }
+    });
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["data-chrome"],
+      subtree: true,
+    });
+    const timer = setInterval(() => {
+      const video = document.querySelector("video");
+      const canvas = document.querySelector<HTMLElement>(".clover-canvas");
+      const transport = document.querySelector(".clover-canvas-transport");
+      setText(
+        [
+          `chrome=${canvas?.dataset.chrome ?? "-"} status=${canvas?.dataset.status ?? "-"}`,
+          `transport=${transport ? getComputedStyle(transport).opacity : "none"}`,
+          video
+            ? `video ready=${video.readyState} net=${video.networkState} paused=${video.paused} muted=${video.muted} t=${video.currentTime.toFixed(1)} ${video.videoWidth}x${video.videoHeight} err=${video.error?.code ?? "-"} src=${(video.currentSrc || video.src).slice(0, 40)}`
+            : "video none",
+          `click=${seen.clicks} on ${seen.clicked} · media ${seen.media.join(",") || "-"}`,
+          `pointerdown=${seen.down} (${[...seen.types].join(",")}) on ${seen.target} · chrome shown ${seen.visible}×`,
+          `fullscreenEnabled=${String((document as any).fullscreenEnabled)} webkitEnter=${typeof (video as any)?.webkitEnterFullscreen}`,
+        ].join("\n"),
+      );
+    }, 500);
+    return () => {
+      clearInterval(timer);
+      observer.disconnect();
+      document.removeEventListener("pointerdown", onDown, true);
+      document.removeEventListener("click", onClick, true);
+    };
+  }, []);
+  return (
+    <pre
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 99,
+        margin: 0,
+        padding: 4,
+        font: "10px ui-monospace, monospace",
+        whiteSpace: "pre-wrap",
+        background: "#ffffe0e6",
+        pointerEvents: "none",
+      }}
+    >
+      {text}
+    </pre>
+  );
+}
+
+// Which React runs the harness, for the React 19 run to check it really is 19.
+document.documentElement.dataset.react = React.version;
+
+async function start() {
+  if (params.get("css") !== "0") {
+    await import("../../src/styles/clover.css");
+    await import("../../src/templates/templates.css");
+  }
+  createRoot(document.getElementById("app")!).render(
+    <>
+      <Scene />
+      {params.get("debug") === "1" && <DebugReadout />}
+    </>,
+  );
+}
+void start();

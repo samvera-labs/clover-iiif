@@ -1,0 +1,75 @@
+/* Download: a button, and a panel of links hanging below it. */
+.clover-download {
+  position: relative;
+  display: inline-block;
+}
+
+/* `button.x`: one class ties with a reset's `[type="button"]`. See `ui/Button.css`. */
+button.clover-download-button {
+  padding: 0.375rem 0.875rem;
+  border: 1px solid var(--clover-color-primary-muted, #26292b);
+  border-radius: var(--clover-radius-pill, 2rem);
+  background-color: var(--clover-color-secondary, #fff);
+  color: var(--clover-color-primary, #1a1d1e);
+  font: inherit;
+  cursor: pointer;
+}
+
+button.clover-download-button:is(:hover, :focus-visible),
+button.clover-download-button[aria-expanded="true"] {
+  border-color: var(--clover-color-accent, #0065c3);
+  background-color: var(--clover-color-accent, #0065c3);
+  color: var(--clover-color-secondary, #fff);
+}
+
+.clover-download-panel {
+  position: absolute;
+  inset-inline-end: 0;
+  top: calc(100% + 0.375rem);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 14rem;
+  max-width: min(22rem, 90vw);
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
+  border-radius: var(--clover-radius, 3px);
+  background-color: var(--clover-color-secondary, #fff);
+  box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 0.12);
+}
+
+/* Opening towards the end, from a button near the start of its row. */
+.clover-download[data-align="start"] .clover-download-panel {
+  inset-inline-start: 0;
+  inset-inline-end: auto;
+}
+
+.clover-download-panel[hidden] {
+  display: none;
+}
+
+.clover-download-title {
+  margin: 0 0 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--clover-color-primary-muted, #26292b);
+}
+
+.clover-download-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.clover-download-link {
+  display: block;
+  padding: 0.25rem 0;
+  color: var(--clover-color-accent, #0065c3);
+  overflow-wrap: anywhere;
+}
+
+.clover-download-format {
+  color: var(--clover-color-primary-muted, #26292b);
+  font-size: 0.875em;
+}
