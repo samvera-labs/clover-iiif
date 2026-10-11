@@ -1,0 +1,112 @@
+/*
+ * Sections, as tabs or as an accordion (`data-layout`). The button and the panel are the
+ * same parts in both, styled once; each layout adds only what it needs.
+ *
+ * On the scale: a tab is `xs` by `s`, the tabs `2xs` apart, the open one's content `m`
+ * below the row. A box's heading is `s` inside, the boxes `2xs` apart, and its content
+ * under its heading, `s` in.
+ */
+
+/* `button.x`: one class ties with a reset's `[type="button"]`. See `ui/Button.css`. */
+button.clover-sections-button {
+  display: flex;
+  align-items: center;
+  gap: var(--clover-space-xs);
+  margin: 0;
+  padding: var(--clover-space-xs) var(--clover-space-s);
+  border: 0;
+  background: none;
+  color: var(--clover-color-primary-muted, #26292b);
+  font-weight: 600;
+  text-align: start;
+  cursor: pointer;
+}
+
+button.clover-sections-button:focus-visible {
+  outline: 2px solid var(--clover-color-accent, #0065c3);
+  outline-offset: -2px;
+}
+
+.clover-sections-panel {
+  outline: none;
+}
+
+.clover-sections-panel:focus-visible {
+  outline: 2px solid var(--clover-color-accent, #0065c3);
+}
+
+/* ---------- tabs: a row of buttons over the open panel ---------- */
+
+.clover-sections[data-layout="tabs"] .clover-sections-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--clover-space-2xs);
+  border-bottom: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
+}
+
+.clover-sections[data-layout="tabs"] button.clover-sections-button {
+  border-bottom: 2px solid transparent;
+}
+
+.clover-sections[data-layout="tabs"]
+  button.clover-sections-button[aria-selected="true"] {
+  border-bottom-color: var(--clover-color-accent, #0065c3);
+  color: var(--clover-color-primary, #1a1d1e);
+}
+
+.clover-sections[data-layout="tabs"] .clover-sections-panel {
+  padding-top: var(--clover-space-m);
+}
+
+/* ---------- accordion: stacked boxes, each with its heading ---------- */
+
+.clover-sections[data-layout="accordion"] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--clover-space-2xs);
+}
+
+/* Boxes by spacing and the heading's hover, without a border of their own. */
+.clover-sections[data-layout="accordion"] .clover-sections-item {
+  border-radius: var(--clover-radius, 3px);
+}
+
+.clover-sections-heading {
+  margin: 0;
+  font-size: inherit;
+}
+
+.clover-sections[data-layout="accordion"] button.clover-sections-button {
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--clover-space-s);
+  border-radius: inherit;
+}
+
+.clover-sections[data-layout="accordion"]
+  button.clover-sections-button[aria-expanded="true"] {
+  color: var(--clover-color-primary, #1a1d1e);
+}
+
+.clover-sections[data-layout="accordion"] button.clover-sections-button:hover {
+  background-color: var(--clover-color-secondary-muted, #e6e8eb);
+}
+
+.clover-sections-chevron {
+  flex-shrink: 0;
+  transition: transform 150ms ease;
+}
+
+[aria-expanded="true"] > .clover-sections-chevron {
+  transform: rotate(180deg);
+}
+
+.clover-sections[data-layout="accordion"] .clover-sections-panel {
+  padding: 0 var(--clover-space-s) var(--clover-space-s);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clover-sections-chevron {
+    transition: none;
+  }
+}

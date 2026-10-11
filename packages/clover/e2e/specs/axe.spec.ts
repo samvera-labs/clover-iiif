@@ -6,7 +6,7 @@ import { serveIIIF } from "./fixtures";
 
 const axePath = createRequire(__filename).resolve("axe-core/axe.min.js");
 
-for (const scene of ["viewer", "classic", "document", "items"]) {
+for (const scene of ["viewer", "document", "items"]) {
   test(`axe: no serious or critical violations in the ${scene}`, async ({
     page,
   }) => {

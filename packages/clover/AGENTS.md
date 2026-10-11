@@ -1,7 +1,9 @@
 # @nulib/clover
 
-The composable 4.x Clover: parts with dot notation around one `Clover.Root`, plus a
-ready-made `Clover.Viewer` built only from those parts. It is an npm workspace of the
+The composable 4.x Clover, used two ways: the ready-made `Viewer` (the default export,
+`<Viewer iiifContent={url} template={Document} />`), or parts with dot notation around one
+`Clover.Root` (named exports). The Viewer only draws a template, and every template is
+built only from the parts. It is an npm workspace of the
 repository, private and unpublished. `@samvera/clover-iiif` (the repository root) is the
 3.x line and is maintained separately.
 
@@ -30,7 +32,17 @@ staging, `git mv`, versions or publishing.
   into `dist/styles.css` (esbuild), which `build/styles.mjs` wraps in `@layer clover`.
   Keep the aggregate's imports plain: the docs import it from source, and Next 14 reads
   `@import … layer()` as a media query that never matches. Package JS never imports CSS.
-  Tokens are `--clover-*` with literal fallbacks. Add every new stylesheet to the list.
+  Colour tokens are `--clover-color-*` with literal fallbacks, since a page sets them. The
+  scale's tokens (`--clover-space-*`, `--clover-text-*`, `--clover-control`) are defined
+  in `src/styles/scale.css`, first in the list, and need none. Add every new stylesheet to
+  the list.
+- **Space, type and selectors follow `DESIGN.md`.** Every space and text size is a step of
+  the golden scale from the page's own 1rem, chosen by how closely things belong together
+  (a container's inset one step above the gap between its children). Never set a font
+  family, a base size or a line height: Clover reads at the page's type. Select a part's
+  insides by structure under its one root class, and write families (round controls,
+  pills, rows, fields) once. `src/styles/scale.test.ts` fails on any literal rem or em in
+  spacing, and on any font family.
 - **Plain-layout scaffolding.** Every part must still lay out plainly without the
   stylesheet: semantic HTML in reading order, SVG icons with `width`/`height`
   attributes, and the few functional styles inline (stage position and height, track
@@ -47,10 +59,31 @@ staging, `git mv`, versions or publishing.
   video that has never been laid out shows as black. Safari still honours the press.
   Checked in the iOS 26 Simulator.
 - **Class names** are `clover-*`, and never one 3.x uses: both stylesheets load on the
-  docs pages, and an app moving to 4.x may load both too. The Viewer's are
-  `clover-layout*`, not `clover-viewer*`. Before adding a class, grep `src/` for it. Copied 3.x classes were renamed (`clover-canvas-controls`,
+  docs pages, and an app moving to 4.x may load both too. The Viewer's are its template's
+  (`clover-template-default*`), not `clover-viewer*`. Before adding a class, grep `src/` for it. Copied 3.x classes were renamed (`clover-canvas-controls`,
   `clover-canvas-button`, `clover-canvas-exit-full-screen`, `clover-canvas-error`), so 3.x
   and 4.x styles never collide on one page.
+
+## Sections
+
+- `ui/Sections.tsx` is the information panel's body, as `tabs` or `accordion`. Keep the
+  two layouts one component: the same buttons, panels, state and mounting rule, with only
+  the pattern's differences switched (tablist and `tab` roles with roving focus and
+  select-on-arrow; or headings, `aria-expanded`, `region`, arrow keys that only move focus)
+  and the layout CSS under `[data-layout]`. A panel keeps its place in the tree across a
+  layout switch, so its content does not remount.
+
+## Split
+
+- `Clover.Split`, `SplitPane`, `SplitHandle` (`components/Split/`): one sized pane beside
+  each handle (`size`, `min`, `max`), the other takes the rest. Sizes are border boxes
+  (`box-sizing: border-box`), as a drag measures them. The handle finds its panes by DOM
+  siblings with the `clover-split-pane` class, so anything else in the Split (a scrim) is
+  skipped. Its look follows 3.x's Viewer drag handle: a 3px solid bar, no gap either side.
+- A template that snaps a split pane to an overlay keeps one tree (the Split stays, the
+  pane is positioned over by CSS), so crossing the snap point never remounts the Canvas.
+  `templates/shared/useSlide.ts` holds `useSlide`, `useFocusOnOpen` and `useWideEnough`
+  (a layout's own width, not the window's).
 
 ## Templates
 
@@ -58,11 +91,29 @@ staging, `git mv`, versions or publishing.
   `README.md` (the docs page imports the README, so it is the documentation). Templates
   are a second entry, `@nulib/clover/templates`, in the same module graph, with their
   own stylesheet, `@nulib/clover/templates.css` (`src/templates/templates.css`).
-- A template imports only `react`, `../../index` (the public API) and
-  `../shared/…`; `templates.test.tsx` enforces it, so any template can be copied into an
-  app as it is. If a template needs something, export it from the package first.
+- **The Viewer** (`components/Viewer/Viewer.tsx`) is a shell (under 1 kB) that only
+  picks a template: `template`, or `Default`, loaded with `React.lazy` when none is
+  given. It is the default export and `Clover.Viewer`. Never import `Default` (or any
+  template or part) statically into it: a bundler cannot tell whether a page passes
+  `template`, so every page would ship `Default` and all its parts (Mat: the Viewer shell
+  is the lightweight part). `consumer.test.mjs` checks that only the shell loads up
+  front. The cost of `<Viewer />` with no template is one request before the Manifest
+  loads and nothing drawn on the server; `template={Default}` avoids both, and
+  `<clover-viewer>` passes it. A template is passed as a
+  component, never named by a string. A named import that is never used is deleted by
+  TypeScript, SWC and Babel, so registering templates on import would silently fail, and
+  a string cannot type the template's props. `ViewerProps<T>` takes its props from the
+  template, so `template={Document}` types `defaultSidebarOpen`.
+- `Default`'s CSS is in `styles.css` (`src/styles/clover.css`), not `templates.css`, so
+  `<Viewer />` needs one stylesheet. The templates entry exports it with the others.
+- A template imports only `react`, `../../parts` (every public part: `src/index.ts` is
+  `parts` plus the Viewer) and `../shared/…`. `templates.test.tsx` enforces it, so any
+  template can be copied into an app with `../../parts` read as `@nulib/clover`. They
+  import `parts`, not `index`: the index reaches `Default` through the Viewer, so
+  importing it back would be a cycle. If a template needs something, export it from `parts` first.
 - Classes are `clover-template-<name>-*`.
-- Current set: `Classic` (3.x Viewer layout), `Document` (a PDF viewer: thumbnails left,
+- Current set: `Default` (3.x Viewer layout, the Viewer's own; `items` picks its
+  thumbnails), `Document` (a PDF viewer: thumbnails left,
   one whole page at a time, the panel sliding out right), `Gallery` (grid and lightbox),
   `Text` (3.x Scroll: an article per Canvas, text by language; it sets
   `annotationPages="all"`).
@@ -75,10 +126,12 @@ staging, `git mv`, versions or publishing.
   Do not animate the stage, key it, or remount the Canvas on a turn (Mat: it should
   simply swap the content). The panel slides with
   `useSlide` (`hidden` once out of sight, so it reads plainly without CSS).
-- **Closing the information panel** is `InformationPanel`'s job, not a template's: pass
-  `onClose` (a close button, and focus handed back to the `aria-controls` control) and,
-  only for a panel floating over the page, `closeOnEscape`. A docked panel (Viewer,
-  Classic) does not close on Escape. A floating one (Document) also takes focus when it
+- **Closing the information panel** is `InformationPanel`'s job, not a template's. Only
+  a panel floating over the page gets `onClose` (a close button, and focus handed back to
+  the `aria-controls` control) and `closeOnEscape`, which also puts the button at the
+  panel's inner edge (`data-floating`: the start, for a panel over the end of the page).
+  A docked panel (`Default`'s, beside the stage) gets no `onClose`: its toggle closes it
+  (Mat). A floating one (`Default` on a phone, `Document`) also takes focus when it
   opens. Any new layout with a panel does the same. `shared/Lightbox.tsx` is a native `<dialog>`; jsdom lacks
   `showModal()`, so tests polyfill it.
 
@@ -95,17 +148,34 @@ staging, `git mv`, versions or publishing.
   externals within dependencies and peers, a forbidden list, lazy modules) and the size a
   consumer ships against `build/size-budget.json`. Raise a budget only on purpose, and
   say so in the changelog.
+- After the budgets, the test prints what each `<Viewer template={X} />` page is made
+  of: the Viewer shell, the parts the template uses, and the template's own code. The
+  total is exact; gzip does not add up module by module, so it is split by each group's
+  share of the minified code. Do not derive these by subtracting separate builds: Rollup
+  chunks each build differently, enough to make a difference negative.
+- The sizes are measured as a Vite app builds for production (`build/consumer-bundle.mjs`:
+  Rollup, minified, React external), not with esbuild. Through the package entry,
+  esbuild's code splitting counts a module as reachable by its re-export alone, even
+  once tree shaking drops it, so any lazy chunk (the Viewer's `Default`) drags the
+  modules it shares up front. Measured that way, every import from `@nulib/clover`,
+  even a lone `Canvas`, is the whole Default template (62 kB). Rollup and webpack (Next)
+  split by what is used. It is a real cost for apps bundled with esbuild, not only a
+  measuring artefact.
 - The docs import `@nulib/clover`, `@nulib/clover/templates`, `@nulib/clover/map` and the
-  stylesheets, which the root `tsconfig.json` maps to this package's source. Its demos live under `pages/docs/4.x/`.
+  stylesheets, which the root `tsconfig.json` maps to this package's source. Its pages are `pages/docs/*` (3.x's moved to `pages/docs/3.x/`), its demos in
+  `docs/components/Clover4/`, and the homepage shows it (`docs/components/Home/`).
 
 ### End to end (`e2e/`)
 
 - `npm run e2e -w @nulib/clover` runs Playwright (`e2e/playwright.config.ts`) over a Vite
   harness of the package's source (`e2e/app`, port 4321). The projects are chromium,
-  webkit, firefox, `iphone` (WebKit at iPhone 15 size, with touch) and `react19`.
+  webkit, firefox, `iphone` (WebKit at iPhone 15 size, with touch), `react19` and `timing`.
+  `timing` runs the timed specs (`TIMED` in the config) in Chromium once every other project
+  has finished, alone: run alongside four other browsers they measured the machine.
   `react19` runs Chromium against a second server on port 4322. That server aliases React
   to `e2e/react19/node_modules`, which is its own install, so run `npm ci` there once.
-- The harness picks a scene by query: `?scene=viewer|items|classic|document|composed`,
+- The harness picks a scene by query: `?scene=viewer|items|document|gallery|composed`
+  (`document` and `gallery` are the Viewer with that template),
   `&content=`, `&css=0` (no stylesheet, the plain layout) and `&headers=1` (request
   settings). `composed` puts the viewport channel on `window.__viewport`, for gesture
   specs.
@@ -341,8 +411,9 @@ staging, `git mv`, versions or publishing.
   - A lone media Canvas (`canvases.length === 1`) is always fitted: `navigable: false`
     on the gestures, `fit: true` on every `setImages`, and the world is the video's rect
     at its intrinsic aspect (`containAspect`). It has no top cluster, scrim or
-    navigator; full screen is the last button in the transport. The cluster returns only
-    to offer a `Choice`.
+    navigator; full screen is the last button in the transport. The cluster returns
+    only to offer a `Choice` or the `i`, or to hold a host's own controls (the panel
+    toggle), which must never disappear with the image controls.
   - The transport fades with the rest of the chrome, through the single reveal rule
     in `Canvas.css`. Do not add "stay visible while paused" or similar overrides. The
     reveal is `data-chrome` (pointer, from `useChromeVisibility`, lingering
@@ -426,3 +497,7 @@ staging, `git mv`, versions or publishing.
   mock never reports.
 - Draws happen only in `requestAnimationFrame` and on demand. A hidden tab or preview pane
   never fires rAF, so verify rendering in a visible browser or headless Playwright.
+- The one exception is a resize. A ResizeObserver runs after the frame's rAF callbacks
+  and before its paint, and changing a canvas's size clears it. So `measure(true)` draws
+  at once (`FrameLoop.drawNow()`): routed through `invalidate()`, every step of a
+  dragged split handle paints one blank frame.

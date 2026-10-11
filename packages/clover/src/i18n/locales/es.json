@@ -5,10 +5,8 @@
   "commonPrevious": "Anterior",
   "commonSearch": "Buscar",
   "commonSearchPlaceholder": "Buscar...",
-  "commonShare": "Compartir",
   "commonViewAll": "Ver todo",
   "copyFailure": "Fallido",
-  "copySuccess": "Copiado",
   "contentSearchLoading": "Cargando...",
   "contentSearchPlaceholder": "Buscar",
   "contentSearchResultsNone": "Sin resultados",
@@ -64,5 +62,6 @@
   "playerAnnounceCaptionsOn": "Captions on",
   "playerAnnounceCaptionsOff": "Captions off",
   "playerAnnounceSeekForward": "Seek forward",
-  "playerAnnounceSeekBackward": "Seek backward"
+  "playerAnnounceSeekBackward": "Seek backward",
+  "splitHandle": "Cambiar el tamaño de los paneles"
 }

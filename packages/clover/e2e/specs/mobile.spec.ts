@@ -94,3 +94,33 @@ test("a pinch zooms the Canvas in, and back out", async ({ page }) => {
   await pinch(page, ".clover-canvas-viewport", 120, 30);
   await expect.poll(() => area(page)).toBeGreaterThan(before * 0.8);
 });
+
+test("the transport's bar stays one row; the chapter's title gives way", async ({
+  page,
+}) => {
+  await serveIIIF(page);
+  await page.goto("/?content=https://fixtures.test/0026-toc-opera.json");
+  const bar = page.locator(".clover-canvas-transport-bar");
+  await expect(bar).toHaveCount(1);
+  const layout = await bar.evaluate((el) => {
+    const box = el.getBoundingClientRect();
+    const shown = [...el.children].filter(
+      (child) => getComputedStyle(child).display !== "none",
+    );
+    return {
+      // One row: every part's middle is inside the bar's own height.
+      oneRow: shown.every((child) => {
+        const b = child.getBoundingClientRect();
+        const middle = b.top + b.height / 2;
+        return middle >= box.top && middle <= box.bottom;
+      }),
+      height: box.height,
+      inside: shown.every(
+        (child) => child.getBoundingClientRect().right <= box.right + 0.5,
+      ),
+    };
+  });
+  expect(layout.oneRow).toBe(true);
+  expect(layout.height).toBeLessThan(48);
+  expect(layout.inside).toBe(true);
+});

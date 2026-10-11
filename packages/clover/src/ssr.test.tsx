@@ -30,17 +30,45 @@ describe("server rendering", () => {
     expect(html).toContain("clover-content");
   });
 
-  it("renders the Viewer, every template, and the Map", () => {
+  it("renders the Viewer in every template, and the Map", () => {
     for (const element of [
-      <Clover.Viewer key="v" iiifContent={bookJson} />,
-      <Templates.Classic key="c" iiifContent={bookJson} />,
-      <Templates.Document key="d" iiifContent={bookJson} />,
-      <Templates.Gallery key="g" iiifContent={bookJson} />,
-      <Templates.Text key="t" iiifContent={bookJson} />,
+      <Clover.Viewer
+        key="v"
+        iiifContent={bookJson}
+        template={Templates.Default}
+      />,
+      <Clover.Viewer
+        key="d"
+        iiifContent={bookJson}
+        template={Templates.Document}
+      />,
+      <Clover.Viewer
+        key="g"
+        iiifContent={bookJson}
+        template={Templates.Gallery}
+      />,
+      <Clover.Viewer
+        key="t"
+        iiifContent={bookJson}
+        template={Templates.Text}
+      />,
       <Map key="m" iiifContent={bookJson} />,
     ]) {
       expect(() => renderToString(element)).not.toThrow();
     }
+  });
+
+  it("draws Default on the server only when it is passed", () => {
+    // Passed, it is there up front: its layout is in the markup.
+    expect(
+      renderToString(
+        <Clover.Viewer iiifContent={bookJson} template={Templates.Default} />,
+      ),
+    ).toContain("clover-template-default");
+    // Left to the Viewer, it loads on the client, so the server draws nothing yet.
+    expect(
+      renderToString(<Clover.Viewer iiifContent={bookJson} />),
+    ).not.toContain("clover-template-default");
   });
 
   it("renders standalone parts outside a Root", () => {

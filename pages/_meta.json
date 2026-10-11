@@ -11,9 +11,12 @@
     "title": "Documentation",
     "type": "page"
   },
-  "demo": {
-    "title": "Demo",
-    "type": "page",
-    "href": "/docs/viewer/demo"
+  "404": {
+    "display": "hidden",
+    "theme": {
+      "layout": "full",
+      "sidebar": false,
+      "toc": false
+    }
   }
 }

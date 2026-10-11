@@ -864,6 +864,12 @@ assigned at release time.
 
 ### Documentation
 
+- **The 3.x docs moved to `/docs/3.x/`.** The docs site now leads with Clover 4
+  (`@nulib/clover`, in development), and keeps these docs as a "Clover 3.x" group at the
+  bottom of the sidebar. Old links still work: a 3.x page's old URL sends the reader to
+  its new one (`/docs/image` to `/docs/3.x/image`), except `/docs/viewer` and
+  `/docs/map`, which are now Clover 4's pages and link to their 3.x versions. Update
+  bookmarks to `/docs/3.x/…`.
 - A new [Mocks](https://samvera-labs.github.io/clover-iiif/docs/mocks) page, and the first
   published mock: a two-page newspaper with line and word OCR (`xywh`, `textGranularity`)
   and a IIIF Content Search 2.0 service, at `/mocks/content-search/`. `npm run dev` serves

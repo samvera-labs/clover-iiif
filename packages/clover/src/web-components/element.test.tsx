@@ -70,12 +70,18 @@ describe("<clover-viewer>", () => {
   });
 
   it("maps attributes to the Viewer's props, `false` turning a part off", async () => {
-    const element = mount({ panel: "false", share: "false", items: "false" });
+    const element = mount({
+      panel: "false",
+      download: "false",
+      items: "false",
+    });
     await within(element).findByRole("heading", {
       name: "Simple Manifest - Book",
     });
     expect(within(element).queryByRole("tab", { name: "About" })).toBeNull();
-    expect(within(element).queryByRole("button", { name: "Share" })).toBeNull();
+    expect(
+      within(element).queryByRole("button", { name: "Download" }),
+    ).toBeNull();
     expect(within(element).queryByRole("listbox")).toBeNull();
   });
 

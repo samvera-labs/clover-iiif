@@ -1,96 +1,44 @@
 /*
- * The control cluster over the canvas.
- *
- * Stitches expressed the offsets as three variants plus four compound variants; they are
- * attribute selectors here. `data-has-information-toggle` and `data-panel-open` carried no
- * styles of their own even then — their two variants were empty objects, existing only so
- * the compound rules below could key on them — so they appear only in combination.
- *
- * The compounds win on specificity rather than on source order: three attribute selectors
- * outrank one, which is the same precedence Stitches gave them by emitting compound
- * variants after plain ones.
+ * The control cluster over the canvas: `m` in from the stage's top and end, its buttons
+ * `s` apart, a row that wraps (a column on a phone) rather than running past the stage
+ * at a large zoom (WCAG 1.4.10). A placeholder's toggle takes a place of its own beside
+ * it (see `Placeholder.css`).
  */
 .clover-canvas-controls {
+  --top: var(--clover-space-m);
   position: absolute;
   z-index: 1;
-  right: 1rem;
-  display: flex;
-  /*
-   * Nothing but the cluster's own size kept it inside the canvas, so at 400% zoom on a
-   * 1280px viewport the buttons overran the bottom edge and became unreachable
-   * (WCAG 1.4.10). Wrap the overflow into a new line instead of running past the edge.
-   *
-   * `--top` carries whatever offset the rules below set, so the height budget tracks it.
-   */
-  --top: 1rem;
   top: var(--top);
+  right: var(--clover-space-m);
+  display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
-  max-height: calc(100% - var(--top) - 1rem);
-  /*
-   * Wrapping widens the box to the space it is offered, so the row would pack itself
-   * against the far edge and leave the `right` offset describing an empty box.
-   */
   justify-content: flex-end;
+  gap: var(--clover-space-s);
+  max-height: calc(100% - var(--top) - var(--clover-space-m));
 }
 
 @media (max-width: 575px) {
   .clover-canvas-controls {
     flex-direction: column;
     z-index: 2;
-    /* A wrapped column grows sideways, so send it back toward the pinned right edge. */
+    /* A wrapped column grows sideways, so send it back toward the pinned edge. */
     align-content: flex-end;
   }
 }
 
-/* --------------------- placeholder alone --------------------- */
-
+/* Room in the corner for a placeholder's toggle, beside the cluster or above its column. */
 .clover-canvas-controls[data-has-placeholder="true"] {
-  right: 3.618rem;
-}
-
-.clover-canvas-controls[data-has-placeholder="false"] {
-  right: 1rem;
+  right: calc(
+    var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
+  );
 }
 
 @media (max-width: 575px) {
   .clover-canvas-controls[data-has-placeholder="true"] {
-    --top: 3.618rem;
-    right: 1rem;
-  }
-
-  .clover-canvas-controls[data-has-placeholder="false"] {
-    --top: 1rem;
-    right: 1rem;
-  }
-}
-
-/* ------------- placeholder with the information toggle ------------- */
-
-.clover-canvas-controls[data-has-placeholder="false"][data-has-information-toggle="true"][data-panel-open="false"] {
-  right: 3.618rem;
-}
-
-.clover-canvas-controls[data-has-placeholder="true"][data-has-information-toggle="true"][data-panel-open="false"] {
-  right: 6.236rem;
-}
-
-.clover-canvas-controls[data-has-placeholder="false"][data-has-information-toggle="true"][data-panel-open="true"] {
-  right: 1.382rem;
-}
-
-.clover-canvas-controls[data-has-placeholder="true"][data-has-information-toggle="true"][data-panel-open="true"] {
-  right: 4rem;
-}
-
-@media (max-width: 575px) {
-  .clover-canvas-controls[data-has-placeholder="false"][data-has-information-toggle="true"][data-panel-open="false"] {
-    --top: 3.618rem;
-    right: 1rem;
-  }
-
-  .clover-canvas-controls[data-has-placeholder="true"][data-has-information-toggle="true"][data-panel-open="false"] {
-    --top: 6.236rem;
-    right: 1rem;
+    --top: calc(
+      var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
+    );
+    right: var(--clover-space-m);
   }
 }

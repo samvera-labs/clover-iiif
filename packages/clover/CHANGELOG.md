@@ -38,12 +38,28 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   </Clover.Root>
   ```
 
-- **`Clover.Viewer`**, those parts put together, built only from public exports so a
-  custom layout can start from a copy of it. Its `items` prop picks the thumbnails'
-  layout, or `false` for none; `panel={false}` drops the information panel beside the
-  stage, and `defaultPanelOpen` sets whether it starts open. Its classes are
-  `clover-layout*`, so they never meet 3.x's `clover-viewer*` on a page with both. A
-  Share button sits in its header (`share={false}` removes it).
+- **`Viewer`, the default export**: a Manifest (or a Collection, or a content state) in a
+  ready-made layout. With no `template` it draws `Default`, Clover 3.x's Viewer layout;
+  for another, pass a template from `@nulib/clover/templates`, or a component of your
+  own that takes the `Root` props. The Viewer takes its template's props, and TypeScript
+  checks them against it. The Viewer is a shell of under 1 kB that holds no layout, so a
+  page ships only the template it passes and the parts that template uses; a template is
+  passed rather than named for the same reason. Given none, it loads `Default` on first
+  render, as a chunk of its own: one request before the Manifest loads, and nothing drawn
+  on the server. `template={Default}` has it up front, drawn on the server too. The
+  Viewer is `Clover.Viewer` too, and the parts stay named exports beside it, so one
+  import serves both ways of building. Its classes are `clover-template-default*`, so
+  they never meet 3.x's `clover-viewer*` on a page with both.
+
+  ```jsx
+  import Viewer from "@nulib/clover";
+  import { Default, Document } from "@nulib/clover/templates";
+
+  <Viewer iiifContent={url} />                      // Default, loaded on demand
+  <Viewer iiifContent={url} template={Document} />
+  <Viewer iiifContent={url} template={Default} />   // up front, and on the server
+  ```
+
 - **The descriptive properties as parts:** `Summary`, `Metadata`, `RequiredStatement`,
   `Rights`, `Homepage`, `Rendering`, `SeeAlso`, `PartOf`, `Thumbnail` and `Id`, beside
   `Label`. Each reads the Root's Manifest, or the current Canvas with `of="canvas"`; a
@@ -53,15 +69,34 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   permits and `http(s):` or `mailto:` links. Scripts, event handlers, `style`, SVG, and
   `javascript:` or `data:` URLs are removed. A value with markup shows as plain text until
   the sanitiser (DOMPurify) has loaded, which happens only when some value needs it.
-- **`Clover.InformationPanel`**, tabs of information about the Root's resource, with
+- **`Clover.InformationPanel`**, information about the Root's resource in sections, with
   About by default. Give it `Clover.Tab` children (`value`, `label`, and anything as
-  content) to choose the tabs, including your own; this replaces 3.x's information panel
-  plugins. `value` / `defaultValue` / `onValueChange` control which tab shows. Given
-  `onClose`, it has a close button at the end of its tabs; closing from inside it hands
-  focus back to the control whose `aria-controls` names it (or an element around it), so
-  focus never stays on something hidden. `closeOnEscape` closes it on Escape as well, for
-  a panel floating over the page. The Viewer, Classic and Document panels all close this
-  way; Document's, which floats, also closes on Escape and takes focus when it opens.
+  content) to choose the sections, including your own; this replaces 3.x's information
+  panel plugins. `value` / `defaultValue` / `onValueChange` control which section shows.
+
+  `layout` lays the sections out as `"tabs"` (the default) or `"accordion"`: stacked
+  boxes, each opened and closed by its heading; opening one closes the others. Both are built from the
+  same buttons and panels and the same state, so switching layout keeps what is open, and
+  a section's content mounts when it first opens and stays mounted. Each follows its
+  WAI-ARIA pattern: a `tablist` whose arrow keys select, or headed buttons with
+  `aria-expanded` whose arrow keys move between headings. The templates pass it on as
+  `panelLayout`. Style either through `.clover-sections` and its
+  `data-layout`, `.clover-sections-button` and `.clover-sections-panel`.
+
+  ```jsx
+  <Clover.InformationPanel layout="accordion" />
+  <Viewer iiifContent={url} panelLayout="tabs" />
+  ```
+
+  Given `onClose`, it has a close button; closing from inside it hands focus back to the
+  control whose `aria-controls` names it (or an element around it), so focus never stays
+  on something hidden. Give it only to a panel that floats over the page, with
+  `closeOnEscape`: Escape closes it too, and the button sits at the panel's inner edge
+  (the start, for a panel over the end of the page). A panel docked beside the stage
+  has no close button; its toggle closes it. So `Default`'s docked panel has none, while
+  `Default`'s on a phone and `Document`'s, which float, have one, close on Escape, and
+  take focus when they open.
+
 - **`Clover.About`**, everything the Manifest says about itself, in the order 3.x's About
   tab shows it.
 - **`Clover.PanelToggle`**, which shows and hides the panel. Given to `Clover.Content` as
@@ -83,7 +118,7 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `@nulib/clover/web-components` (`dist/web-components/index.mjs`, and `index.umd.js` for a
   classic `<script>` from a CDN). Built on its own with Preact standing in for React.
   Attributes `iiif-content`, `canvas-id`, `manifest-id`, `language`, `search-query`,
-  `items`, `panel`, `share`, `download`; an `iiifContent` property for objects; events
+  `items`, `panel`, `download`; an `iiifContent` property for objects; events
   `canvaschange`, `manifestchange`, `contentstatechange`. Light DOM, as 3.x's. About
   86 kB gzip up front (3.x's element: about 530 kB); MapLibre, its worker and its
   stylesheet load only with a map.
@@ -97,8 +132,8 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - **`Clover.Download`**, as 3.x's Viewer offers it: the `rendering` of the Canvases in
   view ("This page") and of the Manifest ("All pages") — a PDF, a text, a full-size file —
-  as links behind one button, opening towards the side with room. It is in the Viewer's
-  header, Classic's and Document's (`download={false}` removes it, 3.x's `showDownload`),
+  as links behind one button, opening towards the side with room. It is in the header of
+  `Default` and `Document` (`download={false}` removes it, 3.x's `showDownload`),
   and renders nothing when there is nothing to download.
 - **Renderers of your own** (3.x's `customDisplays`): `renderers` on `Root` (or one
   `Content`) draws the views it claims — by Canvas id, painted body `format`, or a `match`
@@ -108,7 +143,7 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   same, so it never re-renders the parts.
 
   ```jsx
-  <Clover.Viewer
+  <Viewer
     iiifContent={url}
     renderers={[{ format: ["model/gltf-binary"], component: ModelViewer }]}
   />
@@ -153,8 +188,8 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **Content state out.** `onContentStateChange` on `Root` reports where the reader is,
   as a IIIF content state (`{ json, encoded }`), whenever it settles after a move, a pan
   or zoom, or a pause or seek: the Canvas holding most of the view, and its region or
-  the media time. `Clover.Share` copies a link carrying it in `iiif-content`, which a
-  Root given that value opens at the same place. `buildContentState`,
+  the media time. A link carrying it in `iiif-content` opens a Root given that value
+  at the same place. `buildContentState`,
   `encodeContentState` and `decodeContentState` are exported.
 
   ```jsx
@@ -195,7 +230,7 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   - Standalone with `iiifContent`, `navPlace` or `georeferences`; inside a `Root` it maps
     the Root's resource and the view's georeferenced image, and pressing a place goes to
     its Canvas.
-  - The Viewer, `Classic`, `Document` and a default `InformationPanel` add a Map tab by
+  - The Viewer, its templates and a default `InformationPanel` add a Map tab by
     themselves when the Manifest, its Collection, a Canvas or an annotation has navPlace
     or a georeference. Nothing to pass.
   - `maplibre-gl` is a dependency, downloaded only when a map is first shown (about
@@ -208,7 +243,7 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   ```jsx
   import "maplibre-gl/dist/maplibre-gl.css";
 
-  <Clover.Viewer iiifContent={url} />; // a Map tab when there are places
+  <Viewer iiifContent={url} />; // a Map tab when there are places
   ```
 
 - **`Clover.Search`**, IIIF Content Search 1 and 2. A Manifest with a search service gets
@@ -221,12 +256,12 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   Emptying the field clears the hits, and another Manifest starts without them.
 
   ```jsx
-  <Clover.Viewer iiifContent={manifestUrl} searchQuery="bird" />
+  <Viewer iiifContent={manifestUrl} searchQuery="bird" />
   ```
 
 - **Collections.** A Collection's members are browsable within one `Root`.
   - `Clover.CollectionSelect`, a native `<select>` of the members labelled by the
-    Collection, sits in the Viewer's and the Classic template's header. Choosing a
+    Collection, sits in the header of the Viewer's `Default` template. Choosing a
     Manifest shows it; choosing a nested Collection enters it.
   - `<Clover.Items of="members">` is the same choice as a listbox of thumbnails.
   - `Root` takes `manifestId` (controlled, with `onManifestChange`) to open and follow a
@@ -244,16 +279,27 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   </Clover.Root>
   ```
 
-- **Templates**, ready-made layouts from a second entry, `@nulib/clover/templates`,
+- **Templates**, layouts for the Viewer from a second entry, `@nulib/clover/templates`,
   with their own stylesheet, `@nulib/clover/templates.css`. Each is built only from the
   package's public parts, so it can be copied into an app and changed.
-  - `Classic`: Clover 3.x's Viewer layout. Title and Share above; the stage with the
-    information panel to its right; the thumbnail strip under the stage, headed by the
-    position and arrows.
+  - `Default`: the Viewer's own, drawn when no `template` is given. It ships with the
+    Viewer, and its styles are in `styles.css`. Clover 3.x's Viewer layout: title and
+    Download above; the stage
+    with the information panel to its right; the thumbnail strip under the stage, headed
+    by the position and arrows. The panel never stacks: it has its own space beside the
+    stage, and a bar between them shares the width (remembered under `storageKey`).
+    Where there is no room for both (a phone), it slides over the stage instead, leaving
+    a strip of the page that closes it on a click, as Escape and its close button do.
+    `defaultPanelOpen` now defaults to open only when the panel fits beside the stage.
+    Its panel's sections are stacked boxes by default (`panelLayout="accordion"`);
+    `panelLayout="tabs"` gives tabs, as Document's have. `items` picks the thumbnails'
+    layout (`"carousel"`, `"list"` or `"grid"`), or `false` for none.
   - `Document`: reads like a PDF viewer. A toolbar, page thumbnails down the left, and
     one whole page at a time: a scroll turns the page (one gesture, one page, past any
     trackpad momentum), as do PageUp and PageDown, and at either end the wheel scrolls
-    the document on. The information panel slides out over the right of the page.
+    the document on. A bar between the thumbnails and the page resizes them; a one-page
+    document has neither, nor their toggle. The
+    information panel slides out over the right of the page.
   - `Gallery`: a grid of the views that opens one in a lightbox (a native `<dialog>`)
     with the stage and the pager.
   - `Text`: a Manifest read as text, as 3.x's Scroll reads it. One article per Canvas,
@@ -261,11 +307,12 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     lightbox.
 
   ```jsx
-  import * as Templates from "@nulib/clover/templates";
+  import Viewer from "@nulib/clover";
+  import { Document } from "@nulib/clover/templates";
   import "@nulib/clover/styles.css";
   import "@nulib/clover/templates.css";
 
-  <Templates.Classic iiifContent={url} />;
+  <Viewer iiifContent={url} template={Document} />;
   ```
 
 - **`visuallyHidden`**, the inline styles Clover hides labels with, for parts of your own
@@ -321,11 +368,36 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   re-renders only when what it reads changes. The viewport and the media element are
   passed through channels, not state, so panning and playback re-render nothing.
   `createClover()` gives the same state without React.
+- **Space and type on one scale, from your page.** Every space and text size in Clover
+  is a step of the golden ratio from your page's own `1rem` (`--clover-space-3xs` to
+  `--clover-space-2xl`, `--clover-text-s`, `-l`, `-xl`, and `--clover-control` for the
+  round controls), defined in `styles.css` and yours to override. Clover sets no font
+  family, base size or line height: its text, buttons and fields read in your page's
+  type. Spacing follows how closely things belong together, as `DESIGN.md` sets out.
+  Round controls are 2.236rem (a 1rem icon with 0.618rem around it), the cluster's
+  buttons sit 0.618rem apart, and the panel has 1rem inside. A `.clover-canvas-controls`
+  no longer carries `data-has-information-toggle` or `data-panel-open`, which nothing
+  set.
+- **`Clover.Items`' hover, selection and focus rings sit inside each thumbnail.** They
+  were outlines outside it, so a carousel cut off the first thumbnail's ring and a list
+  or grid's rings reached past the edge of the content. Drawn inside, they take no room
+  and the thumbnails line up with what is beside them (in forced colours they stay
+  outlines). A grid's cells now stay square for a tall picture too. Items are `--clover-space-m`
+  (1rem) apart in every layout (`--clover-items-gap`): each is a group, a picture with
+  its caption. `Default`'s thumbnail strip has 1rem padding all round, as its header
+  has. Each Canvas in an item is its own card, its picture with its own
+  label under it: a spread from `behavior: paged` (or the Canvases of a continuous
+  Manifest) is one item whose cards meet with no gap, labels and all, rather than one
+  label "Frontispiece – Title page" across both pages. `ItemModel.label` still joins
+  them, for a name of the whole item.
 - **Phones.** iPhone Safari can put a video full screen, but no other element. There, the
   Canvas offers no full-screen control for images, and a video's full-screen button opens
   the system player. That includes a video drawn into the canvas
   (`presentation: "texture"`). The same applies inside a frame that is not allowed full
   screen, where the button used to do nothing. Other browsers are unchanged.
+- **The video and sound bar stays on one row.** The play, volume, time, chapters,
+  captions and full-screen controls keep their size, and the current chapter's title
+  gives way to them, shortening with an ellipsis, rather than the bar wrapping.
 - **Captions show once on iPhone.** iOS Safari turns a caption track on by the reader's
   caption settings, and drew its own copy of each cue in the picture, under Clover's. Every
   track now stays `hidden`. Clover draws the cues and fills the transcript.
@@ -337,6 +409,34 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **Checked in browsers.** Every change is checked in Chromium, WebKit and Firefox, in
   WebKit at iPhone size with touch, and on React 18 and 19. The checks include axe and a
   Manifest of 1,000 Canvases.
+
+- **`Clover.Split`, `Clover.SplitPane` and `Clover.SplitHandle`**, panes side by side and
+  the bar the reader drags between them. One pane beside each bar has a `size` (with
+  `min` and `max`, in px, rem or %); the other takes what is left. The bar is a focusable
+  `separator`: the arrow keys move it (Shift for bigger steps), Home and End go to the
+  limits, and a double click puts the pane back to its size. With `storageKey` the
+  reader's sizes are remembered. Not tied to any part: the templates use it, and so can
+  your own layouts. Dragging the bar does not blink the picture: a `Canvas` redraws in
+  the same frame it is resized, wherever it sits.
+
+  ```jsx
+  <Clover.Split storageKey="my-layout">
+    <Clover.SplitPane min="16rem">
+      <Clover.Content />
+    </Clover.SplitPane>
+    <Clover.SplitHandle />
+    <Clover.SplitPane size="24rem" min="14rem">
+      <Clover.InformationPanel />
+    </Clover.SplitPane>
+  </Clover.Split>
+  ```
+
+- **The information panel's toggle never fades.** The other Canvas controls fade when
+  the pointer leaves; the toggle stays, in the stage's top corner, on wide screens and
+  phones alike. That includes a lone video or sound, which shows no image controls, and a
+  placeholder, whose own toggle steps aside for it. Beside the other controls it keeps
+  their own gap. The controls now fade one by one rather than as a cluster: a stylesheet
+  that faded `.clover-canvas-controls` itself should fade its buttons instead.
 
 - **`Canvas` (experimental).** Clover's own 2D pan-and-zoom renderer for images, video
   and sound, drawn with WebGL2 and falling back to Canvas2D. It replaces OpenSeadragon
@@ -486,9 +586,31 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   then each by 1 kB for animations (0.8 kB on a Canvas: frame detection and the
   renderer's `setHidden`/`isReady`, the clock and bar loading on demand), and by 1 kB
   for Download and renderers (Viewer 0.7 and 0.4 kB; the stylesheet's budget to 6.5 kB).
+  The Classic and Document budgets were raised to 62.5 and 63 kB for the split (2.1 kB:
+  pointer and keyboard resizing, the separator's value, limits and remembered sizes) and
+  the panel's slide-over, and the stylesheet's to 6.8 kB for the split's bar and controls
+  that fade one by one.
+  The Viewer's budget was raised to 61.5 kB and the stylesheet's to 7 kB for the
+  information panel's accordion layout (the Sections that hold tabs and boxes alike).
   The Canvas budget was raised to 38.5 kB for full screen on iPhone (0.5 kB: the check
   for whether an element can go full screen, and handing a video, even one drawn into the
   canvas, to the system player).
+  The sizes are now measured as a Vite app builds them for production (Rollup, minified),
+  where they were measured with esbuild. Through the package entry, esbuild's code
+  splitting counts a module as reachable from the page by its re-export alone, even once
+  tree shaking drops it. So a lazy chunk sharing modules with the entry drags them up
+  front: with the Viewer's on-demand `Default`, every import from `@nulib/clover`
+  measured as the whole Default template, a standalone `Canvas` included (62.4 kB).
+  Rollup and webpack split by what is used. Rollup numbers are smaller, so every budget
+  was set again from them: a standalone `Canvas` 34.7 kB (budget 35.2), the Viewer
+  shell 0.9 kB (1.2), and the Viewer with `Default` 59.6 kB (60.2), `Document` 60.2 kB
+  (60.8), `Gallery` 52.2 kB (52.8) and `Text` 48.5 kB (49.1). Before the shell, every
+  template paid for `Default`'s parts: Gallery about 10 kB, Text about 14 kB. MapLibre on
+  a map is 289.7 kB and `@nulib/clover/map` 18.0 kB before it. `<clover-viewer>` draws
+  `Default` up front (budget 92 kB; measured from its own build, as before). `Default`'s
+  styles moved from `templates.css` (budget 1.9 kB) to the stylesheet (budget 7.2 kB). A
+  page bundled with esbuild and code splitting still gets the up-front `Default` parts
+  described above.
   MapLibre is 286.8 kB on a map (budget 300 kB), and `@nulib/clover/map` 17.4 kB before
   it (budget 20 kB). The whole Viewer, everything included, is 60.2 kB, a standalone
   Canvas 37.6 kB, the Classic template 59.0 kB, the Document template 60.0 kB, the

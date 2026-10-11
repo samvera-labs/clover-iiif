@@ -1,0 +1,163 @@
+/*
+ * Default, the Viewer's own layout: Clover 3.x's Viewer. Title and actions above; the stage with the
+ * information panel to its right; the thumbnail strip under the stage, headed by the
+ * position and a pair of arrows.
+ *
+ * On the scale: the header and the strip are regions, each `m` inside all round (their
+ * own space, so nothing around them needs a margin); the header's title and actions `s`
+ * apart, the strip's arrows `xs` apart and the position `s` from them.
+ */
+.clover-template-default {
+  --clover-content-height: min(65vh, 40rem);
+  display: flex;
+  flex-direction: column;
+  color: var(--clover-color-primary, #1a1d1e);
+}
+
+.clover-template-default-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--clover-space-s);
+  padding: var(--clover-space-m);
+}
+
+.clover-template-default-title {
+  margin: 0;
+  font-size: var(--clover-text-l);
+  font-weight: 400;
+}
+
+/* A `Clover.Split`: the stage's pane, the bar, and the panel's pane. */
+.clover-template-default-body {
+  position: relative;
+}
+
+.clover-template-default-main {
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+ * Beside the stage, in its own space, when there is room for both (the template measures
+ * its own width). Its width is the split's: 24rem to start, then wherever it is dragged.
+ */
+.clover-template-default-panel {
+  max-height: calc(var(--clover-content-height) + 14rem);
+  overflow-y: auto;
+}
+
+.clover-template-default-panel[hidden] {
+  display: none;
+}
+
+/*
+ * Over the stage, when there is not: it slides in from the end, never wider than the
+ * layout less a strip, so some of the page stays in sight and a click there closes it.
+ */
+/* The panel waits off the end while it slides: never a sideways scroll for the page. */
+.clover-template-default-body[data-panel="over"] {
+  overflow: clip;
+}
+
+.clover-template-default-body[data-panel="over"]
+  > .clover-template-default-panel {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: 4;
+  width: min(24rem, calc(100% - var(--clover-space-xl)));
+  max-width: none;
+  max-height: none;
+  overscroll-behavior: contain;
+  border-inline-start: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
+  background-color: var(--clover-color-secondary, #fff);
+  box-shadow: calc(-1 * var(--clover-space-s)) 0 var(--clover-space-l)
+    rgb(0 0 0 / 0.12);
+  transform: translateX(100%);
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.clover-template-default-body[data-panel="over"]
+  > .clover-template-default-panel:dir(rtl) {
+  transform: translateX(-100%);
+}
+
+.clover-template-default-body[data-panel="over"]
+  > .clover-template-default-panel[data-open="true"] {
+  transform: none;
+}
+
+.clover-template-default-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background-color: rgb(0 0 0 / 0.2);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 240ms ease;
+}
+
+.clover-template-default-scrim[data-open="true"] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clover-template-default-body[data-panel="over"]
+    > .clover-template-default-panel,
+  .clover-template-default-scrim {
+    transition: none;
+  }
+}
+
+/*
+ * The strip under the stage, as 3.x's: its header carries "Item 2 of 9" and arrows. A
+ * region of its own, as the header is: `m` inside all round, its header `s` over the
+ * thumbnails.
+ */
+.clover-template-default-rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--clover-space-s);
+  padding: var(--clover-space-m);
+}
+
+/* One view: no position, arrows or thumbnails to show, so no strip and no gap. */
+.clover-template-default-rail:not(:has(.clover-items, .clover-pager-position)) {
+  display: none;
+}
+
+.clover-template-default-rail-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--clover-space-xs);
+  font-size: var(--clover-text-s);
+}
+
+.clover-template-default-rail-header .clover-pager-position {
+  margin-inline-end: var(--clover-space-xs);
+}
+
+/* Arrows only, round controls: the label stays for assistive technology. */
+button.clover-template-default-step {
+  justify-content: center;
+  width: var(--clover-control);
+  height: var(--clover-control);
+  padding: 0;
+}
+
+.clover-template-default-step .clover-pager-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* A Collection's member menu sits with the actions, at the end of the header. */
+.clover-template-default-collection {
+  margin-inline-start: auto;
+}

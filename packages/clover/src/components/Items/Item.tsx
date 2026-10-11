@@ -52,6 +52,17 @@ function Picture({
 }) {
   const src = useThumbnail(part, size, request);
   const [loaded, setLoaded] = useState(false);
+  /*
+   * The Canvas's own shape, as the image's width and height attributes, so its card has
+   * its width before the thumbnail arrives: no shift as it loads, and a strip never
+   * holds hundreds of zero-wide cards (all "in view", all fetched). Square where the
+   * resource has no size (sound, a Collection's member) until its image arrives.
+   */
+  const { width, height } = (part.resource ?? {}) as {
+    width?: number;
+    height?: number;
+  };
+  const ratio = width && height ? width / height : 1;
   return (
     <span className="clover-items-picture" data-loaded={loaded}>
       {src && (
@@ -60,6 +71,7 @@ function Picture({
           alt={alt}
           // Sized here so a picture never fills its container without the stylesheet.
           width={size}
+          height={Math.round(size / ratio)}
           loading="lazy"
           decoding="async"
           draggable={false}
@@ -86,9 +98,15 @@ export interface ItemFigureProps {
 }
 
 /**
- * An item as a figure: its picture (two, side by side, for a spread), a duration for
- * video and sound, and its label. The pictures' `alt` is empty when the label beside them
- * already names the item, so a screen reader does not read it twice.
+ * An item as a figure: a card for each of its Canvases (two, side by side, for a spread;
+ * all of them for a continuous Manifest), each its picture with its own label under it,
+ * and a duration for video and sound. The Manifest's `behavior` decides what one item
+ * holds, so the cards of one item meet with no gap between them, labels and all.
+ *
+ * The pictures and the labels are in rows of the figure's grid (one column per Canvas),
+ * the labels in its `figcaption`. Without the stylesheet the labels read inline, a space
+ * between them. A picture's `alt` is empty when its label already names it, so a screen
+ * reader does not read it twice.
  */
 export function ItemFigure({
   item,
@@ -97,32 +115,42 @@ export function ItemFigure({
   request,
   showSummary = false,
 }: ItemFigureProps) {
-  const label = localize(item.label, language);
+  const labels = item.parts.map((part) =>
+    localize(item.parts.length === 1 ? item.label : part.label, language),
+  );
   const summary = showSummary ? localize(item.summary, language) : null;
+  const labelled = labels.some((label) => label.text);
   return (
     <figure
       className="clover-items-figure"
       data-parts={item.parts.length}
       data-media={item.parts[0]?.media?.toLowerCase()}
+      style={{ "--parts": item.parts.length } as React.CSSProperties}
     >
       <span className="clover-items-pictures">
-        {item.parts.map((part) => (
+        {item.parts.map((part, index) => (
           <Picture
             key={part.id}
             part={part}
             size={size}
             request={request}
-            alt={label.text ? "" : localize(part.label, language).text}
+            alt={labels[index].text ? "" : localize(part.label, language).text}
           />
         ))}
       </span>
-      {(label.text || summary?.text) && (
+      {(labelled || summary?.text) && (
         <figcaption className="clover-items-caption">
-          {label.text && (
-            <span className="clover-items-label" lang={label.lang}>
+          {labels.map((label, index) => (
+            <span
+              key={item.parts[index].id}
+              className="clover-items-label"
+              lang={label.lang}
+            >
+              {/* Inline without the stylesheet; a grid cell trims it with it. */}
+              {index > 0 && " "}
               {label.text}
             </span>
-          )}
+          ))}
           {summary?.text && (
             <span className="clover-items-summary" lang={summary.lang}>
               {/* IIIF allows a little HTML here; shown as text, its tags go. */}

@@ -1,3 +1,4 @@
+import Composable from "docs/components/Home/Composable";
 import Hero from "docs/components/Home/Hero";
 import Link from "next/link";
 import Playground from "docs/components/Playground/Playground";
@@ -8,37 +9,41 @@ const features = [
   {
     label: "Accessible",
     title: "WAI-ARIA design patterns",
-    body: "Keyboard navigation, focus, and motion preferences ship with every component.",
+    body: "Keyboard navigation, focus and motion preferences in every part.",
   },
   {
     label: "Composable",
-    title: "Primitives, not just a viewer",
-    body: "Take the whole Viewer, or build your own from the primitives.",
+    title: "Templates, or parts",
+    body: "Take the Viewer in a template, or build a layout of your own from the parts the templates are made of.",
   },
   {
-    label: "Themeable",
-    title: "Uses your design tokens",
-    body: "Every component reads CSS custom properties. Set one on any ancestor; it cascades.",
+    label: "Yours",
+    title: "Inherits your page",
+    body: "Clover sets no font and steps every space from your 1rem. Colours are CSS custom properties: set one on any ancestor.",
+  },
+  {
+    label: "Light",
+    title: "Ships what you draw",
+    body: "The Viewer is a 1 kB shell, so a page carries only the template and parts it uses. Its renderer replaces OpenSeadragon.",
   },
   {
     label: "Portable",
     title: "React, or a script tag",
-    body: "ESM, CJS, and a UMD web component. Drop it into a framework or plain HTML.",
+    body: "ES modules for React 18 and 19, and a <clover-viewer> element for any page.",
   },
 ];
 
 /**
- * The homepage.
+ * The homepage, for Clover 4.
  *
- * Rendered from a thin `pages/index.mdx` shell rather than being a `pages/*.tsx`
- * route of its own: a plain Next page bypasses Nextra's layout entirely, which
- * takes the navbar, search, theme toggle and banner with it. Going through MDX with
- * `theme.layout: "raw"` (set in `pages/_meta.json`) keeps that chrome while giving
- * this component the full content area.
+ * Rendered from a thin `pages/index.mdx` shell rather than being a `pages/*.tsx` route of
+ * its own: a plain Next page bypasses Nextra's layout entirely, which takes the navbar,
+ * search, theme toggle and banner with it. Going through MDX with `theme.layout: "raw"`
+ * (set in `pages/_meta.json`) keeps that chrome while giving this component the full
+ * content area.
  *
- * The interactive showcase is the `<Playground/>` section — there is no separate
- * `/playground` route and no grid of preview cards, because both were showing the
- * same components live.
+ * Two halves: the templates, live, as the hero (`<Playground/>`), and below them the parts
+ * they are made of (`<Composable/>`).
  */
 const Homepage: React.FC = () => (
   <div className={styles.page}>
@@ -47,12 +52,14 @@ const Homepage: React.FC = () => (
     <main className={styles.shell}>
       <Playground />
 
+      <Composable />
+
       <div className={styles.contained}>
         <div className={styles.sectionHead}>
           <div>
             <h2 className={styles.sectionTitle}>Why Clover</h2>
             <p className={styles.sectionNote}>
-              Built for IIIF Presentation 3.0, from the primitives up.
+              Reads IIIF Presentation 2, 3 and 4, from the parts up.
             </p>
           </div>
           <Link href="/docs" className={styles.sectionLink}>
@@ -71,13 +78,18 @@ const Homepage: React.FC = () => (
         </div>
 
         <div className={styles.sectionHead}>
-          <h2 className={styles.sectionTitle}>Install</h2>
+          <div>
+            <h2 className={styles.sectionTitle}>Install</h2>
+            <p className={styles.sectionNote}>
+              Clover 4 is in development and not on npm yet. The released Clover
+              is <Link href="/docs/3.x">3.x</Link>,{" "}
+              <code>@samvera/clover-iiif</code>.
+            </p>
+          </div>
         </div>
 
         <div className={styles.install}>
-          <code className={styles.installCode}>
-            npm install @samvera/clover-iiif
-          </code>
+          <code className={styles.installCode}>npm install @nulib/clover</code>
           <Link href="/docs" className="cta-solid">
             Get started
             <span className="cta-arrow" aria-hidden="true">

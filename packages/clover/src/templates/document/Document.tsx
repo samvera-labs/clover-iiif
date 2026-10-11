@@ -1,7 +1,8 @@
-import React, { useEffect, useId, useRef, useState } from "react";
+import React, { useId, useRef, useState } from "react";
 
-import * as Clover from "../../index";
-import type { RootProps } from "../../index";
+import * as Clover from "../../parts";
+import type { InformationPanelLayout, RootProps } from "../../parts";
+import { useFocusOnOpen, useSlide } from "../shared/useSlide";
 import { usePaging } from "./usePaging";
 
 export type DocumentProps = Omit<RootProps, "children"> & {
@@ -9,24 +10,33 @@ export type DocumentProps = Omit<RootProps, "children"> & {
   defaultSidebarOpen?: boolean;
   /** Whether the information panel starts open. Default `false`. */
   defaultPanelOpen?: boolean;
-  /** A Share button in the toolbar. Default `true`. */
-  share?: boolean;
+  /**
+   * How the information panel lays out its sections: `"tabs"` (the default) or
+   * `"accordion"`, stacked boxes each opened by its heading.
+   */
+  panelLayout?: InformationPanelLayout;
   /** A Download button in the toolbar, listing the Manifest's and the page's `rendering`. Default `true`. */
   download?: boolean;
+  /**
+   * Where the thumbnails' width is remembered once the reader drags the bar beside them
+   * (`localStorage`). Default `"clover-template-document"`; `false` forgets it.
+   */
+  storageKey?: string | false;
 };
 
 /**
  * A layout that reads like a PDF viewer: a toolbar, page thumbnails down the left, and one
  * whole page at a time, never part of the next. Scrolling turns the page — one gesture,
- * one page — as do PageUp and PageDown. The information panel slides out over the right
- * of the page. Size it with `--clover-template-document-height`.
+ * one page — as do PageUp and PageDown. A bar between the thumbnails and the page widens
+ * or narrows them. The information panel slides out over the right of the page. Size it with `--clover-template-document-height`.
  */
 export function Document({
   className,
   defaultSidebarOpen,
   defaultPanelOpen = false,
-  share = true,
+  panelLayout,
   download = true,
+  storageKey = "clover-template-document",
   ...root
 }: DocumentProps) {
   return (
@@ -39,8 +49,9 @@ export function Document({
       <DocumentLayout
         defaultSidebarOpen={defaultSidebarOpen}
         defaultPanelOpen={defaultPanelOpen}
-        share={share}
+        panelLayout={panelLayout}
         download={download}
+        storageKey={storageKey}
       />
     </Clover.Root>
   );
@@ -51,11 +62,16 @@ const NARROW = "(max-width: 40rem)";
 function DocumentLayout({
   defaultSidebarOpen,
   defaultPanelOpen,
-  share,
   download,
+  storageKey,
+  panelLayout,
 }: Pick<
   DocumentProps,
-  "defaultSidebarOpen" | "defaultPanelOpen" | "share" | "download"
+  | "defaultSidebarOpen"
+  | "defaultPanelOpen"
+  | "download"
+  | "storageKey"
+  | "panelLayout"
 >) {
   const t = Clover.useT();
   const id = useId().replace(/:/g, "");
@@ -65,6 +81,13 @@ function DocumentLayout({
       defaultSidebarOpen ??
       !(typeof window !== "undefined" && window.matchMedia?.(NARROW).matches),
   );
+  /*
+   * Thumbnails only when there is more than one page to choose. Until the content has
+   * loaded there are none, so a one-page document never shows an empty sidebar first.
+   * The pane stays in the tree, hidden, so the page beside it is never remounted.
+   */
+  const pages = navigation.total > 1;
+  const showSidebar = pages && sidebar;
   const [panel, setPanel] = useState(Boolean(defaultPanelOpen));
   const slide = useSlide(panel);
   const panelRef = useRef<HTMLElement>(null);
@@ -83,39 +106,45 @@ function DocumentLayout({
   return (
     <>
       <header className="clover-template-document-toolbar">
-        <button
-          type="button"
-          className="clover-template-document-sidebar-toggle"
-          aria-expanded={sidebar}
-          aria-controls={`${id}-sidebar`}
-          onClick={() => setSidebar((open) => !open)}
-        >
-          <svg
-            aria-hidden="true"
-            focusable="false"
-            width="18"
-            height="18"
-            viewBox="0 0 18 18"
+        {pages && (
+          <button
+            type="button"
+            className="clover-template-document-sidebar-toggle"
+            aria-expanded={sidebar}
+            aria-controls={`${id}-sidebar`}
+            onClick={() => setSidebar((open) => !open)}
           >
-            <rect
-              x="1.5"
-              y="2.5"
-              width="15"
-              height="13"
-              rx="2"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            />
-            <path d="M6.5 2.5v13" stroke="currentColor" strokeWidth="1.5" />
-            {sidebar && (
-              <path d="M2.5 3.5h4v11h-4z" fill="currentColor" opacity="0.35" />
-            )}
-          </svg>
-          <span style={Clover.visuallyHidden}>
-            {t("templateSidebarToggle")}
-          </span>
-        </button>
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              width="18"
+              height="18"
+              viewBox="0 0 18 18"
+            >
+              <rect
+                x="1.5"
+                y="2.5"
+                width="15"
+                height="13"
+                rx="2"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+              <path d="M6.5 2.5v13" stroke="currentColor" strokeWidth="1.5" />
+              {sidebar && (
+                <path
+                  d="M2.5 3.5h4v11h-4z"
+                  fill="currentColor"
+                  opacity="0.35"
+                />
+              )}
+            </svg>
+            <span style={Clover.visuallyHidden}>
+              {t("templateSidebarToggle")}
+            </span>
+          </button>
+        )}
         <Clover.Label as="h2" className="clover-template-document-title" />
         <div className="clover-template-document-pager">
           <Clover.Previous className="clover-template-document-step" />
@@ -124,27 +153,34 @@ function DocumentLayout({
         </div>
         <Clover.CollectionSelect className="clover-template-document-collection" />
         {download && <Clover.Download />}
-        {share && <Clover.Share />}
       </header>
       <Clover.Status />
-      <div
+      <Clover.Split
         className="clover-template-document-body"
-        data-sidebar={sidebar ? "open" : "closed"}
+        data-sidebar={showSidebar ? "open" : "closed"}
+        storageKey={storageKey || undefined}
       >
-        <aside
+        <Clover.SplitPane
+          as="aside"
           id={`${id}-sidebar`}
+          name="sidebar"
           className="clover-template-document-sidebar"
           aria-label={t("templateSidebar")}
-          hidden={!sidebar}
+          size="11rem"
+          min="8rem"
+          max="24rem"
+          hidden={!showSidebar}
         >
           <Clover.Items
             layout="list"
             aria-label={t("templateSidebar")}
-            thumbnailSize={160}
+            thumbnailSize={320}
             onSelect={choose}
           />
-        </aside>
-        <div className="clover-template-document-main">
+        </Clover.SplitPane>
+        {/* The bar between the thumbnails and the page; hidden where they cover it. */}
+        {showSidebar && <Clover.SplitHandle aria-controls={`${id}-sidebar`} />}
+        <Clover.SplitPane className="clover-template-document-main" min="16rem">
           <div ref={stage} className="clover-template-document-stage">
             <Clover.Content className="clover-template-document-content">
               <Clover.PanelToggle
@@ -163,55 +199,13 @@ function DocumentLayout({
             {/* It floats over the page, so Escape puts it away too. */}
             <Clover.InformationPanel
               ref={panelRef}
+              layout={panelLayout}
               onClose={() => setPanel(false)}
               closeOnEscape
             />
           </div>
-        </div>
-      </div>
+        </Clover.SplitPane>
+      </Clover.Split>
     </>
   );
-}
-
-/**
- * Opening the panel takes focus into it, at its current tab, as an overlay should: it
- * covers the page, so the reader's next keys belong to it. Not on arrival with it open.
- * `shown` turns true in the commit that takes `hidden` off its wrapper, so it can be
- * focused at once.
- */
-function useFocusOnOpen(panel: React.RefObject<HTMLElement>, shown: boolean) {
-  const was = useRef(shown);
-  useEffect(() => {
-    const opened = shown && !was.current;
-    was.current = shown;
-    if (!opened) return;
-    panel.current
-      ?.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]')
-      ?.focus({ preventScroll: true });
-  }, [panel, shown]);
-}
-
-/** Long enough for the panel's slide; it is `hidden` once it is out of sight. */
-const SLIDE_MS = 240;
-
-/**
- * Present while open or sliding: `mounted` keeps it out of `hidden`, and `open` lags one
- * frame behind so the slide in has somewhere to start from.
- */
-function useSlide(want: boolean) {
-  const [mounted, setMounted] = useState(want);
-  const [open, setOpen] = useState(want);
-  useEffect(() => {
-    if (want) {
-      setMounted(true);
-      const frame = requestAnimationFrame(() =>
-        requestAnimationFrame(() => setOpen(true)),
-      );
-      return () => cancelAnimationFrame(frame);
-    }
-    setOpen(false);
-    const timer = setTimeout(() => setMounted(false), SLIDE_MS);
-    return () => clearTimeout(timer);
-  }, [want]);
-  return { mounted, open: want && open };
 }

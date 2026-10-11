@@ -1,5 +1,6 @@
 /*
- * Every template stylesheet. `build/styles.mjs` bundles this into
+ * Every template stylesheet but Default's, which is the Viewer's own and so ships in
+ * `dist/styles.css`. `build/styles.mjs` bundles this into
  * `dist/templates.css` (in `@layer clover`), loaded beside `dist/styles.css`:
  *
  *   import "@nulib/clover/styles.css";
@@ -7,7 +8,6 @@
  */
 
 @import "./shared/Lightbox.css";
-@import "./classic/Classic.css";
 @import "./document/Document.css";
 @import "./gallery/Gallery.css";
 @import "./text/Text.css";

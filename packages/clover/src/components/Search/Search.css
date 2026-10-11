@@ -1,52 +1,31 @@
-/* Content Search: a field, its status, and the hits grouped by Canvas. */
+/*
+ * Content Search: a field, its status, and the hits grouped by Canvas. The submit is a
+ * pill (`ui/Button.css`), the field a field (`styles/scale.css`), the hits rows
+ * (`InformationPanel.css`, "Rows").
+ *
+ * On the scale: field, status and results `s` apart; the field `xs` from its button; a
+ * Canvas's heading `xs` over its hits.
+ */
 .clover-content-search {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--clover-space-s);
 }
 
 .clover-content-search-form {
   display: flex;
-  gap: 0.375rem;
+  gap: var(--clover-space-xs);
 }
 
 .clover-content-search-query {
   flex: 1 1 auto;
   min-width: 0;
-  padding: 0.375rem 0.625rem;
-  border: 1px solid var(--clover-color-primary-muted, #26292b);
-  border-radius: var(--clover-radius, 3px);
-  background-color: var(--clover-color-secondary, #fff);
-  color: var(--clover-color-primary, #1a1d1e);
-  font: inherit;
-}
-
-.clover-content-search-query:focus-visible {
-  outline: 2px solid var(--clover-color-accent, #0065c3);
-  outline-offset: 1px;
-}
-
-/* `button.x`: one class ties with a reset's `[type="button"]`. See `ui/Button.css`. */
-button.clover-content-search-submit {
-  padding: 0.375rem 0.875rem;
-  border: 1px solid var(--clover-color-primary-muted, #26292b);
-  border-radius: var(--clover-radius-pill, 2rem);
-  background-color: var(--clover-color-secondary, #fff);
-  color: var(--clover-color-primary, #1a1d1e);
-  font: inherit;
-  cursor: pointer;
-}
-
-button.clover-content-search-submit:is(:hover, :focus-visible) {
-  border-color: var(--clover-color-accent, #0065c3);
-  background-color: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-secondary, #fff);
 }
 
 .clover-content-search-status {
   margin: 0;
-  font-size: 0.875em;
   color: var(--clover-color-primary-muted, #26292b);
+  font-size: var(--clover-text-s);
 }
 
 .clover-content-search-status:empty {
@@ -54,44 +33,15 @@ button.clover-content-search-submit:is(:hover, :focus-visible) {
 }
 
 .clover-content-search-canvas {
-  margin: 0 0 0.375rem;
+  margin: 0 0 var(--clover-space-xs);
   font-size: inherit;
   font-weight: 700;
 }
 
-.clover-content-search-hits {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
+/* A hit is text with `mark`s in it, so it stays a block, not a flex row. */
 button.clover-content-search-hit {
   display: block;
-  width: 100%;
-  padding: 0.5rem 0.625rem;
-  border: 0;
-  border-inline-start: 3px solid transparent;
-  border-radius: var(--clover-radius, 3px);
-  background: none;
-  color: inherit;
-  font: inherit;
-  text-align: start;
   overflow-wrap: anywhere;
-  cursor: pointer;
-  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
-}
-
-button.clover-content-search-hit[data-highlighted="true"],
-button.clover-content-search-hit:hover {
-  background-color: var(--clover-color-secondary-muted, #f1f1f1);
-}
-
-button.clover-content-search-hit[aria-current="true"] {
-  border-inline-start-color: var(--clover-color-accent, #0065c3);
-  background-color: rgb(0 101 195 / 0.08);
 }
 
 button.clover-content-search-hit:focus-visible {
@@ -100,7 +50,7 @@ button.clover-content-search-hit:focus-visible {
 }
 
 .clover-content-search-hit mark {
-  padding: 0 0.125em;
+  padding: 0 var(--clover-space-3xs);
   border-radius: 2px;
   background-color: rgb(255 214 0 / 0.55);
   color: inherit;

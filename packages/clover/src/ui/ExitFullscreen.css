@@ -23,20 +23,19 @@
 button.clover-canvas-exit-full-screen {
   display: none;
   position: absolute;
-  top: 1rem;
-  left: 1rem;
+  top: var(--clover-space-m);
+  left: var(--clover-space-m);
   z-index: 3;
 
   align-items: center;
-  gap: 0.5rem;
-  height: 2.5rem;
-  padding: 0 1rem 0 0.75rem;
+  gap: var(--clover-space-xs);
+  height: var(--clover-control);
+  padding: 0 var(--clover-space-m) 0 var(--clover-space-s);
   border: none;
   border-radius: var(--clover-radius-pill, 2rem);
   background-color: var(--clover-color-secondary, #fff);
   color: var(--clover-color-primary, #1a1d1e);
-  font-family: inherit;
-  font-size: 0.8333rem;
+  font-size: var(--clover-text-s);
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
@@ -45,8 +44,8 @@ button.clover-canvas-exit-full-screen {
 }
 
 .clover-canvas-exit-full-screen svg {
-  height: 1.25rem;
-  width: 1.25rem;
+  height: 1rem;
+  width: 1rem;
   flex-shrink: 0;
 }
 

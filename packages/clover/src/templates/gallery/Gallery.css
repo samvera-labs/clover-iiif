@@ -2,19 +2,19 @@
 .clover-template-gallery {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--clover-space-m);
   color: var(--clover-color-primary, #1a1d1e);
 }
 
 .clover-template-gallery-header {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--clover-space-2xs);
 }
 
 .clover-template-gallery-title {
   margin: 0;
-  font-size: 1.25rem;
+  font-size: var(--clover-text-l);
 }
 
 .clover-template-gallery-summary {

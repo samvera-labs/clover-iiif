@@ -21,8 +21,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem 0.75rem;
-  padding: 0.5rem 0.75rem;
+  gap: var(--clover-space-s);
+  padding: var(--clover-space-s) var(--clover-space-m);
   border-bottom: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
 }
 
@@ -31,7 +31,7 @@
   min-width: 0;
   margin: 0;
   overflow: hidden;
-  font-size: 1rem;
+  font-size: inherit;
   font-weight: 600;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -40,8 +40,8 @@
 .clover-template-document-pager {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
+  gap: var(--clover-space-xs);
+  font-size: var(--clover-text-s);
 }
 
 /* `button.x`: one class ties with a reset's `[type="button"]`. */
@@ -50,8 +50,8 @@ button.clover-template-document-step {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: var(--clover-control);
+  height: var(--clover-control);
   padding: 0;
   border: 0;
   border-radius: var(--clover-radius, 3px);
@@ -87,19 +87,17 @@ button.clover-template-document-step:focus-visible {
 
 /* ---------- body ---------- */
 
+/* A `Clover.Split`: the thumbnails' pane, the bar, and the page's pane. */
 .clover-template-document-body {
   position: relative;
-  display: flex;
   flex: 1 1 auto;
   min-height: 0;
 }
 
 .clover-template-document-sidebar {
-  flex: 0 0 11rem;
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 0.75rem;
-  border-inline-end: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
+  padding: var(--clover-space-s);
   background-color: var(--clover-color-secondary, #fff);
 }
 
@@ -107,15 +105,29 @@ button.clover-template-document-step:focus-visible {
   display: none;
 }
 
-/* Thumbnails stacked, each above its page label, as a PDF reader's. `[data-layout]`
-   outweighs the list layout's own rule. */
+/*
+ * Thumbnails stacked, each page above its own label, as a PDF reader's: a spread's pages
+ * share the sidebar's width, stitched. `[data-layout]` outweighs the list layout's own
+ * rules, which put labels beside the pictures.
+ */
 .clover-template-document-sidebar
   .clover-items[data-layout]
   .clover-items-figure {
-  flex-direction: column;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 0.375rem;
+  grid-template-columns: repeat(var(--parts, 1), minmax(0, 1fr));
+  gap: var(--clover-space-xs) 0;
+}
+
+.clover-template-document-sidebar
+  .clover-items[data-layout]
+  :is(.clover-items-pictures, .clover-items-caption) {
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+}
+
+.clover-template-document-sidebar
+  .clover-items[data-layout]
+  .clover-items-label {
+  contain: inline-size;
 }
 
 .clover-template-document-sidebar
@@ -123,9 +135,8 @@ button.clover-template-document-step:focus-visible {
   .clover-items-picture
   img {
   width: 100%;
-  max-width: 8rem;
   height: auto;
-  max-height: 10rem;
+  max-height: 20rem;
   object-fit: contain;
 }
 
@@ -133,13 +144,11 @@ button.clover-template-document-step:focus-visible {
   .clover-items[data-layout]
   .clover-items-caption {
   text-align: center;
-  font-size: 0.75rem;
+  font-size: var(--clover-text-s);
 }
 
 .clover-template-document-main {
   position: relative;
-  flex: 1 1 auto;
-  min-width: 0;
   overflow: hidden;
   background-color: var(--clover-color-secondary-muted, #e6e8eb);
 }
@@ -167,7 +176,8 @@ button.clover-template-document-step:focus-visible {
   overscroll-behavior: contain;
   border-inline-start: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
   background-color: var(--clover-color-secondary, #fff);
-  box-shadow: -0.5rem 0 1.5rem rgb(0 0 0 / 0.12);
+  box-shadow: calc(-1 * var(--clover-space-s)) 0 var(--clover-space-l)
+    rgb(0 0 0 / 0.12);
   transform: translateX(100%);
   transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -199,7 +209,13 @@ button.clover-template-document-step:focus-visible {
     inset-inline-start: 0;
     z-index: 3;
     width: min(14rem, 80%);
-    box-shadow: 0.5rem 0 1.5rem rgb(0 0 0 / 0.12);
+    border-inline-end: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
+    box-shadow: var(--clover-space-s) 0 var(--clover-space-l) rgb(0 0 0 / 0.12);
+  }
+
+  /* Over the page, the thumbnails are not beside anything to share the width with. */
+  .clover-template-document-body > .clover-split-handle {
+    display: none;
   }
 
   .clover-template-document-collection {

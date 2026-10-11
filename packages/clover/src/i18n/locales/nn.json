@@ -4,10 +4,8 @@
   "commonPrevious": "Førre",
   "commonSearch": "Søk",
   "commonSearchPlaceholder": "Søk...",
-  "commonShare": "Del",
   "commonViewAll": "Sjå alle",
   "copyFailure": "Feila",
-  "copySuccess": "Kopiert",
   "contentSearchLoading": "Laster inn...",
   "contentSearchPlaceholder": "Søk",
   "contentSearchResultsNone": "Ingen resultat",
@@ -57,5 +55,6 @@
   "playerAnnounceCaptionsOn": "Captions on",
   "playerAnnounceCaptionsOff": "Captions off",
   "playerAnnounceSeekForward": "Seek forward",
-  "playerAnnounceSeekBackward": "Seek backward"
+  "playerAnnounceSeekBackward": "Seek backward",
+  "splitHandle": "Endre storleiken på panela"
 }

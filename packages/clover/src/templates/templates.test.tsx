@@ -10,6 +10,8 @@ import { join, resolve } from "node:path";
 import React from "react";
 
 import bookJson from "../fixtures/iiif-cookbook/0009-book-1.json";
+import singleJson from "../fixtures/iiif-cookbook/0004-canvas-size.json";
+import rtlJson from "../fixtures/iiif-cookbook/0010-book-2-viewing-direction-rtl.json";
 import { initCloverI18n } from "../i18n";
 import * as Templates from "./index";
 
@@ -43,7 +45,7 @@ describe("templates", () => {
       )) {
         const allowed =
           specifier === "react" ||
-          specifier === "../../index" ||
+          specifier === "../../parts" ||
           specifier.startsWith("./") ||
           specifier.startsWith("../shared/");
         expect(allowed, `${file} imports ${specifier}`).toBe(true);
@@ -51,27 +53,124 @@ describe("templates", () => {
     }
   });
 
-  it("Classic: title, stage, strip with position and arrows, and the panel", async () => {
-    render(<Templates.Classic iiifContent={bookJson} />);
+  it("Default: title, stage, strip with position and arrows, and the panel", async () => {
+    render(<Templates.Default iiifContent={bookJson} />);
     expect(
       await screen.findByRole("heading", { name: "Simple Manifest - Book" }),
     ).toBeInTheDocument();
     expect(screen.getByText(/Item 1 of 3/)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument();
     expect(screen.getByRole("listbox", { name: "Items" })).toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: "About" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Share" })).toBeInTheDocument();
+    // The panel's sections are stacked boxes, About open.
+    expect(screen.queryByRole("tablist")).toBeNull();
+    expect(screen.getByRole("button", { name: "About" })).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
 
-    const panel = document.querySelector(".clover-template-classic-panel")!;
-    fireEvent.click(
-      within(panel as HTMLElement).getByRole("button", {
+    // Beside the stage, the toggle closes the panel; it has no close button of its own.
+    const panel = document.querySelector(".clover-template-default-panel")!;
+    expect(
+      within(panel as HTMLElement).queryByRole("button", {
         name: "Close information panel",
       }),
-    );
+    ).toBeNull();
+    const toggle = screen.getByRole("button", { name: "More Information" });
+    fireEvent.click(toggle);
     expect(panel).not.toBeVisible();
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("Default: a right-to-left book's arrows read Next first", async () => {
+    render(<Templates.Default iiifContent={rtlJson} />);
+    const next = await screen.findByRole("button", { name: "Next" });
+    const previous = screen.getByRole("button", { name: "Previous" });
     expect(
-      screen.getByRole("button", { name: "More Information" }),
-    ).toHaveAttribute("aria-expanded", "false");
+      next.compareDocumentPosition(previous) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+  });
+
+  describe("Default, with no room for the panel beside the stage", () => {
+    // jsdom lays nothing out: a phone-wide layout, as the template measures it.
+    let width: ReturnType<typeof vi.spyOn>;
+    beforeEach(() => {
+      width = vi
+        .spyOn(HTMLElement.prototype, "clientWidth", "get")
+        .mockReturnValue(390);
+    });
+    afterEach(() => width.mockRestore());
+
+    const toggle = () =>
+      screen.getByRole("button", { name: "More Information" });
+    const panel = () =>
+      document.querySelector<HTMLElement>(".clover-template-default-panel")!;
+
+    it("never stacks: it starts closed, then slides over the stage when asked", async () => {
+      render(<Templates.Default iiifContent={bookJson} />);
+      await screen.findByRole("heading", { name: "Simple Manifest - Book" });
+      const body = document.querySelector(".clover-template-default-body");
+      expect(body).toHaveAttribute("data-panel", "over");
+      expect(panel()).not.toBeVisible();
+      expect(toggle()).toHaveAttribute("aria-expanded", "false");
+
+      fireEvent.click(toggle());
+      expect(panel()).toBeVisible();
+      // Focus goes in, at the open box's heading: the panel covers the page.
+      await waitFor(() =>
+        expect(screen.getByRole("button", { name: "About" })).toHaveFocus(),
+      );
+      await waitFor(() => expect(panel()).toHaveAttribute("data-open", "true"));
+    });
+
+    it("closes from the uncovered strip, from Escape, and from its close button", async () => {
+      render(<Templates.Default iiifContent={bookJson} />);
+      await screen.findByRole("heading", { name: "Simple Manifest - Book" });
+      const open = async () => {
+        fireEvent.click(toggle());
+        await waitFor(() =>
+          expect(toggle()).toHaveAttribute("aria-expanded", "true"),
+        );
+      };
+
+      await open();
+      fireEvent.click(
+        document.querySelector(".clover-template-default-scrim")!,
+      );
+      expect(toggle()).toHaveAttribute("aria-expanded", "false");
+
+      await open();
+      fireEvent.keyDown(screen.getByRole("button", { name: "About" }), {
+        key: "Escape",
+      });
+      expect(toggle()).toHaveAttribute("aria-expanded", "false");
+
+      await open();
+      fireEvent.click(
+        within(panel()).getByRole("button", {
+          name: "Close information panel",
+        }),
+      );
+      expect(toggle()).toHaveAttribute("aria-expanded", "false");
+    });
+
+    it("starts open over the stage only when the host asks", async () => {
+      render(<Templates.Default iiifContent={bookJson} defaultPanelOpen />);
+      await screen.findByRole("heading", { name: "Simple Manifest - Book" });
+      expect(panel()).toBeVisible();
+    });
+  });
+
+  it("Document: no thumbnails, bar or their toggle for a single page", async () => {
+    render(<Templates.Document iiifContent={singleJson} />);
+    await screen.findByRole("heading", {
+      name: "Still image from an opera performance at Indiana University",
+    });
+    expect(screen.queryByRole("button", { name: "Show pages" })).toBeNull();
+    expect(screen.queryByRole("complementary", { name: "Pages" })).toBeNull();
+    expect(screen.queryByRole("separator")).toBeNull();
+    expect(
+      document.querySelector(".clover-template-document-body"),
+    ).toHaveAttribute("data-sidebar", "closed");
   });
 
   it("Gallery: a grid whose cells open the lightbox at that view", async () => {

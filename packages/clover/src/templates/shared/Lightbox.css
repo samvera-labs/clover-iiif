@@ -17,30 +17,30 @@
 .clover-template-lightbox-body {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem;
+  gap: var(--clover-space-s);
+  padding: var(--clover-space-m);
   --clover-content-height: min(70vh, 48rem);
 }
 
 .clover-template-lightbox-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: var(--clover-space-m);
 }
 
 .clover-template-lightbox-header h3 {
   flex: 1 1 auto;
   min-width: 0;
   margin: 0;
-  font-size: 1.125rem;
+  font-size: var(--clover-text-l);
 }
 
 button.clover-template-lightbox-close {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
+  width: var(--clover-control);
+  height: var(--clover-control);
   padding: 0;
   border: 0;
   border-radius: var(--clover-radius-pill, 2rem);

@@ -1,18 +1,20 @@
 /*
  * What @nulib/clover's build emits, and what a consumer ships from it.
  *
- * The graph checks build in memory. The size table bundles the built `dist/` the way a
- * consumer's bundler would, so run `npm run build -w @nulib/clover` first.
+ * The graph checks build in memory. The size table bundles the built `dist/` as a Vite
+ * app builds it for production (`consumer-bundle.mjs`), so run
+ * `npm run build -w @nulib/clover` first.
  */
 import assert from "node:assert/strict";
-import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { gzipSync } from "node:zlib";
-import { build as esbuild } from "esbuild";
+import { transformSync } from "esbuild";
 import { build } from "vite";
+
+import { bundleAsConsumer, gzipSize } from "./consumer-bundle.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const dist = resolve(root, "dist");
@@ -169,81 +171,73 @@ test("MapLibre loads only on demand; the parts reach the map only lazily", async
 });
 
 /**
- * What a consumer's bundler ships up front for some named exports: the entry and every
- * chunk it imports statically, gzipped. Lazy chunks are left out.
+ * What a consumer's app ships up front for some named exports, built as Vite builds it
+ * (`consumer-bundle.mjs`): the entry and every chunk it imports statically, gzipped. Lazy
+ * chunks are left out. `also` adds exports of another entry, `[exports, entry]`, for what
+ * a page imports together. `onDemand` measures instead what loads later, from the lazy
+ * chunks it matches (MapLibre's), not everything lazy (the upgrader loads with any
+ * content).
  */
 async function initialGzip(
   exports,
-  out,
   entry = "index.mjs",
-  { onDemand = null } = {},
+  { onDemand = null, also = null } = {},
 ) {
-  const result = await esbuild({
-    stdin: {
-      contents: `export { ${exports} } from ${JSON.stringify(resolve(dist, entry))};`,
-      resolveDir: root,
-      sourcefile: "entry.mjs",
-    },
-    bundle: true,
-    minify: true,
-    format: "esm",
-    splitting: true,
-    outdir: out,
-    entryNames: "entry",
-    external: ["react", "react-dom", "react/jsx-runtime"],
-    metafile: true,
-    // Metafile paths are relative to this.
-    absWorkingDir: root,
-    write: true,
-    logLevel: "silent",
-  });
-  const outputs = result.metafile.outputs;
-  const initial = new Set();
-  const visit = (file) => {
-    if (initial.has(file) || !outputs[file]) return;
-    initial.add(file);
-    for (const { path, kind } of outputs[file].imports) {
-      if (kind === "import-statement") visit(path);
-    }
-  };
-  // The consumer's own entry (stdin, reported by its `sourcefile`). esbuild marks every
-  // lazy chunk an entry point too, so "the first output with an entryPoint" is not it.
-  const entryFile = Object.keys(outputs).find(
-    (file) => outputs[file].entryPoint === "entry.mjs",
+  const line = (names, file) =>
+    `export { ${names} } from ${JSON.stringify(resolve(dist, file))};`;
+  const bundle = await bundleAsConsumer(
+    [line(exports, entry), also && line(...also)].filter(Boolean).join("\n"),
   );
-  assert.ok(
-    entryFile,
-    `esbuild emitted no output for the entry: ${JSON.stringify(
-      Object.fromEntries(
-        Object.entries(outputs)
-          .filter(([, output]) => output.entryPoint)
-          .map(([file, output]) => [file, output.entryPoint]),
-      ),
-    )}`,
-  );
-  visit(entryFile);
-  if (!onDemand) {
-    return [...initial].reduce(
-      (sum, file) => sum + gzip(resolve(root, file)),
+  const { chunks, initial } = bundle;
+  const sum = (fileNames) =>
+    [...fileNames].reduce(
+      (total, fileName) => total + gzipSize(chunks.get(fileName).code),
       0,
     );
-  }
-  // What loads later for `onDemand`: the chunks reached from lazy entries matching it
-  // (MapLibre's), not everything lazy (the upgrader loads with any content).
+  if (!onDemand) return { size: sum(initial), bundle };
   const later = new Set();
-  const reach = (file) => {
-    if (later.has(file) || !outputs[file]) return;
-    later.add(file);
-    for (const { path } of outputs[file].imports) reach(path);
+  const reach = (fileName) => {
+    if (later.has(fileName) || !chunks.has(fileName)) return;
+    later.add(fileName);
+    const chunk = chunks.get(fileName);
+    [...chunk.imports, ...chunk.dynamicImports].forEach(reach);
   };
-  for (const [file, output] of Object.entries(outputs)) {
-    if (!initial.has(file) && onDemand.test(output.entryPoint ?? ""))
-      reach(file);
+  for (const chunk of chunks.values()) {
+    if (chunk.isDynamicEntry && onDemand.test(chunk.facadeModuleId ?? "")) {
+      reach(chunk.fileName);
+    }
   }
-  return [...later]
-    .filter((file) => !initial.has(file))
-    .reduce((sum, file) => sum + gzip(resolve(root, file)), 0);
+  return {
+    size: sum([...later].filter((fileName) => !initial.has(fileName))),
+    bundle,
+  };
 }
+
+/**
+ * A page's up-front size split three ways: the Viewer shell, the parts its template uses
+ * (with their dependencies), and the template's own code. Gzip does not add up module by
+ * module, so the exact total is divided by each group's share of the minified code.
+ */
+function split({ chunks, initial }, size) {
+  const minified = { shell: 0, parts: 0, template: 0 };
+  for (const fileName of initial) {
+    for (const [id, module] of Object.entries(chunks.get(fileName).modules)) {
+      if (!module.code) continue;
+      const group = id.endsWith("/dist/components/Viewer/Viewer.mjs")
+        ? "shell"
+        : id.includes("/dist/templates/")
+          ? "template"
+          : "parts";
+      minified[group] += transformSync(module.code, { minify: true }).code.length;
+    }
+  }
+  const all = minified.shell + minified.parts + minified.template;
+  const shell = Math.round((size * minified.shell) / all);
+  const parts = Math.round((size * minified.parts) / all);
+  return { shell, parts, template: size - shell - parts };
+}
+
+const kB = (bytes, digits = 1) => (bytes / 1000).toFixed(digits);
 
 const gzip = (file) => gzipSync(readFileSync(file), { level: 9 }).length;
 
@@ -253,36 +247,38 @@ test("what a consumer ships stays within budget", async (t) => {
     "dist/ is missing: run `npm run build -w @nulib/clover` first",
   );
   const rows = [];
+  const pages = [];
   for (const [name, exports, limit, entry, options] of [
     ["Canvas initial JS", "Canvas", budget.canvasInitialGzip],
-    ["Viewer initial JS", "Viewer", budget.viewerInitialGzip],
-    [
-      "Classic template",
-      "Classic",
-      budget.classicInitialGzip,
-      "templates/index.mjs",
-    ],
-    [
-      "Document template",
-      "Document",
-      budget.documentInitialGzip,
-      "templates/index.mjs",
-    ],
+    // `import Viewer from "@nulib/clover"`: a shell. `<Viewer />` loads Default later.
+    ["Viewer shell", "default", budget.viewerShellGzip],
+    // `<Viewer template={X} />`: the shell, the template, and the parts it uses.
+    ...[
+      ["Default", budget.defaultTemplateGzip],
+      ["Document", budget.documentTemplateGzip],
+      ["Gallery", budget.galleryTemplateGzip],
+      ["Text", budget.textTemplateGzip],
+    ].map(([template, limit]) => [
+      `Viewer, ${template}`,
+      "default",
+      limit,
+      "index.mjs",
+      { also: [template, "templates/index.mjs"], template },
+    ]),
     ["Map, before MapLibre", "Map", budget.mapInitialGzip, "map/index.mjs"],
     // What a Viewer loads when its Map tab is first shown: MapLibre.
     [
       "MapLibre, on a map",
-      "Viewer",
+      "default",
       budget.mapOnDemandGzip,
       "index.mjs",
-      { onDemand: /maplibre-gl/ },
+      { onDemand: /maplibre-gl/, also: ["Default", "templates/index.mjs"] },
     ],
   ]) {
-    const out = mkdtempSync(join(tmpdir(), "clover-size-"));
-    try {
-      rows.push([name, await initialGzip(exports, out, entry, options), limit]);
-    } finally {
-      rmSync(out, { recursive: true, force: true });
+    const { size, bundle } = await initialGzip(exports, entry, options);
+    rows.push([name, size, limit]);
+    if (options?.template) {
+      pages.push([options.template, split(bundle, size), size]);
     }
   }
   rows.push([
@@ -298,9 +294,34 @@ test("what a consumer ships stays within budget", async (t) => {
 
   for (const [name, size, limit] of rows) {
     t.diagnostic(
-      `${name.padEnd(18)} ${(size / 1000).toFixed(1)} kB gzip (budget ${(limit / 1000).toFixed(1)} kB)`,
+      `${name.padEnd(18)} ${kB(size)} kB gzip (budget ${kB(limit)} kB)`,
     );
   }
+
+  // What each `<Viewer template={X} />` page is made of, up front.
+  const cell = (value, width) => String(value).padStart(width);
+  t.diagnostic("");
+  t.diagnostic("<Viewer template={X} />, up front, kB gzip:");
+  t.diagnostic(
+    `  ${"Template".padEnd(10)}${cell("Viewer", 8)}${cell("Parts", 9)}${cell("Own code", 10)}${cell("Total", 9)}`,
+  );
+  for (const [template, { shell, parts, template: own }, size] of pages) {
+    t.diagnostic(
+      `  ${template.padEnd(10)}${cell(kB(shell, 2), 8)}${cell(kB(parts, 2), 9)}${cell(kB(own, 2), 10)}${cell(kB(size, 2), 9)}`,
+    );
+  }
+  t.diagnostic(
+    "  Viewer: the shell. Parts: what the template uses from @nulib/clover, and their",
+  );
+  t.diagnostic(
+    "  dependencies. Own code: the template itself. The total is exact; it is split by",
+  );
+  t.diagnostic(
+    "  each group's share of the minified code. <Viewer /> with no template ships the",
+  );
+  t.diagnostic(
+    "  shell alone up front and loads Default when it first draws.",
+  );
   for (const [name, size, limit] of rows) {
     assert.ok(size <= limit, `${name} is ${size} B gzip, over ${limit} B`);
   }

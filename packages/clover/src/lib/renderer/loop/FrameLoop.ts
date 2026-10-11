@@ -32,6 +32,18 @@ export class FrameLoop {
     this.handle = this.raf(this.frame);
   }
 
+  /**
+   * Draws at once rather than at the next frame, taking the place of a frame already
+   * asked for. For a resize: changing a canvas's size clears it, and a ResizeObserver
+   * runs after this frame's animation callbacks but before its paint, so a frame left to
+   * the next one paints blank.
+   */
+  drawNow(): void {
+    if (this.disposed) return;
+    if (this.handle) this.caf(this.handle);
+    this.frame(performance.now());
+  }
+
   dispose(): void {
     this.disposed = true;
     if (this.handle) this.caf(this.handle);

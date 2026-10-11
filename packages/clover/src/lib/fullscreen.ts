@@ -37,15 +37,11 @@ export const isFullscreenSupported = (): boolean => {
 };
 
 /**
- * Clover's root, found from an element inside it.
- *
- * `.clover-layout` (the Viewer's root) is checked first on purpose. Both match when a `Canvas` is
- * nested in a `Viewer`, and the Canvas is the nearer ancestor — so a plain `closest()` over
- * both would full-screen the Canvas alone and leave the rest of the viewer behind.
+ * What goes full screen, found from an element inside it: the Canvas, in a template as
+ * on its own, as 3.x's Viewer full-screens its image and not the page around it.
  */
 export const getCloverRoot = (from: Element | null): HTMLElement | null =>
-  (from?.closest(".clover-layout") as HTMLElement | null) ??
-  (from?.closest(".clover-canvas") as HTMLElement | null);
+  from?.closest(".clover-canvas") as HTMLElement | null;
 
 /**
  * Hand `video` to the system player (iPhone Safari), which takes only a video on the page.

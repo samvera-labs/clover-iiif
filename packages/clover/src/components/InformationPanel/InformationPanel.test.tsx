@@ -244,11 +244,9 @@ describe("Viewer panel", () => {
     expect(toggle).toHaveAttribute("aria-expanded", "false");
     expect(panel).not.toBeVisible();
 
-    fireEvent.click(toggle);
-    fireEvent.click(
-      within(panel).getByRole("button", { name: "Close information panel" }),
-    );
-    expect(toggle).toHaveAttribute("aria-expanded", "false");
-    expect(panel).not.toBeVisible();
+    // Docked beside the stage, it has no close button of its own: the toggle closes it.
+    expect(
+      within(panel).queryByRole("button", { name: "Close information panel" }),
+    ).toBeNull();
   });
 });

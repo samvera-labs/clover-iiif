@@ -1,7 +1,7 @@
 import React, { useId, useMemo, useState } from "react";
 
-import * as Clover from "../../index";
-import type { AnnotationEntry, RootProps } from "../../index";
+import * as Clover from "../../parts";
+import type { AnnotationEntry, RootProps } from "../../parts";
 import { Lightbox } from "../shared/Lightbox";
 
 export type TextProps = Omit<RootProps, "children" | "annotationPages"> & {

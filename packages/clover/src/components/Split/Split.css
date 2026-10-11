@@ -1,0 +1,70 @@
+/*
+ * Split: panes side by side and the bars between them. A sized pane holds its width
+ * (`--clover-split-size`, from its `size` or the reader's drag) between its own minimum
+ * and maximum; an unsized pane takes the rest, and shrinks no further than its minimum.
+ */
+/* The bar meets the panes either side: no gap, so the bar is the only divider. */
+.clover-split {
+  align-items: stretch;
+  gap: 0;
+  min-width: 0;
+}
+
+/* Sizes are the pane's whole box, padding and border included, as a drag measures it. */
+.clover-split-pane {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  min-width: var(--clover-split-min, 0);
+}
+
+.clover-split-pane[data-sized] {
+  flex: 0 1 var(--clover-split-size, auto);
+  max-width: var(--clover-split-max, none);
+}
+
+/*
+ * The bar, as 3.x's Viewer draws its drag handle: a solid bar in the muted secondary
+ * colour at half strength, turning the accent while hovered, held or focused. 3px wide,
+ * with 3px more either side to grab that is not drawn.
+ */
+.clover-split-handle {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 3px;
+  align-self: stretch;
+  background-color: var(--clover-color-secondary-alt, #c1c8cd);
+  opacity: 0.5;
+  cursor: col-resize;
+  touch-action: none;
+  user-select: none;
+  outline: none;
+  transition:
+    background-color 150ms,
+    opacity 150ms;
+}
+
+.clover-split-handle::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  inset-inline: -3px;
+}
+
+.clover-split-handle:hover,
+.clover-split-handle:focus-visible,
+.clover-split-handle[data-dragging] {
+  background-color: var(--clover-color-accent, #0065c3);
+  opacity: 0.8;
+}
+
+/* The keyboard's focus is shown outright, not only by the colour. */
+.clover-split-handle:focus-visible {
+  opacity: 1;
+  box-shadow: 0 0 0 2px var(--clover-color-secondary, #fff);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clover-split-handle {
+    transition: none;
+  }
+}

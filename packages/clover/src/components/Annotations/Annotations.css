@@ -1,8 +1,14 @@
-/* Annotations: sets of entries, each entry its content and a button to find it. */
+/*
+ * Annotations: sets of entries, each entry its content and a button to find it. The rows
+ * and their list are the panel's (`InformationPanel.css`, "Rows").
+ *
+ * On the scale: sets `l` apart (each a group of its own); a set's header `s` over its
+ * entries; an entry's content `s` from its button.
+ */
 .clover-annotations {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: var(--clover-space-l);
 }
 
 .clover-annotations-set-header {
@@ -10,8 +16,8 @@
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 0.25rem 1rem;
-  margin-bottom: 0.5rem;
+  gap: var(--clover-space-2xs) var(--clover-space-m);
+  margin-bottom: var(--clover-space-s);
 }
 
 .clover-annotations-title {
@@ -23,38 +29,15 @@
 .clover-annotations-markers {
   display: inline-flex;
   align-items: center;
-  gap: 0.375rem;
-  font-size: 0.875em;
+  gap: var(--clover-space-xs);
   color: var(--clover-color-primary-muted, #26292b);
-}
-
-.clover-annotations-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  font-size: var(--clover-text-s);
 }
 
 .clover-annotations-entry {
   display: flex;
   align-items: flex-start;
-  gap: 0.5rem;
-  padding: 0.5rem 0.625rem;
-  border-inline-start: 3px solid transparent;
-  border-radius: var(--clover-radius, 3px);
-  cursor: pointer;
-  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
-}
-
-.clover-annotations-entry[data-highlighted="true"] {
-  background-color: var(--clover-color-secondary-muted, #f1f1f1);
-}
-
-.clover-annotations-entry[data-selected="true"] {
-  border-inline-start-color: var(--clover-color-accent, #0065c3);
-  background-color: rgb(0 101 195 / 0.08);
+  gap: var(--clover-space-s);
 }
 
 .clover-annotations-body {
@@ -78,14 +61,14 @@
   border-radius: var(--clover-radius, 3px);
 }
 
-/* `button.x`: one class ties with a reset's `[type="button"]`. See `ui/Button.css`. */
+/* A small round button: one step under a control. */
 button.clover-annotations-show {
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
+  width: var(--clover-space-l);
+  height: var(--clover-space-l);
   padding: 0;
   border: 1px solid transparent;
   border-radius: var(--clover-radius-pill, 2rem);

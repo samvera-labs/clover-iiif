@@ -1,4 +1,4 @@
-import React, { Suspense, forwardRef, lazy, useRef, useState } from "react";
+import React, { Suspense, forwardRef, lazy, useRef } from "react";
 
 import { About } from "./About";
 import { Annotations } from "../Annotations/Annotations";
@@ -14,7 +14,11 @@ import { selectAnnotationSets } from "../../core/annotation-sets";
 import { useCloverTranslation } from "../../i18n/useCloverTranslation";
 import { join } from "../../lib/classnames";
 import { useClover, useCloverSelector } from "../../react/context";
-import { type TabSpec, Tabs } from "../../ui/Tabs";
+import {
+  type SectionSpec,
+  type SectionsLayout,
+  Sections,
+} from "../../ui/Sections";
 
 /*
  * The map, and MapLibre with it, load only when a Manifest with places or georeferences
@@ -42,12 +46,24 @@ export interface TabProps {
  */
 export const Tab: React.FC<TabProps> = () => null;
 
+/** How an information panel lays out its sections. */
+export type InformationPanelLayout = SectionsLayout;
+
 export interface InformationPanelProps
   extends Omit<React.HTMLAttributes<HTMLElement>, "defaultValue"> {
-  /** The tab shown, controlled. */
+  /**
+   * `tabs` (the default): a row of tabs, one section shown at a time. `accordion`: the
+   * sections stacked as boxes, each opened and closed by its heading, one open at a time.
+   */
+  layout?: InformationPanelLayout;
+  /** The tab shown, controlled (`tabs`). */
   value?: string;
-  /** The tab shown first. Default: the first. */
+  /**
+   * The tab shown first (`tabs`), or the box open to start with (`accordion`). Default:
+   * the first.
+   */
   defaultValue?: string;
+  /** Called with the tab chosen, or the box opened. */
   onValueChange?: (value: string) => void;
   /**
    * The panel can be closed: a close button appears in it. Closing from inside the panel
@@ -56,8 +72,10 @@ export interface InformationPanelProps
    */
   onClose?: () => void;
   /**
-   * Escape inside the panel closes it too. For a panel floating over the page; one docked
-   * beside the stage is better left where it is.
+   * The panel floats over the page: Escape inside it closes it too, and its close button
+   * sits at its inner edge (the start, for a panel over the end of the page) rather than
+   * the end of its first row. A panel docked beside the stage needs neither, and is
+   * better without `onClose` at all: the toggle that opens it closes it.
    */
   closeOnEscape?: boolean;
   /** The element to render. Default `aside`. */
@@ -72,8 +90,10 @@ export interface InformationPanelProps
 }
 
 /**
- * Tabs of information about the Root's resource. Its default is an About tab; give it
- * `Clover.Tab` children to choose the tabs, in order, including your own:
+ * Information about the Root's resource, in sections: tabs by default, or stacked boxes
+ * with `layout="accordion"`. Its default sections are the ones Clover has data for; give
+ * it `Clover.Tab` children to choose them, in order, including your own (a `Tab` is a
+ * section in either layout):
  *
  * ```jsx
  * <Clover.InformationPanel>
@@ -85,6 +105,7 @@ export interface InformationPanelProps
 export const InformationPanel = forwardRef<HTMLElement, InformationPanelProps>(
   function InformationPanel(
     {
+      layout = "tabs",
       value,
       defaultValue,
       onValueChange,
@@ -126,7 +147,7 @@ export const InformationPanel = forwardRef<HTMLElement, InformationPanelProps>(
       (child): child is React.ReactElement<TabProps> =>
         React.isValidElement(child) && child.type === Tab,
     );
-    const tabs: TabSpec[] = given.length
+    const tabs: SectionSpec[] = given.length
       ? given.map(({ props }) => ({
           value: props.value,
           label: props.label,
@@ -189,8 +210,6 @@ export const InformationPanel = forwardRef<HTMLElement, InformationPanelProps>(
             : []),
         ];
 
-    const [own, setOwn] = useState(defaultValue ?? tabs[0]?.value);
-    const shown = value ?? own;
     if (!tabs.length) return null;
 
     const close = () => {
@@ -207,7 +226,9 @@ export const InformationPanel = forwardRef<HTMLElement, InformationPanelProps>(
           else if (ref) ref.current = node;
         }}
         className={join("clover-information-panel", className)}
+        data-layout={layout}
         data-closable={onClose ? "" : undefined}
+        data-floating={closeOnEscape ? "" : undefined}
         onKeyDown={(event: React.KeyboardEvent<HTMLElement>) => {
           onKeyDown?.(event);
           if (
@@ -245,14 +266,13 @@ export const InformationPanel = forwardRef<HTMLElement, InformationPanelProps>(
             </svg>
           </button>
         )}
-        <Tabs
-          tabs={tabs}
-          value={shown}
+        <Sections
+          items={tabs}
+          layout={layout}
+          value={value}
+          defaultValue={defaultValue}
+          onValueChange={onValueChange}
           label={t("informationPanelTabs")}
-          onValueChange={(next) => {
-            if (value === undefined) setOwn(next);
-            onValueChange?.(next);
-          }}
         />
       </Tag>
     );

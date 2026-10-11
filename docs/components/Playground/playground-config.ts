@@ -1,25 +1,18 @@
 import { demoResources } from "docs/lib/demo-resources";
 
 /**
- * The playground's knobs, described as data.
+ * The homepage playground's templates and their knobs, described as data, so the panel,
+ * the share link and the generated code read from one source.
  *
- * Keeping the control definitions declarative means the panel, the URL
- * serialisation and the generated code snippet all read from one source, so adding
- * a knob is a single entry rather than three coordinated edits.
+ * Each knob is a prop of the template. Only a value that differs from the template's own
+ * default is passed, and only those are printed in the generated code.
  */
 
-export type ComponentKey =
-  | "viewer"
-  | "image"
-  | "map"
-  | "slider"
-  | "scroll"
-  | "primitives";
+export type TemplateKey = "default" | "document" | "gallery" | "text";
 
 export interface ToggleControl {
   kind: "toggle";
-  /** Dot path into the props/options object, e.g. "informationPanel.open". */
-  path: string;
+  prop: string;
   label: string;
   hint?: string;
   default: boolean;
@@ -27,344 +20,147 @@ export interface ToggleControl {
 
 export interface SelectControl {
   kind: "select";
-  path: string;
+  prop: string;
   label: string;
   hint?: string;
-  default: string;
+  /** `false` and `true` are passed as booleans; anything else as a string. */
   options: { value: string; label: string }[];
+  default: string;
 }
 
 export type Control = ToggleControl | SelectControl;
 
-export interface ComponentSpec {
-  key: ComponentKey;
-  label: string;
-  /** Import path shown in the snippet. */
-  importPath: string;
-  /** Component name in the snippet. */
-  displayName: string;
-  /** Docs route for "read more". */
-  docsHref: string;
-  /**
-   * Which prop carries the IIIF resource. Omitted for Primitives, which take
-   * plain IIIF property values rather than a URL — the resource picker is hidden
-   * when this is absent.
-   */
-  resourceProp?: "iiifContent" | "src";
-  /** Whether controls land in an `options` object or as flat props. */
-  controlTarget: "options" | "props";
-  defaultResource: string;
+export interface TemplateSpec {
+  key: TemplateKey;
+  /** The tab's label, and the component's name in `@nulib/clover/templates`. */
+  name: string;
+  /** One line, for the tab's title. */
   blurb: string;
+  defaultResource: string;
+  docsHref: string;
   controls: Control[];
-  /**
-   * Replaces the generated snippet outright. Primitives compose several
-   * components over one object, which the single-element generator cannot express.
-   */
-  snippetOverride?: string;
 }
 
-export const componentSpecs: Record<ComponentKey, ComponentSpec> = {
-  viewer: {
-    key: "viewer",
-    label: "Viewer",
-    importPath: "@samvera/clover-iiif/viewer",
-    displayName: "Viewer",
-    docsHref: "/docs/viewer",
-    resourceProp: "iiifContent",
-    controlTarget: "options",
+const panelLayout = (fallback: "accordion" | "tabs"): SelectControl => ({
+  kind: "select",
+  prop: "panelLayout",
+  label: "Information panel",
+  options: [
+    { value: "accordion", label: "Accordion" },
+    { value: "tabs", label: "Tabs" },
+  ],
+  default: fallback,
+});
+
+const download: ToggleControl = {
+  kind: "toggle",
+  prop: "download",
+  label: "Download",
+  hint: "When the Manifest or page has a rendering",
+  default: true,
+};
+
+export const templateSpecs: Record<TemplateKey, TemplateSpec> = {
+  default: {
+    key: "default",
+    name: "Default",
+    blurb:
+      "Clover 3.x's Viewer: the panel beside the stage, the thumbnails under it",
     defaultResource: demoResources.viewer,
-    blurb: "The full Manifest viewer",
+    docsHref: "/docs/templates",
     controls: [
-      {
-        kind: "toggle",
-        path: "showTitle",
-        label: "Title",
-        default: true,
-      },
-      {
-        kind: "toggle",
-        path: "showIIIFBadge",
-        label: "IIIF badge",
-        default: false,
-      },
-      {
-        kind: "toggle",
-        path: "showDownload",
-        label: "Download",
-        default: false,
-      },
-      /*
-       * CSS custom properties rather than props — the `--` prefix is what tells the panel
-       * to apply them to the stage. Thumbnails are square by default, derived from the
-       * width; a height only needs setting to break that ratio.
-       */
+      panelLayout("accordion"),
       {
         kind: "select",
-        path: "--clover-thumbnail-width",
-        label: "Thumbnail width",
-        hint: "CSS: --clover-thumbnail-width.",
-        default: "",
+        prop: "items",
+        label: "Thumbnails",
         options: [
-          { value: "", label: "161.8px (default)" },
-          { value: "100px", label: "100px" },
-          { value: "240px", label: "240px" },
+          { value: "carousel", label: "Carousel" },
+          { value: "list", label: "List" },
+          { value: "grid", label: "Grid" },
+          { value: "false", label: "None" },
         ],
-      },
-      {
-        kind: "select",
-        path: "--clover-thumbnail-height",
-        label: "Thumbnail height",
-        hint: "Unset means square, derived from the width.",
-        default: "",
-        options: [
-          { value: "", label: "1:1 from width" },
-          { value: "100px", label: "100px" },
-          { value: "61.8px", label: "61.8px" },
-        ],
-      },
-      {
-        kind: "select",
-        path: "canvasHeight",
-        label: "Canvas height",
-        hint: "Unset falls back to Clover's own 500px.",
-        default: "",
-        options: [
-          { value: "", label: "unset" },
-          { value: "320px", label: "320px" },
-          { value: "500px", label: "500px" },
-          { value: "70vh", label: "70vh" },
-        ],
-      },
-    ],
-  },
-
-  image: {
-    key: "image",
-    label: "Image",
-    importPath: "@samvera/clover-iiif/image",
-    displayName: "Image",
-    docsHref: "/docs/image",
-    resourceProp: "src",
-    controlTarget: "props",
-    defaultResource: demoResources.image,
-    blurb: "Deep zoom any image",
-    controls: [
-      {
-        kind: "toggle",
-        path: "openSeadragonConfig.showNavigator",
-        label: "Navigator",
-        hint: "Thumbnail overview.",
-        default: true,
-      },
-    ],
-  },
-
-  map: {
-    key: "map",
-    label: "Map",
-    importPath: "@samvera/clover-iiif/map",
-    displayName: "Map",
-    docsHref: "/docs/map",
-    resourceProp: "iiifContent",
-    controlTarget: "props",
-    defaultResource: demoResources.map,
-    blurb: "Locate items on maps",
-    controls: [
-      {
-        kind: "toggle",
-        path: "fitToData",
-        label: "Fit to data",
-        hint: "Frame the viewport on the data.",
-        default: true,
+        default: "carousel",
       },
       {
         kind: "toggle",
-        path: "scrollZoom",
-        label: "Scroll to zoom",
-        hint: "Off, so the map never captures page scroll.",
+        prop: "filter",
+        label: "Filter the thumbnails",
         default: false,
       },
       {
         kind: "toggle",
-        path: "useCrosshairCursor",
-        label: "Crosshair cursor",
-        default: false,
+        prop: "panel",
+        label: "Information panel",
+        default: true,
       },
+      download,
     ],
   },
-
-  slider: {
-    key: "slider",
-    label: "Slider",
-    importPath: "@samvera/clover-iiif/slider",
-    displayName: "Slider",
-    docsHref: "/docs/slider",
-    resourceProp: "iiifContent",
-    // `behavior` is a top-level prop, not an `options` key.
-    controlTarget: "props",
-    defaultResource: demoResources.slider,
-    blurb: "Browse items in a carousel",
-    /*
-     * No "slides per view": slides are sized by their own content now, so how many are
-     * visible follows from the viewport. What is worth turning is the layout behavior,
-     * which decides whether items stand alone or pair into spreads.
-     */
+  document: {
+    key: "document",
+    name: "Document",
+    blurb:
+      "Reads like a PDF: page thumbnails down the left, one page at a time",
+    defaultResource:
+      "https://iiif.io/api/cookbook/recipe/0024-book-4-toc/manifest.json",
+    docsHref: "/docs/templates",
+    controls: [panelLayout("tabs"), download],
+  },
+  gallery: {
+    key: "gallery",
+    name: "Gallery",
+    blurb: "A grid of the views that opens one in a lightbox",
+    defaultResource: demoResources.viewer,
+    docsHref: "/docs/templates",
     controls: [
       {
         kind: "select",
-        path: "behavior",
-        // Empty means "send no prop", so the Slider reads the resource's own behavior.
-        // Defaulting to a concrete value would silently override every resource and hide
-        // the inference entirely.
-        default: "",
-        label: "Behavior",
+        prop: "size",
+        label: "Cell size",
         options: [
-          { value: "", label: "From resource" },
-          { value: "individuals", label: "individuals" },
-          { value: "paged", label: "paged" },
-          { value: "continuous", label: "continuous" },
-          { value: "unordered", label: "unordered" },
+          { value: "8rem", label: "Small" },
+          { value: "10rem", label: "Medium" },
+          { value: "14rem", label: "Large" },
         ],
-      },
-      /*
-       * The embedding seams. Turning these together is what makes the Slider read as a
-       * rail inside another component rather than a carousel in its own right — which is
-       * exactly how the Viewer's canvas navigation uses it.
-       */
-      {
-        kind: "toggle",
-        path: "showHeader",
-        label: "Header",
-        hint: "Label, summary and prev/next. Off when the host supplies its own.",
-        default: true,
-      },
-      {
-        kind: "toggle",
-        path: "search",
-        label: "Filter",
-        hint: "Adds a filter control to the header. The Viewer's rail turns this on.",
-        default: false,
-      },
-      {
-        kind: "select",
-        path: "--clover-thumbnail-width",
-        label: "Thumbnail width",
-        hint: "CSS: --clover-thumbnail-width. The same property the Viewer's rail reads.",
-        default: "",
-        options: [
-          { value: "", label: "15rem (default)" },
-          { value: "161.8px", label: "161.8px (Viewer rail)" },
-          { value: "8rem", label: "8rem" },
-          { value: "20rem", label: "20rem" },
-        ],
-      },
-      {
-        kind: "select",
-        path: "--clover-thumbnail-height",
-        label: "Thumbnail height",
-        hint: "Unset means square, derived from the width.",
-        default: "",
-        options: [
-          { value: "", label: "1:1 from width" },
-          { value: "100px", label: "100px" },
-          { value: "20rem", label: "20rem" },
-        ],
-      },
-      {
-        kind: "select",
-        path: "slidesToScroll",
-        label: "Slides per snap",
-        hint: "1 makes a snap mean one slide; auto pages by what fits.",
-        default: "auto",
-        options: [
-          { value: "auto", label: "auto (what fits)" },
-          { value: "1", label: "1" },
-          { value: "2", label: "2" },
-        ],
-      },
-      {
-        kind: "select",
-        path: "align",
-        label: "Align",
-        default: "center",
-        options: [
-          { value: "center", label: "center" },
-          { value: "start", label: "start" },
-          { value: "end", label: "end" },
-        ],
-      },
-      {
-        kind: "toggle",
-        path: "dragFree",
-        label: "Drag free",
-        hint: "Scroll freely instead of settling on snap boundaries.",
-        default: false,
+        default: "10rem",
       },
     ],
   },
-
-  primitives: {
-    key: "primitives",
-    label: "Primitives",
-    importPath: "@samvera/clover-iiif/primitives",
-    displayName: "Primitives",
-    docsHref: "/docs/label",
-    controlTarget: "props",
-    defaultResource: "",
-    blurb: "Render IIIF a la carte",
-    controls: [],
-    snippetOverride: `import {
-  Label,
-  Metadata,
-  Summary,
-  Thumbnail,
-} from "@samvera/clover-iiif/primitives";
-
-// Primitives take plain IIIF properties — no viewer, no wrapper.
-<Thumbnail thumbnail={manifest.thumbnail} />
-<Label label={manifest.label} />
-<Summary summary={manifest.summary} />
-<Metadata metadata={manifest.metadata} />`,
-  },
-
-  scroll: {
-    key: "scroll",
-    label: "Scroll",
-    importPath: "@samvera/clover-iiif/scroll",
-    displayName: "Scroll",
-    docsHref: "/docs/scroll",
-    resourceProp: "iiifContent",
-    controlTarget: "options",
+  text: {
+    key: "text",
+    name: "Text",
+    blurb: "A Manifest read as text, an article per Canvas, as 3.x's Scroll",
     defaultResource: demoResources.scroll,
-    blurb: "Long-form vertical reading",
+    docsHref: "/docs/templates",
     controls: [
       {
-        kind: "select",
-        path: "offset",
-        label: "Sticky offset",
-        hint: "Space for a fixed header.",
-        default: "0",
-        options: [
-          { value: "0", label: "0" },
-          { value: "60", label: "60" },
-          { value: "90", label: "90" },
-        ],
+        kind: "toggle",
+        prop: "search",
+        label: "Search",
+        hint: "Narrows the pages to those that match",
+        default: true,
       },
     ],
   },
 };
 
-/*
- * The tabs the playground offers. `primitives` keeps its spec and preview but is left out
- * for now: the tab did not make clear what the primitives are. Add it back here to restore it.
- */
-export const componentOrder: ComponentKey[] = [
-  "viewer",
-  "image",
-  "map",
-  "slider",
-  "scroll",
+export const templateOrder: TemplateKey[] = [
+  "default",
+  "document",
+  "gallery",
+  "text",
 ];
+
+/** A control's value as the template takes it. */
+export const propValue = (control: Control, value: string | boolean) =>
+  control.kind === "toggle"
+    ? Boolean(value)
+    : value === "false"
+      ? false
+      : value === "true"
+        ? true
+        : value;
 
 /**
  * Accent presets for the page-theme knob.
@@ -428,35 +224,4 @@ export const hexToHueSaturation = (hex: string) => {
   if (hue < 0) hue += 360;
 
   return { hue, saturation: Math.round(saturation * 100) };
-};
-
-/** Sets a dot-path on a nested object, creating intermediate objects as needed. */
-export const setPath = (
-  target: Record<string, any>,
-  path: string,
-  value: unknown,
-) => {
-  const keys = path.split(".");
-  let cursor = target;
-  keys.slice(0, -1).forEach((key) => {
-    if (typeof cursor[key] !== "object" || cursor[key] === null)
-      cursor[key] = {};
-    cursor = cursor[key];
-  });
-  cursor[keys[keys.length - 1]] = value;
-  return target;
-};
-
-/**
- * Coerces a control's string value back to the type the component expects.
- *
- * `slidesToScroll` is the awkward one: it takes a number *or* the literal `"auto"`, and
- * Embla decides between grouping modes with a `typeof` check. Leaving `"1"` a string would
- * silently land in auto-grouping and read as the control having no effect.
- */
-export const coerce = (path: string, value: string): string | number => {
-  if (/offset/.test(path)) return Number(value);
-  if (/slidesToScroll/.test(path))
-    return value === "" || Number.isNaN(Number(value)) ? value : Number(value);
-  return value;
 };

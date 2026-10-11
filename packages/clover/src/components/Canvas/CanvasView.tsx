@@ -273,14 +273,20 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
     fullPage: false,
     annotations: false,
   });
+  /*
+   * A host's own controls (the information panel's toggle) are kept wherever the cluster
+   * would otherwise go: over a placeholder and over a lone video or sound, where Clover's
+   * own image controls have no place, the cluster stays for them.
+   */
+  const hostControls = React.Children.count(children) > 0;
   const shownControls = !controlsConfig
     ? null
     : showPlaceholder
-      ? captioned.length
+      ? captioned.length || hostControls
         ? onlyInformation(controlsConfig)
         : null
       : mediaOnly
-        ? choices.length || captioned.length
+        ? choices.length || captioned.length || hostControls
           ? onlyInformation(controlsConfig)
           : null
         : controlsConfig;

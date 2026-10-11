@@ -26,8 +26,6 @@ export interface ControlClusterProps {
   /** Consumer replacements, keyed like `ControlSpec.key`. */
   controlButtons?: ControlButtons;
   hasPlaceholder?: boolean;
-  hasInformationToggle?: boolean;
-  isPanelOpen?: boolean;
   /** Rendered after the controls: a host's own controls. */
   children?: React.ReactNode;
 }
@@ -41,8 +39,6 @@ const ControlCluster: React.FC<ControlClusterProps> = ({
   controls,
   controlButtons,
   hasPlaceholder = false,
-  hasInformationToggle = false,
-  isPanelOpen = false,
   children,
 }) => {
   /*
@@ -105,9 +101,7 @@ const ControlCluster: React.FC<ControlClusterProps> = ({
     <div
       className="clover-canvas-controls"
       data-fullscreen={isFullscreen}
-      data-has-information-toggle={hasInformationToggle}
       data-has-placeholder={hasPlaceholder}
-      data-panel-open={isPanelOpen}
       data-testid="clover-canvas-controls"
       ref={setElement}
     >

@@ -1,51 +1,22 @@
-/* A transcript: cues as rows of time and text, the current one marked. */
+/*
+ * A transcript: cues as rows of time and text, the current one marked. The rows and the
+ * list are the panel's (`InformationPanel.css`, "Rows"). The track menu sits `s` above the
+ * cues; a cue's time is `s` from its text.
+ */
 .clover-transcript {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: var(--clover-space-s);
 }
 
-.clover-transcript-track select {
-  font: inherit;
-}
-
-.clover-transcript-cues {
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* `button.x`: one class ties with a reset's `[type="button"]`. See `ui/Button.css`. */
 .clover-transcript-cue > button {
   display: flex;
-  gap: 0.75rem;
-  width: 100%;
-  margin: 0;
-  padding: 0.375rem 0.5rem;
-  border: 0;
-  border-inline-start: 3px solid transparent;
-  border-radius: var(--clover-radius, 3px);
-  background: none;
-  color: inherit;
-  font: inherit;
-  text-align: start;
-  cursor: pointer;
-}
-
-.clover-transcript-cue > button:hover {
-  background-color: var(--clover-color-secondary-muted, #f1f1f1);
-}
-
-.clover-transcript-cue[aria-current="true"] > button {
-  border-inline-start-color: var(--clover-color-accent, #0065c3);
-  background-color: rgb(0 101 195 / 0.08);
+  gap: var(--clover-space-s);
 }
 
 .clover-transcript-time {
   flex: 0 0 auto;
-  min-width: 3.5em;
+  min-width: var(--clover-space-2xl);
   color: var(--clover-color-primary-muted, #26292b);
   font-variant-numeric: tabular-nums;
 }

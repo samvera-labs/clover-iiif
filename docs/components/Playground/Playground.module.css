@@ -114,36 +114,20 @@
 }
 
 /*
- * The stage is deliberately unstyled and unconstrained — no panel, no border, no
- * height. The component renders at whatever size it wants and sits directly on the
+ * The stage is deliberately unstyled and unconstrained: no panel, no border, no height.
+ * Each template sizes itself from its own custom properties and sits directly on the
  * page.
- *
- * Two components cannot size themselves, because they paint into a canvas that has
- * no intrinsic height: MapLibre and OpenSeadragon both measure their container on
- * init and render nothing if it measures zero. They get a height below; everything
- * else is left alone.
  */
 .stage {
   position: relative;
 }
 
-/*
- * Scoped to the active tab by `data-component`, not applied to any descendant that
- * happens to match. The Viewer renders its own OpenSeadragon instance internally, so
- * an unscoped `.clover-iiif-image-openseadragon` rule would override the Viewer's
- * `canvasHeight` option and make that knob a no-op.
- */
-.stage[data-component="map"] :global(.clover-map),
-.stage[data-component="image"] :global(.clover-iiif-image-openseadragon) {
-  height: 30rem;
-  min-height: 0;
-}
-
-@media (max-width: 640px) {
-  .stage[data-component="map"] :global(.clover-map),
-  .stage[data-component="image"] :global(.clover-iiif-image-openseadragon) {
-    height: 20rem;
-  }
+/* The chosen template in a line, under the tabs. */
+.blurb {
+  color: var(--gray-11);
+  font-size: var(--text-sm);
+  margin: -1rem 0 2rem;
+  text-align: center;
 }
 
 /*

@@ -5,10 +5,8 @@
   "commonPrevious": "Previous",
   "commonSearch": "Search",
   "commonSearchPlaceholder": "Search...",
-  "commonShare": "Share",
   "commonViewAll": "View All",
   "copyFailure": "Failed",
-  "copySuccess": "Copied",
   "contentSearchLoading": "Loading...",
   "contentSearchPlaceholder": "Search",
   "contentSearchResultsNone": "No Results",
@@ -98,5 +96,6 @@
   "playerAnnounceCaptionsOn": "Captions on",
   "playerAnnounceCaptionsOff": "Captions off",
   "playerAnnounceSeekForward": "Seek forward",
-  "playerAnnounceSeekBackward": "Seek backward"
+  "playerAnnounceSeekBackward": "Seek backward",
+  "splitHandle": "Resize panels"
 }

@@ -79,7 +79,7 @@ itself. Two ways to search any query:
 
 - **`mockFetch`**, from the generator, is a `fetch` that answers the published mock's
   URLs in the browser and passes everything else on. Hand it to anything that takes a
-  `fetch`. The [Viewer's Content Search demo](/docs/4.x/viewer#content-search) does:
+  `fetch`. The [Viewer's Content Search demo](/docs/viewer#content-search) does:
 
   ```jsx
   import { mockFetch } from "docs/mocks/content-search/index.mjs";
@@ -119,7 +119,7 @@ County, Illinois_, as a Manifest of one Canvas, with:
 | -------- | ------------------------------------------------------------------------------------------------------------------ |
 | Manifest | [`/mocks/georeference/manifest.json`](https://samvera-labs.github.io/clover-iiif/mocks/georeference/manifest.json) |
 
-It answers no query, so it is static only. The [Map](/docs/4.x/map) page draws it, warped
+It answers no query, so it is static only. The [Map](/docs/map) page draws it, warped
 onto the map, and in a Viewer's Map tab. Its generator is
 `docs/mocks/georeference/index.mjs`.
 

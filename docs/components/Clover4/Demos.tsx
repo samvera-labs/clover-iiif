@@ -68,7 +68,7 @@ export const VIEWER_RECIPES: Array<[string, string]> = [
 ];
 
 const Viewer = dynamic(
-  () => import("@nulib/clover").then((clover) => clover.Viewer),
+  () => import("@nulib/clover").then((clover) => clover.default),
   { ssr: false },
 );
 
@@ -86,7 +86,7 @@ const pill: React.CSSProperties = {
 export function ViewerDemo({ initial = 0 }: { initial?: number }) {
   const [index, setIndex] = useState(initial);
   /*
-   * A shared link (`?iiif-content=…`, from the Viewer's Share button) opens here, at the
+   * A content-state link (`?iiif-content=…`) opens here, at the
    * place it records, until a recipe is picked.
    */
   const [shared, setShared] = useState<string | null>(null);
@@ -441,36 +441,40 @@ export function CollectionItemsDemo() {
   );
 }
 
-const templates = {
-  Classic: dynamic(
-    () => import("@nulib/clover/templates").then((t) => t.Classic),
-    { ssr: false },
-  ),
-  Document: dynamic(
-    () => import("@nulib/clover/templates").then((t) => t.Document),
-    { ssr: false },
-  ),
-  Gallery: dynamic(
-    () => import("@nulib/clover/templates").then((t) => t.Gallery),
-    { ssr: false },
-  ),
-  Text: dynamic(() => import("@nulib/clover/templates").then((t) => t.Text), {
-    ssr: false,
-  }),
-};
+type TemplateName = "Default" | "Document" | "Gallery" | "Text";
+
+/** The Viewer in one of `@nulib/clover/templates`, as a page would write it. */
+const TemplateViewer = dynamic(
+  () =>
+    Promise.all([
+      import("@nulib/clover"),
+      import("@nulib/clover/templates"),
+    ]).then(([{ default: Viewer }, templates]) => {
+      function TemplateViewer({
+        name,
+        iiifContent,
+      }: {
+        name: TemplateName;
+        iiifContent: string;
+      }) {
+        return <Viewer iiifContent={iiifContent} template={templates[name]} />;
+      }
+      return TemplateViewer;
+    }),
+  { ssr: false },
+);
 
 /** One of `@nulib/clover/templates`, live. */
 export function TemplateDemo({
   name,
   iiifContent,
 }: {
-  name: keyof typeof templates;
+  name: TemplateName;
   iiifContent: string;
 }) {
-  const Template = templates[name];
   return (
     <div style={{ margin: "1.5rem 0 2rem" }}>
-      <Template iiifContent={iiifContent} />
+      <TemplateViewer name={name} iiifContent={iiifContent} />
     </div>
   );
 }

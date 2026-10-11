@@ -14,14 +14,14 @@
   display: grid;
   place-items: center;
   margin: 0;
-  padding: 1rem;
+  padding: var(--clover-space-m);
   color: var(--clover-color-primary-muted, #26292b);
   text-align: center;
 }
 
 .clover-geomap-popup .maplibregl-popup-content {
-  padding: 0.375rem 0.625rem;
+  padding: var(--clover-space-xs) var(--clover-space-s);
   border-radius: var(--clover-radius, 3px);
   font: inherit;
-  font-size: 0.875rem;
+  font-size: var(--clover-text-s);
 }

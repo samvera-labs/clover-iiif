@@ -2,13 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: var(--clover-space-s);
 }
 
 .clover-canvas-error-headline {
   font-weight: bold;
-  font-size: x-large;
-}
-
-.clover-canvas-error-body {
-  font-size: medium;
+  font-size: var(--clover-text-xl);
 }

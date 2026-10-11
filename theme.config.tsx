@@ -1,4 +1,5 @@
 import { DocsThemeConfig } from "nextra-theme-docs";
+import Link from "next/link";
 import Logo from "./docs/components/Logo";
 import PageSettings from "./docs/components/PageSettings/PageSettings";
 import React from "react";
@@ -23,10 +24,23 @@ const config: DocsThemeConfig = {
   docsRepositoryBase: "https://github.com/samvera-labs/clover-iiif",
 
   /*
-   * No banner. The previous one announced React 19 support "in v3.0.0" and had gone
-   * stale twelve minor versions later. Add one back when there is something current to
-   * say — a stale banner costs more attention than it earns.
+   * The docs lead with Clover 4, which is not released yet; the banner says so once, for
+   * every page, rather than a callout on each. Retire it (or change its key, so readers
+   * who dismissed it see the next) when 4.0 ships: a stale banner costs more attention
+   * than it earns.
    */
+  banner: {
+    key: "clover-4-in-development",
+    text: (
+      <>
+        Clover 4 is in development and not on npm yet. The released Clover is
+        3.x:{" "}
+        <Link href="/docs/3.x" style={{ textDecoration: "underline" }}>
+          Clover 3.x docs
+        </Link>
+      </>
+    ),
+  },
   footer: {
     text: "A suite of accessible UI components for IIIF content. Created at Northwestern University Libraries.",
   },

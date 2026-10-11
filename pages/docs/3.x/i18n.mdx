@@ -1,0 +1,166 @@
+---
+title: i18n (3.x)
+---
+
+import GermanViewer from "docs/components/I18nExamples/GermanViewer";
+
+# i18n
+
+Clover translates its own interface. It detects the reader's language from the browser
+(then the page's `<html lang>`), and falls back to English for any string a language does
+not have. To choose a language yourself, or to add one, call `initCloverI18n()` once near
+your app's entry point, then render any Clover component.
+
+Translations need no extra dependency: Clover's own translator is under 1 kB, and the
+languages it ships add about 2.5 kB gzipped.
+
+## Default Locale (English)
+
+If you never call `initCloverI18n`, Clover uses the reader's browser language when it ships one, and English (`src/i18n/locales/en.json`) otherwise.
+
+```tsx filename="src/app.tsx"
+import Viewer from "@samvera/clover-iiif/viewer";
+
+<Viewer iiifContent={manifestId} />;
+```
+
+## Defined Locales
+
+Clover has defined locales (e.g., Portuguese, Norwegian variants) contributed by the community. These are available out of the box. Initialize Clover with the locale you need before rendering components.
+
+### Example: Portuguese
+
+```tsx filename="src/app.tsx"
+import Viewer from "@samvera/clover-iiif/viewer";
+import { initCloverI18n } from "@samvera/clover-iiif/i18n";
+
+const manifestId =
+  "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif";
+
+initCloverI18n({
+  lng: "pt",
+  fallbackLng: ["pt", "en"],
+});
+
+export function App() {
+  return <Viewer iiifContent={manifestId} />;
+}
+```
+
+### Example: Norwegian variants
+
+```tsx filename="src/main.tsx"
+import Viewer from "@samvera/clover-iiif/viewer";
+import { initCloverI18n } from "@samvera/clover-iiif/i18n";
+
+const manifestId =
+  "https://api.dc.library.northwestern.edu/api/v2/works/71153379-4283-43be-8b0f-4e7e3bfda275?as=iiif";
+
+initCloverI18n({
+  lng: "nb", // or "nn" / "no"
+  fallbackLng: ["nb", "no", "en"],
+});
+
+export function App() {
+  return <Viewer iiifContent={manifestId} />;
+}
+```
+
+## Bootstrapping Undefined Locales
+
+Need a locale Clover does not ship yet? Provide overrides when calling `initCloverI18n`. The helper merges your strings and activates the language.
+
+### Example: German
+
+This example uses the IIIF Cookbook newspaper article index so the Viewer opens
+on a German `Contents` tab. It also includes a German label for `Search`, which
+will be used when the active Manifest provides a IIIF Search service.
+
+```tsx filename="src/main.tsx"
+import Viewer from "@samvera/clover-iiif/viewer";
+import { initCloverI18n } from "@samvera/clover-iiif/i18n";
+
+const manifestId =
+  "https://iiif.io/api/cookbook/recipe/0025-newspaper-article-index/manifest.json";
+
+const viewerOptions = {
+  informationPanel: {
+    open: true,
+    defaultTab: "manifest-contents",
+  },
+};
+
+initCloverI18n({
+  lng: "de",
+  fallbackLng: ["de", "en"],
+  resources: {
+    de: {
+      clover: {
+        imageViewerClose: "Bildbetrachter schließen",
+        sliderNext: "Nächstes Element",
+        informationPanelTabsAbout: "Über",
+        informationPanelTabsContents: "Inhalt",
+        informationPanelTabsSearch: "Suche",
+        // ...override or add any keys you need
+      },
+    },
+  },
+});
+
+export function App() {
+  return <Viewer iiifContent={manifestId} options={viewerOptions} />;
+}
+```
+
+<GermanViewer />
+
+## Contributing Additional Locales
+
+We love translations. Follow these steps to add a locale to Clover itself.
+
+1. Fork [samvera-labs/clover-iiif](https://github.com/samvera-labs/clover-iiif) and create a branch.
+2. Add a new `src/i18n/locales/<bcp47>.json` file (for example `fr.json`). Use `en.json` as a template and translate each value.
+3. Import the file in `src/i18n/locales/index.ts` and include it in the default export.
+4. Open a pull request.
+
+### Adding a language file
+
+```json filename="src/i18n/locales/fr.json"
+{
+  "imageViewerClose": "Fermer la visionneuse d'images",
+  "sliderNext": "Élément suivant",
+  "sliderPrevious": "Élément précédent",
+  "sliderSearch": "Rechercher des éléments",
+  "commonSearchPlaceholder": "Rechercher...",
+  "commonShare": "Partager",
+  "commonViewAll": "Voir tout"
+}
+```
+
+```ts filename="src/i18n/locales/index.ts"
+import en from "./en.json";
+import fr from "./fr.json";
+
+export default {
+  en,
+  fr,
+};
+```
+
+### Language + region subtags
+
+For region-specific variants (for example Canadian French), name the file `fr-CA.json`, import it, and add it using the canonical key:
+
+```ts filename="src/i18n/locales/index.ts"
+import en from "./en.json";
+import fr from "./fr.json";
+import frCA from "./fr-CA.json";
+
+export default {
+  en,
+  fr,
+  "fr-CA": frCA,
+};
+```
+
+Once merged, the new locale becomes part of the “Defined Locales” list and can be selected through `initCloverI18n` like the others.

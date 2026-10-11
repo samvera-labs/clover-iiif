@@ -1,41 +1,28 @@
 {
   "index": "Overview",
-  "composing": "Composing",
   "--components": {
     "type": "separator",
-    "title": "IIIF Components (current)"
+    "title": "Components"
   },
-  "image": "Image",
-  "map": "Map",
-  "scroll": {
-    "title": "Scroll",
-    "type": "doc"
-  },
-  "slider": "Slider",
   "viewer": "Viewer",
-  "4.x": {
-    "title": "IIIF Components (4.x)",
-    "theme": {
-      "collapsed": false
-    }
-  },
-  "--primitives": {
-    "type": "separator",
-    "title": "IIIF Primitives"
-  },
-  "homepage": "Homepage",
-  "label": "Label",
-  "metadata": "Metadata",
-  "partOf": "PartOf",
-  "rendering": "Rendering",
-  "requiredStatement": "RequiredStatement",
-  "seeAlso": "SeeAlso",
-  "summary": "Summary",
-  "thumbnail": "Thumbnail",
+  "templates": "Templates",
+  "items": "Items",
+  "canvas": "Canvas",
+  "map": "Map",
+  "web-component": "Web component",
   "--contribute": {
     "type": "separator",
     "title": "Contribute"
   },
-  "i18n": "i18n",
-  "mocks": "Mocks"
+  "mocks": "Mocks",
+  "--earlier": {
+    "type": "separator",
+    "title": "Earlier versions"
+  },
+  "3.x": {
+    "title": "Clover 3.x",
+    "theme": {
+      "collapsed": true
+    }
+  }
 }

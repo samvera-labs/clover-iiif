@@ -12,10 +12,7 @@ import imageJson from "../../fixtures/iiif-cookbook/0377-image-in-annotation.jso
 import { initCloverI18n } from "../../i18n";
 import * as Clover from "../../index";
 import { stubViewport } from "../Canvas/testing/viewport";
-import {
-  decodeContentState,
-  resolveContentState,
-} from "../../core/content-state";
+import { resolveContentState } from "../../core/content-state";
 
 /** A renderer stand-in: several listeners per event, and the overlay layer hotspots use. */
 const listeners = new Map<string, Set<(detail?: unknown) => void>>();
@@ -198,24 +195,5 @@ describe("content state", () => {
     const [{ json }] = onContentStateChange.mock.lastCall!;
     expect(resolveContentState(json)?.target).toMatchObject({ canvasId });
     vi.useRealTimers();
-  });
-
-  it("Share copies a link that opens at the same place", async () => {
-    const writeText = vi.fn().mockResolvedValue(undefined);
-    Object.assign(navigator, { clipboard: { writeText } });
-    await renderWithStage(
-      <Clover.Share baseUrl="https://example.org/viewer" />,
-    );
-    emit("viewport");
-    fireEvent.click(screen.getByRole("button", { name: "Share" }));
-    await waitFor(() => expect(writeText).toHaveBeenCalled());
-    const url = new URL(writeText.mock.calls[0][0]);
-    expect(url.origin + url.pathname).toBe("https://example.org/viewer");
-    const state = decodeContentState(url.searchParams.get("iiif-content")!)!;
-    expect(resolveContentState(state)).toMatchObject({
-      id: imageJson.id,
-      target: { canvasId, region: { x: 0, y: 0, w: 4032, h: 3024 } },
-    });
-    expect(screen.getByText("Copied")).toBeInTheDocument();
   });
 });

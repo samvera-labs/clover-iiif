@@ -1,26 +1,90 @@
 ---
-title: Docs
+title: Overview
 ---
+
+import { Callout } from "nextra/components";
 
 # Overview
 
-UI component library for rapidly creating high-quality and accessible IIIF-fluent web interfaces.
+Clover builds interfaces for IIIF content in React: a Manifest, a Collection, a Canvas or
+a content state, read through the IIIF Presentation API. It is accessible, composable and
+light, and it draws images, video and sound with a renderer of its own.
 
-Clover IIIF is a suite of Manifest and Collection components combined with lower-level IIIF Presentation 3.0 API UI components. Clover IIIF has a focus on accessibility, customization and developer experience. You can use Clover IIIF to build your own custom IIIF-fluent web interfaces while still using the full power of the IIIF Presentation 3.0 API.
+Clover is used two ways.
 
-## Vision
+- **The Viewer**, ready-made. Give it a Manifest, and a template for a layout other than
+  the default.
 
-Implementation of the IIIF Presentation API does not need to be limited to a primary viewer. Using Clover IIIF breaks the model of a "viewer" and allows the IIIF Presentation API to be used as a front-end for any web application. This is possible because the IIIF Presentation API is a highly defined and interoperable specification for representing digital objects. This means that the IIIF Presentation API can be used to represent any digital object, not just images. This concept gives creation to highly interoperable web user interfaces.
+  ```jsx
+  import Viewer from "@nulib/clover";
+  import { Document } from "@nulib/clover/templates";
 
-## Key Features
+  <Viewer iiifContent={url} />
+  <Viewer iiifContent={url} template={Document} />
+  ```
 
-- **Accessibility** - All components lean on [WAI-ARIA design patterns](https://www.w3.org/TR/wai-aria-practices-1.2) to ensure that they are accessible to all users.
+- **The parts** it is built from, for a layout of your own. Each reads from the nearest
+  `Root`, wherever it sits in your markup.
 
-- **Customization** - All components are designed to be easily customized with CSS.
+  ```jsx
+  import * as Clover from "@nulib/clover";
 
-- **Developer Experience** - All components are built with developer experience in mind and are designed to be easily integrated into any web application.
+  <Clover.Root iiifContent={url}>
+    <Clover.Label as="h1" />
+    <Clover.Content />
+    <Clover.Pager />
+    <Clover.Items />
+  </Clover.Root>;
+  ```
 
-## Compatibility
+The Viewer is a shell of under 1 kB, so a page ships only the template it uses, and the
+parts tree-shake: a page that never draws an information panel never carries one.
 
-- React 18 and 19 are supported.
-- Recommended Node version: 20.5.0.
+## Install
+
+```bash
+npm install @nulib/clover
+```
+
+<Callout type="info">
+  Clover 4 is in development and not on npm yet. The released Clover is 3.x,
+  `@samvera/clover-iiif`; see [Clover 3.x](/docs/3.x).
+</Callout>
+
+Import the stylesheet once, beside the components:
+
+```jsx
+import "@nulib/clover/styles.css";
+```
+
+Clover takes its type and its sizes from your page: it sets no font, and every space is
+a step from your `1rem`.
+
+## What it ships
+
+| Import                         | What it is                                                                                     |
+| ------------------------------ | ---------------------------------------------------------------------------------------------- |
+| `@nulib/clover`                | The [Viewer](/docs/viewer) (the default export), and every part, hook and helper (named).      |
+| `@nulib/clover/templates`      | The [templates](/docs/templates): `Default`, `Document`, `Gallery` and `Text`.                 |
+| `@nulib/clover/map`            | [`Map`](/docs/map), for navPlace and georeferenced images. The Viewer adds its Map tab itself. |
+| `@nulib/clover/web-components` | [`<clover-viewer>`](/docs/web-component), for a page without React.                            |
+| `@nulib/clover/styles.css`     | Every part's styles, and the `Default` template's.                                             |
+| `@nulib/clover/templates.css`  | The other templates' styles.                                                                   |
+
+React 18 and 19 are supported. The package is ES modules only.
+
+## Coming from Clover 3.x
+
+| Clover 3.x                       | Clover 4                                                                   |
+| -------------------------------- | -------------------------------------------------------------------------- |
+| `Viewer`                         | `Viewer`, in its `Default` template                                        |
+| `Slider`                         | [`Items`](/docs/items)                                                     |
+| `Image`                          | [`Canvas`](/docs/canvas), Clover's own renderer, in place of OpenSeadragon |
+| `Scroll`                         | The [`Text`](/docs/templates) template                                     |
+| `Map`                            | [`Map`](/docs/map), on MapLibre                                            |
+| Primitives (`Label`, `Summary`…) | Parts of the same names, reading from the nearest `Root`                   |
+| `options`                        | Props on the parts, and CSS custom properties                              |
+| Information panel plugins        | `Clover.Tab`, and hooks such as `useActiveCanvas`                          |
+| `customDisplays`                 | `renderers`                                                                |
+
+The [Clover 3.x](/docs/3.x) docs are kept beside these.

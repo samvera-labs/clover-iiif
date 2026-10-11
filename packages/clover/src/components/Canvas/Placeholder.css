@@ -65,33 +65,11 @@
  */
 button.clover-canvas-placeholder-toggle {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: var(--clover-space-m);
+  right: var(--clover-space-m);
   z-index: 2;
   margin: 0;
   transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
-}
-
-/*
- * In a Viewer, its information toggle sits at this corner too: step aside for it, as the
- * Viewer's own placeholder toggle does (`Viewer/Painting/Toggle.css`).
- */
-.clover-canvas[data-has-information-toggle="true"]
-  > button.clover-canvas-placeholder-toggle {
-  right: 3.618rem;
-}
-
-.clover-canvas[data-has-information-toggle="true"][data-panel-open="true"]
-  > button.clover-canvas-placeholder-toggle {
-  right: 1.382rem;
-}
-
-@media (max-width: 575px) {
-  .clover-canvas[data-has-information-toggle="true"]
-    > button.clover-canvas-placeholder-toggle {
-    top: 3.618rem;
-    right: 1rem;
-  }
 }
 
 /*
@@ -102,8 +80,8 @@ button.clover-canvas-placeholder-toggle {
   > button.clover-canvas-placeholder-toggle {
   top: 50%;
   right: 50%;
-  width: 4rem;
-  height: 4rem;
+  width: var(--clover-space-2xl);
+  height: var(--clover-space-2xl);
   transform: translate(50%, -50%);
   box-shadow: 0 4px 16px #0003;
 }
@@ -130,16 +108,63 @@ button.clover-canvas-placeholder-toggle {
  * Over the placeholder the cluster holds only the information control, which stays to
  * hand beside the toggle rather than fading.
  */
-.clover-canvas[data-placeholder="true"] > .clover-canvas-controls {
-  opacity: 1;
-}
-
 .clover-canvas[data-placeholder="true"] > .clover-canvas-controls > * {
+  opacity: 1;
   pointer-events: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {
   button.clover-canvas-placeholder-toggle {
     transition: none;
+  }
+}
+
+/*
+ * The information panel's toggle keeps the corner (see `Canvas.css`). Where the Canvas
+ * has a placeholder (`data-placeholder`, absent otherwise), its toggle steps aside for it, beside it in the row and under it in a narrow screen's
+ * column, and the cluster keeps the room between them. A video's still has its toggle in
+ * the middle, as a play button, so no room is kept there.
+ */
+.clover-canvas:has(> .clover-canvas-controls > [data-button="panel"])
+  > .clover-canvas-controls[data-has-placeholder="true"] {
+  --top: var(--clover-space-m);
+  right: var(--clover-space-m);
+}
+
+.clover-canvas[data-placeholder]:not([data-placeholder="true"][data-media]):has(
+    > .clover-canvas-controls > [data-button="panel"]
+  )
+  > .clover-canvas-controls
+  > [data-button="panel"] {
+  margin-inline-start: calc(var(--clover-control) + var(--clover-space-s));
+}
+
+.clover-canvas[data-placeholder]:not([data-placeholder="true"][data-media]):has(
+    > .clover-canvas-controls > [data-button="panel"]
+  )
+  > button.clover-canvas-placeholder-toggle {
+  right: calc(
+    var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
+  );
+}
+
+@media (max-width: 575px) {
+  .clover-canvas[data-placeholder]:not(
+      [data-placeholder="true"][data-media]
+    ):has(> .clover-canvas-controls > [data-button="panel"])
+    > .clover-canvas-controls
+    > [data-button="panel"] {
+    margin-inline-start: 0;
+    margin-block-end: calc(var(--clover-control) + var(--clover-space-s));
+  }
+
+  .clover-canvas[data-placeholder]:not(
+      [data-placeholder="true"][data-media]
+    ):has(> .clover-canvas-controls > [data-button="panel"])
+    > button.clover-canvas-placeholder-toggle {
+    top: calc(
+      var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
+    );
+    right: var(--clover-space-m);
   }
 }

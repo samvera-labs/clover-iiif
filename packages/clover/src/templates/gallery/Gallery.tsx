@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import * as Clover from "../../index";
-import type { RootProps } from "../../index";
+import * as Clover from "../../parts";
+import type { RootProps } from "../../parts";
 import { Lightbox } from "../shared/Lightbox";
 
 export type GalleryProps = Omit<RootProps, "children"> & {

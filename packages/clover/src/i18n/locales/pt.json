@@ -34,5 +34,6 @@
   "playerAnnounceCaptionsOn": "Captions on",
   "playerAnnounceCaptionsOff": "Captions off",
   "playerAnnounceSeekForward": "Seek forward",
-  "playerAnnounceSeekBackward": "Seek backward"
+  "playerAnnounceSeekBackward": "Seek backward",
+  "splitHandle": "Redimensionar os painéis"
 }

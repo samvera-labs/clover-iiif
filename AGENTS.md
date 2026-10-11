@@ -6,16 +6,28 @@
   - `components/{Image,Primitives,Scroll,Slider,Viewer}`: published entry points.
   - `lib/`, `hooks/`, `context/`, `i18n/`, `web-components/`.
 - Documentation site uses Next.js/Nextra in `pages/` and `docs/`.
-  - The current release (3.x) is documented in `pages/docs/*`, under the sidebar section
-    "IIIF Components (current)". The coming 4.x lives in `pages/docs/4.x/` (URLs
-    `/docs/4.x/…`), one sidebar group titled "IIIF Components (4.x)" and open by default
-    (`"theme": { "collapsed": false }`).
-  - Keep 4.x as a nested group, not flattened with `"display": "children"`: Nextra 2 keys
-    sidebar items by file name, so a flattened `4.x/viewer` collides with the current
+  - The docs lead with Clover 4, `@nulib/clover` (`packages/clover`): its pages are
+    `pages/docs/*` (URLs `/docs/…`), and the homepage shows it. Clover 3.x,
+    `@samvera/clover-iiif`, is kept at `pages/docs/3.x/` (URLs `/docs/3.x/…`), one
+    sidebar group titled "Clover 3.x", collapsed, under "Earlier versions" at the bottom.
+    Its page titles end in "(3.x)" so search results tell the two apart.
+  - Keep 3.x as a nested group, not flattened with `"display": "children"`: Nextra 2
+    keys sidebar items by file name, so a flattened `3.x/viewer` collides with 4.x's
     `viewer` and drops out of the sidebar.
-  - 4.x documents `@nulib/clover` (`packages/clover`). `Canvas` is documented there only.
-    Keep 4.x features out of the 3.x pages. `pages/docs/4.x/viewer.mdx` is where the 4.x
-    Viewer docs grow.
+  - Links inside 3.x pages point within `/docs/3.x/`. Keep 4.x features out of the 3.x
+    pages, and 3.x's API out of the 4.x ones. `Canvas` is documented in 4.x only.
+  - The site is a static export, so there are no server redirects. URLs that moved
+    (3.x pages from `/docs/…`, 4.x pages from `/docs/4.x/…`) are sent on by the 404
+    page, `pages/404.mdx`, from the table in `docs/components/Moved.tsx`. Move a page
+    again, and add its old URL there. A 3.x page whose name 4.x now uses (`viewer`,
+    `map`) shows the 4.x page, which links to its 3.x version.
+  - The site banner (`theme.config.tsx`) says Clover 4 is in development. Retire it, or
+    change its `key`, when 4.0 ships.
+  - The homepage (`docs/components/Home/`) has two halves: the templates live as the
+    hero (`docs/components/Playground/`, tabs per template, a drawer with the resource,
+    the template's props and the generated code), and below them the parts the
+    templates are made of (`Composable.tsx`: a composed example beside its code, and a
+    card per major part).
 - Build output goes to `dist/`; static assets in `public/`.
 - Tests are colocated near code as `*.test.ts|tsx` (see `vitest.config.mjs`).
 

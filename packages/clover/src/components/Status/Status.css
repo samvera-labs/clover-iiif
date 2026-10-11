@@ -1,6 +1,6 @@
 .clover-status {
   margin: 0;
-  padding: 1rem;
+  padding: var(--clover-space-m);
   color: var(--clover-color-primary-muted, #26292b);
 }
 
@@ -9,5 +9,5 @@
 }
 
 .clover-status-detail {
-  font-size: 0.875em;
+  font-size: var(--clover-text-s);
 }

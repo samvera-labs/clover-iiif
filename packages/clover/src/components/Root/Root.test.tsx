@@ -222,9 +222,7 @@ describe("Clover.Root and its parts", () => {
     expect(
       await screen.findByRole("heading", { name: "Simple Manifest - Book" }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole("navigation", { name: "Pages" }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole("listbox", { name: "Items" })).toBeInTheDocument();
   });
 
   it("names the part used outside a Root", () => {

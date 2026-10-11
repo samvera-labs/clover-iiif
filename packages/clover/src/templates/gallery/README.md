@@ -6,11 +6,16 @@ a native `<dialog>`: focus stays inside it, Escape or a press outside closes it,
 focus returns to the cell.
 
 ```jsx
+import Viewer from "@nulib/clover";
 import { Gallery } from "@nulib/clover/templates";
 import "@nulib/clover/styles.css";
 import "@nulib/clover/templates.css";
 
-<Gallery iiifContent="https://example.org/manifest.json" size="12rem" />;
+<Viewer
+  iiifContent="https://example.org/manifest.json"
+  template={Gallery}
+  size="12rem"
+/>;
 ```
 
 | Prop   | Default | What it does                                      |

@@ -33,8 +33,6 @@ interface CanvasControlsProps {
   config: Required<CanvasControlsConfig>;
   controlButtons?: ControlButtons;
   hasPlaceholder?: boolean;
-  hasInformationToggle?: boolean;
-  isPanelOpen?: boolean;
   /** The Canvas's `Choice`s. With any, a control to pick among their items appears. */
   choices?: ChoiceGroup[];
   selections?: ChoiceSelections;
@@ -65,8 +63,6 @@ const Controls: React.FC<CanvasControlsProps> = ({
   config,
   controlButtons,
   hasPlaceholder,
-  hasInformationToggle,
-  isPanelOpen,
   choices = [],
   selections = {},
   onSelect,
@@ -194,8 +190,6 @@ const Controls: React.FC<CanvasControlsProps> = ({
       controls={controls}
       controlButtons={controlButtons}
       hasPlaceholder={hasPlaceholder}
-      hasInformationToggle={hasInformationToggle}
-      isPanelOpen={isPanelOpen}
     >
       {/*
         Not `ControlSpec`s: those are keyed by the Viewer's `ControlButtons`, and these

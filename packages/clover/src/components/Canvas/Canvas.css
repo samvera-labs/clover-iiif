@@ -33,7 +33,9 @@
 }
 
 .clover-canvas[data-fullscreen="true"] > .clover-canvas-navigator {
-  top: 4.5rem;
+  top: calc(
+    var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
+  );
 }
 
 .clover-canvas-viewport {
@@ -130,7 +132,7 @@
   position: absolute;
   inset: 0 0 auto;
   z-index: 1;
-  height: 7rem;
+  height: calc(var(--clover-control) + 2 * var(--clover-space-l));
   pointer-events: none;
   background: linear-gradient(
     to bottom,
@@ -144,13 +146,34 @@
 
 .clover-canvas > .clover-canvas-controls {
   z-index: 2;
+}
+
+/*
+ * Each control fades, not the cluster, so one can stay. A faded control keeps its room
+ * (nothing beside it moves) and is not a click target.
+ */
+.clover-canvas > .clover-canvas-controls > * {
   opacity: 0;
+  pointer-events: none;
   transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
 }
 
-/* A faded control is not a click target. */
-.clover-canvas > .clover-canvas-controls > * {
-  pointer-events: none;
+/*
+ * The information panel's toggle never fades: the panel is beside the picture, not
+ * chrome over it, and a reader who cannot see the toggle cannot find the panel. It
+ * keeps the corner: last in the row, so at its far end, and first in the narrow
+ * screen's column, so at its top.
+ */
+.clover-canvas > .clover-canvas-controls > [data-button="panel"] {
+  order: 1;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 575px) {
+  .clover-canvas > .clover-canvas-controls > [data-button="panel"] {
+    order: -1;
+  }
 }
 
 /*
@@ -163,7 +186,13 @@
     [data-chrome="visible"],
     :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
   )
-  > :is(.clover-canvas-scrim, .clover-canvas-controls),
+  > .clover-canvas-scrim,
+.clover-canvas:is(
+    [data-chrome="visible"],
+    :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
+  )
+  > .clover-canvas-controls
+  > *,
 .clover-canvas:is(
     [data-chrome="visible"],
     :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
@@ -192,7 +221,7 @@
 /* Still appears and disappears — hiding it outright would leave no way back — unanimated. */
 @media (prefers-reduced-motion: reduce) {
   .clover-canvas-scrim,
-  .clover-canvas > .clover-canvas-controls {
+  .clover-canvas > .clover-canvas-controls > * {
     transition: none;
   }
 }
@@ -208,10 +237,11 @@
 .clover-canvas-navigator {
   position: absolute;
   z-index: 2;
-  top: 1rem;
-  left: 1rem;
-  width: 120px;
-  height: 74.2px;
+  top: var(--clover-space-m);
+  left: var(--clover-space-m);
+  /* A golden rectangle on the scale: 2xl + xl by 2xl. */
+  width: calc(var(--clover-space-2xl) + var(--clover-space-xl));
+  height: var(--clover-space-2xl);
   overflow: hidden;
   background-color: #000d;
   border-radius: var(--clover-radius, 3px);
@@ -261,13 +291,6 @@
   box-sizing: border-box;
   border: 2px solid var(--clover-color-accent, #0065c3);
   pointer-events: none;
-}
-
-@media (max-width: 575px) {
-  .clover-canvas-navigator {
-    width: 96px;
-    height: 59.3px;
-  }
 }
 
 /*

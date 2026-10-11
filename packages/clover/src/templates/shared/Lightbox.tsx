@@ -1,6 +1,6 @@
 import React, { useEffect, useId, useRef } from "react";
 
-import * as Clover from "../../index";
+import * as Clover from "../../parts";
 
 export interface LightboxProps {
   open: boolean;

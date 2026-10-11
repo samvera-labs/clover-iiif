@@ -893,7 +893,7 @@ export class CanvasRenderer implements GestureTarget {
 
   private observe(): void {
     if (typeof ResizeObserver !== "undefined") {
-      this.resizeObserver = new ResizeObserver(() => this.measure());
+      this.resizeObserver = new ResizeObserver(() => this.measure(true));
       this.resizeObserver.observe(this.host);
     }
 
@@ -928,7 +928,12 @@ export class CanvasRenderer implements GestureTarget {
     }, this.options.releaseAfterMs);
   }
 
-  private measure(): void {
+  /**
+   * @param now draw at once, for a ResizeObserver: resizing the canvas clears it, and
+   *   the observer runs too late in the frame for the next frame to be in time. Without
+   *   it, dragging a pane's edge blinks the picture on every step.
+   */
+  private measure(now = false): void {
     const rect = this.host.getBoundingClientRect();
     const width = Math.max(1, rect.width);
     const height = Math.max(1, rect.height);
@@ -961,7 +966,8 @@ export class CanvasRenderer implements GestureTarget {
         );
       }
     }
-    this.invalidate();
+    if (now) this.loop.drawNow();
+    else this.invalidate();
   }
 
   private watchPixelRatio(): void {

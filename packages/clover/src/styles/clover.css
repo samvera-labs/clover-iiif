@@ -14,6 +14,7 @@
  * Add every new stylesheet here, next to the module that owns it.
  */
 
+@import "./scale.css";
 @import "../ui/ErrorBoundary.css";
 @import "../ui/ExitFullscreen.css";
 @import "../components/Canvas/Annotations.css";
@@ -25,16 +26,18 @@
 @import "../components/Canvas/media/Transport.css";
 @import "../ui/ControlCluster.css";
 @import "../ui/Button.css";
-@import "../components/Viewer/Viewer.css";
+@import "../ui/Sections.css";
 @import "../components/Status/Status.css";
 @import "../components/Pager/Pager.css";
 @import "../components/Items/Items.css";
 @import "../components/InformationPanel/InformationPanel.css";
+@import "../components/Split/Split.css";
 @import "../components/Annotations/Annotations.css";
-@import "../components/Share/Share.css";
 @import "../components/Download/Download.css";
 @import "../components/Transcript/Transcript.css";
 @import "../components/Contents/Contents.css";
 @import "../components/Search/Search.css";
 @import "../components/Map/Map.css";
 @import "../components/CollectionSelect/CollectionSelect.css";
+/* The Viewer's own layout, the one template that ships in the main entry. */
+@import "../templates/default/Default.css";

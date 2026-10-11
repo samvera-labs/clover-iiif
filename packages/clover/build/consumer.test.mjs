@@ -10,6 +10,8 @@ import test from "node:test";
 import { fileURLToPath } from "node:url";
 import { build as esbuild } from "esbuild";
 
+import { bundleAsConsumer } from "./consumer-bundle.mjs";
+
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
 test.before(() => {
@@ -46,6 +48,51 @@ test("a namespace import that uses only groupViews pulls in no renderer", async 
   assert.ok(inputs.some((id) => id.endsWith("dist/core/sequence.mjs")));
 });
 
+test("the Viewer is a shell: no template and no part load with it", async () => {
+  const entry = JSON.stringify(resolve(root, "dist/index.mjs"));
+  const { chunks, initial } = await bundleAsConsumer(
+    `import Viewer from ${entry};\nconsole.log(Viewer);`,
+  );
+  const fromPackage = (chunk) =>
+    Object.keys(chunk.modules)
+      .filter((id) => id.startsWith(resolve(root, "dist") + "/"))
+      .map((id) => id.slice(root.length + 1));
+  const upFront = [...initial].flatMap((fileName) =>
+    fromPackage(chunks.get(fileName)).filter(
+      (id) => chunks.get(fileName).modules[resolve(root, id)].renderedLength > 0,
+    ),
+  );
+  assert.deepEqual(
+    upFront,
+    ["dist/components/Viewer/Viewer.mjs"],
+    "only the shell loads up front",
+  );
+  // Default is still there for `<Viewer />`, in a chunk of its own.
+  assert.ok(
+    [...chunks.values()].some((chunk) =>
+      fromPackage(chunk).includes("dist/templates/default/Default.mjs"),
+    ),
+  );
+});
+
+test("the Viewer is the default export, and Clover.Viewer too", () => {
+  const { status, stdout, stderr } = spawnSync(
+    process.execPath,
+    [
+      "--input-type=module",
+      "-e",
+      `const Clover = await import("@nulib/clover");
+       console.log(JSON.stringify({
+         viewer: typeof Clover.default,
+         same: Clover.default === Clover.Viewer,
+       }));`,
+    ],
+    { cwd: root, encoding: "utf8" },
+  );
+  assert.equal(status, 0, stderr);
+  assert.deepEqual(JSON.parse(stdout.trim()), { viewer: "function", same: true });
+});
+
 test("the templates entry imports in plain node", () => {
   const { status, stdout, stderr } = spawnSync(
     process.execPath,
@@ -54,7 +101,7 @@ test("the templates entry imports in plain node", () => {
       "-e",
       `const Templates = await import("@nulib/clover/templates");
        console.log(JSON.stringify({
-         Classic: typeof Templates.Classic,
+         Default: typeof Templates.Default,
          Gallery: typeof Templates.Gallery,
          Text: typeof Templates.Text,
        }));`,
@@ -63,7 +110,7 @@ test("the templates entry imports in plain node", () => {
   );
   assert.equal(status, 0, stderr);
   assert.deepEqual(JSON.parse(stdout.trim()), {
-    Classic: "function",
+    Default: "function",
     Gallery: "function",
     Text: "function",
   });

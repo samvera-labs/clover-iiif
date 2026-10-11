@@ -6,71 +6,105 @@ import React, {
   useState,
 } from "react";
 import {
-  type ComponentKey,
   type Control,
-  coerce,
-  componentOrder,
-  componentSpecs,
-  setPath,
+  type TemplateKey,
+  propValue,
+  templateOrder,
+  templateSpecs,
 } from "docs/components/Playground/playground-config";
-
 import { normalizeHex, setPageTheme, usePageTheme } from "docs/lib/page-theme";
 
-import Image from "docs/components/DynamicImports/Image";
 import Link from "next/link";
-import Map from "docs/components/DynamicImports/Map";
-import PrimitivesPanel from "docs/components/Playground/PrimitivesPanel";
-import Scroll from "docs/components/DynamicImports/Scroll";
-import Slider from "docs/components/DynamicImports/Slider";
-import Viewer from "docs/components/DynamicImports/Viewer";
-import { cookbookRecipes } from "docs/components/CookbookRecipes/cookbookRecipes";
+import { VIEWER_RECIPES } from "docs/components/Clover4/Demos";
+import { demoResources } from "docs/lib/demo-resources";
+import dynamic from "next/dynamic";
 import styles from "docs/components/Playground/Playground.module.css";
 import { useRouter } from "next/router";
 
-/** Control values keyed by dot path, per component. */
+/** Control values keyed by prop, for one template. */
 type ControlState = Record<string, string | boolean>;
 
-const defaultsFor = (key: ComponentKey): ControlState =>
-  componentSpecs[key].controls.reduce<ControlState>((acc, control) => {
-    acc[control.path] = control.default;
-    return acc;
-  }, {});
-
-/** Renders the value as it would appear in JSX source. */
-const literal = (value: unknown): string =>
-  typeof value === "string" ? `"${value}"` : String(value);
-
-/** Pretty-prints a nested options object as JSX-embedded JS. */
-const printObject = (value: Record<string, any>, indent = 4): string => {
-  const pad = " ".repeat(indent);
-  const entries = Object.entries(value).map(([k, v]) => {
-    const key = /^[A-Za-z_$][\w$]*$/.test(k) ? k : `"${k}"`;
-    if (v && typeof v === "object" && !Array.isArray(v))
-      return `${pad}${key}: ${printObject(v, indent + 2)}`;
-    return `${pad}${key}: ${literal(v)}`;
-  });
-  return `{\n${entries.join(",\n")}\n${" ".repeat(indent - 2)}}`;
-};
+const defaultsFor = (key: TemplateKey): ControlState =>
+  Object.fromEntries(
+    templateSpecs[key].controls.map((control) => [
+      control.prop,
+      control.default,
+    ]),
+  );
 
 /**
- * The playground — a section of the homepage, not a page of its own.
+ * The Viewer in a template, as a page would write it: `<Viewer template={Document} />`.
+ * Loaded on the client, since the renderer needs a browser.
+ */
+const TemplateViewer = dynamic(
+  () =>
+    Promise.all([
+      import("@nulib/clover"),
+      import("@nulib/clover/templates"),
+    ]).then(([clover, templates]) => {
+      const Viewer = clover.default as React.ComponentType<any>;
+      function TemplateViewer({
+        template,
+        ...props
+      }: { template: "Default" | "Document" | "Gallery" | "Text" } & Record<
+        string,
+        unknown
+      >) {
+        return <Viewer {...props} template={templates[template]} />;
+      }
+      return TemplateViewer;
+    }),
+  { ssr: false },
+);
+
+/**
+ * Resources for the picker: two long Northwestern works and a multilingual manuscript,
+ * then the Cookbook recipes the 4.x Viewer is checked against.
+ */
+const presets = [
+  {
+    title: "Long document, 338 canvases (individuals)",
+    resource:
+      "https://api.dc.library.northwestern.edu/api/v2/works/12531652-50d5-473b-bf1f-ca54c10e875d?as=iiif",
+  },
+  {
+    title: "Paged notebook, 138 canvases (paged)",
+    resource: demoResources.viewer,
+  },
+  { title: "Multilingual manuscript", resource: demoResources.scroll },
+  {
+    title: "Book with a table of contents",
+    resource: templateSpecs.document.defaultResource,
+  },
+  ...VIEWER_RECIPES.map(([title, resource]) => ({ title, resource })),
+];
+
+/** A prop as JSX source: bare for `true`, braced for other non-strings. */
+const printProp = (prop: string, value: unknown) =>
+  value === true
+    ? `  ${prop}`
+    : typeof value === "string"
+      ? `  ${prop}="${value}"`
+      : `  ${prop}={${String(value)}}`;
+
+/**
+ * The homepage's hero: the Viewer in each template, live.
  *
- * There used to be both a bento grid of live component cards and a separate
- * `/playground` route. Two live showcases on one site is redundant, so they are
- * one thing: this panel is the homepage's centrepiece, and its radio cards are what
- * communicate the library's surface area.
- *
- * Only the selected component is mounted, so a page load boots one viewer rather
- * than six.
+ * The tabs are the templates (native radios inside labels, so the group gets arrow keys
+ * and one tab stop for free); the drawer behind Configure picks the resource and the
+ * template's own props, and shows the code for what is on the stage. Only the chosen
+ * template is mounted.
  */
 const Playground: React.FC = () => {
   const router = useRouter();
 
-  const [active, setActive] = useState<ComponentKey>("viewer");
+  const [active, setActive] = useState<TemplateKey>("default");
   const [resource, setResource] = useState(
-    componentSpecs.viewer.defaultResource,
+    templateSpecs.default.defaultResource,
   );
-  const [controls, setControls] = useState<ControlState>(defaultsFor("viewer"));
+  const [controls, setControls] = useState<ControlState>(
+    defaultsFor("default"),
+  );
   /*
    * The page's accent, set from the gear in the site header. The playground reads it for
    * its generated code and carries it in the share link; a link that names one sets it.
@@ -78,48 +112,43 @@ const Playground: React.FC = () => {
   const { accent } = usePageTheme();
   const [copied, setCopied] = useState(false);
 
-  const spec = componentSpecs[active];
+  const spec = templateSpecs[active];
 
-  /**
-   * Read state out of the URL once the router is ready, so a shared link restores
-   * the configuration. The resource travels as `iiif-content` — the parameter Clover has
-   * always accepted for handing a resource to the docs, and the one the dynamic imports and
-   * the cookbook select already read — so a link works the same everywhere.
+  /*
+   * Read state out of the URL once the router is ready, so a shared link restores it. The
+   * resource travels as `iiif-content`, the parameter Clover has always read for a
+   * resource handed to the docs.
    */
   useEffect(() => {
     if (!router.isReady) return;
-
     const q = router.query;
-    const nextComponent = (
-      typeof q.c === "string" && componentOrder.includes(q.c as ComponentKey)
-        ? q.c
-        : "viewer"
-    ) as ComponentKey;
-    const nextResource =
+    const next = (
+      typeof q.t === "string" && templateOrder.includes(q.t as TemplateKey)
+        ? q.t
+        : "default"
+    ) as TemplateKey;
+    setActive(next);
+    setResource(
       (typeof q["iiif-content"] === "string" && q["iiif-content"]) ||
-      componentSpecs[nextComponent].defaultResource;
-
-    setActive(nextComponent);
-    setResource(nextResource);
-    setControls(defaultsFor(nextComponent));
-
+        templateSpecs[next].defaultResource,
+    );
+    setControls(defaultsFor(next));
     // A shared link's accent wins over the reader's stored one.
     if (typeof q.accent === "string") {
       setPageTheme({ accent: normalizeHex(q.accent) });
     }
-    // Only on first ready — later changes are pushed by the handlers below.
+    // Only on first ready; later changes are pushed by the handlers below.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.isReady]);
 
   /** Mirror the shareable parts of the state into the URL, without a navigation. */
   const syncUrl = useCallback(
-    (next: { c?: ComponentKey; resource?: string; accent?: string }) => {
+    (next: { t?: TemplateKey; resource?: string }) => {
       const query: Record<string, string> = {
-        c: next.c ?? active,
+        t: next.t ?? active,
         "iiif-content": next.resource ?? resource,
       };
-      const nextAccent = next.accent ?? accent;
-      if (nextAccent) query.accent = nextAccent;
+      if (accent) query.accent = accent;
       router.replace({ query }, undefined, { shallow: true });
     },
     [active, resource, accent, router],
@@ -142,19 +171,19 @@ const Playground: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accent, router.isReady]);
 
-  const selectComponent = (key: ComponentKey) => {
+  const selectTemplate = (key: TemplateKey) => {
     setActive(key);
     setControls(defaultsFor(key));
-    setResource(componentSpecs[key].defaultResource);
-    syncUrl({ c: key, resource: componentSpecs[key].defaultResource });
+    setResource(templateSpecs[key].defaultResource);
+    syncUrl({ t: key, resource: templateSpecs[key].defaultResource });
   };
 
-  const updateControl = (path: string, value: string | boolean) =>
-    setControls((prev) => ({ ...prev, [path]: value }));
+  const updateControl = (prop: string, value: string | boolean) =>
+    setControls((prev) => ({ ...prev, [prop]: value }));
 
   /*
    * The options tray is a drawer, not a column, so the stage gets the full width of the
-   * page. It is non-modal on purpose — no backdrop, nothing inert — because the point of
+   * page. It is non-modal on purpose (no backdrop, nothing inert), because the point of
    * opening it is to change a value and watch the stage respond.
    */
   const [configOpen, setConfigOpen] = useState(false);
@@ -164,131 +193,48 @@ const Playground: React.FC = () => {
     setConfigOpen(false);
     configTriggerRef.current?.focus();
   }, []);
-
   useEffect(() => {
     if (configOpen) configCloseRef.current?.focus();
   }, [configOpen]);
-  /** Control values assembled into the shape the component actually takes. */
-  /**
-   * Controls whose path starts with `--` are CSS custom properties, not props.
-   *
-   * Clover is themed and sized through custom properties, so the playground has to be able
-   * to demonstrate them. Keying off the `--` prefix keeps that general: a control declares
-   * a property name and the panel applies it to the stage, rather than each component
-   * needing its own special case in the renderer.
-   */
-  const isCssVar = (key: string) => key.startsWith("--");
 
-  /**
-   * Drop whatever a control left empty, at any depth.
-   *
-   * An empty select value is the control's "leave it unset" state, and the component has to
-   * not receive the key at all. `canvasHeight: ""` is not "use the default" — it is a height
-   * of nothing, and it collapsed the canvas to 0px. Nested paths are pruned too, and a
-   * branch that ends up with nothing in it is dropped rather than passed as `{}`.
-   */
-  const pruneEmpty = (value: unknown): unknown => {
-    if (value === "" || value == null) return undefined;
-    if (typeof value !== "object" || Array.isArray(value)) return value;
+  /** The props that differ from the template's defaults: passed, and printed. */
+  const props = useMemo(
+    () =>
+      Object.fromEntries(
+        spec.controls
+          .filter((control) => controls[control.prop] !== control.default)
+          .map((control) => [
+            control.prop,
+            propValue(control, controls[control.prop]),
+          ]),
+      ),
+    [spec, controls],
+  );
 
-    const kept: Record<string, unknown> = {};
-    Object.entries(value as Record<string, unknown>).forEach(([key, inner]) => {
-      const pruned = pruneEmpty(inner);
-      if (pruned !== undefined) kept[key] = pruned;
-    });
-    return Object.keys(kept).length ? kept : undefined;
-  };
-
-  const assembled = useMemo(() => {
-    const bag: Record<string, any> = {};
-    spec.controls.forEach((control) => {
-      const raw = controls[control.path];
-      const value =
-        control.kind === "toggle"
-          ? Boolean(raw)
-          : coerce(control.path, String(raw));
-      setPath(bag, control.path, value);
-    });
-    return bag;
-  }, [spec, controls]);
-
-  /** Custom properties to put on the stage, and the props that are actually props. */
-  const { cssVars, props: assembledProps } = useMemo(() => {
-    const vars: Record<string, string> = {};
-    const rest: Record<string, any> = {};
-    Object.entries(assembled).forEach(([key, value]) => {
-      if (isCssVar(key)) {
-        // An empty control value means "leave it unset", so the default stands.
-        if (value !== "" && value != null) vars[key] = String(value);
-      } else {
-        const pruned = pruneEmpty(value);
-        if (pruned !== undefined) rest[key] = pruned;
-      }
-    });
-    return { cssVars: vars, props: rest };
-  }, [assembled]);
-
-  /** The live JSX snippet, regenerated on every knob turn. */
+  /** The code for what is on the stage, regenerated on every knob turn. */
   const snippet = useMemo(() => {
-    if (spec.snippetOverride) return spec.snippetOverride;
-
-    const props: string[] = [`  ${spec.resourceProp}="${resource}"`];
-
-    if (spec.controlTarget === "options") {
-      if (Object.keys(assembledProps).length)
-        props.push(`  options={${printObject(assembledProps)}}`);
-    } else {
-      Object.entries(assembledProps).forEach(([key, value]) => {
-        // An empty string is a control's "leave it unset" state — printing it would
-        // suggest passing a prop the component is meant not to receive.
-        if (value === "") return;
-        if (value && typeof value === "object")
-          props.push(`  ${key}={${printObject(value)}}`);
-        else if (typeof value === "boolean")
-          props.push(value ? `  ${key}` : `  ${key}={false}`);
-        // Only a string can sit bare after `=` in JSX. A number needs braces, or
-        // `slidesToScroll=1` is a syntax error rather than a value of one.
-        else if (typeof value === "string")
-          props.push(`  ${key}=${literal(value)}`);
-        else props.push(`  ${key}={${String(value)}}`);
-      });
-    }
-
+    const isDefault = active === "default";
+    const imports = [
+      `import Viewer from "@nulib/clover";`,
+      !isDefault && `import { ${spec.name} } from "@nulib/clover/templates";`,
+      `import "@nulib/clover/styles.css";`,
+      !isDefault && `import "@nulib/clover/templates.css";`,
+    ].filter(Boolean);
+    const lines = [
+      `  iiifContent="${resource}"`,
+      !isDefault && `  template={${spec.name}}`,
+      ...Object.entries(props).map(([prop, value]) => printProp(prop, value)),
+    ].filter(Boolean);
+    const element = `<Viewer\n${lines.join("\n")}\n/>`;
     /*
-     * Custom properties, as CSS declarations rather than a style object.
-     *
-     * These are not props — they cascade, so they have to sit on an ancestor or in a
-     * stylesheet. The snippet used to show that as a commented-out `<div style={{…}}>`,
-     * which could not be copied and run; a `<style>` block is real markup.
-     *
-     * Set on `body`, which is every component's ancestor already, so the snippet needs no
-     * wrapper element and no invented class name for one. Scope them to a narrower selector
-     * when only part of a page should carry them.
+     * The accent as CSS, on `body`, every part's ancestor already: it cascades, so it is
+     * not a prop. No font: Clover takes its type from the page.
      */
-    /*
-     * No font declaration. Clover inherits its type from whatever contains it, so a page
-     * that has already set a font needs to do nothing at all — there is no property to
-     * hand it, and printing one would suggest otherwise.
-     */
-    const declarations = [
-      accent && `--clover-color-accent: ${accent};`,
-      ...Object.entries(cssVars).map(([key, value]) => `${key}: ${value};`),
-    ].filter(Boolean) as string[];
-
-    const element = `<${spec.displayName}\n${props.join("\n")}\n/>`;
-    const importLine = `import ${spec.displayName} from "${spec.importPath}";`;
-
-    if (!declarations.length) return `${importLine}\n\n${element}`;
-
-    const styleBlock =
-      `<style>{\`\n` +
-      `  body {\n` +
-      declarations.map((line) => `    ${line}`).join("\n") +
-      `\n  }\n` +
-      `\`}</style>`;
-
-    return `${importLine}\n\n${styleBlock}\n\n${element}`;
-  }, [spec, resource, assembledProps, cssVars, accent]);
+    const style = accent
+      ? `<style>{\`\n  body {\n    --clover-color-accent: ${accent};\n  }\n\`}</style>\n\n`
+      : "";
+    return `${imports.join("\n")}\n\n${style}${element}`;
+  }, [active, spec, resource, props, accent]);
 
   const copy = async () => {
     try {
@@ -300,69 +246,14 @@ const Playground: React.FC = () => {
     }
   };
 
-  /**
-   * The rendered component. Keyed on the resource and component so switching either
-   * remounts cleanly rather than trying to reconcile a Viewer into a Map.
-   */
-  const preview = () => {
-    const key = `${active}-${resource}`;
-    switch (active) {
-      case "viewer":
-        return (
-          <Viewer key={key} iiifContent={resource} options={assembledProps} />
-        );
-      case "image":
-        return (
-          <Image
-            key={key}
-            src={resource}
-            /* Names the zoomable region for assistive technology. Clover's IIIF
-             * deep-zoom component, not an `img` — the jsx-a11y/alt-text warning is
-             * a false positive on the identifier name. */
-            label="IIIF image preview"
-            openSeadragonConfig={assembledProps.openSeadragonConfig}
-          />
-        );
-      case "map":
-        return (
-          <Map
-            key={key}
-            iiifContent={resource}
-            fitToData={assembledProps.fitToData}
-            scrollZoom={assembledProps.scrollZoom}
-            useCrosshairCursor={assembledProps.useCrosshairCursor}
-          />
-        );
-      case "slider": {
-        // Custom properties are applied to the stage, so only real props reach here.
-        const { behavior, ...sliderProps } = assembledProps;
-        return (
-          <Slider
-            key={key}
-            iiifContent={resource}
-            // Empty string means "no override" — let the resource speak.
-            behavior={(behavior as any) || undefined}
-            {...(sliderProps as any)}
-          />
-        );
-      }
-      case "scroll":
-        return (
-          <Scroll key={key} iiifContent={resource} options={assembledProps} />
-        );
-      case "primitives":
-        return <PrimitivesPanel />;
-    }
-  };
-
   const renderControl = (control: Control) => {
     if (control.kind === "toggle") {
       return (
-        <label className={styles.toggleRow} key={control.path}>
+        <label className={styles.toggleRow} key={control.prop}>
           <input
             type="checkbox"
-            checked={Boolean(controls[control.path])}
-            onChange={(e) => updateControl(control.path, e.target.checked)}
+            checked={Boolean(controls[control.prop])}
+            onChange={(e) => updateControl(control.prop, e.target.checked)}
           />
           <span className={styles.toggleText}>
             {control.label}
@@ -373,18 +264,17 @@ const Playground: React.FC = () => {
         </label>
       );
     }
-
     return (
-      <div className={styles.field} key={control.path}>
-        <label className={styles.fieldLabel} htmlFor={`c-${control.path}`}>
+      <div className={styles.field} key={control.prop}>
+        <label className={styles.fieldLabel} htmlFor={`c-${control.prop}`}>
           {control.label}
           {control.hint && <span className={styles.hint}>{control.hint}</span>}
         </label>
         <select
           className={styles.select}
-          id={`c-${control.path}`}
-          value={String(controls[control.path])}
-          onChange={(e) => updateControl(control.path, e.target.value)}
+          id={`c-${control.prop}`}
+          value={String(controls[control.prop])}
+          onChange={(e) => updateControl(control.prop, e.target.value)}
         >
           {control.options.map((option) => (
             <option key={option.value} value={option.value}>
@@ -396,75 +286,33 @@ const Playground: React.FC = () => {
     );
   };
 
-  /**
-   * Resources for the preset picker.
-   *
-   * The Cookbook recipes are deliberate minimal examples — most are one or two canvases,
-   * which never exercises a long thumbnail rail. The two Northwestern items ahead of them
-   * do: a 338-canvas document behaving as `individuals`, and a 138-canvas `paged` notebook
-   * whose spreads must group two-up. Between them they cover the cases where canvas
-   * navigation actually gets hard.
-   */
-  const presets = useMemo(
-    () => [
-      {
-        id: "nul-long-individuals",
-        title: "Long document, 338 canvases (individuals)",
-        resource:
-          "https://api.dc.library.northwestern.edu/api/v2/works/12531652-50d5-473b-bf1f-ca54c10e875d?as=iiif",
-        supported: true,
-        category: ["Image"],
-      },
-      {
-        id: "nul-paged-notebook",
-        title: "Paged notebook, 138 canvases (paged)",
-        resource:
-          "https://api.dc.library.northwestern.edu/api/v2/works/b52d5d93-a117-43e9-90c7-434fa1212b60?as=iiif",
-        supported: true,
-        category: ["Image"],
-      },
-      ...cookbookRecipes.filter((recipe) => recipe.supported),
-    ],
-    [],
-  );
-
-  /*
-   * No visible heading: the selected card already communicates that a component is being
-   * tried, so the section carries its name as `aria-label` for assistive technology
-   * rather than as an `h2`.
-   */
   return (
     <section
-      aria-label="Try the components"
+      aria-label="Try the templates"
       className={styles.section}
       id="playground"
     >
       <div className={styles.shell}>
-        {/*
-         * Native radios inside labels rather than buttons with `role="tab"`. The group
-         * gets arrow-key navigation and a single tab stop for free, and the card is the
-         * label, so the whole surface is clickable without extra handlers.
-         */}
         <div className={styles.toolbar}>
-          <fieldset className={styles.cards} data-region="component">
-            <legend className={styles.cardsLegend}>Component</legend>
-            {componentOrder.map((key) => (
+          <fieldset className={styles.cards} data-region="template">
+            <legend className={styles.cardsLegend}>Template</legend>
+            {templateOrder.map((key) => (
               <label
                 className={styles.card}
-                title={componentSpecs[key].blurb}
+                title={templateSpecs[key].blurb}
                 data-selected={key === active}
                 key={key}
               >
                 <input
                   checked={key === active}
                   className={styles.cardInput}
-                  name="playground-component"
-                  onChange={() => selectComponent(key)}
+                  name="playground-template"
+                  onChange={() => selectTemplate(key)}
                   type="radio"
                   value={key}
                 />
                 <span className={styles.cardLabel}>
-                  {componentSpecs[key].label}
+                  {templateSpecs[key].name}
                 </span>
               </label>
             ))}
@@ -472,11 +320,11 @@ const Playground: React.FC = () => {
           <button
             aria-controls="pg-config"
             aria-expanded={configOpen}
-            aria-label={`Configure ${spec.label}`}
+            aria-label={`Configure ${spec.name}`}
             className={styles.configTrigger}
             onClick={() => (configOpen ? closeConfig() : setConfigOpen(true))}
             ref={configTriggerRef}
-            title={`Configure ${spec.label}`}
+            title={`Configure ${spec.name}`}
             type="button"
           >
             <svg
@@ -492,23 +340,21 @@ const Playground: React.FC = () => {
           </button>
         </div>
 
+        <p className={styles.blurb}>{spec.blurb}</p>
+
         <div className={styles.layout}>
           <div>
-            {/* Unstyled and unconstrained; the accent now comes from :root. */}
-            <div
-              className={styles.stage}
-              data-component={active}
-              /*
-               * No font here. The font control retypesets the whole site through
-               * `--font-sans`, and the component inherits its type from the page like
-               * anything else on it.
-               */
-              style={cssVars as React.CSSProperties}
-            >
-              {preview()}
+            {/* No font and no colour here: Clover takes both from the page. */}
+            <div className={styles.stage} data-template={active}>
+              <TemplateViewer
+                key={`${active}-${resource}`}
+                template={spec.name as "Default"}
+                iiifContent={resource}
+                {...props}
+              />
             </div>
 
-            {/* The generated code belongs to configuring, so it appears only while the drawer is open. */}
+            {/* The generated code belongs to configuring, so it shows only while the drawer is open. */}
             {configOpen && (
               <div className={styles.codePanel}>
                 <div className={styles.codeHead}>
@@ -528,7 +374,7 @@ const Playground: React.FC = () => {
 
           {configOpen && (
             <aside
-              aria-label={`${spec.label} options`}
+              aria-label={`${spec.name} options`}
               className={styles.aside}
               id="pg-config"
               onKeyDown={(e) => {
@@ -549,76 +395,64 @@ const Playground: React.FC = () => {
                 ×
               </button>
 
-              {/*
-              The prominent way through to the active component's reference. Sits
-              above the control tray and inside the sticky column, so it stays
-              reachable however far the stage scrolls. Uses the same global class as
-              the hero's "Get started".
-            */}
               <Link
                 className={`cta-solid ${styles.docsCta}`}
                 href={spec.docsHref}
                 key={spec.key}
               >
-                {spec.label} documentation
+                Templates documentation
                 <span className="cta-arrow" aria-hidden="true">
                   →
                 </span>
               </Link>
 
               <div className={styles.rail}>
-                {/* Primitives take IIIF property values, not a resource URL. */}
-                {spec.resourceProp && (
-                  <div className={styles.group}>
-                    <p className={styles.groupTitle}>Resource</p>
-                    <div className={styles.field}>
-                      <label className={styles.fieldLabel} htmlFor="pg-preset">
-                        IIIF Cookbook preset
-                      </label>
-                      <select
-                        className={styles.select}
-                        id="pg-preset"
-                        value={
-                          presets.some((p) => p.resource === resource)
-                            ? resource
-                            : ""
-                        }
-                        onChange={(e) => {
-                          setResource(e.target.value);
-                          syncUrl({ resource: e.target.value });
-                        }}
-                      >
-                        <option value="">Custom / demo resource</option>
-                        {presets.map((recipe) => (
-                          <option key={recipe.id} value={recipe.resource}>
-                            {recipe.title}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className={styles.field}>
-                      <label
-                        className={styles.fieldLabel}
-                        htmlFor="pg-resource"
-                      >
-                        {spec.resourceProp}
-                      </label>
-                      <input
-                        className={`${styles.input} ${styles.resourceInput}`}
-                        id="pg-resource"
-                        type="url"
-                        value={resource}
-                        onChange={(e) => setResource(e.target.value)}
-                        onBlur={() => syncUrl({})}
-                        spellCheck={false}
-                      />
-                    </div>
+                <div className={styles.group}>
+                  <p className={styles.groupTitle}>Resource</p>
+                  <div className={styles.field}>
+                    <label className={styles.fieldLabel} htmlFor="pg-preset">
+                      Preset
+                    </label>
+                    <select
+                      className={styles.select}
+                      id="pg-preset"
+                      value={
+                        presets.some((p) => p.resource === resource)
+                          ? resource
+                          : ""
+                      }
+                      onChange={(e) => {
+                        setResource(e.target.value);
+                        syncUrl({ resource: e.target.value });
+                      }}
+                    >
+                      <option value="">Your own resource</option>
+                      {presets.map((preset) => (
+                        <option key={preset.resource} value={preset.resource}>
+                          {preset.title}
+                        </option>
+                      ))}
+                    </select>
                   </div>
-                )}
+                  <div className={styles.field}>
+                    <label className={styles.fieldLabel} htmlFor="pg-resource">
+                      iiifContent
+                    </label>
+                    <input
+                      className={`${styles.input} ${styles.resourceInput}`}
+                      id="pg-resource"
+                      type="url"
+                      value={resource}
+                      onChange={(e) => setResource(e.target.value)}
+                      onBlur={() => syncUrl({})}
+                      spellCheck={false}
+                    />
+                  </div>
+                </div>
 
                 {spec.controls.length > 0 && (
                   <div className={styles.group}>
-                    <p className={styles.groupTitle}>Options</p>
+                    <p className={styles.groupTitle}>{spec.name}</p>
                     {spec.controls.map(renderControl)}
                   </div>
                 )}

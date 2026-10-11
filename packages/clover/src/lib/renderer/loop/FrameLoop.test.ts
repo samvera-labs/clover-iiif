@@ -64,6 +64,18 @@ describe("FrameLoop", () => {
     expect(dts[1]).toBe(0.1);
   });
 
+  it("draws at once in place of a frame already asked for", () => {
+    const frames = fakeRaf();
+    const tick = vi.fn(() => false);
+    const loop = new FrameLoop(tick, frames.raf, frames.caf);
+    loop.invalidate();
+    loop.drawNow();
+    expect(tick).toHaveBeenCalledTimes(1);
+    expect(frames.pending()).toBe(0);
+    frames.flush();
+    expect(tick).toHaveBeenCalledTimes(1);
+  });
+
   it("stops on dispose", () => {
     const frames = fakeRaf();
     const tick = vi.fn(() => true);

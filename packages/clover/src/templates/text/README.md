@@ -6,11 +6,12 @@ language. A search narrows the pages to those whose text matches; pressing an im
 it in a lightbox to pan and zoom.
 
 ```jsx
+import Viewer from "@nulib/clover";
 import { Text } from "@nulib/clover/templates";
 import "@nulib/clover/styles.css";
 import "@nulib/clover/templates.css";
 
-<Text iiifContent="https://example.org/manifest.json" />;
+<Viewer iiifContent="https://example.org/manifest.json" template={Text} />;
 ```
 
 | Prop     | Default | What it does                                       |

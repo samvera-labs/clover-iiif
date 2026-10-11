@@ -48,7 +48,13 @@ describe("Items in a Root", () => {
     const listbox = await screen.findByRole("listbox", { name: "Items" });
     const options = within(listbox).getAllByRole("option");
     expect(options).toHaveLength(3);
-    expect(options[1]).toHaveTextContent("Frontispiece – Title page");
+    // A spread is one item, a card per page, each page's own label under it.
+    const labels = within(options[1]).getAllByText(/Frontispiece|Title page/);
+    expect(labels.map((label) => label.textContent?.trim())).toEqual([
+      "Frontispiece",
+      "Title page",
+    ]);
+    expect(options[1]).toHaveTextContent("Frontispiece Title page");
     expect(options[0]).toHaveAttribute("aria-selected", "true");
     expect(options.map((option) => option.tabIndex)).toEqual([0, -1, -1]);
   });

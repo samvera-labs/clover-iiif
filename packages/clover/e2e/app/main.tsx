@@ -2,26 +2,32 @@
  * The end-to-end harness: one scene of @nulib/clover, chosen by the query string, over
  * the package's source.
  *
- *   ?scene=viewer|items|classic|document|composed   what to render (default viewer);
+ *   ?scene=viewer|items|document|gallery|composed   what to render (default viewer, in
+ *                                          its Default template; document and gallery
+ *                                          are the Viewer in those templates);
  *                                          `composed` publishes the viewport channel
  *                                          as `window.__viewport` for gesture tests
  *   &presentation=texture                  (composed) draw video into the canvas
  *   &content=<url or content state>        its iiifContent
  *   &css=0                                 leave the stylesheet out (the plain layout)
  *   &headers=1                             send `X-Clover: e2e` and credentials
+ *   &panel=tabs|accordion                  the information panel's sections as tabs or boxes
  *   &debug=1                               a fixed readout of the media element and the
  *                                          chrome, for devices with no console at hand
  */
 import React from "react";
 import { createRoot } from "react-dom/client";
 
-import * as Clover from "../../src/index";
+import Viewer, * as Clover from "../../src/index";
 import * as Templates from "../../src/templates/index";
 
 const params = new URLSearchParams(location.search);
 const scene = params.get("scene") ?? "viewer";
 const content =
   params.get("content") ?? "https://fixtures.test/0009-book-1.json";
+const panelLayout = (["tabs", "accordion"] as const).find(
+  (layout) => layout === params.get("panel"),
+);
 const request =
   params.get("headers") === "1"
     ? { headers: { "X-Clover": "e2e" }, credentials: "include" as const }
@@ -67,12 +73,31 @@ function Scene() {
           <ViewportProbe />
         </Clover.Root>
       );
-    case "classic":
-      return <Templates.Classic iiifContent={content} request={request} />;
+    case "gallery":
+      return (
+        <Viewer
+          iiifContent={content}
+          request={request}
+          template={Templates.Gallery}
+        />
+      );
     case "document":
-      return <Templates.Document iiifContent={content} request={request} />;
+      return (
+        <Viewer
+          iiifContent={content}
+          request={request}
+          template={Templates.Document}
+          panelLayout={panelLayout}
+        />
+      );
     default:
-      return <Clover.Viewer iiifContent={content} request={request} />;
+      return (
+        <Viewer
+          iiifContent={content}
+          request={request}
+          panelLayout={panelLayout}
+        />
+      );
   }
 }
 

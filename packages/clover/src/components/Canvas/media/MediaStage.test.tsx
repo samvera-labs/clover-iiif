@@ -404,6 +404,22 @@ describe("a lone media Canvas", () => {
     );
   });
 
+  it("keeps a host's own control (the panel's toggle), and only that, over a lone video", async () => {
+    render(
+      <Canvas canvases={video.items as any}>
+        <button type="button" data-button="panel">
+          More Information
+        </button>
+      </Canvas>,
+    );
+    await transport();
+    const cluster = screen.getByTestId("clover-canvas-controls");
+    expect(cluster).toContainElement(
+      screen.getByRole("button", { name: "More Information" }),
+    );
+    expect(screen.queryByRole("button", { name: "Zoom in" })).toBeNull();
+  });
+
   it("on iPhone, full screen hands the video to the system player", async () => {
     Object.defineProperty(document, "fullscreenEnabled", {
       configurable: true,

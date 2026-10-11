@@ -1,0 +1,66 @@
+/*
+ * Clover's scale (see DESIGN.md). Every space and every text size is a step of the golden
+ * ratio from the page's own 1rem: Clover sets no base size and no font family of its
+ * own, so it reads at whatever the app around it reads at.
+ *
+ * Space steps down by adjacency: the more closely two things belong together, the
+ * smaller the step between them. A container's inset is one step larger than the gap
+ * between the things it holds (a cluster sits `m` in from the stage edge; its buttons
+ * are `s` apart).
+ *
+ * Text steps by the square root of the ratio, a half step of the same scale, since a
+ * whole step (0.618rem) is too small to read.
+ */
+:root {
+  --clover-space-3xs: 0.146rem;
+  --clover-space-2xs: 0.236rem;
+  --clover-space-xs: 0.382rem;
+  --clover-space-s: 0.618rem;
+  --clover-space-m: 1rem;
+  --clover-space-l: 1.618rem;
+  --clover-space-xl: 2.618rem;
+  --clover-space-2xl: 4.236rem;
+  --clover-text-s: 0.786rem;
+  --clover-text-l: 1.272rem;
+  --clover-text-xl: 1.618rem;
+  /* A control: a 1rem icon with `s` around it. */
+  --clover-control: calc(1rem + 2 * var(--clover-space-s));
+}
+
+/*
+ * Controls take the page's type: browsers give buttons, fields and menus their own font
+ * otherwise. No specificity, so any part's own size wins.
+ */
+:where(.clover-root, .clover-canvas, .clover-items, .clover-geomap)
+  :where(button, input, select, textarea) {
+  font: inherit;
+}
+
+/*
+ * Fields: a search's query, a Collection's member menu, a filter over thumbnails, a
+ * transcript's track menu. `xs` by `s` inside, as a row of the panel is. No
+ * specificity, so a part refines its own field.
+ */
+:where(
+  .clover-content-search-query,
+  .clover-collection-select-control,
+  .clover-items-filter input,
+  .clover-transcript-track select
+) {
+  box-sizing: border-box;
+  padding: var(--clover-space-xs) var(--clover-space-s);
+  border: 1px solid var(--clover-color-primary-muted, #26292b);
+  border-radius: var(--clover-radius, 3px);
+  background-color: var(--clover-color-secondary, #fff);
+  color: var(--clover-color-primary, #1a1d1e);
+}
+
+:where(
+  .clover-content-search-query,
+  .clover-collection-select-control,
+  .clover-items-filter input,
+  .clover-transcript-track select
+):focus-visible {
+  outline: 2px solid var(--clover-color-accent, #0065c3);
+  outline-offset: 1px;
+}

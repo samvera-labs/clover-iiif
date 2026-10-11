@@ -155,3 +155,101 @@
   overflow-x: auto;
   padding: 0.625rem 0.875rem;
 }
+
+/* ── Compose your own ─────────────────────────────────────────────────────── */
+
+/* The code beside the live example; stacked when there is no room for both. */
+.compose {
+  align-items: start;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+}
+
+@media (max-width: 900px) {
+  .compose {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.composeCode {
+  background: var(--surface);
+  border-radius: var(--radius-4);
+  color: var(--gray-12);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  margin: 0;
+  overflow-x: auto;
+  padding: 1.25rem 1.5rem;
+}
+
+.composeStage {
+  min-width: 0;
+}
+
+/*
+ * The example's `.my-layout`: the stage beside its titles, the pager and the thumbnails
+ * under both, one column on a phone.
+ */
+.composed {
+  --clover-content-height: 22rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 14rem);
+}
+
+.composed > aside {
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+}
+
+.composed > aside h3 {
+  font-size: 1.125rem;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.composed > aside p {
+  color: var(--gray-11);
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.composed > :nth-child(n + 3) {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 640px) {
+  .composed {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Each major part in a line, as cards like the features'. */
+.parts {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+}
+
+.partName {
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  font-weight: var(--weight-bold);
+  margin: 0 0 0.5rem;
+}
+
+.partName a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.partName a:hover {
+  color: var(--accent-11);
+  text-decoration: underline;
+}

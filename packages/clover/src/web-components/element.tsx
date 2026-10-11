@@ -3,6 +3,7 @@ import { type Root as ReactRoot, createRoot } from "react-dom/client";
 
 import { Viewer } from "../components/Viewer/Viewer";
 import type { ViewerProps } from "../components/Viewer/Viewer";
+import { Default } from "../templates/default/Default";
 import { setMapWorkerUrl } from "../core/map-config";
 import type { IIIFContent } from "../core/load";
 
@@ -14,7 +15,7 @@ import type { IIIFContent } from "../core/load";
  *   <clover-viewer iiif-content="https://example.org/manifest.json"></clover-viewer>
  *
  * Attributes: `iiif-content`, `canvas-id` (the Canvas to open on), `manifest-id`,
- * `language`, `search-query`, and `items`, `panel`, `share`, `download` (`"false"` turns one
+ * `language`, `search-query`, and `items`, `panel`, `download` (`"false"` turns one
  * off; `items` also takes `carousel`, `list` or `grid`). The `iiifContent` property takes
  * an object too. Events: `canvaschange`, `manifestchange`, `contentstatechange`, each
  * with its value in `detail`.
@@ -36,7 +37,7 @@ const STRINGS = {
   language: "language",
   "search-query": "searchQuery",
 } as const;
-const SWITCHES = ["panel", "share", "download"] as const;
+const SWITCHES = ["panel", "download"] as const;
 
 const injected = new WeakMap<Document, Set<string>>();
 
@@ -131,6 +132,8 @@ export function defineCloverViewer(assets: ElementAssets): void {
       this.root.render(
         <Viewer
           {...(props as Partial<ViewerProps>)}
+          // Up front: the element is one build, and always draws Default.
+          template={Default}
           iiifContent={content}
           onCanvasChange={(canvasId) => this.emit("canvaschange", { canvasId })}
           onManifestChange={(manifestId) =>

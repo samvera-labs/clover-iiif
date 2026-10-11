@@ -33,9 +33,11 @@ test.describe("Viewer", () => {
     await page.goto("/?content=https://fixtures.test/0009-book-1.json");
     const toggle = page.locator('.clover-canvas [data-button="panel"]');
     await expect(toggle).toHaveAttribute("aria-expanded", "true");
-    const controls = page.locator(".clover-canvas > .clover-canvas-controls");
-    const opacity = () =>
-      controls.evaluate((el) => getComputedStyle(el).opacity);
+    // Each control fades on its own; the panel's toggle never does.
+    const zoom = page.locator(
+      '.clover-canvas-controls > [data-button="zoom-in"]',
+    );
+    const opacity = () => zoom.evaluate((el) => getComputedStyle(el).opacity);
 
     const stage = await page.locator(".clover-canvas").boundingBox();
     await page.mouse.move(
@@ -49,6 +51,9 @@ test.describe("Viewer", () => {
       stage!.y + stage!.height + 200,
     );
     await expect.poll(opacity, { timeout: 5000 }).toBe("0");
+    expect(await toggle.evaluate((el) => getComputedStyle(el).opacity)).toBe(
+      "1",
+    );
   });
 
   test("reads right to left: the pager's order follows the book", async ({
@@ -58,11 +63,12 @@ test.describe("Viewer", () => {
     await page.goto(
       "/?content=https://fixtures.test/0010-book-2-viewing-direction-rtl.json",
     );
-    const pager = page.locator(".clover-pager");
-    await expect(pager).toBeVisible();
-    const order = await pager
-      .locator("button")
-      .evaluateAll((buttons) => buttons.map((b) => b.textContent?.trim()));
+    const steps = page.locator(".clover-pager-previous, .clover-pager-next");
+    await expect(steps.first()).toBeVisible();
+    // In the markup, so in focus order too, not just on screen.
+    const order = await steps.evaluateAll((buttons) =>
+      buttons.map((b) => b.getAttribute("aria-label") ?? b.textContent?.trim()),
+    );
     expect(order[0]).toMatch(/Next/);
   });
 

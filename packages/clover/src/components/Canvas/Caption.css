@@ -3,31 +3,34 @@
  * slides out from under the control cluster, right-aligned with it, as the Choice and
  * annotations menus hang. Beneath the controls and the navigator in the stacking order,
  * so the cluster stays usable — the reader can zoom and pan while it is open. Clover's
- * surface and type colours, as the menus have.
+ * surface and type colours, as the menus have; the page's own text size.
  *
  * It is content, not chrome: it does not fade with the controls.
+ *
+ * On the scale: below the cluster by one control and `s`, `m` in from the edge, `m`
+ * inside. Within, a Canvas's label, summary and metadata are `s` apart; Canvases, `m`.
  */
 .clover-canvas-caption {
+  --top: calc(
+    var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
+  );
   position: absolute;
-  /* The cluster's top (1rem), one button (2rem), and the menus' gap (0.5rem). */
-  top: 3.5rem;
-  right: 1rem;
+  top: var(--top);
+  right: var(--clover-space-m);
   z-index: 1;
   box-sizing: border-box;
-  width: min(22rem, calc(100% - 2rem));
-  max-height: calc(100% - 4.5rem);
+  width: min(22rem, calc(100% - 2 * var(--clover-space-m)));
+  max-height: calc(100% - var(--top) - var(--clover-space-m));
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: 1rem;
+  padding: var(--clover-space-m);
   border-radius: var(--clover-radius, 6px);
   background: var(--clover-color-secondary, #fff);
   color: var(--clover-color-primary, #1a1d1e);
   box-shadow: 0 4px 16px #0001;
-  font-size: 0.9375rem;
-  line-height: 1.5;
   outline: none;
   /* Closed: tucked up under the cluster, and out of the tab order and accessibility tree. */
-  transform: translateY(-1rem);
+  transform: translateY(calc(-1 * var(--clover-space-m)));
   opacity: 0;
   visibility: hidden;
   transition:
@@ -53,7 +56,7 @@
 
 /* Clear of a video or sound's transport, which stays reachable below it. */
 .clover-canvas[data-media] > .clover-canvas-caption {
-  max-height: calc(100% - 9rem);
+  max-height: calc(100% - var(--top) - var(--clover-transport-room));
 }
 
 /*
@@ -62,20 +65,18 @@
  */
 @media (max-width: 575px) {
   .clover-canvas-caption {
-    top: 1rem;
-    right: 3.618rem;
+    --top: var(--clover-space-m);
+    right: calc(
+      var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
+    );
+    left: var(--clover-space-m);
     width: auto;
-    left: 1rem;
-    max-height: calc(100% - 2rem);
-  }
-
-  .clover-canvas[data-media] > .clover-canvas-caption {
-    max-height: calc(100% - 6.5rem);
   }
 
   .clover-canvas[data-fullscreen="true"] > .clover-canvas-caption {
-    top: 4.5rem;
-    max-height: calc(100% - 5.5rem);
+    --top: calc(
+      var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
+    );
   }
 }
 
@@ -98,53 +99,52 @@
 }
 
 /*
- * The close control: the cluster's round button, pinned in the box's top right, on a
- * muted disc since the box is the button's own colour. Scoped to the caption to outrank
- * the button's base rule, which loads later.
+ * The close control: the cluster's round button, floated into the box's top corner on a
+ * muted disc (the box is the button's own colour), the text `s` from it.
  */
 .clover-canvas-caption > button.clover-canvas-caption-close {
   float: right;
-  margin: -0.25rem -0.25rem 0.5rem 0.5rem;
+  margin: calc(-1 * var(--clover-space-2xs)) calc(-1 * var(--clover-space-2xs))
+    var(--clover-space-s) var(--clover-space-s);
   background-color: var(--clover-color-secondary-muted, #e6e8eb);
 }
 
-/* Accent on hover and focus, as every control button. */
-.clover-canvas-caption > button.clover-canvas-caption-close:is(:hover, :focus) {
+.clover-canvas-caption
+  > button.clover-canvas-caption-close:is(:hover, :focus-visible) {
   background-color: var(--clover-color-accent, #0065c3);
 }
 
 .clover-canvas-caption-canvas + .clover-canvas-caption-canvas {
-  margin-top: 1rem;
-  padding-top: 1rem;
+  margin-top: var(--clover-space-m);
+  padding-top: var(--clover-space-m);
   border-top: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
 }
 
-.clover-canvas-caption-label {
-  margin: 0 0 0.5rem;
+.clover-canvas-caption .clover-canvas-caption-label {
+  margin: 0 0 var(--clover-space-s);
+  font-size: inherit;
   font-weight: 600;
-  font-size: 1rem;
 }
 
-.clover-canvas-caption-summary {
-  margin: 0 0 0.75rem;
-}
-
-.clover-canvas-caption-metadata {
+.clover-canvas-caption :is(p, dl, dd) {
   margin: 0;
 }
 
-.clover-canvas-caption-metadata > div + div {
-  margin-top: 0.5rem;
+.clover-canvas-caption .clover-canvas-caption-summary {
+  margin-bottom: var(--clover-space-s);
 }
 
-.clover-canvas-caption-metadata dt {
-  font-size: 0.8125rem;
-  font-weight: 600;
+.clover-canvas-caption dl {
+  display: flex;
+  flex-direction: column;
+  gap: var(--clover-space-s);
+}
+
+.clover-canvas-caption dt {
+  margin-bottom: var(--clover-space-2xs);
   color: var(--clover-color-primary-muted, #26292b);
-}
-
-.clover-canvas-caption-metadata dd {
-  margin: 0;
+  font-size: var(--clover-text-s);
+  font-weight: 600;
 }
 
 .clover-canvas-caption a {

@@ -1,105 +1,56 @@
-import React, { forwardRef, useId, useState } from "react";
+import React, { Suspense, lazy } from "react";
 
-import { Content } from "../Content/Content";
-import { InformationPanel } from "../InformationPanel/InformationPanel";
-import { PanelToggle } from "../InformationPanel/PanelToggle";
-import { Items, type ItemsLayout } from "../Items/Items";
-import { CollectionSelect } from "../CollectionSelect/CollectionSelect";
-import { Label } from "../Label/Label";
-import { Pager } from "../Pager/Pager";
-import { Root, type RootProps } from "../Root/Root";
-import { Download } from "../Download/Download";
-import { Share } from "../Share/Share";
-import { Status } from "../Status/Status";
-import { join } from "../../lib/classnames";
-
-export type ViewerProps = Omit<RootProps, "children"> & {
-  /** The thumbnails below the pager: a layout, or `false` for none. Default `carousel`. */
-  items?: ItemsLayout | false;
-  /** The information panel beside the stage, with its toggle. Default `true`. */
-  panel?: boolean;
-  /** Whether the panel starts open. Default `true`. */
-  defaultPanelOpen?: boolean;
-  /** A Share button in the header, copying a link to where the reader is. Default `true`. */
-  share?: boolean;
-  /** A Download button, listing the Manifest's and the page's `rendering`. Default `true`. */
-  download?: boolean;
-};
+import type { Default } from "../../templates/default/Default";
 
 /**
- * A ready-made viewer, built only from the public parts, so a custom layout can start
- * from a copy of this file:
+ * A layout the Viewer draws: one from `@nulib/clover/templates`, or a component of your
+ * own that takes the `Clover.Root` props.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ViewerTemplate = React.ComponentType<any>;
+
+/**
+ * The Viewer's props are its template's: `Default`'s when there is none, and those of the
+ * one passed otherwise, so `template={Document}` brings `defaultSidebarOpen` with it.
+ */
+export type ViewerProps<T extends ViewerTemplate = typeof Default> = {
+  /** The layout. Default `Default`, Clover 3.x's Viewer, loaded when first needed. */
+  template?: T;
+} & React.ComponentProps<T>;
+
+/*
+ * Default, only when a Viewer is given no template. Imported statically, every page
+ * using the Viewer would carry Default and every part it uses, whatever template it
+ * passes, since a bundler cannot tell which it will be.
+ */
+const LazyDefault = lazy(() =>
+  import("../../templates/default/Default").then((module) => ({
+    default: module.Default,
+  })),
+);
+
+/**
+ * Clover's Viewer: a Manifest (or Collection, or content state) in a layout. The default
+ * export of `@nulib/clover`.
  *
  * ```jsx
- * const [open, setOpen] = useState(true);
+ * import Viewer from "@nulib/clover";
+ * import { Document } from "@nulib/clover/templates";
  *
- * <Clover.Root iiifContent={url} className="clover-layout">
- *   <header className="clover-layout-header">
- *     <Clover.Label as="h2" />
- *     <Clover.CollectionSelect />
- *     <Clover.Download />
- *     <Clover.Share />
- *   </header>
- *   <Clover.Status />
- *   <div className="clover-layout-body">
- *     <div className="clover-layout-main">
- *       <Clover.Content>
- *         <Clover.PanelToggle open={open} onOpenChange={setOpen} controls="panel" />
- *       </Clover.Content>
- *       <Clover.Pager />
- *       <Clover.Items />
- *     </div>
- *     <Clover.InformationPanel id="panel" hidden={!open} />
- *   </div>
- * </Clover.Root>
+ * <Viewer iiifContent={url} />
+ * <Viewer iiifContent={url} template={Document} />
  * ```
+ *
+ * The Viewer is a shell that holds no layout of its own, so a page ships only the
+ * template it passes. With none it loads `Default` on first render: one request more,
+ * and nothing drawn on the server. Pass `template={Default}` to have it up front.
  */
-export const Viewer = forwardRef<HTMLElement, ViewerProps>(function Viewer(
-  {
-    className,
-    items = "carousel",
-    panel = true,
-    defaultPanelOpen = true,
-    share = true,
-    download = true,
-    ...root
-  },
-  ref,
-) {
-  const [open, setOpen] = useState(defaultPanelOpen);
-  const panelId = `${useId().replace(/:/g, "")}-panel`;
-  return (
-    <Root ref={ref} className={join("clover-layout", className)} {...root}>
-      <header className="clover-layout-header">
-        <Label as="h2" className="clover-layout-title" />
-        <CollectionSelect className="clover-layout-collection" />
-        {download && <Download />}
-        {share && <Share />}
-      </header>
-      <Status />
-      <div className="clover-layout-body" data-panel-open={panel && open}>
-        <div className="clover-layout-main">
-          <Content>
-            {panel && (
-              <PanelToggle
-                open={open}
-                onOpenChange={setOpen}
-                controls={panelId}
-              />
-            )}
-          </Content>
-          <Pager />
-          {items && <Items layout={items} />}
-        </div>
-        {panel && (
-          <InformationPanel
-            id={panelId}
-            className="clover-layout-panel"
-            hidden={!open}
-            onClose={() => setOpen(false)}
-          />
-        )}
-      </div>
-    </Root>
-  );
-});
+export function Viewer<T extends ViewerTemplate = typeof Default>({
+  template,
+  ...props
+}: ViewerProps<T>) {
+  const Template: ViewerTemplate = template ?? LazyDefault;
+  const drawn = <Template {...props} />;
+  // Nothing shows while Default's code loads.
+  return template ? drawn : <Suspense fallback={null}>{drawn}</Suspense>;
+}

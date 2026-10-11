@@ -1,7 +1,10 @@
 # Document
 
 Reads like a PDF viewer: a toolbar across the top, page thumbnails down the left, and one
-whole page at a time on a grey ground. You never see part of the next page. Scrolling
+whole page at a time on a grey ground. The bar between the thumbnails and the page widens
+or narrows them (8rem to 24rem; drag it, or use the arrow keys on it), and the width is
+remembered. A document of one page has no thumbnails, bar or toggle for them: the page
+takes the whole width. You never see part of the next page. Scrolling
 turns the page, one gesture to one page however long a trackpad's momentum runs, and
 PageUp and PageDown do the same. At the first or last page the wheel scrolls the
 document on past the viewer. The information panel slides out over the right of the
@@ -9,19 +12,22 @@ page from the panel toggle and takes focus; its close button or Escape puts it a
 hands focus back to the toggle.
 
 ```jsx
+import Viewer from "@nulib/clover";
 import { Document } from "@nulib/clover/templates";
 import "@nulib/clover/styles.css";
 import "@nulib/clover/templates.css";
 
-<Document iiifContent="https://example.org/manifest.json" />;
+<Viewer iiifContent="https://example.org/manifest.json" template={Document} />;
 ```
 
-| Prop                 | Default             | What it does                                                    |
-| -------------------- | ------------------- | --------------------------------------------------------------- |
-| `defaultSidebarOpen` | open on wide screen | Whether the page thumbnails start shown.                        |
-| `defaultPanelOpen`   | `false`             | Whether the information panel starts open.                      |
-| `share`              | `true`              | A Share button in the toolbar.                                  |
-| …                    |                     | Every `Clover.Root` prop: `request`, `canvasId`, `annotations`… |
+| Prop                 | Default                      | What it does                                                    |
+| -------------------- | ---------------------------- | --------------------------------------------------------------- |
+| `defaultSidebarOpen` | open on wide screen          | Whether the page thumbnails start shown.                        |
+| `defaultPanelOpen`   | `false`                      | Whether the information panel starts open.                      |
+| `panelLayout`        | `"tabs"`                     | The panel's sections as tabs, or `"accordion"`: stacked boxes.  |
+| `download`           | `true`                       | A Download button, when the Manifest or page has a `rendering`. |
+| `storageKey`         | `"clover-template-document"` | Where the thumbnails' width is remembered; `false` forgets it.  |
+| …                    |                              | Every `Clover.Root` prop: `request`, `canvasId`, `annotations`… |
 
 Size it with `--clover-template-document-height` (default `min(85vh, 56rem)`). Below
 40rem the thumbnails cover the page while open, and choosing one puts them away.
