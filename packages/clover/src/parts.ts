@@ -102,6 +102,9 @@ export {
 } from "./react/hooks";
 /** Inline styles that hide text from sight but not from assistive technology. */
 export { visuallyHidden } from "./ui/visuallyHidden";
+/** The popover Clover's own controls show: a name, and a key when there is one. */
+export { Tip } from "./ui/Tip";
+export type { Shortcut } from "./ui/Tip";
 export type { Navigation } from "./react/hooks";
 export { useClover, useCloverSelector } from "./react/context";
 

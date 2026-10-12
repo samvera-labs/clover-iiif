@@ -1,274 +1,415 @@
 /*
- * The playground is a section of the homepage, not a page. It owns no background
- * or page padding — the homepage supplies both — and `scroll-margin-top` keeps the
- * heading clear of Nextra's sticky navbar when linked to via `#playground`.
+ * The playground is a section of the homepage, not a page. It owns no background or
+ * page padding — the homepage supplies both — and `scroll-margin-top` keeps the bar clear
+ * of Nextra's sticky navbar when linked to via `#playground`.
+ *
+ * Wider than the reading sections below it (1300px), but held off the edges of a wide
+ * screen, with room round it for the stage's shadow.
  */
 .section {
   color: var(--gray-12);
+  margin: 0 auto;
+  max-width: 92rem;
   scroll-margin-top: 5rem;
   /*
-   * One gutter around the live stage, applied on all four sides: below the cards, above
-   * the generated code, and between the stage and the control tray. Because the
-   * stage has no panel of its own, this whitespace is the only thing framing it — so
-   * it is deliberately generous, and a single token keeps the four sides equal.
+   * The stage's one height, for every template and resource, so switching either never
+   * moves the page. Scrolled to, the bar and the stage fill the screen under the navbar;
+   * templates taller than it (a Gallery, a Text) scroll inside.
    */
-  --stage-gutter: 3rem;
+  --pg-stage-height: clamp(36rem, calc(100vh - 11rem), 48rem);
 }
 
-.shell {
-  width: 100%;
-}
+/* ── The bar: the resources, then the layout ─────────────────────────────── */
 
-/* ── Component switcher: radio cards ─────────────────────────────────────── */
-
-/* The component switcher and the Configure button share one centered row. */
-.toolbar {
+/*
+ * The resources centred over the stage, unlabelled (the group's name is for assistive
+ * technology). The layout sits at the end: beside the tiles where the page is wide enough
+ * for both without pulling them off centre, otherwise on a line above them, and under
+ * them on a narrow page, where the tiles scroll within their row.
+ */
+.bar {
   align-items: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem 1rem;
-  justify-content: center;
-  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  margin-bottom: 1.25rem;
+  row-gap: 0.625rem;
 }
 
-/* A fieldset for the grouping semantics, reset to a single wrapping row of tabs. */
-.cards {
-  border: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  justify-content: center;
-  margin: 0;
-  min-width: 0;
-  padding: 0;
+.bar > .resourceRow {
+  grid-area: 2 / 1;
+  justify-self: center;
+  max-width: 100%;
 }
 
-/* Names the group for assistive technology without occupying space. */
-.cardsLegend {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
+.bar > .layoutPicker {
+  grid-area: 1 / 1;
+  justify-self: end;
 }
 
-.card {
-  background: var(--surface);
-  border-radius: var(--radius-4);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  padding: 0.5rem 1rem;
-  position: relative;
-  transition:
-    box-shadow 120ms ease,
-    background-color 120ms ease,
-    color 120ms ease;
+@media (min-width: 1540px) {
+  .bar > .resourceRow {
+    grid-row: 1;
+  }
 }
 
-.card:hover {
-  background: var(--surface-sunken);
+@media (max-width: 900px) {
+  .bar > .layoutPicker {
+    grid-area: 3 / 1;
+    justify-self: center;
+  }
+}
+
+/* The template's label, over its button, in the page's own type. */
+.inlineLabel {
+  color: var(--gray-11);
+  font-size: var(--clover-text-s, 0.854rem);
+  line-height: 1.2;
 }
 
 /*
- * Selection is a solid accent fill. Nothing is outlined and nothing changes size, so the
- * row never reflows as you click through it, and the active card is unmistakable at a
- * glance rather than distinguished by a line.
+ * Spaces on Clover's own golden-ratio scale (`--clover-space-*`, see the package's
+ * DESIGN.md), so the pickers step as the Viewer under them does: tiles `s` apart, each
+ * `xs` inside, its picture `2xs` over its name.
  */
-.card[data-selected="true"] {
-  background: var(--accent-9);
-  color: var(--accent-contrast);
+.tiles {
+  display: flex;
+  gap: var(--clover-space-s, 0.618rem);
 }
 
-/* The input is the accessible control; the card is its label. Kept focusable and
- * positioned so the focus ring lands on the card. */
-.cardInput {
-  appearance: none;
-  inset: 0;
-  margin: 0;
-  position: absolute;
-  opacity: 0;
+/* ── The template: a dropdown of the four, by name ──────────────────────── */
+
+.layoutPicker {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--clover-space-2xs, 0.236rem);
+  position: relative;
 }
 
-.card:has(.cardInput:focus-visible) {
+/*
+ * The layout on the stage and a chevron that turns while open. No fill, as the tiles have
+ * none: a hairline edge, tinted with the accent under the pointer and while open.
+ */
+.layoutTrigger {
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--gray-6);
+  border-radius: var(--radius-3);
+  color: var(--gray-12);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: var(--text-sm);
+  gap: var(--clover-space-xs, 0.382rem);
+  height: 2.5rem;
+  justify-content: space-between;
+  /* Wide enough for the longest name, so it holds still as the layout changes. */
+  min-width: 8.5rem;
+  padding: 0 var(--clover-space-s, 0.618rem) 0 var(--clover-space-m, 1rem);
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease;
+}
+
+.layoutTrigger:hover,
+.layoutTrigger[aria-expanded="true"] {
+  background: color-mix(in srgb, var(--accent-9) 10%, transparent);
+  border-color: color-mix(in srgb, var(--accent-9) 40%, transparent);
+}
+
+.layoutTrigger:focus-visible {
   box-shadow: var(--focus-ring);
   outline: none;
 }
 
-.cardLabel {
-  color: inherit;
-  font-size: var(--text-md);
-  line-height: 1.3;
-}
-
-.card[data-selected="true"] .cardLabel {
-  font-weight: var(--weight-bold);
-}
-
-/* ── Layout: stage beside control rail ────────────────────────────────────── */
-
-.layout {
-  display: block;
-}
-
-/*
- * The stage is deliberately unstyled and unconstrained: no panel, no border, no height.
- * Each template sizes itself from its own custom properties and sits directly on the
- * page.
- */
-.stage {
-  position: relative;
-}
-
-/* The chosen template in a line, under the tabs. */
-.blurb {
+.chevron {
   color: var(--gray-11);
-  font-size: var(--text-sm);
-  margin: -1rem 0 2rem;
-  text-align: center;
+  flex: none;
+  transition: rotate 160ms ease;
 }
 
-/*
- * The options drawer. Fixed to the right edge beneath Nextra's navbar and non-modal, so
- * the stage stays live behind it. Holds the documentation button and the control tray;
- * the tray scrolls internally when the controls outrun the viewport.
- */
-.aside {
+.layoutTrigger[aria-expanded="true"] .chevron {
+  rotate: 180deg;
+}
+
+/* The four, listed under the button and flush with its end. */
+.layoutMenu {
   background: var(--color-background);
+  border-radius: var(--radius-4);
   box-shadow:
     0 0 0 1px var(--gray-6),
     0 12px 40px rgb(0 0 0 / 0.18);
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  inset: 4rem 0 0 auto;
-  padding: 3rem 1rem 1rem;
-  position: fixed;
-  width: min(22rem, 100vw);
-  z-index: 40;
+  gap: var(--clover-space-2xs, 0.236rem);
+  min-width: 100%;
+  padding: var(--clover-space-xs, 0.382rem);
+  position: absolute;
+  right: 0;
+  top: calc(100% + var(--clover-space-xs, 0.382rem));
+  z-index: 30;
 }
 
-.configClose {
-  background: none;
-  border: 0;
-  border-radius: var(--radius-3);
+/* A row per layout: the current one filled with the accent, as the chosen tile is. */
+.layoutOption {
+  border-radius: var(--radius-2);
   color: var(--gray-12);
   cursor: pointer;
-  font-size: 1.5rem;
-  line-height: 1;
-  padding: 0.25rem 0.625rem;
+  font-size: var(--text-sm);
+  padding: var(--clover-space-xs, 0.382rem) var(--clover-space-m, 1rem);
+  position: relative;
+  white-space: nowrap;
+}
+
+.layoutOption:hover {
+  background: color-mix(in srgb, var(--accent-9) 10%, transparent);
+}
+
+.layoutOption[data-selected="true"] {
+  background: var(--accent-9);
+  color: var(--accent-contrast);
+  font-weight: var(--weight-bold);
+}
+
+.layoutOption:has(.tileInput:focus-visible) {
+  box-shadow: var(--focus-ring);
+}
+
+.resourceRow {
+  display: flex;
+  gap: var(--clover-space-s, 0.618rem);
+  min-width: 0;
+}
+
+/*
+ * The resources scroll sideways when the page is narrow. The padding (taken back by the
+ * margin) keeps a focused tile's ring inside the scroll box, which would clip it.
+ */
+.track {
+  margin: -0.25rem;
+  min-width: 0;
+  overflow-x: auto;
+  padding: 0.25rem;
+  scroll-padding-inline: 0.25rem;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+/*
+ * One tile for a resource and for "Your own": a picture over a name, every picture in
+ * the same box.
+ */
+/* No fill at rest: the pictures sit on the page, and only the chosen tile is filled. */
+.tile {
+  align-items: stretch;
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-3);
+  color: var(--gray-11);
+  cursor: pointer;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  font: inherit;
+  gap: var(--clover-space-2xs, 0.236rem);
+  padding: var(--clover-space-xs, 0.382rem);
+  position: relative;
+  scroll-snap-align: start;
+  transition:
+    background-color 120ms ease,
+    box-shadow 120ms ease,
+    color 120ms ease;
+  width: 5.5rem;
+}
+
+.tile:hover {
+  background: color-mix(in srgb, var(--accent-9) 10%, transparent);
+  color: var(--gray-12);
+}
+
+/*
+ * Selection is a solid accent fill. Nothing is outlined and nothing changes size, so the
+ * row never reflows as you click through it, and the chosen tile in each group is
+ * unmistakable at a glance.
+ */
+.tile[data-selected="true"] {
+  background: var(--accent-9);
+  color: var(--accent-contrast);
+}
+
+/* The input is the accessible control; the tile is its label. Kept focusable and
+ * positioned so the focus ring lands on the tile. */
+.tileInput {
+  appearance: none;
+  cursor: pointer;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
   position: absolute;
-  right: 0.75rem;
-  top: 0.75rem;
 }
 
-.configClose:hover {
-  background: var(--surface);
-}
-
-.configClose:focus-visible,
-.configTrigger:focus-visible {
+.tile:has(.tileInput:focus-visible),
+button.tile:focus-visible {
   box-shadow: var(--focus-ring);
   outline: none;
 }
 
-/*
- * Dressed as one of the viewer's own controls — the OpenSeadragon buttons in
- * `Image/Controls/Button.css` — so the playground reads as part of the thing it
- * configures: the secondary surface with the primary glyph at rest, filled with the accent
- * and flipped to the secondary glyph on hover, focus, and while the drawer is open. The
- * tabs beside it are a choice among peers and take the accent when selected; this opens a
- * tool, so it stays quiet until touched.
- */
-button.configTrigger {
+.media {
   align-items: center;
-  background: var(--clover-color-secondary);
-  border: 0;
-  border-radius: var(--clover-radius-pill, 2rem);
-  color: var(--clover-color-primary);
-  cursor: pointer;
-  display: inline-flex;
-  font: inherit;
-  font-size: var(--text-sm);
-  gap: 0.375rem;
-  height: 2rem;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-2);
+  display: flex;
   justify-content: center;
-  margin-left: 0.5rem;
-  /* A pill around the icon and its label, the same height as the viewer's round controls. */
-  padding: 0 0.75rem 0 0.5rem;
-  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
+  overflow: hidden;
 }
 
-.configTrigger svg {
+.media svg {
+  display: block;
+  height: auto;
+  max-width: 100%;
+}
+
+.thumb {
+  background: var(--surface-raised);
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.tileName {
+  font-size: var(--clover-text-s, 0.854rem);
+  line-height: 1.2;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tile[data-selected="true"] .tileName {
+  font-weight: var(--weight-bold);
+}
+
+/* "Your own" holds its popover, so it sits outside the scrolling track. */
+.own {
   flex: none;
-  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
+  position: relative;
 }
 
-.configLabel {
-  line-height: 1;
+/* With no picture of its own, "Your own" is drawn as an empty slot. */
+.own .media {
+  border: 1px dashed color-mix(in srgb, currentColor 45%, transparent);
+  box-sizing: border-box;
 }
 
-button.configTrigger:hover,
-button.configTrigger:focus-visible,
-button.configTrigger[aria-expanded="true"] {
-  background: var(--clover-color-accent);
-  color: var(--clover-color-secondary);
-}
-
-.configTrigger:hover svg,
-.configTrigger:focus-visible svg,
-.configTrigger[aria-expanded="true"] svg {
-  rotate: 45deg;
-}
-
-/* Full width of the column, and centred, so it reads as a primary action rather
- * than an inline link that happens to be button-shaped. */
-.docsCta {
-  justify-content: center;
-}
-
-/* One solid panel holding every control group. */
-.rail {
-  background: var(--surface);
+.ownForm {
+  background: var(--color-background);
   border-radius: var(--radius-4);
-  /* Absorbs the overflow when the controls are taller than the capped column, so
-   * the documentation button above it is never pushed out of view. */
-  min-height: 0;
-  overflow-y: auto;
+  box-shadow:
+    0 0 0 1px var(--gray-6),
+    0 12px 40px rgb(0 0 0 / 0.18);
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 0.875rem;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 0.5rem);
+  width: min(26rem, calc(100vw - 2rem));
+  z-index: 30;
+}
+
+.ownRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ownRow .input {
+  flex: 1;
+  min-width: 0;
+}
+
+.error {
+  color: var(--red-11, #ce2c31);
+  font-size: var(--text-label);
+  margin: 0;
+}
+
+/* ── The stage ──────────────────────────────────────────────────────────── */
+
+/*
+ * A frame of one height, the edge of the box an implementer would give Clover. Each
+ * template is fitted to it: Default and Document fill it, and Gallery and Text scroll
+ * within it (Text's header sticks to its top).
+ */
+.stage {
+  background: var(--color-background);
+  border-radius: var(--radius-4);
+  /*
+   * A hairline edge, then a broad soft shadow lifting the frame off the page, warmed with
+   * a little of the accent so it reads as a glow rather than a smudge.
+   */
+  box-shadow:
+    0 0 0 1px var(--gray-6),
+    0 2px 6px rgb(0 0 0 / 0.04),
+    0 24px 48px -12px rgb(0 0 0 / 0.14),
+    0 40px 120px -24px color-mix(in srgb, var(--accent-9) 30%, transparent);
+  height: var(--pg-stage-height);
+  overflow: auto;
+  position: relative;
+}
+
+/* On a dark page a shadow disappears, so the glow carries the lift. */
+:global(.dark) .stage {
+  box-shadow:
+    0 0 0 1px var(--gray-6),
+    0 24px 48px -12px rgb(0 0 0 / 0.5),
+    0 40px 120px -20px color-mix(in srgb, var(--accent-9) 45%, transparent);
 }
 
 /*
- * Groups are sections within the one rail panel. Space and the mono heading separate
- * them; there is no rule drawn between.
+ * Default fills the frame to its foot, with nothing under it: the picture takes the
+ * height its header and thumbnail strip leave (all of it, for a resource of one view,
+ * which has no strip).
  */
-.group {
-  padding: 1rem 1.125rem;
+.stage :global(.clover-template-default) {
+  --clover-content-height: auto;
+  height: 100%;
 }
 
-.group + .group {
-  padding-top: 0;
+.stage :global(.clover-template-default-body) {
+  flex: 1;
+  min-height: 0;
 }
 
-.groupTitle {
-  color: var(--gray-11);
-  font-family: var(--font-mono);
-  font-size: var(--text-label);
-  letter-spacing: 0.08em;
-  margin: 0 0 0.75rem;
-  text-transform: uppercase;
+.stage :global(.clover-template-default-stage) {
+  flex: 1 1 0;
+  min-height: 0;
 }
 
-/* ── Controls ─────────────────────────────────────────────────────────────── */
-
-.field {
-  margin-bottom: 0.75rem;
+.stage :global(.clover-template-document) {
+  --clover-template-document-height: 100%;
+  border: 0;
+  border-radius: 0;
 }
 
-.field:last-child {
-  margin-bottom: 0;
+.stage :global(.clover-template-gallery),
+.stage :global(.clover-template-text) {
+  padding: 0 1.5rem 1.5rem;
 }
+
+.stage :global(.clover-template-gallery) {
+  padding-top: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .stage :global(.clover-template-gallery),
+  .stage :global(.clover-template-text) {
+    padding-inline: 1rem;
+  }
+}
+
+/* ── "Your own": its field ──────────────────────────────────────────────── */
 
 .fieldLabel {
   color: var(--gray-12);
@@ -278,127 +419,19 @@ button.configTrigger[aria-expanded="true"] {
   margin-bottom: 0.3125rem;
 }
 
-.hint {
-  color: var(--gray-11);
-  display: block;
-  font-size: var(--text-label);
-  font-weight: var(--weight-regular);
-  line-height: 1.4;
-  margin-top: 0.125rem;
-}
-
-.toggleRow {
-  align-items: flex-start;
-  cursor: pointer;
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 0.625rem;
-}
-
-.toggleRow:last-child {
-  margin-bottom: 0;
-}
-
-.toggleRow input {
-  accent-color: var(--accent-9);
-  flex-shrink: 0;
-  height: 1rem;
-  margin-top: 0.125rem;
-  width: 1rem;
-}
-
-.toggleRow input:focus-visible {
-  box-shadow: var(--focus-ring);
-  outline: none;
-}
-
-.toggleText {
-  min-width: 0;
-}
-
-.input,
-.select {
-  background: var(--surface-raised);
+.input {
+  background: var(--surface);
   border: 0;
   border-radius: var(--radius-3);
   color: var(--gray-12);
   font: inherit;
-  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
   padding: 0.5rem 0.625rem;
   width: 100%;
 }
 
-.input:focus,
-.select:focus {
+.input:focus {
   box-shadow: var(--focus-ring);
   outline: none;
-}
-
-.resourceInput {
-  font-family: var(--font-mono);
-  font-size: var(--text-label);
-}
-
-/* ── Generated code ───────────────────────────────────────────────────────── */
-
-/*
- * The label row stays open on the page; the code itself gets a recessed surface so
- * it reads as a distinct block against the background instead of floating as loose
- * monospace text.
- */
-.codePanel {
-  margin-top: var(--stage-gutter);
-}
-
-.codeHead {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  padding: 0 0 0.5rem;
-}
-
-.codeTitle {
-  color: var(--gray-11);
-  font-family: var(--font-mono);
-  font-size: var(--text-label);
-  letter-spacing: 0.08em;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-.copyButton {
-  background: var(--surface);
-  border: 0;
-  border-radius: var(--radius-2);
-  color: var(--gray-12);
-  cursor: pointer;
-  font: inherit;
-  font-size: var(--text-label);
-  padding: 0.375rem 0.75rem;
-}
-
-.copyButton:hover {
-  background: var(--surface-sunken);
-}
-
-.copyButton:focus-visible {
-  box-shadow: var(--focus-ring);
-  outline: none;
-}
-
-.code {
-  /* A solid step away from the page in both themes, so the block reads as code with
-   * nothing drawn around it. */
-  background: var(--surface);
-  border-radius: var(--radius-3);
-  color: var(--gray-12);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  line-height: 1.6;
-  margin: 0;
-  /* Wide snippets scroll inside the block; the page never scrolls sideways. */
-  overflow-x: auto;
-  padding: 1rem 1.125rem;
-  tab-size: 2;
-  white-space: pre;
 }

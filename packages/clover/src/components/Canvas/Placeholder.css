@@ -2,12 +2,14 @@
  * A Canvas's placeholder: a still image fitted to the stage and centred, over a viewport
  * that waits, empty and hidden, until the reader opens the Canvas.
  *
- * The frame is sized from the stage (a size container) and the stills' combined aspect
- * (`--ratio`), so a spread of several stills is fitted as one picture, edge to edge.
+ * The frame is sized from the stage (a size container, inside the Canvas's inset as the
+ * renderer's home view is) and the stills' combined aspect (`--ratio`), so a spread of
+ * several stills is fitted as one picture, edge to edge.
  */
 .clover-canvas-placeholder {
   position: absolute;
   inset: 0;
+  padding: var(--clover-canvas-inset);
   z-index: 1;
   display: flex;
   align-items: center;
@@ -90,27 +92,13 @@ button.clover-canvas-placeholder-toggle {
   cursor: pointer;
 }
 
-.clover-canvas[data-placeholder="false"] > .clover-canvas-placeholder-toggle {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.clover-canvas:is(
-    [data-chrome="visible"],
-    :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
-  )[data-placeholder="false"]
-  > .clover-canvas-placeholder-toggle {
-  opacity: 1;
-  pointer-events: auto;
-}
-
 /*
  * Over the placeholder the cluster holds only the information control, which stays to
  * hand beside the toggle rather than fading.
  */
 .clover-canvas[data-placeholder="true"] > .clover-canvas-controls > * {
-  opacity: 1;
-  pointer-events: auto;
+  --clover-chrome-shown: 1;
+  --clover-chrome-events: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {

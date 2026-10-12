@@ -155,6 +155,23 @@ describe("CanvasRenderer", () => {
     renderer.dispose();
   });
 
+  it("keeps its host's padding clear at home, as the placeholder does", async () => {
+    mockedLoad.mockResolvedValue(bitmap(1000, 500));
+    const el = host();
+    // Uneven, to show the picture centres in what is left, not in the stage.
+    el.style.padding = "16px 16px 16px 48px";
+    const renderer = new CanvasRenderer(el, { animationTime: 0 });
+    await renderer.setImages([{ id: "a", url: "a.jpg" }]);
+
+    // 736 × 568 left of 800 × 600: the width fits, centred between 48 and 784.
+    const topLeft = renderer.worldToScreenPoint({ x: 0, y: 0 });
+    const bottomRight = renderer.worldToScreenPoint({ x: 1000, y: 500 });
+    expect(topLeft.x).toBeCloseTo(48, 6);
+    expect(bottomRight.x).toBeCloseTo(784, 6);
+    expect((topLeft.y + bottomRight.y) / 2).toBeCloseTo(300, 6);
+    renderer.dispose();
+  });
+
   it("keeps zoom within its limits", async () => {
     mockedLoad.mockResolvedValue(bitmap(1000, 1000));
     const renderer = new CanvasRenderer(host(), { animationTime: 0 });

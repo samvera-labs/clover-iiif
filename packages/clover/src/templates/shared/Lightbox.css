@@ -17,8 +17,8 @@
 .clover-template-lightbox-body {
   display: flex;
   flex-direction: column;
-  gap: var(--clover-space-s);
-  padding: var(--clover-space-m);
+  gap: var(--clover-space-m);
+  padding: var(--clover-inset);
   --clover-content-height: min(70vh, 48rem);
 }
 

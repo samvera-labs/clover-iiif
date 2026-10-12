@@ -30,9 +30,30 @@ interface ViewerDemoProps {
   /** Text above the field, for saying what the demo is. */
   intro?: React.ReactNode;
   children?: React.ReactNode;
+  /** Draws a resource in the panel. Default: the 3.x Viewer. */
+  renderViewer?: (resource: string) => React.ReactNode;
+  /** Loads that Viewer ahead of a click. Default: the 3.x Viewer's. */
+  preload?: () => void;
+  /** The featured items between the field and `children`. Default `true`. */
+  featured?: boolean;
+  /**
+   * The recipes, after `children`. Default: the coverage table, with each recipe's 3.x
+   * status. Given `onView` and `onPreload`, which open a resource and load ahead.
+   */
+  renderRecipes?: (
+    onView: (resource: string) => void,
+    onPreload: () => void,
+  ) => React.ReactNode;
 }
 
-const ViewerDemo: React.FC<ViewerDemoProps> = ({ intro, children }) => {
+const ViewerDemo: React.FC<ViewerDemoProps> = ({
+  intro,
+  children,
+  renderViewer,
+  preload = preloadViewer,
+  featured = true,
+  renderRecipes,
+}) => {
   const router = useRouter();
   const resource = validIiifContent(router.query[IIIF_CONTENT_PARAM]);
   const open = resource !== undefined;
@@ -50,7 +71,7 @@ const ViewerDemo: React.FC<ViewerDemoProps> = ({ intro, children }) => {
       <div
         {...inertWhen(open)}
         aria-hidden={open || undefined}
-        onFocus={preloadViewer}
+        onFocus={preload}
       >
         {intro && <p className={styles.intro}>{intro}</p>}
         <CustomManifest
@@ -58,11 +79,19 @@ const ViewerDemo: React.FC<ViewerDemoProps> = ({ intro, children }) => {
           submitLabel="Enter"
           validate={iiifContentError}
         />
-        <FeaturedGrid onView={view} onPreload={preloadViewer} />
+        {featured && <FeaturedGrid onView={view} onPreload={preload} />}
         {children}
-        <CookbookCoverageTable onView={view} onPreload={preloadViewer} />
+        {renderRecipes ? (
+          renderRecipes(view, preload)
+        ) : (
+          <CookbookCoverageTable onView={view} onPreload={preload} />
+        )}
       </div>
-      <CookbookViewerPanel resource={resource} onBack={back} />
+      <CookbookViewerPanel
+        resource={resource}
+        onBack={back}
+        renderViewer={renderViewer}
+      />
     </>
   );
 };

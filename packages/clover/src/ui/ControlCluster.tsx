@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import Button from "./Button";
+import { type Shortcut, Tip } from "./Tip";
 import { ControlIcon } from "./controlGlyphs";
 import type { ControlButtons } from "./controlButtons";
 import useWithinFullscreen from "../hooks/useWithinFullscreen";
@@ -15,6 +16,8 @@ export interface ControlSpec {
   /** For a control that opens a menu: whether it is open, and the menu's id. */
   expanded?: boolean;
   controls?: string;
+  /** The key the Canvas answers to for it, shown in its popover. */
+  shortcut?: Shortcut;
 }
 
 export interface ControlClusterProps {
@@ -63,6 +66,7 @@ const ControlCluster: React.FC<ControlClusterProps> = ({
     onClick,
     expanded,
     controls,
+    shortcut,
   }: ControlSpec) {
     const Custom = controlButtons?.[key];
     if (Custom)
@@ -73,6 +77,7 @@ const ControlCluster: React.FC<ControlClusterProps> = ({
             id,
             type: "button",
             "aria-label": label,
+            ...(shortcut && { "aria-keyshortcuts": shortcut.keys }),
             onClick,
             ...(expanded !== undefined && {
               "aria-expanded": expanded,
@@ -81,6 +86,7 @@ const ControlCluster: React.FC<ControlClusterProps> = ({
           }}
           icon={<ControlIcon label={label}>{glyph}</ControlIcon>}
           label={label}
+          tip={<Tip label={label} shortcut={shortcut} />}
         />
       );
     return (
@@ -91,6 +97,7 @@ const ControlCluster: React.FC<ControlClusterProps> = ({
         onClick={onClick}
         expanded={expanded}
         controls={controls}
+        shortcut={shortcut}
       >
         {glyph}
       </Button>

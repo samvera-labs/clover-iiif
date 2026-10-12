@@ -12,7 +12,7 @@ export interface DownloadProps
   children?: React.ReactNode;
 }
 
-interface Rendering {
+export interface Rendering {
   id: string;
   label: string;
   lang?: string;
@@ -47,52 +47,50 @@ function renderingsOf(
   return out;
 }
 
-/** About as wide as the panel opens (its `min-width`, 14rem, with a margin). */
-const PANEL_WIDTH = 256;
-
 /**
- * Downloads, as 3.x's Viewer offers them: the `rendering` of the Canvases in view ("This
- * page") and of the Manifest ("All pages") — a PDF, a text, a high-resolution file —
- * behind one button, each a link. Escape or a press outside closes it. Renders nothing
- * when there is nothing to download.
+ * What there is to download: the `rendering` of the Canvases in view (`page`) and of the
+ * Manifest (`all`), each once, labelled in the reader's language.
  */
-export function Download({ className, children, ...rest }: DownloadProps) {
-  const { t } = useCloverTranslation();
+export function useDownloads() {
   const { language } = useClover("Download");
   const manifest = useCloverSelector((state) => state.manifest);
   const shown = useCloverSelector((state) =>
     selectVisibleCanvases(state.manifest, state.canvasId),
   );
-  const page = renderingsOf(shown as never, language);
-  const all = renderingsOf([manifest as never], language);
-  const [open, setOpen] = useState(false);
-  // Which way the panel opens: towards the side with room, measured as it opens.
-  const [align, setAlign] = useState<"start" | "end">("end");
+  return {
+    page: renderingsOf(shown as never, language),
+    all: renderingsOf([manifest as never], language),
+  };
+}
+
+export interface DownloadGroupsProps {
+  page: Rendering[];
+  all: Rendering[];
+  /** The level of each group's title ("This page", "All pages"). Default 3. */
+  headingLevel?: 2 | 3 | 4 | 5 | 6;
+}
+
+/**
+ * The downloads as links, grouped "This page" and "All pages", each group only when it
+ * has one: what Download's panel lists, and what About shows in its own section.
+ */
+export function DownloadGroups({
+  page,
+  all,
+  headingLevel = 3,
+}: DownloadGroupsProps) {
+  const { t } = useCloverTranslation();
   const id = useId();
-  const root = useRef<HTMLDivElement>(null);
-  const button = useRef<HTMLButtonElement>(null);
-
-  // A press outside closes it.
-  useEffect(() => {
-    if (!open) return;
-    const away = (event: PointerEvent) => {
-      if (!root.current?.contains(event.target as Node)) setOpen(false);
-    };
-    document.addEventListener("pointerdown", away);
-    return () => document.removeEventListener("pointerdown", away);
-  }, [open]);
-
-  if (!page.length && !all.length) return null;
-
+  const Heading = `h${headingLevel}` as "h3";
   const list = (title: string, items: Rendering[], key: string) =>
     items.length > 0 && (
       <section
         className="clover-download-group"
         aria-labelledby={`${id}-${key}`}
       >
-        <h3 className="clover-download-title" id={`${id}-${key}`}>
+        <Heading className="clover-download-title" id={`${id}-${key}`}>
           {title}
-        </h3>
+        </Heading>
         <ul className="clover-download-list">
           {items.map((item) => (
             <li key={item.id}>
@@ -116,6 +114,44 @@ export function Download({ className, children, ...rest }: DownloadProps) {
         </ul>
       </section>
     );
+  return (
+    <div className="clover-download-groups">
+      {list(t("downloadPage"), page, "page")}
+      {list(t("downloadAll"), all, "all")}
+    </div>
+  );
+}
+
+/** About as wide as the panel opens (its `min-width`, 14rem, with a margin). */
+const PANEL_WIDTH = 256;
+
+/**
+ * Downloads, as 3.x's Viewer offers them: the `rendering` of the Canvases in view ("This
+ * page") and of the Manifest ("All pages") — a PDF, a text, a high-resolution file —
+ * behind one button, each a link. Escape or a press outside closes it. Renders nothing
+ * when there is nothing to download.
+ */
+export function Download({ className, children, ...rest }: DownloadProps) {
+  const { t } = useCloverTranslation();
+  const { page, all } = useDownloads();
+  const [open, setOpen] = useState(false);
+  // Which way the panel opens: towards the side with room, measured as it opens.
+  const [align, setAlign] = useState<"start" | "end">("end");
+  const id = useId();
+  const root = useRef<HTMLDivElement>(null);
+  const button = useRef<HTMLButtonElement>(null);
+
+  // A press outside closes it.
+  useEffect(() => {
+    if (!open) return;
+    const away = (event: PointerEvent) => {
+      if (!root.current?.contains(event.target as Node)) setOpen(false);
+    };
+    document.addEventListener("pointerdown", away);
+    return () => document.removeEventListener("pointerdown", away);
+  }, [open]);
+
+  if (!page.length && !all.length) return null;
 
   return (
     <div
@@ -149,8 +185,7 @@ export function Download({ className, children, ...rest }: DownloadProps) {
         {children ?? t("download")}
       </button>
       <div id={`${id}-panel`} className="clover-download-panel" hidden={!open}>
-        {list(t("downloadPage"), page, "page")}
-        {list(t("downloadAll"), all, "all")}
+        <DownloadGroups page={page} all={all} />
       </div>
     </div>
   );

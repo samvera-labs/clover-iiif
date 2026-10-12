@@ -8,6 +8,7 @@ import React, {
 } from "react";
 
 import { ItemFigure } from "./Item";
+import { Tip } from "../../ui/Tip";
 import {
   type ItemModel,
   itemsOf,
@@ -169,6 +170,8 @@ function ViewItems({
         onSelect?.(item, event);
         clover.goTo(item.id);
       }}
+      // As in a radio group: the page in focus is the page shown.
+      followFocus={(item) => clover.goTo(item.id)}
     />
   );
 }
@@ -240,6 +243,7 @@ function StandaloneItems({
         onSelect?.(item, event);
         setSelected(items.indexOf(item));
       }}
+      followFocus={(item) => setSelected(items.indexOf(item))}
     />
   );
 }
@@ -257,6 +261,12 @@ interface ItemsViewProps extends Omit<ItemsProps, "navigation" | "items"> {
     homepage?: string;
   };
   onActivate: (item: ItemModel, event: React.SyntheticEvent) => void;
+  /**
+   * Selects the option focus moves to by an arrow, Home or End, as a radio group does.
+   * `onActivate` (Enter, a click) still says the reader chose it: a Gallery opens it. Not
+   * for a Collection's members, where each selection loads a Manifest.
+   */
+  followFocus?: (item: ItemModel) => void;
 }
 
 function ItemsView({
@@ -274,6 +284,7 @@ function ItemsView({
   heading,
   renderItem,
   onActivate,
+  followFocus,
   as: Tag = "section",
   className,
   "aria-label": ariaLabel,
@@ -300,6 +311,8 @@ function ItemsView({
     align: listbox ? "center" : "start",
     itemCount: shown.length,
   });
+  const held = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(held.current), []);
   const roving = useRovingFocus(shown.length, selectedShown, {
     orientation:
       layout === "carousel"
@@ -312,6 +325,15 @@ function ItemsView({
       onActivate(shown[index].item, {
         type: "keydown",
       } as React.SyntheticEvent),
+    onMove: followFocus
+      ? (index, event) => {
+          window.clearTimeout(held.current);
+          const select = () => followFocus(shown[index].item);
+          // A held arrow sweeps the list: select where it stops, not each item passed.
+          if (event.repeat) held.current = window.setTimeout(select, 150);
+          else select();
+        }
+      : undefined,
   });
 
   // Keep the selection in view: at once on arrival, smoothly after.
@@ -358,15 +380,36 @@ function ItemsView({
     ? { flex: "0 0 auto", scrollSnapAlign: listbox ? "center" : "start" }
     : undefined;
 
+  /*
+   * The carousel's arrows. Choosing between views (a listbox), they are Previous and Next:
+   * they step the selection, which the strip follows into view. A list of links has no
+   * selection, so there they scroll the strip.
+   */
+  const stepping = listbox && selectedShown >= 0;
   const scrollButton = (step: "prev" | "next") => {
-    const can = step === "prev" ? track.canScrollPrev : track.canScrollNext;
+    const to = selectedShown + (step === "prev" ? -1 : 1);
+    const can = stepping
+      ? to >= 0 && to < shown.length
+      : step === "prev"
+        ? track.canScrollPrev
+        : track.canScrollNext;
+    const label = stepping
+      ? t(step === "prev" ? "commonPrevious" : "commonNext")
+      : t(step === "prev" ? "itemsScrollBack" : "itemsScrollForward");
+    const onClick = (event: React.MouseEvent) => {
+      if (!stepping)
+        return (step === "prev" ? track.scrollPrev : track.scrollNext)();
+      const item = shown[to].item;
+      if (followFocus) followFocus(item);
+      else onActivate(item, event);
+    };
     return (
       <button
         type="button"
         className={`clover-items-scroll-${step}`}
-        aria-controls={`${id}-viewport`}
+        aria-controls={stepping ? undefined : `${id}-viewport`}
         disabled={!can}
-        onClick={step === "prev" ? track.scrollPrev : track.scrollNext}
+        onClick={onClick}
       >
         <svg
           aria-hidden="true"
@@ -384,9 +427,8 @@ function ItemsView({
             strokeLinejoin="round"
           />
         </svg>
-        <span style={visuallyHidden}>
-          {t(step === "prev" ? "itemsScrollBack" : "itemsScrollForward")}
-        </span>
+        <span style={visuallyHidden}>{label}</span>
+        <Tip label={label} />
       </button>
     );
   };

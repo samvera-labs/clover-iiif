@@ -1,36 +1,40 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
-  type Control,
+  type PlaygroundResource,
   type TemplateKey,
-  propValue,
+  resourceByKey,
+  resources,
   templateOrder,
   templateSpecs,
 } from "docs/components/Playground/playground-config";
+import { loadMapWorker, useMapWorker } from "docs/lib/map-worker";
 import { normalizeHex, setPageTheme, usePageTheme } from "docs/lib/page-theme";
 
-import Link from "next/link";
-import { VIEWER_RECIPES } from "docs/components/Clover4/Demos";
-import { demoResources } from "docs/lib/demo-resources";
 import dynamic from "next/dynamic";
 import styles from "docs/components/Playground/Playground.module.css";
 import { useRouter } from "next/router";
 
-/** Control values keyed by prop, for one template. */
-type ControlState = Record<string, string | boolean>;
+/** The reader's own resource, where a resource's key would be. */
+const OWN = "own";
 
-const defaultsFor = (key: TemplateKey): ControlState =>
-  Object.fromEntries(
-    templateSpecs[key].controls.map((control) => [
-      control.prop,
-      control.default,
-    ]),
-  );
+/*
+ * The reader's own resource must be a web address. Not `validIiifContent` from
+ * `docs/lib/iiif-content`: it brings `@iiif/helpers`, an ESM external on the server, and
+ * that makes this module async, so the homepage's import of it is undefined while the
+ * page is rendered there. A shared link may still carry an encoded content state.
+ */
+const webAddress = (value: unknown) => {
+  if (typeof value !== "string") return undefined;
+  const trimmed = value.trim();
+  try {
+    const { protocol, hostname } = new URL(trimmed);
+    return (protocol === "http:" || protocol === "https:") && hostname
+      ? trimmed
+      : undefined;
+  } catch {
+    return undefined;
+  }
+};
 
 /**
  * The Viewer in a template, as a page would write it: `<Viewer template={Document} />`.
@@ -57,70 +61,81 @@ const TemplateViewer = dynamic(
   { ssr: false },
 );
 
-/**
- * Resources for the picker: two long Northwestern works and a multilingual manuscript,
- * then the Cookbook recipes the 4.x Viewer is checked against.
- */
-const presets = [
-  {
-    title: "Long document, 338 canvases (individuals)",
-    resource:
-      "https://api.dc.library.northwestern.edu/api/v2/works/12531652-50d5-473b-bf1f-ca54c10e875d?as=iiif",
-  },
-  {
-    title: "Paged notebook, 138 canvases (paged)",
-    resource: demoResources.viewer,
-  },
-  { title: "Multilingual manuscript", resource: demoResources.scroll },
-  {
-    title: "Book with a table of contents",
-    resource: templateSpecs.document.defaultResource,
-  },
-  ...VIEWER_RECIPES.map(([title, resource]) => ({ title, resource })),
-];
-
-/** A prop as JSX source: bare for `true`, braced for other non-strings. */
-const printProp = (prop: string, value: unknown) =>
-  value === true
-    ? `  ${prop}`
-    : typeof value === "string"
-      ? `  ${prop}="${value}"`
-      : `  ${prop}={${String(value)}}`;
+/** Calls `onOutside` on a press outside `ref`'s element, while `active`. */
+function usePressOutside(
+  ref: React.RefObject<HTMLElement>,
+  active: boolean,
+  onOutside: () => void,
+) {
+  useEffect(() => {
+    if (!active) return;
+    const press = (event: PointerEvent) => {
+      if (!ref.current?.contains(event.target as Node)) onOutside();
+    };
+    document.addEventListener("pointerdown", press);
+    return () => document.removeEventListener("pointerdown", press);
+  }, [ref, active, onOutside]);
+}
 
 /**
- * The homepage's hero: the Viewer in each template, live.
+ * The homepage's hero: any template beside any resource, live.
  *
- * The tabs are the templates (native radios inside labels, so the group gets arrow keys
- * and one tab stop for free); the drawer behind Configure picks the resource and the
- * template's own props, and shows the code for what is on the stage. Only the chosen
- * template is mounted.
+ * Two pickers over one stage: the resources, as thumbnails, and at the end of the bar the
+ * templates, by name, in a dropdown. Either changes the stage and leaves the other as it was,
+ * so the same resource can be seen in each layout, and each layout with every kind of
+ * resource. Both are native radios inside labels, so each group gets arrow keys and one
+ * tab stop.
+ *
+ * The stage keeps one height for every template, scrolling within when a template is
+ * taller, so switching never moves the page. Each template is shown with its own
+ * defaults: the point is the range, not the knobs.
  */
 const Playground: React.FC = () => {
   const router = useRouter();
 
   const [active, setActive] = useState<TemplateKey>("default");
-  const [resource, setResource] = useState(
-    templateSpecs.default.defaultResource,
-  );
-  const [controls, setControls] = useState<ControlState>(
-    defaultsFor("default"),
-  );
   /*
-   * The page's accent, set from the gear in the site header. The playground reads it for
-   * its generated code and carries it in the share link; a link that names one sets it.
+   * The resource the reader picked: a resource's key, or `OWN`. Until they pick one, each
+   * template opens on its own, so the first look at each is a resource it suits.
+   */
+  const [picked, setPicked] = useState<string | null>(null);
+  const [own, setOwn] = useState("");
+  /*
+   * The page's accent, set from the gear in the site header. The playground carries it in
+   * the share link; a link that names one sets it.
    */
   const { accent } = usePageTheme();
-  const [copied, setCopied] = useState(false);
 
   const spec = templateSpecs[active];
+  const current = picked ?? spec.defaultResource;
+  const entry = current === OWN ? undefined : resourceByKey(current);
+
+  /* Mocks are served by the docs, so their address is known only in the browser. */
+  const [origin, setOrigin] = useState<string | null>(null);
+  useEffect(() => setOrigin(location.origin), []);
+  const addressOf = useCallback(
+    (resource: PlaygroundResource) =>
+      !resource.mock
+        ? resource.resource
+        : origin
+          ? new URL(`${router.basePath}/mocks/${resource.resource}`, origin)
+              .href
+          : null,
+    [origin, router.basePath],
+  );
+  const resource = current === OWN ? own : entry ? addressOf(entry) : null;
+
+  /* A map's worker is set before its resource opens, and only for one that has places. */
+  const mapReady = useMapWorker(Boolean(entry?.map));
+  const ready = Boolean(resource) && (!entry?.map || mapReady);
 
   /*
-   * Read state out of the URL once the router is ready, so a shared link restores it. The
-   * resource travels as `iiif-content`, the parameter Clover has always read for a
-   * resource handed to the docs.
+   * Read state out of the URL once the router and the origin are known, so a shared link
+   * restores it. The resource travels as `iiif-content`, the parameter Clover has always
+   * read for a resource handed to the docs; one of ours is matched back to its tile.
    */
   useEffect(() => {
-    if (!router.isReady) return;
+    if (!router.isReady || !origin) return;
     const q = router.query;
     const next = (
       typeof q.t === "string" && templateOrder.includes(q.t as TemplateKey)
@@ -128,30 +143,41 @@ const Playground: React.FC = () => {
         : "default"
     ) as TemplateKey;
     setActive(next);
-    setResource(
-      (typeof q["iiif-content"] === "string" && q["iiif-content"]) ||
-        templateSpecs[next].defaultResource,
-    );
-    setControls(defaultsFor(next));
+    const shared = q["iiif-content"];
+    const content =
+      typeof shared === "string" && shared.trim() ? shared.trim() : undefined;
+    if (content) {
+      const match = resources.find((r) => addressOf(r) === content);
+      if (match) {
+        setPicked(match.key);
+      } else {
+        setOwn(content);
+        setPicked(OWN);
+        loadMapWorker();
+      }
+    }
     // A shared link's accent wins over the reader's stored one.
     if (typeof q.accent === "string") {
       setPageTheme({ accent: normalizeHex(q.accent) });
     }
-    // Only on first ready; later changes are pushed by the handlers below.
+    // Only once both are known; later changes are pushed by the handlers below.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.isReady]);
+  }, [router.isReady, origin]);
 
-  /** Mirror the shareable parts of the state into the URL, without a navigation. */
+  /**
+   * Mirror the shareable parts of the state into the URL, without a navigation. Only what
+   * differs from a first visit is named: the template, unless it is Default, and the
+   * resource, once the reader has picked one.
+   */
   const syncUrl = useCallback(
-    (next: { t?: TemplateKey; resource?: string }) => {
-      const query: Record<string, string> = {
-        t: next.t ?? active,
-        "iiif-content": next.resource ?? resource,
-      };
+    (t: TemplateKey, content: string | null) => {
+      const query: Record<string, string> = {};
+      if (t !== "default") query.t = t;
+      if (content) query["iiif-content"] = content;
       if (accent) query.accent = accent;
-      router.replace({ query }, undefined, { shallow: true });
+      router.replace({ query }, undefined, { shallow: true, scroll: false });
     },
-    [active, resource, accent, router],
+    [accent, router],
   );
 
   /*
@@ -165,7 +191,10 @@ const Playground: React.FC = () => {
       accentSynced.current = true;
       return;
     }
-    const timer = setTimeout(() => syncUrl({}), 300);
+    const timer = setTimeout(
+      () => syncUrl(active, picked ? resource : null),
+      300,
+    );
     return () => clearTimeout(timer);
     // Only the accent changing should rewrite the link here.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -173,118 +202,84 @@ const Playground: React.FC = () => {
 
   const selectTemplate = (key: TemplateKey) => {
     setActive(key);
-    setControls(defaultsFor(key));
-    setResource(templateSpecs[key].defaultResource);
-    syncUrl({ t: key, resource: templateSpecs[key].defaultResource });
+    syncUrl(key, picked ? resource : null);
   };
 
-  const updateControl = (prop: string, value: string | boolean) =>
-    setControls((prev) => ({ ...prev, [prop]: value }));
+  const selectResource = (key: string) => {
+    setPicked(key);
+    const chosen = resourceByKey(key);
+    syncUrl(active, chosen ? addressOf(chosen) : null);
+  };
 
   /*
-   * The options tray is a drawer, not a column, so the stage gets the full width of the
-   * page. It is non-modal on purpose (no backdrop, nothing inert), because the point of
-   * opening it is to change a value and watch the stage respond.
+   * "Your own": a field in a popover from the last tile. Escape, the tile again, or a
+   * press outside closes it; opening a resource closes it too.
    */
-  const [configOpen, setConfigOpen] = useState(false);
-  const configTriggerRef = useRef<HTMLButtonElement>(null);
-  const configCloseRef = useRef<HTMLButtonElement>(null);
-  const closeConfig = useCallback(() => {
-    setConfigOpen(false);
-    configTriggerRef.current?.focus();
+  const [ownOpen, setOwnOpen] = useState(false);
+  const [draft, setDraft] = useState("");
+  const [draftError, setDraftError] = useState<string>();
+  const ownRef = useRef<HTMLDivElement>(null);
+  const ownTriggerRef = useRef<HTMLButtonElement>(null);
+  const ownInputRef = useRef<HTMLInputElement>(null);
+  const closeOwn = useCallback((focusTrigger = true) => {
+    setOwnOpen(false);
+    setDraftError(undefined);
+    if (focusTrigger) ownTriggerRef.current?.focus();
   }, []);
+  const dismissOwn = useCallback(() => closeOwn(false), [closeOwn]);
+  usePressOutside(ownRef, ownOpen, dismissOwn);
   useEffect(() => {
-    if (configOpen) configCloseRef.current?.focus();
-  }, [configOpen]);
+    // Selected, so typing replaces the address that was open, and a paste does too.
+    if (ownOpen) ownInputRef.current?.select();
+  }, [ownOpen]);
 
-  /** The props that differ from the template's defaults: passed, and printed. */
-  const props = useMemo(
-    () =>
-      Object.fromEntries(
-        spec.controls
-          .filter((control) => controls[control.prop] !== control.default)
-          .map((control) => [
-            control.prop,
-            propValue(control, controls[control.prop]),
-          ]),
-      ),
-    [spec, controls],
-  );
-
-  /** The code for what is on the stage, regenerated on every knob turn. */
-  const snippet = useMemo(() => {
-    const isDefault = active === "default";
-    const imports = [
-      `import Viewer from "@nulib/clover";`,
-      !isDefault && `import { ${spec.name} } from "@nulib/clover/templates";`,
-      `import "@nulib/clover/styles.css";`,
-      !isDefault && `import "@nulib/clover/templates.css";`,
-    ].filter(Boolean);
-    const lines = [
-      `  iiifContent="${resource}"`,
-      !isDefault && `  template={${spec.name}}`,
-      ...Object.entries(props).map(([prop, value]) => printProp(prop, value)),
-    ].filter(Boolean);
-    const element = `<Viewer\n${lines.join("\n")}\n/>`;
-    /*
-     * The accent as CSS, on `body`, every part's ancestor already: it cascades, so it is
-     * not a prop. No font: Clover takes its type from the page.
-     */
-    const style = accent
-      ? `<style>{\`\n  body {\n    --clover-color-accent: ${accent};\n  }\n\`}</style>\n\n`
-      : "";
-    return `${imports.join("\n")}\n\n${style}${element}`;
-  }, [active, spec, resource, props, accent]);
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(snippet);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1600);
-    } catch {
-      setCopied(false);
-    }
+  /* Opens on the address already open, if it is the reader's, ready to edit. */
+  const toggleOwn = () => {
+    if (ownOpen) return closeOwn();
+    setDraft(own);
+    setOwnOpen(true);
   };
 
-  const renderControl = (control: Control) => {
-    if (control.kind === "toggle") {
-      return (
-        <label className={styles.toggleRow} key={control.prop}>
-          <input
-            type="checkbox"
-            checked={Boolean(controls[control.prop])}
-            onChange={(e) => updateControl(control.prop, e.target.checked)}
-          />
-          <span className={styles.toggleText}>
-            {control.label}
-            {control.hint && (
-              <span className={styles.hint}>{control.hint}</span>
-            )}
-          </span>
-        </label>
+  const openOwn = (event: React.FormEvent) => {
+    event.preventDefault();
+    const content = webAddress(draft);
+    if (!content) {
+      setDraftError(
+        "Enter the web address of a IIIF Manifest or Collection, starting with https://",
       );
+      return;
     }
-    return (
-      <div className={styles.field} key={control.prop}>
-        <label className={styles.fieldLabel} htmlFor={`c-${control.prop}`}>
-          {control.label}
-          {control.hint && <span className={styles.hint}>{control.hint}</span>}
-        </label>
-        <select
-          className={styles.select}
-          id={`c-${control.prop}`}
-          value={String(controls[control.prop])}
-          onChange={(e) => updateControl(control.prop, e.target.value)}
-        >
-          {control.options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-      </div>
-    );
+    // Anything can have places, so the map's worker is set for a resource of the reader's.
+    loadMapWorker();
+    setOwn(content);
+    setPicked(OWN);
+    syncUrl(active, content);
+    closeOwn();
   };
+
+  /*
+   * The templates: a button naming the one on the stage, opening a list of the four.
+   * Arrow keys move through them and the stage follows; a press on one, Enter or Escape
+   * closes them, and so does a press outside or focus moving away.
+   */
+  const [layoutOpen, setLayoutOpen] = useState(false);
+  const layoutRef = useRef<HTMLDivElement>(null);
+  const layoutTriggerRef = useRef<HTMLButtonElement>(null);
+  const layoutMenuRef = useRef<HTMLDivElement>(null);
+  /* Whether the menu's last input was a press rather than a key. */
+  const pressed = useRef(false);
+  const closeLayout = useCallback((focusTrigger = true) => {
+    setLayoutOpen(false);
+    if (focusTrigger) layoutTriggerRef.current?.focus();
+  }, []);
+  const dismissLayout = useCallback(() => closeLayout(false), [closeLayout]);
+  usePressOutside(layoutRef, layoutOpen, dismissLayout);
+  useEffect(() => {
+    if (layoutOpen)
+      layoutMenuRef.current
+        ?.querySelector<HTMLInputElement>("input:checked")
+        ?.focus();
+  }, [layoutOpen]);
 
   return (
     <section
@@ -292,174 +287,204 @@ const Playground: React.FC = () => {
       className={styles.section}
       id="playground"
     >
-      <div className={styles.shell}>
-        <div className={styles.toolbar}>
-          <fieldset className={styles.cards} data-region="template">
-            <legend className={styles.cardsLegend}>Template</legend>
-            {templateOrder.map((key) => (
+      <div className={styles.bar}>
+        <div className={styles.resourceRow}>
+          <div
+            aria-label="Select a IIIF resource"
+            className={`${styles.tiles} ${styles.track}`}
+            role="radiogroup"
+          >
+            {resources.map((r) => (
               <label
-                className={styles.card}
-                title={templateSpecs[key].blurb}
-                data-selected={key === active}
-                key={key}
+                className={styles.tile}
+                data-selected={r.key === current}
+                key={r.key}
+                title={r.title}
               >
                 <input
-                  checked={key === active}
-                  className={styles.cardInput}
-                  name="playground-template"
-                  onChange={() => selectTemplate(key)}
+                  checked={r.key === current}
+                  className={styles.tileInput}
+                  name="pg-resource"
+                  onChange={() => selectResource(r.key)}
                   type="radio"
-                  value={key}
+                  value={r.key}
                 />
-                <span className={styles.cardLabel}>
-                  {templateSpecs[key].name}
+                <span className={styles.media}>
+                  {/* Static export with unoptimized images: next/image has nothing to add for a remote thumbnail. */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    alt=""
+                    className={styles.thumb}
+                    decoding="async"
+                    src={r.thumbnail}
+                  />
                 </span>
+                <span className={styles.tileName}>{r.name}</span>
               </label>
             ))}
-          </fieldset>
-          <button
-            aria-controls="pg-config"
-            aria-expanded={configOpen}
-            aria-label={`Configure ${spec.name}`}
-            className={styles.configTrigger}
-            onClick={() => (configOpen ? closeConfig() : setConfigOpen(true))}
-            ref={configTriggerRef}
-            title={`Configure ${spec.name}`}
-            type="button"
-          >
-            <svg
-              aria-hidden="true"
-              fill="currentColor"
-              height="18"
-              viewBox="0 0 24 24"
-              width="18"
-            >
-              <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
-            </svg>
-            <span className={styles.configLabel}>Configure</span>
-          </button>
-        </div>
-
-        <p className={styles.blurb}>{spec.blurb}</p>
-
-        <div className={styles.layout}>
-          <div>
-            {/* No font and no colour here: Clover takes both from the page. */}
-            <div className={styles.stage} data-template={active}>
-              <TemplateViewer
-                key={`${active}-${resource}`}
-                template={spec.name as "Default"}
-                iiifContent={resource}
-                {...props}
-              />
-            </div>
-
-            {/* The generated code belongs to configuring, so it shows only while the drawer is open. */}
-            {configOpen && (
-              <div className={styles.codePanel}>
-                <div className={styles.codeHead}>
-                  <p className={styles.codeTitle}>Generated code</p>
-                  <button
-                    className={styles.copyButton}
-                    onClick={copy}
-                    type="button"
-                  >
-                    {copied ? "Copied" : "Copy"}
-                  </button>
-                </div>
-                <pre className={styles.code}>{snippet}</pre>
-              </div>
-            )}
           </div>
 
-          {configOpen && (
-            <aside
-              aria-label={`${spec.name} options`}
-              className={styles.aside}
-              id="pg-config"
+          <div className={styles.own} ref={ownRef}>
+            <button
+              aria-controls="pg-own"
+              aria-expanded={ownOpen}
+              className={styles.tile}
+              data-selected={current === OWN}
+              onClick={toggleOwn}
+              ref={ownTriggerRef}
+              title={current === OWN ? own : undefined}
+              type="button"
+            >
+              <span className={styles.media}>
+                <svg
+                  aria-hidden="true"
+                  fill="none"
+                  height="20"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  width="20"
+                >
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              </span>
+              <span className={styles.tileName}>Your own</span>
+            </button>
+
+            {ownOpen && (
+              <form
+                className={styles.ownForm}
+                id="pg-own"
+                noValidate
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    e.stopPropagation();
+                    closeOwn();
+                  }
+                }}
+                onSubmit={openOwn}
+              >
+                <label className={styles.fieldLabel} htmlFor="pg-own-input">
+                  A IIIF Manifest or Collection
+                </label>
+                <div className={styles.ownRow}>
+                  <input
+                    aria-describedby={draftError ? "pg-own-error" : undefined}
+                    aria-invalid={Boolean(draftError)}
+                    className={styles.input}
+                    id="pg-own-input"
+                    onChange={(e) => {
+                      setDraft(e.target.value);
+                      setDraftError(undefined);
+                    }}
+                    placeholder="https://"
+                    ref={ownInputRef}
+                    spellCheck={false}
+                    type="url"
+                    value={draft}
+                  />
+                  <button className="cta-solid" type="submit">
+                    Open
+                  </button>
+                </div>
+                {draftError && (
+                  <p className={styles.error} id="pg-own-error">
+                    {draftError}
+                  </p>
+                )}
+              </form>
+            )}
+          </div>
+        </div>
+
+        <div
+          className={styles.layoutPicker}
+          onBlur={(e) => {
+            if (layoutOpen && !e.currentTarget.contains(e.relatedTarget))
+              closeLayout(false);
+          }}
+          ref={layoutRef}
+        >
+          <span className={styles.inlineLabel} id="pg-layout">
+            Template
+          </span>
+          <button
+            aria-controls="pg-layouts"
+            aria-expanded={layoutOpen}
+            aria-labelledby="pg-layout pg-layout-current"
+            className={styles.layoutTrigger}
+            onClick={() => (layoutOpen ? closeLayout() : setLayoutOpen(true))}
+            ref={layoutTriggerRef}
+            type="button"
+          >
+            <span id="pg-layout-current">{spec.name}</span>
+            <svg
+              aria-hidden="true"
+              className={styles.chevron}
+              fill="none"
+              height="16"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              width="16"
+            >
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
+
+          {layoutOpen && (
+            <div
+              aria-labelledby="pg-layout"
+              className={styles.layoutMenu}
+              id="pg-layouts"
               onKeyDown={(e) => {
-                if (e.key === "Escape") {
+                pressed.current = false;
+                if (e.key === "Escape" || e.key === "Enter") {
+                  e.preventDefault();
                   e.stopPropagation();
-                  closeConfig();
+                  closeLayout();
                 }
               }}
-              role="dialog"
+              onPointerDown={() => (pressed.current = true)}
+              ref={layoutMenuRef}
+              role="radiogroup"
             >
-              <button
-                aria-label="Close options"
-                className={styles.configClose}
-                onClick={closeConfig}
-                ref={configCloseRef}
-                type="button"
-              >
-                ×
-              </button>
-
-              <Link
-                className={`cta-solid ${styles.docsCta}`}
-                href={spec.docsHref}
-                key={spec.key}
-              >
-                Templates documentation
-                <span className="cta-arrow" aria-hidden="true">
-                  →
-                </span>
-              </Link>
-
-              <div className={styles.rail}>
-                <div className={styles.group}>
-                  <p className={styles.groupTitle}>Resource</p>
-                  <div className={styles.field}>
-                    <label className={styles.fieldLabel} htmlFor="pg-preset">
-                      Preset
-                    </label>
-                    <select
-                      className={styles.select}
-                      id="pg-preset"
-                      value={
-                        presets.some((p) => p.resource === resource)
-                          ? resource
-                          : ""
-                      }
-                      onChange={(e) => {
-                        setResource(e.target.value);
-                        syncUrl({ resource: e.target.value });
-                      }}
-                    >
-                      <option value="">Your own resource</option>
-                      {presets.map((preset) => (
-                        <option key={preset.resource} value={preset.resource}>
-                          {preset.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className={styles.field}>
-                    <label className={styles.fieldLabel} htmlFor="pg-resource">
-                      iiifContent
-                    </label>
-                    <input
-                      className={`${styles.input} ${styles.resourceInput}`}
-                      id="pg-resource"
-                      type="url"
-                      value={resource}
-                      onChange={(e) => setResource(e.target.value)}
-                      onBlur={() => syncUrl({})}
-                      spellCheck={false}
-                    />
-                  </div>
-                </div>
-
-                {spec.controls.length > 0 && (
-                  <div className={styles.group}>
-                    <p className={styles.groupTitle}>{spec.name}</p>
-                    {spec.controls.map(renderControl)}
-                  </div>
-                )}
-              </div>
-            </aside>
+              {templateOrder.map((key) => (
+                <label
+                  className={styles.layoutOption}
+                  data-selected={key === active}
+                  key={key}
+                >
+                  <input
+                    checked={key === active}
+                    className={styles.tileInput}
+                    name="pg-layout"
+                    onChange={() => selectTemplate(key)}
+                    // A press chooses and closes; an arrow key only chooses.
+                    onClick={() => pressed.current && closeLayout()}
+                    type="radio"
+                    value={key}
+                  />
+                  {templateSpecs[key].name}
+                </label>
+              ))}
+            </div>
           )}
         </div>
+      </div>
+
+      {/* No font and no colour here: Clover takes both from the page. */}
+      <div className={styles.stage} data-template={active}>
+        {ready && (
+          <TemplateViewer
+            key={`${active}-${resource}`}
+            template={spec.name as "Default"}
+            iiifContent={resource}
+          />
+        )}
       </div>
     </section>
   );

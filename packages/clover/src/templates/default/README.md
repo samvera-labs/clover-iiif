@@ -1,8 +1,11 @@
 # Default
 
 The Viewer's own layout, drawn when it is given no `template`: Clover 3.x's Viewer, built
-from 4.x parts. The title with Download above; the stage with the information panel to its right; the thumbnail strip under the
-stage, headed by the position and a pair of arrows.
+from 4.x parts. The title over the stage; the thumbnail strip under the stage, whose
+arrows are Previous and Next, headed by the titles of the view on the left and the
+position on the right; and the information panel to the right of all three, the layout's
+full height, scrolling within when its sections run longer. Downloads (the page's and the
+Manifest's `rendering`) are listed in the panel's About.
 
 The panel never stacks. As in 3.x it has its own space beside the stage, 24rem to start,
 and the bar between them shares the width: drag it, or focus it and use the arrow keys
@@ -31,7 +34,6 @@ pass it: `template={Default}`, from `@nulib/clover/templates`.
 | `panel`            | `true`                      | The information panel and its toggle.                           |
 | `defaultPanelOpen` | —                           | Whether the panel starts open. Unset: open when it fits beside. |
 | `panelLayout`      | `"accordion"`               | The panel's sections as stacked boxes, or `"tabs"`.             |
-| `download`         | `true`                      | A Download button, when the Manifest or page has a `rendering`. |
 | `items`            | `"carousel"`                | The thumbnails: `"carousel"`, `"list"`, `"grid"`, or `false`.   |
 | `filter`           | `false`                     | A filter field over the thumbnails.                             |
 | `storageKey`       | `"clover-template-default"` | Where the panel's width is remembered; `false` forgets it.      |

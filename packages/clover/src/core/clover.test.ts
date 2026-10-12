@@ -316,6 +316,62 @@ describe("createClover: Collections", () => {
     expect(fetch).toHaveBeenCalledTimes(1);
   });
 
+  it("opens the member a content state names, among its Collection's members", async () => {
+    const SHELF = "https://example.org/shelf";
+    const fetch = mockFetch({
+      [SHELF]: shelf([member(BOOK), member(LETTER)]),
+      [BOOK]: bookJson,
+      [LETTER]: letter,
+    });
+    const clover = createClover({ request: { fetch } });
+    await clover.load(
+      encode({
+        type: "Annotation",
+        motivation: ["contentState"],
+        target: {
+          id: LETTER,
+          type: "Manifest",
+          partOf: [{ id: SHELF, type: "Collection" }],
+        },
+      }),
+    );
+    const { manifest, collection } = clover.store.get();
+    expect(collection?.id).toBe(SHELF);
+    expect(manifest?.id).toBe(LETTER);
+    // The Collection, then the member it names: never its first.
+    expect(fetch.mock.calls.map(([url]) => url)).toEqual([SHELF, LETTER]);
+  });
+
+  it("goes to a Canvas of a Collection's member, the Collection kept", async () => {
+    const SHELF = "https://example.org/shelf";
+    const fetch = mockFetch({
+      [SHELF]: shelf([member(LETTER), member(BOOK)]),
+      [BOOK]: bookJson,
+    });
+    const clover = createClover({ request: { fetch } });
+    await clover.load(
+      encode({
+        type: "Annotation",
+        motivation: ["contentState"],
+        target: {
+          id: canvasIds[1],
+          type: "Canvas",
+          partOf: [
+            {
+              id: BOOK,
+              type: "Manifest",
+              partOf: [{ id: SHELF, type: "Collection" }],
+            },
+          ],
+        },
+      }),
+    );
+    const { manifest, collection, canvasId } = clover.store.get();
+    expect(collection?.id).toBe(SHELF);
+    expect(manifest?.id).toBe(BOOK);
+    expect(canvasId).toBe(canvasIds[1]);
+  });
+
   it("goes to another member, keeping the Collection and reporting it", async () => {
     const fetch = mockFetch({ [BOOK]: bookJson, [LETTER]: letter });
     const onManifestChange = vi.fn();

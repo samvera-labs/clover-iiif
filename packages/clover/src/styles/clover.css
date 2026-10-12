@@ -26,6 +26,7 @@
 @import "../components/Canvas/media/Transport.css";
 @import "../ui/ControlCluster.css";
 @import "../ui/Button.css";
+@import "../ui/Tip.css";
 @import "../ui/Sections.css";
 @import "../components/Status/Status.css";
 @import "../components/Pager/Pager.css";

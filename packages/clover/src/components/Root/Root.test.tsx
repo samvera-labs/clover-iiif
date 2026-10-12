@@ -4,6 +4,7 @@ import {
   render,
   screen,
   waitFor,
+  within,
 } from "@testing-library/react";
 import React, { useState } from "react";
 
@@ -88,7 +89,16 @@ describe("Clover.Root and its parts", () => {
       </Clover.Root>,
     );
     fireEvent.click(await screen.findByRole("button", { name: "Next" }));
-    expect(screen.getByText(/^Item 2 of/)).toHaveClass("clover-pager-position");
+    // "2 / 3" on screen; the sentence, in the reader's language, for assistive technology.
+    const position = document.querySelector<HTMLElement>(
+      ".clover-pager-position",
+    )!;
+    expect(position.querySelector('[aria-hidden="true"]')).toHaveTextContent(
+      /^2 \/ \d+$/,
+    );
+    expect(within(position).getByText(/^Item 2 of \d+$/)).not.toHaveAttribute(
+      "aria-hidden",
+    );
     await waitFor(() =>
       expect(shownCanvases()).toEqual([canvasIds[1], canvasIds[2]]),
     );

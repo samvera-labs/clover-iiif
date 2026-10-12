@@ -54,6 +54,33 @@ describe("Sections", () => {
   });
 
   describe("as an accordion", () => {
+    it("keeps a lone box open: nothing else could open in its place", () => {
+      const { container } = render(
+        <Sections items={items.slice(0, 1)} layout="accordion" />,
+      );
+      const about = screen.getByRole("button", { name: "About" });
+      expect(about).toHaveAttribute("aria-expanded", "true");
+      expect(about).toHaveAttribute("aria-disabled", "true");
+      expect(container.querySelector(".clover-sections-chevron")).toBeNull();
+      fireEvent.click(about);
+      expect(about).toHaveAttribute("aria-expanded", "true");
+      expect(screen.getByRole("region", { name: "About" })).toBeVisible();
+    });
+
+    it("gives each heading its place, and the list its count, to stack them in sight", () => {
+      const { container } = render(<Layout layout="accordion" />);
+      const list = container.querySelector<HTMLElement>(".clover-sections")!;
+      expect(list.style.getPropertyValue("--clover-sections-count")).toBe("3");
+      const headings = [
+        ...container.querySelectorAll<HTMLElement>(".clover-sections-heading"),
+      ];
+      expect(
+        headings.map((heading) =>
+          heading.style.getPropertyValue("--clover-sections-index"),
+        ),
+      ).toEqual(["0", "1", "2"]);
+    });
+
     it("is a heading per section; opening one closes the others", () => {
       render(<Layout layout="accordion" />);
       expect(screen.queryByRole("tablist")).toBeNull();

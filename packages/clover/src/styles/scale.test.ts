@@ -5,8 +5,9 @@ import { join, relative, resolve } from "node:path";
  * The scale is the only source of space and type size (DESIGN.md). Every stylesheet in the
  * package is read: a spacing, inset or font-size declaration may use the scale's custom
  * properties (`--clover-space-*`, `--clover-text-*`, `--clover-control`), `0`, percentages,
- * keywords and hairlines (at most 4px), never a literal rem or em. No font family is ever
- * set: type is the page's.
+ * keywords and hairlines (at most 4px), never a literal rem or em. A font size is one of
+ * the four text steps or `inherit`, nothing in between. No font family is ever set: type
+ * is the page's.
  */
 const SRC = resolve(__dirname, "..");
 const SCALE = resolve(__dirname, "scale.css");
@@ -44,6 +45,32 @@ describe("the scale", () => {
           ([, n]) => Math.abs(Number(n)) > 4,
         );
         if (literal || wide)
+          off.push(`${relative(SRC, file)}: ${property}: ${value}`);
+      }
+    }
+    expect(off).toEqual([]);
+  });
+
+  it("sizes text only on the type scale: four steps and the page's own size", () => {
+    const steps = [
+      ...readFileSync(SCALE, "utf8").matchAll(/(--clover-text-[a-z0-9]+)\s*:/g),
+    ].map(([, name]) => name);
+    expect(steps).toEqual([
+      "--clover-text-xs",
+      "--clover-text-s",
+      "--clover-text-m",
+      "--clover-text-l",
+    ]);
+    const allowed = new Set([
+      "inherit",
+      ...steps.map((name) => `var(${name})`),
+    ]);
+    const off: string[] = [];
+    for (const file of files) {
+      for (const { property, value } of declarations(
+        readFileSync(file, "utf8"),
+      )) {
+        if (property === "font-size" && !allowed.has(value))
           off.push(`${relative(SRC, file)}: ${property}: ${value}`);
       }
     }

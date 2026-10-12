@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { type MediaController, formatTime } from "./useMediaController";
+import { SHORTCUTS, Tip } from "../../../ui/Tip";
 import {
   CaptionsIcon,
   ChaptersIcon,
@@ -95,6 +96,7 @@ function TransportMenu({
         type="button"
       >
         {icon}
+        <Tip label={label} />
       </button>
       {open && (
         <fieldset
@@ -195,22 +197,32 @@ const Transport: React.FC<TransportProps> = ({
       <div className="clover-canvas-transport-bar">
         <button
           aria-label={paused ? t("playerPlay") : t("playerPause")}
+          aria-keyshortcuts={SHORTCUTS.play.keys}
           className="clover-canvas-transport-button"
           data-button={paused ? "play" : "pause"}
           onClick={controller.toggle}
           type="button"
         >
           {paused ? <PlayIcon /> : <PauseIcon />}
+          <Tip
+            label={paused ? t("playerPlay") : t("playerPause")}
+            shortcut={SHORTCUTS.play}
+          />
         </button>
 
         <button
           aria-label={muted ? t("playerUnmute") : t("playerMute")}
+          aria-keyshortcuts={SHORTCUTS.mute.keys}
           className="clover-canvas-transport-button"
           data-button="mute"
           onClick={controller.toggleMute}
           type="button"
         >
           {muted || volume === 0 ? <VolumeMutedIcon /> : <VolumeHighIcon />}
+          <Tip
+            label={muted ? t("playerUnmute") : t("playerMute")}
+            shortcut={SHORTCUTS.mute}
+          />
         </button>
         <input
           aria-label={t("playerVolume")}
@@ -285,6 +297,11 @@ const Transport: React.FC<TransportProps> = ({
             type="button"
           >
             {isFullscreen ? <ExitFullScreenIcon /> : <FullScreenIcon />}
+            <Tip
+              label={
+                isFullscreen ? t("playerExitFullScreen") : t("playerFullScreen")
+              }
+            />
           </button>
         )}
       </div>

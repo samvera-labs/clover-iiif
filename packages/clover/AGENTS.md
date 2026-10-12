@@ -72,6 +72,36 @@ staging, `git mv`, versions or publishing.
   select-on-arrow; or headings, `aria-expanded`, `region`, arrow keys that only move focus)
   and the layout CSS under `[data-layout]`. A panel keeps its place in the tree across a
   layout switch, so its content does not remount.
+- Accordion headings stay in sight in a scrolling container (Mat): sticky, stacked at
+  the top when scrolled past and at the bottom when an open section pushes them below.
+  Each is offset by `--clover-sections-index` (on the heading) and
+  `--clover-sections-count` (on the list), set inline by `Sections`. The arithmetic
+  needs every heading one line tall (`1lh` plus its padding; labels cut short), and the
+  boxes are `display: contents` so a heading sticks within the whole list, not its own
+  box. Keep both if you restyle the accordion. The panels are `isolation: isolate`, so
+  layered content (a map's controls) stays under the headings. The stacks stick where
+  the headings rest: `--clover-sections-inset-start` above and `-end` below. The
+  information panel sets both to `--clover-inset` less `s`, since its boxes reach `s` out
+  over its padding, so a heading's text stays on the inset. A closable panel starts below
+  its close control. The first heading's `::before` and the last's `::after` paint that
+  padding, so nothing shows between a stuck heading and the edge. The stuck headings
+  keep the boxes' `2xs` gap (each paints it), so none shifts as it comes unstuck. The
+  shadows under the open heading (once scrolled) and over the next one (while more is
+  below) are the buttons' `::after` / `::before`, as scroll-driven animations on the nearest scroller (`animation-timeline: scroll()`,
+  inside `@supports`), so they cost no script; keep them that way.
+
+## Popovers (`ui/Tip.tsx`)
+
+- Every control that shows an icon alone renders `<Tip label shortcut />` last inside it:
+  its name, the same string as its `aria-label` (never different words), and its key. Do
+  not give a control `title`, or an icon an SVG `<title>`: both make a second, native
+  tooltip. DESIGN.md §7 has the rule and the WCAG reasons.
+- A key goes in `SHORTCUTS` (with `aria-keyshortcuts`' spelling and the glyph shown) only
+  once the Canvas handles it, and in `SHORTCUT_KEYS` so `forwardShortcut` sends it from
+  the Canvas's controls to the viewport. A new key the viewport does not handle would make
+  a popover lie.
+- Placement is by family in `ui/Tip.css`. A new row of controls that sits at the top of a
+  stage, or at a row's end, needs its selector there.
 
 ## Split
 
@@ -262,7 +292,10 @@ staging, `git mv`, versions or publishing.
   `rangeItemTarget()`, which restores the fragment. Drop it once the parser is fixed.
 - **Items** (`components/Items/`) lists `core/items.ts` models, never resources: one item
   per view of a Manifest (a spread is one item), or one per Collection member. Inside a
-  `Root` it is a listbox (`ui/useRovingFocus.ts`, manual activation); standalone it is a
+  `Root` it is a listbox (`ui/useRovingFocus.ts`): its views' selection follows focus
+  (`followFocus`, through `onMove`, a held arrow selecting where it stops), while
+  `onSelect` stays a choice (Enter, a click), which the Gallery opens on. A Collection's
+  members stay manual, since each selection loads a Manifest. Standalone it is a
   list of links (`core/load.ts` `fetchResource`, which does not open a Collection).
   Thumbnails come from `core/thumbnail.ts`: sized at once for level 1/2 services, through
   the renderer's cached `fetchInfo` for level 0.

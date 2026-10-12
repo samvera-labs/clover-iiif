@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import type { AnimationFrame } from "./layout";
+import { Tip } from "../../ui/Tip";
 import type { CanvasRenderer } from "../../lib/renderer";
 import { useCloverTranslation } from "../../i18n/useCloverTranslation";
 import { PauseIcon, PlayIcon } from "../../ui/mediaIcons";
@@ -161,6 +162,7 @@ export function FrameControls({
               strokeLinejoin="round"
             />
           </svg>
+          <Tip label={t("framePrevious")} />
         </button>
         <button
           type="button"
@@ -174,6 +176,7 @@ export function FrameControls({
           }}
         >
           {playing ? <PauseIcon /> : <PlayIcon />}
+          <Tip label={playing ? t("playerPause") : t("playerPlay")} />
         </button>
         <button
           type="button"
@@ -198,6 +201,7 @@ export function FrameControls({
               strokeLinejoin="round"
             />
           </svg>
+          <Tip label={t("frameNext")} />
         </button>
         <button
           type="button"
@@ -223,6 +227,7 @@ export function FrameControls({
               strokeLinejoin="round"
             />
           </svg>
+          <Tip label={t("frameRepeat")} />
         </button>
         <span className="clover-canvas-transport-time" aria-live="off">
           {position}

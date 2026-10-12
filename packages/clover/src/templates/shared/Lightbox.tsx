@@ -62,6 +62,7 @@ export function Lightbox({ open, onClose, className }: LightboxProps) {
                   strokeLinecap="round"
                 />
               </svg>
+              <Clover.Tip label={t("commonClose")} />
             </button>
           </header>
           <Clover.Content className="clover-template-lightbox-stage" />

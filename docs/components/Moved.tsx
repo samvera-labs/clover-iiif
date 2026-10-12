@@ -4,16 +4,20 @@ import React, { useEffect, useState } from "react";
 
 /**
  * Where a page went when Clover 4 became the docs' focus: 3.x moved under /docs/3.x, and
- * 4.x up from /docs/4.x. A 3.x page whose name 4.x now uses (/docs/viewer, /docs/map)
- * shows the 4.x page instead, which links back to its 3.x version.
+ * 4.x up from /docs/4.x. A 3.x page whose name 4.x now uses (/docs/viewer, /docs/map,
+ * /docs/composing) shows the 4.x page instead, which links back to its 3.x version.
  */
 const MOVES: [RegExp, string][] = [
   [/^\/docs\/4\.x(\/.*)?$/, "/docs$1"],
   [
-    /^\/docs\/(composing|image|scroll|slider|homepage|label|metadata|partOf|rendering|requiredStatement|seeAlso|summary|thumbnail|i18n)(\/.*)?$/,
+    /^\/docs\/(image|scroll|slider|homepage|label|metadata|partOf|rendering|requiredStatement|seeAlso|summary|thumbnail|i18n)(\/.*)?$/,
     "/docs/3.x/$1$2",
   ],
-  // The 3.x Viewer's own pages: its demo, content state, search and prefetched content.
+  /*
+   * The 3.x Viewer's own pages: content state, search and prefetched content. Its demo's
+   * address, /docs/viewer/demo, is Clover 4's demo now, and iiif.io's recipe pages link
+   * there, so it never reaches this page.
+   */
   [/^\/docs\/viewer\/(.+)$/, "/docs/3.x/viewer/$1"],
 ];
 

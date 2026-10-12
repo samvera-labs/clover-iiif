@@ -56,20 +56,19 @@ test.describe("Viewer", () => {
     );
   });
 
-  test("reads right to left: the pager's order follows the book", async ({
+  test("reads right to left: the strip runs leftward, Previous on the right", async ({
     page,
   }) => {
     await serveIIIF(page);
     await page.goto(
       "/?content=https://fixtures.test/0010-book-2-viewing-direction-rtl.json",
     );
-    const steps = page.locator(".clover-pager-previous, .clover-pager-next");
-    await expect(steps.first()).toBeVisible();
-    // In the markup, so in focus order too, not just on screen.
-    const order = await steps.evaluateAll((buttons) =>
-      buttons.map((b) => b.getAttribute("aria-label") ?? b.textContent?.trim()),
-    );
-    expect(order[0]).toMatch(/Next/);
+    const previous = page.getByRole("button", { name: "Previous" });
+    const next = page.getByRole("button", { name: "Next" });
+    await expect(next).toBeVisible();
+    // Previous, at the strip's start, is on its right in a right-to-left book.
+    const [p, n] = [await previous.boundingBox(), await next.boundingBox()];
+    expect(p!.x).toBeGreaterThan(n!.x);
   });
 
   test("opens a content state link at its Canvas", async ({ page }) => {

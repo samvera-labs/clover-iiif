@@ -1,10 +1,13 @@
 import React, { Suspense, forwardRef, lazy, useRef } from "react";
 
 import { About } from "./About";
+import { Tip } from "../../ui/Tip";
 import { Annotations } from "../Annotations/Annotations";
 import { canvasCaptions, type IIIFCanvas } from "../Canvas/layout";
 import { Transcript } from "../Transcript/Transcript";
 import { Contents } from "../Contents/Contents";
+import { Items } from "../Items/Items";
+import { Label } from "../Label/Label";
 import { Search } from "../Search/Search";
 import { searchServiceOf } from "../../core/search-service";
 import { hasMapData } from "../../core/geo-detect";
@@ -45,6 +48,20 @@ export interface TabProps {
  * It renders nothing itself: `InformationPanel` reads its props and renders the tab.
  */
 export const Tab: React.FC<TabProps> = () => null;
+
+/**
+ * The Collection the Manifest was reached through: its name, and its members as a list,
+ * each opening its Manifest in the Root (`Items of="members"`).
+ */
+function CollectionMembers() {
+  const label = useCloverSelector((state) => state.collection?.label);
+  return (
+    <div className="clover-collection-members">
+      <Label as="p" label={label} className="clover-collection-members-label" />
+      <Items of="members" layout="list" />
+    </div>
+  );
+}
 
 /** How an information panel lays out its sections. */
 export type InformationPanelLayout = SectionsLayout;
@@ -143,6 +160,9 @@ export const InformationPanel = forwardRef<HTMLElement, InformationPanelProps>(
     const hasMap = useCloverSelector((state) =>
       hasMapData(state.manifest, state.collection),
     );
+    const hasCollection = useCloverSelector(
+      (state) => (state.collection?.items?.length ?? 0) > 0,
+    );
     const given = React.Children.toArray(children).filter(
       (child): child is React.ReactElement<TabProps> =>
         React.isValidElement(child) && child.type === Tab,
@@ -159,6 +179,15 @@ export const InformationPanel = forwardRef<HTMLElement, InformationPanelProps>(
             label: t("informationPanelTabsAbout"),
             content: <About />,
           },
+          ...(hasCollection
+            ? [
+                {
+                  value: "collection",
+                  label: t("informationPanelTabsCollection"),
+                  content: <CollectionMembers />,
+                },
+              ]
+            : []),
           ...(hasContents
             ? [
                 {
@@ -264,6 +293,7 @@ export const InformationPanel = forwardRef<HTMLElement, InformationPanelProps>(
                 strokeLinecap="round"
               />
             </svg>
+            <Tip label={t("informationPanelClose")} />
           </button>
         )}
         <Sections

@@ -10,6 +10,9 @@ import React from "react";
 
 const svgProps = {
   xmlns: "http://www.w3.org/2000/svg",
+  // Their own size, so they never fill a button without the stylesheet.
+  width: 16,
+  height: 16,
   viewBox: "0 0 512 512",
   "aria-hidden": true,
   focusable: false,

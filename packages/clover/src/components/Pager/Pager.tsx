@@ -4,6 +4,8 @@ import type { ViewingDirection } from "../../core/sequence";
 import { useCloverTranslation } from "../../i18n/useCloverTranslation";
 import { join } from "../../lib/classnames";
 import { useNavigation, useSequence } from "../../react/hooks";
+import { Tip } from "../../ui/Tip";
+import { visuallyHidden } from "../../ui/visuallyHidden";
 
 /**
  * Moving between views: `Previous`, `Next` and `Position`, or all three as `Pager`.
@@ -13,7 +15,16 @@ import { useNavigation, useSequence } from "../../react/hooks";
  * part renders nothing when there is only one view to show.
  */
 
-type ButtonProps = Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "type">;
+type ButtonProps = Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  "type"
+> & {
+  /**
+   * The arrow alone: the name stays the button's, hidden from sight but not from
+   * assistive technology, and shows in a popover on hover and focus.
+   */
+  iconOnly?: boolean;
+};
 
 /** Degrees to turn a right-pointing chevron, for "next" in each direction. */
 const NEXT_ROTATION: Record<ViewingDirection, number> = {
@@ -54,6 +65,7 @@ function StepButton(
     children,
     disabled,
     onClick,
+    iconOnly = false,
     ...rest
   }: ButtonProps & { step: "previous" | "next" },
   ref: React.ForwardedRef<HTMLButtonElement>,
@@ -81,8 +93,16 @@ function StepButton(
       {...rest}
     >
       {!isNext && <Chevron rotate={rotate} />}
-      <span className="clover-pager-label">{children ?? label}</span>
+      <span
+        className="clover-pager-label"
+        style={iconOnly ? visuallyHidden : undefined}
+      >
+        {children ?? label}
+      </span>
       {isNext && <Chevron rotate={rotate} />}
+      {iconOnly && (
+        <Tip label={typeof children === "string" ? children : label} />
+      )}
     </button>
   );
 }
@@ -105,19 +125,29 @@ export interface PositionProps extends React.HTMLAttributes<HTMLElement> {
   as?: React.ElementType;
 }
 
-/** Where the reader is: "Item 2 of 5", counted in views. */
+/**
+ * Where the reader is, counted in views: "2 / 5", the same in every language. Assistive
+ * technology reads the sentence instead, "Item 2 of 5" in the reader's language, which a
+ * bare slash would leave to guesswork.
+ */
 export const Position = forwardRef<HTMLElement, PositionProps>(
   function Position({ as: Tag = "span", className, ...rest }, ref) {
     const { t } = useCloverTranslation();
     const { position, total } = useNavigation();
     if (total < 2) return null;
+    const index = position + 1;
     return (
       <Tag
         ref={ref}
         className={join("clover-pager-position", className)}
         {...rest}
       >
-        {t("canvasPosition", { index: position + 1, total })}
+        <span aria-hidden="true">
+          {index} / {total}
+        </span>
+        <span style={visuallyHidden}>
+          {t("canvasPosition", { index, total })}
+        </span>
       </Tag>
     );
   },

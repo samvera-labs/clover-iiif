@@ -29,15 +29,13 @@
   gap: var(--clover-space-2xs);
   padding: 0 var(--clover-space-m);
   pointer-events: none;
-  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
-}
-
-.clover-canvas:is(
-    [data-chrome="visible"],
-    :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
-  )
-  .clover-canvas-captions {
-  bottom: var(--clover-transport-room);
+  /* Lifted clear of the transport while the chrome shows, moving with it. */
+  translate: 0
+    calc(
+      var(--clover-chrome-shown) *
+        (var(--clover-space-m) - var(--clover-transport-room))
+    );
+  transition: translate var(--clover-chrome-timing);
 }
 
 .clover-canvas-captions-cue {
@@ -46,15 +44,32 @@
   border-radius: var(--clover-radius, 3px);
   background-color: var(--clover-player-caption-surface, rgb(0 0 0 / 85%));
   color: var(--clover-player-caption-text, #fff);
-  font-size: clamp(var(--clover-text-s), 2.6cqw, var(--clover-text-l));
+  font-size: var(--clover-text-s);
   line-height: 1.35;
   text-align: center;
   text-wrap: balance;
   white-space: pre-line;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .clover-canvas-captions {
-    transition: none;
+/*
+ * Captions grow with the picture, a step at a time, on the scale: `s` on a small player,
+ * then the page's size, `m` and `l` as the stage widens (where 2.6% of its width reaches
+ * each step).
+ */
+@container (min-width: 38.5rem) {
+  .clover-canvas-captions-cue {
+    font-size: inherit;
+  }
+}
+
+@container (min-width: 44rem) {
+  .clover-canvas-captions-cue {
+    font-size: var(--clover-text-m);
+  }
+}
+
+@container (min-width: 47.5rem) {
+  .clover-canvas-captions-cue {
+    font-size: var(--clover-text-l);
   }
 }

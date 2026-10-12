@@ -1,15 +1,25 @@
 {
-  "index": "Overview",
+  "index": "Get Started",
+  "--viewer": {
+    "type": "separator",
+    "title": "Use Clover"
+  },
+  "viewer": {
+    "title": "Viewer",
+    "theme": {
+      "collapsed": false
+    }
+  },
+  "templates": "Templates",
+  "composing": "Composing Layouts",
+  "web-component": "Web component",
   "--components": {
     "type": "separator",
     "title": "Components"
   },
-  "viewer": "Viewer",
-  "templates": "Templates",
   "items": "Items",
   "canvas": "Canvas",
   "map": "Map",
-  "web-component": "Web component",
   "--contribute": {
     "type": "separator",
     "title": "Contribute"

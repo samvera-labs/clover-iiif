@@ -143,13 +143,14 @@ function DocumentLayout({
             <span style={Clover.visuallyHidden}>
               {t("templateSidebarToggle")}
             </span>
+            <Clover.Tip label={t("templateSidebarToggle")} />
           </button>
         )}
         <Clover.Label as="h2" className="clover-template-document-title" />
         <div className="clover-template-document-pager">
-          <Clover.Previous className="clover-template-document-step" />
+          <Clover.Previous className="clover-template-document-step" iconOnly />
           <Clover.Position />
-          <Clover.Next className="clover-template-document-step" />
+          <Clover.Next className="clover-template-document-step" iconOnly />
         </div>
         <Clover.CollectionSelect className="clover-template-document-collection" />
         {download && <Clover.Download />}

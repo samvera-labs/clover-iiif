@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from "@testing-library/react";
+import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import React from "react";
 
 import bookJson from "../../fixtures/iiif-cookbook/0009-book-1.json";
@@ -59,22 +59,58 @@ describe("Items in a Root", () => {
     expect(options.map((option) => option.tabIndex)).toEqual([0, -1, -1]);
   });
 
-  it("moves focus with arrows and selects with Enter, one tab stop throughout", async () => {
-    renderInRoot();
+  it("selects as focus moves, like a radio group, one tab stop throughout", async () => {
+    const onSelect = vi.fn();
+    renderInRoot({ onSelect });
     const options = await screen.findAllByRole("option");
     options[0].focus();
     fireEvent.keyDown(options[0], { key: "ArrowRight" });
     expect(options[1]).toHaveFocus();
-    // Moving is not selecting.
-    expect(screen.getByTestId("active")).toHaveTextContent("Blank page");
+    // The option in focus is the one shown.
+    expect(options[1]).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByTestId("active")).toHaveTextContent("Frontispiece");
     fireEvent.keyDown(options[1], { key: "End" });
     expect(options[2]).toHaveFocus();
-    fireEvent.keyDown(options[2], { key: "Enter" });
     expect(options[2]).toHaveAttribute("aria-selected", "true");
     expect(screen.getByTestId("active")).toHaveTextContent(
       bookJson.items[3].label.en[0],
     );
     expect(options.map((option) => option.tabIndex)).toEqual([-1, -1, 0]);
+    // Moving is selecting; choosing, which a host may act on, is still Enter or a click.
+    expect(onSelect).not.toHaveBeenCalled();
+    fireEvent.keyDown(options[2], { key: "Enter" });
+    expect(onSelect).toHaveBeenCalledTimes(1);
+  });
+
+  it("selects where a held arrow stops, not each option it passes", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    try {
+      renderInRoot();
+      const options = await screen.findAllByRole("option");
+      options[0].focus();
+      fireEvent.keyDown(options[0], { key: "ArrowRight", repeat: true });
+      expect(options[1]).toHaveFocus();
+      expect(screen.getByTestId("active")).toHaveTextContent("Blank page");
+      act(() => vi.advanceTimersByTime(200));
+      expect(options[1]).toHaveAttribute("aria-selected", "true");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("has Previous and Next for arrows, stepping the selection", async () => {
+    renderInRoot();
+    const options = await screen.findAllByRole("option");
+    const previous = screen.getByRole("button", { name: "Previous" });
+    const next = screen.getByRole("button", { name: "Next" });
+    expect(previous).toBeDisabled();
+    fireEvent.click(next);
+    expect(options[1]).toHaveAttribute("aria-selected", "true");
+    expect(screen.getByTestId("active")).toHaveTextContent("Frontispiece");
+    fireEvent.click(next);
+    expect(next).toBeDisabled();
+    fireEvent.click(previous);
+    expect(options[1]).toHaveAttribute("aria-selected", "true");
   });
 
   it("selects on click, and follows a selection made elsewhere", async () => {
@@ -92,7 +128,8 @@ describe("Items in a Root", () => {
       expect.anything(),
     );
     expect(options[1]).toHaveAttribute("aria-selected", "true");
-    fireEvent.click(screen.getByRole("button", { name: "Next" }));
+    // The Pager's Next, beside the strip's own.
+    fireEvent.click(document.querySelector("button.clover-pager-next")!);
     expect(options[2]).toHaveAttribute("aria-selected", "true");
     expect(options[2].tabIndex).toBe(0);
   });

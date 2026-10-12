@@ -5,8 +5,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * tabindex". The option in focus has `tabIndex={0}`, the rest `-1`, so Tab enters and
  * leaves the set in one press.
  *
- * Activation is manual: arrows only move focus, Enter or Space selects. Moving through a
- * long list of pages must not load each page on the way.
+ * Enter or Space activates. Arrows, Home and End move focus, and with `onMove` the
+ * selection follows focus, as in a radio group.
  */
 export interface RovingFocusOptions {
   /** Which arrows step: left/right, up/down, or both (a grid read as one line). */
@@ -15,17 +15,26 @@ export interface RovingFocusOptions {
   rtl?: boolean;
   /** Enter or Space on an option. */
   onActivate?: (index: number) => void;
+  /** Focus moved to an option by an arrow, Home or End: to select as focus moves. */
+  onMove?: (index: number, event: React.KeyboardEvent) => void;
 }
 
 export function useRovingFocus(
   count: number,
   selected: number,
-  { orientation = "both", rtl = false, onActivate }: RovingFocusOptions = {},
+  {
+    orientation = "both",
+    rtl = false,
+    onActivate,
+    onMove,
+  }: RovingFocusOptions = {},
 ) {
   const [focused, setFocused] = useState(Math.max(0, selected));
   const elements = useRef<Array<HTMLElement | null>>([]);
   const activate = useRef(onActivate);
   activate.current = onActivate;
+  const move = useRef(onMove);
+  move.current = onMove;
 
   // A selection made elsewhere (a pager, a link) moves the tab stop with it.
   useEffect(() => {
@@ -68,6 +77,7 @@ export function useRovingFocus(
       if (next === null) return;
       event.preventDefault();
       focusAt(next);
+      if (next !== index) move.current?.(next, event);
     },
     [count, orientation, rtl, focusAt],
   );

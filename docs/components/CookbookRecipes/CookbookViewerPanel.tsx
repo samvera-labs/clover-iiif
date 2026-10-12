@@ -29,7 +29,13 @@ interface CookbookViewerPanelProps {
   /** The resource to show. The panel is open while this is set. */
   resource?: string;
   onBack: () => void;
+  /** Draws the resource. Default: the 3.x Viewer; Clover 4's demo passes its own. */
+  renderViewer?: (resource: string) => React.ReactNode;
 }
+
+const render3x = (resource: string) => (
+  <Viewer key={resource} iiifContent={resource} options={viewerOptions} />
+);
 
 /**
  * Slides in over the page to show a resource in Clover's Viewer.
@@ -40,6 +46,7 @@ interface CookbookViewerPanelProps {
 const CookbookViewerPanel: React.FC<CookbookViewerPanelProps> = ({
   resource,
   onBack,
+  renderViewer = render3x,
 }) => {
   const open = resource !== undefined;
   const backButton = useRef<HTMLButtonElement>(null);
@@ -108,11 +115,7 @@ const CookbookViewerPanel: React.FC<CookbookViewerPanelProps> = ({
           validate={iiifContentError}
         />
       </div>
-      <div className={styles.body}>
-        {shown && (
-          <Viewer key={shown} iiifContent={shown} options={viewerOptions} />
-        )}
-      </div>
+      <div className={styles.body}>{shown && renderViewer(shown)}</div>
     </aside>
   );
 };

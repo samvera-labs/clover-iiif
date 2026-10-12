@@ -51,7 +51,10 @@ export interface CanvasRendererOptions {
   maxZoomPixelRatio?: number;
   /** Smallest zoom, as a fraction of the home zoom (OpenSeadragon's `minZoomImageRatio`). */
   minZoomImageRatio?: number;
-  /** Fraction of the viewport left clear around the home view. */
+  /**
+   * Fraction of the viewport left clear around the home view, inside the host's own
+   * padding (which the home view always keeps clear).
+   */
   homePadding?: number;
   /** Seconds for an animation to close most of its distance. 0 disables animation. */
   animationTime?: number;
@@ -98,6 +101,37 @@ const MAX_CONTEXT_LOSSES = 3;
 /** Padding around an annotation zoomed to, as a fraction of the first item's width. */
 const ANNOTATION_PADDING = 0.1;
 
+interface Inset {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}
+
+const NO_INSET: Inset = { top: 0, right: 0, bottom: 0, left: 0 };
+
+/*
+ * The host's padding, in CSS pixels. The stylesheet sets it (`--clover-canvas-inset`), and
+ * the placeholder takes the same, so a still and the picture it hands over to sit alike.
+ */
+function readInset(host: HTMLElement): Inset {
+  if (typeof getComputedStyle !== "function") return NO_INSET;
+  const style = getComputedStyle(host);
+  const px = (value: string) => parseFloat(value) || 0;
+  return {
+    top: px(style.paddingTop),
+    right: px(style.paddingRight),
+    bottom: px(style.paddingBottom),
+    left: px(style.paddingLeft),
+  };
+}
+
+const sameInset = (a: Inset, b: Inset) =>
+  a.top === b.top &&
+  a.right === b.right &&
+  a.bottom === b.bottom &&
+  a.left === b.left;
+
 /**
  * Clover's 2D renderer: one camera over a scene of images, each a pyramid of tiles.
  *
@@ -127,6 +161,8 @@ export class CanvasRenderer implements GestureTarget {
   private navigator: Navigator | null = null;
 
   private viewport: ViewportSize = { width: 1, height: 1 };
+  /** The host's padding: the space the home view keeps clear round the picture. */
+  private inset: Inset = NO_INSET;
   private pixelRatio = 1;
   private items: SceneItem[] = [];
   private worldBounds: Rect | null = null;
@@ -777,12 +813,20 @@ export class CanvasRenderer implements GestureTarget {
     const turn = 2 * Math.PI;
     const upright =
       Math.round(this.camera.destination.rotation / turn) * turn || 0;
-    return fitCamera(
+    const { top, right, bottom, left } = this.inset;
+    const camera = fitCamera(
       this.worldBounds,
-      this.viewport,
+      {
+        width: Math.max(1, this.viewport.width - left - right),
+        height: Math.max(1, this.viewport.height - top - bottom),
+      },
       upright,
       this.options.homePadding,
     );
+    // Centred in the padded area, off the viewport's centre when its sides differ.
+    camera.x -= (left - right) / 2 / camera.zoom;
+    camera.y -= (top - bottom) / 2 / camera.zoom;
+    return camera;
   }
 
   /**
@@ -937,6 +981,7 @@ export class CanvasRenderer implements GestureTarget {
     const rect = this.host.getBoundingClientRect();
     const width = Math.max(1, rect.width);
     const height = Math.max(1, rect.height);
+    const inset = readInset(this.host);
     const pixelRatio = Math.min(
       typeof window !== "undefined" ? window.devicePixelRatio || 1 : 1,
       MAX_PIXEL_RATIO,
@@ -944,13 +989,15 @@ export class CanvasRenderer implements GestureTarget {
     if (
       width === this.viewport.width &&
       height === this.viewport.height &&
-      pixelRatio === this.pixelRatio
+      pixelRatio === this.pixelRatio &&
+      sameInset(inset, this.inset)
     ) {
       return;
     }
 
     const previous = this.viewport;
     this.viewport = { width, height };
+    this.inset = inset;
     this.pixelRatio = pixelRatio;
     this.backend?.resize(width, height, pixelRatio);
 

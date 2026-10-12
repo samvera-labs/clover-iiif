@@ -35,6 +35,11 @@ const resourceBySlug = new Map(
  * its resource under another name. `null` marks a recipe with no resource to open.
  */
 const resourcePaths: Record<string, string | null> = {
+  "0010-book-2-viewing-direction": "manifest-rtl.json",
+  "0011-book-3-behavior": "manifest-continuous.json",
+  "0030-multi-volume": "collection.json",
+  "0040-image-rotation-service": "manifest-service.json",
+  "0230-navdate": "navdate-collection.json",
   "0608-mvm-3d": "v4/manifest.json",
   "0253-using-transcript-file": "v4/manifest.json",
   "0232-image-thumbnail-canvas": "manifest-image.json",

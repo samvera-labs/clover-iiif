@@ -7,13 +7,13 @@ import {
   Homepage,
   Id,
   Metadata,
-  Rendering,
   RequiredStatement,
   Rights,
   SeeAlso,
   Summary,
   Thumbnail,
 } from "../Primitives/Primitives";
+import { DownloadGroups, useDownloads } from "../Download/Download";
 
 export interface AboutProps extends React.HTMLAttributes<HTMLElement> {
   /** Also show the current Canvas's summary, for Manifests that describe each image. */
@@ -25,8 +25,9 @@ export interface AboutProps extends React.HTMLAttributes<HTMLElement> {
 /**
  * Everything the Manifest says about itself, in the order 3.x's About tab shows it:
  * thumbnail, summary, metadata, required statement, rights, homepage, see also,
- * alternate formats, and the Manifest's own address. Each part renders only if the
- * Manifest has it.
+ * downloads, and the Manifest's own address. Each part renders only if the Manifest has
+ * it. The downloads are Download's: the `rendering` of the page in view ("This page")
+ * and of the Manifest ("All pages").
  */
 export function About({
   canvasSummary = false,
@@ -35,6 +36,7 @@ export function About({
   ...rest
 }: AboutProps) {
   const { t } = useCloverTranslation();
+  const downloads = useDownloads();
   const manifest = useCloverSelector(
     (state) => state.manifest as Record<string, any> | null,
     Object.is,
@@ -66,7 +68,15 @@ export function About({
       {section(t("aboutRights"), manifest.rights, <Rights />)}
       {section(t("aboutHomepage"), hasAny("homepage"), <Homepage />)}
       {section(t("aboutSeeAlso"), hasAny("seeAlso"), <SeeAlso />)}
-      {section(t("aboutRendering"), hasAny("rendering"), <Rendering />)}
+      {section(
+        t("download"),
+        downloads.page.length + downloads.all.length > 0,
+        <DownloadGroups
+          page={downloads.page}
+          all={downloads.all}
+          headingLevel={Math.min(headingLevel + 1, 6) as 3}
+        />,
+      )}
       {section(t("aboutManifest"), manifest.id, <Id />)}
     </div>
   );

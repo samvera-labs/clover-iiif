@@ -10,6 +10,8 @@ export type ControlButtonProps = {
     id: string;
     type: "button";
     "aria-label": string;
+    /** The key the Canvas answers to for this control, when it has one. */
+    "aria-keyshortcuts"?: string;
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
     /** On a control that opens a menu (the Choice control): its state and target. */
     "aria-expanded"?: boolean;
@@ -17,6 +19,11 @@ export type ControlButtonProps = {
   };
   icon: React.ReactNode;
   label: string;
+  /**
+   * The popover Clover's own controls show on hover and focus: the name, and the key when
+   * there is one. Render it inside your button, last, to keep it.
+   */
+  tip: React.ReactNode;
 };
 
 /**

@@ -36,7 +36,11 @@ export interface SectionsProps {
  * - `accordion`: each button sits in a heading above its panel, `aria-expanded`; opening
  *   one closes the others, and pressing the open one closes it. The arrow keys move
  *   between headings without opening them, and each button is its own tab stop
- *   (WAI-ARIA accordion).
+ *   (WAI-ARIA accordion). A lone box stays open: its button is `aria-disabled` and
+ *   draws no chevron. Every heading stays in sight in a scrolling container: those
+ *   scrolled past stack at its top, those an open section pushes below stack at its
+ *   bottom. The headings carry their place (`--clover-sections-index`) and the list its
+ *   count (`--clover-sections-count`) for the stylesheet to stack them.
  *
  * So switching layout keeps what is open, and the stylesheet keys on `data-layout`.
  */
@@ -56,12 +60,15 @@ export function Sections({
     defaultValue ?? items[0]?.value ?? null,
   );
   const tabs = layout === "tabs";
+  // A lone box cannot close: there is nothing else to open in its place.
+  const fixed = !tabs && items.length === 1;
 
-  // Open: the controlled value, or the reader's. A tab is always open; a box may not be.
+  // Open: the controlled value, or the reader's. A tab is always open, as is a lone box;
+  // otherwise a box may not be.
   const chosen = value !== undefined ? value : own;
   const open = items.some((item) => item.value === chosen)
     ? chosen
-    : tabs
+    : tabs || fixed
       ? (items[0]?.value ?? null)
       : null;
   // Every section opened so far: its content stays mounted once it has been shown.
@@ -69,8 +76,8 @@ export function Sections({
   if (open) mounted.current.add(open);
 
   const choose = (item: string) => {
-    // Pressing the open box closes it; pressing the open tab keeps it.
-    const next = !tabs && item === open ? null : item;
+    // Pressing the open box closes it; pressing the open tab, or a lone box, keeps it.
+    const next = !tabs && !fixed && item === open ? null : item;
     if (value === undefined) setOwn(next);
     if (next) onValueChange?.(next);
   };
@@ -117,13 +124,17 @@ export function Sections({
               "aria-selected": isOpen,
               tabIndex: isOpen ? 0 : -1,
             }
-          : { "aria-expanded": isOpen })}
+          : {
+              "aria-expanded": isOpen,
+              // WAI-ARIA's accordion: an open panel that cannot collapse is disabled.
+              "aria-disabled": fixed || undefined,
+            })}
         onClick={() => choose(item.value)}
         onKeyDown={(event) => onKeyDown(event, index)}
       >
         <span className="clover-sections-label">{item.label}</span>
         {/* A heading's open and closed state, drawn; a tab's is its underline. */}
-        {!tabs && (
+        {!tabs && !fixed && (
           <svg
             aria-hidden="true"
             focusable="false"
@@ -150,6 +161,14 @@ export function Sections({
     <div
       className={["clover-sections", className].filter(Boolean).join(" ")}
       data-layout={layout}
+      // How many headings there are, for the stylesheet to stack them (`accordion`).
+      style={
+        tabs
+          ? undefined
+          : ({
+              "--clover-sections-count": items.length,
+            } as React.CSSProperties)
+      }
     >
       {tabs && (
         <div role="tablist" aria-label={label} className="clover-sections-list">
@@ -166,7 +185,15 @@ export function Sections({
             data-open={isOpen}
           >
             {!tabs && (
-              <Heading className="clover-sections-heading">
+              <Heading
+                className="clover-sections-heading"
+                // Its place among the headings, for the stylesheet to stack it.
+                style={
+                  {
+                    "--clover-sections-index": index,
+                  } as React.CSSProperties
+                }
+              >
                 {button(item, index)}
               </Heading>
             )}

@@ -6,6 +6,24 @@
  * from the input's point of view — every pointer event lands on the viewport itself.
  */
 .clover-canvas {
+  /*
+   * The space kept clear round the picture at home: the region's inset, as every region
+   * keeps round its content. The viewport takes it as padding, which the renderer reads
+   * to fit its home view, and the placeholder takes the same, so the still hands over
+   * without a jump. Zoomed in, the picture runs to the edges. 0 for edge to edge at home.
+   */
+  --clover-canvas-inset: var(--clover-inset);
+  /*
+   * Chrome moves as one (see Chrome, below): leaving, it accelerates away, tucked
+   * `--clover-chrome-tuck` toward its edge; coming back, it springs out, a touch past
+   * and back. Hidden to start: the state each piece of chrome reads.
+   */
+  --clover-chrome-leave: 180ms cubic-bezier(0.4, 0, 1, 1);
+  --clover-chrome-enter: 340ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --clover-chrome-tuck: var(--clover-space-s);
+  --clover-chrome-shown: 0;
+  --clover-chrome-events: none;
+  --clover-chrome-timing: var(--clover-chrome-leave);
   position: relative;
   /* A <figure>, whose caption is the Canvases' information: no browser margins. */
   margin: 0;
@@ -41,6 +59,7 @@
 .clover-canvas-viewport {
   position: absolute;
   inset: 0;
+  padding: var(--clover-canvas-inset);
   /*
    * Its own stacking layer, below the chrome. Everything drawn in the viewport — the
    * image, hotspots (an active one raises itself), the focus ring — stacks within it, so
@@ -140,22 +159,12 @@
     rgb(0 0 0 / 20%) 45%,
     rgb(0 0 0 / 0%)
   );
-  opacity: 0;
-  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
+  opacity: var(--clover-chrome-shown);
+  transition: opacity var(--clover-chrome-timing);
 }
 
 .clover-canvas > .clover-canvas-controls {
   z-index: 2;
-}
-
-/*
- * Each control fades, not the cluster, so one can stay. A faded control keeps its room
- * (nothing beside it moves) and is not a click target.
- */
-.clover-canvas > .clover-canvas-controls > * {
-  opacity: 0;
-  pointer-events: none;
-  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
 }
 
 /*
@@ -166,8 +175,8 @@
  */
 .clover-canvas > .clover-canvas-controls > [data-button="panel"] {
   order: 1;
-  opacity: 1;
-  pointer-events: auto;
+  --clover-chrome-shown: 1;
+  --clover-chrome-events: auto;
 }
 
 @media (max-width: 575px) {
@@ -178,58 +187,58 @@
 
 /*
  * Shown while the pointer is active over the Canvas, keyboard focus is inside it, or a
- * menu is open. One
- * rule for every piece of chrome (the controls, the scrim, and a video or sound's
- * transport) so they appear and fade together.
+ * menu is open: decided here, once, for every piece of chrome.
  */
 .clover-canvas:is(
-    [data-chrome="visible"],
-    :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
-  )
-  > .clover-canvas-scrim,
-.clover-canvas:is(
-    [data-chrome="visible"],
-    :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
-  )
-  > .clover-canvas-controls
-  > *,
-.clover-canvas:is(
-    [data-chrome="visible"],
-    :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
-  )
-  > .clover-canvas-media
-  > .clover-canvas-transport {
-  opacity: 1;
+  [data-chrome="visible"],
+  :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
+) {
+  --clover-chrome-shown: 1;
+  --clover-chrome-events: auto;
+  --clover-chrome-timing: var(--clover-chrome-enter);
 }
 
-.clover-canvas:is(
-    [data-chrome="visible"],
-    :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
-  )
-  > .clover-canvas-controls
-  > *,
-.clover-canvas:is(
-    [data-chrome="visible"],
-    :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
-  )
-  > .clover-canvas-media
-  > .clover-canvas-transport
-  > * {
-  pointer-events: auto;
+/*
+ * Every piece of chrome reads it: faded and tucked toward its edge (up from the top,
+ * `--clover-chrome-edge: 1` for down from the bottom) until shown. Each control fades,
+ * not the cluster, so one can stay, and a faded one keeps its room (nothing beside it
+ * moves). A video or sound's transport (`Transport.css`) and its captions
+ * (`MediaStage.css`) read the same state.
+ */
+.clover-canvas > .clover-canvas-controls > *,
+.clover-canvas > .clover-canvas-navigator,
+.clover-canvas[data-placeholder="false"] > .clover-canvas-placeholder-toggle,
+.clover-canvas > .clover-canvas-media > .clover-canvas-transport {
+  opacity: var(--clover-chrome-shown);
+  translate: 0
+    calc(
+      (1 - var(--clover-chrome-shown)) * var(--clover-chrome-edge, -1) *
+        var(--clover-chrome-tuck)
+    );
+  transition: all var(--clover-chrome-timing);
+}
+
+/* Not a click target while away. The transport's own box never is: only its controls. */
+.clover-canvas > .clover-canvas-controls > *,
+.clover-canvas > .clover-canvas-navigator,
+.clover-canvas[data-placeholder="false"] > .clover-canvas-placeholder-toggle,
+.clover-canvas-transport > * {
+  pointer-events: var(--clover-chrome-events);
 }
 
 /* Still appears and disappears — hiding it outright would leave no way back — unanimated. */
 @media (prefers-reduced-motion: reduce) {
-  .clover-canvas-scrim,
-  .clover-canvas > .clover-canvas-controls > * {
-    transition: none;
+  .clover-canvas {
+    --clover-chrome-leave: 0s;
+    --clover-chrome-enter: 0s;
+    --clover-chrome-tuck: 0px;
   }
 }
 
 /* ============================ Navigator ============================ */
 
 /*
- * The overview: small, and shown with the controls (see Chrome, below), so it never sits
+ * The overview: small, and shown with the controls (see Chrome, above), so it never sits
  * on the picture otherwise. It is a pointer convenience —
  * the keyboard and the zoom controls reach everything it does — so it is hidden from
  * assistive technology rather than given a role.
@@ -247,34 +256,6 @@
   border-radius: var(--clover-radius, 3px);
   cursor: pointer;
   touch-action: none;
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity 150ms ease,
-    visibility 0s linear 150ms;
-}
-
-.clover-canvas:is(
-    [data-chrome="visible"],
-    :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
-  )
-  > .clover-canvas-navigator {
-  opacity: 1;
-  visibility: visible;
-  transition:
-    opacity 150ms ease,
-    visibility 0s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .clover-canvas-navigator,
-  .clover-canvas:is(
-      [data-chrome="visible"],
-      :has(:focus-visible, [aria-expanded="true"]:not([data-button="panel"]))
-    )
-    > .clover-canvas-navigator {
-    transition: none;
-  }
 }
 
 .clover-canvas-navigator-image {

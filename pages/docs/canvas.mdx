@@ -133,12 +133,13 @@ itself ([0029](https://iiif.io/api/cookbook/recipe/0029-metadata-anywhere/)).
 ### Placeholder Canvas
 
 A Canvas with a `placeholderContainer` (Presentation 3's `placeholderCanvas`) shows that
-Canvas's image first, fitted to the frame
-and centred, as the Viewer does. The Canvas itself is held back until you open it from
-the toggle in the top right, or by clicking the image: nothing is fetched, and there is
-no pan or zoom, no annotations or `Choice`, and no video or sound until then. The
-information control stays available. The toggle then closes the Canvas again, back to
-its placeholder, and each new set of Canvases starts from its placeholder. Here the
+Canvas's image first, fitted to the frame and centred, as the Viewer does. The Canvas
+itself is held back until you open it from the toggle in the top right, or by clicking
+the image: nothing is fetched, and there is no pan or zoom, no annotations or `Choice`,
+and no video or sound until then. The information control stays available. The toggle
+then closes the Canvas again, back to its placeholder. Open or closed holds as the
+Canvases change, so a reader paging through a book opens it once; a video or sound
+starts at its poster each time, since opening it plays it. Here the
 [0029](https://iiif.io/api/cookbook/recipe/0029-metadata-anywhere/) Canvases are given
 small stills of themselves as placeholders.
 
@@ -503,6 +504,17 @@ import "@nulib/clover/styles.css";
   onReady={(canvas) => canvas.zoomBy(2)}
   onViewportChange={(bounds) => console.log(bounds)}
 />;
+```
+
+At home the picture keeps `--clover-canvas-inset` (by default `--clover-inset`,
+`1.618rem`) clear round it, and its placeholder the same, so the still hands over to the
+Canvas without moving. Zoomed in, it runs to the edges. Set it to `0` for edge to edge
+at home too:
+
+```css
+.my-stage .clover-canvas {
+  --clover-canvas-inset: 0;
+}
 ```
 
 ## Props

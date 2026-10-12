@@ -22,6 +22,7 @@ import { useCloverTranslation } from "../../i18n/useCloverTranslation";
 import { getLabelAsString } from "../../core/label";
 import { toggleFullscreen } from "../../lib/fullscreen";
 import useFullscreenSupported from "../../hooks/useFullscreenSupported";
+import { SHORTCUTS } from "../../ui/Tip";
 import type { CanvasRenderer } from "../../lib/renderer";
 
 /** OpenSeadragon's `zoomPerClick`. */
@@ -120,6 +121,7 @@ const Controls: React.FC<CanvasControlsProps> = ({
         {
           key: "zoomIn",
           id: `zoomIn-${instance}`,
+          shortcut: SHORTCUTS.zoomIn,
           label: t("imageZoomIn"),
           glyph: <ZoomIn />,
           onClick: () => renderer.zoomBy(ZOOM_PER_CLICK),
@@ -127,6 +129,7 @@ const Controls: React.FC<CanvasControlsProps> = ({
         {
           key: "zoomOut",
           id: `zoomOut-${instance}`,
+          shortcut: SHORTCUTS.zoomOut,
           label: t("imageZoomOut"),
           glyph: <ZoomOut />,
           onClick: () => renderer.zoomBy(1 / ZOOM_PER_CLICK),
@@ -148,6 +151,7 @@ const Controls: React.FC<CanvasControlsProps> = ({
         {
           key: "rotateRight",
           id: `rotateRight-${instance}`,
+          shortcut: SHORTCUTS.rotateRight,
           label: t("imageRotateRight"),
           glyph: <Rotate />,
           onClick: () => renderer.rotateBy(90),
@@ -155,6 +159,7 @@ const Controls: React.FC<CanvasControlsProps> = ({
         {
           key: "rotateLeft",
           id: `rotateLeft-${instance}`,
+          shortcut: SHORTCUTS.rotateLeft,
           label: t("imageRotateLeft"),
           glyph: <Rotate />,
           onClick: () => renderer.rotateBy(-90),
@@ -165,6 +170,7 @@ const Controls: React.FC<CanvasControlsProps> = ({
       specs.push({
         key: "reset",
         id: `reset-${instance}`,
+        shortcut: SHORTCUTS.reset,
         label: t("imageResetZoom"),
         glyph: <Reset />,
         // Home also turns the image upright, as `Image`'s reset does.

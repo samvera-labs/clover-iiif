@@ -1,5 +1,5 @@
 .page {
-  background: var(--color-background);
+  background: var(--color-background-home, var(--color-background));
   color: var(--gray-12);
   padding-bottom: 6rem;
 }
@@ -25,8 +25,9 @@
 
 /* ── Hero ─────────────────────────────────────────────────────────────────── */
 
+/* Kept short, so the playground's stage starts above the fold. */
 .hero {
-  padding: 4rem 0 3rem;
+  padding: 2.5rem 0 2rem;
   text-align: center;
 }
 
@@ -37,7 +38,7 @@
   font-weight: var(--weight-bold);
   letter-spacing: -0.032em;
   line-height: 1.1;
-  margin: 1.5rem auto 2rem;
+  margin: 0 auto 1rem;
   max-width: 64rem;
   text-wrap: balance;
 }

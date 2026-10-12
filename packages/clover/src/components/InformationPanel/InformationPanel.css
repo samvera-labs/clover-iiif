@@ -1,6 +1,6 @@
 /*
- * The information panel: its sections (`ui/Sections.css`), as tabs or stacked boxes, `m`
- * inside its edges. The page's own text size and line height. Its height follows the
+ * The information panel: its sections (`ui/Sections.css`), as tabs or stacked boxes, the
+ * region's inset (`--clover-inset`) inside its edges. The page's own text size and line height. Its height follows the
  * stage's (`--clover-content-height`) beside it in the Viewer; elsewhere it is as tall
  * as its content.
  */
@@ -8,31 +8,56 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: var(--clover-space-m);
+  padding: var(--clover-inset);
+  /*
+   * Its accordion's headings stick where they rest: the boxes reach `s` out over the
+   * inset (below), so a heading's text stays on the inset.
+   */
+  --clover-sections-inset-start: calc(
+    var(--clover-inset) - var(--clover-space-s)
+  );
+  --clover-sections-inset-end: var(--clover-sections-inset-start);
   color: var(--clover-color-primary, #1a1d1e);
 }
 
 /*
  * A closable panel (one floating over the page): the round close control `xs` in from
- * its top corner. It reaches `xs + control` in, `l` past the panel's `m`, so the tab row
- * keeps `l` clear for it; stacked boxes start `l` down instead. A floating panel has it
- * at its inner edge, the side it slides in from the page: the start of the row.
+ * its top corner. It reaches `xs + control` (`xl`) in, `--clover-panel-clear` past the
+ * panel's inset (`m`, past an inset of `l`), so the tab row keeps that clear for it;
+ * stacked boxes start that far down instead. A floating panel has it at its inner edge,
+ * the side it slides in from the page: the start of the row.
  */
 .clover-information-panel[data-closable] {
+  --clover-panel-clear: calc(
+    var(--clover-space-xs) + var(--clover-control) - var(--clover-inset)
+  );
+  /* The boxes start below the close control, so their first heading rests there. */
+  --clover-sections-inset-start: calc(
+    var(--clover-inset) + var(--clover-panel-clear)
+  );
   position: relative;
 }
 
 .clover-information-panel[data-closable] .clover-sections-list {
-  padding-inline-end: var(--clover-space-l);
+  padding-inline-end: var(--clover-panel-clear);
 }
 
 .clover-information-panel[data-closable][data-floating] .clover-sections-list {
-  padding-inline: var(--clover-space-l) 0;
+  padding-inline: var(--clover-panel-clear) 0;
 }
 
+/*
+ * Stacked boxes: their text on the panel's `m`, as every region's content is. The boxes,
+ * `s` inside, reach out over the panel's padding to put it there.
+ */
+.clover-information-panel > .clover-sections[data-layout="accordion"] {
+  margin: calc(-1 * var(--clover-space-s));
+}
+
+/* Under a close control, the boxes start below it. */
 .clover-information-panel[data-closable]
-  .clover-sections[data-layout="accordion"] {
-  padding-block-start: var(--clover-space-l);
+  > .clover-sections[data-layout="accordion"] {
+  padding-block-start: calc(var(--clover-panel-clear) + var(--clover-space-s));
 }
 
 /* The shape is the round control's (`ui/Button.css`); bare here, on the panel's surface. */
@@ -125,8 +150,8 @@
 /* ---------- About ---------- */
 
 /*
- * About's parts are `m` apart; a part's heading is `2xs` over its value; metadata's
- * label-value pairs are `s` apart.
+ * Down from the panel's inset, a step a level: About's parts are `m` apart; metadata's
+ * label-value pairs `s`; a heading `xs` over its value.
  */
 .clover-about {
   display: flex;
@@ -165,7 +190,7 @@
 }
 
 .clover-about :is(dt, .clover-about-heading) {
-  margin: 0 0 var(--clover-space-2xs);
+  margin: 0 0 var(--clover-space-xs);
   font-size: inherit;
   font-weight: 700;
 }
@@ -173,4 +198,10 @@
 .clover-link-format {
   color: var(--clover-color-primary-muted, #26292b);
   font-size: var(--clover-text-s);
+}
+
+/* The Collection section: its name over its members, `s` apart. */
+.clover-collection-members-label {
+  margin: 0 0 var(--clover-space-s);
+  color: var(--clover-color-primary-muted, #26292b);
 }

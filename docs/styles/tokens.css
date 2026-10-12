@@ -49,6 +49,12 @@
    * fill, so a panel reads as a panel with nothing drawn around it.
    */
   --color-background: var(--gray-1);
+  /*
+   * The homepage's ground: a very light tint of the accent, so it follows the colour the
+   * reader picks and the playground's stage (on `--color-background`) sits on it as a
+   * sheet. Dark mode keeps the page's own ground.
+   */
+  --color-background-home: color-mix(in oklab, var(--accent-9) 5%, #ffffff);
   --surface: var(--gray-3);
   --surface-raised: #ffffff;
   --surface-sunken: var(--gray-4);
@@ -63,6 +69,13 @@
   /* One step above body, for a label that titles something without being a heading.
    * The scale otherwise jumped straight from 1rem to `--section-heading-size`. */
   --text-lg: 1.125rem;
+  /*
+   * Display sizes, for the site only: Clover packages none (its largest is
+   * `--clover-text-l`). Built as Clover's text steps are, the page's 1rem plus a space
+   * step: `xl` is 1 + s, `2xl` is 1 + m.
+   */
+  --text-xl: 1.618rem;
+  --text-2xl: 2rem;
 
   /*
    * Declared here now that the family is self-hosted (see fonts.css). Under
@@ -159,6 +172,7 @@
   --accent-contrast: #ffffff;
 
   --color-background: var(--gray-1);
+  --color-background-home: var(--gray-1);
   --surface: var(--gray-3);
   --surface-raised: var(--gray-4);
   --surface-sunken: var(--gray-2);
@@ -169,6 +183,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not(.light):not(.dark) {
+    --color-background-home: var(--gray-1);
     --gray-1: #111113;
     --gray-2: #18191b;
     --gray-3: #212225;

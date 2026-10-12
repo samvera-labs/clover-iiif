@@ -27,8 +27,6 @@ export type DefaultProps = Omit<RootProps, "children"> & {
    * stacked boxes each opened by its heading, or `"tabs"`.
    */
   panelLayout?: InformationPanelLayout;
-  /** A Download button, listing the Manifest's and the page's `rendering`. Default `true`. */
-  download?: boolean;
   /** The thumbnails under the stage: a layout, or `false` for none. Default `carousel`. */
   items?: ItemsLayout | false;
   /** A filter field over the thumbnails. Default `false`. */
@@ -44,10 +42,10 @@ export type DefaultProps = Omit<RootProps, "children"> & {
  * The Viewer's own layout, drawn when no `template` is given: Clover 3.x's Viewer, built
  * from 4.x parts. Copy this file to start a layout of your own.
  *
- * The title and its actions across the top; the stage, with the information panel to its
- * right; and under the stage the thumbnail strip, headed by the position and a pair of
- * arrows. The panel has its own space, as in 3.x, and a bar between it and the stage
- * shares the width (drag it, or use the arrow keys on it). Where there is no room for both
+ * The title and its actions over the stage, and under the stage the thumbnail strip,
+ * headed by the position and a pair of arrows; the information panel to the right of all
+ * three, the layout's full height. The panel has its own space, as in 3.x, and a bar
+ * between it and the rest shares the width (drag it, or use the arrow keys on it). Where there is no room for both
  * (a phone), the panel slides over the stage instead, and a strip of the page stays
  * uncovered: a click there, Escape or the panel's close button puts it away. Size it with
  * `--clover-content-height`.
@@ -57,7 +55,6 @@ export function Default({
   panel = true,
   defaultPanelOpen,
   panelLayout = "accordion",
-  download = true,
   items = "carousel",
   filter = false,
   storageKey = "clover-template-default",
@@ -92,12 +89,6 @@ export function Default({
         .join(" ")}
       {...root}
     >
-      <header className="clover-template-default-header">
-        <Clover.Label as="h2" className="clover-template-default-title" />
-        <Clover.CollectionSelect className="clover-template-default-collection" />
-        {download && <Clover.Download />}
-      </header>
-      <Clover.Status />
       <Clover.Split
         ref={body}
         className="clover-template-default-body"
@@ -109,6 +100,10 @@ export function Default({
           className="clover-template-default-main"
           min={STAGE_MIN}
         >
+          <header className="clover-template-default-header">
+            <Clover.Label as="h2" className="clover-template-default-title" />
+          </header>
+          <Clover.Status />
           <Clover.Content className="clover-template-default-stage">
             {panel && (
               <Clover.PanelToggle
@@ -120,8 +115,8 @@ export function Default({
           </Clover.Content>
           <div className="clover-template-default-rail">
             <div className="clover-template-default-rail-header">
+              <ViewTitles />
               <Clover.Position />
-              <Steps />
             </div>
             {items && <Clover.Items layout={items} filter={filter} />}
           </div>
@@ -163,22 +158,16 @@ export function Default({
 }
 
 /**
- * The strip's arrows, in reading order: a right-to-left book puts Next first, as
- * `Clover.Pager` does, and in the markup rather than by CSS, so focus follows the eye.
+ * The titles of the view the reader is on: a page's label, or both of a spread's. The
+ * strip's own arrows are Previous and Next, so the header names where the reader is.
  */
-function Steps() {
-  const { direction } = Clover.useSequence();
-  const previous = <Clover.Previous className="clover-template-default-step" />;
-  const next = <Clover.Next className="clover-template-default-step" />;
-  return direction === "right-to-left" ? (
-    <>
-      {next}
-      {previous}
-    </>
-  ) : (
-    <>
-      {previous}
-      {next}
-    </>
+function ViewTitles() {
+  const canvases = Clover.useVisibleCanvases();
+  return (
+    <p className="clover-template-default-titles">
+      {canvases.map((canvas) => (
+        <Clover.Label key={canvas.id} label={canvas.label} />
+      ))}
+    </p>
   );
 }

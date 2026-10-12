@@ -633,16 +633,49 @@ describe("Canvas", () => {
       expect(closeViewer()).toBeInTheDocument();
     });
 
-    it("fits a spread's stills together, and starts each new set from its placeholder", () => {
-      const { rerender } = render(<Canvas canvases={[first, second]} />);
+    it("fits a spread's stills together", () => {
+      render(<Canvas canvases={[first, second]} />);
       const stills = within(
         screen.getByTestId("clover-canvas-placeholder"),
       ).getAllByRole("img");
       expect(stills.map((still) => still.style.width)).toEqual(["50%", "50%"]);
+    });
 
+    it("keeps the reader's choice, open or closed, from view to view", () => {
+      const { rerender } = render(<Canvas canvases={[first]} />);
       fireEvent.click(openViewer());
+      open();
+
+      // The next page opens too, its still in view (inert) until it draws.
       rerender(<Canvas canvases={[second]} />);
-      expect(screen.getByTestId("clover-canvas-placeholder")).toBeVisible();
+      expect(screen.getByTestId("clover-canvas-placeholder")).toHaveAttribute(
+        "data-lingering",
+        "true",
+      );
+      expect(renderer.setImages.mock.lastCall[0][0].url).not.toMatch(/still/);
+      open();
+      expect(screen.queryByTestId("clover-canvas-placeholder")).toBeNull();
+
+      renderer.isOpen = true;
+      fireEvent.click(closeViewer());
+      rerender(<Canvas canvases={[first]} />);
+      expect(screen.getByTestId("clover-canvas")).toHaveAttribute(
+        "data-placeholder",
+        "true",
+      );
+      expect(openViewer()).toBeInTheDocument();
+    });
+
+    it("starts each video at its poster, though images were opened", () => {
+      const [video] = placeholderVideo.items as any[];
+      const { rerender } = render(<Canvas canvases={[first]} />);
+      fireEvent.click(openViewer());
+      rerender(<Canvas canvases={[video]} />);
+      expect(screen.getByTestId("clover-canvas")).toHaveAttribute(
+        "data-placeholder",
+        "true",
+      );
+      expect(screen.queryByTestId("clover-canvas-media")).toBeNull();
     });
 
     it("holds back video until opened, keeping the information control", async () => {

@@ -1,0 +1,39 @@
+/* The Viewer in the slide-in panel: filling it, and scrolling within it when taller. */
+.viewer {
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* The progress table: two status columns, the recipe, what is missing, and the actions. */
+.progress table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.progress th,
+.progress td {
+  border-bottom: 1px solid rgba(128, 128, 128, 0.25);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.progress th:nth-child(1),
+.progress th:nth-child(2) {
+  width: 3.25rem;
+}
+
+.progress th:nth-child(4) {
+  width: 34%;
+}
+
+.progress th:nth-child(5) {
+  width: 11rem;
+}
+
+.note {
+  font-size: 0.875rem;
+  opacity: 0.8;
+}

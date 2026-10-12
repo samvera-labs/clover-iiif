@@ -1,0 +1,154 @@
+/*
+ * The popover a control shows (`ui/Tip.tsx`): its name, and its key when it has one, in
+ * `text-s` on the page's dark colour, `xs` from the control. Above it by default; below a
+ * control along the top of what it sits on; beside the cluster when the cluster is a
+ * column; and at either end of a row, lined up with the control's outer edge so it stays
+ * inside the stage.
+ *
+ * WCAG 1.4.13, Content on Hover or Focus: shown on keyboard focus as well as hover;
+ * hoverable (the gap to the control is bridged, so the pointer can cross onto it);
+ * dismissed by Escape (`data-tip-hidden`), and kept until the pointer or focus leaves.
+ */
+
+/* No specificity: a control positioned already (the thumbnails' arrows) stays so. */
+:where(:has(> .clover-tip)) {
+  position: relative;
+}
+
+.clover-tip {
+  position: absolute;
+  z-index: 4;
+  bottom: calc(100% + var(--clover-space-xs));
+  left: 50%;
+  translate: -50% 0;
+  display: block;
+  padding: var(--clover-space-2xs) var(--clover-space-xs);
+  border-radius: var(--clover-radius, 3px);
+  background-color: var(--clover-color-primary, #1a1d1e);
+  color: var(--clover-color-secondary, #fff);
+  font-size: var(--clover-text-s);
+  font-weight: normal;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 120ms ease,
+    visibility 0s linear 120ms;
+}
+
+/* The gap between the control and its popover, bridged for the pointer. */
+.clover-tip::before {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  height: var(--clover-space-xs);
+  content: "";
+}
+
+/* A moment's pause under the pointer, so passing over a row does not flash them all. */
+:hover > .clover-tip {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 400ms;
+}
+
+/* At once, for keyboard focus. */
+:focus-visible > .clover-tip {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+[data-tip-hidden] > .clover-tip {
+  display: none;
+}
+
+/* Below a control along the top of what it sits on. */
+:is(
+    .clover-canvas-controls,
+    .clover-information-panel,
+    .clover-template-document-toolbar,
+    .clover-template-lightbox-header
+  )
+  .clover-tip,
+button.clover-canvas-placeholder-toggle > .clover-tip {
+  top: calc(100% + var(--clover-space-xs));
+  bottom: auto;
+}
+
+:is(
+    .clover-canvas-controls,
+    .clover-information-panel,
+    .clover-template-document-toolbar,
+    .clover-template-lightbox-header
+  )
+  .clover-tip::before,
+button.clover-canvas-placeholder-toggle > .clover-tip::before {
+  top: auto;
+  bottom: 100%;
+}
+
+/* Lined up with a control at the start of a row… */
+:is(.clover-canvas-transport-bar, .clover-template-document-toolbar)
+  > :first-child
+  .clover-tip,
+button.clover-items-scroll-prev > .clover-tip,
+.clover-information-panel[data-floating]
+  > button.clover-information-panel-close
+  > .clover-tip {
+  inset-inline: 0 auto;
+  translate: none;
+}
+
+/* …and at its end. */
+:is(
+    .clover-canvas-transport-bar,
+    .clover-template-document-pager,
+    .clover-template-lightbox-header
+  )
+  > :last-child
+  .clover-tip,
+.clover-canvas-controls > button:last-of-type > .clover-tip,
+button.clover-items-scroll-next > .clover-tip,
+button.clover-canvas-placeholder-toggle > .clover-tip,
+.clover-information-panel:not([data-floating])
+  > button.clover-information-panel-close
+  > .clover-tip {
+  inset-inline: auto 0;
+  translate: none;
+}
+
+/* The cluster as a column on a phone: beside each control, toward the stage. */
+@media (max-width: 575px) {
+  .clover-canvas-controls .clover-tip,
+  .clover-canvas-controls > button:last-of-type > .clover-tip {
+    top: 50%;
+    bottom: auto;
+    inset-inline: auto calc(100% + var(--clover-space-xs));
+    translate: 0 -50%;
+  }
+
+  .clover-canvas-controls .clover-tip::before {
+    top: 0;
+    bottom: 0;
+    inset-inline: 100% auto;
+    width: var(--clover-space-xs);
+    height: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clover-tip {
+    transition: none;
+  }
+}
+
+/* In forced colours a filled box loses its fill; an outline keeps its shape. */
+@media (forced-colors: active) {
+  .clover-tip {
+    outline: 1px solid CanvasText;
+  }
+}

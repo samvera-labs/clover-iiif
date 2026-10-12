@@ -122,6 +122,7 @@ function TextBody({ search }: { search: boolean }) {
                     }}
                   >
                     <Clover.Thumbnail value={canvas} size={400} alt="" />
+                    <Clover.Tip label={t("imageViewerOpen")} />
                   </button>
                   <figcaption>
                     <Clover.Label label={canvas.label} id={labelId} />

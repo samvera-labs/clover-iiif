@@ -40,6 +40,7 @@ import { useChromeVisibility } from "./useChromeVisibility";
 import { useNearViewport } from "./useNearViewport";
 import useFullscreen from "../../hooks/useFullscreen";
 import { ErrorBoundary } from "../../ui/ErrorBoundary";
+import { forwardShortcut } from "../../ui/Tip";
 import { join } from "../../lib/classnames";
 import { getLabelAsString } from "../../core/label";
 import {
@@ -242,7 +243,7 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
    * in place of the Canvas, with a toggle to open it. Until then the Canvas is held back
    * entirely — no tiles, no pan or zoom, no annotations or `Choice`, no video or sound —
    * and only its information stays to hand. Once open, a video's placeholder is still
-   * its poster frame. Each new set of Canvases starts from its placeholder.
+   * its poster frame.
    */
   const stills = useMemo<PlaceholderStill[]>(() => {
     if (!canvases || !placeholder) return [];
@@ -256,8 +257,15 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
       ? found.reverse()
       : found;
   }, [canvases, direction, placeholder]);
-  const [openedFor, setOpenedFor] = useState<string | null>(null);
-  const showPlaceholder = stills.length > 0 && openedFor !== canvasKey;
+  /*
+   * Open or closed is the reader's choice, and it holds as they move from view to view:
+   * open one page, and the next opens too, with its still in view until it draws. Video
+   * and sound are the exception, since opening one plays it: each starts at its poster.
+   */
+  const [imagesOpen, setImagesOpen] = useState(false);
+  const [mediaOpenedFor, setMediaOpenedFor] = useState<string | null>(null);
+  const showPlaceholder =
+    stills.length > 0 && (media ? mediaOpenedFor !== canvasKey : !imagesOpen);
   /*
    * A lone media Canvas carries all its chrome in the transport at the bottom: full
    * screen moves there, and the top cluster (and the scrim behind it) is shown only for a
@@ -348,7 +356,8 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
   /** Back at the placeholder since last drawn: reopening frames the Canvas afresh. */
   const placeholderShown = useRef(false);
   const togglePlaceholder = () => {
-    setOpenedFor(showPlaceholder ? canvasKey : null);
+    if (media) setMediaOpenedFor(showPlaceholder ? canvasKey : null);
+    else setImagesOpen(showPlaceholder);
   };
 
   const ariaLabel =
@@ -557,6 +566,8 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
       data-navigable={!mediaOnly}
       data-placeholder={stills.length ? showPlaceholder : undefined}
       ref={setWrapperElement}
+      // The Canvas's keys work from its own controls too, as their popovers say.
+      onKeyDown={(event) => forwardShortcut(event, hostRef.current)}
       // Geometry inline: the stage fills its box with or without the stylesheet.
       style={{
         position: "relative",

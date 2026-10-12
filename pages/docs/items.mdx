@@ -18,8 +18,11 @@ import {
 Thumbnails of a sequence, as a carousel, a list or a grid.
 
 - **Inside a `Clover.Root`**, `Items` lists the Root's views (a spread is one item) and
-  selecting one goes there. It is a listbox: one tab stop, the arrow keys move, Enter
-  or Space selects, and the selection follows the pager.
+  selecting one goes there. It is a listbox, and like a radio group the selection
+  follows focus: one tab stop, and the arrow keys, Home and End select as they move
+  (where a held arrow stops, not each page it passes). Enter, Space or a click is a
+  choice, which `onSelect` reports. The selection follows the pager too. A Collection's
+  members move with the arrows and are chosen with Enter, since each loads a Manifest.
 - **On its own**, given `iiifContent` or `items`, it lists a Collection's members as links
   to their `homepage`, as the Slider did.
 
@@ -63,11 +66,12 @@ lazily (`loading="lazy"`), at the size asked of each image service.
 
 ### Styles
 
-| Property                | Default   | What it sets                 |
-| ----------------------- | --------- | ---------------------------- |
-| `--clover-items-height` | `8rem`    | A carousel's picture height. |
-| `--clover-items-size`   | `10rem`   | A grid column's width.       |
-| `--clover-items-gap`    | `0.75rem` | The space between items.     |
+| Property                   | Default | What it sets                                                             |
+| -------------------------- | ------- | ------------------------------------------------------------------------ |
+| `--clover-items-height`    | `8rem`  | A carousel's picture height.                                             |
+| `--clover-items-size`      | `10rem` | A grid column's width.                                                   |
+| `--clover-items-gap`       | `1rem`  | The space between items.                                                 |
+| `--clover-items-ring-room` | `4px`   | Room round each item's pictures for the hover, selection and focus ring. |
 
 ## From the Slider
 

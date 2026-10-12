@@ -21,13 +21,40 @@
     page, `pages/404.mdx`, from the table in `docs/components/Moved.tsx`. Move a page
     again, and add its old URL there. A 3.x page whose name 4.x now uses (`viewer`,
     `map`) shows the 4.x page, which links to its 3.x version.
+  - How to compose a layout (`Root`, the parts, the property parts, the information
+    panel's `Tab`s, `Split`, hooks, renderers, styles) lives on one page,
+    `pages/docs/composing.mdx` ("Composing Layouts", under Templates). The Viewer page
+    covers what the Viewer handles and links there; add composition material there, not
+    to the Viewer page.
+  - `/docs/viewer/demo` is Clover 4's demo: the field, featured items, and every IIIF
+    Cookbook recipe to open, handled or not (`docs/components/Clover4/CookbookDemo.tsx`).
+    iiif.io's recipe pages link to it as `…/docs/viewer/demo?iiif-content=<manifest>`, so
+    never move it without leaving the 404 table a forward. `/docs/viewer/progress` is
+    unlisted (hidden in the sidebar, out of search): each recipe's status in 4.x beside
+    3.x, and what is missing. Its data is `docs/components/CookbookRecipes/progress4.ts`;
+    when a recipe starts working, or stops, record it there with the date.
   - The site banner (`theme.config.tsx`) says Clover 4 is in development. Retire it, or
     change its `key`, when 4.0 ships.
   - The homepage (`docs/components/Home/`) has two halves: the templates live as the
-    hero (`docs/components/Playground/`, tabs per template, a drawer with the resource,
-    the template's props and the generated code), and below them the parts the
-    templates are made of (`Composable.tsx`: a composed example beside its code, and a
-    card per major part).
+    hero (`docs/components/Playground/`), and below them the parts the templates are
+    made of (`Composable.tsx`: a composed example beside its code, and a card per major
+    part).
+  - The playground shows how far one Viewer stretches: any layout with any kind of
+    resource. Two pickers sit over one stage, each changing without the other: the
+    resources as thumbnails, centred and unlabelled (`resources` in
+    `playground-config.ts`: a book, a map, a film, a recording, a Collection…, plus
+    "Your own"; their group is named "Select a IIIF resource" for assistive technology),
+    and at the end of the bar a "Template" dropdown listing the templates by name. No
+    drawings of the layouts, no fills of light grey, spaces on Clover's golden-ratio
+    scale. Each template shows with its own defaults: no props, no generated code (a
+    Customize drawer with both was removed on purpose). The section is wider than the
+    reading sections but held off the screen's edges; the stage keeps one height for
+    every pairing, with a broad shadow. Keep it about layout and UX: names, not
+    descriptions or marketing lines.
+  - The homepage renders on the server, so a component it imports statically must not
+    import `@iiif/helpers` (through `docs/lib/iiif-content`, say). It is an ESM external
+    there, which makes the importing module async, and the homepage's import of it is
+    then undefined ("Element type is invalid").
 - Build output goes to `dist/`; static assets in `public/`.
 - Tests are colocated near code as `*.test.ts|tsx` (see `vitest.config.mjs`).
 
@@ -35,7 +62,10 @@
 
 - `npm run dev`: start the docs site locally at `http://localhost:3000`.
 - `npm run build`: build the library (Vite-based, writes to `dist/`).
-- `npm run build:docs`: build the Next.js docs site.
+- `npm run build:docs`: build the Next.js docs site. Not while `npm run dev` is running:
+  both write to `.next/`, and the build leaves the dev server failing with "Cannot find
+  module './NNNN.js'". Stop the dev server first, or after a build clear `.next/` and
+  restart it.
 - `npm run test`: run unit tests (Vitest/JSDOM).
 - `npm run coverage`: run tests with coverage reports (text/json/html).
 - `npm run lint`: Prettier check + `next lint`.

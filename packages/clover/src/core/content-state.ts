@@ -24,6 +24,8 @@ export interface ResolvedContentState {
   /** The resource to load: a Manifest or Collection id, or a Canvas id with no `partOf`. */
   id: string;
   type?: string;
+  /** With a Collection to load, the member to open in it rather than its first. */
+  manifestId?: string;
   target?: Target;
 }
 
@@ -79,10 +81,18 @@ function startTime(t: string | undefined): number | undefined {
   return Number.isFinite(seconds) ? seconds : undefined;
 }
 
+/** The Collection a Manifest declares itself `partOf`, if it names one. */
+const collectionOf = (resource: Json | undefined) =>
+  asArray(resource?.partOf).find(
+    (part: any) => part?.id && part.type === "Collection",
+  ) as Json | undefined;
+
 /**
  * What a content state asks for. A target naming a Canvas loads the Manifest it is
  * `partOf`, then goes to the Canvas (and its region or time); one naming a Manifest or
- * Collection just loads it. The first target is used when there are several.
+ * Collection loads it. A Manifest that is itself `partOf` a Collection, the target's or
+ * its Canvas's, loads that Collection and opens on the Manifest, so the reader arrives
+ * among its members. The first target is used when there are several.
  */
 export function resolveContentState(json: Json): ResolvedContentState | null {
   const target = (
@@ -102,7 +112,10 @@ export function resolveContentState(json: Json): ResolvedContentState | null {
   const type = resource.type as string | undefined;
 
   if (type === "Manifest" || type === "Collection") {
-    return { id: parsed.id, type };
+    const collection = type === "Manifest" ? collectionOf(resource) : undefined;
+    return collection
+      ? { id: collection.id, type: "Collection", manifestId: parsed.id }
+      : { id: parsed.id, type };
   }
 
   // A point in time can come as a PointSelector's `t`.
@@ -118,9 +131,17 @@ export function resolveContentState(json: Json): ResolvedContentState | null {
   const partOf = asArray(resource.partOf).find(
     (part: any) => part?.id && (!part.type || part.type === "Manifest"),
   ) as Json | undefined;
-  return partOf
-    ? { id: partOf.id, type: "Manifest", target: canvasTarget }
-    : { id: parsed.id, type: type ?? "Canvas", target: canvasTarget };
+  const collection = collectionOf(partOf);
+  return collection && partOf
+    ? {
+        id: collection.id,
+        type: "Collection",
+        manifestId: partOf.id,
+        target: canvasTarget,
+      }
+    : partOf
+      ? { id: partOf.id, type: "Manifest", target: canvasTarget }
+      : { id: parsed.id, type: type ?? "Canvas", target: canvasTarget };
 }
 
 /** A content state as a link carries it: base64url of the URI-encoded JSON, unpadded. */

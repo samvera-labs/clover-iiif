@@ -81,13 +81,25 @@ describe("templates", () => {
     expect(toggle).toHaveAttribute("aria-expanded", "false");
   });
 
-  it("Default: a right-to-left book's arrows read Next first", async () => {
-    render(<Templates.Default iiifContent={rtlJson} />);
+  it("Default: the strip's arrows step the view; its header names the pages", async () => {
+    render(<Templates.Default iiifContent={bookJson} />);
     const next = await screen.findByRole("button", { name: "Next" });
-    const previous = screen.getByRole("button", { name: "Previous" });
-    expect(
-      next.compareDocumentPosition(previous) & Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
+    // One Previous and one Next: the strip's own, with no second pair above it.
+    expect(screen.getAllByRole("button", { name: "Next" })).toHaveLength(1);
+    expect(next).toHaveClass("clover-items-scroll-next");
+    fireEvent.click(next);
+    expect(document.querySelector(".clover-pager-position")).toHaveTextContent(
+      "Item 2 of 3",
+    );
+    const titles = document.querySelector(".clover-template-default-titles")!;
+    expect(titles).toHaveTextContent("Frontispiece");
+    expect(titles).toHaveTextContent("Title page");
+  });
+
+  it("Default: a right-to-left book's strip runs leftward, Previous on the right", async () => {
+    render(<Templates.Default iiifContent={rtlJson} />);
+    const previous = await screen.findByRole("button", { name: "Previous" });
+    expect(previous.closest("[dir]")).toHaveAttribute("dir", "rtl");
   });
 
   describe("Default, with no room for the panel beside the stage", () => {

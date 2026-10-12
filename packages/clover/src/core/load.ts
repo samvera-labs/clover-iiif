@@ -154,6 +154,8 @@ export async function loadContent(
   void preloadUpgrader();
 
   let target: Target | undefined;
+  /** The Collection member a content state names, to open in place of the first. */
+  let member: string | undefined;
   let json: unknown;
 
   /** A content state names what to load and where to go in it. */
@@ -161,6 +163,7 @@ export async function loadContent(
     const resolved = resolveContentState(state);
     if (!resolved) throw new CloverContentError("Unreadable content state");
     target = resolved.target ?? target;
+    member = resolved.manifestId ?? member;
     return fetchJson(request, resolved.id, signal);
   };
 
@@ -188,10 +191,11 @@ export async function loadContent(
       return { manifest: resource as Manifest, target };
     case "Collection": {
       const collection = await withMembers(resource as Collection, options);
-      const chosen = options.manifestId
+      // The host's choice, or the content state's, or else the first member.
+      const pick = options.manifestId ?? member;
+      const chosen = pick
         ? ((collection.items ?? []) as Json[]).find(
-            (item) =>
-              item.id === options.manifestId && item.type === "Manifest",
+            (item) => item.id === pick && item.type === "Manifest",
           )
         : undefined;
       const manifest = chosen

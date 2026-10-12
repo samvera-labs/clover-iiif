@@ -1,6 +1,7 @@
 import React from "react";
 
 import { join } from "../lib/classnames";
+import { type Shortcut, Tip } from "./Tip";
 
 interface ButtonProps {
   className?: string;
@@ -11,6 +12,8 @@ interface ButtonProps {
   /** For a control that opens something (Canvas's Choice menu): its state and target. */
   expanded?: boolean;
   controls?: string;
+  /** The key the Canvas answers to for this control, shown in its popover. */
+  shortcut?: Shortcut;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -21,6 +24,7 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   expanded,
   controls,
+  shortcut,
 }) => {
   // Extract button type from id (e.g., "rotateLeft-abc123" → "rotate-left")
   // This ensures data-button is language-independent for CSS selectors
@@ -38,19 +42,27 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       aria-expanded={expanded}
       aria-controls={controls}
+      /*
+       * The name on the button, not as the icon's SVG <title>, which browsers also show
+       * as a tooltip of their own beside the popover.
+       */
+      aria-label={label}
+      aria-keyshortcuts={shortcut?.keys}
       type="button"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        aria-labelledby={`${id}-svg-title`}
+        aria-hidden="true"
         data-testid="clover-canvas-button-svg"
         focusable="false"
+        // Its own size, so it never fills the button without the stylesheet.
+        width="16"
+        height="16"
         viewBox="0 0 512 512"
-        role="img"
       >
-        <title id={`${id}-svg-title`}>{label}</title>
         {children}
       </svg>
+      <Tip label={label} shortcut={shortcut} />
     </button>
   );
 };

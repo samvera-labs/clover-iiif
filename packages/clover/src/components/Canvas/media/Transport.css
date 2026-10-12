@@ -26,8 +26,8 @@
   display: flex;
   flex-direction: column;
   padding: var(--clover-space-xl) var(--clover-space-m) var(--clover-space-m);
-  opacity: 0;
-  transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
+  /* Chrome, shown with the rest (`Canvas.css`): it tucks down, toward its edge. */
+  --clover-chrome-edge: 1;
   background: linear-gradient(
     to top,
     rgb(0 0 0 / 78%),
@@ -35,14 +35,6 @@
     rgb(0 0 0 / 0%)
   );
   user-select: none;
-}
-
-/*
- * Hidden until the Canvas's chrome shows: see "Chrome" in `Canvas.css`, which reveals the
- * transport with the same rule as the controls and navigator.
- */
-.clover-canvas-transport > * {
-  pointer-events: none;
 }
 
 /* An open menu has to clear the captions. */

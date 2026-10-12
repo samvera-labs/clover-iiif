@@ -84,4 +84,28 @@ describe("Download", () => {
     await screen.findByRole("heading");
     expect(screen.queryByRole("button", { name: "Download" })).toBeNull();
   });
+
+  it("lists the same downloads in About, under a Download heading", async () => {
+    render(
+      <Clover.Root iiifContent={withPage}>
+        <Clover.About />
+      </Clover.Root>,
+    );
+    const heading = await screen.findByRole("heading", { name: "Download" });
+    const section = heading.closest("section")!;
+    expect(
+      within(section).getByRole("heading", { name: "This page", level: 4 }),
+    ).toBeInTheDocument();
+    expect(
+      within(section).getByRole("link", { name: /Full-size image/ }),
+    ).toHaveAttribute("href", "https://example.org/page-1.jpg");
+    expect(
+      within(section).getByRole("link", { name: /PDF version/ }),
+    ).toHaveAttribute(
+      "href",
+      "https://fixtures.iiif.io/other/UCLA/kabuki_ezukushi_rtl.pdf",
+    );
+    // About has no button of its own: the links are listed, not behind Download's.
+    expect(screen.queryByRole("button", { name: "Download" })).toBeNull();
+  });
 });

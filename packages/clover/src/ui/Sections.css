@@ -60,15 +60,25 @@ button.clover-sections-button:focus-visible {
 
 /* ---------- accordion: stacked boxes, each with its heading ---------- */
 
+/*
+ * A heading is one line, so its height is known: its own line (`1lh`, at `text-m` with
+ * the page's leading) and the button's `s` padding. The stacking below counts in it; where `lh` is not
+ * understood, the headings simply do not stick.
+ */
 .clover-sections[data-layout="accordion"] {
+  --clover-sections-heading-height: calc(1lh + 2 * var(--clover-space-s));
   display: flex;
   flex-direction: column;
   gap: var(--clover-space-2xs);
 }
 
-/* Boxes by spacing and the heading's hover, without a border of their own. */
+/*
+ * Boxes by spacing and the heading's hover, without a border of their own. The box
+ * itself steps out of the layout, so its heading sticks within the whole list rather
+ * than only within its own box, which is no taller than the heading when closed.
+ */
 .clover-sections[data-layout="accordion"] .clover-sections-item {
-  border-radius: var(--clover-radius, 3px);
+  display: contents;
 }
 
 .clover-sections-heading {
@@ -76,11 +86,147 @@ button.clover-sections-button:focus-visible {
   font-size: inherit;
 }
 
+/*
+ * Every heading stays in sight inside a scrolling container. Scrolled past, a heading
+ * sticks at the top under the ones before it; pushed below by an open section, it sticks
+ * at the bottom over the ones after it. The stacks keep the container's own padding
+ * (`--clover-sections-inset-start` above, `-end` below, which the information panel
+ * sets to where its headings rest), so the first heading holds where it rests from the
+ * first pixel of scrolling. Each is offset by a heading and the boxes' `2xs` gap for
+ * every heading before it (top) or after it (bottom), so a stuck heading sits exactly
+ * where it rests and never shifts as it comes unstuck. They are on the panel's own
+ * colour, and each paints the gap under it too, so what scrolls under them is hidden.
+ */
+.clover-sections[data-layout="accordion"] .clover-sections-heading {
+  position: sticky;
+  font-size: var(--clover-text-m);
+  z-index: 1;
+  --clover-sections-step: calc(
+    var(--clover-sections-heading-height) + var(--clover-space-2xs)
+  );
+  top: calc(
+    var(--clover-sections-inset-start, 0px) + var(--clover-sections-index) *
+      var(--clover-sections-step)
+  );
+  bottom: calc(
+    var(--clover-sections-inset-end, 0px) +
+      (var(--clover-sections-count) - var(--clover-sections-index) - 1) *
+      var(--clover-sections-step)
+  );
+  height: var(--clover-sections-heading-height);
+  background-color: var(--clover-color-secondary, #fff);
+  box-shadow: 0 var(--clover-space-2xs) var(--clover-color-secondary, #fff);
+}
+
+/*
+ * The padding above the first heading and below the last is painted in the heading's
+ * colour, so nothing scrolls into view between a stuck heading and the container's edge.
+ */
+.clover-sections[data-layout="accordion"]
+  > :first-child
+  > .clover-sections-heading::before,
+.clover-sections[data-layout="accordion"]
+  > :last-child
+  > .clover-sections-heading::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  background-color: inherit;
+}
+
+.clover-sections[data-layout="accordion"]
+  > :first-child
+  > .clover-sections-heading::before {
+  bottom: 100%;
+  height: var(--clover-sections-inset-start, 0px);
+}
+
+.clover-sections[data-layout="accordion"]
+  > :last-child
+  > .clover-sections-heading::after {
+  top: 100%;
+  height: var(--clover-sections-inset-end, 0px);
+}
+
+/*
+ * Content passing under a stuck heading shows that it does, faintly: a soft shadow under
+ * the open section's heading once the panel has scrolled, and over the heading after it
+ * while there is more below. Each is a thin gradient just past the heading's edge, its
+ * ends faded over `m`. The scroll drives it, no script; where scroll-driven animation is
+ * not supported, the headings simply cast none.
+ */
+@supports (animation-timeline: scroll()) {
+  .clover-sections[data-layout="accordion"]
+    > [data-open="true"]
+    > .clover-sections-heading
+    > button::after,
+  .clover-sections[data-layout="accordion"]
+    > [data-open="true"]
+    + *
+    > .clover-sections-heading
+    > button::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    height: var(--clover-space-xs);
+    background: linear-gradient(
+      var(--clover-sections-shade),
+      rgb(0 0 0 / 0.09),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 var(--clover-space-m),
+      #000 calc(100% - var(--clover-space-m)),
+      transparent
+    );
+    pointer-events: none;
+    animation: clover-sections-shade linear both;
+    animation-timeline: scroll();
+  }
+
+  .clover-sections[data-layout="accordion"]
+    > [data-open="true"]
+    > .clover-sections-heading
+    > button::after {
+    --clover-sections-shade: to bottom;
+    top: 100%;
+    animation-range: 0 var(--clover-space-m);
+  }
+
+  .clover-sections[data-layout="accordion"]
+    > [data-open="true"]
+    + *
+    > .clover-sections-heading
+    > button::before {
+    --clover-sections-shade: to top;
+    bottom: 100%;
+    animation-direction: reverse;
+    animation-range: calc(100% - var(--clover-space-m)) 100%;
+  }
+}
+
+@keyframes clover-sections-shade {
+  from {
+    opacity: 0;
+  }
+}
+
 .clover-sections[data-layout="accordion"] button.clover-sections-button {
+  position: relative;
   justify-content: space-between;
   width: 100%;
+  height: 100%;
   padding: var(--clover-space-s);
   border-radius: inherit;
+}
+
+/* One line, cut short if it must be, so the heading keeps the height counted on. */
+.clover-sections[data-layout="accordion"] .clover-sections-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .clover-sections[data-layout="accordion"]
@@ -92,6 +238,13 @@ button.clover-sections-button:focus-visible {
   background-color: var(--clover-color-secondary-muted, #e6e8eb);
 }
 
+/* A lone box, which cannot close, is not offered as something to press. */
+.clover-sections[data-layout="accordion"]
+  button.clover-sections-button[aria-disabled] {
+  background: none;
+  cursor: default;
+}
+
 .clover-sections-chevron {
   flex-shrink: 0;
   transition: transform 150ms ease;
@@ -101,7 +254,12 @@ button.clover-sections-button:focus-visible {
   transform: rotate(180deg);
 }
 
+/*
+ * Content scrolls under the stuck headings. Its own stacking context keeps anything
+ * layered inside it (a map's controls) from rising over them.
+ */
 .clover-sections[data-layout="accordion"] .clover-sections-panel {
+  isolation: isolate;
   padding: 0 var(--clover-space-s) var(--clover-space-s);
 }
 

@@ -72,6 +72,11 @@ const InfoTip: React.FC<{ note: string }> = ({ note }) => (
 interface CookbookCoverageTableProps {
   /** Opens a recipe's resource in the viewer. Keep it stable: the table renders once. */
   onView: (resource: string) => void;
+  /**
+   * Whether each recipe says if Clover covers it, with the count above. Default `true`.
+   * Off, it is a list of recipes to open, handled or not (Clover 4's public demo).
+   */
+  showStatus?: boolean;
   /** Called when a View control is approached, so the viewer can load ahead of the click. */
   onPreload?: () => void;
 }
@@ -87,21 +92,26 @@ interface CookbookCoverageTableProps {
 const CookbookCoverageTable: React.FC<CookbookCoverageTableProps> = ({
   onView,
   onPreload,
+  showStatus = true,
 }) => (
-  <div className={styles.coverage}>
-    <p className={styles.summary}>
-      <strong>{coverage.yes}</strong> of {coverage.total} recipes supported
-      {coverage.partial > 0 && <>, {coverage.partial} partially</>}.
-    </p>
+  <div className={styles.coverage} data-status={showStatus}>
+    {showStatus && (
+      <p className={styles.summary}>
+        <strong>{coverage.yes}</strong> of {coverage.total} recipes supported
+        {coverage.partial > 0 && <>, {coverage.partial} partially</>}.
+      </p>
+    )}
     {cookbookSections.map((section) => (
       <section key={section.title}>
         <h4 className={styles.sectionTitle}>{section.title}</h4>
         <table>
           <thead>
             <tr>
-              <th scope="col">
-                <span className={styles.visuallyHidden}>Supported</span>
-              </th>
+              {showStatus && (
+                <th scope="col">
+                  <span className={styles.visuallyHidden}>Supported</span>
+                </th>
+              )}
               <th>Recipe</th>
               <th>Demo</th>
             </tr>
@@ -110,12 +120,14 @@ const CookbookCoverageTable: React.FC<CookbookCoverageTableProps> = ({
             {section.recipes.map((recipe) => {
               const status = statusFor(recipe.slug);
               const resource = resourceFor(recipe.slug);
-              const note = partialNotes[recipe.slug];
+              const note = showStatus ? partialNotes[recipe.slug] : undefined;
               return (
                 <tr key={recipe.slug}>
-                  <td>
-                    <StatusIcon status={status} />
-                  </td>
+                  {showStatus && (
+                    <td>
+                      <StatusIcon status={status} />
+                    </td>
+                  )}
                   <td>
                     <div className={styles.titleRow}>
                       {resource ? (
@@ -172,4 +184,5 @@ const CookbookCoverageTable: React.FC<CookbookCoverageTableProps> = ({
   </div>
 );
 
+export { StatusIcon };
 export default React.memo(CookbookCoverageTable);

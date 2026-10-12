@@ -76,15 +76,6 @@ button.clover-template-document-step:focus-visible {
   outline-offset: 1px;
 }
 
-.clover-template-document-step .clover-pager-label {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-}
-
 /* ---------- body ---------- */
 
 /* A `Clover.Split`: the thumbnails' pane, the bar, and the page's pane. */

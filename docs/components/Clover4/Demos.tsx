@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useMapWorker } from "docs/lib/map-worker";
 
 /**
  * Live demos of @nulib/clover for the 4.x docs. The package is loaded on the client only:
@@ -167,34 +168,6 @@ export function ContentSearchDemo({ query = "Moskau" }: { query?: string }) {
       )}
     </div>
   );
-}
-
-/**
- * MapLibre's worker, as the docs serve it. Next's bundler moves MapLibre's files, so its
- * worker cannot find the module it imports; the docs build one of their own, the same one
- * 3.x generates (`npm run build:maplibre-worker`), and set it once for every map with
- * `setMapWorkerUrl`. Loaded only on pages with a map.
- */
-function useMapWorker() {
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    let live = true;
-    Promise.all([
-      import("@nulib/clover"),
-      import("src/components/Map/maplibre-worker.generated"),
-    ]).then(([{ setMapWorkerUrl }, worker]) => {
-      setMapWorkerUrl(
-        URL.createObjectURL(
-          new Blob([worker.default], { type: "text/javascript" }),
-        ),
-      );
-      if (live) setReady(true);
-    });
-    return () => {
-      live = false;
-    };
-  }, []);
-  return ready;
 }
 
 const StandaloneMap = dynamic(

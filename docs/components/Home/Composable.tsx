@@ -51,12 +51,12 @@ const parts = [
   {
     name: "Root",
     body: "Loads a Manifest, Collection, Canvas or content state, and holds where the reader is. Every part reads from the nearest one.",
-    href: "/docs/viewer#root",
+    href: "/docs/composing#root",
   },
   {
     name: "Content",
     body: "The view the reader is on, drawn by Clover's own renderer: a page, a spread, a video or a sound.",
-    href: "/docs/viewer#parts",
+    href: "/docs/composing#parts",
   },
   {
     name: "Items",
@@ -66,22 +66,22 @@ const parts = [
   {
     name: "Pager",
     body: "Previous, Position and Next, a view at a time, in the book's reading direction.",
-    href: "/docs/viewer#parts",
+    href: "/docs/composing#parts",
   },
   {
     name: "InformationPanel",
-    body: "About, Annotations, Contents, Search, Transcript and Map, as tabs or an accordion. Each is a part of its own too.",
-    href: "/docs/viewer#parts",
+    body: "About, Collection, Annotations, Contents, Search, Transcript and Map, as tabs or an accordion. Each is a part of its own too.",
+    href: "/docs/composing#the-information-panel",
   },
   {
     name: "Label, Summary, Metadata…",
     body: "Each IIIF descriptive property as a part, in the reader's language and sanitised.",
-    href: "/docs/viewer#properties",
+    href: "/docs/composing#properties",
   },
   {
     name: "Split",
     body: "Panes side by side, with a bar between them the reader drags, or moves from the keyboard.",
-    href: "/docs/templates",
+    href: "/docs/composing#panes-side-by-side",
   },
   {
     name: "Canvas",
@@ -111,7 +111,7 @@ const Composable: React.FC = () => (
           own; each reads from the nearest Root.
         </p>
       </div>
-      <Link href="/docs/viewer#your-own-layout" className={styles.sectionLink}>
+      <Link href="/docs/composing" className={styles.sectionLink}>
         Build a layout →
       </Link>
     </div>

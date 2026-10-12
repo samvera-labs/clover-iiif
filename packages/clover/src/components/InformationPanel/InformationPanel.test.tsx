@@ -159,6 +159,53 @@ describe("InformationPanel", () => {
     fireEvent.keyDown(notes, { key: "ArrowRight" });
     expect(about).toHaveAttribute("aria-selected", "true");
   });
+
+  it("lists a Collection's members under About, and opens the one chosen", async () => {
+    const second = {
+      ...manifest,
+      id: "https://example.org/second",
+      label: { en: ["A reply"] },
+    };
+    const collection = {
+      "@context": "http://iiif.io/api/presentation/3/context.json",
+      id: "https://example.org/letters",
+      type: "Collection",
+      label: { en: ["Letters"] },
+      items: [
+        { id: manifest.id, type: "Manifest", label: manifest.label },
+        { id: second.id, type: "Manifest", label: second.label },
+      ],
+    };
+    const fetch = vi.fn(
+      async (url: string) =>
+        new Response(JSON.stringify(url === second.id ? second : manifest), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+    );
+    render(
+      <Clover.Root iiifContent={collection} request={{ fetch }}>
+        <Clover.Label as="h2" />
+        <Clover.InformationPanel />
+      </Clover.Root>,
+    );
+    const tab = await screen.findByRole("tab", { name: "Collection" });
+    // Second, after About.
+    expect(screen.getAllByRole("tab").map((each) => each.textContent)).toEqual([
+      "About",
+      "Collection",
+    ]);
+    fireEvent.click(tab);
+    const panel = screen.getByRole("tabpanel", { name: "Collection" });
+    expect(panel).toHaveTextContent("Letters");
+    const members = within(panel).getAllByRole("option");
+    expect(members).toHaveLength(2);
+    expect(members[0]).toHaveAttribute("aria-selected", "true");
+    fireEvent.click(members[1]);
+    expect(
+      await screen.findByRole("heading", { name: "A reply" }),
+    ).toBeInTheDocument();
+  });
 });
 
 describe("InformationPanel closing", () => {
