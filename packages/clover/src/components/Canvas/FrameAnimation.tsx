@@ -1,6 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
-import type { AnimationFrame } from "./layout";
+import ChoiceMenu from "./ChoiceMenu";
+import { type AnimationFrame, resolveBody } from "./layout";
+import { imageSource } from "../../core/thumbnail";
 import { Tip } from "../../ui/Tip";
 import type { CanvasRenderer } from "../../lib/renderer";
 import { useCloverTranslation } from "../../i18n/useCloverTranslation";
@@ -18,6 +27,22 @@ export interface AnimationState {
 
 /** How long a frame not yet loaded is waited for before it is looked at again. */
 const HOLD_MS = 50;
+
+/** The frames menu's pictures: about this many pixels on their longer side. */
+const FRAME_IMAGE = 128;
+
+/**
+ * A frame's picture for the frames menu, as the scene paints it (its region cut out):
+ * small where its image service can size one, else the image itself, which the scene has
+ * already loaded to play it.
+ */
+function frameImage(frame: AnimationFrame): string | undefined {
+  const { body } = frame.annotation;
+  const resolved = resolveBody(Array.isArray(body) ? body[0] : body);
+  if (!resolved) return undefined;
+  const source = imageSource(resolved.body, FRAME_IMAGE, resolved.region);
+  return source?.src ?? source?.fallback;
+}
 
 /**
  * An animation's clock: the frame shown and whether it plays. Each frame stays for its
@@ -91,6 +116,11 @@ export function useAnimation(
 /**
  * The bar of an animation Canvas: a scrubber over its frames, previous, play or pause,
  * next, and which frame shows. Styled as, and fading with, the media transport.
+ *
+ * Which frame shows is also the control that lists them all, as 3.x's frames strip did:
+ * the menu a Canvas's Choice opens, one radio per frame with its picture and its label
+ * from the Manifest, the frame showing checked. Opening it pauses, and choosing one
+ * shows it, as stepping does.
  */
 export function FrameControls({
   frames,
@@ -102,6 +132,28 @@ export function FrameControls({
   const { t } = useCloverTranslation();
   const { frame, playing, repeat, setFrame, setPlaying, setRepeat } = animation;
   const last = frames.length - 1;
+  const triggerId = `${useId().replace(/:/g, "")}-frames`;
+  const menuId = `${triggerId}-menu`;
+  const [open, setOpen] = useState(false);
+  const close = useCallback(
+    (restoreFocus: boolean) => {
+      setOpen(false);
+      if (restoreFocus) document.getElementById(triggerId)?.focus();
+    },
+    [triggerId],
+  );
+  // One group, as a Canvas's Choice is: the frames, by the Manifest's labels.
+  const group = useMemo(
+    () => ({
+      key: "frame",
+      items: frames.map((f) => ({
+        label: (f.annotation as { label?: unknown }).label,
+        id: f.annotation.id,
+        image: frameImage(f),
+      })),
+    }),
+    [frames],
+  );
   const position = t("framePosition", {
     index: frame + 1,
     total: frames.length,
@@ -229,8 +281,51 @@ export function FrameControls({
           </svg>
           <Tip label={t("frameRepeat")} />
         </button>
-        <span className="clover-canvas-transport-time" aria-live="off">
-          {position}
+        <span className="clover-canvas-transport-frames">
+          <button
+            type="button"
+            id={triggerId}
+            className="clover-canvas-transport-time"
+            aria-controls={open ? menuId : undefined}
+            aria-expanded={open}
+            onClick={() => {
+              // Opening pauses: the frames are there to choose from, not to chase.
+              if (!open) setPlaying(false);
+              setOpen(!open);
+            }}
+          >
+            <span aria-live="off">{position}</span>
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+            >
+              <path
+                d="M3 7.5l3-3 3 3"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+          {open && (
+            <ChoiceMenu
+              id={menuId}
+              triggerId={triggerId}
+              label={t("frameSeek")}
+              choices={[group]}
+              selections={{ frame }}
+              onSelect={(_key, index) => {
+                setPlaying(false);
+                setFrame(index);
+              }}
+              onClose={close}
+            />
+          )}
         </span>
       </div>
     </div>

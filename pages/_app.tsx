@@ -17,7 +17,6 @@ import "docs/styles/layout.css";
 import "docs/styles/tokens.css";
 
 import type { AppProps } from "next/app";
-import { defaultFontFamily } from "docs/lib/preview-fonts";
 import { restorePageTheme } from "docs/lib/page-theme";
 import { useEffect } from "react";
 
@@ -34,24 +33,5 @@ export default function CloverDocsApp({ Component, pageProps }: AppProps) {
     restorePageTheme();
   }, []);
 
-  /*
-   * Lora is the site's default face. `next/font` generates its family name, so it cannot
-   * be written into tokens.css; declaring it here puts it in the server-rendered page,
-   * so the first paint is already in Lora. `--font-sans` reads it from there.
-   */
-  return (
-    <>
-      {/*
-       * Set as raw CSS rather than a text child: React escapes the family's quotes in
-       * server HTML but not on the client, and the mismatch fails hydration. The value
-       * is `next/font`'s own build-time output, never user input.
-       */}
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `:root { --font-default: ${defaultFontFamily}; }`,
-        }}
-      />
-      <Component {...pageProps} />
-    </>
-  );
+  return <Component {...pageProps} />;
 }

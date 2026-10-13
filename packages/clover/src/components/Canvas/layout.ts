@@ -54,7 +54,8 @@ export interface ChoiceGroup {
   canvasId: string;
   /** The Choice's own `label`, when the Manifest gives it one. */
   label?: unknown;
-  items: Array<{ label?: unknown; id?: string }>;
+  /** Each item, and a small picture of it where its menu shows one (a frame's). */
+  items: Array<{ label?: unknown; id?: string; image?: string }>;
 }
 
 /** Which item of each Choice to paint, by `ChoiceGroup.key`. Missing means the first. */
@@ -413,7 +414,7 @@ export function canvasCaptions(canvas: IIIFCanvas): CaptionTrack[] {
   return tracks;
 }
 
-function resolveBody(
+export function resolveBody(
   raw: unknown,
   choice = 0,
 ): { body: Record<string, any>; region?: string } | null {

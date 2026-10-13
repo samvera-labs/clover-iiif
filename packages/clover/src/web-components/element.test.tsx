@@ -85,6 +85,17 @@ describe("<clover-viewer>", () => {
     expect(within(element).queryByRole("listbox")).toBeNull();
   });
 
+  it("header=false leaves out the title over the stage", async () => {
+    const element = mount({ header: "false" });
+    // The strip still draws, so the Manifest has loaded.
+    await within(element).findByRole("button", { name: "Next" });
+    expect(
+      within(element).queryByRole("heading", {
+        name: "Simple Manifest - Book",
+      }),
+    ).toBeNull();
+  });
+
   it("tells the page where the reader moves, as events", async () => {
     const element = mount();
     const moved = vi.fn();

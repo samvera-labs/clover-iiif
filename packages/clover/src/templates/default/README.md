@@ -1,7 +1,7 @@
 # Default
 
 The Viewer's own layout, drawn when it is given no `template`: Clover 3.x's Viewer, built
-from 4.x parts. The title over the stage; the thumbnail strip under the stage, whose
+from 4.x parts. A square thumbnail and the title over the stage; the thumbnail strip under the stage, whose
 arrows are Previous and Next, headed by the titles of the view on the left and the
 position on the right; and the information panel to the right of all three, the layout's
 full height, scrolling within when its sections run longer. Downloads (the page's and the
@@ -31,6 +31,7 @@ pass it: `template={Default}`, from `@nulib/clover/templates`.
 
 | Prop               | Default                     | What it does                                                    |
 | ------------------ | --------------------------- | --------------------------------------------------------------- |
+| `header`           | `true`                      | The thumbnail and title over the stage.                         |
 | `panel`            | `true`                      | The information panel and its toggle.                           |
 | `defaultPanelOpen` | —                           | Whether the panel starts open. Unset: open when it fits beside. |
 | `panelLayout`      | `"accordion"`               | The panel's sections as stacked boxes, or `"tabs"`.             |

@@ -1,4 +1,4 @@
-import React, { Suspense, forwardRef, lazy, useRef } from "react";
+import React, { Suspense, forwardRef, lazy, useEffect, useRef } from "react";
 
 import { About } from "./About";
 import { Tip } from "../../ui/Tip";
@@ -8,6 +8,7 @@ import { Transcript } from "../Transcript/Transcript";
 import { Contents } from "../Contents/Contents";
 import { Items } from "../Items/Items";
 import { Label } from "../Label/Label";
+import { Homepage, Id, Summary } from "../Primitives/Primitives";
 import { Search } from "../Search/Search";
 import { searchServiceOf } from "../../core/search-service";
 import { hasMapData } from "../../core/geo-detect";
@@ -49,16 +50,50 @@ export interface TabProps {
  */
 export const Tab: React.FC<TabProps> = () => null;
 
+/** The first Collection a Manifest says it is `partOf`. */
+const partOfCollection = (manifest: unknown) =>
+  (
+    ((manifest as { partOf?: unknown } | null)?.partOf ?? []) as Array<{
+      id?: string;
+      type?: string;
+      label?: unknown;
+    }>
+  ).find((part) => part?.id && part.type === "Collection");
+
 /**
- * The Collection the Manifest was reached through: its name, and its members as a list,
- * each opening its Manifest in the Root (`Items of="members"`).
+ * The Collection the Manifest was reached through, or else the first it is `partOf`, as
+ * About describes a Manifest: its title and summary, its members as a list (each opening
+ * its Manifest in the Root, `Items of="members"`), then its homepage and its own
+ * address. A `partOf` Collection is fetched only now, as the section first opens (the
+ * panel mounts a section's content then), never ahead of the reader; until it arrives,
+ * what the Manifest's `partOf` says of it is shown.
  */
 function CollectionMembers() {
-  const label = useCloverSelector((state) => state.collection?.label);
+  const { clover } = useClover("InformationPanel");
+  const { t } = useCloverTranslation();
+  const collection = useCloverSelector((state) => state.collection);
+  const partOf = useCloverSelector((state) => partOfCollection(state.manifest));
+  useEffect(() => {
+    if (!collection && partOf?.id) void clover.openCollection(partOf.id);
+  }, [clover, collection, partOf]);
+  const shown = (collection ?? partOf) as Record<string, any> | undefined;
+  if (!shown) return null;
+  const homepage = shown.homepage as unknown[] | undefined;
   return (
-    <div className="clover-collection-members">
-      <Label as="p" label={label} className="clover-collection-members-label" />
+    <div className="clover-about clover-collection">
+      <Label as="h3" label={shown.label} className="clover-collection-title" />
+      <Summary value={shown.summary} className="clover-about-summary" />
       <Items of="members" layout="list" />
+      {Array.isArray(homepage) && homepage.length > 0 && (
+        <section className="clover-about-section">
+          <h3 className="clover-about-heading">{t("aboutHomepage")}</h3>
+          <Homepage value={homepage as never} />
+        </section>
+      )}
+      <section className="clover-about-section">
+        <h3 className="clover-about-heading">{t("aboutCollection")}</h3>
+        <Id value={shown.id} />
+      </section>
     </div>
   );
 }
@@ -160,8 +195,11 @@ export const InformationPanel = forwardRef<HTMLElement, InformationPanelProps>(
     const hasMap = useCloverSelector((state) =>
       hasMapData(state.manifest, state.collection),
     );
+    // Reached through a Collection, or part of one: offered either way, fetched only when opened.
     const hasCollection = useCloverSelector(
-      (state) => (state.collection?.items?.length ?? 0) > 0,
+      (state) =>
+        (state.collection?.items?.length ?? 0) > 0 ||
+        Boolean(partOfCollection(state.manifest)),
     );
     const given = React.Children.toArray(children).filter(
       (child): child is React.ReactElement<TabProps> =>

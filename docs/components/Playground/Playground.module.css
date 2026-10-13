@@ -16,7 +16,7 @@
    * moves the page. Scrolled to, the bar and the stage fill the screen under the navbar;
    * templates taller than it (a Gallery, a Text) scroll inside.
    */
-  --pg-stage-height: clamp(36rem, calc(100vh - 11rem), 48rem);
+  --pg-stage-height: clamp(36rem, calc(100vh - 10rem), 54rem);
 }
 
 /* ── The bar: the resources, then the layout ─────────────────────────────── */

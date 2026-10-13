@@ -17,11 +17,19 @@
 
 .clover-template-default-header {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--clover-space-m);
+  gap: var(--clover-space-s);
   padding: var(--clover-inset);
+}
+
+/* The Manifest's thumbnail, square, `xl` on a side, at the start of the title's line. */
+.clover-template-default-thumbnail {
+  flex: none;
+  width: var(--clover-space-xl);
+  height: var(--clover-space-xl);
+  object-fit: cover;
+  border-radius: var(--clover-radius, 3px);
+  background-color: var(--clover-color-secondary-muted, #e6e8eb);
 }
 
 .clover-template-default-title {
@@ -141,10 +149,10 @@
 }
 
 /*
- * The strip's arrows line up with what is above them. The left one sits on the line the
- * titles start on, the strip's own edge; the right one under the stage's controls, `m`
- * in from the pane's edge, as the cluster is. In a right-to-left book they swap: Next
- * on the left, Previous on the right.
+ * The strip's arrows line up with what is above them. The left one sits `s` past the
+ * line the titles start on, the strip's own edge; the right one under the stage's
+ * controls, `m` in from the pane's edge, as the cluster is. In a right-to-left book they
+ * swap: Next on the left, Previous on the right.
  */
 .clover-template-default-rail
   .clover-items-frame:not([dir="rtl"])
@@ -152,7 +160,7 @@
 .clover-template-default-rail
   .clover-items-frame[dir="rtl"]
   > button.clover-items-scroll-next {
-  left: 0;
+  left: calc(-1 * var(--clover-space-s));
 }
 
 .clover-template-default-rail
@@ -169,7 +177,7 @@
   display: none;
 }
 
-/* The view's titles and the position, in the page's own size. */
+/* The view's titles in the page's own size, and the position a step under it (`s`). */
 .clover-template-default-rail-header {
   display: flex;
   align-items: baseline;
@@ -195,4 +203,5 @@
 .clover-template-default-rail-header .clover-pager-position {
   flex-shrink: 0;
   margin-inline-start: auto;
+  font-size: var(--clover-text-s);
 }

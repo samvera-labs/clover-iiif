@@ -18,6 +18,8 @@ const PANEL_MIN = "14rem";
 const BESIDE_REM = 16 + 14 + 1;
 
 export type DefaultProps = Omit<RootProps, "children"> & {
+  /** The header over the stage: the resource's thumbnail and title. Default `true`. */
+  header?: boolean;
   /** The information panel beside the stage, with its toggle. Default `true`. */
   panel?: boolean;
   /** Whether the panel starts open. Default: open when it has room beside the stage. */
@@ -52,6 +54,7 @@ export type DefaultProps = Omit<RootProps, "children"> & {
  */
 export function Default({
   className,
+  header = true,
   panel = true,
   defaultPanelOpen,
   panelLayout = "accordion",
@@ -100,9 +103,17 @@ export function Default({
           className="clover-template-default-main"
           min={STAGE_MIN}
         >
-          <header className="clover-template-default-header">
-            <Clover.Label as="h2" className="clover-template-default-title" />
-          </header>
+          {header && (
+            <header className="clover-template-default-header">
+              {/* Decorative: the title beside it names what it pictures. */}
+              <Clover.Thumbnail
+                alt=""
+                className="clover-template-default-thumbnail"
+                size={128}
+              />
+              <Clover.Label as="h2" className="clover-template-default-title" />
+            </header>
+          )}
           <Clover.Status />
           <Clover.Content className="clover-template-default-stage">
             {panel && (

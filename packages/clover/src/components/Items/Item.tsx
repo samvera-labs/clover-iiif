@@ -4,6 +4,7 @@ import type { ItemModel, ItemPart } from "../../core/items";
 import type { CloverRequest } from "../../core/request";
 import { resolveThumbnail, thumbnailSource } from "../../core/thumbnail";
 import { localize } from "../../core/value";
+import { VolumeHighIcon } from "../../ui/mediaIcons";
 
 /** `h:mm:ss`, or `m:ss` under an hour. */
 export function formatDuration(seconds: number): string {
@@ -14,7 +15,10 @@ export function formatDuration(seconds: number): string {
   return h ? `${h}:${String(m).padStart(2, "0")}:${s}` : `${m}:${s}`;
 }
 
-/** A part's thumbnail URL: at once for a sizeable service, after `info.json` for level 0. */
+/**
+ * A part's thumbnail URL: at once for a sizeable service, after `info.json` for level 0.
+ * `none` when the resource has no image to ask for at all (sound with no picture).
+ */
 function useThumbnail(
   part: ItemPart,
   size: number,
@@ -36,7 +40,7 @@ function useThumbnail(
     // `key` stands in for `source`, a new object each render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, size]);
-  return src;
+  return { src, none: !source };
 }
 
 function Picture({
@@ -50,7 +54,7 @@ function Picture({
   request?: CloverRequest;
   alt: string;
 }) {
-  const src = useThumbnail(part, size, request);
+  const { src, none } = useThumbnail(part, size, request);
   const [loaded, setLoaded] = useState(false);
   /*
    * The Canvas's own shape, as the image's width and height attributes, so its card has
@@ -63,8 +67,22 @@ function Picture({
     height?: number;
   };
   const ratio = width && height ? width / height : 1;
+  /*
+   * Nothing to show yet, or ever (sound with no picture): the picture keeps the box an
+   * image would have, so its cell does not collapse to its caption. Sound says so.
+   */
   return (
-    <span className="clover-items-picture" data-loaded={loaded}>
+    <span
+      className="clover-items-picture"
+      data-loaded={loaded}
+      data-empty={src ? undefined : true}
+      style={
+        src
+          ? undefined
+          : ({ "--clover-items-ratio": ratio } as React.CSSProperties)
+      }
+    >
+      {!src && none && part.media === "Sound" && <VolumeHighIcon />}
       {src && (
         <img
           src={src}

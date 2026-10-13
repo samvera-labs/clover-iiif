@@ -160,6 +160,51 @@ describe("InformationPanel", () => {
     expect(about).toHaveAttribute("aria-selected", "true");
   });
 
+  it("offers the Collection a Manifest is part of, fetching it only when opened", async () => {
+    const SHELF = "https://example.org/letters";
+    const letter = {
+      ...manifest,
+      partOf: [{ id: SHELF, type: "Collection", label: { en: ["Letters"] } }],
+    };
+    const collection = {
+      "@context": "http://iiif.io/api/presentation/3/context.json",
+      id: SHELF,
+      type: "Collection",
+      label: { en: ["Letters"] },
+      items: [
+        { id: letter.id, type: "Manifest", label: letter.label },
+        {
+          id: "https://example.org/second",
+          type: "Manifest",
+          label: { en: ["A reply"] },
+        },
+      ],
+    };
+    const fetch = vi.fn(
+      async (url: string) =>
+        new Response(JSON.stringify(url === SHELF ? collection : {}), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+    );
+    render(
+      <Clover.Root iiifContent={letter} request={{ fetch }}>
+        <Clover.InformationPanel />
+      </Clover.Root>,
+    );
+    const tab = await screen.findByRole("tab", { name: "Collection" });
+    // Offered, but nothing is fetched until the reader opens it.
+    expect(fetch).not.toHaveBeenCalled();
+    fireEvent.click(tab);
+    const panel = screen.getByRole("tabpanel", { name: "Collection" });
+    expect(panel).toHaveTextContent("Letters");
+    const members = await within(panel).findAllByRole("option");
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch.mock.calls[0][0]).toBe(SHELF);
+    expect(members).toHaveLength(2);
+    expect(members[0]).toHaveAttribute("aria-selected", "true");
+  });
+
   it("lists a Collection's members under About, and opens the one chosen", async () => {
     const second = {
       ...manifest,

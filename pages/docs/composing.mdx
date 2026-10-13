@@ -143,7 +143,8 @@ carries markup.
 `InformationPanel` shows the sections that have something to show: About, and
 Collection, Annotations, Contents, Search, Transcript and Map when the content has
 them. Collection, after About, lists the members of the Collection the Manifest was
-reached through, and choosing one shows it. It lays them
+reached through, or the one it is `partOf` (fetched only when the section opens), and
+choosing one shows it. It lays them
 out as tabs (`layout="tabs"`, the default) or stacked boxes (`layout="accordion"`), from
 the same parts and the same state, so switching keeps what is open. `value`,
 `defaultValue` and `onValueChange` choose the open section.

@@ -5,6 +5,7 @@
  *   --clover-items-height  a carousel's picture height (default 8rem)
  *   --clover-items-size    a grid column's width (default 10rem)
  *   --clover-items-gap     the space between items (default 0.75rem)
+ *   --clover-items-lines   the lines a carousel's or grid's title runs to (default 3)
  *
  * The scroll container, its flex row and each item's snap point are set inline (by the
  * component and `useScrollTrack`), so a carousel still scrolls without this file.
@@ -16,6 +17,7 @@
   --clover-items-gap: var(--clover-space-m);
   /* Room round each item's pictures for their ring: 1px clear, then the ring, 3px. */
   --clover-items-ring-room: 4px;
+  --clover-items-lines: 3;
   color: var(--clover-color-primary, #1a1d1e);
 }
 
@@ -67,11 +69,13 @@
 /*
  * The ring's room, given back: items keep it round themselves, and the viewport keeps it
  * round them, so a strip's edge never cuts a ring and the pictures still line up with
- * what is beside them.
+ * what is beside them. Items snap to that same edge (`scroll-padding`), not to the
+ * viewport's own, so a track at rest has not scrolled by the room.
  */
 .clover-items-viewport {
   margin: calc(-1 * var(--clover-items-ring-room));
   padding: var(--clover-items-ring-room);
+  scroll-padding-inline: var(--clover-items-ring-room);
   scrollbar-width: none;
 }
 
@@ -82,6 +86,76 @@
 .clover-items-viewport[data-dragging] {
   cursor: grabbing;
   user-select: none;
+}
+
+/*
+ * Thumbnails passing under a carousel's ends show that they do, as the information
+ * panel's headings do: a shadow at the start once the track has scrolled, and at the end
+ * while there is more. Each is a gradient at the viewport's edge, `s` wide, as tall as
+ * the pictures and level with them (not the captions under them), its ends faded over
+ * `s`. The track's scroll drives it, no script; where scroll-driven animation is not
+ * supported, there is none.
+ */
+@supports (timeline-scope: --clover-items-track) {
+  .clover-items[data-layout="carousel"] .clover-items-frame {
+    timeline-scope: --clover-items-track;
+  }
+
+  .clover-items[data-layout="carousel"] .clover-items-viewport {
+    scroll-timeline: --clover-items-track inline;
+  }
+
+  .clover-items[data-layout="carousel"] .clover-items-frame::before,
+  .clover-items[data-layout="carousel"] .clover-items-frame::after {
+    content: "";
+    position: absolute;
+    top: var(--clover-items-ring-room);
+    z-index: 1;
+    width: var(--clover-space-s);
+    height: var(--clover-items-height);
+    background: linear-gradient(
+      var(--clover-items-shade),
+      rgb(0 0 0 / 0.16),
+      transparent
+    );
+    mask-image: linear-gradient(
+      transparent,
+      #000 var(--clover-space-s),
+      #000 calc(100% - var(--clover-space-s)),
+      transparent
+    );
+    /* Hidden unless the track scrolls: one that fits has nothing passing under its ends. */
+    opacity: 0;
+    pointer-events: none;
+    animation: clover-shade linear both;
+    animation-timeline: --clover-items-track;
+  }
+
+  .clover-items[data-layout="carousel"] .clover-items-frame::before {
+    --clover-items-shade: to right;
+    left: calc(-1 * var(--clover-items-ring-room));
+    animation-range: 0 var(--clover-space-m);
+  }
+
+  .clover-items[data-layout="carousel"] .clover-items-frame::after {
+    --clover-items-shade: to left;
+    right: calc(-1 * var(--clover-items-ring-room));
+    animation-direction: reverse;
+    animation-range: calc(100% - var(--clover-space-m)) 100%;
+  }
+
+  /* A right-to-left track starts on the right: its shadows swap ends. */
+  .clover-items[data-layout="carousel"] .clover-items-frame[dir="rtl"]::before {
+    --clover-items-shade: to left;
+    right: calc(-1 * var(--clover-items-ring-room));
+    left: auto;
+  }
+
+  .clover-items[data-layout="carousel"] .clover-items-frame[dir="rtl"]::after {
+    --clover-items-shade: to right;
+    left: calc(-1 * var(--clover-items-ring-room));
+    right: auto;
+  }
 }
 
 .clover-items[data-layout="list"] .clover-items-track {
@@ -171,6 +245,25 @@
   opacity: 1;
 }
 
+/*
+ * A picture with no image (yet, or at all: sound with nothing to show) keeps the box its
+ * image would have, at the resource's shape (`--clover-items-ratio`, square without
+ * one), so its cell never collapses to its caption. Sound's glyph sits in the middle.
+ */
+.clover-items-picture[data-empty] {
+  display: grid;
+  place-items: center;
+  aspect-ratio: var(--clover-items-ratio, 1);
+  color: var(--clover-color-primary-muted, #26292b);
+}
+
+.clover-items-picture[data-empty] > svg {
+  width: 33%;
+  max-width: var(--clover-space-xl);
+  height: auto;
+  fill: currentColor;
+}
+
 /* A spread's pages meet at the gutter: rounded only on the outside. */
 .clover-items-pictures > .clover-items-picture:first-child {
   border-start-start-radius: inherit;
@@ -206,6 +299,20 @@
   contain: inline-size;
 }
 
+/*
+ * Under a carousel's or grid's pictures, a title runs to three lines
+ * (`--clover-items-lines`) and is cut short after, so a long one cannot push its row
+ * apart. A list's titles sit beside their pictures and keep their own rules.
+ */
+.clover-items:is([data-layout="carousel"], [data-layout="grid"])
+  .clover-items-label {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--clover-items-lines);
+  line-clamp: var(--clover-items-lines);
+}
+
 /* A member's summary runs under all of it. */
 .clover-items-summary {
   grid-column: 1 / -1;
@@ -213,6 +320,7 @@
 }
 
 /* Carousel: a common picture height, each picture at its own aspect. */
+.clover-items[data-layout="carousel"] .clover-items-picture[data-empty],
 .clover-items[data-layout="carousel"] .clover-items-picture img {
   width: auto;
   height: var(--clover-items-height);
@@ -266,6 +374,10 @@
 
 .clover-items[data-layout="list"] .clover-items-picture img {
   width: auto;
+  height: var(--clover-space-xl);
+}
+
+.clover-items[data-layout="list"] .clover-items-picture[data-empty] {
   height: var(--clover-space-xl);
 }
 
@@ -326,7 +438,8 @@
 :is(button.clover-items-scroll-prev, button.clover-items-scroll-next) {
   position: absolute;
   top: calc(var(--clover-items-height) / 2);
-  z-index: 1;
+  /* Over the shadows at the track's ends. */
+  z-index: 2;
   translate: 0 -50%;
   box-shadow: 0 1px 4px rgb(0 0 0 / 0.25);
 }

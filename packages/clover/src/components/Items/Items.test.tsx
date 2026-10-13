@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen, within } from "@testing-library/react";
 import React from "react";
 
+import audioJson from "../../fixtures/iiif-cookbook/0002-mvm-audio.json";
 import bookJson from "../../fixtures/iiif-cookbook/0009-book-1.json";
 import rtlJson from "../../fixtures/iiif-cookbook/0010-book-2-viewing-direction-rtl.json";
 import { initCloverI18n } from "../../i18n";
@@ -229,5 +230,50 @@ describe("Items standalone", () => {
     expect(image).toHaveAttribute("loading", "lazy");
     expect(image).toHaveAttribute("width", "120");
     expect(image).toHaveAttribute("alt", "");
+  });
+});
+
+describe("Items with nothing to picture", () => {
+  // Cookbook 0002's sound Canvas, twice: no thumbnail, no image, no size.
+  const track = audioJson.items[0];
+  const tracks = {
+    ...audioJson,
+    items: [
+      { ...track, label: { en: ["First track"] } },
+      { ...track, id: `${track.id}-2`, label: { en: ["Second track"] } },
+    ],
+  };
+
+  it("keeps each sound's picture a box, square, with a speaker in it", async () => {
+    render(
+      <Clover.Root iiifContent={tracks}>
+        <Clover.Items />
+      </Clover.Root>,
+    );
+    await screen.findByRole("option", { name: /Second track/ });
+    const pictures = document.querySelectorAll<HTMLElement>(
+      ".clover-items-picture",
+    );
+    expect(pictures).toHaveLength(2);
+    for (const picture of pictures) {
+      expect(picture).toHaveAttribute("data-empty", "true");
+      expect(picture.style.getPropertyValue("--clover-items-ratio")).toBe("1");
+      expect(picture.querySelector("img")).toBeNull();
+      expect(picture.querySelector("svg")).not.toBeNull();
+      expect(picture.querySelector(".clover-items-duration")).toHaveTextContent(
+        "33:05",
+      );
+    }
+  });
+
+  it("keeps the box, without the speaker, for a member with no thumbnail", () => {
+    render(
+      <Clover.Items
+        items={[{ id: "https://example.org/m3", type: "Manifest" }]}
+      />,
+    );
+    const picture = document.querySelector(".clover-items-picture")!;
+    expect(picture).toHaveAttribute("data-empty", "true");
+    expect(picture.querySelector("svg")).toBeNull();
   });
 });

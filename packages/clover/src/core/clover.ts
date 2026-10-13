@@ -12,7 +12,12 @@ import {
   type Target,
   buildContentState,
 } from "./content-state";
-import { type IIIFContent, loadContent, loadManifest } from "./load";
+import {
+  type IIIFContent,
+  fetchResource,
+  loadContent,
+  loadManifest,
+} from "./load";
 import { embedPage, fetchPage, referencedPages } from "./pages";
 import type { Collection, Manifest } from "./presentation";
 import type { CloverRequest } from "./request";
@@ -108,6 +113,13 @@ export interface Clover {
   goToManifest(id: string): Promise<void>;
   /** A controlled host's Manifest, shown without asking it again. */
   syncManifest(id: string | null): Promise<void>;
+  /**
+   * Show a Collection the Manifest is part of (its `partOf`) beside it: the Collection's
+   * members become a choice, while the Manifest and the reader's place stay as they are.
+   * Nothing changes if it will not load, or the reader has moved on meanwhile. The
+   * information panel calls it when its Collection section first opens.
+   */
+  openCollection(id: string): Promise<void>;
   next(options?: { autoplay?: boolean; wrap?: boolean }): void;
   previous(): void;
   first(): void;
@@ -350,6 +362,18 @@ export function createClover(options: CloverOptions = {}): Clover {
     },
 
     load,
+    async openCollection(id) {
+      const shown = store.get().manifest;
+      if (!shown || store.get().collection?.id === id) return;
+      try {
+        const collection = await fetchResource(id, { request });
+        if (collection.type !== "Collection") return;
+        if (store.get().manifest !== shown) return;
+        store.set({ collection: collection as Collection });
+      } catch {
+        // A Collection that will not load leaves the Manifest as it was.
+      }
+    },
     async goToManifest(id) {
       if (isShown(id)) return;
       const member = memberOf(id);

@@ -194,6 +194,32 @@ describe("FrameControls", () => {
     );
   });
 
+  it("lists the frames by their labels, as a Choice's menu, pausing to choose one", () => {
+    const [canvas] = (p4(muybridgeJson) as any).items as IIIFCanvas[];
+    const frames = animationFrames(canvas);
+    const animation = state(3);
+    render(<FrameControls frames={frames} animation={animation} />);
+    const trigger = screen.getByRole("button", { name: "Frame 4 of 16" });
+    expect(trigger).toHaveAttribute("aria-expanded", "false");
+    fireEvent.click(trigger);
+    expect(trigger).toHaveAttribute("aria-expanded", "true");
+    // Opening pauses, so the frame checked holds still to choose from.
+    expect(animation.setPlaying).toHaveBeenCalledWith(false);
+    const radios = screen.getAllByRole("radio");
+    expect(radios).toHaveLength(16);
+    // Named by the Manifest's labels, each with its picture; the frame showing checked.
+    expect(screen.getByRole("radio", { name: "4" })).toBeChecked();
+    expect(document.querySelectorAll(".clover-canvas-menu-image")).toHaveLength(
+      16,
+    );
+    fireEvent.click(screen.getByRole("radio", { name: "9" }));
+    expect(animation.setFrame).toHaveBeenCalledWith(8);
+    // Escape closes it and gives focus back to the label.
+    fireEvent.keyDown(document, { key: "Escape" });
+    expect(screen.queryAllByRole("radio")).toHaveLength(0);
+    expect(trigger).toHaveFocus();
+  });
+
   it("offers Repeat, as 3.x does, pressed when it loops", () => {
     const animation = state(1);
     render(

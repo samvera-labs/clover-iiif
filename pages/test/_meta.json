@@ -1,0 +1,11 @@
+{
+  "dc-item": {
+    "title": "Digital Collections item (mock)",
+    "display": "hidden",
+    "theme": {
+      "layout": "raw",
+      "navbar": false,
+      "footer": false
+    }
+  }
+}

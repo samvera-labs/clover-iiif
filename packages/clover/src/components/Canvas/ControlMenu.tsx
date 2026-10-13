@@ -11,12 +11,13 @@ interface ControlMenuProps {
 }
 
 /**
- * The menu a control in the cluster opens — Choice, annotations — hanging below it.
+ * The menu a control opens — Choice, annotations — hanging below the cluster; an
+ * animation's frames open the same menu up from their bar.
  *
  * Its items are native radios in fieldsets, so a reader moves between them with the
  * arrow keys and hears the group's name and the current item. Opening focuses the checked
- * item (else the first). It closes on Escape, returning focus to the control, and on a
- * press outside.
+ * item (else the first), scrolled into the menu's view. It closes on Escape, returning
+ * focus to the control, and on a press outside.
  */
 const ControlMenu: React.FC<ControlMenuProps> = ({
   id,
@@ -29,10 +30,19 @@ const ControlMenu: React.FC<ControlMenuProps> = ({
 
   useEffect(() => {
     const menu = ref.current;
-    (
+    const item =
       menu?.querySelector<HTMLInputElement>("input:checked") ??
-      menu?.querySelector<HTMLInputElement>("input")
-    )?.focus();
+      menu?.querySelector<HTMLInputElement>("input");
+    // Its whole row in sight within the menu (a long one scrolls), never the page.
+    const row = item?.closest("label");
+    if (menu && row) {
+      const bottom = row.offsetTop + row.offsetHeight;
+      if (bottom > menu.scrollTop + menu.clientHeight) {
+        menu.scrollTop = bottom - menu.clientHeight;
+      }
+      if (row.offsetTop < menu.scrollTop) menu.scrollTop = row.offsetTop;
+    }
+    item?.focus({ preventScroll: true });
 
     const onPointerDown = (event: PointerEvent) => {
       const target = event.target as Element | null;

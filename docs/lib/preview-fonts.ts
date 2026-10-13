@@ -49,9 +49,6 @@ const merriweather = Merriweather({
   weight: ["400", "700"],
 });
 
-/** The site's default family, declared as `--font-default` by `_app`. */
-export const defaultFontFamily = lora.style.fontFamily;
-
 export interface FontPreset {
   name: string;
   value: string;
@@ -59,6 +56,8 @@ export interface FontPreset {
 }
 
 export const fontPresets: FontPreset[] = [
+  /* The site's own face (`--font-sans`, self-hosted), so choosing it clears the override. */
+  { name: "Google Sans", value: "", category: "Sans serif" },
   { name: "Inter", value: inter.style.fontFamily, category: "Sans serif" },
   { name: "Roboto", value: roboto.style.fontFamily, category: "Sans serif" },
   { name: "DM Sans", value: dmSans.style.fontFamily, category: "Sans serif" },
@@ -68,8 +67,7 @@ export const fontPresets: FontPreset[] = [
     category: "Sans serif",
   },
 
-  /* The site's own face (`--font-sans`), so choosing it clears the override. */
-  { name: "Lora", value: "", category: "Serif" },
+  { name: "Lora", value: lora.style.fontFamily, category: "Serif" },
   {
     name: "EB Garamond",
     value: ebGaramond.style.fontFamily,

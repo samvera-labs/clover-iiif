@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Close, OpenViewer, Play } from "./glyphs";
+import { Close, CloseViewer, OpenViewer, Play } from "./glyphs";
 import Button from "../../ui/Button";
 import { useCloverTranslation } from "../../i18n/useCloverTranslation";
 
@@ -75,7 +75,18 @@ const Placeholder: React.FC<PlaceholderProps> = ({
         }
         onClick={onToggle}
       >
-        {active ? media ? <Play /> : <OpenViewer /> : <Close />}
+        {/* A video's opens as play; an image's opens and closes with a magnifier. */}
+        {media ? (
+          active ? (
+            <Play />
+          ) : (
+            <Close />
+          )
+        ) : active ? (
+          <OpenViewer />
+        ) : (
+          <CloseViewer />
+        )}
       </Button>
       {(active || lingering) && (
         <div

@@ -1,5 +1,5 @@
 .page {
-  background: var(--color-background-home, var(--color-background));
+  background: var(--color-background);
   color: var(--gray-12);
   padding-bottom: 6rem;
 }
@@ -25,9 +25,9 @@
 
 /* ── Hero ─────────────────────────────────────────────────────────────────── */
 
-/* Kept short, so the playground's stage starts above the fold. */
+/* Room to breathe above and below, on the golden scale (2xl over, xl under). */
 .hero {
-  padding: 2.5rem 0 2rem;
+  padding: 4.236rem 0 2.618rem;
   text-align: center;
 }
 

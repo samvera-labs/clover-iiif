@@ -69,10 +69,9 @@ export const resources: PlaygroundResource[] = [
   {
     key: "book",
     name: "Book",
-    title: "Wunder der Vererbung / von Fritz Bolle.",
-    resource: "https://iiif.wellcomecollection.org/presentation/v3/b18035723",
-    thumbnail:
-      "https://iiif.wellcomecollection.org/thumbs/b18035723_0001.JP2/full/!200,200/0/default.jpg",
+    title: "[Manuscript notebook].",
+    resource: demoResources.viewer,
+    thumbnail: `${works}/b52d5d93-a117-43e9-90c7-434fa1212b60/thumbnail`,
   },
   {
     key: "manuscript",
@@ -123,12 +122,12 @@ export const resources: PlaygroundResource[] = [
   {
     key: "animation",
     name: "Animation",
-    title: 'Plate Number 626. "Annie G." galloping',
+    title: "Plate Number 700. Buffalo galloping",
     resource:
-      "https://nulib-ds.github.io/muybridge/iiif/plate-number-626-annie-g-galloping.json",
+      "https://nulib-ds.github.io/muybridge/iiif/plate-number-700-buffalo-galloping.json",
     // The first frame, not the plate's own animated GIF, which is over a megabyte.
     thumbnail:
-      "https://api.nga.gov/iiif/d3bdd5ac-a597-4cd6-a1e7-921f42edbd8e/pct:1.2882,1.2152,23.6669,23.3242/!300,300/0/default.jpg",
+      "https://api.nga.gov/iiif/53c83e9d-7a7f-46c7-8701-13fd2d26decc/pct:1.5494,2.0782,24.1071,21.7604/!300,300/0/default.jpg",
   },
 ];
 

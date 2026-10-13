@@ -11,6 +11,14 @@
     "title": "Documentation",
     "type": "page"
   },
+  "test": {
+    "type": "page",
+    "title": "Test pages",
+    "display": "hidden",
+    "theme": {
+      "layout": "raw"
+    }
+  },
   "404": {
     "display": "hidden",
     "theme": {

@@ -69,7 +69,6 @@ button.clover-sections-button:focus-visible {
   --clover-sections-heading-height: calc(1lh + 2 * var(--clover-space-s));
   display: flex;
   flex-direction: column;
-  gap: var(--clover-space-2xs);
 }
 
 /*
@@ -95,7 +94,9 @@ button.clover-sections-button:focus-visible {
  * first pixel of scrolling. Each is offset by a heading and the boxes' `2xs` gap for
  * every heading before it (top) or after it (bottom), so a stuck heading sits exactly
  * where it rests and never shifts as it comes unstuck. They are on the panel's own
- * colour, and each paints the gap under it too, so what scrolls under them is hidden.
+ * colour, and each carries the `2xs` under it as its own padding (so the boxes are
+ * spaced by their headings and panels, not a gap): nothing can show between two stuck
+ * headings. Padding, not a border, since a border's width snaps to device pixels.
  */
 .clover-sections[data-layout="accordion"] .clover-sections-heading {
   position: sticky;
@@ -113,20 +114,33 @@ button.clover-sections-button:focus-visible {
       (var(--clover-sections-count) - var(--clover-sections-index) - 1) *
       var(--clover-sections-step)
   );
+  box-sizing: content-box;
   height: var(--clover-sections-heading-height);
+  padding-bottom: var(--clover-space-2xs);
   background-color: var(--clover-color-secondary, #fff);
-  box-shadow: 0 var(--clover-space-2xs) var(--clover-color-secondary, #fff);
+}
+
+/*
+ * The first closed box after the open one is set `s` apart from its content, resting or
+ * stuck below it: its heading carries the space as padding, in its own colour.
+ */
+.clover-sections[data-layout="accordion"]
+  > [data-open="true"]
+  + *
+  > .clover-sections-heading {
+  padding-top: var(--clover-space-s);
 }
 
 /*
  * The padding above the first heading and below the last is painted in the heading's
  * colour, so nothing scrolls into view between a stuck heading and the container's edge.
+ * Below the last only while its box is closed: open, its content is what follows it.
  */
 .clover-sections[data-layout="accordion"]
   > :first-child
   > .clover-sections-heading::before,
 .clover-sections[data-layout="accordion"]
-  > :last-child
+  > :last-child:not([data-open="true"])
   > .clover-sections-heading::after {
   content: "";
   position: absolute;
@@ -142,7 +156,7 @@ button.clover-sections-button:focus-visible {
 }
 
 .clover-sections[data-layout="accordion"]
-  > :last-child
+  > :last-child:not([data-open="true"])
   > .clover-sections-heading::after {
   top: 100%;
   height: var(--clover-sections-inset-end, 0px);
@@ -171,7 +185,7 @@ button.clover-sections-button:focus-visible {
     height: var(--clover-space-xs);
     background: linear-gradient(
       var(--clover-sections-shade),
-      rgb(0 0 0 / 0.09),
+      rgb(0 0 0 / 0.05),
       transparent
     );
     mask-image: linear-gradient(
@@ -181,8 +195,9 @@ button.clover-sections-button:focus-visible {
       #000 calc(100% - var(--clover-space-m)),
       transparent
     );
+    opacity: 0;
     pointer-events: none;
-    animation: clover-sections-shade linear both;
+    animation: clover-shade linear both;
     animation-timeline: scroll();
   }
 
@@ -201,15 +216,24 @@ button.clover-sections-button:focus-visible {
     > .clover-sections-heading
     > button::before {
     --clover-sections-shade: to top;
-    bottom: 100%;
+    /* Over the content, above the heading's own `s` (above). */
+    bottom: calc(100% + var(--clover-space-s));
     animation-direction: reverse;
     animation-range: calc(100% - var(--clover-space-m)) 100%;
   }
 }
 
-@keyframes clover-sections-shade {
+/*
+ * A shadow fading in with the scroll; Items' carousel uses it too. Both ends are given:
+ * each shadow is hidden as it stands (`opacity: 0`), so where its container cannot
+ * scroll, and the timeline has nothing to drive, it stays hidden.
+ */
+@keyframes clover-shade {
   from {
     opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
@@ -232,6 +256,30 @@ button.clover-sections-button:focus-visible {
 .clover-sections[data-layout="accordion"]
   button.clover-sections-button[aria-expanded="true"] {
   color: var(--clover-color-primary, #1a1d1e);
+}
+
+/*
+ * A closed box's heading is in the accent, its label underlined faintly, as something to
+ * open; the open one is the text's own colour. The same weight in both, so a label never
+ * changes width as it opens.
+ */
+.clover-sections[data-layout="accordion"]
+  button.clover-sections-button[aria-expanded="false"] {
+  color: var(--clover-color-accent, #0065c3);
+}
+
+.clover-sections[data-layout="accordion"]
+  button.clover-sections-button[aria-expanded="false"]
+  .clover-sections-label {
+  text-decoration: underline 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 20%, transparent);
+  text-underline-offset: var(--clover-space-2xs);
+}
+
+.clover-sections[data-layout="accordion"]
+  button.clover-sections-button[aria-expanded="false"]:hover
+  .clover-sections-label {
+  text-decoration-color: currentColor;
 }
 
 .clover-sections[data-layout="accordion"] button.clover-sections-button:hover {
@@ -260,6 +308,7 @@ button.clover-sections-button:focus-visible {
  */
 .clover-sections[data-layout="accordion"] .clover-sections-panel {
   isolation: isolate;
+  margin-bottom: var(--clover-space-2xs);
   padding: 0 var(--clover-space-s) var(--clover-space-s);
 }
 

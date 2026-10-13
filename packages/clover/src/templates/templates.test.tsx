@@ -96,6 +96,26 @@ describe("templates", () => {
     expect(titles).toHaveTextContent("Title page");
   });
 
+  it("Default: header={false} and panel={false} leave out the title and the panel", async () => {
+    render(
+      <Templates.Default iiifContent={bookJson} header={false} panel={false} />,
+    );
+    // The strip still draws, so the Manifest has loaded.
+    await screen.findByRole("button", { name: "Next" });
+    expect(
+      screen.queryByRole("heading", { name: "Simple Manifest - Book" }),
+    ).not.toBeInTheDocument();
+    expect(
+      document.querySelector(".clover-template-default-header"),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "More Information" }),
+    ).not.toBeInTheDocument();
+    expect(
+      document.querySelector(".clover-information-panel"),
+    ).not.toBeInTheDocument();
+  });
+
   it("Default: a right-to-left book's strip runs leftward, Previous on the right", async () => {
     render(<Templates.Default iiifContent={rtlJson} />);
     const previous = await screen.findByRole("button", { name: "Previous" });

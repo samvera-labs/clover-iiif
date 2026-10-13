@@ -11,7 +11,6 @@ import {
   Rights,
   SeeAlso,
   Summary,
-  Thumbnail,
 } from "../Primitives/Primitives";
 import { DownloadGroups, useDownloads } from "../Download/Download";
 
@@ -24,8 +23,9 @@ export interface AboutProps extends React.HTMLAttributes<HTMLElement> {
 
 /**
  * Everything the Manifest says about itself, in the order 3.x's About tab shows it:
- * thumbnail, summary, metadata, required statement, rights, homepage, see also,
- * downloads, and the Manifest's own address. Each part renders only if the Manifest has
+ * summary, metadata, required statement, rights, homepage, see also, downloads, and the
+ * Manifest's own address. Its thumbnail is the layout's to place (`Default` puts it in
+ * its header, beside the title). Each part renders only if the Manifest has
  * it. The downloads are Download's: the `rendering` of the page in view ("This page")
  * and of the Manifest ("All pages").
  */
@@ -58,7 +58,6 @@ export function About({
 
   return (
     <div className={join("clover-about", className)} {...rest}>
-      <Thumbnail className="clover-about-thumbnail" size={400} />
       {canvasSummary && (
         <Summary of="canvas" className="clover-about-summary" />
       )}

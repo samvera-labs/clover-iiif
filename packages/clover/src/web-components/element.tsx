@@ -37,7 +37,7 @@ const STRINGS = {
   language: "language",
   "search-query": "searchQuery",
 } as const;
-const SWITCHES = ["panel", "download"] as const;
+const SWITCHES = ["header", "panel", "download"] as const;
 
 const injected = new WeakMap<Document, Set<string>>();
 

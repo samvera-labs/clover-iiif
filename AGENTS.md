@@ -55,6 +55,11 @@
     import `@iiif/helpers` (through `docs/lib/iiif-content`, say). It is an ESM external
     there, which makes the importing module async, and the homepage's import of it is
     then undefined ("Element type is invalid").
+  - `/test/…` (`pages/test/`) holds unlisted mocks of host pages, for trying Clover 4
+    where it is meant to live: raw layout, no docs navbar or footer, out of search.
+    `/test/dc-item` is a Digital Collections item page (`docs/components/DcItemMock/`),
+    filled from the DC API, with the Viewer and `Items` where the site has 3.x's Viewer and
+    Slider; `?id=<work id>` opens another work, and a row's works open in the mock.
 - Build output goes to `dist/`; static assets in `public/`.
 - Tests are colocated near code as `*.test.ts|tsx` (see `vitest.config.mjs`).
 

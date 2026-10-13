@@ -83,7 +83,10 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   panel's padding, so the first heading holds where it rests from the first pixel of
   scrolling (a heading is one line, cut short if it must be). Content passing under them
   shows faintly: a soft shadow under the open section's heading once the panel has
-  scrolled, and over the next heading while there is more below. A lone section stays
+  scrolled, and over the next heading while there is more below. A closed section's
+  heading is in the accent, faintly underlined, and the open one's in the text's colour;
+  the heading after the open section is set `s` apart from its content. A section opened
+  by a press scrolls its start into sight, under the headings stuck above it. A lone section stays
   open: there is nothing else to open in its place, so its button is `aria-disabled`
   (as WAI-ARIA's accordion has it) and draws no chevron. The scroll drives it
   (scroll-driven animation, no script); browsers without it show no shadow. Both are built from the
@@ -109,7 +112,8 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   take focus when they open.
 
 - **`Clover.About`**, everything the Manifest says about itself, in the order 3.x's About
-  tab shows it. Its Download section lists what `Clover.Download` does: the `rendering`
+  tab shows it, but for the thumbnail, which the layout places: `Default` shows it in
+  its header, beside the title. Its Download section lists what `Clover.Download` does: the `rendering`
   of the page in view ("This page") and of the Manifest ("All pages").
 - **`Clover.PanelToggle`**, which shows and hides the panel. Given to `Clover.Content` as
   a child, it sits in the Canvas's controls. The controls still fade while the panel is
@@ -130,7 +134,7 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `@nulib/clover/web-components` (`dist/web-components/index.mjs`, and `index.umd.js` for a
   classic `<script>` from a CDN). Built on its own with Preact standing in for React.
   Attributes `iiif-content`, `canvas-id`, `manifest-id`, `language`, `search-query`,
-  `items`, `panel`, `download`; an `iiifContent` property for objects; events
+  `items`, `header`, `panel`, `download`; an `iiifContent` property for objects; events
   `canvaschange`, `manifestchange`, `contentstatechange`. Light DOM, as 3.x's. About
   86 kB gzip up front (3.x's element: about 530 kB); MapLibre, its worker and its
   stylesheet load only with a map.
@@ -169,6 +173,13 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     Canvas's `duration` ends.
   - A frame bar, styled and fading with the media transport: a scrubber, previous and
     next (stopping at the ends), play or pause, Repeat, and "Frame 3 of 16".
+  - "Frame 3 of 16" opens the frames, as 3.x's strip of them under the stage did: the
+    menu a Canvas's Choice opens (one radio per frame, its picture and the Manifest's
+    label for it, the frame showing checked), up from the bar over the picture. Opening
+    it pauses; choosing a frame shows it. A frame's picture is its image as the scene
+    paints it, its region cut out where its service can size one, else the image the
+    scene has already loaded. Choice's menu items can carry a picture the same way, and
+    a menu opens with its checked item scrolled into view.
   - `auto-advance` (Canvas or Manifest) plays on arrival, `repeat` sets Repeat, and a
     Manifest's `auto-advance` moves to the next Canvas when a non-repeating animation
     ends. Nothing autoplays for a reader asking for reduced motion. The Canvas takes
@@ -274,15 +285,21 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - **Collections.** A Collection's members are browsable within one `Root`.
   - The information panel shows a Collection section, after About, whenever the
-    Manifest was reached through a Collection: the Collection's name over its members
-    as `<Clover.Items of="members" layout="list">`. Choosing one shows it. This is where
-    the Viewer's `Default` template lists them.
+    Manifest was reached through a Collection or says it is `partOf` one: the
+    Collection's name and summary over its members as
+    `<Clover.Items of="members" layout="list">` (square thumbnails, `xl` on a side, and
+    their names at the panel's size, a name and its summary a line each, cut short if they
+    must be), then its homepage and its id.
+    Choosing one shows it. A `partOf` Collection is fetched only when the section first
+    opens, never before. This is where the Viewer's `Default` template lists them.
   - `Clover.CollectionSelect`, a native `<select>` of the members labelled by the
     Collection, is the same choice as a menu (in `Document`'s toolbar). Choosing a
     Manifest shows it; choosing a nested Collection enters it.
   - `<Clover.Items of="members">` is the same choice as a listbox of thumbnails.
   - `Root` takes `manifestId` (controlled, with `onManifestChange`) to open and follow a
     member, and `clover.goToManifest(id)` moves there from a part of your own.
+  - `clover.openCollection(id)` shows a Collection the Manifest is part of beside it,
+    fetching only the Collection, and keeping the Manifest and the reader's place.
   - Paged Collections are followed from `first` through `next`.
 
   ```jsx
@@ -301,7 +318,7 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   package's public parts, so it can be copied into an app and changed.
   - `Default`: the Viewer's own, drawn when no `template` is given. It ships with the
     Viewer, and its styles are in `styles.css`. Clover 3.x's Viewer layout: the title over
-    the stage; the thumbnail strip under the stage, whose arrows are
+    the stage, after a square thumbnail (`xl` on a side); the thumbnail strip under the stage, whose arrows are
     Previous and Next, headed by the view's page titles and the position ("2 / 70"); the
     information panel to the right of all three, the layout's full height, scrolling
     within. The panel never stacks: it has its own space
@@ -312,7 +329,9 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     `defaultPanelOpen` now defaults to open only when the panel fits beside the stage.
     Its panel's sections are stacked boxes by default (`panelLayout="accordion"`);
     `panelLayout="tabs"` gives tabs, as Document's have. `items` picks the thumbnails'
-    layout (`"carousel"`, `"list"` or `"grid"`), or `false` for none.
+    layout (`"carousel"`, `"list"` or `"grid"`), or `false` for none. `header={false}`
+    leaves out the thumbnail and title over the stage (3.x's `showTitle: false`), and
+    `panel={false}` the information panel and its toggle.
   - `Document`: reads like a PDF viewer. A toolbar, page thumbnails down the left, and
     one whole page at a time: a scroll turns the page (one gesture, one page, past any
     trackpad momentum), as do PageUp and PageDown, and at either end the wheel scrolls
@@ -364,8 +383,12 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     no selection, so its arrows scroll it, as "Show previous items" and "Show next items".
   - Thumbnails load lazily, asked of each image service at `thumbnailSize` (200 by
     default). A level 0 service's `info.json` is read for the sizes it lists. Video and
-    sound show their duration.
+    sound show their duration. A view or member with no image keeps its picture's box,
+    at its shape (square for sound, which has none), so its cell never collapses to its
+    caption; sound with nothing to picture shows a speaker in it.
   - Size it with `--clover-items-height`, `--clover-items-size` and `--clover-items-gap`.
+    A carousel's or grid's titles run to three lines and are cut short after
+    (`--clover-items-lines`), as 3.x's thumbnail strip cut its captions at five.
 
   ```jsx
   <Clover.Root iiifContent={manifestUrl}>
@@ -465,10 +488,17 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     `:root` or any ancestor.
   - In the information panel, the accordion's headings and content sit on the panel's
     inset, as its tabs' content does: the boxes reach out over the panel's padding.
+  - A carousel's thumbnails slide under a shadow at either end, as the information
+    panel's headings do: at the start once the track has scrolled, at the end while
+    there is more, and at neither when the track fits. Each is as tall as the pictures
+    and level with them, not the captions under them. The track's own scroll drives it
+    (a named scroll timeline); browsers without scroll-driven animation show none. Items
+    snap to the track's start rather than the ring's room before it, so a track at rest
+    has not scrolled.
   - `Default`'s thumbnails run on past the strip's end padding to the edge of the pane, as
     the stage does, while its header keeps the padding. Its arrows line up with what is
-    above them: the left one on the line the titles start on, the right one under the
-    stage's controls, `m` in from the pane's edge.
+    above them: the left one `s` past the line the titles start on, the right one under
+    the stage's controls, `m` in from the pane's edge.
 
 - **Phones.** iPhone Safari can put a video full screen, but no other element. There, the
   Canvas offers no full-screen control for images, and a video's full-screen button opens
@@ -505,6 +535,10 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     use it; their CSS no longer hides the label.
   - A `controlButtons` replacement gets `tip` to render inside its button, and
     `aria-keyshortcuts` in `buttonProps`.
+  - Rotate left mirrors only its icon, not the whole button, so its popover reads the
+    right way round; its hover nudge turns the icon the other way. A stylesheet that
+    relied on `transform: scaleX(-1)` on `[data-button="rotate-left"]` now finds the flip
+    on its `svg` (`scale: -1 1`).
   - The cluster's buttons are named by `aria-label` rather than by their icon's SVG
     `<title>`, which browsers also showed as a tooltip of their own. A test or stylesheet
     that looked for the `<title>` should use the button's name.
@@ -530,8 +564,8 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   </Clover.Split>
   ```
 
-- **The Canvas's chrome tucks away and springs back.** The controls, the navigator, a
-  placeholder's toggle and a video or sound's bar move as they fade: leaving, they
+- **The Canvas's chrome tucks away and springs back.** The controls, the navigator and
+  a video or sound's bar move as they fade: leaving, they
   accelerate 0.618rem toward their edge (up, or down for the bar); coming back, they
   spring out, a touch past and back. They faded on two timings before (the navigator's
   150ms, the rest 200ms, on a curve that popped on the way out); now they share one and
@@ -604,12 +638,14 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   - **Placeholder Canvases.** A Canvas with a `placeholderContainer` (Presentation 3's
     `placeholderCanvas`) shows its image first,
     fitted and centred, with a toggle in the top right (the Viewer's magnifier) to open
-    the Canvas; clicking the image opens it too. Until then the Canvas is held back: no
+    the Canvas; clicking the image opens it too. Once open, the toggle is a magnifier with
+    a minus, which goes back to the image. Until then the Canvas is held back: no
     tiles, pan or zoom, annotations, `Choice`, or video and sound. The information control
     is not held back. The toggle goes back to the placeholder, and each new set of
     `canvases` starts from its placeholder. For video and sound the toggle is a large play
     button in the middle of the image, and opening starts playback; once open it is the
-    close control in the top right, like the image's.
+    close control in the top right, like the image's. The close control stays in sight
+    while the other controls fade.
 
   It also draws IIIF Canvases, in Presentation 4: pass one, or the few shown together (a
   spread), as `canvases`. Upgrade older IIIF with `toPresentation4()` first. Inside a
@@ -718,11 +754,19 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   new steps and stepped captions, and for those headings holding inside the panel's
   padding, which brought it to 7,647 B, then to 7.9 kB for the faint shadows that show
   content passing under them (7,891 B), and to 8 kB for a lone section that cannot be
-  closed (7,905 B). For that, and for a content state opening a Collection on one of its
+  closed (7,905 B), then to 8.1 kB for the same shadows at a carousel's ends (8,082 B). For that, and for a content state opening a Collection on one of its
   members, `Document`'s budget was raised to 61.7 kB (61,609 B), then to 61.9 kB for the
   information panel's Collection section beside its own member menu (61,784 B), and
   `<clover-viewer>`'s
-  to 92.7 kB (92,603 B).
+  to 92.7 kB (92,603 B), then to 92.8 kB for the carousel's shadows in its inlined
+  stylesheet (92,710 B). For the information panel's Collection section fetching a
+  `partOf` Collection when it opens (`openCollection`), `Document`'s was raised to 62 kB
+  (61.92 kB) and `<clover-viewer>`'s to 93 kB (92.9 kB).
+  For the Collection section's summary, homepage and id, `Default`'s header thumbnail, a
+  pressed section scrolling its start into view and the accordion's closed headings in
+  the accent, `Default`'s budget was raised to 61.2 kB (61,027 B), `Document`'s to
+  62.4 kB (62,190 B), the stylesheet's to 8.3 kB (8,191 B) and `<clover-viewer>`'s to
+  93.4 kB (93,232 B).
   The sizes are now measured as a Vite app builds them for production (Rollup, minified),
   where they were measured with esbuild. Through the package entry, esbuild's code
   splitting counts a module as reachable from the page by its re-export alone, even once

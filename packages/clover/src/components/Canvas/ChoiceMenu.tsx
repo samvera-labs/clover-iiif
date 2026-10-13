@@ -9,14 +9,18 @@ interface ChoiceMenuProps {
   /** The control that opens the menu, which toggles it itself. */
   triggerId: string;
   label: string;
-  choices: ChoiceGroup[];
+  /** Each group's key, its name and its items: a Canvas's Choices, or its frames. */
+  choices: Array<Pick<ChoiceGroup, "key" | "label" | "items">>;
   selections: ChoiceSelections;
   onSelect: (key: string, index: number) => void;
   /** Close, returning focus to the control that opened it when `restoreFocus`. */
   onClose: (restoreFocus: boolean) => void;
 }
 
-/** The items of each `Choice` on the Canvas, as radio buttons: one is painted at a time. */
+/**
+ * The items of each `Choice` on the Canvas, as radio buttons: one is painted at a time.
+ * An animation's frames are offered the same way, each with its picture.
+ */
 const ChoiceMenu: React.FC<ChoiceMenuProps> = ({
   id,
   triggerId,
@@ -56,6 +60,16 @@ const ChoiceMenu: React.FC<ChoiceMenuProps> = ({
                   checked={(selections[group.key] ?? 0) === index}
                   onChange={() => onSelect(group.key, index)}
                 />
+                {item.image && (
+                  // eslint-disable-next-line @next/next/no-img-element -- This library also renders outside Next.js.
+                  <img
+                    alt=""
+                    className="clover-canvas-menu-image"
+                    decoding="async"
+                    loading="lazy"
+                    src={item.image}
+                  />
+                )}
                 {text && <span>{text}</span>}
               </label>
             );

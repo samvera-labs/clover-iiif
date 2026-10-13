@@ -59,17 +59,21 @@ function firstPaintedImage(container: Json | undefined): Json | undefined {
   return undefined;
 }
 
-/** An image body (or a bare `{ service }`) as a source of about `size` pixels. */
+/**
+ * An image body (or a bare `{ service }`) as a source of about `size` pixels: all of it,
+ * or the `region` of it a painting cuts out (Image API region syntax).
+ */
 export function imageSource(
   image: Json | undefined,
   size: number,
+  region = "full",
 ): ThumbnailSource | null {
   if (!image) return null;
   const service = findImageServiceId(image.service);
   if (service) {
     const level = serviceLevel(image.service);
     if (level === 1 || level === 2) {
-      return { src: `${service}/full/!${size},${size}/0/default.jpg` };
+      return { src: `${service}/${region}/!${size},${size}/0/default.jpg` };
     }
     return { service, fallback: image.id };
   }

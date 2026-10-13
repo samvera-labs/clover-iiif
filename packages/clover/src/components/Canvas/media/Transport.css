@@ -214,6 +214,42 @@
   opacity: 0.6;
 }
 
+/*
+ * An animation's frame: the label is the control that lists every frame, in the menu a
+ * Canvas's Choice opens (`ControlMenu.css`), up from the bar over the picture.
+ */
+.clover-canvas-transport-frames {
+  position: relative;
+  display: flex;
+}
+
+button.clover-canvas-transport-time {
+  margin: 0;
+  padding: var(--clover-space-2xs) var(--clover-space-xs);
+  border: 0;
+  border-radius: var(--clover-radius, 3px);
+  background: none;
+  font: inherit;
+  font-size: var(--clover-text-s);
+  cursor: pointer;
+}
+
+/* Hovered or open, it darkens under its text, on the bar's own shade. */
+button.clover-canvas-transport-time:is(:hover, [aria-expanded="true"]) {
+  background-color: rgb(0 0 0 / 0.4);
+}
+
+button.clover-canvas-transport-time:focus-visible {
+  outline: 2px solid var(--clover-player-text, #fff);
+}
+
+.clover-canvas-transport-frames > .clover-canvas-menu {
+  top: auto;
+  right: auto;
+  bottom: calc(100% + var(--clover-space-s));
+  left: 0;
+}
+
 /* ── captions menu ───────────────────────────────────────────────────────── */
 
 .clover-canvas-transport-menu {

@@ -1,4 +1,4 @@
-import React, { useId, useRef, useState } from "react";
+import React, { useEffect, useId, useRef, useState } from "react";
 
 /** One section: what its button says, and what its panel shows. */
 export interface SectionSpec {
@@ -75,9 +75,38 @@ export function Sections({
   const mounted = useRef(new Set<string>());
   if (open) mounted.current.add(open);
 
+  /*
+   * A box opened by a press starts in sight: when the box it replaces had been scrolled
+   * through, the new one's start can be left above its heading, under the headings stuck
+   * at the top. Then the scrolling container is moved just enough to bring it back.
+   */
+  const pressed = useRef<string | null>(null);
+  useEffect(() => {
+    if (tabs || !open || pressed.current !== open) return;
+    pressed.current = null;
+    const index = items.findIndex((item) => item.value === open);
+    const panel = document.getElementById(`${id}-panel-${index}`);
+    const heading = buttons.current[index]?.parentElement;
+    if (!panel || !heading) return;
+    const hidden =
+      heading.getBoundingClientRect().bottom -
+      panel.getBoundingClientRect().top;
+    if (hidden <= 0) return;
+    for (let node = panel.parentElement; node; node = node.parentElement) {
+      if (
+        node.scrollHeight > node.clientHeight &&
+        /auto|scroll/.test(getComputedStyle(node).overflowY)
+      ) {
+        node.scrollTop -= hidden;
+        return;
+      }
+    }
+  }, [open, tabs, items, id]);
+
   const choose = (item: string) => {
     // Pressing the open box closes it; pressing the open tab, or a lone box, keeps it.
     const next = !tabs && !fixed && item === open ? null : item;
+    pressed.current = next;
     if (value === undefined) setOwn(next);
     if (next) onValueChange?.(next);
   };

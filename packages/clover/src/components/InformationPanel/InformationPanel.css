@@ -159,15 +159,6 @@
   gap: var(--clover-space-m);
 }
 
-.clover-about-thumbnail {
-  display: block;
-  width: auto;
-  max-width: min(100%, var(--clover-about-thumbnail-width, 10rem));
-  height: auto;
-  border-radius: var(--clover-radius, 3px);
-  background-color: var(--clover-color-secondary-muted, #e6e8eb);
-}
-
 .clover-about :is(p, dd, ul) {
   margin: 0;
 }
@@ -200,8 +191,43 @@
   font-size: var(--clover-text-s);
 }
 
-/* The Collection section: its name over its members, `s` apart. */
-.clover-collection-members-label {
-  margin: 0 0 var(--clover-space-s);
-  color: var(--clover-color-primary-muted, #26292b);
+/*
+ * The Collection section, as About: its title at the heading's size, medium, its lines
+ * balanced, `m` over the rest.
+ */
+.clover-collection-title {
+  margin: 0;
+  font-size: var(--clover-text-m);
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+/*
+ * Its members' thumbnails: square, cropped to fill, at the list's height (`xl`), the
+ * size of the Default template's header thumbnail.
+ */
+.clover-collection .clover-items[data-layout="list"] .clover-items-picture img {
+  width: var(--clover-space-xl);
+  height: var(--clover-space-xl);
+  object-fit: cover;
+}
+
+/*
+ * Their titles at the panel's own size; the line under each stays the caption's `s`. Each
+ * is one line, cut short if it must be, so every member is as tall as its thumbnail.
+ */
+.clover-collection .clover-items-caption {
+  min-width: 0;
+  font-size: inherit;
+}
+
+.clover-collection .clover-items-summary {
+  font-size: var(--clover-text-s);
+}
+
+.clover-collection :is(.clover-items-label, .clover-items-summary) {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

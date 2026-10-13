@@ -84,11 +84,17 @@ staging, `git mv`, versions or publishing.
   information panel sets both to `--clover-inset` less `s`, since its boxes reach `s` out
   over its padding, so a heading's text stays on the inset. A closable panel starts below
   its close control. The first heading's `::before` and the last's `::after` paint that
-  padding, so nothing shows between a stuck heading and the edge. The stuck headings
-  keep the boxes' `2xs` gap (each paints it), so none shifts as it comes unstuck. The
+  padding, so nothing shows between a stuck heading and the edge. Each heading carries
+  the boxes' `2xs` as its own bottom padding (the list has no `gap`, and an open panel a
+  `2xs` margin), so stuck headings touch and none shifts as it comes unstuck. Not a
+  border or a shadow: a border's width snaps to device pixels and left a hairline, and
+  a shadow outside the box was sometimes dropped while scrolling. The
   shadows under the open heading (once scrolled) and over the next one (while more is
   below) are the buttons' `::after` / `::before`, as scroll-driven animations on the nearest scroller (`animation-timeline: scroll()`,
-  inside `@supports`), so they cost no script; keep them that way.
+  inside `@supports`), so they cost no script; keep them that way. `Items`' carousel
+  casts the same shadows at its ends from the frame's `::before` / `::after`, reading the
+  viewport's scroll through a named timeline (`--clover-items-track`, `timeline-scope` on
+  the frame); its arrows sit above them (`z-index: 2`). Both use `@keyframes clover-shade`.
 
 ## Popovers (`ui/Tip.tsx`)
 

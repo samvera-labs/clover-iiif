@@ -372,6 +372,29 @@ describe("createClover: Collections", () => {
     expect(canvasId).toBe(canvasIds[1]);
   });
 
+  it("opens a Collection the Manifest is part of, keeping the Manifest and its place", async () => {
+    const SHELF = "https://example.org/shelf";
+    const fetch = mockFetch({
+      [SHELF]: shelf([member(LETTER), member(BOOK)]),
+      [BOOK]: bookJson,
+    });
+    const clover = createClover({ request: { fetch } });
+    await clover.load(BOOK);
+    clover.goTo(canvasIds[2]);
+    const manifest = clover.store.get().manifest;
+    await clover.openCollection(SHELF);
+    const state = clover.store.get();
+    expect(state.collection?.id).toBe(SHELF);
+    expect(state.manifest).toBe(manifest);
+    expect(state.canvasId).toBe(canvasIds[2]);
+    // The Collection alone was fetched: the Manifest was not loaded again.
+    expect(fetch.mock.calls.map(([url]) => url)).toEqual([BOOK, SHELF]);
+
+    // One that will not load changes nothing.
+    await clover.openCollection("https://example.org/missing");
+    expect(clover.store.get().collection?.id).toBe(SHELF);
+  });
+
   it("goes to another member, keeping the Collection and reporting it", async () => {
     const fetch = mockFetch({ [BOOK]: bookJson, [LETTER]: letter });
     const onManifestChange = vi.fn();

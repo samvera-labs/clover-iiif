@@ -203,11 +203,11 @@
  * `--clover-chrome-edge: 1` for down from the bottom) until shown. Each control fades,
  * not the cluster, so one can stay, and a faded one keeps its room (nothing beside it
  * moves). A video or sound's transport (`Transport.css`) and its captions
- * (`MediaStage.css`) read the same state.
+ * (`MediaStage.css`) read the same state. A placeholder's toggle never fades: open, it
+ * is the way back to the still, so it stays in sight.
  */
 .clover-canvas > .clover-canvas-controls > *,
 .clover-canvas > .clover-canvas-navigator,
-.clover-canvas[data-placeholder="false"] > .clover-canvas-placeholder-toggle,
 .clover-canvas > .clover-canvas-media > .clover-canvas-transport {
   opacity: var(--clover-chrome-shown);
   translate: 0
@@ -221,7 +221,6 @@
 /* Not a click target while away. The transport's own box never is: only its controls. */
 .clover-canvas > .clover-canvas-controls > *,
 .clover-canvas > .clover-canvas-navigator,
-.clover-canvas[data-placeholder="false"] > .clover-canvas-placeholder-toggle,
 .clover-canvas-transport > * {
   pointer-events: var(--clover-chrome-events);
 }

@@ -1,0 +1,251 @@
+/*
+ * A rough likeness of a Digital Collections item page: Northwestern's purple bar, the
+ * site's header and search, the viewer wide, the record under it. Only Clover's parts are
+ * Clover's; the rest is plain, as the site's own would be.
+ */
+.page {
+  --dc-purple: #4e2a84;
+  --dc-text: #342f2e;
+  --dc-muted: #716c6b;
+  --dc-rule: #e4e0ee;
+  --clover-color-accent: var(--dc-purple);
+  min-height: 100vh;
+  background: #fff;
+  color: var(--dc-text);
+  /*
+   * The site's own face where it is installed, a sans-serif otherwise. Clover inherits
+   * it; the docs' fonts (their headings') are pointed at it too, so none shows through.
+   */
+  --dc-font: "Akkurat Pro", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--dc-font);
+  --font-display: var(--dc-font);
+  font-family: var(--dc-font);
+}
+
+.notice {
+  margin: 0;
+  padding: 0.25rem 1rem;
+  background: #fff6d6;
+  color: #5c4a00;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.wide,
+.contained {
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.wide {
+  max-width: 90rem;
+}
+
+.contained {
+  max-width: 75rem;
+}
+
+.bar {
+  background: var(--dc-purple);
+  color: #fff;
+}
+
+.bar .wide {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 2.618rem;
+}
+
+.wordmark {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.barLinks {
+  display: flex;
+  gap: 1.618rem;
+  font-size: 0.854rem;
+}
+
+.site {
+  padding: 1.618rem 0 1rem;
+}
+
+.siteTitle {
+  margin: 0 0 1rem;
+  color: var(--dc-purple);
+  font-size: 1.236rem;
+  font-weight: 600;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 0.618rem;
+}
+
+.search input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.618rem 1rem;
+  border: 1px solid var(--dc-rule);
+  border-radius: 3px;
+  font: inherit;
+}
+
+.search button,
+.actions button {
+  padding: 0.618rem 1rem;
+  border: 0;
+  border-radius: 3px;
+  background: var(--dc-purple);
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.browse {
+  color: var(--dc-purple);
+  white-space: nowrap;
+}
+
+/* The viewer runs wider than the record, as the site's does, set off from the search. */
+.viewer {
+  box-sizing: border-box;
+  max-width: 90rem;
+  margin: 2.618rem auto;
+  padding: 0 1rem;
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem 2.618rem;
+}
+
+.summary > div:first-child {
+  flex: 1 1 32rem;
+  max-width: 42rem;
+}
+
+.title {
+  margin: 0 0 0.618rem;
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.description {
+  margin: 0;
+  color: var(--dc-muted);
+}
+
+.share {
+  display: flex;
+  gap: 1.618rem;
+  color: var(--dc-purple);
+}
+
+.share a {
+  color: inherit;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.618rem;
+  margin: 1.618rem 0 2.618rem;
+}
+
+/* The record, shut to its first entries until Show More. */
+.metadata {
+  position: relative;
+  max-width: 42rem;
+}
+
+.metadata dl {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 24rem;
+  margin: 0;
+  overflow: hidden;
+}
+
+.metadata[data-expanded] dl {
+  max-height: none;
+}
+
+.metadata dt {
+  font-weight: 700;
+}
+
+.metadata dd {
+  margin: 0;
+}
+
+.more {
+  margin-top: 1rem;
+  padding: 0.382rem 1rem;
+  border: 1px solid var(--dc-purple);
+  border-radius: 3px;
+  background: none;
+  color: var(--dc-purple);
+  font: inherit;
+  cursor: pointer;
+}
+
+.collection {
+  display: flex;
+  gap: 1.618rem;
+  margin: 2.618rem 0;
+  padding: 1.618rem;
+  border: 1px solid var(--dc-rule);
+  border-radius: 6px;
+}
+
+.collection img {
+  flex: none;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+.collection h2 {
+  margin: 0;
+  font-size: 1.236rem;
+}
+
+.count {
+  margin: 0.382rem 0;
+  color: var(--dc-muted);
+  font-size: 0.854rem;
+}
+
+.clamp {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.explore {
+  padding-bottom: 4.236rem;
+}
+
+.explore > h2 {
+  margin: 0 0 1.618rem;
+  font-size: 1.618rem;
+}
+
+/* Each row a Clover Items, its pictures nearer the site's Slider's size. */
+.row {
+  --clover-items-height: 11rem;
+  margin-bottom: 2.618rem;
+}
