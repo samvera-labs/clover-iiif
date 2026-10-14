@@ -32,14 +32,9 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
 
     const video = mediaRef.current as unknown as HTMLVideoElement;
 
-    // Native HLS support (Safari): point the element at the playlist directly.
-    if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = id as string;
-      return;
-    }
-
-    // Otherwise dynamically import hls.js only when an HLS source is detected
-    // and the browser doesn't natively support it.
+    // hls.js first, imported only for an HLS source. `canPlayType` is not
+    // asked: desktop Chrome now answers "maybe" for HLS, but its built-in
+    // player rejects playlists hls.js plays, such as a zero-length last segment.
     let cancelled = false;
     let hls: import("hls.js").default | undefined;
 
@@ -47,10 +42,10 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
       const { default: Hls } = await import("hls.js");
       if (cancelled || !mediaRef.current) return;
 
-      // Browser must support MSE for hls.js to attach. If not, fall back to
-      // setting the source directly so the browser can surface the failure.
+      // hls.js needs Media Source Extensions. Without them (iPhone Safari
+      // before iOS 17.1) the browser's own HLS is the only player.
       if (!Hls.isSupported()) {
-        (mediaRef.current as unknown as HTMLVideoElement).src = id as string;
+        video.src = id as string;
         return;
       }
 
@@ -147,8 +142,8 @@ const ContentResource: React.FC<PrimitivesContentResource> = (props) => {
           ref={mediaRef}
           width={width}
           // Don't set `src` for HLS sources — the useEffect above attaches
-          // the playlist via hls.js (or native HLS for Safari). Setting src
-          // here would race the attach in non-Safari browsers.
+          // the playlist via hls.js (or native HLS where hls.js can't run).
+          // Setting src here would race the attach.
           {...(isHlsSource ? {} : { src: id })}
         />
       );

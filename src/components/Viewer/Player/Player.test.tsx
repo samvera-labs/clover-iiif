@@ -388,6 +388,89 @@ describe("Player component", () => {
 });
 
 /**
+ * Desktop Chrome answers "maybe" to `canPlayType` for HLS, but its built-in player rejects
+ * streams hls.js plays, such as one whose last segment has a zero `#EXTINF` duration. So
+ * hls.js is used wherever it is supported, and the browser's own HLS only where it is not.
+ */
+describe("HLS playback on the native path", () => {
+  const STREAM = "https://example.org/stream.m3u8";
+  let originalLoad: any;
+  let originalCanPlayType: any;
+
+  beforeAll(() => {
+    originalLoad = window.HTMLMediaElement.prototype.load;
+    window.HTMLMediaElement.prototype.load = () => {
+      /* do nothing */
+    };
+    // What desktop Chrome answers for HLS now.
+    originalCanPlayType = window.HTMLMediaElement.prototype.canPlayType;
+    window.HTMLMediaElement.prototype.canPlayType = () => "maybe";
+  });
+
+  afterAll(() => {
+    window.HTMLMediaElement.prototype.load = originalLoad;
+    window.HTMLMediaElement.prototype.canPlayType = originalCanPlayType;
+  });
+
+  afterEach(() => vi.restoreAllMocks());
+
+  async function renderStream() {
+    const painting = {
+      id: STREAM,
+      type: "Video",
+      format: "application/x-mpegurl",
+    } as LabeledIIIFExternalWebResource;
+
+    const vault = new Vault();
+    await vault.loadManifest("", structuredClone(manifestStreaming) as any);
+
+    return render(
+      <ViewerProvider
+        initialState={{
+          ...defaultState,
+          configOptions: nativeConfigOptions,
+          activeCanvas:
+            "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/d2a423b1-6b5e-45cb-9956-46a99cd62cfd?as=iiif/canvas/access/0",
+          activeManifest:
+            "https://dcapi.rdc-staging.library.northwestern.edu/api/v2/works/d2a423b1-6b5e-45cb-9956-46a99cd62cfd?as=iiif",
+          vault,
+        }}
+      >
+        <Player
+          allSources={[painting]}
+          annotationResources={[] as unknown as AnnotationResources}
+          painting={painting}
+        />
+      </ViewerProvider>,
+    );
+  }
+
+  it("uses hls.js even when the browser says it can play HLS", async () => {
+    vi.spyOn(Hls, "isSupported").mockReturnValue(true);
+    const attachMedia = vi
+      .spyOn(Hls.prototype, "attachMedia")
+      .mockImplementation(() => undefined);
+
+    const { container } = await renderStream();
+    const video = container.querySelector("video") as HTMLVideoElement;
+
+    await waitFor(() => expect(attachMedia).toHaveBeenCalledWith(video));
+    expect(video.getAttribute("src")).toBeNull();
+  });
+
+  it("falls back to the browser's own HLS where hls.js is unsupported", async () => {
+    vi.spyOn(Hls, "isSupported").mockReturnValue(false);
+    const attachMedia = vi.spyOn(Hls.prototype, "attachMedia");
+
+    const { container } = await renderStream();
+    const video = container.querySelector("video") as HTMLVideoElement;
+
+    await waitFor(() => expect(video.getAttribute("src")).toBe(STREAM));
+    expect(attachMedia).not.toHaveBeenCalled();
+  });
+});
+
+/**
  * `Player` is a switch between Clover's controls and the browser's own. Every test above
  * opts explicitly into the native path; these pin the switch itself, and above all that a
  * consumer who sets nothing gets the custom player.

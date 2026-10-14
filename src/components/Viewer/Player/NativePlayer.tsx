@@ -44,10 +44,10 @@ const NativePlayer: React.FC<NativePlayerProps> = ({
 
   /**
    * Source binding. Plain MP4 / WebM / etc. is set as `video.src` directly.
-   * HLS playlists (.m3u8) are handed to native HLS support where available
-   * (Safari) and fall back to dynamically importing `hls.js` only when we
-   * actually need it. This keeps `hls.js` (~150KB) out of the initial
-   * bundle for the common case.
+   * HLS playlists (.m3u8) dynamically import `hls.js`, so it (~150KB) stays
+   * out of the initial bundle for the common case, and play through it
+   * wherever it is supported. The browser's own HLS is the fallback, not the
+   * first choice.
    */
   useEffect(() => {
     if (!painting.id || !playerRef.current) return;
@@ -61,15 +61,11 @@ const NativePlayer: React.FC<NativePlayerProps> = ({
       return;
     }
 
-    // Native HLS support (Safari): just point the element at the playlist.
-    if (video.canPlayType("application/vnd.apple.mpegurl")) {
-      video.src = painting.id as string;
-      video.load();
-      return;
-    }
-
-    // Otherwise, lazy-load hls.js only when we actually have an HLS source
-    // and the browser doesn't natively support it.
+    /**
+     * hls.js is asked first, and `canPlayType` not at all. Desktop Chrome now answers
+     * "maybe" for HLS, but its built-in player rejects playlists hls.js plays (a final
+     * segment with a zero `#EXTINF` duration, for one) and ignores `withCredentials`.
+     */
     let cancelled = false;
     let hls: import("hls.js").default | undefined;
 
@@ -77,9 +73,9 @@ const NativePlayer: React.FC<NativePlayerProps> = ({
       const { default: Hls } = await import("hls.js");
       if (cancelled || !playerRef.current) return;
 
-      // Final guard: the browser must support MediaSource Extensions for
-      // hls.js to work. If not, fall back to setting the source directly
-      // and let the browser surface the failure naturally.
+      // hls.js needs Media Source Extensions. Without them (iPhone Safari
+      // before iOS 17.1) the browser's own HLS is the only player, so point
+      // the element at the playlist and let it play or fail there.
       if (!Hls.isSupported()) {
         playerRef.current.src = painting.id as string;
         playerRef.current.load();
