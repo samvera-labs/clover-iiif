@@ -17,8 +17,11 @@ export interface MediaElementOptions {
  * and React must not try to own or reconcile a node that has been moved. Sound plays
  * through a `<video>` too, as the Player plays it — one element type, one transport.
  *
- * - HLS plays natively where the browser can (Safari); elsewhere `hls.js` is imported
- *   only then, never otherwise.
+ * - HLS plays through `hls.js`, imported only for an HLS source, and natively only where
+ *   hls.js cannot run (no Media Source Extensions: iPhone Safari before iOS 17.1).
+ *   `canPlayType` is not asked: desktop Chrome now answers "maybe" for HLS, but its
+ *   built-in player rejects playlists hls.js plays (a zero-length last segment, for one)
+ *   and ignores `withCredentials`.
  * - Each WebVTT caption file becomes a `<track>`, `hidden`: Clover draws the cues itself,
  *   so they stay readable at any zoom and in either presentation.
  * - `texture` asks for CORS (`crossOrigin`), since WebGL may not read other frames;
@@ -85,9 +88,13 @@ export function useMediaElement(
 
     let hls: { destroy: () => void } | null = null;
     const hlsSource = isHls(media.src, media.format);
-    if (hlsSource && !video.canPlayType("application/vnd.apple.mpegurl")) {
+    if (hlsSource) {
       import("hls.js").then(({ default: Hls }) => {
-        if (cancelled || !Hls.isSupported()) return;
+        if (cancelled) return;
+        if (!Hls.isSupported()) {
+          video.src = media.src;
+          return;
+        }
         const instance = new Hls({
           xhrSetup: (xhr: XMLHttpRequest) => {
             xhr.withCredentials = withCredentials;

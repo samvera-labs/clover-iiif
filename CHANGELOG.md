@@ -524,6 +524,16 @@ assigned at release time.
 
 ### Fixed
 
+- **HLS streams play in Chrome again on the native player, in thumbnails and in `Canvas`.**
+  Desktop Chrome now answers `"maybe"` to `canPlayType("application/vnd.apple.mpegurl")`,
+  so these paths skipped hls.js and handed the playlist to Chrome's built-in HLS player.
+  That player rejects streams hls.js plays, such as one whose last segment has an
+  `#EXTINF` duration of `0` ("EXTINF duration values must be greater than zero"). It
+  also ignores `withCredentials`, which restricted items need. hls.js is now used wherever
+  `Hls.isSupported()`, and the browser's own HLS only where it is not, chiefly iPhone
+  Safari before iOS 17.1. Later iPhones and desktop Safari now play through hls.js too,
+  as the default custom player already did. No configuration changes are required.
+
 - **The Viewer's title row no longer adds space above itself.** The manifest title and the
   options beside it had `1rem` of padding on every side, so with the title shown the Viewer
   started 16px lower than `Image`, `Map` or `Slider`. The top padding is gone and the title
