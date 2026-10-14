@@ -35,22 +35,42 @@
     when a recipe starts working, or stops, record it there with the date.
   - The site banner (`theme.config.tsx`) says Clover 4 is in development. Retire it, or
     change its `key`, when 4.0 ships.
-  - The homepage (`docs/components/Home/`) has two halves: the templates live as the
-    hero (`docs/components/Playground/`), and below them the parts the templates are
-    made of (`Composable.tsx`: a composed example beside its code, and a card per major
-    part).
+  - The homepage (`docs/components/Home/`) opens with its headline, "Create your own
+    viewer." (`Hero.tsx`, the page's `h1`), and one sentence on what Clover does for the
+    distinctive collections a library, archive or museum shares (an accessible, curated
+    viewer designed for its IIIF Manifests and Collections). It has two
+    halves: the templates live under it (`docs/components/Playground/`), and below them,
+    well apart, the same resource shown one IIIF property at a time by the components the
+    templates are made of (`Parts.tsx` and `PartsLive.tsx`), opened by one call to action,
+    with no heading of its own. It follows the playground: `Homepage` holds the resource the
+    playground reports (`onResourceChange`) and hands it down, and the section's chips
+    put another of the playground's resources on its stage (`pickResource`).
+  - That section is one `Root` for that resource. On the left its parts make a small
+    viewer, held in view; on the right each part is a tile, live, named as it is written
+    (`<Clover.Label />`), with the property it reads and a fact from the resource (a
+    count, a size, a name). Pointing at a tile outlines the part in the viewer. A part
+    the resource gives nothing to is a chip at the end, naming what it would read and the
+    playground resource that has it (`SHOWN_IN`). Every value shown is the resource's
+    own: no illustrations, made-up figures or copy. Golden-ratio spaces, hairline edges,
+    no grey fills.
   - The playground shows how far one Viewer stretches: any layout with any kind of
     resource. Two pickers sit over one stage, each changing without the other: the
     resources as thumbnails, centred and unlabelled (`resources` in
-    `playground-config.ts`: a book, a map, a film, a recording, a Collection…, plus
-    "Your own"; their group is named "Select a IIIF resource" for assistive technology),
+    `playground-config.ts`: a catalog, a print, a Collection, a photo, a map, a film, a recording…,
+    plus "Your own"; their group is named "Select a IIIF resource" for assistive technology),
     and at the end of the bar a "Template" dropdown listing the templates by name. No
     drawings of the layouts, no fills of light grey, spaces on Clover's golden-ratio
     scale. Each template shows with its own defaults: no props, no generated code (a
     Customize drawer with both was removed on purpose). The section is wider than the
     reading sections but held off the screen's edges; the stage keeps one height for
-    every pairing, with a broad shadow. Keep it about layout and UX: names, not
-    descriptions or marketing lines.
+    every pairing, with a hairline edge and a small, soft grey shadow (never the accent).
+    Keep it about layout and UX: names, not descriptions or marketing lines.
+  - Headers are solid, never frosted or translucent: the navbar (`docs/styles/layout.css`
+    overrides Nextra's blur) and the playground's bar. From 80rem, where the bar is one
+    row, it holds under the navbar as its lower half: while the stage passes under, the
+    navbar's edge moves to the bar's foot, and the bar's foot rides on the stage's as the
+    two leave. `useStuck` writes `data-stuck` to the bar directly, not to state, so this
+    never re-renders the stage.
   - The homepage renders on the server, so a component it imports statically must not
     import `@iiif/helpers` (through `docs/lib/iiif-content`, say). It is an ESM external
     there, which makes the importing module async, and the homepage's import of it is
@@ -192,7 +212,16 @@ Agents make code changes. Committing, versioning and releasing are done by a hum
   `/api/fixtures/content-search` mock.
 - Current: `content-search`, a two-page newspaper with line and word OCR (`xywh`,
   `textGranularity`) and a Content Search 2.0 service; `georeference`, Northwestern's
-  Evanston township map with a stored georeference annotation and a navPlace (static).
+  Evanston township map with a stored georeference annotation and a navPlace (static);
+  `tagging`, Northwestern's record of a Curtis photogravure, kept as fetched in
+  `source.json`, with the words printed on the plate tagged where they sit (Cookbook 0021) and its Caption moved from the Manifest's `metadata` to the Canvas's `summary`
+  (static). It is the playground's Print;
+  `navplace`, Northwestern's record of a Sullivan slide of a Chicago bus, kept as fetched,
+  with a navPlace point at the corner its summary names (static), the playground's
+  Photo; `paged`, Northwestern's record of the White Sewing Machine Company's 1896 bicycle
+  catalog, a `paged` Manifest kept as fetched, with its double-page plate (Page 15)
+  `facing-pages`, so it stands alone and Page 16 and Page 17 share a spread (static), the
+  playground's Catalog.
 - The Map Component section below is 3.x's. The 4.x map is `@nulib/clover/map`; its
   rules are in `packages/clover/AGENTS.md`.
 

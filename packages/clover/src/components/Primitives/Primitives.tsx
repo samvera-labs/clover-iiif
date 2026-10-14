@@ -12,6 +12,7 @@ import {
   useOptionalCloverSelector,
 } from "../../react/context";
 import { MetadataList, Markup } from "../../ui/Markup";
+import { ReadMore } from "../../ui/ReadMore";
 
 /**
  * The IIIF descriptive properties, one part each. Inside a `Root` each reads the
@@ -59,7 +60,20 @@ interface PartProps<Value>
   value?: Value;
 }
 
-/** `summary`, as sanitised HTML. */
+/**
+ * `summary`, as sanitised HTML, cut to five lines, with "Read more" under it when it runs
+ * longer (`ReadMore`). Every summary Clover shows is this part: About's, a Collection's, a
+ * Canvas's in its information box.
+ *
+ * The number of lines is a CSS custom property, `--clover-summary-lines` (default `5`),
+ * set on `.clover-summary` or on any element around it; `none` shows it whole.
+ *
+ * ```css
+ * .my-layout .clover-summary {
+ *   --clover-summary-lines: 3;
+ * }
+ * ```
+ */
 export function Summary({
   of = "manifest",
   as = "p",
@@ -69,14 +83,18 @@ export function Summary({
 }: PartProps<LanguageMapLike>) {
   const summary = useProperty<LanguageMapLike>(of, "summary", value);
   const language = useLanguage();
+  // Nothing at all without a summary: no button, and no empty box round it.
+  if (!localize(summary, language).text) return null;
   return (
-    <Markup
-      as={as}
-      markup={summary}
-      language={language}
-      className={join("clover-summary", className)}
-      {...rest}
-    />
+    <ReadMore>
+      <Markup
+        as={as}
+        markup={summary}
+        language={language}
+        className={join("clover-summary", className)}
+        {...rest}
+      />
+    </ReadMore>
   );
 }
 

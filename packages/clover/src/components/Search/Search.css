@@ -52,6 +52,11 @@ button.clover-content-search-hit:focus-visible {
 .clover-content-search-hit mark {
   padding: 0 var(--clover-space-3xs);
   border-radius: 2px;
-  background-color: rgb(255 214 0 / 0.55);
+  /* The words that matched, in the accent, faintly, as the hit's row is. */
+  background-color: color-mix(
+    in srgb,
+    var(--clover-color-accent, #0065c3) 20%,
+    transparent
+  );
   color: inherit;
 }

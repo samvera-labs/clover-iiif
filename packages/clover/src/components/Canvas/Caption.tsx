@@ -5,6 +5,7 @@ import type { IIIFCanvas } from "./layout";
 import Button from "../../ui/Button";
 import { useCloverTranslation } from "../../i18n/useCloverTranslation";
 import { getLabelAsString } from "../../core/label";
+import { useOneOpen } from "../../ui/useOneOpen";
 
 /**
  * The summary and metadata, sanitised by the Primitives. Fetched the first time the
@@ -35,8 +36,10 @@ interface CaptionProps {
  * `metadata` (Cookbook 0029, "metadata anywhere"), in a box that slides out over the
  * picture from the information control.
  *
- * Not a menu: it stays open while the reader pans and zooms, and closes only from its
- * own close button, the control, or Escape inside it. Opening moves focus into it.
+ * Not a menu: it stays open while the reader pans and zooms, and closes from its own
+ * close button, the control, Escape inside it, or another popup opening (`useOneOpen`),
+ * such as the annotations menu, which hangs in the same place. Opening moves focus into
+ * it.
  */
 const Caption: React.FC<CaptionProps> = ({ id, canvases, open, onClose }) => {
   const { t } = useCloverTranslation();
@@ -44,6 +47,7 @@ const Caption: React.FC<CaptionProps> = ({ id, canvases, open, onClose }) => {
   // Kept once loaded, so the box slides away with its content still in it.
   const [opened, setOpened] = useState(open);
   if (open && !opened) setOpened(true);
+  useOneOpen(open, () => onClose(false));
 
   useEffect(() => {
     if (open) ref.current?.focus();

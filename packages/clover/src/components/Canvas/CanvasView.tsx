@@ -3,6 +3,7 @@ import React, {
   lazy,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -40,6 +41,7 @@ import { useChromeVisibility } from "./useChromeVisibility";
 import { useNearViewport } from "./useNearViewport";
 import useFullscreen from "../../hooks/useFullscreen";
 import { ErrorBoundary } from "../../ui/ErrorBoundary";
+import { Loading } from "../../ui/Loading";
 import { forwardShortcut } from "../../ui/Tip";
 import { join } from "../../lib/classnames";
 import { getLabelAsString } from "../../core/label";
@@ -87,6 +89,7 @@ const CanvasView: React.FC<CloverCanvasProps> = (props) => {
 };
 
 const CanvasStage: React.FC<CloverCanvasProps> = ({
+  manifestId,
   canvases,
   viewingDirection,
   body,
@@ -485,6 +488,7 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
     setRenderer(renderer);
 
     const offOpen = renderer.on("open", () => {
+      setCleared(false);
       markDrawn();
       setStatus("ready");
       setSceneVersion((v) => v + 1);
@@ -508,6 +512,7 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
       );
     });
     const offChange = renderer.on("change", () => {
+      setCleared(false);
       markDrawn();
       setStatus("ready");
       setSceneVersion((v) => v + 1);
@@ -541,17 +546,40 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
     const renderer = rendererRef.current;
     if (showPlaceholder) placeholderShown.current = true;
     if (!renderer || !nearViewport || showPlaceholder) return;
-    if (!renderer.isOpen) setStatus("loading");
+    const moved =
+      shownCanvases.current !== null && shownCanvases.current !== canvasKey;
+    // Loading until it is drawn: at first, and again whenever the view moves on.
+    if (!renderer.isOpen || moved) setStatus("loading");
     const fit =
-      mediaOnly ||
-      (placeholderShown.current && renderer.isOpen) ||
-      (shownCanvases.current !== null && shownCanvases.current !== canvasKey);
+      mediaOnly || (placeholderShown.current && renderer.isOpen) || moved;
     shownCanvases.current = canvasKey;
     placeholderShown.current = false;
     renderer.setImages(images, { world: world ?? undefined, fit });
     // `imagesKey` stands in for `images`, whose identity changes on every parent render.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imagesKey, instanceId, mediaElement, nearViewport, showPlaceholder]);
+
+  // Another Manifest: the last one's images go at once, before the next is drawn.
+  const shownManifest = useRef(manifestId);
+  /* Cleared for another Manifest: nothing of the last one shows, its placeholder included. */
+  const [cleared, setCleared] = useState(false);
+  useLayoutEffect(() => {
+    if (manifestId === shownManifest.current) return;
+    shownManifest.current = manifestId;
+    rendererRef.current?.clear();
+    setCleared(true);
+    setStatus("loading");
+  }, [manifestId]);
+
+  /*
+   * Loading, shown: images on their way to a stage in view, not behind a still. A Canvas
+   * that paints none (sound alone) has nothing to wait for, so never says so.
+   */
+  const loading =
+    status === "loading" &&
+    images.length > 0 &&
+    nearViewport &&
+    !showPlaceholder;
 
   return (
     <figure
@@ -624,7 +652,7 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
          */
         role={hasAnnotations ? "group" : "img"}
         aria-label={ariaLabel}
-        aria-busy={status === "loading"}
+        aria-busy={loading}
         tabIndex={0}
       />
       {stills.length > 0 && (
@@ -636,7 +664,7 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
           }
           media={Boolean(media)}
           active={showPlaceholder}
-          lingering={status === "loading"}
+          lingering={status === "loading" && !cleared}
           onToggle={togglePlaceholder}
         />
       )}
@@ -698,6 +726,7 @@ const CanvasStage: React.FC<CloverCanvasProps> = ({
           onClose={closeCaption}
         />
       )}
+      {loading && <Loading overlay />}
     </figure>
   );
 };

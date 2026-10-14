@@ -4,7 +4,6 @@ import type { ItemModel, ItemPart } from "../../core/items";
 import type { CloverRequest } from "../../core/request";
 import { resolveThumbnail, thumbnailSource } from "../../core/thumbnail";
 import { localize } from "../../core/value";
-import { VolumeHighIcon } from "../../ui/mediaIcons";
 
 /** `h:mm:ss`, or `m:ss` under an hour. */
 export function formatDuration(seconds: number): string {
@@ -42,6 +41,23 @@ function useThumbnail(
   }, [key, size]);
   return { src, none: !source };
 }
+
+/**
+ * A speaker, for sound with nothing to picture. Its own, not the player's icon: sharing
+ * that module would bring every player icon up front with the thumbnails.
+ */
+const Speaker = () => (
+  <svg aria-hidden="true" focusable="false" viewBox="0 0 512 512">
+    <path d="M232 416a24 24 0 01-14.9-5.2L125.8 336H56a24 24 0 01-24-24V200a24 24 0 0124-24h69.8l91.3-74.8A24 24 0 01256 120v272a24 24 0 01-24 24z" />
+    <path
+      d="M336 176a112 112 0 010 160M384 128a176 176 0 010 256"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeWidth="32"
+    />
+  </svg>
+);
 
 function Picture({
   part,
@@ -82,7 +98,7 @@ function Picture({
           : ({ "--clover-items-ratio": ratio } as React.CSSProperties)
       }
     >
-      {!src && none && part.media === "Sound" && <VolumeHighIcon />}
+      {!src && none && part.media === "Sound" && <Speaker />}
       {src && (
         <img
           src={src}

@@ -1,7 +1,13 @@
 /*
  * Document: reads like a PDF viewer. A toolbar; page thumbnails down the left; one whole
- * page at a time on a grey ground; the information panel sliding out over the right.
+ * page at a time on a grey ground; the information panel to the right, beside the page
+ * where there is room, sliding out over it where there is not.
  * Size it with `--clover-template-document-height`.
+ *
+ * On the scale, as Default's: the toolbar, the thumbnails, the page and the panel are
+ * regions, each keeping `--clover-inset` (`l`) at its sides, so their edges share one line
+ * (the toolbar's first and last controls, the thumbnails, the page and the stage's own
+ * controls); a region's parts `s` apart. The toolbar is a bar: `s` above and below.
  */
 .clover-template-document {
   --clover-template-document-height: min(85vh, 56rem);
@@ -22,7 +28,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--clover-space-s);
-  padding: var(--clover-space-s) var(--clover-space-m);
+  padding: var(--clover-space-s) var(--clover-inset);
   border-bottom: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
 }
 
@@ -31,8 +37,8 @@
   min-width: 0;
   margin: 0;
   overflow: hidden;
-  font-size: inherit;
-  font-weight: 600;
+  font-size: var(--clover-text-l);
+  font-weight: 400;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -45,8 +51,7 @@
 }
 
 /* `button.x`: one class ties with a reset's `[type="button"]`. */
-button.clover-template-document-sidebar-toggle,
-button.clover-template-document-step {
+button.clover-template-document-sidebar-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -60,18 +65,12 @@ button.clover-template-document-step {
   cursor: pointer;
 }
 
-button.clover-template-document-step {
-  border-radius: var(--clover-radius-pill, 2rem);
-}
-
-button.clover-template-document-sidebar-toggle:is(:hover, :focus-visible),
-button.clover-template-document-step:is(:hover, :focus-visible):not(:disabled) {
+button.clover-template-document-sidebar-toggle:is(:hover, :focus-visible) {
   background-color: var(--clover-color-secondary-muted, #e6e8eb);
   color: inherit;
 }
 
-button.clover-template-document-sidebar-toggle:focus-visible,
-button.clover-template-document-step:focus-visible {
+button.clover-template-document-sidebar-toggle:focus-visible {
   outline: 2px solid var(--clover-color-accent, #0065c3);
   outline-offset: 1px;
 }
@@ -88,7 +87,7 @@ button.clover-template-document-step:focus-visible {
 .clover-template-document-sidebar {
   overflow-y: auto;
   overscroll-behavior: contain;
-  padding: var(--clover-space-s);
+  padding: var(--clover-inset);
   background-color: var(--clover-color-secondary, #fff);
 }
 
@@ -151,42 +150,209 @@ button.clover-template-document-step:focus-visible {
   inset: 0;
 }
 
+/* The page on its grey ground, the inset clear round it at home, as a PDF reader's. */
 .clover-template-document-content .clover-canvas {
+  --clover-canvas-inset: var(--clover-inset);
   background-color: transparent;
+}
+
+/*
+ * A scroll that has not yet turned the page shows how near it is. The page leans the way
+ * it is scrolled, by up to `l` (`--clover-template-document-pull`, -1 to 1, set as the
+ * wheel goes), and a chevron rises in from the edge the page it pulls toward comes from.
+ * Following the wheel, they move with it. Let go, and the page springs back while the
+ * chevron lingers a beat and fades; a turn shows the new page in place at once, and the
+ * chevron it came from stays a moment in full before it fades. Only the picture leans:
+ * the controls stay where they are.
+ */
+.clover-template-document-stage {
+  --clover-template-document-pull: 0;
+  --clover-template-document-ease: 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.clover-template-document-content
+  :is(.clover-canvas-viewport, .clover-canvas-placeholder) {
+  translate: 0
+    calc(var(--clover-template-document-pull) * -1 * var(--clover-space-l));
+  transition: translate var(--clover-template-document-ease);
+}
+
+.clover-template-document-cue {
+  position: absolute;
+  left: 50%;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: var(--clover-control);
+  height: var(--clover-control);
+  border-radius: 50%;
+  /* Drawn as a round control is (`ui/Button.css`). */
+  background-color: var(--clover-color-control, #1a1d1e);
+  color: var(--clover-color-control-glyph, #fff);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.16);
+  opacity: var(--shown);
+  pointer-events: none;
+  transition:
+    opacity var(--clover-template-document-ease),
+    translate var(--clover-template-document-ease);
+}
+
+.clover-template-document-cue[data-direction="next"] {
+  --shown: max(0, var(--clover-template-document-pull));
+  bottom: var(--clover-space-s);
+  translate: -50% calc((1 - var(--shown)) * var(--clover-space-m));
+}
+
+.clover-template-document-cue[data-direction="previous"] {
+  --shown: max(0, -1 * var(--clover-template-document-pull));
+  top: var(--clover-space-s);
+  translate: -50% calc((var(--shown) - 1) * var(--clover-space-m));
+}
+
+/* Let go: the chevron fades slowly, a beat after the page has sprung back. */
+.clover-template-document-stage[data-pull="release"]
+  .clover-template-document-cue {
+  transition:
+    opacity 640ms ease 160ms,
+    translate 640ms ease 160ms;
+}
+
+/* Turned: the chevron it came from holds, whole, then fades. */
+.clover-template-document-stage[data-pull="turn"][data-turned="next"]
+  .clover-template-document-cue[data-direction="next"],
+.clover-template-document-stage[data-pull="turn"][data-turned="previous"]
+  .clover-template-document-cue[data-direction="previous"] {
+  animation: clover-template-document-cue-out 960ms ease-out;
+}
+
+@keyframes clover-template-document-cue-out {
+  0%,
+  33% {
+    opacity: 1;
+    translate: -50% 0;
+  }
+  100% {
+    opacity: 0;
+    translate: -50% 0;
+  }
+}
+
+/* While the wheel goes, and as the page turns, nothing lags behind it. */
+.clover-template-document-stage:is([data-pull="pull"], [data-pull="turn"])
+  :is(
+    .clover-canvas-viewport,
+    .clover-canvas-placeholder,
+    .clover-template-document-cue
+  ) {
+  transition: none;
+}
+
+/* Less motion: the page holds still; the chevron only fades in, in place. */
+@media (prefers-reduced-motion: reduce) {
+  .clover-template-document-content
+    :is(.clover-canvas-viewport, .clover-canvas-placeholder) {
+    translate: none;
+  }
+
+  .clover-template-document-cue[data-direction] {
+    translate: -50% 0;
+  }
 }
 
 /* ---------- information panel ---------- */
 
+/*
+ * Beside the page, where there is room for both (the template measures its own width):
+ * a pane of its own, `24rem` to start, then wherever the bar before it is dragged
+ * (remembered under `storageKey`). As tall as the body, whatever its sections run to,
+ * scrolling within.
+ */
 .clover-template-document-panel {
-  position: absolute;
-  inset-block: 0;
-  inset-inline-end: 0;
-  z-index: 4;
-  width: min(22rem, 90%);
+  contain: size;
   overflow-y: auto;
   overscroll-behavior: contain;
-  border-inline-start: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
   background-color: var(--clover-color-secondary, #fff);
-  box-shadow: calc(-1 * var(--clover-space-s)) 0 var(--clover-space-l)
-    rgb(0 0 0 / 0.12);
-  transform: translateX(100%);
-  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.clover-template-document-panel:dir(rtl) {
-  transform: translateX(-100%);
-}
-
-.clover-template-document-panel[data-open="true"] {
-  transform: none;
 }
 
 .clover-template-document-panel[hidden] {
   display: none;
 }
 
+/*
+ * Over the page, where there is not: it slides out over the right, as wide as Default's,
+ * never more than the layout less a strip of the page.
+ */
+/* The panel waits off the end while it slides: never a sideways scroll for the page. */
+.clover-template-document-body[data-panel="over"] {
+  overflow: clip;
+}
+
+.clover-template-document-body[data-panel="over"]
+  > .clover-template-document-panel {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-end: 0;
+  z-index: 4;
+  width: min(24rem, calc(100% - var(--clover-space-2xl)));
+  max-width: none;
+  max-height: none;
+  border-inline-start: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
+  /* Dragged back off (`useDragToClose`): a grip on its inner edge; sideways is its own. */
+  background:
+    linear-gradient(var(--clover-grip), var(--clover-grip)) no-repeat left
+      var(--clover-space-2xs) center / 4px var(--clover-space-xl),
+    var(--clover-color-secondary, #fff);
+  touch-action: pan-y;
+  box-shadow: calc(-1 * var(--clover-space-s)) 0 var(--clover-space-l)
+    rgb(0 0 0 / 0.12);
+  transform: translateX(100%);
+  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.clover-template-document-body[data-panel="over"]
+  > .clover-template-document-panel:dir(rtl) {
+  transform: translateX(-100%);
+  background-position:
+    right var(--clover-space-2xs) center,
+    0 0;
+}
+
+/* The page beside what floats over it: a press there puts that away. */
+.clover-template-document-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background-color: rgb(0 0 0 / 0.2);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 240ms ease;
+}
+
+.clover-template-document-scrim[data-open="true"] {
+  opacity: 1;
+}
+
+/* Under the thumbnails, which sit lower than the panel. */
+.clover-template-document-scrim[data-for="sidebar"] {
+  z-index: 2;
+}
+
+.clover-template-document {
+  --clover-grip: color-mix(
+    in srgb,
+    var(--clover-color-primary-muted, #26292b) 30%,
+    transparent
+  );
+}
+
+.clover-template-document-body[data-panel="over"]
+  > .clover-template-document-panel[data-open="true"] {
+  transform: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .clover-template-document-panel {
+  .clover-template-document-body[data-panel="over"]
+    > .clover-template-document-panel {
     transition: none;
   }
 }
@@ -201,6 +367,12 @@ button.clover-template-document-step:focus-visible {
     z-index: 3;
     width: min(14rem, 80%);
     border-inline-end: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
+    /* Dragged back off to the start (`useDragToClose`), its grip on its inner edge. */
+    background:
+      linear-gradient(var(--clover-grip), var(--clover-grip)) no-repeat right
+        var(--clover-space-2xs) center / 4px var(--clover-space-xl),
+      var(--clover-color-secondary, #fff);
+    touch-action: pan-y;
     box-shadow: var(--clover-space-s) 0 var(--clover-space-l) rgb(0 0 0 / 0.12);
   }
 

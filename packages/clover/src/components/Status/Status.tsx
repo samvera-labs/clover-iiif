@@ -3,10 +3,16 @@ import React from "react";
 import { useCloverTranslation } from "../../i18n/useCloverTranslation";
 import { join } from "../../lib/classnames";
 import { useStatus } from "../../react/hooks";
+import { Loading } from "../../ui/Loading";
+import { visuallyHidden } from "../../ui/visuallyHidden";
 
 export interface StatusProps {
   className?: string;
-  /** Shown while loading. Default: a translated "Loading…". */
+  /**
+   * Shown while loading. Default: Clover's loading mark (three pulsing dots), announced
+   * as a translated "Loading…". `false` shows nothing and only announces it, for a
+   * layout whose stage shows its own loading (`Content` does), so nothing moves.
+   */
   loading?: React.ReactNode;
   /** Shown when loading failed. Default: a translated message and the error's own. */
   error?: (error: Error) => React.ReactNode;
@@ -25,13 +31,17 @@ export function Status({
   const { status, error } = useStatus();
 
   if (status === "loading") {
+    // Your own words are announced as they are; Clover's mark, or none, by the label.
+    const own = loading !== undefined && loading !== false;
     return (
       <p
         className={join("clover-status", className)}
         data-status={status}
         role="status"
+        style={loading === false ? visuallyHidden : undefined}
       >
-        {loading ?? t("statusLoading")}
+        {own ? loading : loading === undefined && <Loading />}
+        {!own && <span style={visuallyHidden}>{t("statusLoading")}</span>}
       </p>
     );
   }

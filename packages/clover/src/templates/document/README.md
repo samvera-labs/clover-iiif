@@ -6,10 +6,14 @@ or narrows them (8rem to 24rem; drag it, or use the arrow keys on it), and the w
 remembered. A document of one page has no thumbnails, bar or toggle for them: the page
 takes the whole width. You never see part of the next page. Scrolling
 turns the page, one gesture to one page however long a trackpad's momentum runs, and
-PageUp and PageDown do the same. At the first or last page the wheel scrolls the
-document on past the viewer. The information panel slides out over the right of the
-page from the panel toggle and takes focus; its close button or Escape puts it away and
-hands focus back to the toggle.
+PageUp and PageDown do the same. A scroll short of a turn shows how near it is: the
+page leans the way it is scrolled and a chevron rises in from the edge the next page
+comes from, springing back when let go. At the first or last page the wheel scrolls the
+document on past the viewer. The information panel, from the panel toggle, sits to the
+right of the page in its own pane where there is room for both, with a bar between them
+to share the width (remembered as the thumbnails' is). Where there is not (a phone), it
+slides out over the page instead and takes focus; its close button or Escape puts it
+away and hands focus back to the toggle.
 
 ```jsx
 import Viewer from "@nulib/clover";
@@ -24,7 +28,7 @@ import "@nulib/clover/templates.css";
 | -------------------- | ---------------------------- | --------------------------------------------------------------- |
 | `defaultSidebarOpen` | open on wide screen          | Whether the page thumbnails start shown.                        |
 | `defaultPanelOpen`   | `false`                      | Whether the information panel starts open.                      |
-| `panelLayout`        | `"tabs"`                     | The panel's sections as tabs, or `"accordion"`: stacked boxes.  |
+| `panelLayout`        | `"accordion"`                | The panel's sections as stacked boxes, or `"tabs"`.             |
 | `download`           | `true`                       | A Download button, when the Manifest or page has a `rendering`. |
 | `storageKey`         | `"clover-template-document"` | Where the thumbnails' width is remembered; `false` forgets it.  |
 | …                    |                              | Every `Clover.Root` prop: `request`, `canvasId`, `annotations`… |

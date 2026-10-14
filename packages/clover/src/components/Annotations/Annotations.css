@@ -11,12 +11,15 @@
   gap: var(--clover-space-l);
 }
 
+/*
+ * A set's header: its "Hide Annotations" checkbox at the start, and under it the
+ * AnnotationPage's label when it has one, `xs` apart (one header); `s` over the entries.
+ */
 .clover-annotations-set-header {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--clover-space-2xs) var(--clover-space-m);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--clover-space-xs);
   margin-bottom: var(--clover-space-s);
 }
 

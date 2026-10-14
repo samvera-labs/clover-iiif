@@ -5,3 +5,16 @@
 nav.nextra-toc:empty {
   display: none !important;
 }
+
+/*
+ * The navbar is solid: Nextra frosts it (the page at 85%, blurred), and the page then
+ * shows through it, smeared, as it scrolls under. `!important` because Nextra's own dark
+ * colour carries it; the selector's three classes outrank its (0,2,1). Its edge fades
+ * as it moves to the homepage playground's bar and back (`Playground.module.css`).
+ */
+:root .nextra-nav-container > .nextra-nav-container-blur {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background-color: var(--color-background) !important;
+  transition: box-shadow 150ms ease;
+}

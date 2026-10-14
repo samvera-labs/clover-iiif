@@ -38,6 +38,24 @@ const size = () =>
   screen.getByTestId("panel").style.getPropertyValue("--clover-split-size");
 
 describe("Split", () => {
+  it("holds each pane's minimum in the layout, not only under a handle", () => {
+    render(
+      <Split>
+        <SplitPane min="16rem">Stage</SplitPane>
+        <SplitHandle />
+        <SplitPane size="24rem" min="14rem">
+          Panel
+        </SplitPane>
+        <SplitPane>Rest</SplitPane>
+      </Split>,
+    );
+    // The sized pane gives way, down to its minimum, before the other does.
+    expect(screen.getByText("Stage").style.minWidth).toBe("16rem");
+    expect(screen.getByText("Panel").style.minWidth).toBe("14rem");
+    // Without one it can still shrink past its content.
+    expect(parseFloat(screen.getByText("Rest").style.minWidth)).toBe(0);
+  });
+
   it("lays panes side by side, the sized one at its size, and names its bar", () => {
     render(<Layout />);
     const split = document.querySelector(".clover-split") as HTMLElement;

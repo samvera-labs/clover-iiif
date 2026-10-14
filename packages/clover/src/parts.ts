@@ -68,6 +68,8 @@ export type {
   SearchResults,
   SearchService,
 } from "./core/search-service";
+export { Collection } from "./components/Collection/Collection";
+export type { CollectionProps } from "./components/Collection/Collection";
 export { CollectionSelect } from "./components/CollectionSelect/CollectionSelect";
 export type { CollectionSelectProps } from "./components/CollectionSelect/CollectionSelect";
 export type { TranscriptProps } from "./components/Transcript/Transcript";
@@ -105,6 +107,10 @@ export { visuallyHidden } from "./ui/visuallyHidden";
 /** The popover Clover's own controls show: a name, and a key when there is one. */
 export { Tip } from "./ui/Tip";
 export type { Shortcut } from "./ui/Tip";
+/** Joins a popup of your own to Clover's, which open one at a time. */
+export { useOneOpen } from "./ui/useOneOpen";
+/** "Read more" for text of your own that its CSS cuts short, as `Summary` is. */
+export { ReadMore } from "./ui/ReadMore";
 export type { Navigation } from "./react/hooks";
 export { useClover, useCloverSelector } from "./react/context";
 
@@ -120,7 +126,7 @@ export type {
 export { isPresentation4, toPresentation4 } from "./core/presentation";
 export type {
   Canvas as Presentation4Canvas,
-  Collection,
+  Collection as Presentation4Collection,
   Container,
   Manifest,
   Timeline,

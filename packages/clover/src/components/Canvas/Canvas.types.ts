@@ -178,6 +178,14 @@ export interface CloverCanvasProps {
   onAnnotationSelect?: (id: string) => void;
   /** Called once, when the first images are laid out and fitted. */
   onReady?: (handle: CanvasHandle) => void;
+  /**
+   * The id of the Manifest these Canvases are from. When it changes (another of a
+   * Collection's members, say) the Canvas is cleared at once, so the last Manifest's
+   * images never show beside the next one's while those load. Within one Manifest,
+   * moving from Canvas to Canvas keeps the last one drawn until the next is ready, so a
+   * page turn never flashes empty.
+   */
+  manifestId?: string;
   /** The visible world rectangle, at most once per frame while the camera moves. */
   onViewportChange?: (bounds: Rect) => void;
   /**

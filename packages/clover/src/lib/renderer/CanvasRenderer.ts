@@ -334,6 +334,21 @@ export class CanvasRenderer implements GestureTarget {
   }
 
   /**
+   * Put the scene away at once: from the next frame nothing of it is drawn, and a swap
+   * still preparing is dropped. For moving to a different resource, whose pictures should
+   * never show beside the last one's while they load; `setImages` then draws the new
+   * scene, framed afresh. A swap within one resource keeps the old scene up instead.
+   */
+  clear(): void {
+    this.generation++;
+    this.items = [];
+    this.watchMedia([]);
+    this.worldBounds = null;
+    this.contentVersion++;
+    this.invalidate();
+  }
+
+  /**
    * Show only some of the scene's images, keeping the others loaded: the frames of an
    * animation. Nothing is prepared, laid out or reported; the next frame draws the change.
    */

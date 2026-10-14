@@ -154,7 +154,7 @@ export type SplitPaneProps = React.HTMLAttributes<HTMLElement> & {
   as?: React.ElementType;
   /** Its width to start with. A pane without one takes the width that is left. */
   size?: SplitLength;
-  /** The narrowest a handle may make it. */
+  /** The narrowest it may be, beside the others and under a handle. */
   min?: SplitLength;
   /** The widest a handle may make it. */
   max?: SplitLength;
@@ -206,10 +206,14 @@ export const SplitPane = forwardRef<HTMLElement, SplitPaneProps>(
         data-sized={size !== undefined ? "" : undefined}
         style={
           {
-            minWidth: 0,
+            /*
+             * Its minimum holds in the layout as well as while dragging: inline, so it
+             * holds without the stylesheet, and 0 without one, so a pane can shrink past
+             * its content. Beside a sized pane, it is the sized pane that gives way.
+             */
+            minWidth: cssLength(min) ?? 0,
             "--clover-split-size":
               dragged !== undefined ? `${dragged}px` : cssLength(size),
-            "--clover-split-min": cssLength(min),
             "--clover-split-max": cssLength(max),
             ...style,
           } as React.CSSProperties

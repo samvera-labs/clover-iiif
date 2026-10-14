@@ -1,14 +1,13 @@
-import React, { Suspense, forwardRef, lazy, useEffect, useRef } from "react";
+import React, { Suspense, forwardRef, lazy, useRef } from "react";
 
 import { About } from "./About";
 import { Tip } from "../../ui/Tip";
 import { Annotations } from "../Annotations/Annotations";
+import { Close } from "../Canvas/glyphs";
+import { Collection, partOfCollection } from "../Collection/Collection";
 import { canvasCaptions, type IIIFCanvas } from "../Canvas/layout";
 import { Transcript } from "../Transcript/Transcript";
 import { Contents } from "../Contents/Contents";
-import { Items } from "../Items/Items";
-import { Label } from "../Label/Label";
-import { Homepage, Id, Summary } from "../Primitives/Primitives";
 import { Search } from "../Search/Search";
 import { searchServiceOf } from "../../core/search-service";
 import { hasMapData } from "../../core/geo-detect";
@@ -49,54 +48,6 @@ export interface TabProps {
  * It renders nothing itself: `InformationPanel` reads its props and renders the tab.
  */
 export const Tab: React.FC<TabProps> = () => null;
-
-/** The first Collection a Manifest says it is `partOf`. */
-const partOfCollection = (manifest: unknown) =>
-  (
-    ((manifest as { partOf?: unknown } | null)?.partOf ?? []) as Array<{
-      id?: string;
-      type?: string;
-      label?: unknown;
-    }>
-  ).find((part) => part?.id && part.type === "Collection");
-
-/**
- * The Collection the Manifest was reached through, or else the first it is `partOf`, as
- * About describes a Manifest: its title and summary, its members as a list (each opening
- * its Manifest in the Root, `Items of="members"`), then its homepage and its own
- * address. A `partOf` Collection is fetched only now, as the section first opens (the
- * panel mounts a section's content then), never ahead of the reader; until it arrives,
- * what the Manifest's `partOf` says of it is shown.
- */
-function CollectionMembers() {
-  const { clover } = useClover("InformationPanel");
-  const { t } = useCloverTranslation();
-  const collection = useCloverSelector((state) => state.collection);
-  const partOf = useCloverSelector((state) => partOfCollection(state.manifest));
-  useEffect(() => {
-    if (!collection && partOf?.id) void clover.openCollection(partOf.id);
-  }, [clover, collection, partOf]);
-  const shown = (collection ?? partOf) as Record<string, any> | undefined;
-  if (!shown) return null;
-  const homepage = shown.homepage as unknown[] | undefined;
-  return (
-    <div className="clover-about clover-collection">
-      <Label as="h3" label={shown.label} className="clover-collection-title" />
-      <Summary value={shown.summary} className="clover-about-summary" />
-      <Items of="members" layout="list" />
-      {Array.isArray(homepage) && homepage.length > 0 && (
-        <section className="clover-about-section">
-          <h3 className="clover-about-heading">{t("aboutHomepage")}</h3>
-          <Homepage value={homepage as never} />
-        </section>
-      )}
-      <section className="clover-about-section">
-        <h3 className="clover-about-heading">{t("aboutCollection")}</h3>
-        <Id value={shown.id} />
-      </section>
-    </div>
-  );
-}
 
 /** How an information panel lays out its sections. */
 export type InformationPanelLayout = SectionsLayout;
@@ -222,7 +173,7 @@ export const InformationPanel = forwardRef<HTMLElement, InformationPanelProps>(
                 {
                   value: "collection",
                   label: t("informationPanelTabsCollection"),
-                  content: <CollectionMembers />,
+                  content: <Collection />,
                 },
               ]
             : []),
@@ -317,19 +268,15 @@ export const InformationPanel = forwardRef<HTMLElement, InformationPanelProps>(
             aria-label={t("informationPanelClose")}
             onClick={close}
           >
+            {/* The Canvas controls' cross, at their size, so it reads as one of them. */}
             <svg
               aria-hidden="true"
               focusable="false"
-              width="14"
-              height="14"
-              viewBox="0 0 16 16"
+              viewBox="0 0 512 512"
+              fill="none"
+              stroke="currentColor"
             >
-              <path
-                d="M3 3l10 10M13 3L3 13"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
+              <Close />
             </svg>
             <Tip label={t("informationPanelClose")} />
           </button>

@@ -1,5 +1,3 @@
-import { demoResources } from "docs/lib/demo-resources";
-
 /**
  * The homepage playground's templates and resources, described as data, so the pickers
  * and the share link read from one source.
@@ -48,10 +46,33 @@ const MASKS =
   "https://api.dc.library.northwestern.edu/api/v2/collections/c373ecd2-2c45-45f2-9f9e-52dc244870bd?as=iiif";
 
 /**
- * One of each kind of thing a page might show, a Collection first: paged, still,
- * timed and placed after it. Every template opens each of them.
+ * One of each kind of thing a page might show: a catalog of pages, a print with its words
+ * tagged, a Collection, then still, placed and timed. Every template opens each of them.
  */
 export const resources: PlaygroundResource[] = [
+  // The White Sewing Machine Company's 1896 bicycle catalog, from Northwestern's
+  // Transportation Library: a cover and its pages, some in colour, 31 Canvases in spreads.
+  // A mock, its double-page plate (Page 15) `facing-pages`, so it stands alone and the
+  // openings after it pair as the book's do.
+  {
+    key: "catalog",
+    name: "Catalog",
+    title:
+      "Portfolio of illustrations showing the White bicycles : then and now",
+    resource: "paged/manifest.json",
+    mock: true,
+    thumbnail: `${works}/386ff30f-1975-4d9c-9905-ec76381d6992/thumbnail`,
+  },
+  // Curtis's photogravure, as Northwestern publishes it, with the words printed on the
+  // plate tagged where they sit and its caption as the Canvas's summary (a mock).
+  {
+    key: "print",
+    name: "Print",
+    title: "The Vanishing Race - Navaho",
+    resource: "tagging/manifest.json",
+    mock: true,
+    thumbnail: `${works}/46dc28d1-9d59-4160-a511-72418f70cffc/thumbnail`,
+  },
   {
     key: "collection",
     name: "Collection",
@@ -66,30 +87,16 @@ export const resources: PlaygroundResource[] = [
     // The mask it opens on, not the Collection's own.
     thumbnail: `${works}/71153379-4283-43be-8b0f-4e7e3bfda275/thumbnail`,
   },
+  // A Sullivan slide of a Chicago bus, as Northwestern publishes it, with a navPlace put
+  // at the corner it shows (a mock), so the Viewer adds a Map tab with the photo's place.
   {
-    key: "book",
-    name: "Book",
-    title: "[Manuscript notebook].",
-    resource: demoResources.viewer,
-    thumbnail: `${works}/b52d5d93-a117-43e9-90c7-434fa1212b60/thumbnail`,
-  },
-  {
-    key: "manuscript",
-    name: "Manuscript",
-    title:
-      "The Rushd al-Ghāfil / Guide for the Heedless (ʿAbd Allāh b. al-Ḥājj Ibrāhīm al-ʿAlawī, d. 1818)",
-    resource: demoResources.scroll,
-    thumbnail:
-      "https://images.digital.library.illinois.edu/iiif/2/19870760-96bc-013c-4aba-02d0d7bfd6e4-d/full/!256,256/0/default.jpg",
-  },
-  {
-    key: "photograph",
-    name: "Photograph",
-    title: "Picture of Göttingen taken during the 2019 IIIF Conference",
-    resource:
-      "https://iiif.io/api/cookbook/recipe/0261-non-rectangular-commenting/manifest.json",
-    thumbnail:
-      "https://iiif.io/api/image/3.0/example/reference/918ecd18c2592080851777620de9bcb5-gottingen/full/!300,300/0/default.jpg",
+    key: "photo",
+    name: "Photo",
+    title: "516; 151, Michigan & Washington, 1948, GM/TDH5502",
+    resource: "navplace/manifest.json",
+    mock: true,
+    map: true,
+    thumbnail: `${works}/24157482-0c2c-4907-8d25-7905adc3cfd9/thumbnail`,
   },
   // Georeferenced, so the Viewer adds a Map tab that lays the sheet over the town.
   {
@@ -143,10 +150,11 @@ export interface TemplateSpec {
 }
 
 export const templateSpecs: Record<TemplateKey, TemplateSpec> = {
-  default: { key: "default", name: "Default", defaultResource: "collection" },
-  document: { key: "document", name: "Document", defaultResource: "book" },
+  default: { key: "default", name: "Default", defaultResource: "catalog" },
+  document: { key: "document", name: "Document", defaultResource: "catalog" },
   gallery: { key: "gallery", name: "Gallery", defaultResource: "collection" },
-  text: { key: "text", name: "Text", defaultResource: "manuscript" },
+  // Text reads a Canvas's annotations beside it: the print's words, tagged.
+  text: { key: "text", name: "Text", defaultResource: "print" },
 };
 
 export const templateOrder: TemplateKey[] = [
@@ -159,8 +167,8 @@ export const templateOrder: TemplateKey[] = [
 /**
  * Accent presets for the page-theme knob.
  *
- * University brand colors, because that is who runs IIIF: a reader can pick their own
- * institution and see Clover wearing it. Every value is the institution's published
+ * The site's own blue first, then university brand colors, because that is who runs
+ * IIIF: a reader can pick their own institution and see Clover wearing it. Every value is the institution's published
  * brand color, and each clears 4.5:1 against the white text Clover puts on a solid
  * accent — burnt orange is the tightest at 4.59:1.
  *
@@ -169,7 +177,8 @@ export const templateOrder: TemplateKey[] = [
  */
 export const accentPresets = [
   /* The site's own accent (`--accent-9` in tokens.css), so choosing it clears the override. */
-  { name: "Northwestern purple", value: "" },
+  { name: "Clover blue", value: "" },
+  { name: "Northwestern purple", value: "#4E2A84" },
   { name: "Harvard crimson", value: "#A51C30" },
   { name: "Texas burnt orange", value: "#BF5700" },
   { name: "Tulane green", value: "#006747" },

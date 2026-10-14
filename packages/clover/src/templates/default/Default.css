@@ -22,10 +22,14 @@
   padding: var(--clover-inset);
 }
 
-/* The Manifest's thumbnail, square, `xl` on a side, at the start of the title's line. */
+/*
+ * The Manifest's thumbnail at the start of the title's line: `xl` high, at its own shape
+ * up to 5rem wide; a wider one (a panorama) is held to 5rem and cropped to fill.
+ */
 .clover-template-default-thumbnail {
   flex: none;
-  width: var(--clover-space-xl);
+  width: auto;
+  max-width: 5rem;
   height: var(--clover-space-xl);
   object-fit: cover;
   border-radius: var(--clover-radius, 3px);
@@ -79,12 +83,25 @@
   inset-block: 0;
   inset-inline-end: 0;
   z-index: 4;
-  width: min(24rem, calc(100% - var(--clover-space-xl)));
+  width: min(24rem, calc(100% - var(--clover-space-2xl)));
   max-width: none;
   max-height: none;
   overscroll-behavior: contain;
   border-inline-start: 1px solid var(--clover-color-secondary-muted, #e6e8eb);
-  background-color: var(--clover-color-secondary, #fff);
+  /*
+   * It can be dragged back off (`useDragToClose`): a grip on its inner edge says so, and
+   * a sideways drag is its own, not the page's. Up and down still scroll it.
+   */
+  background:
+    linear-gradient(var(--clover-grip), var(--clover-grip)) no-repeat left
+      var(--clover-space-2xs) center / 4px var(--clover-space-xl),
+    var(--clover-color-secondary, #fff);
+  --clover-grip: color-mix(
+    in srgb,
+    var(--clover-color-primary-muted, #26292b) 30%,
+    transparent
+  );
+  touch-action: pan-y;
   box-shadow: calc(-1 * var(--clover-space-s)) 0 var(--clover-space-l)
     rgb(0 0 0 / 0.12);
   transform: translateX(100%);
@@ -94,6 +111,9 @@
 .clover-template-default-body[data-panel="over"]
   > .clover-template-default-panel:dir(rtl) {
   transform: translateX(-100%);
+  background-position:
+    right var(--clover-space-2xs) center,
+    0 0;
 }
 
 .clover-template-default-body[data-panel="over"]
@@ -151,7 +171,7 @@
 /*
  * The strip's arrows line up with what is above them. The left one sits `s` past the
  * line the titles start on, the strip's own edge; the right one under the stage's
- * controls, `m` in from the pane's edge, as the cluster is. In a right-to-left book they
+ * controls, the inset in from the pane's edge, as the cluster is. In a right-to-left book they
  * swap: Next on the left, Previous on the right.
  */
 .clover-template-default-rail
@@ -169,7 +189,7 @@
 .clover-template-default-rail
   .clover-items-frame[dir="rtl"]
   > button.clover-items-scroll-prev {
-  right: var(--clover-space-m);
+  right: var(--clover-inset);
 }
 
 /* One view: no position, arrows or thumbnails to show, so no strip and no gap. */

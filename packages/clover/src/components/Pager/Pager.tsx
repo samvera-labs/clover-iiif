@@ -13,18 +13,16 @@ import { visuallyHidden } from "../../ui/visuallyHidden";
  * They step by view, so a paged book moves a spread at a time. The arrows follow the
  * Manifest's `viewingDirection`: in a right-to-left book, "previous" points right. Each
  * part renders nothing when there is only one view to show.
+ *
+ * `Previous` and `Next` are round controls with an arrow, as Items' own arrows are: the
+ * name is hidden from sight but not from assistive technology, and shows on hover and
+ * focus. Each is hidden where there is nowhere to go.
  */
 
 type ButtonProps = Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
-  "type"
-> & {
-  /**
-   * The arrow alone: the name stays the button's, hidden from sight but not from
-   * assistive technology, and shows in a popover on hover and focus.
-   */
-  iconOnly?: boolean;
-};
+  "type" | "children"
+>;
 
 /** Degrees to turn a right-pointing chevron, for "next" in each direction. */
 const NEXT_ROTATION: Record<ViewingDirection, number> = {
@@ -62,10 +60,8 @@ function StepButton(
   {
     step,
     className,
-    children,
     disabled,
     onClick,
-    iconOnly = false,
     ...rest
   }: ButtonProps & { step: "previous" | "next" },
   ref: React.ForwardedRef<HTMLButtonElement>,
@@ -92,17 +88,9 @@ function StepButton(
       }}
       {...rest}
     >
-      {!isNext && <Chevron rotate={rotate} />}
-      <span
-        className="clover-pager-label"
-        style={iconOnly ? visuallyHidden : undefined}
-      >
-        {children ?? label}
-      </span>
-      {isNext && <Chevron rotate={rotate} />}
-      {iconOnly && (
-        <Tip label={typeof children === "string" ? children : label} />
-      )}
+      <Chevron rotate={rotate} />
+      <span style={visuallyHidden}>{label}</span>
+      <Tip label={label} />
     </button>
   );
 }

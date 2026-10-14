@@ -41,7 +41,7 @@ staging, `git mv`, versions or publishing.
   (a container's inset one step above the gap between its children). Never set a font
   family, a base size or a line height: Clover reads at the page's type. Select a part's
   insides by structure under its one root class, and write families (round controls,
-  pills, rows, fields) once. `src/styles/scale.test.ts` fails on any literal rem or em in
+  text buttons, rows, fields) once. `src/styles/scale.test.ts` fails on any literal rem or em in
   spacing, and on any font family.
 - **Plain-layout scaffolding.** Every part must still lay out plainly without the
   stylesheet: semantic HTML in reading order, SVG icons with `width`/`height`
@@ -523,8 +523,13 @@ staging, `git mv`, versions or publishing.
   The button of a point or shape takes no pointer; only the marker or the shape does. The
   reader is lazy (`useSvgReader`, listed in `bundle.test.mjs` `LAZY_MODULES`): it imports
   nothing, so its chunk shares nothing and costs no esbuild chunk overhead.
-- Control buttons have a solid background (`--clover-color-secondary`). A translucent
-  85% rest state was tried and reverted at Mat's request. Do not reintroduce it.
+- Round controls are a solid dark fill with white glyphs (`--clover-color-control`,
+  `--clover-color-control-glyph`, defaults `#1a1d1e` and `#fff`), in light and dark mode
+  alike, and the accent under the pointer or focused. They read no `primary` or
+  `secondary`: a page swaps those for its dark mode, which turned the controls light.
+  Light controls (the surface's colour) and an accent at rest were both tried and
+  reverted at Mat's request, as was a translucent 85% rest state. Do not reintroduce
+  them.
 - Fixtures: `src/fixtures/iiif-image/info.ts` holds the reference server's Göttingen
   `info.json` for 3.0, 2.1 and 2.0, which is the image in Cookbook recipe 0005. The
   Cookbook recipes the tests use are in `src/fixtures/iiif-cookbook/`, as published

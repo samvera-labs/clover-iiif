@@ -7,12 +7,18 @@
  */
 .clover-canvas {
   /*
-   * The space kept clear round the picture at home: the region's inset, as every region
-   * keeps round its content. The viewport takes it as padding, which the renderer reads
-   * to fit its home view, and the placeholder takes the same, so the still hands over
-   * without a jump. Zoomed in, the picture runs to the edges. 0 for edge to edge at home.
+   * The space kept clear round the picture at home: none, so it fills the stage edge to
+   * edge, as 3.x's viewer does. The viewport takes it as padding, which the renderer
+   * reads to fit its home view, and the placeholder takes the same, so the still hands
+   * over without a jump. Set it (`var(--clover-inset)`, say) to keep a margin round it.
    */
-  --clover-canvas-inset: var(--clover-inset);
+  --clover-canvas-inset: 0px;
+  /*
+   * How far the chrome (the controls, a still's toggle, the navigator) sits in from the
+   * stage's edges: the region's inset, so it lines up with what is round the stage, a
+   * header's title or a strip's position.
+   */
+  --clover-canvas-chrome-inset: var(--clover-inset);
   /*
    * Chrome moves as one (see Chrome, below): leaving, it accelerates away, tucked
    * `--clover-chrome-tuck` toward its edge; coming back, it springs out, a touch past
@@ -52,7 +58,8 @@
 
 .clover-canvas[data-fullscreen="true"] > .clover-canvas-navigator {
   top: calc(
-    var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
+    var(--clover-canvas-chrome-inset) + var(--clover-control) +
+      var(--clover-space-s)
   );
 }
 
@@ -163,8 +170,13 @@
   transition: opacity var(--clover-chrome-timing);
 }
 
+/*
+ * The controls are the top layer, over the popups they open (2, `ControlMenu.css`), so
+ * a control's Tip is never covered by one: each control is a layer of its own (it fades
+ * and tucks), so its Tip can rise no higher than the control does.
+ */
 .clover-canvas > .clover-canvas-controls {
-  z-index: 2;
+  z-index: 3;
 }
 
 /*
@@ -245,8 +257,8 @@
 .clover-canvas-navigator {
   position: absolute;
   z-index: 2;
-  top: var(--clover-space-m);
-  left: var(--clover-space-m);
+  top: var(--clover-canvas-chrome-inset);
+  left: var(--clover-canvas-chrome-inset);
   /* A golden rectangle on the scale: 2xl + xl by 2xl. */
   width: calc(var(--clover-space-2xl) + var(--clover-space-xl));
   height: var(--clover-space-2xl);

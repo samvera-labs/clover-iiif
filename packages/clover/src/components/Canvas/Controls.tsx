@@ -192,38 +192,45 @@ const Controls: React.FC<CanvasControlsProps> = ({
   };
 
   return (
-    <ControlCluster
-      controls={controls}
-      controlButtons={controlButtons}
-      hasPlaceholder={hasPlaceholder}
-    >
+    <>
+      <ControlCluster
+        controls={controls}
+        controlButtons={controlButtons}
+        hasPlaceholder={hasPlaceholder}
+      >
+        {/*
+          Not `ControlSpec`s: those are keyed by the Viewer's `ControlButtons`, and these
+          controls are Canvas's alone, so they are not replaceable through `controlButtons`.
+        */}
+        {showAnnotations && (
+          <Button
+            id={annotationsId}
+            label={annotationsLabel}
+            onClick={() => setAnnotationsOpen((open) => !open)}
+            expanded={annotationsOpen}
+            controls={annotationsMenuId}
+          >
+            <Comment />
+          </Button>
+        )}
+        {showInformation && (
+          <Button
+            id={`information-${instance}`}
+            label={t("informationPanelTabsAbout")}
+            onClick={onCaptionToggle}
+            expanded={captionOpen}
+            controls={captionId}
+          >
+            <Information />
+          </Button>
+        )}
+        {children}
+      </ControlCluster>
       {/*
-        Not `ControlSpec`s: those are keyed by the Viewer's `ControlButtons`, and these
-        controls are Canvas's alone, so they are not replaceable through `controlButtons`.
+        The menus are the Canvas's own children, not the controls', as its information
+        is: all three hang in one place, below the controls, and stay under them, so a
+        control's Tip is never covered (`ControlMenu.css`).
       */}
-      {showAnnotations && (
-        <Button
-          id={annotationsId}
-          label={annotationsLabel}
-          onClick={() => setAnnotationsOpen((open) => !open)}
-          expanded={annotationsOpen}
-          controls={annotationsMenuId}
-        >
-          <Comment />
-        </Button>
-      )}
-      {showInformation && (
-        <Button
-          id={`information-${instance}`}
-          label={t("informationPanelTabsAbout")}
-          onClick={onCaptionToggle}
-          expanded={captionOpen}
-          controls={captionId}
-        >
-          <Information />
-        </Button>
-      )}
-      {children}
       {annotationsOpen && showAnnotations && (
         <AnnotationMenu
           id={annotationsMenuId}
@@ -247,7 +254,7 @@ const Controls: React.FC<CanvasControlsProps> = ({
           onClose={closeChoice}
         />
       )}
-    </ControlCluster>
+    </>
   );
 };
 

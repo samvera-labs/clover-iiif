@@ -125,12 +125,15 @@ describe("Annotations", () => {
     expect(entry).toHaveAttribute("data-highlighted", "true");
   });
 
-  it("hides a set's hotspots with its switch", async () => {
+  it("hides a set's annotations from the Canvas with its checkbox", async () => {
     await renderWithStage();
     expect(document.getElementById(annotationId)).not.toBeNull();
-    fireEvent.click(
-      screen.getByRole("checkbox", { name: "Show on the image" }),
-    );
+    const hide = screen.getByRole("checkbox", { name: "Hide Annotations" });
+    expect(hide).not.toBeChecked();
+    // Its AnnotationPage has no label, so the set has no heading of its own.
+    expect(screen.queryByRole("heading")).toBeNull();
+    fireEvent.click(hide);
+    expect(hide).toBeChecked();
     expect(document.getElementById(annotationId)).toBeNull();
     // The list keeps it, to switch back.
     expect(screen.getByRole("listitem")).toBeInTheDocument();

@@ -1,0 +1,48 @@
+/*
+ * The Collection (`Collection.tsx`), laid out as About is (`InformationPanel.css`): its
+ * parts `m` apart. Its label at the heading's size, medium, its lines balanced.
+ */
+.clover-collection-title {
+  margin: 0;
+  font-size: var(--clover-text-m);
+  font-weight: 500;
+  text-wrap: balance;
+}
+
+/*
+ * Its members, a group of their own: `l` from the summary above and the links below, a
+ * step past the `m` between its other parts (About's gap, plus the difference).
+ */
+.clover-collection > .clover-items {
+  margin-block: calc(var(--clover-space-l) - var(--clover-space-m));
+}
+
+/*
+ * Its members' thumbnails: square, cropped to fill, at the list's height (`xl`), the
+ * size of the Default template's header thumbnail.
+ */
+.clover-collection .clover-items[data-layout="list"] .clover-items-picture img {
+  width: var(--clover-space-xl);
+  height: var(--clover-space-xl);
+  object-fit: cover;
+}
+
+/*
+ * Their titles at the panel's own size; the line under each stays the caption's `s`. Each
+ * is one line, cut short if it must be, so every member is as tall as its thumbnail.
+ */
+.clover-collection .clover-items-caption {
+  min-width: 0;
+  font-size: inherit;
+}
+
+.clover-collection .clover-items-summary {
+  font-size: var(--clover-text-s);
+}
+
+.clover-collection :is(.clover-items-label, .clover-items-summary) {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

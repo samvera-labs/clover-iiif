@@ -96,13 +96,13 @@ const config: DocsThemeConfig = {
     link: "https://github.com/samvera-labs/clover-iiif",
   },
   /*
-   * #4E2A84 (Northwestern purple) = hsl(264 52% 34%). Nextra bakes its own lightness per utility and reads
+   * #0F62FE (the site's blue, Carbon's Blue 60) = hsl(219 99% 53%). Nextra bakes its own lightness per utility and reads
    * only these two, so the saturation has to be set alongside the hue — left at its
    * default of 100% the accent renders fluorescent.
    * Kept in step with `--accent-9` in docs/styles/tokens.css.
    */
-  primaryHue: 264,
-  primarySaturation: 52,
+  primaryHue: 219,
+  primarySaturation: 99,
   sidebar: {
     autoCollapse: true,
     defaultMenuCollapseLevel: 1,

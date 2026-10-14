@@ -1,25 +1,86 @@
 /*
- * A control's menu (Choice, annotations): hangs `s` below the control cluster,
- * right-aligned with it, over the picture. Clover's surface and type colours, so it themes
- * with everything else; the page's own text size.
- *
- * On the scale: `xs` inside, its options `xs` by `s` (an option is closest to its own
- * radio), its groups `s` apart.
+ * The popups a Canvas shows, written once: its information (`Caption.css`) and its menus
+ * (Choice, annotations, an animation's frames). One look: Clover's background and text
+ * colours, so they theme with everything else, the page's own text size, one radius and
+ * one shadow, scrolling within when long.
  */
-.clover-canvas-menu {
+:is(.clover-canvas-caption, .clover-canvas-menu) {
   position: absolute;
-  top: calc(100% + var(--clover-space-s));
-  right: 0;
   z-index: 2;
+  box-sizing: border-box;
   min-width: 12rem;
-  max-width: min(20rem, 80vw);
-  max-height: min(24rem, 70vh);
   overflow-y: auto;
-  padding: var(--clover-space-xs);
+  overscroll-behavior: contain;
   border-radius: var(--clover-radius, 6px);
   background: var(--clover-color-secondary, #fff);
   color: var(--clover-color-primary, #1a1d1e);
   box-shadow: 0 4px 16px #0001;
+}
+
+/*
+ * One place for those the Canvas's controls open: `s` below the controls, lined up with
+ * their end, no wider or taller than the Canvas leaves room for. Each is the Canvas's own
+ * child, under the controls in the stacking order (`Canvas.css`), so a control's Tip
+ * always shows over it, and the controls stay usable while it is open.
+ */
+.clover-canvas > :is(.clover-canvas-caption, .clover-canvas-menu) {
+  --top: calc(
+    var(--clover-canvas-chrome-inset) + var(--clover-control) +
+      var(--clover-space-s)
+  );
+  top: var(--top);
+  right: var(--clover-canvas-chrome-inset);
+  max-width: min(22rem, calc(100% - 2 * var(--clover-canvas-chrome-inset)));
+  max-height: calc(100% - var(--top) - var(--clover-canvas-chrome-inset));
+}
+
+/* Clear of a video or sound's playback controls, which stay reachable below. */
+.clover-canvas[data-media] > :is(.clover-canvas-caption, .clover-canvas-menu) {
+  max-height: calc(100% - var(--top) - var(--clover-transport-room));
+}
+
+/*
+ * On a phone the controls are a column down the end, so these sit beside it instead, from
+ * the top: below the way out of full screen when full screen.
+ */
+@media (max-width: 575px) {
+  .clover-canvas > :is(.clover-canvas-caption, .clover-canvas-menu) {
+    --top: var(--clover-canvas-chrome-inset);
+    right: calc(
+      var(--clover-canvas-chrome-inset) + var(--clover-control) +
+        var(--clover-space-s)
+    );
+    left: var(--clover-canvas-chrome-inset);
+    max-width: none;
+  }
+
+  .clover-canvas[data-fullscreen="true"]
+    > :is(.clover-canvas-caption, .clover-canvas-menu) {
+    --top: calc(
+      var(--clover-canvas-chrome-inset) + var(--clover-control) +
+        var(--clover-space-s)
+    );
+  }
+}
+
+/*
+ * The navigator would sit under one where they meet (on a phone, or a narrow Canvas): put
+ * it away while one is open.
+ */
+.clover-canvas:has(
+    > :is(.clover-canvas-caption[data-open="true"], .clover-canvas-menu)
+  )
+  > .clover-canvas-navigator {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/*
+ * A menu, on the scale: `xs` inside, its options `xs` by `s` (an option is closest to its
+ * own radio), its groups `s` apart.
+ */
+.clover-canvas-menu {
+  padding: var(--clover-space-xs);
 }
 
 .clover-canvas-menu fieldset {

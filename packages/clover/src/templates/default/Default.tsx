@@ -6,6 +6,7 @@ import type {
   ItemsLayout,
   RootProps,
 } from "../../parts";
+import { useDragToClose } from "../shared/useDragToClose";
 import { useFocusOnOpen, useSlide, useWideEnough } from "../shared/useSlide";
 
 /** The narrowest the stage and the panel may be dragged, side by side. */
@@ -83,6 +84,15 @@ export function Default({
   // Only over the stage does it slide: beside it, it simply shows and hides.
   const slide = useSlide(over && open);
   useFocusOnOpen(panelRef, over && slide.mounted);
+  // Over the stage, it can be dragged back off the way it came, as an app's drawer can.
+  const pane = useRef<HTMLElement>(null);
+  const scrim = useRef<HTMLDivElement>(null);
+  useDragToClose(pane, {
+    enabled: over && slide.open,
+    side: "end",
+    onClose: () => setOpen(false),
+    scrim,
+  });
   const panelId = `${useId().replace(/:/g, "")}-panel`;
   const shown = over ? slide.mounted : open;
   return (
@@ -101,7 +111,8 @@ export function Default({
       >
         <Clover.SplitPane
           className="clover-template-default-main"
-          min={STAGE_MIN}
+          // A minimum only while the InformationPanel is docked beside it: over it, none.
+          min={over ? undefined : STAGE_MIN}
         >
           {header && (
             <header className="clover-template-default-header">
@@ -114,7 +125,8 @@ export function Default({
               <Clover.Label as="h2" className="clover-template-default-title" />
             </header>
           )}
-          <Clover.Status />
+          {/* Its stage shows the loading; announced here, nothing moves. */}
+          <Clover.Status loading={false} />
           <Clover.Content className="clover-template-default-stage">
             {panel && (
               <Clover.PanelToggle
@@ -137,11 +149,13 @@ export function Default({
         )}
         {panel && (
           <Clover.SplitPane
+            ref={pane}
             id={panelId}
+            data-spine={over || undefined}
             name="panel"
             className="clover-template-default-panel"
             size="24rem"
-            min={PANEL_MIN}
+            min={over ? undefined : PANEL_MIN}
             data-open={over ? slide.open : open}
             hidden={!shown}
           >
@@ -157,6 +171,7 @@ export function Default({
         {panel && over && slide.mounted && (
           // The uncovered strip, and the stage under the panel: a click puts it away.
           <div
+            ref={scrim}
             className="clover-template-default-scrim"
             data-open={slide.open}
             aria-hidden="true"

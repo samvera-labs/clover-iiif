@@ -1,0 +1,41 @@
+import Link from "next/link";
+import React from "react";
+import dynamic from "next/dynamic";
+import styles from "docs/components/Home/Parts.module.css";
+
+/*
+ * The parts run in the browser only: the renderer needs one, and the homepage is drawn on
+ * the server, where Clover's modules are not to be imported (see AGENTS.md).
+ */
+const PartsLive = dynamic(() => import("docs/components/Home/PartsLive"), {
+  ssr: false,
+  loading: () => <div className={styles.placeholder} aria-hidden="true" />,
+});
+
+/**
+ * The homepage's second half: the resource in the playground above, taken apart into the
+ * parts every template is made of (`PartsLive.tsx`). It follows the playground: pick
+ * another resource there and other parts light up here.
+ */
+const Parts: React.FC<{
+  /** The playground's resource: an address or a content state. */
+  resource: string | null;
+  /** Put one of the playground's resources on its stage, by key. */
+  onTry: (key: string) => void;
+}> = ({ resource, onTry }) => (
+  <section className={styles.section}>
+    {/* `#parts` for links to the section. */}
+    <div className={styles.head} id="parts">
+      <Link href="/docs/composing" className={styles.cta}>
+        Build a layout <span aria-hidden="true">→</span>
+      </Link>
+    </div>
+    {resource ? (
+      <PartsLive resource={resource} onTry={onTry} />
+    ) : (
+      <div className={styles.placeholder} aria-hidden="true" />
+    )}
+  </section>
+);
+
+export default Parts;

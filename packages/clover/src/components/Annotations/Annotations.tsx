@@ -32,7 +32,8 @@ export interface AnnotationsProps extends React.HTMLAttributes<HTMLElement> {
  *   be. A click anywhere on the entry does the same.
  * - Hovering or focusing an entry highlights its hotspot, and hovering a hotspot
  *   highlights its entry: one highlight, shared through the Root, with no timers.
- * - Each set has a switch for its hotspots.
+ * - Each set is headed by its AnnotationPage's own label, when it has one, and has a
+ *   checkbox to hide its annotations from the Canvas, "Hide Annotations".
  */
 export const Annotations = forwardRef<HTMLElement, AnnotationsProps>(
   function Annotations(
@@ -87,11 +88,9 @@ export const Annotations = forwardRef<HTMLElement, AnnotationsProps>(
             entries={entries}
             Heading={Heading}
             language={language}
-            title={
-              localize(set.label, language).text ||
-              t("informationPanelTabsAnnotations")
-            }
-            markersLabel={t("annotationsMarkers")}
+            // The AnnotationPage's own label, or none: the panel's section names them.
+            title={localize(set.label, language).text}
+            hideLabel={t("annotationsHide")}
             showLabel={t("annotationsShow")}
             hidden={hiddenSets.includes(set.id)}
             selected={selected}
@@ -113,7 +112,7 @@ function AnnotationGroup({
   Heading,
   title,
   language,
-  markersLabel,
+  hideLabel,
   showLabel,
   hidden,
   selected,
@@ -126,9 +125,10 @@ function AnnotationGroup({
   set: AnnotationSet;
   entries: AnnotationEntry[];
   Heading: React.ElementType;
+  /** The AnnotationPage's label; empty when it has none, and then no heading. */
   title: string;
   language?: string;
-  markersLabel: string;
+  hideLabel: string;
   showLabel: string;
   hidden: boolean;
   selected: string | null;
@@ -142,21 +142,24 @@ function AnnotationGroup({
   return (
     <section
       className="clover-annotations-set"
-      aria-labelledby={`${id}-title`}
+      aria-labelledby={title ? `${id}-title` : undefined}
       data-set={set.id}
     >
+      {/* The checkbox first, over the AnnotationPage's label when it has one. */}
       <div className="clover-annotations-set-header">
-        <Heading className="clover-annotations-title" id={`${id}-title`}>
-          {title}
-        </Heading>
         <label className="clover-annotations-markers">
           <input
             type="checkbox"
-            checked={!hidden}
-            onChange={(event) => onVisible(event.target.checked)}
+            checked={hidden}
+            onChange={(event) => onVisible(!event.target.checked)}
           />
-          {markersLabel}
+          {hideLabel}
         </label>
+        {title && (
+          <Heading className="clover-annotations-title" id={`${id}-title`}>
+            {title}
+          </Heading>
+        )}
       </div>
       <ol className="clover-annotations-list">
         {entries.map((entry) => {

@@ -221,10 +221,35 @@ describe("Clover.Root and its parts", () => {
         <Clover.Status />
       </Clover.Root>,
     );
-    expect(screen.getByText("Loading…")).toHaveAttribute("role", "status");
+    // Announced in words; seen as Clover's mark, which assistive technology skips.
+    const status = screen.getByText("Loading…").closest('[role="status"]');
+    expect(status).toHaveClass("clover-status");
+    expect(status?.querySelector(".clover-loading")).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
     expect(await screen.findByRole("alert")).toHaveTextContent(
       "This could not be loaded.",
     );
+  });
+
+  it("only announces loading, with loading={false}, where the stage shows it", async () => {
+    render(
+      <Clover.Root iiifContent={bookJson}>
+        <Clover.Status loading={false} />
+        <Clover.Content />
+      </Clover.Root>,
+    );
+    const status = screen.getByText("Loading…").closest('[role="status"]');
+    expect(status).toHaveStyle({ position: "absolute" });
+    expect(status?.querySelector(".clover-loading")).toBeNull();
+    // The stage is busy, with the mark in its middle, until the Manifest is in.
+    const stage = document.querySelector(".clover-content")!;
+    expect(stage).toHaveAttribute("aria-busy", "true");
+    expect(stage.querySelector(":scope > .clover-loading")).not.toBeNull();
+    await screen.findByTestId("clover-canvas");
+    expect(stage).toHaveAttribute("aria-busy", "false");
+    expect(stage.querySelector(":scope > .clover-loading")).toBeNull();
   });
 
   it("assembles the ready-made Viewer from the same parts", async () => {

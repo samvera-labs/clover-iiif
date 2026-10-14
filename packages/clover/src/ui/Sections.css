@@ -206,7 +206,8 @@ button.clover-sections-button:focus-visible {
     > .clover-sections-heading
     > button::after {
     --clover-sections-shade: to bottom;
-    top: 100%;
+    /* Flush with the content: past the heading's own `2xs` under the button (above). */
+    top: calc(100% + var(--clover-space-2xs));
     animation-range: 0 var(--clover-space-m);
   }
 
@@ -259,13 +260,14 @@ button.clover-sections-button:focus-visible {
 }
 
 /*
- * A closed box's heading is in the accent, its label underlined faintly, as something to
- * open; the open one is the text's own colour. The same weight in both, so a label never
- * changes width as it opens.
+ * A closed box's heading is in the accent, at the text's own weight, its label underlined
+ * faintly, as something to open; the open one is in the text's colour, and bold. Only the
+ * label grows as it opens: the chevron keeps the row's end, so nothing beside it moves.
  */
 .clover-sections[data-layout="accordion"]
   button.clover-sections-button[aria-expanded="false"] {
   color: var(--clover-color-accent, #0065c3);
+  font-weight: 400;
 }
 
 .clover-sections[data-layout="accordion"]

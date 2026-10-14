@@ -10,13 +10,16 @@ const hls = vi.hoisted(() => ({
   destroy: vi.fn(),
 }));
 
+// A class, not `vi.fn()`: `restoreAllMocks` after each test would strip a mocked
+// constructor's implementation, and the next `new Hls()` would have no methods.
 vi.mock("hls.js", () => {
-  const Hls = vi.fn().mockImplementation(() => ({
-    loadSource: hls.loadSource,
-    attachMedia: hls.attachMedia,
-    destroy: hls.destroy,
-  }));
-  return { default: Object.assign(Hls, { isSupported: () => hls.supported }) };
+  class Hls {
+    static isSupported = () => hls.supported;
+    loadSource = hls.loadSource;
+    attachMedia = hls.attachMedia;
+    destroy = hls.destroy;
+  }
+  return { default: Hls };
 });
 
 const media = (src: string, format?: string): MediaPlacement => ({
@@ -46,21 +49,24 @@ beforeEach(() => {
 afterEach(() => vi.restoreAllMocks());
 
 describe("useMediaElement", () => {
-  it("plays HLS through hls.js, even where the browser claims native HLS", async () => {
-    // Chromium answers "maybe" for HLS now; that no longer means Safari.
-    vi.spyOn(HTMLMediaElement.prototype, "canPlayType").mockReturnValue(
-      "maybe",
-    );
-    const { result } = renderHook(() =>
-      useMediaElement(media(STREAM, "application/x-mpegURL"), {
-        presentation: "texture",
-      }),
-    );
-    await waitFor(() => expect(hls.attachMedia).toHaveBeenCalled());
-    expect(hls.loadSource).toHaveBeenCalledWith(STREAM);
-    expect(hls.attachMedia).toHaveBeenCalledWith(result.current.element);
-    expect(result.current.element?.getAttribute("src")).toBeNull();
-  });
+  it.each(["dom", "texture"] as const)(
+    "plays HLS through hls.js, even where the browser claims native HLS (%s)",
+    async (presentation) => {
+      // Chromium answers "maybe" for HLS now; that no longer means Safari.
+      vi.spyOn(HTMLMediaElement.prototype, "canPlayType").mockReturnValue(
+        "maybe",
+      );
+      const { result } = renderHook(() =>
+        useMediaElement(media(STREAM, "application/x-mpegURL"), {
+          presentation,
+        }),
+      );
+      await waitFor(() => expect(hls.attachMedia).toHaveBeenCalled());
+      expect(hls.loadSource).toHaveBeenCalledWith(STREAM);
+      expect(hls.attachMedia).toHaveBeenCalledWith(result.current.element);
+      expect(result.current.element?.getAttribute("src")).toBeNull();
+    },
+  );
 
   it("falls back to native HLS where hls.js cannot run", async () => {
     hls.supported = false;

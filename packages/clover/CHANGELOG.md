@@ -26,10 +26,27 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   - `Label` shows the Manifest's label, or the current Canvas's with `of="canvas"`, in the
     reader's language and marked with `lang`.
   - `Previous`, `Next`, `Position` and `Pager` move a view at a time, a spread at a time
-    in a paged book. Their arrows and order follow `viewingDirection`. `Position` shows
-    "2 / 5", the same in every language; assistive technology reads "Item 2 of 5", in
-    the reader's language.
-  - `Status` shows loading and errors.
+    in a paged book. Their arrows and order follow `viewingDirection`. `Previous` and
+    `Next` are round arrow controls, as Items' arrows are: each names itself on hover and
+    focus, and is hidden on the first or last view, keeping its room so `Position` stays
+    put. `Position` shows "2 / 5", the same in every language; assistive technology reads
+    "Item 2 of 5", in the reader's language.
+  - `Status` shows loading and errors: loading as Clover's loading mark, a 3px line
+    in the accent drawn from start to end, fading in as it goes, announced as "Loading…" (your own `loading` is shown
+    and announced as it is). `loading={false}` only announces it, for a layout whose
+    `Content` shows it; `Default` and `Document` place it so, and a load no longer moves
+    the page.
+  - **Loading, without anything moving.** While the Root loads (the first Manifest, or
+    one chosen from a Collection), `Content` is `aria-busy` and shows the loading mark
+    along its top edge, over the Canvas, taking no room. A Canvas does the same while its
+    images load: at first, after it is opened from its placeholder, and after a move to
+    another view. The Canvas keeps its size and its background; the mark waits a quarter
+    of a second, so a quick load never flashes it. Another Manifest (one of a Collection's
+    members, say) clears the Canvas at once: the last Manifest's image and its placeholder
+    go before the new one starts loading, rather than both showing together while it
+    does. A `Canvas` outside the Viewer does the same when its new `manifestId` prop
+    changes. A Canvas that paints no image (sound alone) is never busy: it used to stay
+    `aria-busy` for good.
   - `Root` announces each move in a polite live region.
 
   ```jsx
@@ -81,12 +98,13 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   panel that scrolls, every accordion heading stays in sight: those scrolled past stack
   at the top, those an open section pushes below stack at the bottom, both inside the
   panel's padding, so the first heading holds where it rests from the first pixel of
-  scrolling (a heading is one line, cut short if it must be). Content passing under them
+  scrolling (a heading is one line, cut short if it must be). What scrolls under them
   shows faintly: a soft shadow under the open section's heading once the panel has
   scrolled, and over the next heading while there is more below. A closed section's
-  heading is in the accent, faintly underlined, and the open one's in the text's colour;
+  heading is in the accent at the text's own weight, faintly underlined, and the open
+  one's in the text's colour, bold;
   the heading after the open section is set `s` apart from its content. A section opened
-  by a press scrolls its start into sight, under the headings stuck above it. A lone section stays
+  by a press scrolls its start into sight, under the headings stacked above it. A lone section stays
   open: there is nothing else to open in its place, so its button is `aria-disabled`
   (as WAI-ARIA's accordion has it) and draws no chevron. The scroll drives it
   (scroll-driven animation, no script); browsers without it show no shadow. Both are built from the
@@ -106,18 +124,18 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   control whose `aria-controls` names it (or an element around it), so focus never stays
   on something hidden. Give it only to a panel that floats over the page, with
   `closeOnEscape`: Escape closes it too, and the button sits at the panel's inner edge
-  (the start, for a panel over the end of the page). A panel docked beside the stage
-  has no close button; its toggle closes it. So `Default`'s docked panel has none, while
-  `Default`'s on a phone and `Document`'s, which float, have one, close on Escape, and
-  take focus when they open.
+  (the start, for a panel over the end of the page). A panel docked beside the Canvas
+  has no close button; its `PanelToggle` closes it. So `Default`'s docked panel has
+  none, while `Default`'s on a phone and `Document`'s, which float, have one, close on
+  Escape, and take focus when they open.
 
 - **`Clover.About`**, everything the Manifest says about itself, in the order 3.x's About
   tab shows it, but for the thumbnail, which the layout places: `Default` shows it in
   its header, beside the title. Its Download section lists what `Clover.Download` does: the `rendering`
   of the page in view ("This page") and of the Manifest ("All pages").
-- **`Clover.PanelToggle`**, which shows and hides the panel. Given to `Clover.Content` as
-  a child, it sits in the Canvas's controls. The controls still fade while the panel is
-  open: only a menu open over the Canvas holds them on screen.
+- **`Clover.PanelToggle`**, which shows and hides the `InformationPanel`. Given to
+  `Clover.Content` as a child, it sits in the Canvas's controls. The controls still fade
+  while the panel is open: only a menu open over the Canvas holds them on screen.
 
   ```jsx
   <Clover.Content>
@@ -150,8 +168,8 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   view ("This page") and of the Manifest ("All pages") — a PDF, a text, a full-size file —
   as links behind one button, opening towards the side with room. It is in `Document`'s
   toolbar (`download={false}` removes it, 3.x's `showDownload`); `Default` lists the same
-  links in the panel's About instead. It renders nothing when there is nothing to
-  download.
+  links in the `InformationPanel`'s About instead. It renders nothing when there is
+  nothing to download.
 - **Renderers of your own** (3.x's `customDisplays`): `renderers` on `Root` (or one
   `Content`) draws the views it claims — by Canvas id, painted body `format`, or a `match`
   test — with your component instead of `Canvas`. It gets the view's `canvases`, their
@@ -171,44 +189,52 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   stereo card's two eyes) and NUL's Muybridge plates (16 frames).
   - Read as a timeline: each frame shows until the next starts, the last until the
     Canvas's `duration` ends.
-  - A frame bar, styled and fading with the media transport: a scrubber, previous and
-    next (stopping at the ends), play or pause, Repeat, and "Frame 3 of 16".
-  - "Frame 3 of 16" opens the frames, as 3.x's strip of them under the stage did: the
-    menu a Canvas's Choice opens (one radio per frame, its picture and the Manifest's
-    label for it, the frame showing checked), up from the bar over the picture. Opening
-    it pauses; choosing a frame shows it. A frame's picture is its image as the scene
-    paints it, its region cut out where its service can size one, else the image the
-    scene has already loaded. Choice's menu items can carry a picture the same way, and
-    a menu opens with its checked item scrolled into view.
+  - Playback controls for the frames, styled as the Canvas's playback controls for video
+    and sound, and fading as they do: a seek bar, previous and next (stopping at the
+    ends), play or pause, Repeat, and "Frame 3 of 16".
+  - "Frame 3 of 16" opens the frames, as 3.x's row of their thumbnails under the Canvas
+    did: the menu a Canvas's Choice opens (one radio button per frame, its picture and
+    the Manifest's label for it, the frame showing checked), up from the playback
+    controls over the picture. Opening it pauses; choosing a frame shows it. A frame's
+    picture is its image as the Canvas paints it, its region cut out where its service
+    can size one, else the image the Canvas has already loaded. Choice's menu items can
+    carry a picture the same way, and a menu opens with its checked item scrolled into
+    view.
   - `auto-advance` (Canvas or Manifest) plays on arrival, `repeat` sets Repeat, and a
     Manifest's `auto-advance` moves to the next Canvas when a non-repeating animation
     ends. Nothing autoplays for a reader asking for reduced motion. The Canvas takes
     `options.animation: { autoplay, loop }` on its own.
-  - No blinking: every frame is in the scene from the start, its tiles loading, and a
+  - No blinking: every frame is on the Canvas from the start, its tiles loading, and a
     frame change only shows one and hides the rest, keeping the camera and the
-    hotspots. A frame not yet loaded is not shown; the current one holds a beat longer.
-  - The clock and bar load on demand; a Canvas that is not an animation never loads
-    them.
+    annotations' regions. A frame not yet loaded is not shown; the current one holds a
+    beat longer.
+  - The clock and the frames' playback controls load on demand; a Canvas that is not an
+    animation never loads them.
 - **A region cropped through an image service** is measured in the service's own size,
   not the body's declared one (Image API §4.1). A body declaring a cropped derivative's
   size while carrying the whole image's service (0688) showed a stretched sliver.
 - **Annotations.** The comments, tags, transcriptions and descriptions on a Manifest's
   Canvases are listed in `Clover.Annotations` (and an Annotations tab when there are any)
-  and drawn as hotspots on the Canvas.
+  and drawn on the Canvas, each over the region it targets.
   - Picking an entry frames it on the Canvas, moving to its Canvas first. Hovering an
-    entry or its hotspot highlights both, through the Root, with no timers or polling.
-  - Each set has a switch for its hotspots. HTML bodies are sanitised; image bodies
-    (Cookbook 0377) show as images. Caption files are left to the media.
+    entry or its region on the Canvas highlights both, through the Root, with no timers
+    or polling.
+  - Each set starts with a "Hide Annotations" checkbox (`annotationsHide`) that takes its
+    regions off the Canvas, and under it a heading only when its AnnotationPage has a
+    `label` of its own: the `InformationPanel`'s Annotations section names the rest. HTML bodies are
+    sanitised; image bodies (Cookbook 0377) show as images. Caption files are left to the
+    video or sound they caption.
   - `annotations` on `Root` adds AnnotationPages or AnnotationCollections (followed from
     `first` through `next`), as URLs or objects.
   - The Canvas takes `selectedAnnotation`, `highlightedAnnotation` and
-    `onAnnotationSelect`, so a host can drive its hotspots too.
-  - Hotspots take the target's shape: a rectangle (`xywh`), a point (PointSelector, a
-    marker that frames a 40-unit box when pressed, Cookbook 0135), or a shape
-    (SvgSelector, drawn as itself and pressed only within it, Cookbook 0261). Shapes are
-    redrawn from their geometry — `path`, `polygon`, `polyline`, `rect`, `circle`,
-    `ellipse`, `line`, numeric attributes only — never from the selector's markup. The
-    SVG reader (1.3 kB) loads only when a shape is in view.
+    `onAnnotationSelect`, so a host can drive its annotations' regions too.
+  - An annotation's region on the Canvas takes its target's shape: a rectangle
+    (`xywh`), a point (PointSelector, a marker that frames a 40-unit box when pressed,
+    Cookbook 0135), or a shape (SvgSelector, drawn as itself and pressed only within it,
+    Cookbook 0261). Shapes are redrawn from their geometry — `path`, `polygon`,
+    `polyline`, `rect`, `circle`, `ellipse`, `line`, numeric attributes only — never
+    from the selector's markup. The SVG reader (1.3 kB) loads only when a shape is in
+    view.
 - **Content state out.** `onContentStateChange` on `Root` reports where the reader is,
   as a IIIF content state (`{ json, encoded }`), whenever it settles after a move, a pan
   or zoom, or a pause or seek: the Canvas holding most of the view, and its region or
@@ -233,9 +259,9 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     and writes nothing to the Root's state.
   - Captions and the transcript share one fetch of each file, read by Clover's own
     WebVTT parser (`parseVtt`, `cueAt`), with voice and styling tags handled.
-  - Chapters come from the Manifest's Ranges (`chaptersOf`): notched on the transport's
-    seek bar, listed in a Chapters menu that seeks, and named beside the time. `Canvas`
-    takes them as `chapters` too.
+  - Chapters come from the Manifest's Ranges (`chaptersOf`): marked on the seek bar of
+    the Canvas's playback controls, listed in a Chapters menu that seeks, and named
+    beside the time. `Canvas` takes them as `chapters` too.
   - Range items read correctly from `@iiif/parser` 4.0.3, whose upgrader turns a Range
     item's `#t=` into `/t=`.
 - **`Clover.Contents`**, the Manifest's table of contents from its Ranges, nested as they
@@ -250,7 +276,8 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     drawn in the accent color or their own simplestyle.
   - Georeference Extension annotations, on a Canvas or an image service, drawn as the
     affine fit of their control points (exact for three), clipped to their mask. No
-    Allmaps: no thin-plate spline or tiled overlay.
+    Allmaps: no thin-plate spline, and the image is laid on the map as one picture, not
+    in tiles.
   - Standalone with `iiifContent`, `navPlace` or `georeferences`; inside a `Root` it maps
     the Root's resource and the view's georeferenced image, and pressing a place goes to
     its Canvas.
@@ -284,14 +311,20 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   ```
 
 - **Collections.** A Collection's members are browsable within one `Root`.
-  - The information panel shows a Collection section, after About, whenever the
+  - The `InformationPanel` shows a Collection section, after About, whenever the
     Manifest was reached through a Collection or says it is `partOf` one: the
     Collection's name and summary over its members as
     `<Clover.Items of="members" layout="list">` (square thumbnails, `xl` on a side, and
     their names at the panel's size, a name and its summary a line each, cut short if they
-    must be), then its homepage and its id.
+    must be), set 1.618rem (`l`) from what is above and below it, then its homepage and
+    its id.
     Choosing one shows it. A `partOf` Collection is fetched only when the section first
     opens, never before. This is where the Viewer's `Default` template lists them.
+  - `Clover.Collection` is that section as a part of its own, for a layout that shows
+    the Collection anywhere: `<Clover.Collection headingLevel={4} />` (its headings at
+    `h3` by default). The Presentation 4 Collection type is exported as
+    `Presentation4Collection`, as the Canvas type is `Presentation4Canvas`, since the
+    part takes the name `Collection`.
   - `Clover.CollectionSelect`, a native `<select>` of the members labelled by the
     Collection, is the same choice as a menu (in `Document`'s toolbar). Choosing a
     Manifest shows it; choosing a nested Collection enters it.
@@ -317,29 +350,58 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   with their own stylesheet, `@nulib/clover/templates.css`. Each is built only from the
   package's public parts, so it can be copied into an app and changed.
   - `Default`: the Viewer's own, drawn when no `template` is given. It ships with the
-    Viewer, and its styles are in `styles.css`. Clover 3.x's Viewer layout: the title over
-    the stage, after a square thumbnail (`xl` on a side); the thumbnail strip under the stage, whose arrows are
-    Previous and Next, headed by the view's page titles and the position ("2 / 70"); the
-    information panel to the right of all three, the layout's full height, scrolling
-    within. The panel never stacks: it has its own space
-    beside the stage, and a bar between them shares the width (remembered under
-    `storageKey`).
-    Where there is no room for both (a phone), it slides over the stage instead, leaving
-    a strip of the page that closes it on a click, as Escape and its close button do.
-    `defaultPanelOpen` now defaults to open only when the panel fits beside the stage.
-    Its panel's sections are stacked boxes by default (`panelLayout="accordion"`);
-    `panelLayout="tabs"` gives tabs, as Document's have. `items` picks the thumbnails'
-    layout (`"carousel"`, `"list"` or `"grid"`), or `false` for none. `header={false}`
-    leaves out the thumbnail and title over the stage (3.x's `showTitle: false`), and
-    `panel={false}` the information panel and its toggle.
-  - `Document`: reads like a PDF viewer. A toolbar, page thumbnails down the left, and
-    one whole page at a time: a scroll turns the page (one gesture, one page, past any
-    trackpad momentum), as do PageUp and PageDown, and at either end the wheel scrolls
-    the document on. A bar between the thumbnails and the page resizes them; a one-page
-    document has neither, nor their toggle. The
-    information panel slides out over the right of the page.
-  - `Gallery`: a grid of the views that opens one in a lightbox (a native `<dialog>`)
-    with the stage and the pager.
+    Viewer, and its styles are in `styles.css`. Clover 3.x's Viewer layout: the
+    Manifest's `Label` over the Canvas, after its `Thumbnail` (`xl` high, at its own
+    shape up to 5rem wide, a wider one cropped to fill); `Items` under the Canvas, whose
+    arrows are Previous and Next, headed by the labels of the view's Canvases and
+    `Position` ("2 / 70"); the `InformationPanel` to the right of all three, the
+    layout's full height, scrolling within. The panel never stacks: it has its own space
+    beside the Canvas, and a `SplitHandle` between them shares the width (remembered
+    under `storageKey`).
+    Where there is no room for both (a phone), it slides over the Canvas instead, leaving
+    a band of the page (`2xl`) that closes it on a press, as Escape and its close button
+    do. It can be dragged back off too, as a side menu in a phone app can: it follows a
+    finger or pen toward its edge, and let go past a third of its width, or flicked, it
+    closes; short of that it springs back. A drag up or down still scrolls it, and a
+    mouse still selects text. A short line on its inner edge shows it can be dragged.
+    Document's floating panel does the same, with a band of the page to press, and on a
+    phone so does `Items`' pane, dragged back to the start. The close button is filled,
+    so it reads as the way out, and sits above the accordion's headings where they stack
+    at the top, which had covered it so that a press on it opened About instead. It is
+    one of the round controls, with the Canvas's cross and its accent under the pointer.
+    While the panel floats, the button sits on its spine, the inner edge, half over the
+    page, level with the first heading, and stays there however far the panel scrolls.
+    `defaultPanelOpen` now defaults to open only when the panel fits beside the Canvas.
+    Its panel's sections are stacked boxes by default (`panelLayout="accordion"`), as
+    Document's are; `panelLayout="tabs"` gives tabs. `items` picks `Items`' layout
+    (`"carousel"`, `"list"` or `"grid"`), or `false` for none. `header={false}` leaves
+    out the `Thumbnail` and `Label` over the Canvas (3.x's `showTitle: false`), and
+    `panel={false}` the `InformationPanel` and its `PanelToggle`.
+  - `Document`: reads like a PDF viewer. A toolbar, `Items` down the left (the
+    Manifest's Canvases as page thumbnails), and one whole page at a time: a scroll
+    turns the page (one gesture, one page, past any trackpad momentum), as do PageUp and
+    PageDown, and at either end the wheel scrolls the web page on. A turn takes a
+    deliberate scroll (100px of wheel), and a long swipe's momentum never turns a second
+    page, however strong it stays; a wheel still spun after a second turns one more. A
+    scroll short of a turn shows how near it is: the page leans the way it is scrolled,
+    by up to `l`, and a chevron rises in from the edge the next (or previous) page comes
+    from. Let go and the page springs back, the chevron lingering a beat before it
+    fades; after a turn its chevron stays a moment in full, then fades. For less motion,
+    only the chevron shows. A `SplitHandle` between `Items` and the page resizes the
+    thumbnails; a one-page document has neither, nor their toggle. The toggle reads
+    "Show Items" and their pane "Items": what they list need not be pages. The
+    `InformationPanel` sits to the right of the page in its own `SplitPane`, with a
+    `SplitHandle` between them that shares the width (remembered under `storageKey`),
+    where there is room for both, as `Default`'s does; where there is not, it slides out
+    over the page, taking focus and closing on Escape or its own button. Spaced as
+    `Default` is: the toolbar, `Items`, the page and the panel each keep
+    `--clover-inset` at their sides, so the toolbar's first and last controls, the
+    thumbnails, the page and the Canvas's controls share one edge; the Manifest's
+    `Label` is `text-l`, `Items`' pane starts at 13rem (its thumbnails as wide as
+    before), and the panel is as wide as `Default`'s floating one. The page keeps the
+    inset clear round it on its grey background.
+  - `Gallery`: `Items` as a grid of the views, opening one in a lightbox (a native
+    `<dialog>`) with the Canvas and the `Pager`.
   - `Text`: a Manifest read as text, as 3.x's Scroll reads it. One article per Canvas,
     its image beside its annotations in a column per language, with a search and a
     lightbox.
@@ -362,7 +424,7 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   annotation pages, not only the view's. `Thumbnail` takes any resource as `value`, and
   image attributes such as `alt`.
 - **`Clover.Items`**, thumbnails of a sequence as a `carousel` (the default), `list` or
-  `grid`. It succeeds 3.x's `Slider` and the Viewer's thumbnail strip.
+  `grid`. It succeeds 3.x's `Slider` and the row of thumbnails under 3.x's Viewer.
   - Inside a `Root` it is a listbox of the Root's views, a spread as one item (and
     nothing at all for a single view): one tab
     stop, and as in a radio group the arrows, Home and End select as they move (where a
@@ -379,8 +441,9 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   - The carousel is the browser's own scrolling with CSS snap points, with no carousel
     library: wheel, trackpad, touch and keyboard all scroll it, and a mouse can drag it.
   - A carousel's arrows choosing between views (inside a `Root`) are Previous and Next:
-    they step the selection, and the strip follows it into view. A carousel of links has
-    no selection, so its arrows scroll it, as "Show previous items" and "Show next items".
+    they step the selection, and the carousel follows it into view. A carousel of links
+    has no selection, so its arrows scroll it, as "Show previous items" and "Show more
+    items".
   - Thumbnails load lazily, asked of each image service at `thumbnailSize` (200 by
     default). A level 0 service's `info.json` is read for the sizes it lists. Video and
     sound show their duration. A view or member with no image keeps its picture's box,
@@ -388,7 +451,8 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     caption; sound with nothing to picture shows a speaker in it.
   - Size it with `--clover-items-height`, `--clover-items-size` and `--clover-items-gap`.
     A carousel's or grid's titles run to three lines and are cut short after
-    (`--clover-items-lines`), as 3.x's thumbnail strip cut its captions at five.
+    (`--clover-items-lines`), as the thumbnails under 3.x's Viewer cut their captions at
+    five.
 
   ```jsx
   <Clover.Root iiifContent={manifestUrl}>
@@ -421,35 +485,60 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **Space and type on one scale, from your page.** Every space in Clover is a step of
   the golden ratio from your page's own `1rem` (`--clover-space-3xs` to
   `--clover-space-2xl`, and `--clover-control` for the round controls), and every text
-  size is that `1rem` plus or minus a space step: `--clover-text-xs` 0.764rem (badges),
-  `-s` 0.854rem (secondary text), `-m` 1.146rem (the panel's section headings) and `-l`
-  1.236rem (titles). Those four and your page's own size are the only sizes Clover's
-  text takes; video captions step through them as the player widens rather than growing
-  smoothly. There is no larger display size: a page's headings are the page's. All are
+  size is that `1rem` plus or minus a space step: `--clover-text-xs` 0.764rem (a video's
+  or sound's duration on its thumbnail), `-s` 0.854rem (secondary text), `-m` 1.146rem
+  (the `InformationPanel`'s section headings) and `-l` 1.236rem (titles). Those four and
+  your page's own size are the only sizes Clover's text takes; video captions step
+  through them as the Canvas widens rather than growing smoothly. There is no larger
+  display size: a page's headings are the page's. All are
   defined in `styles.css` and yours to override. Clover sets no font
   family, base size or line height: its text, buttons and fields read in your page's
   type. Spacing follows how closely things belong together, as `DESIGN.md` sets out.
-  Round controls are 2.236rem (a 1rem icon with 0.618rem around it), the cluster's
-  buttons sit 0.618rem apart, and the panel has 1rem inside. A `.clover-canvas-controls`
+  Round controls are 2.236rem (a 1rem icon with 0.618rem around it), the Canvas's
+  controls sit 0.618rem apart, and the panel has 1rem inside. A `.clover-canvas-controls`
   no longer carries `data-has-information-toggle` or `data-panel-open`, which nothing
   set.
+- **Round controls are dark, with white icons, in light and dark mode alike.** The
+  Canvas's controls, its placeholder toggle, its playback controls, the way out of full
+  screen, `Items`' scroll arrows, the `InformationPanel`'s close button and Document's
+  page-turn chevron read two new tokens of their own: `--clover-color-control` (the
+  background, default `#1a1d1e`) and `--clover-color-control-glyph` (the icon, default
+  `#fff`). They no longer read `--clover-color-secondary` and `--clover-color-primary`,
+  which a page swaps for its dark mode, and which turned them light there, with the
+  accent behind a dark icon under the pointer. Under the pointer, or focused, they take
+  the accent; the icon stays white. A page with a dark mode has nothing to set for them.
+  To change them, set the two tokens:
+
+  ```css
+  .my-viewer {
+    --clover-color-control: #102a43;
+    --clover-color-control-glyph: #f0f4f8;
+  }
+  ```
+
+- **Highlights are the accent's, whatever the accent is.** The selected row in the
+  `InformationPanel` (an annotation, a Range, a cue, a search hit), the fill of a
+  selected annotation drawn as a shape on the Canvas, and the words that matched in
+  `Search`'s hits are `--clover-color-accent`, faintly (8%, 18% and 20%). They were a
+  fixed blue and a fixed yellow, so they kept those colours under any other accent.
+
 - **`Clover.Items`' hover, selection and focus rings take no room.** They were outlines
   outside each thumbnail, so a carousel cut off the first thumbnail's ring and a list or
   grid's rings reached past the edge of the content. Now they take no room, nothing cuts
   them, and the thumbnails line up with what is beside them (see the ring round the whole
-  item, below). A grid's cells now stay square for a tall picture too. Items are `--clover-space-m`
-  (1rem) apart in every layout (`--clover-items-gap`): each is a group, a picture with
-  its caption. `Default`'s thumbnail strip has 1rem padding all round, as its header
-  has. Each Canvas in an item is its own card, its picture with its own
+  item, below). A grid's cells now stay square for a tall picture too. The items in
+  `Items` are `--clover-space-m` (1rem) apart in every layout (`--clover-items-gap`):
+  each is a group, a picture with its caption. In `Default`, `Items` has the region's
+  inset round it (`--clover-inset`, 1.618rem), as its header has. Each Canvas in an item has its own picture with its own
   label under it: a spread from `behavior: paged` (or the Canvases of a continuous
-  Manifest) is one item whose cards meet with no gap, labels and all, rather than one
+  Manifest) is one item whose Canvases meet with no gap, labels and all, rather than one
   label "Frontispiece – Title page" across both pages. `ItemModel.label` still joins
   them, for a name of the whole item.
 - **A Canvas stays open from page to page.** Once a reader opens a Canvas from its
-  placeholder, the next view opens too, its still in view until it draws, and closing it
-  brings the placeholders back for every view after. It used to show each new view's
-  placeholder again, so a reader paging through a book opened every page by hand. Video
-  and sound still start at their poster each time, since opening one plays it.
+  placeholder, the next view opens too, its placeholder in view until it draws, and
+  closing it brings the placeholders back for every view after. It used to show each new
+  view's placeholder again, so a reader paging through a book opened every page by hand.
+  Video and sound still start at their placeholder each time, since opening one plays it.
 - **The selected thumbnail is clearer.** Hover, selection and focus ring an item's
   pictures from outside, 1px clear of them, rather than inside their edge. It is always
   3px, transparent at rest, so only its colour changes: the accent for the selection, the
@@ -457,27 +546,34 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   Collection's members do), and the accent at half strength for hover. It is an outline
   on `.clover-items-pictures`, in 4px of room the item keeps round itself
   (`--clover-items-ring-room`) and gives back with a negative margin, so items are still
-  `--clover-items-gap` apart and a strip's edge never cuts a ring. A stylesheet that
+  `--clover-items-gap` apart and the edge of `Items` never cuts a ring. Only a carousel,
+  which scrolls across, keeps that room at its sides: a list or a grid keeps it above and
+  below alone, so it never reaches past its own sides, which had put a scrollbar across a
+  scrolling box with no padding round it. A stylesheet that
   styled `.clover-items-pictures::after` should style `.clover-items-pictures`'s outline
   instead. The thumbnails' corners are rounded to match, `--clover-radius` (3px), a
   spread's outer corners only: each picture now clips its image, where only a grid's did.
-- **Every region keeps its content 1.618rem in, the stage too, and steps down from
-  there.** A region's inset is a new token, `--clover-inset` (`--clover-space-l`):
-  `Default`'s header and thumbnail strip, the information panel, the Gallery's lightbox,
-  and the picture on the stage at home. They were 1rem in (the panel's accordion text
-  1.6rem, the picture none). Inside a region, each level is a step less: its parts are
-  1rem apart (the header's title and actions, the strip's header over its thumbnails,
-  About's parts, which were 0.618rem for the header and strip), what is within a part
-  0.618rem, and a metadata label 0.382rem over its value (was 0.236rem). The Canvas's
-  controls and media bar are unchanged: they are a part of the stage, 1rem from its edge.
-  - At home, a Canvas keeps `--clover-canvas-inset` (`--clover-inset` by default) clear
-    round the picture, and its placeholder the same, so the still hands over without
-    moving. Zoomed in, the picture still reaches the edges. For edge to edge at home, as
-    before:
+- **Every region keeps what it holds 1.618rem in, the Canvas's controls too, and steps
+  down from there.** A region's inset is a new token, `--clover-inset`
+  (`--clover-space-l`): `Default`'s header and `Items`, the `InformationPanel` and the
+  Gallery's lightbox. They were 1rem in (the panel's accordion text 1.6rem). The picture
+  on the Canvas is not inset: it fills the Canvas edge to edge (below). Inside a region, each level is a
+  step less: its parts are 1rem apart (the header's title and actions, the view's
+  Canvas labels and `Position` over `Items`, About's parts, which were 0.618rem for the
+  header and `Items`), what is within a part 0.618rem, and a metadata label 0.382rem
+  over its value (was 0.236rem). The Canvas's controls, its placeholder's toggle and its
+  navigator sit the region's inset in from the Canvas's edges
+  (`--clover-canvas-chrome-inset`, `--clover-inset` by default), so they line up with
+  the header's title and `Position` over `Items`; they were 1rem in. The playback
+  controls for video and sound are unchanged.
+  - At home, a Canvas fills the space it is given edge to edge, and its placeholder the
+    same, so the placeholder hands over to it without moving. `--clover-canvas-inset`
+    (default `0px`) keeps a margin clear round the picture at home instead, the region's
+    inset for instance:
 
     ```css
     .clover-canvas {
-      --clover-canvas-inset: 0;
+      --clover-canvas-inset: var(--clover-inset);
     }
     ```
 
@@ -486,32 +582,33 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
   - For a tighter layout everywhere, set `--clover-inset: var(--clover-space-m)` on
     `:root` or any ancestor.
-  - In the information panel, the accordion's headings and content sit on the panel's
+  - In the `InformationPanel`, the accordion's headings and content sit on the panel's
     inset, as its tabs' content does: the boxes reach out over the panel's padding.
-  - A carousel's thumbnails slide under a shadow at either end, as the information
-    panel's headings do: at the start once the track has scrolled, at the end while
-    there is more, and at neither when the track fits. Each is as tall as the pictures
-    and level with them, not the captions under them. The track's own scroll drives it
-    (a named scroll timeline); browsers without scroll-driven animation show none. Items
-    snap to the track's start rather than the ring's room before it, so a track at rest
-    has not scrolled.
-  - `Default`'s thumbnails run on past the strip's end padding to the edge of the pane, as
-    the stage does, while its header keeps the padding. Its arrows line up with what is
-    above them: the left one `s` past the line the titles start on, the right one under
-    the stage's controls, `m` in from the pane's edge.
+  - A carousel's thumbnails slide under a shadow at either end, as the
+    `InformationPanel`'s headings do: at the start once the carousel has scrolled, at
+    the end while there is more, and at neither when all its thumbnails fit. Each shadow
+    is as tall as the pictures and level with them, not the captions under them. The
+    carousel's own scroll drives them (a named scroll timeline); browsers without
+    scroll-driven animation show none. Its items snap to the carousel's start rather
+    than to the ring's room before them, so a carousel at rest has not scrolled.
+  - `Default`'s thumbnails run on past the end padding round `Items` to the edge of
+    their `SplitPane`, as the Canvas does, while the labels and `Position` over them
+    keep the padding. `Items`' arrows line up with what is above them: the left one `s`
+    past the line the labels start on, the right one under the Canvas's controls,
+    `--clover-inset` in from the pane's edge, as they are.
 
 - **Phones.** iPhone Safari can put a video full screen, but no other element. There, the
   Canvas offers no full-screen control for images, and a video's full-screen button opens
-  the system player. That includes a video drawn into the canvas
-  (`presentation: "texture"`). The same applies inside a frame that is not allowed full
-  screen, where the button used to do nothing. Other browsers are unchanged.
-- **The video and sound bar stays on one row.** The play, volume, time, chapters,
-  captions and full-screen controls keep their size, and the current chapter's title
-  gives way to them, shortening with an ellipsis, rather than the bar wrapping.
+  the system player. That includes a video drawn into the `<canvas>` element
+  (`presentation: "texture"`). The same applies inside an `<iframe>` that is not allowed
+  full screen, where the button used to do nothing. Other browsers are unchanged.
+- **The playback controls for video and sound stay on one row.** The play, volume, time,
+  chapters, captions and full-screen controls keep their size, and the current chapter's
+  title gives way to them, shortening with an ellipsis, rather than the row wrapping.
 - **Captions show once on iPhone.** iOS Safari turns a caption track on by the reader's
   caption settings, and drew its own copy of each cue in the picture, under Clover's. Every
   track now stays `hidden`. Clover draws the cues and fills the transcript.
-- **Without the stylesheet**, the stage keeps its size, because its geometry is set inline.
+- **Without the stylesheet**, the Canvas keeps its size, because its geometry is set inline.
   The exit full-screen button stays hidden until the page goes full screen, and icons keep
   their own size.
 - **Server rendering.** `Root`, `Label` and `Items` render with `renderToString` when
@@ -520,7 +617,37 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   WebKit at iPhone size with touch, and on React 18 and 19. The checks include axe and a
   Manifest of 1,000 Canvases.
 
-- **Every control that shows an icon alone names itself in a popover**, on hover and on
+- **Summaries are cut to five lines, with "Read more".** `Summary`, which shows every
+  summary Clover does (About's, a Collection's, a Canvas's in its information box), clamps
+  its text to `--clover-summary-lines` lines (default `5`) and puts a "Read more" button
+  under it when it runs longer (`aria-expanded`, "Read less" to cut it again; new
+  strings `readMore` and `readLess`). Set the property for more or fewer lines, or
+  `none` for the whole text:
+
+  ```css
+  .my-layout .clover-summary {
+    --clover-summary-lines: 3;
+  }
+  ```
+
+  `Clover.ReadMore` gives text of your own the same button: it wraps one element, which
+  its own CSS clamps, and marks it `data-read-more="open"` while open. A summary now sits
+  in a `.clover-read-more` box with its button, and an empty one renders nothing.
+
+- **Popups open one at a time.** The Canvas's information and its menus (annotations,
+  Choice, an animation's frames), the playback controls' menus and `Download`'s list:
+  opening one closes whichever other is open, anywhere on the page, however it was
+  opened. A key opens one without the press outside that closes a menu, so the
+  information box and the annotations menu could both be open, one over the other. Each
+  still closes itself as it did (Escape, a press outside). `Clover.useOneOpen` joins a
+  popup of your own:
+
+  ```jsx
+  const [open, setOpen] = useState(false);
+  Clover.useOneOpen(open, () => setOpen(false));
+  ```
+
+- **Every control that shows an icon alone names itself in a `Tip`**, on hover and on
   keyboard focus, with its keyboard shortcut when it has one: "Zoom in (+)", "Mute (M)".
   The text is the control's accessible name, from the same translation (WCAG 2.5.3); the
   shortcut's format is a string of its own, `controlShortcut`, for each language. Escape
@@ -528,18 +655,23 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   (WCAG 1.4.13). Controls with a key carry `aria-keyshortcuts`, and the Canvas now takes
   its keys while any of its own controls has focus, not only the image: `+`, `−`, `0`,
   `R`, `⇧R`, and `K`, `M`, `J`, `L` for video and sound.
-  - `Clover.Tip` is the popover, for controls of your own:
+  - `Clover.Tip` shows the name for controls of your own:
     `<Clover.Tip label={label} shortcut={shortcut} />`, last inside the control.
-  - `Previous` and `Next` take `iconOnly`: the arrow alone, its name hidden for sight
-    (inline, so without the stylesheet too) and shown in the popover. The templates' arrows
-    use it; their CSS no longer hides the label.
+  - A `Tip` is always on top. The popups the Canvas's controls open (its information, its
+    menus) hang below the controls and under them, so no popup covers a control's name;
+    a `Tip` had shown behind an open menu, all but hidden. The information box's close
+    button shows its `Tip` below it, inside the box, which had cut it off above.
+  - `Previous` and `Next` are the arrow alone: the name is hidden for sight (inline, so
+    without the stylesheet too) and shown in their `Tip`. They take no `iconOnly` and no
+    children for a visible label; to rename them, set `commonPrevious` and `commonNext`
+    in your i18n resources.
   - A `controlButtons` replacement gets `tip` to render inside its button, and
     `aria-keyshortcuts` in `buttonProps`.
-  - Rotate left mirrors only its icon, not the whole button, so its popover reads the
-    right way round; its hover nudge turns the icon the other way. A stylesheet that
+  - Rotate left mirrors only its icon, not the whole button, so its `Tip` reads the
+    right way round; on hover its icon turns a little the other way. A stylesheet that
     relied on `transform: scaleX(-1)` on `[data-button="rotate-left"]` now finds the flip
     on its `svg` (`scale: -1 1`).
-  - The cluster's buttons are named by `aria-label` rather than by their icon's SVG
+  - The Canvas's controls are named by `aria-label` rather than by their icon's SVG
     `<title>`, which browsers also showed as a tooltip of their own. A test or stylesheet
     that looked for the `<title>` should use the button's name.
 
@@ -547,7 +679,11 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   the bar the reader drags between them. One pane beside each bar has a `size` (with
   `min` and `max`, in px, rem or %); the other takes what is left. The bar is a focusable
   `separator`: the arrow keys move it (Shift for bigger steps), Home and End go to the
-  limits, and a double click puts the pane back to its size. With `storageKey` the
+  limits, and a double click puts the pane back to its size. A pane's `min` holds in the
+  layout too, not only under the bar: where the Split is narrow, a sized pane gives way
+  down to its own `min` before the others go below theirs. Docked beside the Canvas at
+  about 580px, `Default`'s `InformationPanel` had kept its full 24rem and left the Canvas
+  171px; it now shrinks toward 14rem, and the Canvas keeps 16rem. With `storageKey` the
   reader's sizes are remembered. Not tied to any part: the templates use it, and so can
   your own layouts. Dragging the bar does not blink the picture: a `Canvas` redraws in
   the same frame it is resized, wherever it sits.
@@ -564,24 +700,27 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   </Clover.Split>
   ```
 
-- **The Canvas's chrome tucks away and springs back.** The controls, the navigator and
-  a video or sound's bar move as they fade: leaving, they
-  accelerate 0.618rem toward their edge (up, or down for the bar); coming back, they
+- **The Canvas's controls tuck away and spring back.** Its round controls, the navigator
+  and a video or sound's playback controls move as they fade: leaving, they accelerate
+  0.618rem toward their edge (up, or down for the playback controls); coming back, they
   spring out, a touch past and back. They faded on two timings before (the navigator's
   150ms, the rest 200ms, on a curve that popped on the way out); now they share one and
-  move as one. Captions rise and fall with the bar, by `translate` rather than `bottom`.
-  - The state is decided once, on `.clover-canvas`: `--clover-chrome-shown` (0 or 1),
-    `--clover-chrome-events` and `--clover-chrome-timing`, which each piece reads. Set
-    `--clover-chrome-enter`, `--clover-chrome-leave` or `--clover-chrome-tuck` there to
-    change the motion. With reduced motion, chrome still comes and goes, without moving.
+  move as one. Captions rise and fall with the playback controls, by `translate` rather
+  than `bottom`.
+  - Whether they show is decided once, on `.clover-canvas`: `--clover-chrome-shown` (0
+    or 1), `--clover-chrome-events` and `--clover-chrome-timing`, which each of them
+    reads. Set `--clover-chrome-enter`, `--clover-chrome-leave` or `--clover-chrome-tuck`
+    there to change the motion. With reduced motion, the controls still come and go,
+    without moving.
   - The navigator hides by `opacity` and `pointer-events`, as the controls do, no longer
     by `visibility`.
-- **The information panel's toggle never fades.** The other Canvas controls fade when
-  the pointer leaves; the toggle stays, in the stage's top corner, on wide screens and
-  phones alike. That includes a lone video or sound, which shows no image controls, and a
-  placeholder, whose own toggle steps aside for it. Beside the other controls it keeps
-  their own gap. The controls now fade one by one rather than as a cluster: a stylesheet
-  that faded `.clover-canvas-controls` itself should fade its buttons instead.
+- **The `InformationPanel`'s toggle, `PanelToggle`, never fades.** The Canvas's other
+  controls fade when the pointer leaves; the toggle stays, in the Canvas's top corner, on
+  wide screens and phones alike. That includes a lone video or sound, which shows no
+  image controls, and a placeholder, whose own toggle steps aside for it. Beside the
+  other controls it keeps their own gap. The controls now fade one by one rather than
+  all together: a stylesheet that faded `.clover-canvas-controls` itself should fade its
+  buttons instead.
 
 - **`Canvas` (experimental).** Clover's own 2D pan-and-zoom renderer for images, video
   and sound, drawn with WebGL2 and falling back to Canvas2D. It replaces OpenSeadragon
@@ -608,8 +747,8 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   - **Light on the network and the main thread.** While the view moves, tiles are
     fetched for where it will land rather than for each view on the way, and new tiles
     reach the GPU a few per frame, so a burst of them never stalls one.
-  - **Annotation hotspots.**
-  - **Controls:** the same cluster as 3.x `Image`, with `controlButtons`.
+  - **Annotations, drawn over their regions on the Canvas.**
+  - **Controls:** the same as 3.x `Image`'s, with `controlButtons`.
   - **Full screen, rotation and keyboard control**, and a **navigator** (an overview in
     the top left). Reset turns the image upright the short way: after four turns right
     it does not spin back a whole turn, and after three it turns one more quarter. The
@@ -619,22 +758,34 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     <Clover.Canvas src={src} isTiledImage navigator />
     ```
 
-  - **For hosts.** The `onReady` handle gains `zoomToAnnotation(id)`, which zooms to a
-    hotspot and focuses it, `fitCanvasRect(canvasId, rect)`, which frames a region of a
-    shown Canvas, and `getCanvasRegion()`, the visible part of the Canvas filling most of
-    the view in its own coordinates. `options.request` sets credentials, headers and
-    `fetch` for every request the Canvas makes. `placeholder={false}` opens a Canvas past its placeholder,
-    and children render after the controls in the cluster (a host's own controls).
-  - **An annotations menu.** With `annotations`, a comment control in the cluster lists
-    them by their text. Picking one zooms to it and keeps its hotspot highlighted, as
-    clicking the hotspot does. `controls={{ annotations: false }}` hides it.
+  - **For hosts.** The `onReady` handle gains `zoomToAnnotation(id)`, which zooms to an
+    annotation's region on the Canvas and focuses it, `fitCanvasRect(canvasId, rect)`,
+    which frames a region of a shown Canvas, and `getCanvasRegion()`, the visible part of
+    the Canvas filling most of the view in its own coordinates. `options.request` sets
+    credentials, headers and `fetch` for every request the Canvas makes.
+    `placeholder={false}` opens a Canvas past its placeholder, and children render with
+    the Canvas's controls, after its own (a host's own controls).
+  - **An annotations menu.** With `annotations`, a comment control among the Canvas's
+    controls lists them by their text. Picking one zooms to it and keeps its region
+    highlighted, as clicking the region on the Canvas does.
+    `controls={{ annotations: false }}` hides it.
+  - **One place for what the controls open.** The information box (below) and the menus
+    (annotations, Choice) hang `s` below the Canvas's controls, lined up with their end
+    (`--clover-canvas-chrome-inset`), no wider than 22rem or taller than the Canvas leaves
+    room for, with one look; on a phone, beside the controls' column. The information box
+    had hung at its own distance, 1rem in from the edge, out of line with the menus. The
+    menus are now the Canvas's own children, as the box is, not the controls': a
+    stylesheet that reached them through `.clover-canvas-controls .clover-canvas-menu`
+    selects `.clover-canvas > .clover-canvas-menu` instead.
   - **A caption of Canvas information.** When a shown Canvas has a `summary` or
-    `metadata` (Cookbook 0029, "metadata anywhere"), an `i` control in the cluster slides
-    out a closable box over the picture with each Canvas's label, summary and metadata.
+    `metadata` (Cookbook 0029, "metadata anywhere"), an `i` control among the Canvas's
+    controls slides out a closable box over the picture with each Canvas's label,
+    summary and metadata.
     `Canvas` renders as a `<figure>` (it was a `<div>`), and the box is its `<figcaption>`;
     the captioned Canvases' labels name the figure. Values keep IIIF's limited HTML,
     sanitised as 3.x's Primitives do, and the sanitiser loads only when the box first opens.
-    `controls={{ information: false }}` hides it.
+    `controls={{ information: false }}` hides it. Its close button is the round control
+    every other is.
   - **Placeholder Canvases.** A Canvas with a `placeholderContainer` (Presentation 3's
     `placeholderCanvas`) shows its image first,
     fitted and centred, with a toggle in the top right (the Viewer's magnifier) to open
@@ -655,12 +806,12 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     filled.
   - **Several Canvases** are laid out in reading order by `viewingDirection`, in any of
     the four directions.
-  - **Choice.** A control in the cluster (a bullet-list icon) lists a Canvas's `Choice`
-    items and swaps between them, keeping the reader's view. It is added to
-    `ControlButtons` as `choice`, so it can be replaced like the others.
-  - **Chrome on demand.** The controls, the navigator (when on) and a dark scrim behind them
-    appear on pointer activity or keyboard focus inside the Canvas, and fade after
-    `options.hideDelay` (2000 ms), as the Player's bar does.
+  - **Choice.** A control with a bullet-list icon, beside the Canvas's other controls,
+    lists a Canvas's `Choice` items and swaps between them, keeping the reader's view.
+    It is added to `ControlButtons` as `choice`, so it can be replaced like the others.
+  - **Controls on demand.** The Canvas's controls, the navigator (when on) and a dark
+    shade behind them appear on pointer activity or keyboard focus inside the Canvas,
+    and fade after `options.hideDelay` (2000 ms), as the bar of 3.x's Player does.
   - **No Manifest awareness.** `Canvas` does not step through a Manifest. Grouping
     Canvases by `behavior` (`individuals`, `paged` spreads with `facing-pages` and
     `non-paged`, `continuous`) and moving between them is the host's job.
@@ -672,19 +823,20 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   />
   ```
 
-  - **Video and sound.** A Canvas painting a `Video` or `Sound` body plays in Clover's
-    own transport, styled as the Player's bar: play, seek, volume, time and captions,
-    with no Vidstack.
-    - **Video.** A single video or sound Canvas is always fitted to the stage, at the
-      video's own aspect. It does not pan, zoom or rotate. Full screen moves into the
-      transport at the bottom, and the top controls and scrim are not shown. Click the picture to play or pause, and use
-      <kbd>Space</kbd>/<kbd>k</kbd>, <kbd>j</kbd>/<kbd>l</kbd> and <kbd>m</kbd> on the
-      focused Canvas.
-    - **Shared chrome.** The transport shows and fades with the controls, through the
-      same `hideDelay`, pointer-leave and focus rules. Chrome now lingers for a second
-      after the pointer or focus leaves the Canvas, rather than vanishing at once.
-      Mouse focus (a click on the picture) no longer keeps it showing; keyboard focus
-      still does.
+  - **Video and sound.** A Canvas painting a `Video` or `Sound` body plays with Clover's
+    own playback controls, styled as the bar of 3.x's Player: play, seek, volume, time
+    and captions, with no Vidstack.
+    - **Video.** A single video or sound Canvas is always fitted to the space it is
+      given, at the video's own aspect. It does not pan, zoom or rotate. Full screen
+      moves into the playback controls at the bottom, and the controls at the top and
+      the dark shade behind them are not shown. Click the picture to play or pause, and
+      use <kbd>Space</kbd>/<kbd>k</kbd>, <kbd>j</kbd>/<kbd>l</kbd> and <kbd>m</kbd> on
+      the focused Canvas.
+    - **Shared controls.** The playback controls show and fade with the Canvas's other
+      controls, through the same `hideDelay`, pointer-leave and focus rules. They all now
+      linger for a second after the pointer or focus leaves the Canvas, rather than
+      vanishing at once. Mouse focus (a click on the picture) no longer keeps them
+      showing; keyboard focus still does.
     - **`navigable` gesture option.** `options.gestures.navigable: false` holds the
       camera still for any Canvas.
     - **Captions.** WebVTT files from `supplementing` annotations, one per language for
@@ -692,7 +844,7 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
     - **Poster.** A `placeholderContainer` image is the video's poster.
     - **HLS** plays through `hls.js` wherever the browser supports it, Chromium's native
       HLS included, and natively only where it does not (older iOS).
-    - **Sound** plays through the same transport, over the
+    - **Sound** plays with the same playback controls, over the
       accompanying (or placeholder) Canvas's image. It has no waveform.
     - **New props and options.** `onMediaElement` hands a host the element, and
       `onEnded` fires at the end. `options.media.presentation: "texture"` draws video
@@ -719,7 +871,7 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   OpenSeadragon is 121 kB. Video and sound add a separate 4.2 kB chunk, loaded only when
   a Canvas paints them. `hls.js`, DOMPurify and the Presentation 4 upgrader load only when
   needed. The budgets in `build/size-budget.json` were raised for `Root` (Canvas 34 kB)
-  and then for `Items`, the information panel, annotations and transcripts (Canvas
+  and then for `Items`, the `InformationPanel`, annotations and transcripts (Canvas
   36 kB, Viewer 54 kB, stylesheet 5.8 kB), and again for Contents and Collections
   (Viewer 56 kB, Classic 55 kB), for the Document template's stylesheet
   (`templates.css` 2.2 kB), and for Content Search (Viewer 58 kB, Classic 57 kB, Document
@@ -728,26 +880,27 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   the Viewer and 0.7 kB to a standalone Canvas: through esbuild, its lazy chunk splits
   the modules it shares with the parts into more chunks, each gzipped and wired on its
   own (the code itself is about 100 bytes). The Canvas budget was raised to 37 kB for it,
-  and the Viewer's, Classic's and Document's by 1 kB for point and shape hotspots
-  (0.4 kB on a Canvas, 0.5 kB on a Viewer, the SVG reader itself loading on demand),
-  then each by 1 kB for animations (0.8 kB on a Canvas: frame detection and the
-  renderer's `setHidden`/`isReady`, the clock and bar loading on demand), and by 1 kB
-  for Download and renderers (Viewer 0.7 and 0.4 kB; the stylesheet's budget to 6.5 kB).
-  The Classic and Document budgets were raised to 62.5 and 63 kB for the split (2.1 kB:
+  and the Viewer's, Classic's and Document's by 1 kB for annotations on a point or a
+  shape (0.4 kB on a Canvas, 0.5 kB on a Viewer, the SVG reader itself loading on
+  demand), then each by 1 kB for animations (0.8 kB on a Canvas: frame detection and the
+  renderer's `setHidden`/`isReady`, the clock and the frames' playback controls loading
+  on demand), and by 1 kB for Download and renderers (Viewer 0.7 and 0.4 kB; the
+  stylesheet's budget to 6.5 kB).
+  The Classic and Document budgets were raised to 62.5 and 63 kB for `Split` (2.1 kB:
   pointer and keyboard resizing, the separator's value, limits and remembered sizes) and
-  the panel's slide-over, and the stylesheet's to 6.8 kB for the split's bar and controls
-  that fade one by one.
+  the panel sliding over the page, and the stylesheet's to 6.8 kB for the `SplitHandle`
+  and controls that fade one by one.
   The Viewer's budget was raised to 61.5 kB and the stylesheet's to 7 kB for the
-  information panel's accordion layout (the Sections that hold tabs and boxes alike).
+  `InformationPanel`'s accordion layout (the Sections that hold tabs and boxes alike).
   The Canvas budget was raised to 38.5 kB for full screen on iPhone (0.5 kB: the check
   for whether an element can go full screen, and handing a video, even one drawn into the
-  canvas, to the system player).
-  The budgets were raised for the controls' popovers, their keys and Escape (0.7 kB on a
+  `<canvas>` element, to the system player).
+  The budgets were raised for the controls' `Tip`s, their keys and Escape (0.7 kB on a
   standalone `Canvas`, 34.7 to 35.4; about 0.8 kB on each template; 0.3 kB of CSS, the
   stylesheet 6.9 to 7.2): `Canvas` 35.8 kB, the Viewer with `Default` 61.0,
   `Document` 61.6, `Gallery` 53.6 and `Text` 49.8, the stylesheet 7.5.
-  `<clover-viewer>`'s was raised to 92.5 kB, for the Canvas's inset at home, the
-  position's two texts and the reader's open-or-closed choice, which brought it to its
+  `<clover-viewer>`'s was raised to 92.5 kB, for the Canvas's inset at home,
+  `Position`'s two texts and the reader's open-or-closed choice, which brought it to its
   92.0.
   The stylesheet's budget was raised to 7.6 kB for the accordion's headings staying in
   sight, which brought it to 7.5 kB (7,513 B), and to 7.7 kB for the type scale's two
@@ -756,10 +909,10 @@ project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   content passing under them (7,891 B), and to 8 kB for a lone section that cannot be
   closed (7,905 B), then to 8.1 kB for the same shadows at a carousel's ends (8,082 B). For that, and for a content state opening a Collection on one of its
   members, `Document`'s budget was raised to 61.7 kB (61,609 B), then to 61.9 kB for the
-  information panel's Collection section beside its own member menu (61,784 B), and
-  `<clover-viewer>`'s
+  `InformationPanel`'s Collection section beside its own `CollectionSelect` (61,784 B),
+  and `<clover-viewer>`'s
   to 92.7 kB (92,603 B), then to 92.8 kB for the carousel's shadows in its inlined
-  stylesheet (92,710 B). For the information panel's Collection section fetching a
+  stylesheet (92,710 B). For the `InformationPanel`'s Collection section fetching a
   `partOf` Collection when it opens (`openCollection`), `Document`'s was raised to 62 kB
   (61.92 kB) and `<clover-viewer>`'s to 93 kB (92.9 kB).
   For the Collection section's summary, homepage and id, `Default`'s header thumbnail, a

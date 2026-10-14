@@ -7,11 +7,11 @@ import { normalizeHex, setPageTheme, usePageTheme } from "docs/lib/page-theme";
 import { useTheme } from "nextra-theme-docs";
 
 /**
- * The site's accent, Northwestern purple (`--accent-9` in tokens.css). Shown when no
+ * The site's accent, its blue (`--accent-9` in tokens.css). Shown when no
  * override is set: on the default preset's swatch, and in the colour input, which has no
  * empty state.
  */
-const DEFAULT_ACCENT = "#4e2a84";
+const DEFAULT_ACCENT = "#0f62fe";
 
 /**
  * Page settings — font, appearance and colour — behind a gear in the site header.

@@ -5,6 +5,7 @@ import { type LanguageMapLike, localize } from "../../core/value";
 import { useCloverTranslation } from "../../i18n/useCloverTranslation";
 import { join } from "../../lib/classnames";
 import { useClover, useCloverSelector } from "../../react/context";
+import { useOneOpen } from "../../ui/useOneOpen";
 
 export interface DownloadProps
   extends Omit<React.HTMLAttributes<HTMLElement>, "children"> {
@@ -128,13 +129,14 @@ const PANEL_WIDTH = 256;
 /**
  * Downloads, as 3.x's Viewer offers them: the `rendering` of the Canvases in view ("This
  * page") and of the Manifest ("All pages") — a PDF, a text, a high-resolution file —
- * behind one button, each a link. Escape or a press outside closes it. Renders nothing
- * when there is nothing to download.
+ * behind one button, each a link. Escape, a press outside or another popup opening
+ * (`useOneOpen`) closes it. Renders nothing when there is nothing to download.
  */
 export function Download({ className, children, ...rest }: DownloadProps) {
   const { t } = useCloverTranslation();
   const { page, all } = useDownloads();
   const [open, setOpen] = useState(false);
+  useOneOpen(open, () => setOpen(false));
   // Which way the panel opens: towards the side with room, measured as it opens.
   const [align, setAlign] = useState<"start" | "end">("end");
   const id = useId();

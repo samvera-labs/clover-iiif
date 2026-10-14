@@ -67,9 +67,10 @@
  */
 button.clover-canvas-placeholder-toggle {
   position: absolute;
-  top: var(--clover-space-m);
-  right: var(--clover-space-m);
-  z-index: 2;
+  top: var(--clover-canvas-chrome-inset);
+  right: var(--clover-canvas-chrome-inset);
+  /* With the controls, over the popups they open, so its Tip shows over them. */
+  z-index: 3;
   margin: 0;
   transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
 }
@@ -115,8 +116,8 @@ button.clover-canvas-placeholder-toggle {
  */
 .clover-canvas:has(> .clover-canvas-controls > [data-button="panel"])
   > .clover-canvas-controls[data-has-placeholder="true"] {
-  --top: var(--clover-space-m);
-  right: var(--clover-space-m);
+  --top: var(--clover-canvas-chrome-inset);
+  right: var(--clover-canvas-chrome-inset);
 }
 
 .clover-canvas[data-placeholder]:not([data-placeholder="true"][data-media]):has(
@@ -132,7 +133,8 @@ button.clover-canvas-placeholder-toggle {
   )
   > button.clover-canvas-placeholder-toggle {
   right: calc(
-    var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
+    var(--clover-canvas-chrome-inset) + var(--clover-control) +
+      var(--clover-space-s)
   );
 }
 
@@ -151,8 +153,9 @@ button.clover-canvas-placeholder-toggle {
     ):has(> .clover-canvas-controls > [data-button="panel"])
     > button.clover-canvas-placeholder-toggle {
     top: calc(
-      var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
+      var(--clover-canvas-chrome-inset) + var(--clover-control) +
+        var(--clover-space-s)
     );
-    right: var(--clover-space-m);
+    right: var(--clover-canvas-chrome-inset);
   }
 }

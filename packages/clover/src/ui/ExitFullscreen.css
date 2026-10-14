@@ -23,8 +23,8 @@
 button.clover-canvas-exit-full-screen {
   display: none;
   position: absolute;
-  top: var(--clover-space-m);
-  left: var(--clover-space-m);
+  top: var(--clover-canvas-chrome-inset);
+  left: var(--clover-canvas-chrome-inset);
   z-index: 3;
 
   align-items: center;
@@ -33,8 +33,9 @@ button.clover-canvas-exit-full-screen {
   padding: 0 var(--clover-space-m) 0 var(--clover-space-s);
   border: none;
   border-radius: var(--clover-radius-pill, 2rem);
-  background-color: var(--clover-color-secondary, #fff);
-  color: var(--clover-color-primary, #1a1d1e);
+  /* A control over the stage: the round controls' colours (`ui/Button.css`). */
+  background-color: var(--clover-color-control, #1a1d1e);
+  color: var(--clover-color-control-glyph, #fff);
   font-size: var(--clover-text-s);
   font-weight: 700;
   line-height: 1;
@@ -52,5 +53,4 @@ button.clover-canvas-exit-full-screen {
 .clover-canvas-exit-full-screen:hover,
 .clover-canvas-exit-full-screen:focus-visible {
   background-color: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-secondary, #fff);
 }

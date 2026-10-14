@@ -10,11 +10,13 @@
   min-width: 0;
 }
 
-/* Sizes are the pane's whole box, padding and border included, as a drag measures it. */
+/*
+ * Sizes are the pane's whole box, padding and border included, as a drag measures it.
+ * Its minimum is set on it inline (`Split.tsx`), so it holds without this file too.
+ */
 .clover-split-pane {
   box-sizing: border-box;
   flex: 1 1 0;
-  min-width: var(--clover-split-min, 0);
 }
 
 .clover-split-pane[data-sized] {

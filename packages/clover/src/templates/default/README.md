@@ -1,7 +1,7 @@
 # Default
 
 The Viewer's own layout, drawn when it is given no `template`: Clover 3.x's Viewer, built
-from 4.x parts. A square thumbnail and the title over the stage; the thumbnail strip under the stage, whose
+from 4.x parts. The thumbnail (`xl` high, at its own shape up to 5rem wide, cropped past that) and the title over the stage; the thumbnail strip under the stage, whose
 arrows are Previous and Next, headed by the titles of the view on the left and the
 position on the right; and the information panel to the right of all three, the layout's
 full height, scrolling within when its sections run longer. Downloads (the page's and the

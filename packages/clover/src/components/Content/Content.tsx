@@ -8,8 +8,9 @@ import {
 import ConnectedCanvas from "../Canvas/Connected";
 import type { CloverCanvasProps } from "../Canvas/Canvas.types";
 import { join } from "../../lib/classnames";
-import { useClover } from "../../react/context";
+import { useClover, useCloverSelector } from "../../react/context";
 import { useVisibleCanvases } from "../../react/hooks";
+import { Loading } from "../../ui/Loading";
 
 export type ContentProps = Omit<
   CloverCanvasProps,
@@ -30,6 +31,10 @@ export type ContentProps = Omit<
  * The stage needs a height to draw into. It is set inline, so it holds without the
  * stylesheet, through `--clover-content-height` (default `60vh`): set that property to
  * size it, `100%` to fill a sized parent.
+ *
+ * While the Root loads (the first Manifest, or the next one chosen) the stage is busy and
+ * shows Clover's loading mark in its middle, over what it still shows; it keeps its size
+ * and its background, so nothing moves.
  */
 export function Content({
   className,
@@ -46,8 +51,10 @@ export function Content({
     bodies,
   });
   const Renderer = renderer?.component;
+  const busy = useCloverSelector((state) => state.status === "loading");
   return (
     <div
+      aria-busy={busy}
       className={join("clover-content", className)}
       data-renderer={Renderer ? "custom" : "canvas"}
       style={{
@@ -63,6 +70,7 @@ export function Content({
       ) : (
         <ConnectedCanvas {...canvas}>{children}</ConnectedCanvas>
       )}
+      {busy && <Loading overlay />}
     </div>
   );
 }

@@ -1,21 +1,22 @@
 /*
- * The control cluster over the canvas: `m` in from the stage's top and end, its buttons
+ * The control cluster over the canvas: `--clover-canvas-chrome-inset` in from the stage's
+ * top and end (see `Canvas.css`), its buttons
  * `s` apart, a row that wraps (a column on a phone) rather than running past the stage
  * at a large zoom (WCAG 1.4.10). A placeholder's toggle takes a place of its own beside
  * it (see `Placeholder.css`).
  */
 .clover-canvas-controls {
-  --top: var(--clover-space-m);
+  --top: var(--clover-canvas-chrome-inset);
   position: absolute;
   z-index: 1;
   top: var(--top);
-  right: var(--clover-space-m);
+  right: var(--clover-canvas-chrome-inset);
   display: flex;
   flex-wrap: wrap;
   align-content: flex-start;
   justify-content: flex-end;
   gap: var(--clover-space-s);
-  max-height: calc(100% - var(--top) - var(--clover-space-m));
+  max-height: calc(100% - var(--top) - var(--clover-canvas-chrome-inset));
 }
 
 @media (max-width: 575px) {
@@ -30,15 +31,17 @@
 /* Room in the corner for a placeholder's toggle, beside the cluster or above its column. */
 .clover-canvas-controls[data-has-placeholder="true"] {
   right: calc(
-    var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
+    var(--clover-canvas-chrome-inset) + var(--clover-control) +
+      var(--clover-space-s)
   );
 }
 
 @media (max-width: 575px) {
   .clover-canvas-controls[data-has-placeholder="true"] {
     --top: calc(
-      var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
+      var(--clover-canvas-chrome-inset) + var(--clover-control) +
+        var(--clover-space-s)
     );
-    right: var(--clover-space-m);
+    right: var(--clover-canvas-chrome-inset);
   }
 }

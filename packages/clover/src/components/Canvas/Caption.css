@@ -1,33 +1,16 @@
 /*
- * The Canvas's caption: a box of the shown Canvases' labels, summaries and metadata that
- * slides out from under the control cluster, right-aligned with it, as the Choice and
- * annotations menus hang. Beneath the controls and the navigator in the stacking order,
- * so the cluster stays usable — the reader can zoom and pan while it is open. Clover's
- * surface and type colours, as the menus have; the page's own text size.
+ * The Canvas's information: a box of the shown Canvases' labels, summaries and metadata,
+ * one of the popups its controls open. Where it hangs, and how it looks, are the menus'
+ * (`ControlMenu.css`), so the reader can zoom and pan while it is open; this file holds
+ * its insides, and its slide.
  *
  * It is content, not chrome: it does not fade with the controls.
  *
- * On the scale: below the cluster by one control and `s`, `m` in from the edge, `m`
- * inside. Within, a Canvas's label, summary and metadata are `s` apart; Canvases, `m`.
+ * On the scale: `m` inside. Within, a Canvas's label, summary and metadata are `s` apart;
+ * Canvases, `m`.
  */
 .clover-canvas-caption {
-  --top: calc(
-    var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
-  );
-  position: absolute;
-  top: var(--top);
-  right: var(--clover-space-m);
-  z-index: 1;
-  box-sizing: border-box;
-  width: min(22rem, calc(100% - 2 * var(--clover-space-m)));
-  max-height: calc(100% - var(--top) - var(--clover-space-m));
-  overflow-y: auto;
-  overscroll-behavior: contain;
   padding: var(--clover-space-m);
-  border-radius: var(--clover-radius, 6px);
-  background: var(--clover-color-secondary, #fff);
-  color: var(--clover-color-primary, #1a1d1e);
-  box-shadow: 0 4px 16px #0001;
   outline: none;
   /* Closed: tucked up under the cluster, and out of the tab order and accessibility tree. */
   transform: translateY(calc(-1 * var(--clover-space-m)));
@@ -54,32 +37,6 @@
   outline-offset: 2px;
 }
 
-/* Clear of a video or sound's transport, which stays reachable below it. */
-.clover-canvas[data-media] > .clover-canvas-caption {
-  max-height: calc(100% - var(--top) - var(--clover-transport-room));
-}
-
-/*
- * On a phone the cluster is a column down the right edge, so the box sits beside it
- * instead, from the top — below the exit-full-screen control when full screen.
- */
-@media (max-width: 575px) {
-  .clover-canvas-caption {
-    --top: var(--clover-space-m);
-    right: calc(
-      var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
-    );
-    left: var(--clover-space-m);
-    width: auto;
-  }
-
-  .clover-canvas[data-fullscreen="true"] > .clover-canvas-caption {
-    --top: calc(
-      var(--clover-space-m) + var(--clover-control) + var(--clover-space-s)
-    );
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .clover-canvas-caption,
   .clover-canvas-caption[data-open="true"] {
@@ -89,29 +46,13 @@
 }
 
 /*
- * The navigator would sit over the box where they meet (on a phone, or a narrow Canvas):
- * put it away while the box is open.
- */
-.clover-canvas:has(> .clover-canvas-caption[data-open="true"])
-  > .clover-canvas-navigator {
-  opacity: 0;
-  visibility: hidden;
-}
-
-/*
- * The close control: the cluster's round button, floated into the box's top corner on a
- * muted disc (the box is the button's own colour), the text `s` from it.
+ * The close control: the cluster's round button, as it is everywhere (`ui/Button.css`),
+ * floated into the box's top corner, the text `s` from it.
  */
 .clover-canvas-caption > button.clover-canvas-caption-close {
   float: right;
   margin: calc(-1 * var(--clover-space-2xs)) calc(-1 * var(--clover-space-2xs))
     var(--clover-space-s) var(--clover-space-s);
-  background-color: var(--clover-color-secondary-muted, #e6e8eb);
-}
-
-.clover-canvas-caption
-  > button.clover-canvas-caption-close:is(:hover, :focus-visible) {
-  background-color: var(--clover-color-accent, #0065c3);
 }
 
 .clover-canvas-caption-canvas + .clover-canvas-caption-canvas {
@@ -130,7 +71,8 @@
   margin: 0;
 }
 
-.clover-canvas-caption .clover-canvas-caption-summary {
+/* The summary and its "Read more", `s` over the metadata. */
+.clover-canvas-caption .clover-read-more {
   margin-bottom: var(--clover-space-s);
 }
 

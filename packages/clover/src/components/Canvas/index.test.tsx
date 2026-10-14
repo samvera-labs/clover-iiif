@@ -8,6 +8,7 @@ import rtlJson from "../../fixtures/iiif-cookbook/0010-book-2-viewing-direction-
 import placeholderVideoJson from "../../fixtures/iiif-cookbook/0013-placeholderCanvas.json";
 import metadataAnywhereJson from "../../fixtures/iiif-cookbook/0029-metadata-anywhere.json";
 import choiceJson from "../../fixtures/iiif-cookbook/0033-choice.json";
+import audioJson from "../../fixtures/iiif-cookbook/0002-mvm-audio.json";
 import { initCloverI18n } from "../../i18n";
 import { CanvasRenderer } from "../../lib/renderer";
 import { stubViewport } from "./testing/viewport";
@@ -40,6 +41,7 @@ beforeEach(() => {
   renderer = {
     host: document.createElement("div"),
     setImages: vi.fn().mockResolvedValue(undefined),
+    clear: vi.fn(),
     setGestures: vi.fn(),
     dispose: vi.fn(),
     isOpen: false,
@@ -467,6 +469,47 @@ describe("Canvas", () => {
       expect(lastScene()[1].fit).toBe(false);
       rerender(<Canvas canvases={pages.slice(1, 3)} />);
       expect(lastScene()[1].fit).toBe(true);
+    });
+
+    it("shows the loading mark, busy, until it draws, and again for the next view", () => {
+      const mark = () => document.querySelector(".clover-loading");
+      const viewport = () => screen.getByTestId("clover-canvas-viewport");
+      const { rerender } = render(<Canvas canvases={[pages[0]]} />);
+      expect(mark()).toHaveAttribute("aria-hidden", "true");
+      expect(mark()).toHaveAttribute("data-overlay", "true");
+      expect(viewport()).toHaveAttribute("aria-busy", "true");
+      act(() => listeners.open());
+      expect(mark()).toBeNull();
+      expect(viewport()).toHaveAttribute("aria-busy", "false");
+      // Moving on: loading again, over the stage as it is, until the next view draws.
+      renderer.isOpen = true;
+      rerender(<Canvas canvases={[pages[1]]} />);
+      expect(mark()).not.toBeNull();
+      act(() => listeners.change());
+      expect(mark()).toBeNull();
+    });
+
+    it("clears at once for another Manifest, not for another of its Canvases", () => {
+      const { rerender } = render(
+        <Canvas canvases={[pages[0]]} manifestId="https://example.org/a" />,
+      );
+      rerender(
+        <Canvas canvases={[pages[1]]} manifestId="https://example.org/a" />,
+      );
+      expect(renderer.clear).not.toHaveBeenCalled();
+      rerender(
+        <Canvas canvases={[pages[1]]} manifestId="https://example.org/b" />,
+      );
+      expect(renderer.clear).toHaveBeenCalledTimes(1);
+    });
+
+    it("never says it is loading for sound alone, which has no image to wait for", () => {
+      render(<Canvas canvases={[(p4(audioJson) as any).items[0]]} />);
+      expect(document.querySelector(".clover-loading")).toBeNull();
+      expect(screen.getByTestId("clover-canvas-viewport")).toHaveAttribute(
+        "aria-busy",
+        "false",
+      );
     });
 
     it("has no previous/next of its own: stepping is the host's job", () => {

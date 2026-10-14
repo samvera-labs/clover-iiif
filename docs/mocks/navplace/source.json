@@ -1,0 +1,336 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://api.dc.library.northwestern.edu/api/v2/works/24157482-0c2c-4907-8d25-7905adc3cfd9?as=iiif",
+  "type": "Manifest",
+  "label": {
+    "none": ["516; 151, Michigan & Washington, 1948, GM/TDH5502"]
+  },
+  "metadata": [
+    {
+      "label": {
+        "none": ["Abstract"]
+      },
+      "value": {
+        "none": [
+          "The Ronald J. Sullivan Photograph Collection spans the years 1940-2000. The extensive collection is comprised of photographs and slides of primarily public bus and train transportation, chiefly in the Chicago, Illinois area."
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Contributor"]
+      },
+      "value": {
+        "none": [
+          "Sullivan, Ronald J. (Photographer)",
+          "Sullivan, Ronald J. (Collector)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Date"]
+      },
+      "value": {
+        "none": ["July 3, 1955"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Department"]
+      },
+      "value": {
+        "none": ["Transportation Library"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Genre"]
+      },
+      "value": {
+        "none": ["color slides"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Identifier"]
+      },
+      "value": {
+        "none": ["TL030"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Last Modified"]
+      },
+      "value": {
+        "none": ["2026-07-15T17:13:37.188501Z"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Materials"]
+      },
+      "value": {
+        "none": ["Slide"]
+      }
+    },
+    {
+      "label": {
+        "none": ["Notes"]
+      },
+      "value": {
+        "none": [
+          " Note: Written on slide mount: \"1948 GM TDH5502\" (General Note)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Related URL"]
+      },
+      "value": {
+        "none": [
+          "<span><a href=https://findingaids.library.northwestern.edu/repositories/5/resources/1290>Finding Aid</a></span>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Rights Statement"]
+      },
+      "value": {
+        "none": [
+          "In Copyright - Rights-holder(s) Unlocatable or Unidentifiable"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Scope and Contents"]
+      },
+      "value": {
+        "none": [
+          "The Ronald J. Sullivan Photograph Collection is an extensive collection of photographs and slides of public and commercial buses and public transit and commuter trains, dating from 1946-2000. The bulk of the collection comprises photographs taken by Ronald J. Sullivan, an amateur photographer and rail and bus enthusiast; also included are historic images of Chicago-area transit that were part of Sullivan’s personal collection, and which supplement the photographer’s original material. The majority of the photographs were taken in Chicago, Illinois and the surrounding area, with a few in other cities and international locations. Sullivan documented nearly all of the photographs and slides in this collection in detail with bus or train numbers, route numbers, street intersections or stations, and dates."
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Series"]
+      },
+      "value": {
+        "none": [
+          "Ronald J. Sullivan Photograph Collection--Slides, 1940-2000--Buses, 1940-2000"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": ["Subject"]
+      },
+      "value": {
+        "none": [
+          "Chicago",
+          "Transportation",
+          "Local transit",
+          "Cable cars (Streetcars)"
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "none": [
+      "3/4 view of bus 516, route 151 at Michigan Avenue and Washington Street in Chicago, Illinois."
+    ]
+  },
+  "requiredStatement": {
+    "label": {
+      "none": ["Attribution"]
+    },
+    "value": {
+      "none": [
+        "Courtesy of Northwestern University Libraries",
+        "The works on this web site, from material in the collections of the Transportation Library of Northwestern University Libraries, are provided for use by its students, faculty and staff, and by other researchers visiting this site, for research consultation and scholarly purposes only. Further distribution and/or any commercial use of the images from this site is not permitted."
+      ]
+    }
+  },
+  "rights": "http://rightsstatements.org/vocab/InC-RUU/1.0/",
+  "thumbnail": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/24157482-0c2c-4907-8d25-7905adc3cfd9/thumbnail",
+      "type": "Image",
+      "format": "image/jpeg",
+      "height": 300,
+      "width": 300
+    }
+  ],
+  "seeAlso": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/24157482-0c2c-4907-8d25-7905adc3cfd9",
+      "type": "Dataset",
+      "format": "application/json",
+      "label": {
+        "none": ["Northwestern University Libraries Digital Collections API"]
+      }
+    }
+  ],
+  "homepage": [
+    {
+      "id": "https://dc.library.northwestern.edu/items/24157482-0c2c-4907-8d25-7905adc3cfd9",
+      "type": "Text",
+      "format": "text/html",
+      "label": {
+        "none": [
+          "Homepage at Northwestern University Libraries Digital Collections"
+        ]
+      }
+    }
+  ],
+  "partOf": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/collections/0ba3a256-4952-44ea-b0d9-0772835ff137?as=iiif",
+      "type": "Collection",
+      "label": {
+        "none": ["Ronald J. Sullivan Photograph Collection"]
+      },
+      "summary": {
+        "none": [
+          "The Ronald J. Sullivan Photograph Collection is an extensive collection of photographs and slides of public and commercial buses and public transit and commuter trains, dating from 1946-2000. The bulk of the collection comprises photographs taken by Ronald J. Sullivan, an amateur photographer and rail and bus enthusiast; also included are historic images of Chicago-area transit that were part of Sullivan’s personal collection, and which supplement  the photographer’s original material. The majority of the photographs were taken in Chicago, Illinois and the surrounding area, with a few in other cities and international locations. Sullivan documented nearly all of the photographs and slides in this collection in detail with bus or train numbers, route numbers, street intersections or stations, and dates. For the sake of consistency and ease of searching for specific items the City of Chicago Street Guide abbreviations and a list of common abbreviations found in the collection will be used. "
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac?as=iiif",
+      "type": "Canvas",
+      "height": 2685,
+      "width": 3968,
+      "label": {
+        "none": ["Sull_0048.tif"]
+      },
+      "thumbnail": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/3/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "height": 300,
+          "width": 300,
+          "service": [
+            {
+              "id": "https://iiif.dc.library.northwestern.edu/iiif/3/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac",
+              "profile": "http://iiif.io/api/image/3/level2.json",
+              "type": "ImageService3"
+            }
+          ]
+        }
+      ],
+      "items": [
+        {
+          "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac?as=iiif/annotation-page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac?as=iiif/annotation/0",
+              "type": "Annotation",
+              "motivation": "painting",
+              "target": "https://api.dc.library.northwestern.edu/api/v2/file-sets/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac?as=iiif",
+              "body": {
+                "id": "https://iiif.dc.library.northwestern.edu/iiif/3/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac/full/600,/0/default.jpg",
+                "type": "Image",
+                "format": "image/tiff",
+                "height": 2685,
+                "width": 3968,
+                "label": {
+                  "en": ["Sull_0048.tif"]
+                },
+                "service": [
+                  {
+                    "id": "https://iiif.dc.library.northwestern.edu/iiif/3/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac",
+                    "profile": "http://iiif.io/api/image/3/level2.json",
+                    "type": "ImageService3"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "placeholderCanvas": {
+        "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac?as=iiif/placeholder",
+        "type": "Canvas",
+        "width": 640,
+        "height": 433,
+        "items": [
+          {
+            "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac?as=iiif/placeholder/annotation-page/0",
+            "type": "AnnotationPage",
+            "items": [
+              {
+                "id": "https://api.dc.library.northwestern.edu/api/v2/file-sets/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac?as=iiif/placeholder/annotation/0",
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://iiif.dc.library.northwestern.edu/iiif/3/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac/full/!640,433/0/default.jpg",
+                  "type": "Image",
+                  "format": "image/tiff",
+                  "width": 640,
+                  "height": 433,
+                  "service": [
+                    {
+                      "id": "https://iiif.dc.library.northwestern.edu/iiif/3/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac",
+                      "type": "ImageService3",
+                      "profile": "http://iiif.io/api/image/3/level2.json"
+                    }
+                  ]
+                },
+                "target": "https://api.dc.library.northwestern.edu/api/v2/file-sets/1ece48b0-8a49-491d-9f3f-90dc8bcca1ac?as=iiif/placeholder"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "provider": [
+    {
+      "id": "https://www.library.northwestern.edu/",
+      "type": "Agent",
+      "label": {
+        "none": ["Northwestern University Libraries"]
+      },
+      "homepage": [
+        {
+          "id": "https://dc.library.northwestern.edu/",
+          "type": "Text",
+          "label": {
+            "none": [
+              "Northwestern University Libraries Digital Collections Homepage"
+            ]
+          },
+          "format": "text/html",
+          "language": ["en"]
+        }
+      ],
+      "logo": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/2/00000000-0000-0000-0000-000000000003/full/pct:50/0/default.webp",
+          "type": "Image",
+          "format": "image/webp",
+          "height": 139,
+          "width": 1190
+        }
+      ]
+    }
+  ],
+  "logo": [
+    {
+      "id": "https://iiif.dc.library.northwestern.edu/iiif/2/00000000-0000-0000-0000-000000000003/full/pct:50/0/default.webp",
+      "type": "Image",
+      "format": "image/webp",
+      "height": 139,
+      "width": 1190
+    }
+  ]
+}

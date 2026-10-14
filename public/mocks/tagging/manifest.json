@@ -1,0 +1,523 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "id": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/manifest.json",
+  "type": "Manifest",
+  "label": {
+    "none": [
+      "The Vanishing Race - Navaho"
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "none": [
+          "Alternate Title"
+        ]
+      },
+      "value": {
+        "none": [
+          "Portfolio 1. The Apache. The Jicarillas. The Navaho"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Contributor"
+        ]
+      },
+      "value": {
+        "none": [
+          "Curtis, Edward S., 1868-1952 (Author)",
+          "Curtis, Edward S., 1868-1952 (Illustrator)",
+          "Curtis, Edward S., 1868-1952 (Publisher)",
+          "Hodge, Frederick Webb, 1864-1956 (Editor)",
+          "Roosevelt, Theodore, 1858-1919 (Author of introduction, etc.)",
+          "Morgan, J. Pierpont (John Pierpont), 1837-1913 (Patron)",
+          "John Andrew & Son (Printmaker)",
+          "University Press (Cambridge, Mass.) (Publisher)",
+          "Washington (State)--Seattle (Publication place)",
+          "Massachusetts--Cambridge (Publication place)",
+          "Massachusetts--Boston (Publication place)",
+          "Curtis, Edward S., 1868-1952 (Photographer)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Cultural Context"
+        ]
+      },
+      "value": {
+        "none": [
+          "Content on this site is drawn from a historical source which includes materials that may contain offensive images or language reflecting the nature of Settler Colonialism in America. Such materials should be viewed in the context of the time and place in which they were created. The images and text in this site are presented as specific, original artifacts recording the attitudes, perspectives and beliefs of a different era. Northwestern University does not endorse the views expressed in this collection which may contain images and text offensive to some researchers."
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Date"
+        ]
+      },
+      "value": {
+        "none": [
+          "1904"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Department"
+        ]
+      },
+      "value": {
+        "none": [
+          "Charles Deering McCormick Library of Special Collections"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Dimensions"
+        ]
+      },
+      "value": {
+        "none": [
+          "36 x 44 cm [plate size]"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Genre"
+        ]
+      },
+      "value": {
+        "none": [
+          "photomechanical prints",
+          "photogravures (prints)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Identifier"
+        ]
+      },
+      "value": {
+        "none": [
+          "Portfolio 1, plate no. 1"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Last Modified"
+        ]
+      },
+      "value": {
+        "none": [
+          "2026-07-15T17:28:08.340484Z"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Language"
+        ]
+      },
+      "value": {
+        "none": [
+          "English"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Materials"
+        ]
+      },
+      "value": {
+        "none": [
+          "1 photogravure : brown ink"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Notes"
+        ]
+      },
+      "value": {
+        "none": [
+          " written, illustrated, and published by Edward S. Curtis ; edited by Frederick Webb Hodge ; foreword by Theodore Roosevelt ; field research conducted under the patronage of J. Pierpont Morgan. ; Original photogravures produced in Boston by John Andrew & Son from 1903-1907. (Statement of Responsibility)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Provenance"
+        ]
+      },
+      "value": {
+        "none": [
+          "Gifted to Northwestern University on behalf of the Honorary Regents. -Volume 1, front matter.",
+          "Northwestern edition is number 458."
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Rights Statement"
+        ]
+      },
+      "value": {
+        "none": [
+          "No Copyright - United States"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Series"
+        ]
+      },
+      "value": {
+        "none": [
+          "Edward S. Curtis's The North American Indian--Portfolio 1. The Apache. The Jicarillas. The Navaho"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Source"
+        ]
+      },
+      "value": {
+        "none": [
+          "The North American Indian (1907-1930) v.01, The Apache. The Jicarillas. The Navaho ([Seattle] : E.S. Curtis ; [Cambridge, Mass. : The University Press], 1907), plate no. 1"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Style Period"
+        ]
+      },
+      "value": {
+        "none": [
+          "Pictorialist"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Subject"
+        ]
+      },
+      "value": {
+        "none": [
+          "New Southwest",
+          "Arizona",
+          "New Mexico",
+          "Apache Indians",
+          "Jicarilla Indians",
+          "Navajo Indians"
+        ]
+      }
+    },
+    {
+      "label": {
+        "none": [
+          "Technique"
+        ]
+      },
+      "value": {
+        "none": [
+          "photomechanical processes",
+          "photogravure (process)"
+        ]
+      }
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "none": [
+        "Attribution"
+      ]
+    },
+    "value": {
+      "none": [
+        "Courtesy of Northwestern University Libraries",
+        "The works on this web site, from material in the collections of the Charles Deering McCormick Library of Special Collections of Northwestern University Libraries, are provided for use by its students, faculty and staff, and by other researchers visiting this site, for research consultation and scholarly purposes only. Further distribution and/or any commercial use of the images from this site is not permitted."
+      ]
+    }
+  },
+  "rights": "http://rightsstatements.org/vocab/NoC-US/1.0/",
+  "thumbnail": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/46dc28d1-9d59-4160-a511-72418f70cffc/thumbnail",
+      "type": "Image",
+      "format": "image/jpeg",
+      "height": 300,
+      "width": 300
+    }
+  ],
+  "seeAlso": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/works/46dc28d1-9d59-4160-a511-72418f70cffc",
+      "type": "Dataset",
+      "format": "application/json",
+      "label": {
+        "none": [
+          "Northwestern University Libraries Digital Collections API"
+        ]
+      }
+    }
+  ],
+  "homepage": [
+    {
+      "id": "https://dc.library.northwestern.edu/items/46dc28d1-9d59-4160-a511-72418f70cffc",
+      "type": "Text",
+      "format": "text/html",
+      "label": {
+        "none": [
+          "Homepage at Northwestern University Libraries Digital Collections"
+        ]
+      }
+    }
+  ],
+  "partOf": [
+    {
+      "id": "https://api.dc.library.northwestern.edu/api/v2/collections/55ff2504-dd53-4943-b2cb-aeea46e77bc3?as=iiif",
+      "type": "Collection",
+      "label": {
+        "none": [
+          "Edward S. Curtis's The North American Indian"
+        ]
+      },
+      "summary": {
+        "none": [
+          "Edward Sheriff Curtis published The North American Indian between 1907 and 1930 with the intent to record traditional Native American cultures. The work comprises twenty volumes of narrative text and photogravure images. Each volume is accompanied by a portfolio of large photogravure plates.  Search tip: shortcut to a list of just the text volumes by searching \"illustrated books\" in the search bar.\n\nCultural Context:  Content on this site is drawn from a historical source which includes materials that may contain offensive images or language reflecting the nature of Settler Colonialism in America. Such materials should be viewed in the context of the time and place in which they were created. The images and text in this site are presented as specific, original artifacts recording the attitudes, perspectives and beliefs of a different era. Northwestern University does not endorse the views expressed in this collection which may contain images and text offensive to some researchers."
+        ]
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1",
+      "type": "Canvas",
+      "label": {
+        "none": [
+          "Plate 1"
+        ]
+      },
+      "summary": {
+        "none": [
+          "The thought which this picture is meant to convey is that the Indians as a race, already shorn in their tribal strength and stripped of their primitive dress, are passing into the darkness of an unknown future. Feeling that the picture expresses so much of the thought that inspired the entire work, the author has chosen it as the first of the series."
+        ]
+      },
+      "width": 4290,
+      "height": 3528,
+      "thumbnail": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/3/bcb98b9f-4c44-4fd0-bfa9-673fb904a2b1/full/!300,300/0/default.jpg",
+          "type": "Image",
+          "format": "image/jpeg",
+          "height": 300,
+          "width": 300,
+          "service": [
+            {
+              "id": "https://iiif.dc.library.northwestern.edu/iiif/3/bcb98b9f-4c44-4fd0-bfa9-673fb904a2b1",
+              "profile": "http://iiif.io/api/image/3/level2.json",
+              "type": "ImageService3"
+            }
+          ]
+        }
+      ],
+      "placeholderCanvas": {
+        "id": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1/placeholder",
+        "type": "Canvas",
+        "width": 640,
+        "height": 526,
+        "items": [
+          {
+            "id": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1/placeholder/page",
+            "type": "AnnotationPage",
+            "items": [
+              {
+                "id": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1/placeholder/page/1",
+                "type": "Annotation",
+                "motivation": "painting",
+                "body": {
+                  "id": "https://iiif.dc.library.northwestern.edu/iiif/3/bcb98b9f-4c44-4fd0-bfa9-673fb904a2b1/full/!640,526/0/default.jpg",
+                  "type": "Image",
+                  "format": "image/tiff",
+                  "width": 640,
+                  "height": 526,
+                  "service": [
+                    {
+                      "id": "https://iiif.dc.library.northwestern.edu/iiif/3/bcb98b9f-4c44-4fd0-bfa9-673fb904a2b1",
+                      "type": "ImageService3",
+                      "profile": "http://iiif.io/api/image/3/level2.json"
+                    }
+                  ]
+                },
+                "target": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1/placeholder"
+              }
+            ]
+          }
+        ]
+      },
+      "items": [
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1/page",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1/page/1",
+              "type": "Annotation",
+              "motivation": "painting",
+              "body": {
+                "id": "https://iiif.dc.library.northwestern.edu/iiif/3/bcb98b9f-4c44-4fd0-bfa9-673fb904a2b1/full/600,/0/default.jpg",
+                "type": "Image",
+                "format": "image/tiff",
+                "height": 3528,
+                "width": 4290,
+                "label": {
+                  "en": [
+                    "Plate 1"
+                  ]
+                },
+                "service": [
+                  {
+                    "id": "https://iiif.dc.library.northwestern.edu/iiif/3/bcb98b9f-4c44-4fd0-bfa9-673fb904a2b1",
+                    "profile": "http://iiif.io/api/image/3/level2.json",
+                    "type": "ImageService3"
+                  }
+                ]
+              },
+              "target": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1"
+            }
+          ]
+        }
+      ],
+      "annotations": [
+        {
+          "id": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1/tags",
+          "type": "AnnotationPage",
+          "items": [
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1/tags/1",
+              "type": "Annotation",
+              "motivation": "tagging",
+              "body": {
+                "type": "TextualBody",
+                "value": "Plate 1",
+                "language": "en",
+                "format": "text/plain"
+              },
+              "target": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1#xywh=210,121,134,45"
+            },
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1/tags/2",
+              "type": "Annotation",
+              "motivation": "tagging",
+              "body": {
+                "type": "TextualBody",
+                "value": "From Copyright Photograph 1904 by E. S. Curtis",
+                "language": "en",
+                "format": "text/plain"
+              },
+              "target": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1#xywh=1858,3148,578,47"
+            },
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1/tags/3",
+              "type": "Annotation",
+              "motivation": "tagging",
+              "body": {
+                "type": "TextualBody",
+                "value": "Photogravure John Andrew & Son",
+                "language": "en",
+                "format": "text/plain"
+              },
+              "target": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1#xywh=3702,3144,424,44"
+            },
+            {
+              "id": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1/tags/4",
+              "type": "Annotation",
+              "motivation": "tagging",
+              "body": {
+                "type": "TextualBody",
+                "value": "The Vanishing Race - Navaho",
+                "language": "en",
+                "format": "text/plain"
+              },
+              "target": "https://samvera-labs.github.io/clover-iiif/mocks/tagging/canvas/1#xywh=219,3257,779,44"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "provider": [
+    {
+      "id": "https://www.library.northwestern.edu/",
+      "type": "Agent",
+      "label": {
+        "none": [
+          "Northwestern University Libraries"
+        ]
+      },
+      "homepage": [
+        {
+          "id": "https://dc.library.northwestern.edu/",
+          "type": "Text",
+          "label": {
+            "none": [
+              "Northwestern University Libraries Digital Collections Homepage"
+            ]
+          },
+          "format": "text/html",
+          "language": [
+            "en"
+          ]
+        }
+      ],
+      "logo": [
+        {
+          "id": "https://iiif.dc.library.northwestern.edu/iiif/2/00000000-0000-0000-0000-000000000003/full/pct:50/0/default.webp",
+          "type": "Image",
+          "format": "image/webp",
+          "height": 139,
+          "width": 1190
+        }
+      ]
+    }
+  ],
+  "logo": [
+    {
+      "id": "https://iiif.dc.library.northwestern.edu/iiif/2/00000000-0000-0000-0000-000000000003/full/pct:50/0/default.webp",
+      "type": "Image",
+      "format": "image/webp",
+      "height": 139,
+      "width": 1190
+    }
+  ]
+}

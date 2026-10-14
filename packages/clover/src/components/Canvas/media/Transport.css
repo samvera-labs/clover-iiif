@@ -65,9 +65,12 @@
 
 /* ── buttons ─────────────────────────────────────────────────────────────── */
 
-/* The round control's shape is in `ui/Button.css`; its glyphs are filled here. */
+/*
+ * The round control's shape and colours are in `ui/Button.css`; its glyphs are filled
+ * here, in its glyph colour.
+ */
 .clover-canvas-transport-button svg {
-  fill: var(--clover-color-primary, #1a1d1e);
+  fill: currentColor;
   stroke: none;
 }
 
@@ -80,14 +83,6 @@
 .clover-canvas-transport-button[data-active],
 .clover-canvas-transport-button[aria-expanded="true"] {
   background-color: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-secondary, #fff);
-}
-
-.clover-canvas-transport-button:hover svg,
-.clover-canvas-transport-button:focus-visible svg,
-.clover-canvas-transport-button[data-active] svg,
-.clover-canvas-transport-button[aria-expanded="true"] svg {
-  fill: var(--clover-color-secondary, #fff);
 }
 
 .clover-canvas-transport-button:focus-visible {
@@ -243,11 +238,12 @@ button.clover-canvas-transport-time:focus-visible {
   outline: 2px solid var(--clover-player-text, #fff);
 }
 
+/* An animation's frames open their menu up from their bar, at its start. */
 .clover-canvas-transport-frames > .clover-canvas-menu {
-  top: auto;
-  right: auto;
   bottom: calc(100% + var(--clover-space-s));
   left: 0;
+  max-width: min(20rem, 80vw);
+  max-height: min(24rem, 70vh);
 }
 
 /* ── captions menu ───────────────────────────────────────────────────────── */

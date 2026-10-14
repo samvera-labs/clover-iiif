@@ -196,6 +196,23 @@
 }
 
 /*
+ * Only a carousel scrolls across, and cuts what passes its sides: a list or a grid keeps
+ * the room above and below its items alone (an item the keys bring into view shows its
+ * ring whole). Its ring is an outline, drawn past an item's side without taking room, so
+ * nothing reaches past Items' own sides to widen what holds it, which had put a
+ * scrollbar across a scrolling box with no padding of its own.
+ */
+.clover-items:not([data-layout="carousel"])
+  :is(
+    .clover-items-viewport,
+    .clover-items-item[role="option"],
+    .clover-items-link
+  ) {
+  margin-inline: 0;
+  padding-inline: 0;
+}
+
+/*
  * An item: a card per Canvas (`--parts` of them), stitched with no gap, since the
  * Manifest's `behavior` made them one item. A grid of one column per Canvas: the pictures
  * in its first row and the labels in its second, both sharing the columns (`subgrid`), so

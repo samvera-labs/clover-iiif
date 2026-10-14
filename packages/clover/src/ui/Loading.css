@@ -1,0 +1,67 @@
+/*
+ * Clover's loading mark (`ui/Loading.tsx`): a 3px line in the accent, drawn from the start
+ * to the end, fading in from nothing to full as it goes, then again. It waits a moment
+ * before it shows, so a load that is quick never flashes it.
+ *
+ * Over a stage (`data-overlay`) it runs along the top edge, above the picture and its
+ * still, taking no room and catching no presses; the stage's own background is left as
+ * it is. In a status line, it is a line of its own.
+ */
+.clover-loading {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 3px;
+  overflow: hidden;
+  opacity: 0;
+  animation: clover-loading-show 1ms 250ms forwards;
+}
+
+.clover-loading > span {
+  position: absolute;
+  inset: 0;
+  background-color: var(--clover-color-accent, #0065c3);
+  transform-origin: left center;
+  animation: clover-loading-draw 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.clover-loading:dir(rtl) > span {
+  transform-origin: right center;
+}
+
+.clover-loading[data-overlay] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+/* One at a time: while the stage waits on the Root, its Canvas's own mark stays away. */
+.clover-content:has(> .clover-loading) .clover-canvas .clover-loading {
+  display: none;
+}
+
+@keyframes clover-loading-show {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes clover-loading-draw {
+  from {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+/* For a reader who asks for less motion, a slower draw. */
+@media (prefers-reduced-motion: reduce) {
+  .clover-loading > span {
+    animation-duration: 2.8s;
+  }
+}

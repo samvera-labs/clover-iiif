@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { type MediaController, formatTime } from "./useMediaController";
 import { SHORTCUTS, Tip } from "../../../ui/Tip";
+import { useOneOpen } from "../../../ui/useOneOpen";
 import {
   CaptionsIcon,
   ChaptersIcon,
@@ -64,6 +65,7 @@ function TransportMenu({
 }) {
   const [open, setOpen] = useState(false);
   const menu = useRef<HTMLDivElement>(null);
+  useOneOpen(open, () => setOpen(false));
   useEffect(() => {
     if (!open) return;
     const close = (event: Event) => {

@@ -19,6 +19,18 @@ import {
   PUBLIC_BASE as GEOREFERENCE_BASE,
   manifest as georeferenceManifest,
 } from "../docs/mocks/georeference/index.mjs";
+import {
+  PUBLIC_BASE as TAGGING_BASE,
+  manifest as taggingManifest,
+} from "../docs/mocks/tagging/index.mjs";
+import {
+  PUBLIC_BASE as NAVPLACE_BASE,
+  manifest as navPlaceManifest,
+} from "../docs/mocks/navplace/index.mjs";
+import {
+  PUBLIC_BASE as PAGED_BASE,
+  manifest as pagedManifest,
+} from "../docs/mocks/paged/index.mjs";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const out = join(root, "public/mocks/content-search");
@@ -68,3 +80,33 @@ writeFileSync(
   `${JSON.stringify(georeferenceManifest(GEOREFERENCE_BASE), null, 2)}\n`,
 );
 console.log("georeference: manifest.json");
+
+// The tagged photogravure: one static Manifest.
+const tagging = join(root, "public/mocks/tagging");
+rmSync(tagging, { recursive: true, force: true });
+mkdirSync(tagging, { recursive: true });
+writeFileSync(
+  join(tagging, "manifest.json"),
+  `${JSON.stringify(taggingManifest(TAGGING_BASE), null, 2)}\n`,
+);
+console.log("tagging: manifest.json");
+
+// The photograph placed on the map: one static Manifest.
+const navPlace = join(root, "public/mocks/navplace");
+rmSync(navPlace, { recursive: true, force: true });
+mkdirSync(navPlace, { recursive: true });
+writeFileSync(
+  join(navPlace, "manifest.json"),
+  `${JSON.stringify(navPlaceManifest(NAVPLACE_BASE), null, 2)}\n`,
+);
+console.log("navplace: manifest.json");
+
+// The catalog in spreads, its double-page plate shown alone: one static Manifest.
+const paged = join(root, "public/mocks/paged");
+rmSync(paged, { recursive: true, force: true });
+mkdirSync(paged, { recursive: true });
+writeFileSync(
+  join(paged, "manifest.json"),
+  `${JSON.stringify(pagedManifest(PAGED_BASE), null, 2)}\n`,
+);
+console.log("paged: manifest.json");

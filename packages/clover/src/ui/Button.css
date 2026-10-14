@@ -8,15 +8,23 @@
  */
 
 /*
- * Round controls: the Canvas's cluster, the media transport, the thumbnails' scroll
- * arrows and the information panel's close. One size, `--clover-control`: a 1rem icon
- * with `s` around it.
+ * Round controls: the Canvas's cluster, the media transport, Items' arrows, the Pager's
+ * Previous and Next, and the InformationPanel's close. One size, `--clover-control`: a
+ * 1rem icon with `s` around it.
+ *
+ * Their colours are their own, not the page's: a dark fill (`--clover-color-control`)
+ * and white glyphs (`--clover-color-control-glyph`), on a light page and a dark one
+ * alike. They sit over a Canvas's images as much as on the page, and a page's `primary`
+ * and `secondary` trade places in its dark mode, which would turn them light. Under the
+ * pointer, or focused, they take the accent; the glyph stays as it is.
  */
 :is(
   button.clover-canvas-button,
   button.clover-canvas-transport-button,
   button.clover-items-scroll-prev,
   button.clover-items-scroll-next,
+  button.clover-pager-previous,
+  button.clover-pager-next,
   button.clover-information-panel-close
 ) {
   display: flex;
@@ -30,8 +38,8 @@
   padding: 0;
   border: 0;
   border-radius: var(--clover-radius-pill, 2rem);
-  background-color: var(--clover-color-secondary, #fff);
-  color: var(--clover-color-primary, #1a1d1e);
+  background-color: var(--clover-color-control, #1a1d1e);
+  color: var(--clover-color-control-glyph, #fff);
   cursor: pointer;
   transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
 }
@@ -41,6 +49,8 @@
     button.clover-canvas-transport-button,
     button.clover-items-scroll-prev,
     button.clover-items-scroll-next,
+    button.clover-pager-previous,
+    button.clover-pager-next,
     button.clover-information-panel-close
   )
   svg {
@@ -59,10 +69,12 @@ button.clover-canvas-button svg {
 :is(
   button.clover-canvas-button,
   button.clover-items-scroll-prev,
-  button.clover-items-scroll-next
+  button.clover-items-scroll-next,
+  button.clover-pager-previous,
+  button.clover-pager-next,
+  button.clover-information-panel-close
 ):is(:hover, :focus-visible) {
   background-color: var(--clover-color-accent, #0065c3);
-  color: var(--clover-color-secondary, #fff);
 }
 
 /*
@@ -99,16 +111,10 @@ button.clover-canvas-button[data-button="reset"]:is(:hover, :focus-visible)
 }
 
 /*
- * Pills: the text buttons outside the stage (Previous and Next, Download, a search's
- * submit). The label is `m` from the pill's ends and `xs` from its top and bottom; an
- * icon beside it, `xs` from the text.
+ * Text buttons: Download's button and Search's. The label is `m` from the rounded ends
+ * and `xs` from the top and bottom; an icon beside it, `xs` from the text.
  */
-:is(
-  button.clover-pager-previous,
-  button.clover-pager-next,
-  button.clover-download-button,
-  button.clover-content-search-submit
-) {
+:is(button.clover-download-button, button.clover-content-search-submit) {
   display: inline-flex;
   align-items: center;
   gap: var(--clover-space-xs);
@@ -121,12 +127,10 @@ button.clover-canvas-button[data-button="reset"]:is(:hover, :focus-visible)
   transition: var(--clover-transition, all 200ms cubic-bezier(0.16, 1, 0.3, 1));
 }
 
-:is(
-    button.clover-pager-previous,
-    button.clover-pager-next,
-    button.clover-download-button,
-    button.clover-content-search-submit
-  ):is(:hover, :focus-visible):not(:disabled),
+:is(button.clover-download-button, button.clover-content-search-submit):is(
+    :hover,
+    :focus-visible
+  ):not(:disabled),
 button.clover-download-button[aria-expanded="true"] {
   border-color: var(--clover-color-accent, #0065c3);
   background-color: var(--clover-color-accent, #0065c3);

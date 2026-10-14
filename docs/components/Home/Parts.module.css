@@ -1,0 +1,549 @@
+/*
+ * The playground's resource, shown one IIIF property at a time by the
+ * components Clover's templates are made of (`PartsLive.tsx`).
+ *
+ * Set well apart from the playground above (3xl on the golden scale). On the left, the
+ * viewer its parts make, held in view while the parts scroll by; on the right, each part
+ * on its own, the tiles `l` apart and `l` inside, so each reads as a thing of its own. No
+ * grey fills: hairline edges, the resource's own pictures and words, the accent for what
+ * is pointed at.
+ */
+.section {
+  margin: 6.854rem auto 0;
+  max-width: 1300px;
+}
+
+/*
+ * The section's opening: its one call to action, centred, 4.236rem over the components
+ * (a golden-ratio step). Its headline and sentence are the page's own, in the hero.
+ */
+.head {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto 4.236rem;
+  max-width: 42rem;
+  text-align: center;
+}
+
+/* The one call to action: the accent, filled, round-ended, the arrow nudging on hover. */
+.cta {
+  align-items: center;
+  background: var(--accent-9);
+  border-radius: 999px;
+  color: var(--accent-contrast);
+  display: inline-flex;
+  gap: 0.382rem;
+  padding: 0.618rem 1.618rem;
+  text-decoration: none;
+  transition: background-color 120ms ease;
+}
+
+.cta:hover {
+  background: var(--accent-10);
+}
+
+.cta:focus-visible {
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+.cta span {
+  transition: translate 120ms ease;
+}
+
+.cta:hover span {
+  translate: 0.236rem 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta span {
+    transition: none;
+  }
+}
+
+/* Until the parts have loaded: the room they will take, so nothing below jumps. */
+.placeholder {
+  min-height: 42rem;
+}
+
+/* The Root: the viewer beside the parts, one column where there is no room for both. */
+.root {
+  align-items: start;
+  display: grid;
+  gap: 2.618rem 4.236rem;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+}
+
+@media (max-width: 64rem) {
+  .root {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ── The assembled viewer ─────────────────────────────────────────────────── */
+
+.assembled {
+  display: grid;
+  gap: 1rem;
+  position: sticky;
+  top: calc(var(--nextra-navbar-height, 4rem) + 1.618rem);
+}
+
+@media (max-width: 64rem) {
+  .assembled {
+    position: static;
+  }
+}
+
+.caption {
+  align-items: baseline;
+  color: var(--gray-11);
+  display: flex;
+  font-size: var(--text-sm);
+  gap: 0.618rem;
+  margin: 0;
+}
+
+.caption code {
+  color: var(--accent-11);
+  font-family: var(--font-mono);
+}
+
+/* The playground stage's edge and shadow, so the two read as the same viewer. */
+.viewer {
+  background: var(--color-background);
+  border-radius: var(--radius-4);
+  box-shadow:
+    0 0 0 1px var(--gray-6),
+    0 1px 2px rgb(0 0 0 / 0.04),
+    0 6px 24px rgb(0 0 0 / 0.06);
+  display: grid;
+  gap: 1rem;
+  padding: 1.618rem;
+}
+
+/* As the stage's, on a dark page. */
+:global(.dark) .viewer {
+  box-shadow:
+    0 0 0 1px var(--gray-6),
+    0 6px 24px rgb(0 0 0 / 0.4);
+}
+
+.viewerHead {
+  align-items: center;
+  display: flex;
+  gap: 0.618rem;
+  min-width: 0;
+}
+
+/* The thumbnail keeps its width; the title takes the rest, cut short if it must be. */
+.viewerHead > :first-child {
+  flex: none;
+}
+
+.viewerThumb {
+  border-radius: var(--radius-2);
+  display: block;
+  height: 2.618rem;
+  max-width: 5rem;
+  object-fit: cover;
+  width: auto;
+}
+
+.viewerTitle {
+  font-size: var(--text-lg);
+  font-weight: 500;
+  line-height: 1.3;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.viewerStage {
+  --clover-content-height: 15rem;
+}
+
+/* Items, the width of the viewer. */
+.viewerRail {
+  display: grid;
+  gap: 0.618rem;
+}
+
+.viewerStrip {
+  --clover-items-height: 4.236rem;
+}
+
+.viewerAbout {
+  display: grid;
+  gap: 0.618rem;
+}
+
+.viewerSummary {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: var(--gray-11);
+  display: -webkit-box;
+  font-size: var(--text-sm);
+  margin: 0;
+  overflow: hidden;
+}
+
+.viewerFields {
+  font-size: var(--text-sm);
+  margin: 0;
+  mask-image: linear-gradient(#000 50%, transparent);
+  max-height: 4.236rem;
+  overflow: hidden;
+}
+
+.viewerFields dd {
+  margin: 0 0 0.382rem;
+}
+
+/*
+ * A part in the viewer: when its tile is pointed at, outlined in the accent, its name
+ * tagged on its edge.
+ */
+.region {
+  border-radius: var(--radius-3);
+  min-width: 0;
+  outline: 2px solid transparent;
+  outline-offset: 4px;
+  position: relative;
+  transition: outline-color 160ms ease;
+}
+
+.region[data-on] {
+  outline-color: var(--accent-9);
+}
+
+.regionName {
+  background: var(--accent-9);
+  border-radius: var(--radius-2);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  left: 0.618rem;
+  line-height: 1.5;
+  opacity: 0;
+  padding: 0 0.382rem;
+  pointer-events: none;
+  position: absolute;
+  top: -0.618rem;
+  transform: translateY(0.236rem);
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+  z-index: 6;
+}
+
+.region[data-on] > .regionName {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── The parts ────────────────────────────────────────────────────────────── */
+
+.tiles {
+  display: grid;
+  gap: 1.618rem;
+  grid-auto-flow: row dense;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.tile {
+  border: 1px solid var(--gray-4);
+  border-radius: var(--radius-4);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  grid-column: span 6;
+  min-width: 0;
+  padding: 1.618rem;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.tile[data-span="2"] {
+  grid-column: span 2;
+}
+
+.tile[data-span="3"] {
+  grid-column: span 3;
+}
+
+.tile[data-span="4"] {
+  grid-column: span 4;
+}
+
+.tile[data-on] {
+  border-color: var(--accent-9);
+  box-shadow: 0 0 0 1px var(--accent-9);
+}
+
+/* Narrow: half-width tiles at most, then one a row. */
+@media (max-width: 48rem) {
+  .tile[data-span="2"] {
+    grid-column: span 3;
+  }
+}
+
+@media (max-width: 36rem) {
+  .tile[data-span] {
+    grid-column: span 6;
+  }
+}
+
+.tileHead {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.382rem 0.618rem;
+}
+
+/* The part's name, whole: the line breaks between the name and what it reads, never inside it. */
+.tileName {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.tileName a {
+  color: var(--accent-11);
+  text-decoration: none;
+}
+
+.tileName a:hover {
+  text-decoration: underline;
+}
+
+.reads {
+  color: var(--gray-11);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.fact {
+  color: var(--gray-11);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  margin-left: auto;
+}
+
+.tileBody {
+  min-width: 0;
+}
+
+/* Each part at a size it reads at: the label as a headline, the picture large. */
+.display {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  font-size: var(--text-2xl);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  margin: 0;
+  overflow: hidden;
+  text-wrap: balance;
+}
+
+.thumb {
+  border-radius: var(--radius-3);
+  display: block;
+  height: 8rem;
+  max-width: 100%;
+  object-fit: contain;
+  width: auto;
+}
+
+.stage {
+  --clover-content-height: 26rem;
+  border-radius: var(--radius-3);
+  overflow: hidden;
+}
+
+.strip {
+  --clover-items-height: 6.854rem;
+}
+
+/* The fields in two columns across the row, cut short with a fade where they run on. */
+.fields {
+  column-gap: 2.618rem;
+  columns: 2 16rem;
+  margin: 0;
+  mask-image: linear-gradient(#000 70%, transparent);
+  max-height: 18rem;
+  overflow: hidden;
+}
+
+.fields > * {
+  break-inside: avoid;
+  margin-bottom: 0.618rem;
+}
+
+.fields dt {
+  font-size: var(--text-sm);
+  font-weight: 500;
+}
+
+.fields dd {
+  color: var(--gray-11);
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+/* The statement as the resource words it, its value cut to five lines. */
+.statement {
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.statement dt {
+  font-weight: 500;
+  margin-bottom: 0.382rem;
+}
+
+.statement dd {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* The viewer's strip is too small for names: its pictures alone, the tile has them named. */
+.viewerStrip :global(.clover-items-caption) {
+  display: none;
+}
+
+.small,
+.links {
+  font-size: var(--text-sm);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.links {
+  list-style: none;
+  padding: 0;
+}
+
+.small a,
+.links a {
+  color: var(--accent-11);
+}
+
+/*
+ * Scrolls up and down, never across. Room at its sides for a ring drawn past an edge
+ * (Items' selection), given back so what it holds lines up with the rest of the tile.
+ */
+.scroll {
+  margin-inline: -4px;
+  max-height: 18rem;
+  overflow: hidden auto;
+  padding-inline: 4px;
+}
+
+/* Taller for a Collection, so its members show under its label and summary. */
+.tall {
+  max-height: 29rem;
+}
+
+.map {
+  border-radius: var(--radius-3);
+  height: 22rem;
+  overflow: hidden;
+}
+
+.map > * {
+  height: 100%;
+}
+
+.loading {
+  grid-column: 2;
+}
+
+/* ── What this resource has nothing for ───────────────────────────────────── */
+
+/* Under the tiles, in their column, clear of the viewer held in view beside them. */
+.missing {
+  display: grid;
+  gap: 1rem;
+  grid-column: 2;
+  margin-top: 1.618rem;
+}
+
+@media (max-width: 64rem) {
+  .missing {
+    grid-column: 1;
+  }
+}
+
+.missingTitle {
+  color: var(--gray-11);
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.618rem 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.chip {
+  align-items: baseline;
+  border: 1px dashed var(--gray-6);
+  border-radius: 999px;
+  display: inline-flex;
+  gap: 0.618rem;
+  padding: 0.382rem 1rem;
+}
+
+.chipName {
+  color: var(--gray-12);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+
+.chipName:hover {
+  color: var(--accent-11);
+}
+
+.try {
+  background: none;
+  border: 0;
+  color: var(--accent-11);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--text-sm);
+  padding: 0;
+}
+
+.try:hover {
+  text-decoration: underline;
+}
+
+.try:focus-visible {
+  border-radius: var(--radius-2);
+  box-shadow: var(--focus-ring);
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .region,
+  .regionName,
+  .tile {
+    transition: none;
+  }
+}

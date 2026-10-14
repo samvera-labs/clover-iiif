@@ -13,10 +13,17 @@
   scroll-margin-top: 5rem;
   /*
    * The stage's one height, for every template and resource, so switching either never
-   * moves the page. Scrolled to, the bar and the stage fill the screen under the navbar;
-   * templates taller than it (a Gallery, a Text) scroll inside.
+   * moves the page. When the bar is held, the stage fills the screen under it: the
+   * screen less the navbar, the bar (7.2rem), the space under the bar and room for the
+   * stage's shadow. Templates taller than it (a Gallery, a Text) scroll inside.
    */
-  --pg-stage-height: clamp(36rem, calc(100vh - 10rem), 54rem);
+  --pg-stage-height: clamp(
+    36rem,
+    calc(
+      100vh - var(--nextra-navbar-height, 4rem) - 7.2rem - 0.632rem - 1.618rem
+    ),
+    54rem
+  );
 }
 
 /* ── The bar: the resources, then the layout ─────────────────────────────── */
@@ -46,7 +53,8 @@
   justify-self: end;
 }
 
-@media (min-width: 1540px) {
+/* From where the tiles leave room on each side for the template's button. */
+@media (min-width: 80rem) {
   .bar > .resourceRow {
     grid-row: 1;
   }
@@ -56,6 +64,73 @@
   .bar > .layoutPicker {
     grid-area: 3 / 1;
     justify-self: center;
+  }
+}
+
+/*
+ * On a wide screen, where the bar is one row, it holds under the navbar while the
+ * playground scrolls past, so another resource or template is always a press away. Its
+ * padding keeps the tiles off the navbar, and is taken back from the space above and
+ * below it, so nothing moves at rest. The rest of the space below it is the stage's, so
+ * the bar's foot meets the stage's as the stage leaves, and the two go up together.
+ */
+@media (min-width: 80rem) {
+  .bar {
+    margin-block: -0.618rem 0;
+    padding-block: 0.618rem;
+    position: sticky;
+    top: var(--nextra-navbar-height, 4rem);
+    z-index: 10;
+  }
+
+  .stage {
+    margin-top: calc(1.25rem - 0.618rem);
+  }
+
+  /*
+   * Its background reaches the window's edges, while the bar keeps its place in the
+   * playground's column (the page clips what reaches past its sides, `Home.module.css`).
+   * The page's own colour, solid, so nothing passing under shows through, not even in
+   * the frame before the bar is marked as held.
+   */
+  .bar::before {
+    background-color: var(--color-background);
+    content: "";
+    inset: 0 calc(50% - 50vw);
+    position: absolute;
+    transition: box-shadow 150ms ease;
+    z-index: -1;
+  }
+
+  /*
+   * With the stage passing under it (`data-stuck`), the bar is the navbar's lower half:
+   * it takes the navbar's edge, which leaves the navbar's foot for the bar's, so the two
+   * read as one header, with one edge, where the stage goes under. The edge hands back
+   * as the bar goes up under the navbar.
+   */
+  .bar[data-stuck]::before {
+    box-shadow:
+      0 2px 4px rgb(0 0 0 / 0.02),
+      0 1px 0 rgb(0 0 0 / 0.06);
+  }
+
+  :global(.dark) .bar[data-stuck]::before {
+    box-shadow: 0 1px 0 rgb(255 255 255 / 0.1);
+  }
+
+  :global(html):has(.bar[data-stuck]) :global(.nextra-nav-container-blur) {
+    box-shadow: none;
+  }
+}
+
+/* Where more contrast is asked for, the edge is drawn as Nextra draws the navbar's then. */
+@media (min-width: 80rem) and (prefers-contrast: more) {
+  .bar[data-stuck]::before {
+    box-shadow: 0 1px 0 #000;
+  }
+
+  :global(.dark) .bar[data-stuck]::before {
+    box-shadow: 0 1px 0 #fff;
   }
 }
 
@@ -69,7 +144,7 @@
 /*
  * Spaces on Clover's own golden-ratio scale (`--clover-space-*`, see the package's
  * DESIGN.md), so the pickers step as the Viewer under them does: tiles `s` apart, each
- * `xs` inside, its picture `2xs` over its name.
+ * `xs` inside, its picture `s` over its name.
  */
 .tiles {
   display: flex;
@@ -199,7 +274,10 @@
  * One tile for a resource and for "Your own": a picture over a name, every picture in
  * the same box.
  */
-/* No fill at rest: the pictures sit on the page, and only the chosen tile is filled. */
+/*
+ * Marked as Items marks its thumbnails (`Items.css` in the package): no fill, a ring round
+ * the picture instead (below).
+ */
 .tile {
   align-items: stretch;
   background: transparent;
@@ -211,30 +289,29 @@
   flex: none;
   flex-direction: column;
   font: inherit;
-  gap: var(--clover-space-2xs, 0.236rem);
+  /* A thumbnail and its name `s` apart, so the name stands clear of the ring. */
+  gap: var(--clover-space-s, 0.618rem);
   padding: var(--clover-space-xs, 0.382rem);
   position: relative;
   scroll-snap-align: start;
-  transition:
-    background-color 120ms ease,
-    box-shadow 120ms ease,
-    color 120ms ease;
   width: 5.5rem;
 }
 
+/*
+ * The ring, as Items draws it: 3px, 1px clear of the picture. The accent for the chosen
+ * resource, at half strength under the pointer, so it previews the choice; the text's
+ * colour for keyboard focus. An outline takes no room, so the row never reflows.
+ */
 .tile:hover {
-  background: color-mix(in srgb, var(--accent-9) 10%, transparent);
-  color: var(--gray-12);
+  --ring-color: color-mix(
+    in srgb,
+    var(--clover-color-accent, var(--accent-9)) 50%,
+    transparent
+  );
 }
 
-/*
- * Selection is a solid accent fill. Nothing is outlined and nothing changes size, so the
- * row never reflows as you click through it, and the chosen tile in each group is
- * unmistakable at a glance.
- */
 .tile[data-selected="true"] {
-  background: var(--accent-9);
-  color: var(--accent-contrast);
+  --ring-color: var(--clover-color-accent, var(--accent-9));
 }
 
 /* The input is the accessible control; the tile is its label. Kept focusable and
@@ -250,7 +327,7 @@
 
 .tile:has(.tileInput:focus-visible),
 button.tile:focus-visible {
-  box-shadow: var(--focus-ring);
+  --ring-color: var(--gray-12);
   outline: none;
 }
 
@@ -260,7 +337,10 @@ button.tile:focus-visible {
   border-radius: var(--radius-2);
   display: flex;
   justify-content: center;
+  outline: 3px solid var(--ring-color, transparent);
+  outline-offset: 1px;
   overflow: hidden;
+  transition: outline-color 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .media svg {
@@ -286,7 +366,9 @@ button.tile:focus-visible {
   white-space: nowrap;
 }
 
+/* The chosen resource's name in the accent, as Items' chosen label is. */
 .tile[data-selected="true"] .tileName {
+  color: var(--clover-color-accent, var(--accent-9));
   font-weight: var(--weight-bold);
 }
 
@@ -345,26 +427,21 @@ button.tile:focus-visible {
 .stage {
   background: var(--color-background);
   border-radius: var(--radius-4);
-  /*
-   * A hairline edge, then a broad soft shadow lifting the frame off the page, warmed with
-   * a little of the accent so it reads as a glow rather than a smudge.
-   */
+  /* A hairline edge, then a close, soft grey shadow, just lifting the frame off the page. */
   box-shadow:
     0 0 0 1px var(--gray-6),
-    0 2px 6px rgb(0 0 0 / 0.04),
-    0 24px 48px -12px rgb(0 0 0 / 0.14),
-    0 40px 120px -24px color-mix(in srgb, var(--accent-9) 30%, transparent);
+    0 1px 2px rgb(0 0 0 / 0.04),
+    0 6px 24px rgb(0 0 0 / 0.06);
   height: var(--pg-stage-height);
   overflow: auto;
   position: relative;
 }
 
-/* On a dark page a shadow disappears, so the glow carries the lift. */
+/* On a dark page the edge does the lifting; the shadow only deepens it. */
 :global(.dark) .stage {
   box-shadow:
     0 0 0 1px var(--gray-6),
-    0 24px 48px -12px rgb(0 0 0 / 0.5),
-    0 40px 120px -20px color-mix(in srgb, var(--accent-9) 45%, transparent);
+    0 6px 24px rgb(0 0 0 / 0.4);
 }
 
 /*

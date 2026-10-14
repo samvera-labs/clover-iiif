@@ -60,13 +60,16 @@
   padding-block-start: calc(var(--clover-panel-clear) + var(--clover-space-s));
 }
 
-/* The shape is the round control's (`ui/Button.css`); bare here, on the panel's surface. */
+/*
+ * The shape, size, colours and glyph are the round control's (`ui/Button.css`), as the
+ * Canvas's are, so it reads as the way out at a glance. It sits above the accordion's
+ * stuck headings, which would otherwise cover it.
+ */
 .clover-information-panel > button.clover-information-panel-close {
   position: absolute;
   inset-block-start: var(--clover-space-xs);
   inset-inline-end: var(--clover-space-xs);
-  background: none;
-  color: var(--clover-color-primary-muted, #26292b);
+  z-index: 2;
 }
 
 .clover-information-panel[data-floating]
@@ -74,15 +77,59 @@
   inset-inline: var(--clover-space-xs) auto;
 }
 
-.clover-information-panel > button.clover-information-panel-close:hover {
-  background-color: var(--clover-color-secondary-muted, #e6e8eb);
-  color: var(--clover-color-primary, #1a1d1e);
+/*
+ * In a pane that slides over the page and has a spine (`data-spine` on the pane, which
+ * the templates set while it floats): the close button sits on the spine, the pane's
+ * inner edge, half over the page, and stays there however far the panel scrolls. The pane
+ * itself does not scroll; the panel does, within it, and is left unpositioned so the
+ * button is placed against the pane, outside what scrolls and is clipped. The room the
+ * button would take in the panel's first row is given back.
+ */
+/* Outweighs a template's own scrolling pane, whichever stylesheet comes later. */
+.clover-split-pane[data-spine] {
+  overflow: visible;
 }
 
-.clover-information-panel
-  > button.clover-information-panel-close:focus-visible {
-  outline: 2px solid var(--clover-color-accent, #0065c3);
-  outline-offset: -2px;
+[data-spine] > .clover-information-panel {
+  --clover-panel-clear: calc(-1 * var(--clover-space-s));
+  position: static;
+  box-sizing: border-box;
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
+  /*
+   * A heading sticks inside what scrolls, inside its padding: so the panel keeps none
+   * above or below, and its sections take that room as margin instead, which puts each
+   * heading where it rests and where it sticks at one place, as in a scrolling pane.
+   */
+  padding-block: 0;
+}
+
+[data-spine] > .clover-information-panel > .clover-sections {
+  margin-block: var(--clover-inset);
+}
+
+[data-spine]
+  > .clover-information-panel
+  > .clover-sections[data-layout="accordion"] {
+  margin-block: calc(var(--clover-inset) - var(--clover-space-s));
+}
+
+/*
+ * Centred on the first heading: it rests `inset - s` down, one line (`1lh`, at the
+ * heading's `text-m`, which the button takes on; its tip keeps its own size) and `s`
+ * above and below it tall.
+ */
+[data-spine]
+  > .clover-information-panel
+  > button.clover-information-panel-close {
+  font-size: var(--clover-text-m);
+  inset-block-start: calc(
+    var(--clover-inset) - var(--clover-space-s) +
+      (1lh + 2 * var(--clover-space-s) - var(--clover-control)) / 2
+  );
+  inset-inline: calc(-0.5 * var(--clover-control)) auto;
 }
 
 /*
@@ -126,7 +173,12 @@
   button.clover-content-search-hit[aria-current="true"]
 ) {
   border-inline-start-color: var(--clover-color-accent, #0065c3);
-  background-color: rgb(0 101 195 / 0.08);
+  /* The accent, faintly: whatever the accent is, never a colour of its own. */
+  background-color: color-mix(
+    in srgb,
+    var(--clover-color-accent, #0065c3) 8%,
+    transparent
+  );
 }
 
 /*
@@ -189,45 +241,4 @@
 .clover-link-format {
   color: var(--clover-color-primary-muted, #26292b);
   font-size: var(--clover-text-s);
-}
-
-/*
- * The Collection section, as About: its title at the heading's size, medium, its lines
- * balanced, `m` over the rest.
- */
-.clover-collection-title {
-  margin: 0;
-  font-size: var(--clover-text-m);
-  font-weight: 500;
-  text-wrap: balance;
-}
-
-/*
- * Its members' thumbnails: square, cropped to fill, at the list's height (`xl`), the
- * size of the Default template's header thumbnail.
- */
-.clover-collection .clover-items[data-layout="list"] .clover-items-picture img {
-  width: var(--clover-space-xl);
-  height: var(--clover-space-xl);
-  object-fit: cover;
-}
-
-/*
- * Their titles at the panel's own size; the line under each stays the caption's `s`. Each
- * is one line, cut short if it must be, so every member is as tall as its thumbnail.
- */
-.clover-collection .clover-items-caption {
-  min-width: 0;
-  font-size: inherit;
-}
-
-.clover-collection .clover-items-summary {
-  font-size: var(--clover-text-s);
-}
-
-.clover-collection :is(.clover-items-label, .clover-items-summary) {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }

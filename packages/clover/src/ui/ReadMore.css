@@ -1,0 +1,36 @@
+/*
+ * "Read more" (`ReadMore.tsx`): the text cut short, and the button that opens it `xs`
+ * under it (one item). The button is in the accent, faintly underlined, as a closed
+ * section's heading is (`ui/Sections.css`), at `text-s`.
+ */
+.clover-read-more {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--clover-space-xs);
+  min-width: 0;
+}
+
+/* `button.x`: one class ties with a reset's `[type="button"]` (`ui/Button.css`). */
+button.clover-read-more-button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--clover-color-accent, #0065c3);
+  font-size: var(--clover-text-s);
+  text-decoration: underline 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 20%, transparent);
+  text-underline-offset: var(--clover-space-2xs);
+  cursor: pointer;
+}
+
+button.clover-read-more-button:hover {
+  text-decoration-color: currentColor;
+}
+
+button.clover-read-more-button:focus-visible {
+  outline: 2px solid var(--clover-color-accent, #0065c3);
+  outline-offset: 2px;
+  border-radius: var(--clover-radius, 3px);
+}

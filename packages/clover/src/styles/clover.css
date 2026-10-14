@@ -17,6 +17,7 @@
 @import "./scale.css";
 @import "../ui/ErrorBoundary.css";
 @import "../ui/ExitFullscreen.css";
+@import "../ui/Loading.css";
 @import "../components/Canvas/Annotations.css";
 @import "../components/Canvas/Canvas.css";
 @import "../components/Canvas/Caption.css";
@@ -28,10 +29,13 @@
 @import "../ui/Button.css";
 @import "../ui/Tip.css";
 @import "../ui/Sections.css";
+@import "../ui/ReadMore.css";
+@import "../components/Primitives/Primitives.css";
 @import "../components/Status/Status.css";
 @import "../components/Pager/Pager.css";
 @import "../components/Items/Items.css";
 @import "../components/InformationPanel/InformationPanel.css";
+@import "../components/Collection/Collection.css";
 @import "../components/Split/Split.css";
 @import "../components/Annotations/Annotations.css";
 @import "../components/Download/Download.css";

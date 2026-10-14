@@ -66,7 +66,10 @@
   display: none;
 }
 
-/* Below a control along the top of what it sits on. */
+/*
+ * Below a control along the top of what it sits on. The Canvas's information box
+ * scrolls, so above its close button the box would cut the name off.
+ */
 :is(
     .clover-canvas-controls,
     .clover-information-panel,
@@ -74,7 +77,8 @@
     .clover-template-lightbox-header
   )
   .clover-tip,
-button.clover-canvas-placeholder-toggle > .clover-tip {
+button.clover-canvas-placeholder-toggle > .clover-tip,
+button.clover-canvas-caption-close > .clover-tip {
   top: calc(100% + var(--clover-space-xs));
   bottom: auto;
 }
@@ -86,7 +90,8 @@ button.clover-canvas-placeholder-toggle > .clover-tip {
     .clover-template-lightbox-header
   )
   .clover-tip::before,
-button.clover-canvas-placeholder-toggle > .clover-tip::before {
+button.clover-canvas-placeholder-toggle > .clover-tip::before,
+button.clover-canvas-caption-close > .clover-tip::before {
   top: auto;
   bottom: 100%;
 }
@@ -112,6 +117,7 @@ button.clover-items-scroll-prev > .clover-tip,
   > :last-child
   .clover-tip,
 .clover-canvas-controls > button:last-of-type > .clover-tip,
+button.clover-canvas-caption-close > .clover-tip,
 button.clover-items-scroll-next > .clover-tip,
 button.clover-canvas-placeholder-toggle > .clover-tip,
 .clover-information-panel:not([data-floating])

@@ -1,0 +1,12 @@
+/*
+ * A summary (`Summary`), cut to `--clover-summary-lines` lines (5), with "Read more" under
+ * it to show the rest (`ui/ReadMore.tsx`). Set the property on `.clover-summary`, or on
+ * any element around it, for more or fewer lines; `none` shows it whole. Open, it is
+ * shown whole whatever the property says.
+ */
+.clover-summary:not([data-read-more="open"]) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--clover-summary-lines, 5);
+  overflow: hidden;
+}

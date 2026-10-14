@@ -52,6 +52,13 @@ const ConnectedCanvas: React.FC<CloverCanvasProps> = ({
   const { direction } = useSequence();
   const manifest = useManifest();
   const active = useActiveCanvas();
+  /*
+   * The Manifest the Canvases are from, or "loading" while the next one loads: choosing
+   * another of a Collection's members clears the Canvas at once, not when it arrives.
+   */
+  const manifestId = useCloverSelector((state) =>
+    state.status === "loading" ? "loading" : (state.manifest?.id ?? ""),
+  );
   const target = useCloverSelector((state) => state.target);
   const sets = useCloverSelector((state) =>
     selectDrawnSets(state.manifest, state.addedSets, state.search.set),
@@ -230,6 +237,7 @@ const ConnectedCanvas: React.FC<CloverCanvasProps> = ({
   return (
     <CanvasView
       {...rest}
+      manifestId={manifestId}
       canvases={canvases}
       viewingDirection={direction}
       label={label ?? (active?.label as CloverCanvasProps["label"])}

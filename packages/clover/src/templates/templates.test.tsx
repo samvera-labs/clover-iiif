@@ -197,8 +197,8 @@ describe("templates", () => {
     await screen.findByRole("heading", {
       name: "Still image from an opera performance at Indiana University",
     });
-    expect(screen.queryByRole("button", { name: "Show pages" })).toBeNull();
-    expect(screen.queryByRole("complementary", { name: "Pages" })).toBeNull();
+    expect(screen.queryByRole("button", { name: "Show Items" })).toBeNull();
+    expect(screen.queryByRole("complementary", { name: "Items" })).toBeNull();
     expect(screen.queryByRole("separator")).toBeNull();
     expect(
       document.querySelector(".clover-template-document-body"),
@@ -227,8 +227,8 @@ describe("templates", () => {
     expect(
       await screen.findByRole("heading", { name: "Simple Manifest - Book" }),
     ).toBeInTheDocument();
-    const sidebar = screen.getByRole("complementary", { name: "Pages" });
-    const toggle = screen.getByRole("button", { name: "Show pages" });
+    const sidebar = screen.getByRole("complementary", { name: "Items" });
+    const toggle = screen.getByRole("button", { name: "Show Items" });
     expect(toggle).toHaveAttribute("aria-expanded", "true");
     expect(within(sidebar).getAllByRole("option")).toHaveLength(3);
 
@@ -245,38 +245,73 @@ describe("templates", () => {
     // The turn swapped the page into the same Canvas: nothing remounted.
     expect(stage.querySelector('[data-testid="clover-canvas"]')).toBe(canvas);
 
-    const panel = document.querySelector(".clover-template-document-panel")!;
+    // With room for both, the panel sits beside the page, a bar between them.
+    const panel = document.querySelector<HTMLElement>(
+      ".clover-template-document-panel",
+    )!;
+    const info = () => screen.getByRole("button", { name: "More Information" });
     expect(panel).toHaveAttribute("hidden");
-    fireEvent.click(screen.getByRole("button", { name: "More Information" }));
+    expect(screen.getAllByRole("separator")).toHaveLength(1);
+    fireEvent.click(info());
     expect(panel).not.toHaveAttribute("hidden");
-    await waitFor(() => expect(panel).toHaveAttribute("data-open", "true"));
+    // Its sections are stacked boxes, as Default's, About open.
     expect(
-      within(panel as HTMLElement).getByRole("tab", { name: "About" }),
-    ).toBeInTheDocument();
-
-    // Opening takes focus into the panel; Escape there hands it back to the toggle.
-    const about = within(panel as HTMLElement).getByRole("tab", {
-      name: "About",
-    });
-    await waitFor(() => expect(about).toHaveFocus());
-    fireEvent.keyDown(about, { key: "Escape" });
-    expect(panel).toHaveAttribute("data-open", "false");
+      within(panel).getByRole("button", { name: "About" }),
+    ).toHaveAttribute("aria-expanded", "true");
+    const bars = screen.getAllByRole("separator");
+    expect(bars).toHaveLength(2);
+    expect(bars[1]).toHaveAttribute("aria-controls", panel.id);
+    // Beside the page, the toggle puts it away: it has no close button of its own.
     expect(
-      screen.getByRole("button", { name: "More Information" }),
-    ).toHaveFocus();
-    await waitFor(() => expect(panel).toHaveAttribute("hidden"));
-
-    // And its close button.
-    fireEvent.click(screen.getByRole("button", { name: "More Information" }));
-    fireEvent.click(
-      within(panel as HTMLElement).getByRole("button", {
-        name: "Close information panel",
-      }),
-    );
-    expect(panel).toHaveAttribute("data-open", "false");
+      within(panel).queryByRole("button", { name: "Close information panel" }),
+    ).toBeNull();
+    fireEvent.click(info());
+    expect(panel).toHaveAttribute("hidden");
+    expect(screen.getAllByRole("separator")).toHaveLength(1);
 
     fireEvent.click(toggle);
     expect(sidebar).toHaveAttribute("hidden");
+  });
+
+  describe("Document, with no room for the panel beside the page", () => {
+    // jsdom lays nothing out: a phone-wide layout, as the template measures it.
+    let width: ReturnType<typeof vi.spyOn>;
+    beforeEach(() => {
+      width = vi
+        .spyOn(HTMLElement.prototype, "clientWidth", "get")
+        .mockReturnValue(390);
+    });
+    afterEach(() => width.mockRestore());
+
+    it("slides the panel over the page, focused, closing on Escape or its button", async () => {
+      render(<Templates.Document iiifContent={bookJson} />);
+      await screen.findByRole("heading", { name: "Simple Manifest - Book" });
+      const panel = document.querySelector<HTMLElement>(
+        ".clover-template-document-panel",
+      )!;
+      const info = () =>
+        screen.getByRole("button", { name: "More Information" });
+      fireEvent.click(info());
+      await waitFor(() => expect(panel).toHaveAttribute("data-open", "true"));
+      // Over the page there is no bar for it, only the thumbnails'.
+      expect(screen.getAllByRole("separator")).toHaveLength(1);
+
+      // Opening takes focus into the panel, at the open box's heading; Escape there
+      // hands it back to the toggle.
+      const about = within(panel).getByRole("button", { name: "About" });
+      await waitFor(() => expect(about).toHaveFocus());
+      fireEvent.keyDown(about, { key: "Escape" });
+      expect(panel).toHaveAttribute("data-open", "false");
+      expect(info()).toHaveFocus();
+      await waitFor(() => expect(panel).toHaveAttribute("hidden"));
+
+      // And its close button.
+      fireEvent.click(info());
+      fireEvent.click(
+        within(panel).getByRole("button", { name: "Close information panel" }),
+      );
+      expect(panel).toHaveAttribute("data-open", "false");
+    });
   });
 
   it("Text: an article per Canvas, its text by language, Markdown read", async () => {

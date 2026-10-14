@@ -123,10 +123,100 @@ It answers no query, so it is static only. The [Map](/docs/map) page draws it, w
 onto the map, and in a Viewer's Map tab. Its generator is
 `docs/mocks/georeference/index.mjs`.
 
+## Tagging: a photogravure
+
+Northwestern University Libraries' record of Edward S. Curtis's _The Vanishing Race –
+Navaho_ (1904), plate 1 of _The North American Indian_, as a Manifest of one Canvas, with:
+
+- the four bits of text printed on the plate tagged where they sit, as
+  [Cookbook recipe 0021](https://iiif.io/api/cookbook/recipe/0021-tagging/) tags a
+  fountain: an Annotation with the motivation `tagging`, its body the words (a
+  `TextualBody` in English), its target a box on the Canvas;
+- the record's Caption as the Canvas's `summary`, no longer in the Manifest's `metadata`;
+- everything else as Northwestern's Digital Collections API published it on 14 October
+  2026, its Cultural Context note included, apart from the ids of the Manifest and its
+  Canvas, which are the mock's own;
+- the image from Northwestern's IIIF Image API (level 2, 4290 × 3528, CORS open).
+
+| Tag                                            | Box on the Canvas (`xywh`) |
+| ---------------------------------------------- | -------------------------- |
+| Plate 1                                        | `210,121,134,45`           |
+| From Copyright Photograph 1904 by E. S. Curtis | `1858,3148,578,47`         |
+| Photogravure John Andrew & Son                 | `3702,3144,424,44`         |
+| The Vanishing Race - Navaho                    | `219,3257,779,44`          |
+
+| Resource | Published (static)                                                                                       |
+| -------- | -------------------------------------------------------------------------------------------------------- |
+| Manifest | [`/mocks/tagging/manifest.json`](https://samvera-labs.github.io/clover-iiif/mocks/tagging/manifest.json) |
+
+It answers no query, so it is static only. The homepage opens on it. Its generator is
+`docs/mocks/tagging/index.mjs`, and the record as fetched is
+`docs/mocks/tagging/source.json`: to bring the record up to date, fetch
+`https://api.dc.library.northwestern.edu/api/v2/works/46dc28d1-9d59-4160-a511-72418f70cffc?as=iiif`
+into `source.json` again and run `npm run build:mocks`.
+
+## navPlace: a photograph's corner
+
+Northwestern University Libraries' record of a Ronald J. Sullivan slide, Chicago bus 516
+on route 151 at Michigan Avenue and Washington Street (July 3, 1955), as a Manifest of
+one Canvas, with:
+
+- a [navPlace](https://iiif.io/api/extension/navplace/) point at that corner,
+  `[-87.6245, 41.8833]`, labelled "Michigan Avenue and Washington Street, Chicago,
+  Illinois". The record carries no coordinates: the place is read from its summary, and
+  the photograph agrees (it looks north up Michigan Avenue, the new Prudential Building
+  on the right, the Coca-Cola clock and the Blatz sign on the left);
+- everything else as Northwestern's Digital Collections API published it on 14 October
+  2026, apart from the ids of the Manifest and its Canvas, which are the mock's own;
+- the image from Northwestern's IIIF Image API (level 2, 3968 × 2685, CORS open).
+
+| Resource | Published (static)                                                                                         |
+| -------- | ---------------------------------------------------------------------------------------------------------- |
+| Manifest | [`/mocks/navplace/manifest.json`](https://samvera-labs.github.io/clover-iiif/mocks/navplace/manifest.json) |
+
+It answers no query, so it is static only. The homepage's playground shows it as Photo,
+its place in a Viewer's Map tab. Its generator is `docs/mocks/navplace/index.mjs`, and
+the record as fetched is `docs/mocks/navplace/source.json`: to bring the record up to
+date, fetch
+`https://api.dc.library.northwestern.edu/api/v2/works/24157482-0c2c-4907-8d25-7905adc3cfd9?as=iiif`
+into `source.json` again and run `npm run build:mocks`.
+
+## Paged: a catalog in spreads
+
+Northwestern University Libraries' record of the White Sewing Machine Company's
+_Portfolio of illustrations showing the White bicycles : then and now_ (1896), a `paged`
+Manifest of 31 Canvases (its covers and 29 pages), with:
+
+- `behavior: ["facing-pages"]` on Page 15. It is one image of a whole opening, a colour
+  plate across both pages (9423 × 4694, twice a page's width), so it is shown alone and
+  the pages after it pair as the book's openings do. The spreads run Front Cover, 1–2 …
+  13–14, 15, 16–17 … 28–29, Back Cover. As published, the plate pairs with Page 16, and
+  every opening after it is split;
+- everything else as Northwestern's Digital Collections API published it on 14 October
+  2026, apart from the ids of the Manifest and its Canvases, which are the mock's own;
+- the images from Northwestern's IIIF Image API (level 2, CORS open).
+
+| Resource | Published (static)                                                                                   |
+| -------- | ---------------------------------------------------------------------------------------------------- |
+| Manifest | [`/mocks/paged/manifest.json`](https://samvera-labs.github.io/clover-iiif/mocks/paged/manifest.json) |
+
+It answers no query, so it is static only. The homepage's playground shows it as Catalog.
+Its generator is `docs/mocks/paged/index.mjs`, and the record as fetched is
+`docs/mocks/paged/source.json`: to bring the record up to date, fetch
+`https://api.dc.library.northwestern.edu/api/v2/works/386ff30f-1975-4d9c-9905-ec76381d6992?as=iiif`
+into `source.json` again and run `npm run build:mocks`.
+
 ### Rights
 
 The newspaper's scans and text are the _Berliner Tageblatt_, Staatsbibliothek zu Berlin –
 Preußischer Kulturbesitz, via Europeana, under the
 [Public Domain Mark](http://creativecommons.org/publicdomain/mark/1.0/). The Evanston map
-is Northwestern University Libraries'. The mocks' structure is Clover's, under its
-licence.
+is Northwestern University Libraries'. The Curtis plate is in the public domain in the
+United States (No Copyright – United States); its record and image are Northwestern
+University Libraries', from the Charles Deering McCormick Library of Special
+Collections, and keep their attribution. The Sullivan slide is In Copyright, its rights-holders
+unlocatable or unidentifiable; its record and image are from Northwestern University
+Libraries' Transportation Library, with the attribution the record gives. The White
+catalog is in the public domain in the United States (No Copyright – United States); its
+record and images are Northwestern University Libraries', from the Transportation
+Library, and keep their attribution. The mocks' structure is Clover's, under its licence.

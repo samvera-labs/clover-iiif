@@ -1,0 +1,28 @@
+/*
+ * The screen, whole, and the Viewer filling it: its stage takes what the header and the
+ * strip leave, as the playground's does.
+ */
+.screen {
+  background: var(--color-background);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.screen > :global(.clover-template-default) {
+  --clover-content-height: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.screen :global(.clover-template-default-body) {
+  flex: 1;
+  min-height: 0;
+}
+
+.screen :global(.clover-template-default-stage) {
+  flex: 1 1 0;
+  min-height: 0;
+}

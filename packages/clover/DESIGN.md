@@ -77,16 +77,16 @@ The closer two things are related, the smaller the step between them. A containe
 inset is one step larger than the gap between the things it holds. Work from the top
 down: decide the outer level first, then step down for each level inside it.
 
-| Relationship                                               | Step  | Examples                                                                                                                                                                                             |
-| ---------------------------------------------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| A region's inset (`--clover-inset`)                        | `l`   | A layout's header and thumbnail strip, each padded all round; the information panel; the picture on the stage at home; the lightbox                                                                  |
-| Separate groups in one list                                | `l`   | Annotation sets                                                                                                                                                                                      |
-| A region's parts; a part's inset in a region               | `m`   | The header's title and actions; the strip's header over its thumbnails; About's parts; a tab row over its content; the cluster's and the transport's inset from the stage                            |
-| Items that are each a group                                | `m`   | Thumbnails in any layout of Items (each a picture with its caption)                                                                                                                                  |
-| Siblings within one part                                   | `s`   | Cluster buttons; transport buttons; a strip's titles and Position; metadata's label-value pairs; a row's inline padding                                                                              |
-| Parts of one control or one item; a heading over its value | `xs`  | A thumbnail and its caption; a label and its select; a search field and its button; the seek row over the bar; an icon beside a pill's label; a row's block padding; a metadata label over its value |
-| Rows of one list                                           | `2xs` | Rows of annotations, Ranges, cues and hits; the tabs in their row; boxes of the accordion                                                                                                            |
-| Lines of one caption                                       | `3xs` | A thumbnail's label and summary                                                                                                                                                                      |
+| Relationship                                               | Step  | Examples                                                                                                                                                                                                    |
+| ---------------------------------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A region's inset (`--clover-inset`)                        | `l`   | A layout's header and thumbnail strip, each padded all round; the information panel; the picture on the stage at home; the lightbox                                                                         |
+| Separate groups in one list                                | `l`   | Annotation sets                                                                                                                                                                                             |
+| A region's parts; a part's inset in a region               | `m`   | The header's title and actions; the strip's header over its thumbnails; About's parts; a tab row over its content; the cluster's and the transport's inset from the stage                                   |
+| Items that are each a group                                | `m`   | Thumbnails in any layout of Items (each a picture with its caption)                                                                                                                                         |
+| Siblings within one part                                   | `s`   | Cluster buttons; transport buttons; a strip's titles and Position; metadata's label-value pairs; a row's inline padding                                                                                     |
+| Parts of one control or one item; a heading over its value | `xs`  | A thumbnail and its caption; a label and its select; a search field and its button; the seek row over the bar; an icon beside a text button's label; a row's block padding; a metadata label over its value |
+| Rows of one list                                           | `2xs` | Rows of annotations, Ranges, cues and hits; the tabs in their row; boxes of the accordion                                                                                                                   |
+| Lines of one caption                                       | `3xs` | A thumbnail's label and summary                                                                                                                                                                             |
 
 A region's content sits `--clover-inset` (`l`, 1.618rem) in from its edges, whatever the
 region: a layout's header, its thumbnail strip, the information panel, the picture on
@@ -151,14 +151,14 @@ The stylesheet's size is part of the design.
 - **Families are written once**, as one `:is()` list over their members, and each member
   keeps only what is its own:
 
-  | Family               | Where                  | Members                                                                                     |
-  | -------------------- | ---------------------- | ------------------------------------------------------------------------------------------- |
-  | Round controls       | `ui/Button.css`        | the Canvas's cluster, the media transport, the thumbnails' scroll arrows, the panel's close |
-  | Pills                | `ui/Button.css`        | Previous and Next, Download, a search's submit                                              |
-  | Rows and their lists | `InformationPanel.css` | annotations, Ranges, cues, search hits                                                      |
-  | Fields               | `styles/scale.css`     | a search's query, a Collection's menu, a filter, a transcript's track menu                  |
-  | Popovers             | `ui/Tip.css`           | every control that shows an icon alone (§7)                                                 |
-  | Chrome               | `Canvas.css`           | the Canvas's controls, navigator, a placeholder's toggle, the media transport, its captions |
+  | Family               | Where                  | Members                                                                                                               |
+  | -------------------- | ---------------------- | --------------------------------------------------------------------------------------------------------------------- |
+  | Round controls       | `ui/Button.css`        | the Canvas's cluster, the media transport, Items' arrows, the Pager's Previous and Next, the InformationPanel's close |
+  | Text buttons         | `ui/Button.css`        | Download's button, Search's button                                                                                    |
+  | Rows and their lists | `InformationPanel.css` | annotations, Ranges, cues, search hits                                                                                |
+  | Fields               | `styles/scale.css`     | a search's query, a Collection's menu, a filter, a transcript's track menu                                            |
+  | Popovers             | `ui/Tip.css`           | every control that shows an icon alone (§7)                                                                           |
+  | Chrome               | `Canvas.css`           | the Canvas's controls, navigator, a placeholder's toggle, the media transport, its captions                           |
 
   A family meant to be refined by its members is `:where()`, with no specificity. A
   family that sets a look its members keep is `:is()`.

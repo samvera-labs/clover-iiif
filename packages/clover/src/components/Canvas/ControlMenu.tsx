@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
+import { useOneOpen } from "../../ui/useOneOpen";
+
 interface ControlMenuProps {
   id: string;
   /** The control that opens the menu, which toggles it itself. */
@@ -17,7 +19,7 @@ interface ControlMenuProps {
  * Its items are native radios in fieldsets, so a reader moves between them with the
  * arrow keys and hears the group's name and the current item. Opening focuses the checked
  * item (else the first), scrolled into the menu's view. It closes on Escape, returning
- * focus to the control, and on a press outside.
+ * focus to the control, on a press outside, and when another popup opens (`useOneOpen`).
  */
 const ControlMenu: React.FC<ControlMenuProps> = ({
   id,
@@ -27,6 +29,8 @@ const ControlMenu: React.FC<ControlMenuProps> = ({
   children,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
+  // Rendered only while open: another popup opening closes it.
+  useOneOpen(true, () => onClose(false));
 
   useEffect(() => {
     const menu = ref.current;

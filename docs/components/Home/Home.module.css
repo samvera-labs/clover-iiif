@@ -1,6 +1,11 @@
 .page {
   background: var(--color-background);
   color: var(--gray-12);
+  /*
+   * What reaches the window's edges (the playground bar's background) never scrolls the
+   * page sideways. `clip`, not `hidden`, so nothing inside stops sticking.
+   */
+  overflow-x: clip;
   padding-bottom: 6rem;
 }
 
@@ -43,20 +48,73 @@
   text-wrap: balance;
 }
 
+/*
+ * "your own", marked as by hand: a marker stroke under the words, drawn in once from the
+ * left. The stroke is an SVG shape used as a mask over the accent, so it takes the site's
+ * accent whatever it is set to. It sits behind the letters, at their baseline, so they
+ * read over it: the words are a layer of their own (`z-index: 0`) with the stroke at its
+ * bottom. The two words stay on one line together.
+ */
+.mark {
+  isolation: isolate;
+  position: relative;
+  white-space: nowrap;
+  z-index: 0;
+}
+
+.mark::after {
+  animation: mark-draw 700ms cubic-bezier(0.65, 0, 0.35, 1) 300ms both;
+  /* Faint where the pen comes down, the full accent where it lifts. */
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--accent-9) 30%, transparent),
+    var(--accent-9)
+  );
+  bottom: -0.1em;
+  content: "";
+  height: 0.42em;
+  left: -0.04em;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 24' preserveAspectRatio='none'%3E%3Cpath d='M3 14.5c34-4.2 74-6.1 118-6.6 52-.6 107 .9 175-3.4 2.2-.1 3.6 1.6 3.4 3.4-.2 1.6-1.4 2.7-3 2.9-69 6.3-122 5.3-175 5.9-41 .5-79 2.3-115 6.5-2.4.3-4.5-1.4-4.7-3.8-.2-2.3 1.4-4.5 3.7-4.9z'/%3E%3C/svg%3E")
+    center / 100% 100% no-repeat;
+  position: absolute;
+  right: -0.06em;
+  /*
+   * Rising a little to the right, gently: turned back 1.5° about its middle, so its fat
+   * start rides up under the "y" and its bold end stays clear of the "n".
+   */
+  rotate: 1.5deg;
+  /* Behind the letters: below them in its own layer (`.mark`), so they read over it. */
+  z-index: -1;
+}
+
+@keyframes mark-draw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mark::after {
+    animation: none;
+  }
+}
+
+/*
+ * A sentence under the headline, quieter than it and kept to a short measure, so it
+ * reads as two balanced lines on a desktop and wraps freely on a phone.
+ */
 .subtitle {
-  color: var(--gray-12);
-  font-size: 1rem;
+  color: var(--gray-11);
+  font-size: 1.125rem;
   line-height: 1.5;
   /* No bottom margin: the hero's own bottom padding sets the gap to the playground
    * now that no buttons sit between them. */
   margin: 0 auto;
-  /*
-   * Matches the headline's measure rather than the 34rem it had, so the line sits
-   * on one row on a desktop. It still wraps on narrow screens — a single line is
-   * the intent at width, not a constraint that would force overflow.
-   */
-  max-width: 64rem;
-  text-wrap: pretty;
+  max-width: 40rem;
+  text-wrap: balance;
 }
 
 /* ── Section heading ──────────────────────────────────────────────────────── */
@@ -155,102 +213,4 @@
   font-size: var(--text-sm);
   overflow-x: auto;
   padding: 0.625rem 0.875rem;
-}
-
-/* ── Compose your own ─────────────────────────────────────────────────────── */
-
-/* The code beside the live example; stacked when there is no room for both. */
-.compose {
-  align-items: start;
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-}
-
-@media (max-width: 900px) {
-  .compose {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-.composeCode {
-  background: var(--surface);
-  border-radius: var(--radius-4);
-  color: var(--gray-12);
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  line-height: 1.6;
-  margin: 0;
-  overflow-x: auto;
-  padding: 1.25rem 1.5rem;
-}
-
-.composeStage {
-  min-width: 0;
-}
-
-/*
- * The example's `.my-layout`: the stage beside its titles, the pager and the thumbnails
- * under both, one column on a phone.
- */
-.composed {
-  --clover-content-height: 22rem;
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 14rem);
-}
-
-.composed > aside {
-  display: grid;
-  align-content: start;
-  gap: 0.75rem;
-}
-
-.composed > aside h3 {
-  font-size: 1.125rem;
-  line-height: 1.3;
-  margin: 0;
-}
-
-.composed > aside p {
-  color: var(--gray-11);
-  font-size: var(--text-sm);
-  margin: 0;
-}
-
-.composed > :nth-child(n + 3) {
-  grid-column: 1 / -1;
-}
-
-@media (max-width: 640px) {
-  .composed {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-/* Each major part in a line, as cards like the features'. */
-.parts {
-  display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
-  list-style: none;
-  margin: 1.5rem 0 0;
-  padding: 0;
-}
-
-.partName {
-  font-family: var(--font-mono);
-  font-size: var(--text-md);
-  font-weight: var(--weight-bold);
-  margin: 0 0 0.5rem;
-}
-
-.partName a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.partName a:hover {
-  color: var(--accent-11);
-  text-decoration: underline;
 }

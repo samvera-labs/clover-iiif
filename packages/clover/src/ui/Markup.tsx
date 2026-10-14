@@ -1,5 +1,5 @@
 import type { MetadataItem } from "@iiif/presentation-3";
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useState } from "react";
 
 import { hasMarkup, toPlainText } from "../core/text";
 import { type LanguageMapLike, localize } from "../core/value";
@@ -41,24 +41,26 @@ type MarkupProps = {
 } & Omit<React.HTMLAttributes<HTMLElement>, "dangerouslySetInnerHTML" | "lang">;
 
 /** A IIIF language map, in the closest language, as sanitised HTML. Nothing when empty. */
-export const Markup: React.FC<MarkupProps> = ({
-  as: Tag = "span",
-  markup,
-  language,
-  format,
-  ...rest
-}) => {
+export const Markup = forwardRef<HTMLElement, MarkupProps>(function Markup(
+  { as: Tag = "span", markup, language, format, ...rest },
+  ref,
+) {
   const { text, lang } = localize(markup, language);
   const html = useSanitized(text, format === "text/markdown");
   if (!text) return null;
   return html !== null ? (
-    <Tag {...rest} lang={lang} dangerouslySetInnerHTML={{ __html: html }} />
+    <Tag
+      ref={ref}
+      {...rest}
+      lang={lang}
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
   ) : (
-    <Tag {...rest} lang={lang}>
+    <Tag ref={ref} {...rest} lang={lang}>
       {toPlainText(text)}
     </Tag>
   );
-};
+});
 
 type MetadataListProps = {
   metadata?: MetadataItem[] | null;

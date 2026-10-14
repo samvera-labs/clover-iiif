@@ -115,7 +115,11 @@
 .clover-canvas-annotation[data-shape="svg"][data-active="true"]
   .clover-canvas-annotation-shape
   > * {
-  fill: rgb(0 101 195 / 0.18);
+  fill: color-mix(
+    in srgb,
+    var(--clover-color-accent, #0065c3) 18%,
+    transparent
+  );
   stroke: var(--clover-color-accent, #0065c3);
   stroke-width: 3;
 }
