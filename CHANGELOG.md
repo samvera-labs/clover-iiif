@@ -374,6 +374,16 @@ assigned at release time.
 
 ### Fixed
 
+- **HLS streams play in Chrome again, in the Viewer's player and in thumbnails.** Desktop
+  Chrome now answers `"maybe"` to `canPlayType("application/vnd.apple.mpegurl")`, so Clover
+  skipped hls.js and handed the playlist to Chrome's built-in HLS player. That player
+  rejects streams hls.js plays, such as one whose last segment has an `#EXTINF` duration of
+  `0` ("EXTINF duration values must be greater than zero"). It also ignores
+  `withCredentials`, which restricted items need. hls.js is now used wherever
+  `Hls.isSupported()`, and the browser's own HLS only where it is not, chiefly iPhone
+  Safari before iOS 17.1. Later iPhones and desktop Safari now play through hls.js too. No
+  configuration changes are required.
+
 - **Accessible names on the painting toggle and the slider controls.** The button over a
   canvas was named "Open" or "Close", and the rail's controls "Next", "Previous" and
   "Search", none of which said what they acted on (WCAG 4.1.2). They now read "Open image
