@@ -157,7 +157,8 @@ export function defineConfig(options, key) {
               "react-dom": "./react-dom-shim.mjs",
             },
             exports: "named",
-            inlineDynamicImports: true,
+            // Flat beside the entry, so the shim `paths` above resolve from chunks too.
+            chunkFileNames: "[name]-[hash].mjs",
           },
           {
             // CJS output
@@ -170,7 +171,7 @@ export function defineConfig(options, key) {
               "react-dom": "./react-dom-shim.cjs",
             },
             exports: "named",
-            inlineDynamicImports: true,
+            chunkFileNames: "[name]-[hash].cjs",
           },
         ],
         treeshake: true,

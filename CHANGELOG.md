@@ -24,8 +24,8 @@ assigned at release time.
   MapLibre a blob URL, the way MapLibre 5 did, so installing the package is enough in a
   bundler or from a `<script>` tag.
 
-  This costs about 500 KB in each bundle that contains the map, and it needs `blob:` in a
-  Content-Security-Policy `worker-src`. Under a CSP that forbids blob workers, serve
+  The worker is about 500 KB and loads as its own chunk when a map is shown. It needs
+  `blob:` in a Content-Security-Policy `worker-src`. Under a CSP that forbids blob workers, serve
   `maplibre-gl-worker.mjs` and `maplibre-gl-shared.mjs` from `node_modules/maplibre-gl/dist/`
   out of one directory of your own — they must stay together — and point Clover at the
   worker:
@@ -373,6 +373,16 @@ assigned at release time.
   the shared one now and carries `.clover-slider-search`.
 
 ### Fixed
+
+- **The Viewer and Map entries are back under 1 MB, which fixes Vite's dev server.** Since
+  3.16.2, `dist/viewer/index.mjs` was 3.9 MB, because every dynamic `import()` was inlined
+  into it: MapLibre, Allmaps and the 500 KB MapLibre worker all shipped in the entry. Once
+  Vite pre-bundled that with OpenSeadragon, the file was too large for its import scanner,
+  and `vite dev` failed with an "invalid JS syntax" error (seen with Vite 8.1 and the React
+  Compiler through `@rolldown/plugin-babel`). These now ship as chunk files
+  beside the entry (`dist/<package>/*-<hash>.mjs` and `.cjs`) and load only when a map is
+  shown. The viewer entry is now 590 KB. Drop any `optimizeDeps.exclude` for
+  `@samvera/clover-iiif` you added to work around this.
 
 - **HLS streams play in Chrome again, in the Viewer's player and in thumbnails.** Desktop
   Chrome now answers `"maybe"` to `canPlayType("application/vnd.apple.mpegurl")`, so Clover

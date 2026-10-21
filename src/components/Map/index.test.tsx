@@ -63,6 +63,36 @@ describe("CloverMap", () => {
     expect(map.zoomOut).toHaveBeenCalledTimes(1);
   });
 
+  it("hands MapLibre a consumer's workerUrl", async () => {
+    render(
+      <CloverMap workerUrl="https://example.org/maplibre-gl-worker.mjs" />,
+    );
+    await vi.waitFor(() =>
+      expect(maplibregl.setWorkerUrl).toHaveBeenCalledWith(
+        "https://example.org/maplibre-gl-worker.mjs",
+      ),
+    );
+  });
+
+  it("hands MapLibre a blob URL of the bundled worker by default", async () => {
+    // jsdom has no createObjectURL, so without this the worker is never loaded.
+    const createObjectURL = vi.fn(() => "blob:clover-worker");
+    URL.createObjectURL = createObjectURL;
+
+    try {
+      render(<CloverMap />);
+      await vi.waitFor(() =>
+        expect(maplibregl.setWorkerUrl).toHaveBeenCalledWith(
+          "blob:clover-worker",
+        ),
+      );
+      expect(createObjectURL).toHaveBeenCalledWith(expect.any(Blob));
+      expect(maplibregl.Map).toHaveBeenCalledTimes(1);
+    } finally {
+      delete (URL as { createObjectURL?: unknown }).createObjectURL;
+    }
+  });
+
   it("accepts a georeference annotation with a Canvas source", () => {
     expect(() =>
       render(<CloverMap georefAnnotation={GEOREF_ANNOTATION_CANVAS} />),

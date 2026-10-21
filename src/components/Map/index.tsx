@@ -16,7 +16,6 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import type * as maplibregl from "maplibre-gl";
-import maplibreWorkerSource from "src/components/Map/maplibre-worker.generated";
 
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "src/components/UI/ErrorFallback/ErrorFallback";
@@ -214,11 +213,14 @@ const GCP_COLOR = "#c05c00";
 
 let inlineWorkerUrl: string | undefined;
 
-function getInlineWorkerUrl(): string | undefined {
+async function getInlineWorkerUrl(): Promise<string | undefined> {
   if (inlineWorkerUrl) return inlineWorkerUrl;
   if (typeof URL === "undefined" || typeof URL.createObjectURL !== "function") {
     return undefined;
   }
+  const { default: maplibreWorkerSource } = await import(
+    "src/components/Map/maplibre-worker.generated"
+  );
   try {
     inlineWorkerUrl = URL.createObjectURL(
       new Blob([maplibreWorkerSource], { type: "text/javascript" }),
@@ -773,8 +775,10 @@ const CloverMap: React.FC<CloverMapProps> = ({
     async function initMap() {
       if (!containerRef.current || mapRef.current) return;
       await import("maplibre-gl/dist/maplibre-gl.css");
-      const ml = await import("maplibre-gl");
-      const resolvedWorkerUrl = workerUrl ?? getInlineWorkerUrl();
+      const [ml, resolvedWorkerUrl] = await Promise.all([
+        import("maplibre-gl"),
+        workerUrl ?? getInlineWorkerUrl(),
+      ]);
       if (resolvedWorkerUrl) ml.setWorkerUrl(resolvedWorkerUrl);
       if (!isMounted || !containerRef.current) return;
       mlRef.current = ml;
